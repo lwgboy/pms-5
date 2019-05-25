@@ -3,9 +3,9 @@ package com.bizvisionsoft.service.model;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
+import org.bson.Document;
 import org.bson.types.ObjectId;
 
-import com.bizvisionsoft.annotations.md.mongocodex.Exclude;
 import com.bizvisionsoft.annotations.md.mongocodex.Persistence;
 import com.bizvisionsoft.mongocodex.codec.JsonExternalizable;
 
@@ -34,7 +34,29 @@ public class RemoteFile implements JsonExternalizable {
 	}
 
 	public String getClientSideURL(String sid) {
-		return "/bvs/fs?id=" + _id.toHexString() + "&namespace=" + namepace + "&name=" + name + "&sid=" + sid + "&domain=" + domain;
+		return createClientSideURL(sid, _id.toHexString(), namepace, name, domain);
+	}
+
+	public static String createClientSideURL(String _id, String namespace, String name, String domain) {
+		return createClientSideURL("rwt", _id, namespace, name, domain);
+	}
+
+	public static String createClientSideURL(String sid, String _id, String namespace, String name, String domain) {
+		if (sid == null) {
+			sid = "rwt";
+		}
+		return "/bvs/fs?id=" + _id + "&namespace=" + namespace + "&name=" + name + "&sid=" + sid + "&domain=" + domain;
+	}
+
+	public static String createClientSideURL(Document doc, String domain) {
+		return createClientSideURL(doc, domain, null);
+	}
+
+	public static String createClientSideURL(Document doc, String domain, String sid) {
+		RemoteFile rf = new RemoteFile();
+		rf.decodeDocument(doc);
+		rf.domain = domain;
+		return rf.getClientSideURL(sid);
 	}
 
 }

@@ -9,7 +9,6 @@ import org.bson.Document;
 
 import com.bizvisionsoft.service.ProblemService;
 import com.bizvisionsoft.service.common.Domain;
-import com.bizvisionsoft.service.common.JQ;
 import com.bizvisionsoft.service.tools.CardTheme;
 import com.bizvisionsoft.service.tools.Check;
 import com.bizvisionsoft.service.tools.Formatter;
@@ -26,7 +25,17 @@ public class ProblemCardRenderer extends BasicServiceImpl {
 
 	private static final CardTheme red = new CardTheme(CardTheme.RED);
 
-	public Document renderProblem(Document doc, String lang, boolean control,String domain) {
+	@SuppressWarnings("unused")
+	private String lang;
+
+	private String domain;
+
+	public ProblemCardRenderer(String lang, String domain) {
+		this.lang = lang;
+		this.domain = domain;
+	}
+
+	public Document renderProblem(Document doc, boolean control) {
 		StringBuffer sb = new StringBuffer();
 
 		RenderTools.appendSingleLineHeader(sb, indigo, doc.getString("name"), 36);
@@ -42,13 +51,13 @@ public class ProblemCardRenderer extends BasicServiceImpl {
 		// 【不同状态的内容块】
 		if ("解决中".equals(doc.get("status"))) {
 			// 【指标表】
-			chart = createProblemInstuctors(doc, domain);
+			chart = createProblemInstuctors(doc);
 		} else if ("已创建".equals(doc.get("status"))) {
 			// 【指标表】
-			chart = createProblemInstuctors(doc, domain);
+			chart = createProblemInstuctors(doc);
 		} else if ("已关闭".equals(doc.get("status"))) {
 			// appendProblemCostInfo(doc, sb);//避免显示损失，防止泄露到外部用户
-			chart = createProblemInstuctors(doc, domain);
+			chart = createProblemInstuctors(doc);
 		} else if ("已取消".equals(doc.get("status"))) {
 		}
 
@@ -111,7 +120,7 @@ public class ProblemCardRenderer extends BasicServiceImpl {
 		RenderTools.appendLabelAndTextLine(sb, "来源：", doc.getString("initiatedFrom"));
 	}
 
-	private Document createProblemInstuctors(Document doc, String domain) {
+	private Document createProblemInstuctors(Document doc) {
 		Object _id = doc.get("_id");
 		/////////////////////////////////////////////////////////////////
 		// 指标
@@ -241,7 +250,7 @@ public class ProblemCardRenderer extends BasicServiceImpl {
 		String position = Optional.ofNullable(doc.getString("position")).orElse("");
 		String email = Optional.ofNullable(doc.getString("email")).map(e -> "<a href='mailto:" + e + "'>" + e + "</a>").orElse("");
 		String dept = Optional.ofNullable(doc.getString("dept")).orElse("");
-		String img = RenderTools.getUserHeadPicURL(doc, 36);
+		String img = RenderTools.getUserHeadPicURL(doc, 36, domain);
 
 		RenderTools.appendHeader(sb, indigo, "<div class='label_subhead'><div>" + role + "</div><div class='label_body1'>" + name + " "
 				+ dept + " " + position + "</div></div>" + img, 48);
@@ -258,7 +267,7 @@ public class ProblemCardRenderer extends BasicServiceImpl {
 		return new Document("_id", doc.get("_id")).append("html", sb.toString());
 	}
 
-	public Document renderActionPlaceHoder(Document doc, String lang) {
+	public Document renderActionPlaceHoder(Document doc) {
 		String code = doc.getString("_action");
 		String text = doc.getString("_text");
 		if (code != null) {
@@ -271,7 +280,7 @@ public class ProblemCardRenderer extends BasicServiceImpl {
 		return null;
 	}
 
-	public Document renderD25W2H(Document doc, String lang) {
+	public Document renderD25W2H(Document doc) {
 		StringBuffer sb = new StringBuffer();
 
 		RenderTools.appendHeader(sb, red, "5W2H", 36);
@@ -304,13 +313,14 @@ public class ProblemCardRenderer extends BasicServiceImpl {
 		return new Document("_id", doc.get("_id")).append("html", sb.toString());
 	}
 
-	public Document renderD2PhotoCard(Document doc, String lang) {
+	public Document renderD2PhotoCard(Document doc) {
 		StringBuffer sb = new StringBuffer();
 
 		sb.append(
 				"<div class='brui_zoomImage' style='padding-bottom:75%;cursor:pointer;height:1px;border-radius:4px 4px 0px 0px;background-image:url("
-						+ RenderTools.getFirstFileURL(doc, "problemImg") + ")' " + "onclick='$.getJSON(\"bvs/imgf?c=d2ProblemPhoto&i="
-						+ doc.get("_id") + "&f=problemImg\", function(json){layer.photos({photos: json});});'" + "></div>");
+						+ RenderTools.getFirstFileURL(doc, "problemImg", domain) + ")' "
+						+ "onclick='$.getJSON(\"bvs/imgf?c=d2ProblemPhoto&i=" + doc.get("_id")
+						+ "&f=problemImg\", function(json){layer.photos({photos: json});});'" + "></div>");
 
 		RenderTools.appendText(sb, doc.getString("problemImgDesc"), RenderTools.STYLE_3LINE);
 
@@ -325,7 +335,7 @@ public class ProblemCardRenderer extends BasicServiceImpl {
 		return new Document("_id", doc.get("_id")).append("html", sb.toString()).append("height", 240);
 	}
 
-	public Document renderAction(Document doc, String lang, boolean editable) {
+	public Document renderAction(Document doc,  boolean editable) {
 		String stage = doc.getString("stage");
 		CardTheme theme = "era".equals(stage) ? red : indigo;// 紧急行动为红色标题
 		String type;
@@ -384,7 +394,7 @@ public class ProblemCardRenderer extends BasicServiceImpl {
 
 		RenderTools.appendSchedule(sb, planStart, planFinish, actualStart, actualFinish);
 
-		RenderTools.appendUserAndText(sb, chargerData, status);
+		RenderTools.appendUserAndText(sb, chargerData, status, domain);
 
 		int size = 16 + 8;
 		int loc = 12;
@@ -410,7 +420,7 @@ public class ProblemCardRenderer extends BasicServiceImpl {
 		return new Document("_id", doc.get("_id")).append("html", sb.toString());
 	}
 
-	public Document renderD4(Document doc, String type, String rootCauseDesc, Document charger_meta, Date date, String lang) {
+	public Document renderD4(Document doc, String type, String rootCauseDesc, Document charger_meta, Date date) {
 
 		StringBuffer sb = new StringBuffer();
 
@@ -420,7 +430,7 @@ public class ProblemCardRenderer extends BasicServiceImpl {
 
 		RenderTools.appendText(sb, rootCauseDesc, RenderTools.STYLE_NLINE);
 
-		RenderTools.appendUserAndText(sb, charger_meta, Formatter.getString(date));
+		RenderTools.appendUserAndText(sb, charger_meta, Formatter.getString(date), domain);
 
 		RenderTools.appendButton(sb, "layui-icon-more", 12, 12, "详细", "open/" + type);
 
@@ -429,7 +439,7 @@ public class ProblemCardRenderer extends BasicServiceImpl {
 		return new Document("_id", doc.get("_id")).append("html", sb.toString());
 	}
 
-	public Document renderD4CauseConsequence(Document doc, String lang) {
+	public Document renderD4CauseConsequence(Document doc) {
 		StringBuffer sb = new StringBuffer();
 		int rowHeight = 8 * 3;
 
@@ -467,7 +477,7 @@ public class ProblemCardRenderer extends BasicServiceImpl {
 		return new Document("_id", doc.get("_id")).append("html", sb.toString()).append("height", rowHeight);
 	}
 
-	public Document renderD5PCA(List<?> list, String title, Document charger, Date planStart, Date planFinish, String lang) {
+	public Document renderD5PCA(List<?> list, String title, Document charger, Date planStart, Date planFinish) {
 		StringBuffer sb = new StringBuffer();
 		renderListItemsCard(sb, list, title, charger, planStart, planFinish, null, null, indigo);
 		return new Document("html", sb.toString());
@@ -481,12 +491,12 @@ public class ProblemCardRenderer extends BasicServiceImpl {
 
 		RenderTools.appendList(sb, list, indigo.lightText, o -> ((Document) o).getString("name"));
 
-		RenderTools.appendUserAndText(sb, charger, null);
+		RenderTools.appendUserAndText(sb, charger, null, domain);
 
 		RenderTools.appendCardBg(sb);
 	}
 
-	public Document renderD7Similar(Document t, String lang) {
+	public Document renderD7Similar(Document t) {
 		StringBuffer sb = new StringBuffer();
 
 		String label = ProblemService.similarDegreeText[Integer.parseInt(t.getString("degree"))];
@@ -525,10 +535,10 @@ public class ProblemCardRenderer extends BasicServiceImpl {
 		return new Document("html", sb.toString()).append("_id", t.get("_id")).append("type", "similar");
 	}
 
-	public Document renderD8Exp(Document t, String lang) {
+	public Document renderD8Exp(Document t) {
 		StringBuffer sb = new StringBuffer();
 
-		String firstFileURL = RenderTools.getFirstFileURL(t, "video");
+		String firstFileURL = RenderTools.getFirstFileURL(t, "video", domain);
 		if (firstFileURL != null) {
 			sb.append("<video style='border-radius:4px 4px 0px 0px;' width='100%' height='180px' controls preload='auto'>");
 			sb.append("<source src='" + firstFileURL + "' type='video/mp4'>");
@@ -543,7 +553,7 @@ public class ProblemCardRenderer extends BasicServiceImpl {
 
 		Document charger = (Document) t.get("charger_meta");
 		Date date = t.getDate("date");
-		RenderTools.appendUserAndText(sb, charger, Formatter.getString(date));
+		RenderTools.appendUserAndText(sb, charger, Formatter.getString(date), domain);
 
 		RenderTools.appendButton(sb, "layui-icon-edit", 12 + 16 + 8, 12, "编辑经验总结", "editExp");
 

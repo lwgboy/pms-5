@@ -9,6 +9,7 @@ import java.util.function.Function;
 
 import org.bson.Document;
 
+import com.bizvisionsoft.service.model.RemoteFile;
 import com.bizvisionsoft.service.tools.CardTheme;
 import com.bizvisionsoft.service.tools.Check;
 import com.bizvisionsoft.service.tools.Formatter;
@@ -39,16 +40,16 @@ public class RenderTools {
 	public static String shortDate(Date date) {
 		return Formatter.getString(date, "yyyy/MM/dd");
 	}
-	
+
 	public static String shortDateTime(Date date) {
 		return Formatter.getString(date, "M/d H:mm");
 	}
 
-	public static String getFirstFileURL(Document doc, String imgField) {
+	public static String getFirstFileURL(Document doc, String imgField, String domain) {
 		List<?> headPics = (List<?>) doc.get(imgField);
 		if (Check.isAssigned(headPics)) {
 			Document pic = (Document) headPics.get(0);
-			return "/bvs/fs?id=" + pic.get("_id") + "&namespace=" + pic.get("namepace") + "&name=" + pic.get("name") + "&sid=rwt";
+			return RemoteFile.createClientSideURL(pic, domain);
 		}
 		return null;
 	}
@@ -85,9 +86,9 @@ public class RenderTools {
 				+ "</div>");//
 	}
 
-	public static String getUserHeadPicURL(Document doc, int size) {
+	public static String getUserHeadPicURL(Document doc, int size, String domain) {
 		String img;
-		String url = RenderTools.getFirstFileURL(doc, "headPics");
+		String url = RenderTools.getFirstFileURL(doc, "headPics", domain);
 		if (url != null) {
 			img = "<img src=" + url + " style='border-radius:" + size + "px;width:" + size + "px;height:" + size + "px;'/>";
 		} else {
@@ -98,9 +99,9 @@ public class RenderTools {
 		return img;
 	}
 
-	public static void appendUserAndText(StringBuffer sb, Document user, String text) {
+	public static void appendUserAndText(StringBuffer sb, Document user, String text, String domain) {
 		String name = user.getString("name");
-		String url = RenderTools.getFirstFileURL(user, "headPics");
+		String url = RenderTools.getFirstFileURL(user, "headPics", domain);
 		appendUserAndText(sb, url, name, text);
 	}
 
@@ -182,11 +183,11 @@ public class RenderTools {
 				+ "</div>");
 	}
 
-	public static void appendMultiFiles(StringBuffer sb, List<?> list) {
+	public static void appendMultiFiles(StringBuffer sb, List<?> list, String domain) {
 		for (int i = 0; i < list.size(); i++) {
 			Document fileData = (Document) list.get(i);
 			String name = fileData.getString("name");
-			String url = "/bvs/fs?id=" + fileData.get("_id") + "&namespace=" + fileData.get("namepace") + "&name=" + name + "&sid=rwt";
+			String url = RemoteFile.createClientSideURL(fileData, domain);
 			sb.append("<a href='" + url + "' class='brui_line_padding brui_text_line label_caption grey'>" + name + "</a>");//
 		}
 	}
@@ -237,6 +238,5 @@ public class RenderTools {
 				+ "</div><img src='/bvs/svg?type=progress&text=none&percent=" + ind + "&bgColor=" + indColor[0] + "&fgColor=" + indColor[1]
 				+ "' width=72 height=72/></div>");
 	}
-
 
 }

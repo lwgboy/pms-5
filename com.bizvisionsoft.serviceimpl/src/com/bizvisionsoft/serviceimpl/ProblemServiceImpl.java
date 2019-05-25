@@ -24,7 +24,6 @@ import org.bson.types.ObjectId;
 import com.bizvisionsoft.annotations.md.mongocodex.PersistenceCollection;
 import com.bizvisionsoft.service.ProblemService;
 import com.bizvisionsoft.service.common.Domain;
-import com.bizvisionsoft.service.common.JQ;
 import com.bizvisionsoft.service.common.Service;
 import com.bizvisionsoft.service.datatools.FilterAndUpdate;
 import com.bizvisionsoft.service.datatools.Query;
@@ -163,9 +162,10 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 		List<Bson> pipeline = appendBasicQueryPipeline(condition, new ArrayList<>(), domain);
 		pipeline.addAll(Domain.getJQ(domain, "追加-问题查询权限").set("userId", userid).array());
 		ArrayList<Document> result = c("problem", domain).aggregate(pipeline)
-				.map(d -> new ProblemCardRenderer().renderProblem(d, lang, true, domain)).into(new ArrayList<>());
+				.map(d -> new ProblemCardRenderer(lang, domain).renderProblem(d, true)).into(new ArrayList<>());
 		if ("已创建".equals(status) && result.isEmpty()) {
-			result.add(new ProblemCardRenderer().renderActionPlaceHoder(new Document("_action", "create").append("_text", "+"), lang));
+			result.add(
+					new ProblemCardRenderer(lang, domain).renderActionPlaceHoder(new Document("_action", "create").append("_text", "+")));
 		}
 		return result;
 	}
@@ -221,7 +221,7 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 		// 通知团队 已创建Action
 		sendMessageOfProblemAction(t, "created", domain);
 		if ("card".equals(render)) {
-			t = new ProblemCardRenderer().renderAction(t, lang, true);
+			t = new ProblemCardRenderer(lang, domain).renderAction(t, true);
 		} else if ("gridrow".equals(render)) {
 			appendActionText(t, lang);
 		}
@@ -322,7 +322,7 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 
 		Function<Document, Document> f;
 		if ("card".equals(render)) {
-			f = d -> new ProblemCardRenderer().renderAction(d, lang, editable);
+			f = d -> new ProblemCardRenderer(lang, domain).renderAction(d, editable);
 		} else {
 			f = d -> {
 				appendActionText(d, lang);
@@ -334,7 +334,8 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 				.sort(new Document("actionType", 1).append("index", 1));
 		ArrayList<Document> result = iter.map(f).into(new ArrayList<>());
 		if (editable && "card".equals(render) && result.isEmpty())
-			result.add(new ProblemCardRenderer().renderActionPlaceHoder(new Document("_action", "create").append("_text", "+"), lang));
+			result.add(
+					new ProblemCardRenderer(lang, domain).renderActionPlaceHoder(new Document("_action", "create").append("_text", "+")));
 		return result;
 	}
 
@@ -350,7 +351,7 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 		if (updated != null) {
 			Document result;
 			if ("card".equals(render)) {
-				result = new ProblemCardRenderer().renderAction(updated, lang, true);
+				result = new ProblemCardRenderer(lang, domain).renderAction(updated, true);
 			} else {
 				result = this.appendActionText(updated, lang);
 			}
@@ -366,7 +367,7 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 	@Override
 	public List<Document> listD0Init(BasicDBObject condition, ObjectId problem_id, String lang, String render, String domain) {
 		return c("problem", domain).find(new Document("_id", problem_id))
-				.map(d -> new ProblemCardRenderer().renderProblem(d, lang, false, domain)).into(new ArrayList<>());
+				.map(d -> new ProblemCardRenderer(lang, domain).renderProblem(d, false)).into(new ArrayList<>());
 	}
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -421,7 +422,7 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 
 		// 渲染卡片
 		if ("card".equals(render))
-			return new ProblemCardRenderer().renderD1CFTMember(doc, lang, true);
+			return new ProblemCardRenderer(lang, domain).renderD1CFTMember(doc, lang, true);
 		else if ("gridrow".equals(render))
 			return appendRoleText(doc, lang);
 		else
@@ -436,13 +437,14 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 		if ("card".equals(render)) {
 			boolean editable = isProblemEditable(problem_id, domain)
 					&& new ProblemActionControl().hasPrivate(problem_id, ACTION_EDIT_TEAM, userId, domain);
-			f = d -> new ProblemCardRenderer().renderD1CFTMember(d, lang, editable);
+			f = d -> new ProblemCardRenderer(lang, domain).renderD1CFTMember(d, lang, editable);
 		} else {
 			f = d -> appendRoleText(d, lang);
 		}
 		ArrayList<Document> result = c("d1CFT", domain).aggregate(pipeline).map(f).into(new ArrayList<>());
 		if ("card".equals(render) && result.isEmpty())
-			result.add(new ProblemCardRenderer().renderActionPlaceHoder(new Document("_action", "create").append("_text", "+"), lang));
+			result.add(
+					new ProblemCardRenderer(lang, domain).renderActionPlaceHoder(new Document("_action", "create").append("_text", "+")));
 		return result;
 	}
 
@@ -455,8 +457,8 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 	public Document updateD2ProblemDesc(Document d, String lang, String domain) {
 		Document filter = new Document("_id", d.get("_id"));
 		Document set = new Document("$set", d);
-		return new ProblemCardRenderer().renderD25W2H(c("d2ProblemDesc", domain).findOneAndUpdate(filter, set,
-				new FindOneAndUpdateOptions().upsert(true).returnDocument(ReturnDocument.AFTER)), lang);
+		return new ProblemCardRenderer(lang, domain).renderD25W2H(c("d2ProblemDesc", domain).findOneAndUpdate(filter, set,
+				new FindOneAndUpdateOptions().upsert(true).returnDocument(ReturnDocument.AFTER)));
 	}
 
 	@Override
@@ -479,7 +481,7 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 	public Document insertD2ProblemPhoto(Document t, String lang, String render, String domain) {
 		c("d2ProblemPhoto", domain).insertOne(t);
 		if ("card".equals(render))
-			return new ProblemCardRenderer().renderD2PhotoCard(t, lang);
+			return new ProblemCardRenderer(lang, domain).renderD2PhotoCard(t);
 		return t;
 	}
 
@@ -492,16 +494,16 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 	public List<Document> listD2(BasicDBObject condition, ObjectId problem_id, String lang, String domain) {
 		List<Document> result = new ArrayList<>();
 		// photos
-		listD2ProblemPhotos(problem_id, domain).forEach(d -> result.add(new ProblemCardRenderer().renderD2PhotoCard(d, lang)));
+		listD2ProblemPhotos(problem_id, domain).forEach(d -> result.add(new ProblemCardRenderer(lang, domain).renderD2PhotoCard(d)));
 		// 5w2h
 		Document doc = getD2ProblemDesc(problem_id, domain);
 		if (doc.get("what") != null)
-			result.add(new ProblemCardRenderer().renderD25W2H(doc, lang));
+			result.add(new ProblemCardRenderer(lang, domain).renderD25W2H(doc));
 
 		if (result.isEmpty()) {
 			String text = "<img src='rwt-resources/extres/img/photo_w.svg' style='width='36px' height='36px'>";
-			result.add(
-					new ProblemCardRenderer().renderActionPlaceHoder(new Document("_action", "createPhoto").append("_text", text), lang));
+			result.add(new ProblemCardRenderer(lang, domain)
+					.renderActionPlaceHoder(new Document("_action", "createPhoto").append("_text", text)));
 		}
 		return result;
 	}
@@ -611,10 +613,10 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 		Document rcdCard = null;
 		Document epCard = null;
 		if (data != null) {
-			rcdCard = new ProblemCardRenderer().renderD4(data, "make", data.getString("rootCauseDesc"), (Document) data.get("charger_meta"),
-					data.getDate("date"), lang);
-			epCard = new ProblemCardRenderer().renderD4(data, "out", data.getString("escapePoint"), (Document) data.get("charger_meta"),
-					data.getDate("date"), lang);
+			rcdCard = new ProblemCardRenderer(lang, domain).renderD4(data, "make", data.getString("rootCauseDesc"),
+					(Document) data.get("charger_meta"), data.getDate("date"));
+			epCard = new ProblemCardRenderer(lang, domain).renderD4(data, "out", data.getString("escapePoint"),
+					(Document) data.get("charger_meta"), data.getDate("date"));
 		}
 
 		// 问题产生的原因
@@ -626,7 +628,7 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 		pipe.add(new Document("$lookup", new Document("from", "causeRelation").append("localField", "_id")
 				.append("foreignField", "parent_id").append("as", "parent")));
 		pipe.add(new Document("$match", new Document("parent", new Document("$size", 0))));
-		c("causeRelation", domain).aggregate(pipe).map(d -> new ProblemCardRenderer().renderD4CauseConsequence(d, lang)).into(result);
+		c("causeRelation", domain).aggregate(pipe).map(d -> new ProblemCardRenderer(lang, domain).renderD4CauseConsequence(d)).into(result);
 		// 问题流出的原因
 		if (epCard != null) {
 			result.add(epCard);
@@ -636,7 +638,7 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 		pipe.add(new Document("$lookup", new Document("from", "causeRelation").append("localField", "_id")
 				.append("foreignField", "parent_id").append("as", "parent")));
 		pipe.add(new Document("$match", new Document("parent", new Document("$size", 0))));
-		c("causeRelation", domain).aggregate(pipe).map(d -> new ProblemCardRenderer().renderD4CauseConsequence(d, lang)).into(result);
+		c("causeRelation", domain).aggregate(pipe).map(d -> new ProblemCardRenderer(lang, domain).renderD4CauseConsequence(d)).into(result);
 
 		return result;
 	}
@@ -673,14 +675,14 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 			Date planStart = d.getDate("planStart1");
 			Date planFinish = d.getDate("planFinish1");
 
-			result.add(new ProblemCardRenderer().renderD5PCA((List<?>) d.get("pca1"), "问题产生纠正措施", (Document) d.get("charger1_meta"),
-					planStart, planFinish, lang));
+			result.add(new ProblemCardRenderer(lang, domain).renderD5PCA((List<?>) d.get("pca1"), "问题产生纠正措施",
+					(Document) d.get("charger1_meta"), planStart, planFinish));
 
 			planStart = d.getDate("planStart2");
 			planFinish = d.getDate("planFinish2");
 
-			result.add(new ProblemCardRenderer().renderD5PCA((List<?>) d.get("pca2"), "问题流出纠正措施", (Document) d.get("charger2_meta"),
-					planStart, planFinish, lang));
+			result.add(new ProblemCardRenderer(lang, domain).renderD5PCA((List<?>) d.get("pca2"), "问题流出纠正措施",
+					(Document) d.get("charger2_meta"), planStart, planFinish));
 		}
 		return result;
 	}
@@ -719,7 +721,7 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 		t.append("_id", new ObjectId());
 		c("d7Similar", domain).insertOne(t);
 		if ("card".equals(render))
-			return new ProblemCardRenderer().renderD7Similar(t, lang);
+			return new ProblemCardRenderer(lang, domain).renderD7Similar(t);
 		else
 			return appendDegreeText(t, lang);
 	}
@@ -727,7 +729,7 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 	@Override
 	public Document updateD7Similar(Document d, String lang, String render, String domain) {
 		if ("card".equals(render))
-			return updateThen(d, lang, "d7Similar", domain, new ProblemCardRenderer()::renderD7Similar);
+			return updateThen(d, lang, "d7Similar", domain, (doc, l) -> new ProblemCardRenderer(lang, domain).renderD7Similar(doc));
 		else
 			return updateThen(d, lang, "d7Similar", domain, this::appendDegreeText);
 
@@ -743,7 +745,7 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 	public List<Document> listD7(BasicDBObject condition, ObjectId problem_id, String lang, String render, String domain) {
 		List<Document> result = new ArrayList<>();
 		c("d7Similar", domain).find(new Document("problem_id", problem_id)).sort(new Document("degree", 1))
-				.map(d -> new ProblemCardRenderer().renderD7Similar(d, lang)).into(result);
+				.map(d -> new ProblemCardRenderer(lang, domain).renderD7Similar(d)).into(result);
 
 		result.addAll(listActions(condition, problem_id, "spa", lang, render, domain));
 
@@ -765,14 +767,18 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 		if (!result.isEmpty()) {
 			t.append("keyword", result);
 		}
-		return updateThen(t, lang, "d8Exp", domain, "card".equals(render) ? new ProblemCardRenderer()::renderD8Exp : null);
+		if ("card".equals(render)) {
+			return updateThen(t, lang, "d8Exp", domain, (doc, l) -> new ProblemCardRenderer(lang, domain).renderD8Exp(doc));
+		} else {
+			return updateThen(t, lang, "d8Exp", domain, null);
+		}
 	}
 
 	@Override
 	public List<Document> listD8(BasicDBObject condition, ObjectId problem_id, String lang, String render, String domain) {
 		if ("card".equals(render)) {
-			return c("d8Exp", domain).find(new Document("problem_id", problem_id)).map(d -> new ProblemCardRenderer().renderD8Exp(d, lang))
-					.into(new ArrayList<>());
+			return c("d8Exp", domain).find(new Document("problem_id", problem_id))
+					.map(d -> new ProblemCardRenderer(lang, domain).renderD8Exp(d)).into(new ArrayList<>());
 		} else {
 			return c("d8Exp", domain).find(new Document("problem_id", problem_id)).into(new ArrayList<>());
 		}
@@ -799,7 +805,7 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 		}
 		c("d8Exp", domain).insertOne(t);
 		if ("card".equals(render))
-			return new ProblemCardRenderer().renderD8Exp(t, lang);
+			return new ProblemCardRenderer(lang, domain).renderD8Exp(t);
 		return t;
 	}
 
@@ -1534,8 +1540,7 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 
 			Dispatcher dispatcher = Service.get(Dispatcher.class);
 			try {
-				Map<String, Object> result = dispatcher.run(processors,
-						"com.bizvpm.dps.processor.dispatch:dispatch.sequential");
+				Map<String, Object> result = dispatcher.run(processors, "com.bizvpm.dps.processor.dispatch:dispatch.sequential");
 				return (InputStream) result.get("file");
 			} catch (Exception e) {
 				logger.error("DPS 转换出错。", e);
