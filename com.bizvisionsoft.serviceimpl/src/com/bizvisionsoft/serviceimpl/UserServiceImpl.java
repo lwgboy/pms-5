@@ -18,8 +18,6 @@ import com.bizvisionsoft.service.model.ResourcePlan;
 import com.bizvisionsoft.service.model.TraceInfo;
 import com.bizvisionsoft.service.model.User;
 import com.bizvisionsoft.service.tools.Check;
-import com.bizvisionsoft.service.tools.Formatter;
-import com.bizvisionsoft.service.tools.RSACoder;
 import com.bizvisionsoft.serviceimpl.exception.ServiceException;
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.MongoCollection;
@@ -369,14 +367,5 @@ public class UserServiceImpl extends BasicServiceImpl implements UserService {
 
 	}
 
-	private static String encryPassword(String salt, String psw) {
-		try {
-			byte[] data = RSACoder.encryptSHA((salt + psw).getBytes());
-			String psw2 = Formatter.bytes2HexString(data);
-			return psw2;
-		} catch (Exception e) {
-			return null;
-		}
-	}
 
 }

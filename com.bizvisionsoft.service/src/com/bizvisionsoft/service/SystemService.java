@@ -233,7 +233,7 @@ public interface SystemService {
 	@Path("/request/{request}/domain")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public Document createDomainFromRequest(@PathParam("request") ObjectId _id);
+	public Document createDomainFromRequest(String activateCode, @PathParam("request") ObjectId _id);
 
 	@POST
 	@Path("/request/{request}/check")

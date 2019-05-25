@@ -31,6 +31,7 @@ import com.bizvisionsoft.service.model.Role;
 import com.bizvisionsoft.service.provider.BsonProvider;
 import com.bizvisionsoft.service.tools.Check;
 import com.bizvisionsoft.service.tools.Formatter;
+import com.bizvisionsoft.service.tools.RSACoder;
 import com.bizvisionsoft.serviceimpl.commons.EmailClient;
 import com.bizvisionsoft.serviceimpl.commons.EmailClientBuilder;
 import com.bizvisionsoft.serviceimpl.commons.NamedAccount;
@@ -1119,5 +1120,15 @@ public class BasicServiceImpl {
 			return new ArrayList<>();
 		RestrictTextRankKeyword trk = new RestrictTextRankKeyword();
 		return trk.getKeywords(document, size);
+	}
+	
+	protected String encryPassword(String salt, String psw) {
+		try {
+			byte[] data = RSACoder.encryptSHA((salt + psw).getBytes());
+			String psw2 = Formatter.bytes2HexString(data);
+			return psw2;
+		} catch (Exception e) {
+			return null;
+		}
 	}
 }

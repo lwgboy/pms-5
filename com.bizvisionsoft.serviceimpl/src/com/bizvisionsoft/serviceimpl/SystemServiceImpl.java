@@ -23,6 +23,7 @@ import com.bizvisionsoft.service.common.Service;
 import com.bizvisionsoft.service.model.Backup;
 import com.bizvisionsoft.service.model.DomainRequest;
 import com.bizvisionsoft.service.model.ServerInfo;
+import com.bizvisionsoft.service.model.User;
 import com.bizvisionsoft.service.tools.FileTools;
 import com.bizvisionsoft.service.tools.Formatter;
 import com.bizvisionsoft.serviceimpl.commons.EmailClient;
@@ -514,12 +515,13 @@ public class SystemServiceImpl extends BasicServiceImpl implements SystemService
 		c("request").insertOne(data.append("_id", id).append("activated", false));
 
 		String receiverAddress = data.getString("email");
+		String code = encryPassword(id.toHexString(), receiverAddress);
 		String subject = "欢迎注册WisPlanner账户";
 		String from = "WisPlanner";
 
 		String request = data.getString("request");
 		String content = "您好，您申请的WisPlanner账号需要进行邮箱验证，请点击以下链接验证您的邮箱地址<br>";
-		content += request + "bvs/verify?r=" + id;
+		content += request + "bvs/verify?r=" + id + "&c=" + code;
 		content += "<br>如果这不是您的邮件请忽略，很抱歉打扰您，请原谅。";
 
 		Document setting = getSystemSetting("邮件设置");
@@ -551,11 +553,16 @@ public class SystemServiceImpl extends BasicServiceImpl implements SystemService
 	}
 
 	@Override
-	public Document createDomainFromRequest(ObjectId _id) {
+	public Document createDomainFromRequest(String activatCode, ObjectId _id) {
 		Document result = c("request").findOneAndUpdate(new Document("_id", _id).append("activated", false),
 				new Document("$set", new Document("activated", true)));
 		if (result != null) {
 			String userId = result.getString("email");
+			String code = encryPassword(_id.toHexString(), userId);
+			if (!activatCode.equals( code)) {
+				return new Document();
+			}
+
 			String dbPsw = RandomStringUtils.randomAlphabetic(8);
 			String company = result.getString("company");
 			String domain = createDomain(company);
@@ -607,9 +614,10 @@ public class SystemServiceImpl extends BasicServiceImpl implements SystemService
 
 			}
 			// 插入超级用户
-			c("user").insertOne(new Document("userId", userId).append("admin", true).append("buzAdmin", true)
-					.append("password", result.getString("psw")).append("domain", domain).append("activated", true)
-					.append("changePSW", false));
+			ObjectId salt = new ObjectId();
+			String psw = encryPassword(salt.toHexString(), result.getString("psw"));
+			c("user").insertOne(new Document("_id", salt).append("userId", userId).append("admin", false).append("buzAdmin", false)
+					.append("password", psw).append("domain", domain).append("activated", true).append("changePSW", false));
 
 			return domainData;
 		}
