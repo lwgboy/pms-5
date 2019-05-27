@@ -1,0 +1,19 @@
+      {
+        "title": "测试邮件接收账户",
+        "layout": [],
+        "type": "editor",
+        "folderId": "165d57b9f4a",
+        "fields": [
+          {
+            "id": "166b3130287",
+            "name": "testEmail",
+            "text": "账户",
+            "type": "单行文本框",
+            "formFields": [],
+            "required": true
+          }
+        ],
+        "smallEditor": true,
+        "tinyEditor": true,
+        "disableInitLoadData": false
+      }
