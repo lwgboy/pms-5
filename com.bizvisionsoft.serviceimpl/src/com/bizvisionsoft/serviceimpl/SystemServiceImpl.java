@@ -616,7 +616,7 @@ public class SystemServiceImpl extends BasicServiceImpl implements SystemService
 			// 插入超级用户
 			ObjectId salt = new ObjectId();
 			String psw = encryPassword(salt.toHexString(), result.getString("psw"));
-			c("user").insertOne(new Document("_id", salt).append("userId", userId).append("admin", false).append("buzAdmin", false)
+			c("user").insertOne(new Document("_id", salt).append("userId", userId).append("admin", true).append("buzAdmin", true)
 					.append("password", psw).append("domain", domain).append("activated", true).append("changePSW", false));
 
 			return domainData;

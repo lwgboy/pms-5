@@ -73,7 +73,11 @@ public class BasicServiceImpl {
 		BasicDBObject filter = (BasicDBObject) fu.get("filter");
 		BasicDBObject update = (BasicDBObject) fu.get("update");
 		update.remove("_id");
-		return c(col, domain).findOneAndUpdate(filter, update);
+		try {
+			return c(col, domain).findOneAndUpdate(filter, update);
+		} catch (Exception e) {
+			throw handleMongoException(e);
+		}
 	}
 
 	protected <T> long update(BasicDBObject fu, Class<T> clazz, String domain) {
@@ -82,10 +86,14 @@ public class BasicServiceImpl {
 		update.remove("_id");
 		UpdateOptions option = new UpdateOptions();
 		option.upsert(false);
-		UpdateResult updateMany = c(clazz, domain).updateMany(filter, update, option);
-		long cnt = updateMany.getModifiedCount();
+		try {
+			UpdateResult updateMany = c(clazz, domain).updateMany(filter, update, option);
+			long cnt = updateMany.getModifiedCount();
+			return cnt;
+		} catch (Exception e) {
+			throw handleMongoException(e);
+		}
 
-		return cnt;
 	}
 
 	protected <T> long update(BasicDBObject fu, String cname, Class<T> clazz, String domain) {
@@ -94,9 +102,13 @@ public class BasicServiceImpl {
 		update.remove("_id");
 		UpdateOptions option = new UpdateOptions();
 		option.upsert(false);
-		UpdateResult updateMany = c(cname, clazz, domain).updateMany(filter, update, option);
-		long cnt = updateMany.getModifiedCount();
-		return cnt;
+		try {
+			UpdateResult updateMany = c(cname, clazz, domain).updateMany(filter, update, option);
+			long cnt = updateMany.getModifiedCount();
+			return cnt;
+		} catch (Exception e) {
+			throw handleMongoException(e);
+		}
 	}
 
 	protected <T> long update(BasicDBObject fu, String cname, String domain) {
@@ -105,9 +117,13 @@ public class BasicServiceImpl {
 		update.remove("_id");
 		UpdateOptions option = new UpdateOptions();
 		option.upsert(false);
-		UpdateResult updateMany = c(cname, domain).updateMany(filter, update, option);
-		long cnt = updateMany.getModifiedCount();
-		return cnt;
+		try {
+			UpdateResult updateMany = c(cname, domain).updateMany(filter, update, option);
+			long cnt = updateMany.getModifiedCount();
+			return cnt;
+		} catch (Exception e) {
+			throw handleMongoException(e);
+		}
 	}
 
 	@SuppressWarnings("unchecked")
@@ -392,7 +408,7 @@ public class BasicServiceImpl {
 
 		return pipeline;
 	}
-	
+
 	protected <T> MongoCollection<T> c(Class<T> clazz, String domain) {
 		return Domain.getCollection(domain, clazz);
 	}
@@ -404,7 +420,7 @@ public class BasicServiceImpl {
 	protected MongoCollection<Document> c(String name, String domain) {
 		return Domain.getCollection(domain, name);
 	}
-	
+
 	protected MongoCollection<Document> c(String name) {
 		return Domain.getCollection(null, name);
 	}
@@ -425,7 +441,7 @@ public class BasicServiceImpl {
 			List<ObjectId> childrenIds = c(cName, domain)
 					.distinct("_id", new BasicDBObject(key, new BasicDBObject("$in", inputIds)), ObjectId.class)
 					.into(new ArrayList<ObjectId>());
-			result.addAll(getDesentItems(childrenIds, cName,  key,domain));
+			result.addAll(getDesentItems(childrenIds, cName, key, domain));
 		}
 		return result;
 	}
@@ -463,7 +479,7 @@ public class BasicServiceImpl {
 				new FindOneAndUpdateOptions().upsert(true).returnDocument(ReturnDocument.AFTER));
 		return doc.getInteger("next_val");
 	}
-	
+
 	protected int generateCode(String name, String key) {
 		Document doc = Service.database.getCollection(name).findOneAndUpdate(Filters.eq("_id", key), Updates.inc("next_val", 1),
 				new FindOneAndUpdateOptions().upsert(true).returnDocument(ReturnDocument.AFTER));
@@ -796,7 +812,7 @@ public class BasicServiceImpl {
 	 * 
 	 * @param pipeline
 	 * @param userid
-	 * @param domain 
+	 * @param domain
 	 */
 	protected void appendQueryUserInProjectPMO(List<Bson> pipeline, String userid, String scopeIdName, String domain) {
 		pipeline.addAll(Domain.getJQ(domain, "查询-项目PMO成员").set("scopeIdName", scopeIdName).set("userId", userid).array());
@@ -811,10 +827,23 @@ public class BasicServiceImpl {
 	 */
 	final protected ServiceException handleMongoException(Exception e, String message) {
 		if (e instanceof MongoException && ((MongoException) e).getCode() == 11000) {
-			return new ServiceException("违反唯一性规则：" + message);
+			if (Check.isAssigned(message))
+				return new ServiceException("违反唯一性规则：" + message);
+			else
+				return new ServiceException("违反唯一性规则");
 		}
-
 		return new ServiceException(e.getMessage());
+	}
+
+	/**
+	 * 处理错误
+	 * 
+	 * @param e
+	 * @param message
+	 * @return
+	 */
+	final protected ServiceException handleMongoException(Exception e) {
+		return handleMongoException(e, null);
 	}
 
 	public Integer schedule(ObjectId _id, String domain) {
@@ -900,9 +929,9 @@ public class BasicServiceImpl {
 	public Document getSystemSetting(String name, String domain) {
 		return c("setting", domain).find(new Document("name", name)).first();
 	}
-	
+
 	public Document getSystemSetting(String name) {
-		return Service.database.getCollection("setting").find(new Document("name",name)).first();
+		return Service.database.getCollection("setting").find(new Document("name", name)).first();
 	}
 
 	public Object getSystemSetting(String name, String parameter, String domain) {
@@ -1121,7 +1150,7 @@ public class BasicServiceImpl {
 		RestrictTextRankKeyword trk = new RestrictTextRankKeyword();
 		return trk.getKeywords(document, size);
 	}
-	
+
 	protected String encryPassword(String salt, String psw) {
 		try {
 			byte[] data = RSACoder.encryptSHA((salt + psw).getBytes());

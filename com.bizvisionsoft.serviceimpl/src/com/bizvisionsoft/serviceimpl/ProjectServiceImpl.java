@@ -22,7 +22,6 @@ import org.bson.types.ObjectId;
 import com.bizvisionsoft.annotations.md.mongocodex.Generator;
 import com.bizvisionsoft.service.ProjectService;
 import com.bizvisionsoft.service.common.Domain;
-import com.bizvisionsoft.service.common.JQ;
 import com.bizvisionsoft.service.model.Baseline;
 import com.bizvisionsoft.service.model.BaselineComparable;
 import com.bizvisionsoft.service.model.CBSItem;
@@ -219,7 +218,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 	@Override
 	public long update(BasicDBObject fu, String domain) {
 		try {
-			return update(fu, Project.class, domain);
+			return update(fu, "project", domain);
 		} catch (Exception e) {
 			handleMongoException(e, "ÏîÄ¿" + fu);
 		}

@@ -18,7 +18,6 @@ import org.bson.types.ObjectId;
 import com.bizvisionsoft.annotations.md.mongocodex.Generator;
 import com.bizvisionsoft.service.ProjectTemplateService;
 import com.bizvisionsoft.service.common.Domain;
-import com.bizvisionsoft.service.common.JQ;
 import com.bizvisionsoft.service.model.FolderInTemplate;
 import com.bizvisionsoft.service.model.OBSInTemplate;
 import com.bizvisionsoft.service.model.OBSItem;
@@ -581,7 +580,7 @@ public class ProjectTemplateServiceImpl extends BasicServiceImpl implements Proj
 
 	@Override
 	public long update(BasicDBObject filterAndUpdate, String domain) {
-		return update(filterAndUpdate, "projectTemplate");
+		return super.update(filterAndUpdate, "projectTemplate", domain);
 	}
 
 	@Override
