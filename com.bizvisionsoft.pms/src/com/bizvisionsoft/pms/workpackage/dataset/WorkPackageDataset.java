@@ -21,7 +21,7 @@ public class WorkPackageDataset {
 
 	@Inject
 	private BruiAssemblyContext context;
-	
+
 	@Inject
 	private IBruiService br;
 
@@ -47,7 +47,7 @@ public class WorkPackageDataset {
 	}
 
 	@DataSet(DataSet.UPDATE)
-	private long update(BasicDBObject filterAndUpdate) {
+	private long update(@MethodParam(MethodParam.FILTER_N_UPDATE) BasicDBObject filterAndUpdate) {
 		return Services.get(WorkService.class).updateWorkPackage(filterAndUpdate, br.getDomain());
 	}
 
@@ -59,18 +59,18 @@ public class WorkPackageDataset {
 			condition.put("filter", filter);
 		}
 		appendFilter(filter);
-		if(master.isTemplate()) {
+		if (master.isTemplate()) {
 			return Services.get(WorkService.class).listWorkInTemplatePackage(condition, br.getDomain());
-		}else {
+		} else {
 			return Services.get(WorkService.class).listWorkPackage(condition, br.getDomain());
 		}
 	}
 
 	private void appendFilter(BasicDBObject filter) {
 		filter.append("work_id", master.get_id());
-		if(view!=null) {
+		if (view != null) {
 			filter.append("catagory", view.getCatagory()).append("name", view.getName());
-		}else {
+		} else {
 			filter.append("catagory", null).append("name", null);
 		}
 	}

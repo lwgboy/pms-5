@@ -4821,6 +4821,14 @@
                 "required": true,
                 "textLimit": 12,
                 "textRestrict": "无限定"
+              },
+              {
+                "id": "162bca55fab",
+                "name": "activated",
+                "text": "激活",
+                "type": "复选框",
+                "formFields": [],
+                "checkStyle": "开关（默认）"
               }
             ]
           },
@@ -4848,17 +4856,17 @@
                 "required": true,
                 "textLimit": 24,
                 "textRestrict": "无限定"
+              },
+              {
+                "id": "16204ab1472",
+                "name": "email",
+                "text": "电子邮件",
+                "type": "单行文本框",
+                "formFields": [],
+                "required": true,
+                "textRestrict": "无限定"
               }
             ]
-          },
-          {
-            "id": "16204ab1472",
-            "name": "email",
-            "text": "电子邮件",
-            "type": "单行文本框",
-            "formFields": [],
-            "required": true,
-            "textRestrict": "无限定"
           },
           {
             "id": "16406e34f2c",
@@ -4866,22 +4874,37 @@
             "type": "行",
             "formFields": [
               {
-                "id": "162bca55fab",
-                "name": "activated",
-                "text": "激活",
-                "type": "复选框",
-                "formFields": [],
-                "checkStyle": "开关（默认）"
-              },
-              {
                 "id": "1621d2b257b",
                 "name": "organization",
                 "text": "所属组织",
                 "type": "对象选择框",
                 "formFields": [],
                 "selectorAssemblyId": "1621d403c8b"
+              },
+              {
+                "id": "16af8e0ee1e",
+                "name": "position",
+                "text": "职位",
+                "type": "单行文本框",
+                "formFields": []
+              },
+              {
+                "id": "16af8e26ff3",
+                "name": "resourceType",
+                "text": "资源类型",
+                "type": "对象选择框",
+                "formFields": [],
+                "selectorAssemblyId": "162c4579eee"
               }
             ]
+          },
+          {
+            "id": "16af8e2838e",
+            "name": "certificates",
+            "text": "执业资格",
+            "type": "多个对象选择框",
+            "formFields": [],
+            "selectorAssemblyId": "162bd6340f5"
           },
           {
             "id": "1622353f017",
@@ -5198,6 +5221,14 @@
                 "required": true,
                 "textLimit": 12,
                 "textRestrict": "无限定"
+              },
+              {
+                "id": "162bca55fab",
+                "name": "activated",
+                "text": "激活",
+                "type": "复选框",
+                "formFields": [],
+                "checkStyle": "开关（默认）"
               }
             ]
           },
@@ -5225,17 +5256,17 @@
                 "required": true,
                 "textLimit": 24,
                 "textRestrict": "无限定"
+              },
+              {
+                "id": "16204ab1472",
+                "name": "email",
+                "text": "电子邮件",
+                "type": "单行文本框",
+                "formFields": [],
+                "required": true,
+                "textRestrict": "无限定"
               }
             ]
-          },
-          {
-            "id": "16204ab1472",
-            "name": "email",
-            "text": "电子邮件",
-            "type": "单行文本框",
-            "formFields": [],
-            "required": true,
-            "textRestrict": "无限定"
           },
           {
             "id": "16406e39053",
@@ -5243,22 +5274,37 @@
             "type": "行",
             "formFields": [
               {
-                "id": "162bca55fab",
-                "name": "activated",
-                "text": "激活",
-                "type": "复选框",
-                "formFields": [],
-                "checkStyle": "开关（默认）"
-              },
-              {
                 "id": "1621d2b257b",
                 "name": "organization",
                 "text": "所属组织",
                 "type": "对象选择框",
                 "formFields": [],
                 "selectorAssemblyId": "1621d403c8b"
+              },
+              {
+                "id": "16af8e4d17a",
+                "name": "position",
+                "text": "职位",
+                "type": "单行文本框",
+                "formFields": []
+              },
+              {
+                "id": "16af8e4ddfb",
+                "name": "resourceType",
+                "text": "资源类型",
+                "type": "对象选择框",
+                "formFields": [],
+                "selectorAssemblyId": "162c4579eee"
               }
             ]
+          },
+          {
+            "id": "16af8e512dc",
+            "name": "certificates",
+            "text": "执业资格",
+            "type": "多个对象选择框",
+            "formFields": [],
+            "selectorAssemblyId": "162bd6340f5"
           },
           {
             "id": "1622353f017",

@@ -119,7 +119,7 @@ public interface ProblemService {
 	@Path("/{domain}/item/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet({ "问题清单（已创建）/update", "问题清单（解决中）/update" })
+	@DataSet({ "问题清单（已创建）/" + DataSet.UPDATE, "问题清单（解决中）/" + DataSet.UPDATE })
 	public long updateProblems(@MethodParam(MethodParam.FILTER_N_UPDATE) BasicDBObject fu,
 			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
@@ -835,7 +835,7 @@ public interface ProblemService {
 	@Path("/{domain}/costItem/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet({ "D8问题成本账目表格/update" })
+	@DataSet({ "D8问题成本账目表格/" + DataSet.UPDATE })
 	public long updateCostItems(@MethodParam(MethodParam.FILTER_N_UPDATE) BasicDBObject fu,
 			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 

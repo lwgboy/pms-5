@@ -12,7 +12,6 @@ import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.service.WorkReportService;
 import com.bizvisionsoft.service.common.Domain;
-import com.bizvisionsoft.service.common.JQ;
 import com.bizvisionsoft.service.model.Result;
 import com.bizvisionsoft.service.model.Role;
 import com.bizvisionsoft.service.model.WorkReport;
@@ -556,7 +555,7 @@ public class WorkReportServiceImpl extends BasicServiceImpl implements WorkRepor
 	}
 
 	@Override
-	public long countALLWorkReportMonthlyDataSet(BasicDBObject filter, String userid,String domain){
+	public long countALLWorkReportMonthlyDataSet(BasicDBObject filter, String userid,String domain){//TODO Change ALL 2 All in method name
 		// 如果用户具有项目总监权限时，显示全部已确认的项目月报
 		if (checkUserRoles(userid, Role.SYS_ROLE_PD_ID, domain))
 			return c("workReport",domain)

@@ -10,7 +10,6 @@ import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.service.RevenueService;
 import com.bizvisionsoft.service.common.Domain;
-import com.bizvisionsoft.service.common.JQ;
 import com.bizvisionsoft.service.model.RevenueForecastItem;
 import com.bizvisionsoft.service.model.RevenueRealizeItem;
 

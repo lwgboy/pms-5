@@ -826,12 +826,12 @@ public class BasicServiceImpl {
 	 * @return
 	 */
 	final protected ServiceException handleMongoException(Exception e, String message) {
-		if (e instanceof MongoException && ((MongoException) e).getCode() == 11000) {
+		if (e instanceof MongoException && ((MongoException) e).getCode() == 11000) {//11000为唯一索引提示
 			if (Check.isAssigned(message))
 				return new ServiceException("违反唯一性规则：" + message);
 			else
 				return new ServiceException("违反唯一性规则");
-		}
+		}//TODO 其他代码的提示可增加到下方
 		return new ServiceException(e.getMessage());
 	}
 

@@ -520,19 +520,19 @@ public class WorkServiceImpl extends BasicServiceImpl implements WorkService {
 
 	@Override
 	public List<WorkPackage> listWorkPackage(BasicDBObject condition, String domain) {
-		return listWorkPackage(condition, "work");
+		return listPackage(condition, "work",domain);
 	}
 
 	public WorkPackage getWorkPackage(ObjectId _id, String domain) {
-		return listWorkPackage(new Query().filter(new BasicDBObject("_id", _id)).bson(), "work").get(0);
+		return listPackage(new Query().filter(new BasicDBObject("_id", _id)).bson(), "work",domain).get(0);
 	}
 
 	@Override
 	public List<WorkPackage> listWorkInTemplatePackage(BasicDBObject condition, String domain) {
-		return listWorkPackage(condition, "workInTemplate");
+		return listPackage(condition, "workInTemplate",domain);
 	}
 
-	private List<WorkPackage> listWorkPackage(BasicDBObject condition, String master, String domain) {
+	private List<WorkPackage> listPackage(BasicDBObject condition, String master, String domain) {
 		List<Bson> pipeline = new ArrayList<Bson>();
 
 		BasicDBObject filter = (BasicDBObject) condition.get("filter");

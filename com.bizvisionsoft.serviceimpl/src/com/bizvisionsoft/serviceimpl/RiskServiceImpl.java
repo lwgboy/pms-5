@@ -14,7 +14,6 @@ import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.service.RiskService;
 import com.bizvisionsoft.service.common.Domain;
-import com.bizvisionsoft.service.common.JQ;
 import com.bizvisionsoft.service.model.DetectionInd;
 import com.bizvisionsoft.service.model.QuanlityInfInd;
 import com.bizvisionsoft.service.model.RBSItem;

@@ -82,7 +82,7 @@ public interface BPMService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@ApiOperation(value = "更新工作流定义", response = Long.class)
-	@DataSet({ "工作流定义列表/update" })
+	@DataSet({ "工作流定义列表"+DataSet.UPDATE })
 	public long updateProcessDefinitions(@MethodParam(MethodParam.FILTER_N_UPDATE) BasicDBObject fu,
 			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 

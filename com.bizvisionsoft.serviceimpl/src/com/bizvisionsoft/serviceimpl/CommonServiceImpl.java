@@ -67,9 +67,7 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 
 	@Override
 	public List<ResourceType> getResourceType(String domain) {
-		List<ResourceType> result = new ArrayList<>();
-		c(ResourceType.class, domain).find().into(result);
-		return result;
+		return c(ResourceType.class, domain).find().into(new ArrayList<>());
 	}
 
 	@Override

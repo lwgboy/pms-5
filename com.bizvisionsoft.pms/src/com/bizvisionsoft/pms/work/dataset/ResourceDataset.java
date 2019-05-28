@@ -30,7 +30,7 @@ public class ResourceDataset {
 	}
 
 	@DataSet(DataSet.UPDATE)
-	private long updateResourcePlan(BasicDBObject filterAndUpdate) {
+	private long updateResourcePlan(@MethodParam(MethodParam.FILTER_N_UPDATE) BasicDBObject filterAndUpdate) {
 		return Services.get(WorkService.class).updateResourcePlan(filterAndUpdate, br.getDomain());
 	}
 

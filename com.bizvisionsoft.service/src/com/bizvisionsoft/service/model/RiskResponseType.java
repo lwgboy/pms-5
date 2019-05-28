@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.bson.types.ObjectId;
 
-import com.bizvisionsoft.annotations.md.mongocodex.Exclude;
 import com.bizvisionsoft.annotations.md.service.Behavior;
 import com.bizvisionsoft.annotations.md.service.ReadValue;
 import com.bizvisionsoft.annotations.md.service.Structure;
@@ -57,19 +56,24 @@ public class RiskResponseType {
 	}
 
 	public static RiskResponseType pervent(ObjectId _id,String domain) {
-		return new RiskResponseType().setType(TYPE_PREVENT).set_id(_id);
+		return new RiskResponseType().setDomain(domain).setType(TYPE_PREVENT).set_id(_id);
 	}
 
 	public static RiskResponseType response(ObjectId _id,String domain) {
-		return new RiskResponseType().setType(TYPE_RESPONSE).set_id(_id);
+		return new RiskResponseType().setDomain(domain).setType(TYPE_RESPONSE).set_id(_id);
 	}
 
 	public static RiskResponseType emergency(ObjectId _id,String domain) {
-		return new RiskResponseType().setType(TYPE_EMERGENCY).set_id(_id);
+		return new RiskResponseType().setDomain(domain).setType(TYPE_EMERGENCY).set_id(_id);
 	}
 
 	public String getType() {
 		return type;
+	}
+	
+	private RiskResponseType setDomain(String domain) {
+		this.domain = domain;
+		return this;
 	}
 
 	@Structure({ "项目风险应对计划/list", "项目风险应对计划（查看）/list" })

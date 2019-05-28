@@ -1463,7 +1463,6 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 	@Override
 	public InputStream createReportAndGetDownloadPath(Document rptParam, ObjectId _id, String template, String fileName, String serverName,
 			int serverPath, String domain) {// TODO domain传递
-		String path = "";
 		try {
 			// 获取JQ中的查询语句
 

@@ -42,7 +42,7 @@ public class WorkPackageProgressDataset {
 	}
 
 	@DataSet(DataSet.UPDATE)
-	private long update(BasicDBObject filterAndUpdate) {
+	private long update(@MethodParam(MethodParam.FILTER_N_UPDATE)  BasicDBObject filterAndUpdate) {
 		return Services.get(WorkService.class).updateWorkPackageProgress(filterAndUpdate, br.getDomain());
 	}
 

@@ -16,7 +16,6 @@ import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.service.WorkSpaceService;
 import com.bizvisionsoft.service.common.Domain;
-import com.bizvisionsoft.service.common.JQ;
 import com.bizvisionsoft.service.model.Baseline;
 import com.bizvisionsoft.service.model.Message;
 import com.bizvisionsoft.service.model.Project;
@@ -29,7 +28,6 @@ import com.bizvisionsoft.service.model.WorkLinkInfo;
 import com.bizvisionsoft.service.model.Workspace;
 import com.bizvisionsoft.service.model.WorkspaceGanttData;
 import com.bizvisionsoft.service.tools.Check;
-import com.bizvisionsoft.service.tools.Formatter;
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.model.Aggregates;
 import com.mongodb.client.model.Field;

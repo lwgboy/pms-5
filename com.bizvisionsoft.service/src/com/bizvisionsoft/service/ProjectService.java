@@ -456,7 +456,7 @@ public interface ProjectService {
 			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("baselinevomparable")
+	@Path("/{domain}/baselinevomparable")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public List<BaselineComparable> getBaselineComparable(List<ObjectId> projectIds,

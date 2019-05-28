@@ -15,7 +15,7 @@ import com.bizvisionsoft.serviceconsumer.Services;
 import com.mongodb.BasicDBObject;
 
 public class ResourceReqDS {
-	
+
 	@Inject
 	private IBruiService br;
 
@@ -30,7 +30,7 @@ public class ResourceReqDS {
 	}
 
 	@DataSet(DataSet.UPDATE)
-	private long updateResourcePlan(BasicDBObject filterAndUpdate) {
+	private long updateResourcePlan(@MethodParam(MethodParam.FILTER_N_UPDATE) BasicDBObject filterAndUpdate) {
 		return Services.get(ProjectTemplateService.class).updateResourcePlan(filterAndUpdate, br.getDomain());
 	}
 

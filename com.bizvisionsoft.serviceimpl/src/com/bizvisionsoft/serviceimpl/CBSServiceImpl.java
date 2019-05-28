@@ -32,7 +32,6 @@ import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.service.tools.Formatter;
 import com.bizvisionsoft.serviceimpl.exception.ServiceException;
 import com.mongodb.BasicDBObject;
-import com.mongodb.MongoBulkWriteException;
 import com.mongodb.client.model.Aggregates;
 import com.mongodb.client.model.Field;
 import com.mongodb.client.result.UpdateResult;
@@ -102,16 +101,9 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 
 	@Override
 	public CBSItem insertCBSItem(CBSItem o, String domain) {
-		try {
-			CBSItem item = insert(o, CBSItem.class, domain);
-			// yangjun 2018/10/31
-			return get(item.get_id(), domain);
-		} catch (Exception e) {
-			if (e instanceof MongoBulkWriteException) {
-				throw new ServiceException(e.getMessage());
-			}
-		}
-		return null;
+		CBSItem item = insert(o, CBSItem.class, domain);
+		// yangjun 2018/10/31
+		return get(item.get_id(), domain);
 	}
 
 	@Override
@@ -731,17 +723,17 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 
 	@Override
 	public Document getCostCompositionAnalysis(String year, String userId, String domain) {
-		return getCostCompositionAnalysis(null, year, userId);
+		return getCostCompositionAnalysis(null, year, userId, domain);
 	}
 
 	@Override
 	public Document getPeriodCostCompositionAnalysis(String startPeriod, String endPeriod, String userId, String domain) {
-		return getPeriodCostCompositionAnalysis(null, startPeriod, endPeriod, userId);
+		return getPeriodCostCompositionAnalysis(null, startPeriod, endPeriod, userId, domain);
 	}
 
 	@Override
 	public Document getMonthCostCompositionAnalysis(String year, String userId, String domain) {
-		return getMonthCostCompositionAnalysis(null, year, userId);
+		return getMonthCostCompositionAnalysis(null, year, userId, domain);
 	}
 
 	@Override
@@ -753,7 +745,7 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 
 	@Override
 	public Document getCBSSummary(String startPeriod, String endPeriod, String userId, String domain) {
-		return getCBSSummary(null, startPeriod, endPeriod, userId);
+		return getCBSSummary(null, startPeriod, endPeriod, userId, domain);
 	}
 
 	@Override
@@ -774,13 +766,6 @@ public class CBSServiceImpl extends BasicServiceImpl implements CBSService {
 	//////////////////////////////////////////////////////////////////////
 	@Override
 	public long update(BasicDBObject filterAndUpdate, String domain) {
-		try {
-			return update(filterAndUpdate, CBSItem.class, domain);
-		} catch (Exception e) {
-			if (e instanceof MongoBulkWriteException) {
-				throw new ServiceException(e.getMessage());
-			}
-		}
-		return 0;
+		return update(filterAndUpdate, CBSItem.class, domain);
 	}
 }

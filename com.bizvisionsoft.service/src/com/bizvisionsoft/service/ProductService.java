@@ -31,35 +31,40 @@ public interface ProductService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("项目目标产品/" + DataSet.INSERT)
-	public Product insert(@MethodParam(MethodParam.OBJECT) Product product,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+	public Product insert(@MethodParam(MethodParam.OBJECT) Product product,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@PUT
 	@Path("/{domain}/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("项目目标产品/" + DataSet.UPDATE)
-	public long update(@MethodParam(MethodParam.FILTER_N_UPDATE) BasicDBObject filterAndUpdate,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+	public long update(@MethodParam(MethodParam.FILTER_N_UPDATE) BasicDBObject filterAndUpdate,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@GET
 	@Path("/{domain}/_id/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("项目目标产品/" + DataSet.INPUT)
-	public Product get(@PathParam("_id") @MethodParam("_id") ObjectId _id,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+	public Product get(@PathParam("_id") @MethodParam("_id") ObjectId _id,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
 	@Path("/{domain}/count/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("产品选择列表/count")
-	public long count(@MethodParam(MethodParam.FILTER) BasicDBObject filter,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+	public long count(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
 	@Path("/{domain}/ds/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("产品选择列表/list")
-	public List<Product> listProduct(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+	public List<Product> listProduct(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
 	@Path("/{domain}/project_id/{project_id}/ds/")
@@ -67,7 +72,8 @@ public interface ProductService {
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("项目目标产品/" + DataSet.LIST)
 	public List<Product> listProjectProduct(
-			@MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) @PathParam("project_id") ObjectId project_id,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+			@MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) @PathParam("project_id") ObjectId project_id,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
 	@Path("/{domain}/series/")
@@ -81,7 +87,8 @@ public interface ProductService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("项目目标产品/" + DataSet.DELETE)
-	public long delete(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId id,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+	public long delete(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId id,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
 	@Path("/{domain}/project_id/{project_id}/skubenchmarking/")
@@ -89,7 +96,8 @@ public interface ProductService {
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("产品SKU对标分析评估/list")
 	public List<ProductBenchmark> projectProductBenchmarking(
-			@PathParam("project_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId project_id,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+			@PathParam("project_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId project_id,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
 	@Path("/{domain}/product_id/{product_id}/benchmarking/income/chart")
@@ -97,6 +105,7 @@ public interface ProductService {
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("单一产品销售分析/list")
 	public Document productIncomeBenchMarkingChartData(
-			@MethodParam(MethodParam.CONTEXT_INPUT_OBJECT_ID) @PathParam("product_id") ObjectId product_id,@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+			@MethodParam(MethodParam.CONTEXT_INPUT_OBJECT_ID) @PathParam("product_id") ObjectId product_id,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 }

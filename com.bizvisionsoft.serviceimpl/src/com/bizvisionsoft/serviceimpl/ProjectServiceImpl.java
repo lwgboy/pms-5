@@ -49,7 +49,6 @@ import com.bizvisionsoft.serviceimpl.exception.ServiceException;
 import com.bizvisionsoft.serviceimpl.renderer.ProjectChangeRenderer;
 import com.bizvisionsoft.serviceimpl.renderer.ProjectRenderer;
 import com.mongodb.BasicDBObject;
-import com.mongodb.MongoBulkWriteException;
 import com.mongodb.client.AggregateIterable;
 import com.mongodb.client.model.Aggregates;
 import com.mongodb.client.model.Field;
@@ -84,18 +83,11 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 			}
 			/////////////////////////////////////////////////////////////////////////////
 			// 0. 创建项目
-			try {
-				project = insert(input.setOBS_id(obsRoot_id).setCBS_id(cbsRoot_id), Project.class, domain);
-			} catch (Exception e) {
-				if (e instanceof MongoBulkWriteException) {
-					throw new ServiceException(e.getMessage());
-				}
-			}
+			project = insert(input.setOBS_id(obsRoot_id).setCBS_id(cbsRoot_id), Project.class, domain);
 			/////////////////////////////////////////////////////////////////////////////
 			// 1. 项目团队初始化
 			OBSItem obsRoot = new OBSItem()// 创建本项目的OBS根节点
-					.setDomain(domain)
-					.set_id(obsRoot_id)// 设置_id与项目关联
+					.setDomain(domain).set_id(obsRoot_id)// 设置_id与项目关联
 					.setScope_id(project.get_id())// 设置scope_id表明该组织节点是该项目的组织
 					.setParent_id(obsParent_id)// 设置上级的id
 					.setName(project.getName() + "项目组")// 设置该组织节点的默认名称
@@ -115,13 +107,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 			insert(cbsRoot, CBSItem.class, domain);
 
 		} else {
-			try {
-				project = insert(input, Project.class, domain);
-			} catch (Exception e) {
-				if (e instanceof MongoBulkWriteException) {
-					throw new ServiceException(e.getMessage());
-				}
-			}
+			project = insert(input, Project.class, domain);
 		}
 
 		/////////////////////////////////////////////////////////////////////////////
@@ -217,12 +203,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 
 	@Override
 	public long update(BasicDBObject fu, String domain) {
-		try {
-			return update(fu, "project", domain);
-		} catch (Exception e) {
-			handleMongoException(e, "项目" + fu);
-		}
-		return 0;
+		return update(fu, "project", domain);
 	}
 
 	/**
