@@ -13,7 +13,7 @@
 		{
 			"$addFields" : {
 				"img" : {
-					"$concat" : [ "<img alt='' src='/bvs/fs?id=", {
+					"$concat" : [ "<img alt='' src='/bvs/fs?domain=WHY_1DBS3SPH9&id=", {
 						"$toString" : "$problemImg._id"
 					}, "&namespace=", "$problemImg.namepace", "&name=",
 							"$problemImg.name",

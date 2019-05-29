@@ -753,7 +753,7 @@
             <property name="ignoreURI">true</property>
             <property name="serverHost">127.0.0.1</property>
             <property name="serverPort">10001</property>
-            <property name="databaseName">bvs_std</property>
+            <property name="databaseName">WHY_1DBS3SPH9</property>
             <property name="socketKeepAlive">false</property>
             <property name="useRequestSession">false</property>
         </oda-data-source>
