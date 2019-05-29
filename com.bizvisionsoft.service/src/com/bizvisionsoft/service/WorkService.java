@@ -208,6 +208,25 @@ public interface WorkService {
 			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
+	@Path("/{domain}/userid/{userid}/todolist/card/ds/{lang}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("工作看板（待处理）/list")
+	public List<Document> listMyTodoWorkCard(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
+			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userid") String userid,
+			@MethodParam(MethodParam.LANG) @PathParam("lang") String lang,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+
+	@POST
+	@Path("/{domain}/userid/{userid}/todolist/count")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "工作看板（待处理）/count" })
+	public long countMyTodoWork(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
+			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userid") String userid,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+
+	@POST
 	@Path("/{domain}/userid/{userid}/planned/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")

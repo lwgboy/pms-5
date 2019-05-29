@@ -72,7 +72,7 @@ public class WorkCardACT implements IWorkAction {
 	private void startWork(Work work, Document doc, GridTreeViewer viewer, BruiAssemblyContext context) {
 		startWork(work, w -> {
 			((List<?>) viewer.getInput()).remove(doc);
-			viewer.remove(doc);
+			context.refresh(false);
 		});
 	}
 
@@ -80,7 +80,7 @@ public class WorkCardACT implements IWorkAction {
 		assignWork(work, context, w -> {
 			AUtil.simpleCopy(w, work);
 			((List<?>) viewer.getInput()).remove(doc);
-			viewer.remove(doc);
+			context.refresh(false);
 			br.updateSidebarActionBudget("指派工作");
 		});
 	}
@@ -88,7 +88,7 @@ public class WorkCardACT implements IWorkAction {
 	private void finishWork(Work work, Document doc, GridTreeViewer viewer, BruiAssemblyContext context) {
 		finishWork(work, w -> {
 			((List<?>) viewer.getInput()).remove(doc);
-			viewer.remove(doc);
+			context.refresh(false);
 			br.updateSidebarActionBudget("处理工作");
 		});
 	}

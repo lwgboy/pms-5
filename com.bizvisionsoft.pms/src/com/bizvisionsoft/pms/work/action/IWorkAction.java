@@ -62,7 +62,8 @@ public interface IWorkAction {
 			Date date = getInputDate();
 			if (date == null)
 				return;
-			List<Result> result = getService().startWork(getBruiService().command(work.get_id(), date, ICommand.Start_Work), getBruiService().getDomain());
+			List<Result> result = getService().startWork(getBruiService().command(work.get_id(), date, ICommand.Start_Work),
+					getBruiService().getDomain());
 			if (result.isEmpty()) {
 				Layer.message("工作已启动");
 				if (callback != null) {
@@ -88,7 +89,8 @@ public interface IWorkAction {
 			Date date = getInputDate();
 			if (date == null)
 				return;
-			List<Result> result = getService().finishWork(getBruiService().command(work.get_id(), date, ICommand.Finish_Work), getBruiService().getDomain());
+			List<Result> result = getService().finishWork(getBruiService().command(work.get_id(), date, ICommand.Finish_Work),
+					getBruiService().getDomain());
 			if (result.isEmpty()) {
 				Layer.message("工作已完成");
 				if (callback != null) {
@@ -184,7 +186,7 @@ public interface IWorkAction {
 	public default Date getInputDate() {
 		Date date = new Date();
 		if (logger().isDebugEnabled()) {
-			DateTimeInputDialog dt = new DateTimeInputDialog(getBruiService().getCurrentShell(), "请选择时间", "", null)
+			DateTimeInputDialog dt = new DateTimeInputDialog(getBruiService().getCurrentShell(), "请选择时间", "", date, null)
 					.setDateSetting(DateTimeSetting.dateTime());
 			if (dt.open() == DateTimeInputDialog.OK) {
 				date = dt.getValue();

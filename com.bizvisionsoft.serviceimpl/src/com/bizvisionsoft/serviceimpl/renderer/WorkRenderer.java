@@ -30,12 +30,16 @@ public class WorkRenderer {
 	private Document render() {
 		StringBuffer sb = new StringBuffer();
 		if (work.getActualStart() == null && work.getChargerId() != null) {
+			theme = new CardTheme(CardTheme.INDIGO);
 			renderingPlannedWorkCard(sb);
 		} else if (work.getActualStart() == null && work.getChargerId() == null && work.getAssignerId() != null) {
+			theme = new CardTheme(CardTheme.CYAN);
 			renderingUnAssignmentWorkCard(sb);
 		} else if (work.getActualStart() != null && work.getActualFinish() == null) {
+			theme = new CardTheme(CardTheme.BLUE);
 			renderingExecutingWorkCard(sb);
 		} else if (work.getActualStart() != null && work.getActualFinish() != null) {
+			theme = new CardTheme(CardTheme.DEEP_GREY);
 			renderingFinishedWorkCard(sb);
 		}
 
