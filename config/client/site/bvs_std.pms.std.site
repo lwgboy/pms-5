@@ -3,7 +3,7 @@
   "id": "1618092b217",
   "name": "WisPlanner",
   "version": "5.2M2",
-  "timestamp": "201905222356",
+  "timestamp": "201905291549",
   "title": "WisPlanner 5",
   "path": "/",
   "headHtml": "\u003cmeta name\u003d\"viewport\" content\u003d\"width\u003ddevice-width,initial-scale\u003d1.0,maximum-scale\u003d1.0,minimum-scale\u003d1.0,user-scalable\u003dno\"/\u003e\n\u003cmeta name\u003d\"format-detection\" content\u003d\"telephone\u003dno\"/\u003e\n\u003cmeta name\u003d\"referrer\" content\u003d\"always\"/\u003e\n\u003cmeta name\u003d\"renderer\" content\u003d\"webkit\"/\u003e \n\n\u003cmeta name\u003d\"apple-touch-fullscreen\" content\u003d\"yes\"/\u003e\n\u003cmeta name\u003d\"apple-mobile-web-app-capable\" content\u003d\"yes\"/\u003e\n\u003cmeta name\u003d\"apple-mobile-web-app-status-bar-style\" content\u003d\"black\"/\u003e\n\n\u003c!--link rel\u003d\"apple-touch-icon-precomposed\" href\u003d\"/apps/images/crrc_logo_144.png\"--\u003e\n\u003c!--link rel\u003d\"apple-touch-icon\" href\u003d\"/apps/images/crrc_logo_144.png\"--\u003e\n\n\u003c!-- Common JSLib --\u003e\n\u003cscript src\u003d\"/resource/js/jquery-1.10.2.min.js\"\u003e\u003c/script\u003e\n\u003cscript src\u003d\"/resource/js/jgestures.min.js\"\u003e\u003c/script\u003e\n\u003cscript src\u003d\"/resource/js/layui.all.js\"\u003e\u003c/script\u003e\n\u003cscript src\u003d\"/resource/js/echarts.min.js\"\u003e\u003c/script\u003e\n\u003c!-- APPS CSS --\u003e\n\u003clink rel\u003d\"stylesheet\" href\u003d\"/resource/css/brui.css\" type\u003d\"text/css\" media\u003d\"screen\" /\u003e\n\u003clink rel\u003d\"stylesheet\" href\u003d\"/resource/css/animations.css\" type\u003d\"text/css\" media\u003d\"screen\" /\u003e\n\u003clink rel\u003d\"stylesheet\" href\u003d\"/resource/js/css/layui.css\" type\u003d\"text/css\" media\u003d\"screen\" /\u003e\n",
@@ -2733,14 +2733,6 @@
                 "verticalSpan": 0
               },
               {
-                "id": "16763b894f7",
-                "name": "重建索引",
-                "bundleId": "com.bizvisionsoft.onlinedesigner",
-                "className": "com.bizvisionsoft.onlinedesigner.actions.CreateIndexACT",
-                "type": "customized",
-                "verticalSpan": 0
-              },
-              {
                 "id": "1677a1661b2",
                 "name": "值生成规则",
                 "bundleId": "",
@@ -3982,7 +3974,7 @@
         "actions": [],
         "nullValueAllowedFields": "",
         "smallEditor": true,
-        "tinyEditor": true,
+        "tinyEditor": false,
         "addToParentContext": true,
         "disableInitLoadData": false
       },
@@ -4091,38 +4083,52 @@
             "radioStyle": "横向分段（默认）"
           },
           {
-            "id": "162b3781a49",
-            "name": "start_date",
-            "text": "计划开始",
-            "type": "日期时间选择",
-            "formFields": [],
-            "readOnly": true,
-            "dateType": "datetime"
+            "id": "16afc6816e6",
+            "name": "新字段7",
+            "type": "行",
+            "formFields": [
+              {
+                "id": "162b3781a49",
+                "name": "start_date",
+                "text": "计划开始",
+                "type": "日期时间选择",
+                "formFields": [],
+                "readOnly": true,
+                "dateType": "datetime"
+              },
+              {
+                "id": "162b3781c3d",
+                "name": "end_date",
+                "text": "计划完成",
+                "type": "日期时间选择",
+                "formFields": [],
+                "readOnly": true,
+                "dateType": "datetime"
+              }
+            ]
           },
           {
-            "id": "162b3781c3d",
-            "name": "end_date",
-            "text": "计划完成",
-            "type": "日期时间选择",
-            "formFields": [],
-            "readOnly": true,
-            "dateType": "datetime"
-          },
-          {
-            "id": "1634eaf42a5",
-            "name": "charger",
-            "text": "负责人",
-            "type": "对象选择框",
-            "formFields": [],
-            "selectorAssemblyId": "162d7e505eb"
-          },
-          {
-            "id": "1637132ce6d",
-            "name": "assigner",
-            "text": "指派者",
-            "type": "对象选择框",
-            "formFields": [],
-            "selectorAssemblyId": "162d7e505eb"
+            "id": "16afc683a43",
+            "name": "新字段8",
+            "type": "行",
+            "formFields": [
+              {
+                "id": "1634eaf42a5",
+                "name": "charger",
+                "text": "负责人",
+                "type": "对象选择框",
+                "formFields": [],
+                "selectorAssemblyId": "162d7e505eb"
+              },
+              {
+                "id": "1637132ce6d",
+                "name": "assigner",
+                "text": "指派者",
+                "type": "对象选择框",
+                "formFields": [],
+                "selectorAssemblyId": "162d7e505eb"
+              }
+            ]
           }
         ],
         "actions": [],
@@ -11003,7 +11009,7 @@
         ],
         "actions": [],
         "nullValueAllowedFields": "workPackageSetting",
-        "smallEditor": false,
+        "smallEditor": true,
         "disableInitLoadData": false
       },
       {
@@ -17174,27 +17180,35 @@
             "radioStyle": "横向分段（默认）"
           },
           {
-            "id": "162905df5d4",
-            "name": "start_date",
-            "text": "计划开始",
-            "type": "日期时间选择",
-            "formFields": [],
-            "required": true,
-            "dateType": "date"
-          },
-          {
-            "id": "162905df6fe",
-            "name": "end_date",
-            "text": "计划完成",
-            "type": "日期时间选择",
-            "formFields": [],
-            "required": true,
-            "dateType": "date"
+            "id": "16afc695ffd",
+            "name": "新字段9",
+            "type": "行",
+            "formFields": [
+              {
+                "id": "162905df5d4",
+                "name": "start_date",
+                "text": "计划开始",
+                "type": "日期时间选择",
+                "formFields": [],
+                "required": true,
+                "dateType": "date"
+              },
+              {
+                "id": "162905df6fe",
+                "name": "end_date",
+                "text": "计划完成",
+                "type": "日期时间选择",
+                "formFields": [],
+                "required": true,
+                "dateType": "date"
+              }
+            ]
           }
         ],
         "actions": [],
         "nullValueAllowedFields": "",
         "smallEditor": true,
+        "tinyEditor": true,
         "disableInitLoadData": false
       },
       {
@@ -17622,6 +17636,7 @@
         ],
         "actions": [],
         "smallEditor": true,
+        "tinyEditor": false,
         "disableInitLoadData": false
       },
       {
@@ -17831,8 +17846,10 @@
             "selectorAssemblyId": "163cd649d22"
           }
         ],
+        "actions": [],
         "nullValueAllowedFields": "",
         "smallEditor": true,
+        "tinyEditor": false,
         "addToParentContext": true,
         "disableInitLoadData": false
       },
@@ -24972,6 +24989,7 @@
         "actions": [],
         "nullValueAllowedFields": "",
         "smallEditor": true,
+        "tinyEditor": true,
         "disableInitLoadData": false
       },
       {
@@ -27324,6 +27342,7 @@
         "actions": [],
         "nullValueAllowedFields": "",
         "smallEditor": true,
+        "tinyEditor": true,
         "disableInitLoadData": false
       },
       {
@@ -27824,6 +27843,7 @@
         ],
         "actions": [],
         "smallEditor": true,
+        "tinyEditor": true,
         "disableInitLoadData": false
       },
       {
@@ -32165,6 +32185,7 @@
         ],
         "actions": [],
         "smallEditor": true,
+        "tinyEditor": false,
         "addToParentContext": true,
         "disableInitLoadData": false
       },
@@ -32215,17 +32236,7 @@
                 "heightHint": -1
               },
               {
-                "id": "1670b81457f",
-                "horizontalAlignment": 4,
-                "verticalAlignment": 16777216,
-                "grabExcessHorizontalSpace": true,
-                "verticalSpan": 1,
-                "horizontalSpan": 1,
-                "widthHint": -1,
-                "heightHint": -1
-              },
-              {
-                "id": "1670ccb40d8",
+                "id": "16b026d5af9",
                 "horizontalAlignment": 4,
                 "verticalAlignment": 16777216,
                 "grabExcessHorizontalSpace": true,
@@ -32264,15 +32275,13 @@
         "rowActions": [],
         "disableInitLoadData": false,
         "candidates": [
-          "1670b81457f",
-          "1670ccb40d8",
           "1670cd61827",
-          "1670ce1a50a",
           "1670df35b2a",
           "16711f4626a",
           "16717097dcd",
           "16719fad00e",
-          "16a3ff26ac7"
+          "16a3ff26ac7",
+          "16b026d5af9"
         ]
       },
       {
@@ -33710,27 +33719,17 @@
                 "heightHint": -1
               },
               {
+                "id": "16b026d5af9",
+                "horizontalAlignment": 4,
+                "verticalAlignment": 16777216,
+                "grabExcessHorizontalSpace": true,
+                "verticalSpan": 1,
+                "horizontalSpan": 1,
+                "widthHint": -1,
+                "heightHint": -1
+              },
+              {
                 "id": "16715783971",
-                "horizontalAlignment": 4,
-                "verticalAlignment": 16777216,
-                "grabExcessHorizontalSpace": true,
-                "verticalSpan": 1,
-                "horizontalSpan": 1,
-                "widthHint": -1,
-                "heightHint": -1
-              },
-              {
-                "id": "1670b81457f",
-                "horizontalAlignment": 4,
-                "verticalAlignment": 16777216,
-                "grabExcessHorizontalSpace": true,
-                "verticalSpan": 1,
-                "horizontalSpan": 1,
-                "widthHint": -1,
-                "heightHint": -1
-              },
-              {
-                "id": "1670ccb40d8",
                 "horizontalAlignment": 4,
                 "verticalAlignment": 16777216,
                 "grabExcessHorizontalSpace": true,
@@ -33759,16 +33758,14 @@
         "rowActions": [],
         "disableInitLoadData": false,
         "candidates": [
-          "1670b81457f",
-          "1670ccb40d8",
           "1670cd61827",
-          "1670ce1a50a",
           "1670df35b2a",
           "16711f4626a",
           "16715783971",
           "16717097dcd",
           "16719fad00e",
-          "16a3ff26ac7"
+          "16a3ff26ac7",
+          "16b026d5af9"
         ]
       },
       {
@@ -38570,6 +38567,326 @@
         "folderId": "162bd9dad9d",
         "selectorGridAssemblyId": "16ab0583d30",
         "disableInitLoadData": false
+      },
+      {
+        "id": "16b02380d91",
+        "name": "表单-技术可行性报告",
+        "title": "技术可行性报告",
+        "layout": [],
+        "type": "editor",
+        "folderId": "16662209d99",
+        "fields": [
+          {
+            "id": "1676444106a",
+            "name": "xmbj",
+            "text": "项目背景（技术）",
+            "type": "标签页（HTML编辑）",
+            "formFields": []
+          },
+          {
+            "id": "1678d78adc0",
+            "name": "目标市场",
+            "type": "标签页",
+            "formFields": [
+              {
+                "id": "1678e130b47",
+                "name": "mubsms",
+                "text": "目标市场描述",
+                "type": "多行文本框",
+                "verticalLabel": true,
+                "formFields": [],
+                "required": true
+              },
+              {
+                "id": "1678e14068d",
+                "name": "mbyh",
+                "text": "目标人群描述",
+                "type": "多项勾选框",
+                "verticalLabel": false,
+                "formFields": [],
+                "optionValue": "24#34#44",
+                "optionText": "18·24岁#25岁~34岁#35岁以上",
+                "radioStyle": "横向分段（默认）",
+                "hideLabel": false
+              },
+              {
+                "id": "1678e199ff7",
+                "name": "jgqj",
+                "text": "价格区间",
+                "type": "单选框",
+                "verticalLabel": false,
+                "formFields": [],
+                "optionValue": "1#2#3#4",
+                "optionText": "少于20万#20到30万#30万到50万#50万以上",
+                "radioStyle": "横向分段（默认）"
+              },
+              {
+                "id": "167983aa298",
+                "name": "chdept",
+                "text": "协同部门",
+                "type": "多个对象选择框",
+                "verticalLabel": true,
+                "formFields": [],
+                "selectorAssemblyId": "1621d403c8b",
+                "valueFieldName": "_id",
+                "reloadFields": "",
+                "hideLabel": false
+              }
+            ]
+          },
+          {
+            "id": "1678d78eca7",
+            "name": "需求分析",
+            "type": "标签页",
+            "formFields": [
+              {
+                "id": "1678e1818bb",
+                "name": "scxq1",
+                "text": "外观需求",
+                "type": "多项勾选框",
+                "formFields": [],
+                "optionText": "A#B#C",
+                "radioStyle": "横向分段（默认）"
+              },
+              {
+                "id": "1678e18afdc",
+                "name": "xnxq",
+                "text": "性能需求",
+                "type": "多项勾选框",
+                "formFields": [],
+                "optionText": "A#B#C",
+                "radioStyle": "横向分段（默认）"
+              },
+              {
+                "id": "1678e19055b",
+                "name": "aqxq",
+                "text": "安全性需求",
+                "type": "多项勾选框",
+                "formFields": [],
+                "optionText": "A#B#C",
+                "radioStyle": "横向分段（默认）"
+              },
+              {
+                "id": "1678e1e8540",
+                "name": "bg",
+                "text": "需求调研报告",
+                "type": "文件选择框",
+                "formFields": [],
+                "fileNamespace": "form_file"
+              }
+            ]
+          },
+          {
+            "id": "1679716bed1",
+            "name": "结论",
+            "type": "标签页",
+            "formFields": [
+              {
+                "id": "167971713df",
+                "name": "jljs",
+                "text": "结论简述",
+                "type": "单行文本框",
+                "formFields": []
+              },
+              {
+                "id": "167979c0b1c",
+                "name": "新字段11",
+                "type": "行",
+                "formFields": [
+                  {
+                    "id": "1679717a077",
+                    "name": "jydj",
+                    "text": "建议定价",
+                    "type": "数值范围输入",
+                    "formFields": []
+                  },
+                  {
+                    "id": "167971827fb",
+                    "name": "xyb",
+                    "text": "行动建议",
+                    "type": "下拉选择框",
+                    "formFields": [],
+                    "optionText": "建议1#建议2#建议3#建议4"
+                  }
+                ]
+              },
+              {
+                "id": "167979bd0d2",
+                "name": "新字段10",
+                "type": "行",
+                "formFields": [
+                  {
+                    "id": "167971968f1",
+                    "name": "sflx",
+                    "text": "建议是否立项",
+                    "type": "复选框",
+                    "formFields": [],
+                    "checkStyle": "开关（默认）"
+                  },
+                  {
+                    "id": "167971a9033",
+                    "name": "tjr",
+                    "text": "推荐人选",
+                    "type": "对象选择框",
+                    "formFields": [],
+                    "required": true,
+                    "selectorAssemblyId": "162ba875640",
+                    "valueFieldName": "userId"
+                  }
+                ]
+              },
+              {
+                "id": "167979b7b00",
+                "name": "新字段9",
+                "type": "行",
+                "formFields": [
+                  {
+                    "id": "1679719d7ff",
+                    "name": "shsj",
+                    "text": "上会时间",
+                    "type": "日期时间选择",
+                    "formFields": [],
+                    "dateType": "date"
+                  },
+                  {
+                    "id": "167979b1b3a",
+                    "name": "yxq",
+                    "text": "有效期",
+                    "type": "日期时间范围选择",
+                    "formFields": [],
+                    "dateType": "date"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "actions": [],
+        "nullValueAllowedFields": "zp",
+        "disableInitLoadData": false
+      },
+      {
+        "id": "16b026d5af9",
+        "name": "工作看板（待处理）",
+        "description": "包括已计划、处理中、待指派的我的工作",
+        "layout": [],
+        "type": "board",
+        "stickerTitle": "我的工作 - 待处理",
+        "folderId": "166bdf4dc3f",
+        "gridAutoHeight": true,
+        "gridDataSetService": "com.bizvisionsoft.service.WorkService",
+        "gridPageCount": 8,
+        "columns": [],
+        "fields": [
+          {
+            "id": "1670bd50d18",
+            "name": "projectNumber",
+            "text": "项目编号",
+            "type": "文本输入框（查询）",
+            "formFields": []
+          },
+          {
+            "id": "1670bd50c7e",
+            "name": "projectName",
+            "text": "项目名称",
+            "type": "文本输入框（查询）",
+            "formFields": []
+          },
+          {
+            "id": "1670bd50992",
+            "name": "fullName",
+            "text": "工作名称",
+            "type": "文本输入框（查询）",
+            "formFields": []
+          },
+          {
+            "id": "1670bd50dbc",
+            "name": "planStart",
+            "text": "计划开始",
+            "type": "日期时间（查询）",
+            "formFields": []
+          },
+          {
+            "id": "1670bd50e52",
+            "name": "planFinish",
+            "text": "计划完成",
+            "type": "日期时间（查询）",
+            "formFields": []
+          }
+        ],
+        "actions": [
+          {
+            "id": "1670bd63854",
+            "name": "filter",
+            "tooltips": "过滤在所选日期以前需开始的工作",
+            "image": "/img/calendar_w.svg",
+            "bundleId": "com.bizvisionsoft.pms",
+            "className": "com.bizvisionsoft.pms.work.action.FilterWork",
+            "style": "info",
+            "type": "customized",
+            "parameters": "{\"filterType\":\"计划开始\"}"
+          },
+          {
+            "id": "16715207345",
+            "name": "切换列表",
+            "image": "/img/right_w.svg",
+            "switchContentToAssemblyId": "163624f036e",
+            "style": "info",
+            "type": "switch",
+            "verticalSpan": 0
+          }
+        ],
+        "rowActions": [
+          {
+            "id": "1670d294caf",
+            "name": "操作",
+            "bundleId": "com.bizvisionsoft.pms",
+            "className": "com.bizvisionsoft.pms.work.WorkCardACT",
+            "type": "customized",
+            "verticalSpan": 0
+          }
+        ],
+        "hasTitlebar": true,
+        "disableInitLoadData": false,
+        "compactTitleBar": true,
+        "candidates": [],
+        "sortFields": [
+          {
+            "id": "1673159bd35",
+            "name": "projectNumber",
+            "text": "项目编号",
+            "type": "排序字段",
+            "formFields": []
+          },
+          {
+            "id": "1673159bdde",
+            "name": "projectName",
+            "text": "项目名称",
+            "type": "排序字段",
+            "formFields": []
+          },
+          {
+            "id": "1673159bc5f",
+            "name": "fullName",
+            "text": "工作名称",
+            "type": "排序字段",
+            "formFields": []
+          },
+          {
+            "id": "1673159be97",
+            "name": "planStart",
+            "text": "计划开始",
+            "type": "排序字段",
+            "formFields": []
+          },
+          {
+            "id": "1673159bf4c",
+            "name": "planFinish",
+            "text": "计划完成",
+            "type": "排序字段",
+            "formFields": []
+          }
+        ]
       }
     ]
   },
