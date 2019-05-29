@@ -7,6 +7,7 @@ import java.util.Optional;
 
 import org.bson.Document;
 
+import com.bizvisionsoft.service.model.CheckItem;
 import com.bizvisionsoft.service.model.TrackView;
 import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.service.tools.CardTheme;
@@ -44,7 +45,7 @@ public class WorkRenderer {
 		}
 
 		RenderTools.appendCardBg(sb);
-		
+
 		return new Document("_id", work.get_id()).append("html", sb.toString());
 	}
 
@@ -72,7 +73,7 @@ public class WorkRenderer {
 		this.showProject = showProject;
 		return this;
 	}
-	
+
 	private WorkRenderer setLanguage(String lang) {
 		this.lang = lang;
 		return this;
@@ -151,10 +152,10 @@ public class WorkRenderer {
 		sb.append(renderIndicators("进度", work.getWAR(), "工期", work.getDAR()));
 
 		// 显示工作包和完成工作
-		long count = Optional.ofNullable(work.getChecklist()).map(cl -> cl.stream().filter(c -> !"通过".equals(c.getChoise())).count())
-				.orElse(0l);
+		List<CheckItem> checklist = work.getChecklist();
+		long count = Optional.ofNullable(checklist).map(cl -> cl.stream().filter(c -> !"通过".equals(c.getChoise())).count()).orElse(0l);
 		if (count > 0) {
-			long denyCount = Optional.ofNullable(work.getChecklist()).map(cl -> cl.stream().filter(c -> "否决".equals(c.getChoise())).count())
+			long denyCount = Optional.ofNullable(checklist).map(cl -> cl.stream().filter(c -> "否决".equals(c.getChoise())).count())
 					.orElse(0l);
 			String badge = null;
 			if (denyCount > 0) {
@@ -205,7 +206,7 @@ public class WorkRenderer {
 	}
 
 	private void renderStageName(StringBuffer sb) {
-		RenderTools.appendIconLabelAndTextLine(sb, RenderTools.IMG_URL_TASK,  "阶段：",  work.getStageName());
+		RenderTools.appendIconLabelAndTextLine(sb, RenderTools.IMG_URL_TASK, "阶段：", work.getStageName());
 	}
 
 	private void renderPlanSchedule(StringBuffer sb) {
@@ -220,28 +221,31 @@ public class WorkRenderer {
 	private String renderTitle(Date date) {
 		String name = work.getFullName();
 		String _date = Formatter.getString(date, "M/d");
-		
+
 		return "<div class='brui_card_head' style='height:48px;background:#" + theme.headBgColor + ";color:#" + theme.headFgColor
 				+ ";padding:8px;'>" + "<div class='label_subhead brui_card_text'>" + name + "</div>"//
-				+ "<div class='label_headline' style='text-align:center;margin-left:8px'>" + _date + "</div>"
-				+ "</div>";
+				+ "<div class='label_headline' style='text-align:center;margin-left:8px'>" + _date + "</div>" + "</div>";
 	}
 
 	private void renderProjectLine(StringBuffer sb) {
-		RenderTools.appendIconLabelAndTextLine(sb, RenderTools.IMG_URL_PROJECT,"项目：",  work.getProjectName());
+		RenderTools.appendIconLabelAndTextLine(sb, RenderTools.IMG_URL_PROJECT, "项目：", work.getProjectName());
 	}
 
 	private void renderCharger(StringBuffer sb) {
-		RenderTools.appendIconLabelAndTextLine(sb, RenderTools.IMG_URL_USER,  "负责：",  work.warpperChargerInfo());
+		if (work.getChargerId() != null)
+			RenderTools.appendIconLabelAndTextLine(sb, RenderTools.IMG_URL_USER, "负责：", work.warpperChargerInfo());
+		if (work.getAssignerId() != null)
+			RenderTools.appendIconLabelAndTextLine(sb, RenderTools.IMG_URL_USER, "指派：", work.warpperAssignerInfo());
 	}
 
 	private void renderAssigner(StringBuffer sb) {
-		RenderTools.appendIconLabelAndTextLine(sb, RenderTools.IMG_URL_USER,  "指派：",  work.warpperAssignerInfo());
+		RenderTools.appendIconLabelAndTextLine(sb, RenderTools.IMG_URL_USER, "指派：", work.warpperAssignerInfo());
 	}
 
 	private String renderNoticeBudgets() {
 		StringBuffer sb = new StringBuffer();
-		sb.append("<div class='brui_line_padding' style='margin-top:8px;display:flex;width:100%;justify-content:flex-end;align-items:center;'>");
+		sb.append(
+				"<div class='brui_line_padding' style='margin-top:8px;display:flex;width:100%;justify-content:flex-end;align-items:center;'>");
 		Double value = work.getTF();
 		if (value != null) {
 			String label = "<div class='layui-badge-rim' style='margin-right:4px;'>TF " + (int) Math.ceil(value) + "</div>";
@@ -295,13 +299,10 @@ public class WorkRenderer {
 
 		StringBuffer sb = new StringBuffer();
 		sb.append("<div class='brui_line_padding' style='display:flex;width:100%;justify-content:space-around;align-items:center;'>");
-		btns.forEach(e -> {
-			sb.append("<a class='' href='" + e[0] + "' target='_rwt'>" + e[1] + "</a>");
-		});
+		btns.forEach(e -> sb.append("<a class='' href='" + e[0] + "' target='_rwt'>" + e[1] + "</a>"));
 		if (canAction) {
 			sb.append("<div style='display:inline-flex;align-items:center;'>");
-			sb.append(
-					"<a class='' style='color:#" + theme.headBgColor + ";' href='" + href + "' target='_rwt'>" + label + "</a>");
+			sb.append("<a class='' style='color:#" + theme.headBgColor + ";' href='" + href + "' target='_rwt'>" + label + "</a>");
 			if (Check.isAssigned(badge)) {
 				sb.append(" " + badge);
 			}
@@ -315,13 +316,15 @@ public class WorkRenderer {
 		StringBuffer sb = new StringBuffer();
 		sb.append("<div class='brui_line_padding' style='display:flex;width:100%;justify-content:space-evenly;align-items:center;'>");
 
-		sb.append("<div><div class='label_caption' style='text-align:center;color:#9e9e9e'>" + label1 + "</div><img src='/bvs/svg?type=progress&percent=" + ind1 + "&bgColor=" + theme.contrastBgColor + "&fgColor="
+		sb.append("<div><div class='label_caption' style='text-align:center;color:#9e9e9e'>" + label1
+				+ "</div><img src='/bvs/svg?type=progress&percent=" + ind1 + "&bgColor=" + theme.contrastBgColor + "&fgColor="
 				+ theme.contrastFgColor + "' width=72 height=72/>");
 		sb.append("</div>");
 
 		sb.append("<div style='background:#d0d0d0;width:1px;height:60px'></div>");
-		
-		sb.append("<div><div class='label_caption' style='text-align:center;color:#9e9e9e'>" + label2 + "</div><img src='/bvs/svg?type=progress&percent=" + ind2 + "&bgColor=" + theme.contrastBgColor + "&fgColor="
+
+		sb.append("<div><div class='label_caption' style='text-align:center;color:#9e9e9e'>" + label2
+				+ "</div><img src='/bvs/svg?type=progress&percent=" + ind2 + "&bgColor=" + theme.contrastBgColor + "&fgColor="
 				+ theme.contrastFgColor + "' width=72 height=72/>");
 		sb.append("</div>");
 
