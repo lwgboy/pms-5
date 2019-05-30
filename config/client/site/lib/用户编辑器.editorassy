@@ -108,12 +108,22 @@
       ]
     },
     {
+      "id": "162bd59e131",
+      "name": "certificates",
+      "text": "执业资格",
+      "type": "多个对象选择框",
+      "formFields": [],
+      "selectorAssemblyId": "执业资格选择器列表",
+      "enableCreateItem": false,
+      "enableInsertAndCreateItem": false
+    },
+    {
       "id": "162c6f4f800",
       "name": "resourceType",
       "text": "资源类型",
       "type": "对象选择框",
       "formFields": [],
-      "selectorAssemblyId": "162c4579eee",
+      "selectorAssemblyId": "资源类型",
       "enableCreateItem": false,
       "enableInsertAndCreateItem": false
     }

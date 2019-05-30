@@ -9,6 +9,7 @@
   "gridHeaderVisiable": true,
   "gridHasHScroll": true,
   "gridHasVScroll": true,
+  "gridFix": 0,
   "gridPageControl": true,
   "gridDataSetService": "com.bizvisionsoft.service.UserService",
   "gridDataSetBundleId": "",
@@ -164,5 +165,14 @@
   "queryBuilderBundle": "com.bizvisionsoft.pms",
   "queryBuilderClass": "com.bizvisionsoft.bruiengine.app.user.UserQueryBuilder",
   "hasTitlebar": true,
-  "disableInitLoadData": false
+  "disableInitLoadData": false,
+  "sortFields": [
+    {
+      "id": "16a8af14632",
+      "name": "name",
+      "text": "ÐÕÃû",
+      "type": "ÅÅÐò×Ö¶Î",
+      "formFields": []
+    }
+  ]
 }

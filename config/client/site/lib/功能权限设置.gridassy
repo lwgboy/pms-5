@@ -148,5 +148,6 @@
     }
   ],
   "hasTitlebar": true,
-  "disableInitLoadData": false
+  "disableInitLoadData": false,
+  "sortFields": []
 }
