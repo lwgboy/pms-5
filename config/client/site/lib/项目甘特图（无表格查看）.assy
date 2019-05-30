@@ -1,0 +1,102 @@
+{
+  "id": "项目甘特图（无表格查看）",
+  "name": "项目甘特图（无表格查看）",
+  "title": "项目进展甘特图",
+  "description": "显示实际进度于计划进度拼合",
+  "layout": [],
+  "type": "gantt",
+  "stickerTitle": "进度计划",
+  "folderId": "163b6fe6dac",
+  "gridDataSetService": "",
+  "gridDataSetBundleId": "com.bizvisionsoft.pms",
+  "gridDataSetClassName": "com.bizvisionsoft.pms.project.dataset.ReadonlyGantt",
+  "columns": [
+    {
+      "id": "1628f30623d",
+      "name": "text",
+      "text": "名称",
+      "alignment": 16384,
+      "width": 320,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "1628f3062e6",
+      "name": "start_date",
+      "text": "开始",
+      "alignment": 16384,
+      "width": 96,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "1628f306399",
+      "name": "end_date",
+      "text": "完成",
+      "alignment": 16384,
+      "width": 96,
+      "resizeable": true,
+      "columns": [],
+      "hide": true
+    },
+    {
+      "id": "1628f306450",
+      "name": "duration",
+      "text": "工期",
+      "alignment": 16384,
+      "width": 40,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "1628f3064f7",
+      "name": "plan_start",
+      "text": "计划开始",
+      "alignment": 16384,
+      "width": 96,
+      "resizeable": true,
+      "columns": [],
+      "hide": true
+    },
+    {
+      "id": "1628f3065a0",
+      "name": "plan_finish",
+      "text": "计划完成",
+      "alignment": 16384,
+      "width": 96,
+      "resizeable": true,
+      "columns": [],
+      "hide": true
+    },
+    {
+      "id": "1628f306edd",
+      "name": "progress",
+      "text": "进展",
+      "alignment": 16384,
+      "width": 80,
+      "resizeable": true,
+      "columns": [],
+      "hide": true
+    }
+  ],
+  "actions": [
+    {
+      "id": "163075214d6",
+      "name": "打开项目甘特图",
+      "image": "/img/right_w.svg",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.work.gantt.action.OpenGantt",
+      "switchContentToAssemblyId": "项目进展甘特图",
+      "style": "info",
+      "type": "switch",
+      "verticalSpan": 0
+    }
+  ],
+  "rowActions": [],
+  "readonly": true,
+  "ganttTimeScaleType": "year-month-week",
+  "eventHandlerBundleId": "com.bizvisionsoft.pms",
+  "eventHandlerClassName": "com.bizvisionsoft.pms.work.gantt.event.EventHandler",
+  "headActions": [],
+  "disableInitLoadData": false
+}

@@ -1,0 +1,248 @@
+{
+  "id": "进度计划和监控（查看）",
+  "name": "进度计划和监控（查看）",
+  "layout": [],
+  "type": "grid",
+  "stickerTitle": "项目进度计划和监控",
+  "folderId": "1631b7e24e7",
+  "gridAutoExpandLevel": 2,
+  "gridMarkupEnabled": true,
+  "gridLineVisiable": true,
+  "gridHeaderVisiable": true,
+  "gridHasHScroll": true,
+  "gridHasVScroll": true,
+  "gridRenderBundleId": "com.bizvisionsoft.pms",
+  "gridRenderClassName": "com.bizvisionsoft.pms.work.ScheduleRender",
+  "gridDataSetBundleId": "com.bizvisionsoft.pms",
+  "gridDataSetClassName": "com.bizvisionsoft.pms.project.dataset.ProjectSchedule",
+  "columns": [
+    {
+      "id": "1631b8413df",
+      "name": "name",
+      "text": "工作名称",
+      "alignment": 16384,
+      "width": 240,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "1631b83b50d",
+      "name": "wbsCode",
+      "text": "WBS",
+      "alignment": 16384,
+      "width": 96,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "163bdf56937",
+      "name": "manageLevelHtml",
+      "text": "级\u003cbr/\u003e别",
+      "alignment": 16777216,
+      "width": 40,
+      "minimumWidth": 40,
+      "columns": [],
+      "markupEnabled": true
+    },
+    {
+      "id": "163bdd5b174",
+      "name": "milestoneIcon",
+      "text": "里\u003cbr/\u003e程\u003cbr/\u003e碑",
+      "alignment": 16777216,
+      "width": 40,
+      "minimumWidth": 40,
+      "columns": [],
+      "markupEnabled": true
+    },
+    {
+      "id": "16391220e0d",
+      "name": "计划",
+      "text": "计划",
+      "alignment": 16384,
+      "width": 80,
+      "resizeable": true,
+      "columns": [
+        {
+          "id": "1631b8469c7",
+          "name": "planStart",
+          "text": "开始",
+          "alignment": 16777216,
+          "width": 96,
+          "resizeable": true,
+          "detail": true,
+          "summary": true,
+          "columns": [],
+          "format": "yyyy-MM-dd"
+        },
+        {
+          "id": "1631b846a6e",
+          "name": "planFinish",
+          "text": "完成",
+          "alignment": 16777216,
+          "width": 96,
+          "resizeable": true,
+          "detail": true,
+          "summary": true,
+          "columns": [],
+          "format": "yyyy-MM-dd"
+        },
+        {
+          "id": "1631b8556a6",
+          "name": "planDuration",
+          "text": "工期",
+          "alignment": 131072,
+          "width": 52,
+          "resizeable": true,
+          "detail": true,
+          "columns": []
+        },
+        {
+          "id": "1631b85c485",
+          "name": "planWorks",
+          "text": "工时",
+          "alignment": 131072,
+          "width": 72,
+          "resizeable": true,
+          "detail": true,
+          "columns": []
+        }
+      ]
+    },
+    {
+      "id": "16391220ec6",
+      "name": "实际",
+      "text": "实际",
+      "alignment": 16384,
+      "width": 80,
+      "resizeable": true,
+      "columns": [
+        {
+          "id": "1631b8469c7",
+          "name": "actualStart",
+          "text": "开始",
+          "alignment": 16777216,
+          "width": 96,
+          "resizeable": true,
+          "detail": true,
+          "summary": true,
+          "columns": [],
+          "format": "yyyy-MM-dd"
+        },
+        {
+          "id": "1631b846a6e",
+          "name": "actualFinish",
+          "text": "完成",
+          "alignment": 16777216,
+          "width": 96,
+          "resizeable": true,
+          "detail": true,
+          "summary": true,
+          "columns": [],
+          "format": "yyyy-MM-dd"
+        },
+        {
+          "id": "1631b8556a6",
+          "name": "actualDuration",
+          "text": "工期",
+          "alignment": 131072,
+          "width": 52,
+          "resizeable": true,
+          "detail": true,
+          "columns": []
+        },
+        {
+          "id": "1631b85c485",
+          "name": "actualWorks",
+          "text": "工时",
+          "alignment": 131072,
+          "width": 72,
+          "resizeable": true,
+          "detail": true,
+          "columns": []
+        }
+      ]
+    },
+    {
+      "id": "163be14ffcd",
+      "name": "warningIcon",
+      "text": "进度\u003cbr/\u003e状态",
+      "alignment": 16777216,
+      "width": 52,
+      "minimumWidth": 52,
+      "columns": [],
+      "markupEnabled": true
+    },
+    {
+      "id": "1631b86522d",
+      "name": "chargerInfoWithDistributeIcon",
+      "text": "负责人",
+      "alignment": 16384,
+      "width": 120,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "163bdf43ff5",
+      "name": "assignerInfo",
+      "text": "指派者",
+      "alignment": 16384,
+      "width": 64,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "16391220f5e",
+      "name": "指标",
+      "text": "指标",
+      "alignment": 16384,
+      "width": 80,
+      "resizeable": true,
+      "expanded": true,
+      "columns": [
+        {
+          "id": "1638c2da985",
+          "name": "war",
+          "text": "工作量完成",
+          "alignment": 131072,
+          "width": 88,
+          "resizeable": true,
+          "detail": true,
+          "summary": true,
+          "columns": [],
+          "format": "0.0%"
+        },
+        {
+          "id": "1638c2daa69",
+          "name": "dar",
+          "text": "工期完成",
+          "alignment": 131072,
+          "width": 80,
+          "resizeable": true,
+          "detail": true,
+          "summary": true,
+          "columns": [],
+          "format": "0.0%"
+        },
+        {
+          "id": "1638c428e59",
+          "name": "sar",
+          "text": "进度完成",
+          "alignment": 131072,
+          "width": 80,
+          "resizeable": true,
+          "detail": true,
+          "summary": true,
+          "columns": [],
+          "format": "0.0%"
+        }
+      ],
+      "noToggleGridColumnGroup": true
+    }
+  ],
+  "fields": [],
+  "actions": [],
+  "rowActions": [],
+  "hasTitlebar": true,
+  "disableInitLoadData": false,
+  "sortFields": []
+}

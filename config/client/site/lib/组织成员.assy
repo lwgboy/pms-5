@@ -1,0 +1,124 @@
+{
+  "id": "组织成员",
+  "name": "组织成员",
+  "layout": [],
+  "type": "grid",
+  "stickerTitle": "组织成员",
+  "folderId": "162bd9c7da4",
+  "gridLineVisiable": true,
+  "gridHeaderVisiable": true,
+  "gridHasHScroll": true,
+  "gridHasVScroll": true,
+  "gridPageControl": true,
+  "gridDataSetService": "",
+  "gridDataSetBundleId": "com.bizvisionsoft.pms",
+  "gridDataSetClassName": "com.bizvisionsoft.pms.org.dataset.OrganizationDataSet",
+  "columns": [
+    {
+      "id": "162b8355315",
+      "name": "userId",
+      "text": "账号",
+      "alignment": 16384,
+      "width": 260,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "162b83a4bc4",
+      "name": "activated",
+      "text": "激活",
+      "alignment": 16384,
+      "width": 60,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "162b8355508",
+      "name": "name",
+      "text": "姓名",
+      "alignment": 16384,
+      "width": 160,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "162b83556bb",
+      "name": "tel",
+      "text": "办公电话",
+      "alignment": 16384,
+      "width": 240,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "162b8355807",
+      "name": "mobile",
+      "text": "移动电话",
+      "alignment": 16384,
+      "width": 240,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "162b8355770",
+      "name": "email",
+      "text": "电子邮件",
+      "alignment": 16384,
+      "width": 240,
+      "resizeable": true,
+      "columns": []
+    }
+  ],
+  "fields": [
+    {
+      "id": "162b943bbc3",
+      "name": "查询条件",
+      "type": "标签页",
+      "formFields": [
+        {
+          "id": "162b93dcde9",
+          "name": "userId",
+          "text": "账号",
+          "type": "文本输入框（查询）",
+          "formFields": []
+        },
+        {
+          "id": "162b93dcd10",
+          "name": "name",
+          "text": "姓名",
+          "type": "文本输入框（查询）",
+          "formFields": [],
+          "textQueryType": "字符串"
+        }
+      ]
+    }
+  ],
+  "gridAutoColumnWidth": true,
+  "actions": [
+    {
+      "id": "162b95296ab",
+      "name": "添加用户",
+      "image": "/img/add_16_w.svg",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.org.action.AddMember",
+      "style": "normal",
+      "type": "customized",
+      "verticalSpan": 0
+    }
+  ],
+  "rowActions": [
+    {
+      "id": "162ba98e49e",
+      "name": "移除成员",
+      "image": "/img/minus_16_w.svg",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.org.action.RemoveMember",
+      "style": "warning",
+      "type": "customized",
+      "verticalSpan": 0
+    }
+  ],
+  "hasTitlebar": true,
+  "displayInputLabelInTitlebar": true,
+  "disableInitLoadData": false
+}

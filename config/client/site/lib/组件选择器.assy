@@ -1,0 +1,50 @@
+{
+  "id": "组件选择器",
+  "name": "组件选择器",
+  "layout": [],
+  "type": "grid",
+  "stickerTitle": "",
+  "folderId": "16897fe7470",
+  "gridAutoExpandLevel": -1,
+  "gridLineVisiable": true,
+  "gridHeaderVisiable": true,
+  "gridHasHScroll": true,
+  "gridHasVScroll": true,
+  "gridDataSetService": "",
+  "gridDataSetBundleId": "com.bizvisionsoft.onlinedesigner",
+  "gridDataSetClassName": "com.bizvisionsoft.onlinedesigner.SiteService",
+  "columns": [
+    {
+      "id": "162c9b54322",
+      "name": "_elementType",
+      "text": "类型",
+      "alignment": 16384,
+      "width": 80,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "162c9ac6685",
+      "name": "name",
+      "text": "名称",
+      "alignment": 16384,
+      "width": 160,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "162c9ac67a0",
+      "name": "title",
+      "text": "标题",
+      "alignment": 16384,
+      "width": 240,
+      "resizeable": true,
+      "columns": []
+    }
+  ],
+  "fields": [],
+  "gridAutoColumnWidth": true,
+  "actions": [],
+  "rowActions": [],
+  "disableInitLoadData": false
+}

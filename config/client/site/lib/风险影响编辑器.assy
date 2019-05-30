@@ -1,0 +1,74 @@
+{
+  "id": "风险影响编辑器",
+  "name": "风险影响编辑器",
+  "title": "风险影响",
+  "layout": [],
+  "type": "editor",
+  "folderId": "1646952b89d",
+  "fields": [
+    {
+      "id": "163830cf949",
+      "name": "work",
+      "text": "WBS要素",
+      "type": "对象选择框",
+      "formFields": [],
+      "required": true,
+      "selectorAssemblyId": "项目WBS"
+    },
+    {
+      "id": "1655123ad79",
+      "name": "tips",
+      "text": "影响描述应填写该风险项是如何影响本工作的。\n例如此处可填写：在A器件质量存在问题的情况下，\n我们需要寻求一家替代的供应商，预算方面应考虑增加5万，时间上需预留30天。",
+      "type": "横幅",
+      "formFields": [],
+      "height": 72,
+      "staticContent": true
+    },
+    {
+      "id": "163830e3509",
+      "name": "description",
+      "text": "影响描述",
+      "type": "多行文本框",
+      "formFields": [],
+      "required": true
+    },
+    {
+      "id": "1643480bbfa",
+      "name": "info",
+      "text": "正面影响是指成本削减或进度提前的机会。\n负面影响是指成本增加或进度滞后的可能。\n当出现综合情况时，应考虑是正面还是负面为主。\n无论是正面或负面影响，成本削减或进度提前都应填写负数，反之填写正数。",
+      "type": "横幅",
+      "formFields": [],
+      "height": 72,
+      "staticContent": true
+    },
+    {
+      "id": "1638328e9f2",
+      "name": "新字段5",
+      "type": "行",
+      "formFields": [
+        {
+          "id": "163830e7cac",
+          "name": "timeInf",
+          "text": "工期影响(天)",
+          "type": "单行文本框",
+          "formFields": [],
+          "required": true,
+          "textRestrict": "整数"
+        },
+        {
+          "id": "163830f2498",
+          "name": "costInf",
+          "text": "成本影响(万)",
+          "type": "单行文本框",
+          "formFields": [],
+          "required": true,
+          "textRestrict": "浮点"
+        }
+      ]
+    }
+  ],
+  "actions": [],
+  "smallEditor": true,
+  "addToParentContext": true,
+  "disableInitLoadData": false
+}

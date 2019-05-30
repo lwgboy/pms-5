@@ -1,0 +1,9 @@
+{
+  "id": "项目文件夹选择",
+  "name": "项目文件夹选择",
+  "layout": [],
+  "type": "selector",
+  "folderId": "163dac10775",
+  "selectorGridAssemblyId": "项目文件夹选择列表",
+  "disableInitLoadData": false
+}

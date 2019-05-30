@@ -1,0 +1,42 @@
+{
+  "id": "临近性指标编辑",
+  "name": "临近性指标编辑",
+  "title": "临近性指标",
+  "layout": [],
+  "type": "editor",
+  "folderId": "168403fc076",
+  "fields": [
+    {
+      "id": "16840dd22a5",
+      "name": "index",
+      "text": "数值",
+      "type": "数字输入框",
+      "formFields": [],
+      "spinnerMax": 10,
+      "spinnerMin": 1,
+      "spinnerInc": 1,
+      "spinnerPageInc": 2
+    },
+    {
+      "id": "1638689f83c",
+      "name": "range",
+      "text": "天数范围",
+      "type": "数值范围输入",
+      "formFields": [],
+      "required": true,
+      "textRangeLimitMinValue": true
+    },
+    {
+      "id": "163868b730a",
+      "name": "text",
+      "text": "指标文本",
+      "type": "单行文本框",
+      "formFields": [],
+      "required": true
+    }
+  ],
+  "actions": [],
+  "smallEditor": true,
+  "tinyEditor": true,
+  "disableInitLoadData": false
+}

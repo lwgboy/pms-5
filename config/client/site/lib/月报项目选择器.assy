@@ -1,0 +1,9 @@
+{
+  "id": "月报项目选择器",
+  "name": "月报项目选择器",
+  "layout": [],
+  "type": "selector",
+  "folderId": "163f7eed09c",
+  "selectorGridAssemblyId": "我报告的项目选择列表-月报",
+  "disableInitLoadData": false
+}

@@ -1,0 +1,27 @@
+{
+  "id": "项目科目实际成本",
+  "name": "项目科目实际成本",
+  "title": "",
+  "bundleId": "com.bizvisionsoft.pms",
+  "className": "com.bizvisionsoft.pms.cbs.assembly.CostSubject",
+  "layout": [],
+  "folderId": "16390fab944",
+  "gridDataSetService": "com.bizvisionsoft.service.CBSService",
+  "actions": [],
+  "rowActions": [
+    {
+      "id": "165340adb64",
+      "name": "编辑",
+      "text": "编辑",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.cbs.action.EditCBSSubjectCost",
+      "forceText": true,
+      "style": "",
+      "objectBehavier": true,
+      "type": "customized",
+      "role": "PM#PA#PFM",
+      "verticalSpan": 0
+    }
+  ],
+  "disableInitLoadData": false
+}

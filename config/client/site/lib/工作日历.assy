@@ -1,0 +1,139 @@
+{
+  "id": "工作日历",
+  "name": "工作日历",
+  "layout": [],
+  "type": "grid",
+  "stickerTitle": "节假日和工作时间设置",
+  "folderId": "162bd9e9635",
+  "gridLineVisiable": true,
+  "gridHeaderVisiable": true,
+  "gridHasHScroll": true,
+  "gridHasVScroll": true,
+  "gridDataSetService": "com.bizvisionsoft.service.CommonService",
+  "columns": [
+    {
+      "id": "162c73aa337",
+      "name": "id",
+      "text": "编号",
+      "alignment": 16384,
+      "width": 80,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "162c73aa432",
+      "name": "name",
+      "text": "名称",
+      "alignment": 16384,
+      "width": 160,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "16762890c09",
+      "name": "overtimeRate",
+      "text": "加班倍率",
+      "alignment": 16384,
+      "width": 80,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "162c73aa50a",
+      "name": "description",
+      "text": "说明",
+      "alignment": 16384,
+      "width": 320,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "162cc7cc749",
+      "name": "enabled",
+      "text": "启用",
+      "alignment": 16384,
+      "width": 60,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "162cc7d34c9",
+      "name": "global",
+      "text": "全局日历",
+      "alignment": 16384,
+      "width": 60,
+      "resizeable": true,
+      "columns": []
+    }
+  ],
+  "fields": [],
+  "gridAutoColumnWidth": true,
+  "actions": [
+    {
+      "id": "162c73e4687",
+      "name": "创建工作日历",
+      "image": "/img/add_16_w.svg",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.equipment.action.CreateEquipment",
+      "style": "normal",
+      "editorAssemblyId": "工作日历编辑器",
+      "type": "insert",
+      "createActionNewInstanceBundleId": "com.bizvisionsoft.service",
+      "createActionNewInstanceClassName": "com.bizvisionsoft.service.model.Calendar",
+      "verticalSpan": 0
+    }
+  ],
+  "rowActions": [
+    {
+      "id": "162cc95125c",
+      "name": "添加",
+      "image": "/img/add_16_w.svg",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.calendar.action.AddWorktimeToCalendar",
+      "style": "normal",
+      "children": [],
+      "objectBehavier": true,
+      "type": "customized",
+      "parameters": "{\"editor\":\"工作时间编辑器\"}"
+    },
+    {
+      "id": "167628bef6a",
+      "name": "添加区间",
+      "text": "",
+      "tooltips": "添加区间",
+      "image": "/img/calendar_w.svg",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.calendar.action.AddWorktimeToCalendar",
+      "style": "normal",
+      "objectBehavier": true,
+      "type": "customized",
+      "parameters": "{\"editor\":\"区间工作时间编辑器\"}"
+    },
+    {
+      "id": "162c73d4502",
+      "name": "编辑",
+      "image": "/img/edit_w.svg",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.calendar.action.EditElement",
+      "style": "normal",
+      "editorAssemblyId": "工作日历编辑器",
+      "objectBehavier": true,
+      "type": "customized",
+      "verticalSpan": 0
+    },
+    {
+      "id": "162c73d4748",
+      "name": "删除",
+      "image": "/img/minus_16_w.svg",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.calendar.action.DeleteElement",
+      "style": "warning",
+      "objectBehavier": true,
+      "type": "customized",
+      "verticalSpan": 0
+    }
+  ],
+  "hasTitlebar": true,
+  "disableInitLoadData": false,
+  "sortFields": []
+}

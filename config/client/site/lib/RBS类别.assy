@@ -1,0 +1,81 @@
+{
+  "id": "RBS类别",
+  "name": "RBS类别",
+  "layout": [],
+  "type": "grid",
+  "stickerTitle": "风险分解结构",
+  "folderId": "1637e5897d4",
+  "gridLineVisiable": true,
+  "gridHeaderVisiable": true,
+  "gridHasVScroll": true,
+  "gridDataSetService": "com.bizvisionsoft.service.RiskService",
+  "columns": [
+    {
+      "id": "1637e59194f",
+      "name": "id",
+      "text": "编号",
+      "alignment": 16384,
+      "width": 80,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "1637e591d03",
+      "name": "name",
+      "text": "名称",
+      "alignment": 16384,
+      "width": 240,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "1637e5d12f5",
+      "name": "description",
+      "text": "描述",
+      "alignment": 16384,
+      "width": 240,
+      "resizeable": true,
+      "columns": []
+    }
+  ],
+  "fields": [],
+  "gridAutoColumnWidth": true,
+  "actions": [
+    {
+      "id": "1637e5a818e",
+      "name": "创建RBS分类",
+      "text": "创建分类项",
+      "image": "",
+      "forceText": true,
+      "style": "normal",
+      "editorAssemblyId": "RBS类别编辑器",
+      "type": "insert",
+      "createActionNewInstanceBundleId": "com.bizvisionsoft.service",
+      "createActionNewInstanceClassName": "com.bizvisionsoft.service.model.RBSType",
+      "verticalSpan": 0
+    }
+  ],
+  "rowActions": [
+    {
+      "id": "1637e5a1f38",
+      "name": "编辑",
+      "image": "/img/edit_w.svg",
+      "style": "normal",
+      "editorAssemblyId": "RBS类别编辑器",
+      "editorAssemblyEditable": true,
+      "type": "edit",
+      "verticalSpan": 0
+    },
+    {
+      "id": "1637e59cc90",
+      "name": "删除",
+      "image": "/img/minus_16_w.svg",
+      "style": "warning",
+      "type": "delete",
+      "verticalSpan": 0
+    }
+  ],
+  "hasTitlebar": true,
+  "disableInitLoadData": false,
+  "sortFields": []
+}

@@ -1,0 +1,30 @@
+{
+  "id": "测试评估1-自评表单",
+  "name": "测试评估1-自评表单",
+  "title": "测试评估1-自评表单",
+  "layout": [],
+  "type": "editor",
+  "folderId": "16a3919d17a",
+  "fields": [
+    {
+      "id": "16a639239d1",
+      "name": "performance",
+      "text": "自评内容",
+      "type": "多行文本框",
+      "verticalLabel": true,
+      "formFields": [],
+      "grabVertical": true
+    },
+    {
+      "id": "16a63cf32fe",
+      "name": "reason",
+      "text": "事由",
+      "type": "单行文本框",
+      "formFields": [],
+      "tooltips": "显示传入到本任务的内容"
+    }
+  ],
+  "actions": [],
+  "smallEditor": true,
+  "tinyEditor": true
+}

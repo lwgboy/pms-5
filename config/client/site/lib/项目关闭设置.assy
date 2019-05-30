@@ -1,0 +1,227 @@
+{
+  "id": "项目关闭设置",
+  "name": "项目关闭设置",
+  "title": "项目关闭设置",
+  "layout": [],
+  "type": "editor",
+  "folderId": "16782e72b28",
+  "fields": [
+    {
+      "id": "167c940e980",
+      "name": "info5",
+      "text": "\u003cdiv class\u003d\u0027label_title\u0027\u003e项目要素完整性\u003c/div\u003e\n\u003cspan class\u003d\u0027layui-badge\u0027\u003e要求\u003c/span\u003e，缺少要素时，不允许关闭项目；\n\u003cspan class\u003d\u0027layui-badge\u0027\u003e询问\u003c/span\u003e，缺少要素时，系统询问，由项目经理决定；\n\u003cspan class\u003d\u0027layui-badge layui-bg-green\u0027\u003e忽略\u003c/span\u003e，默认。\n",
+      "type": "横幅",
+      "formFields": [],
+      "height": 0,
+      "staticContent": true
+    },
+    {
+      "id": "167bae52f67",
+      "name": "新字段35",
+      "type": "行",
+      "formFields": [
+        {
+          "id": "167bae535b9",
+          "name": "cost",
+          "text": "项目成本",
+          "type": "单选框",
+          "formFields": [],
+          "optionValue": "",
+          "optionText": "要求#询问#忽略",
+          "radioStyle": "横向分段（默认）"
+        },
+        {
+          "id": "167bae53686",
+          "name": "resource",
+          "text": "资源用量",
+          "type": "单选框",
+          "formFields": [],
+          "optionValue": "",
+          "optionText": "要求#询问#忽略",
+          "radioStyle": "横向分段（默认）"
+        },
+        {
+          "id": "167bae5383b",
+          "name": "material",
+          "text": "成品物料",
+          "type": "单选框",
+          "formFields": [],
+          "optionValue": "",
+          "optionText": "要求#询问#忽略",
+          "radioStyle": "横向分段（默认）"
+        }
+      ]
+    },
+    {
+      "id": "167bae464e0",
+      "name": "info3",
+      "text": "\u003cdiv class\u003d\u0027label_title\u0027\u003e未开始的工作\u003c/div\u003e\n\u003cspan class\u003d\u0027layui-badge\u0027\u003e禁止\u003c/span\u003e，不允许项目关闭；\n\u003cspan class\u003d\u0027layui-badge\u0027\u003e询问\u003c/span\u003e，系统询问，由项目经理决定；\n\u003cspan class\u003d\u0027layui-badge layui-bg-green\u0027\u003e删除\u003c/span\u003e，默认，自动删除未开始工作。",
+      "type": "横幅",
+      "formFields": [],
+      "height": 0,
+      "staticContent": true
+    },
+    {
+      "id": "167bae4ed9f",
+      "name": "startAll",
+      "text": "所有工作",
+      "type": "单选框",
+      "formFields": [],
+      "optionValue": "",
+      "optionText": "禁止#询问#删除",
+      "radioStyle": "横向分段（默认）"
+    },
+    {
+      "id": "167bae4743a",
+      "name": "新字段21",
+      "type": "行",
+      "formFields": [
+        {
+          "id": "167bae46e13",
+          "name": "startL1",
+          "text": "1级管理节点",
+          "type": "单选框",
+          "formFields": [],
+          "optionValue": "",
+          "optionText": "禁止#询问#删除",
+          "radioStyle": "横向分段（默认）"
+        },
+        {
+          "id": "167bae46ece",
+          "name": "startL2",
+          "text": "2级管理节点",
+          "type": "单选框",
+          "formFields": [],
+          "optionValue": "",
+          "optionText": "禁止#询问#删除",
+          "radioStyle": "横向分段（默认）"
+        },
+        {
+          "id": "167bae4ecec",
+          "name": "startL3",
+          "text": "3级管理节点",
+          "type": "单选框",
+          "formFields": [],
+          "optionValue": "",
+          "optionText": "禁止#询问#删除",
+          "radioStyle": "横向分段（默认）"
+        }
+      ]
+    },
+    {
+      "id": "167bae4f66c",
+      "name": "info2",
+      "text": "\u003cdiv class\u003d\u0027label_title\u0027\u003e未完成的工作\u003c/div\u003e\n\u003cspan class\u003d\u0027layui-badge\u0027\u003e禁止\u003c/span\u003e，不允许项目关闭；\n\u003cspan class\u003d\u0027layui-badge\u0027\u003e询问\u003c/span\u003e，系统询问，由项目经理决定；\n\u003cspan class\u003d\u0027layui-badge layui-bg-green\u0027\u003e完成\u003c/span\u003e，默认，自动完成。",
+      "type": "横幅",
+      "formFields": [],
+      "height": 0,
+      "staticContent": true
+    },
+    {
+      "id": "167bae5114d",
+      "name": "新字段28",
+      "type": "行",
+      "formFields": [
+        {
+          "id": "167bae5177a",
+          "name": "finishAll",
+          "text": "所有工作",
+          "type": "单选框",
+          "formFields": [],
+          "optionValue": "",
+          "optionText": "禁止#询问#完工",
+          "radioStyle": "横向分段（默认）"
+        },
+        {
+          "id": "167c57b2a5d",
+          "name": "finishMilestone",
+          "text": "里程碑",
+          "type": "单选框",
+          "formFields": [],
+          "optionValue": "",
+          "optionText": "禁止#询问#完工",
+          "radioStyle": "横向分段（默认）"
+        }
+      ]
+    },
+    {
+      "id": "167bae4fc44",
+      "name": "新字段25",
+      "type": "行",
+      "formFields": [
+        {
+          "id": "167bae50acc",
+          "name": "finishL1",
+          "text": "1级管理节点",
+          "type": "单选框",
+          "formFields": [],
+          "optionValue": "",
+          "optionText": "禁止#询问#完工",
+          "radioStyle": "横向分段（默认）"
+        },
+        {
+          "id": "167bae50c10",
+          "name": "finishL2",
+          "text": "2级管理节点",
+          "type": "单选框",
+          "formFields": [],
+          "optionValue": "",
+          "optionText": "禁止#询问#完工",
+          "radioStyle": "横向分段（默认）"
+        },
+        {
+          "id": "167bae516c2",
+          "name": "finishL3",
+          "text": "3级管理节点",
+          "type": "单选框",
+          "formFields": [],
+          "optionValue": "",
+          "optionText": "禁止#询问#完工",
+          "radioStyle": "横向分段（默认）"
+        }
+      ]
+    },
+    {
+      "id": "167bae51f99",
+      "name": "info1",
+      "text": "\u003cdiv class\u003d\u0027label_title\u0027\u003e未确认的项目报告\u003c/div\u003e\n\u003cspan class\u003d\u0027layui-badge\u0027\u003e要求\u003c/span\u003e，要求确认报告后才能关闭项目；\n\u003cspan class\u003d\u0027layui-badge\u0027\u003e询问\u003c/span\u003e，系统询问，由项目经理决定；\n\u003cspan class\u003d\u0027layui-badge layui-bg-green\u0027\u003e确认\u003c/span\u003e，默认，报告自动确认。",
+      "type": "横幅",
+      "formFields": [],
+      "height": 0,
+      "staticContent": true
+    },
+    {
+      "id": "167bae52d93",
+      "name": "report",
+      "text": "项目报告",
+      "type": "单选框",
+      "formFields": [],
+      "optionValue": "",
+      "optionText": "要求#询问#确认",
+      "radioStyle": "横向分段（默认）",
+      "hideLabel": true
+    },
+    {
+      "id": "167c940ed2b",
+      "name": "info4",
+      "text": "\u003cdiv class\u003d\u0027label_title\u0027\u003e未关闭的项目变更\u003c/div\u003e\n\u003cspan class\u003d\u0027layui-badge\u0027\u003e要求\u003c/span\u003e，要求项目变更关闭后才能关闭项目；\n\u003cspan class\u003d\u0027layui-badge\u0027\u003e询问\u003c/span\u003e，系统询问，由项目经理决定；\n\u003cspan class\u003d\u0027layui-badge layui-bg-green\u0027\u003e关闭\u003c/span\u003e，默认，自动关闭变更。",
+      "type": "横幅",
+      "formFields": [],
+      "height": 0,
+      "staticContent": true
+    },
+    {
+      "id": "167bae52cdd",
+      "name": "change",
+      "text": "项目变更",
+      "type": "单选框",
+      "formFields": [],
+      "optionValue": "",
+      "optionText": "要求#询问#关闭",
+      "radioStyle": "横向分段（默认）",
+      "hideLabel": true
+    }
+  ],
+  "actions": [],
+  "disableInitLoadData": false
+}

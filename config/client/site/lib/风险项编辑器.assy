@@ -1,0 +1,148 @@
+{
+  "id": "风险项编辑器",
+  "name": "风险项编辑器",
+  "title": "风险项",
+  "layout": [],
+  "type": "editor",
+  "folderId": "1646952b89d",
+  "fields": [
+    {
+      "id": "16380e831b9",
+      "name": "rbsType",
+      "text": "风险类型",
+      "type": "对象选择框",
+      "formFields": [],
+      "required": true,
+      "selectorAssemblyId": "RBS类别"
+    },
+    {
+      "id": "16380e7915b",
+      "name": "name",
+      "text": "名称",
+      "type": "单行文本框",
+      "formFields": [],
+      "required": true
+    },
+    {
+      "id": "16380e7b222",
+      "name": "description",
+      "text": "风险描述",
+      "type": "单行文本框",
+      "formFields": [],
+      "required": true
+    },
+    {
+      "id": "1683d5bc18b",
+      "name": "result",
+      "text": "后果描述",
+      "type": "多行文本框",
+      "formFields": [],
+      "required": true
+    },
+    {
+      "id": "1683d5dbe8c",
+      "name": "新字段3",
+      "type": "行",
+      "formFields": [
+        {
+          "id": "16380e8ee27",
+          "name": "stage",
+          "text": "涉及阶段",
+          "type": "单行文本框",
+          "formFields": [],
+          "selectorAssemblyId": "阶段选择器列表"
+        },
+        {
+          "id": "16380f38d31",
+          "name": "forecast",
+          "text": "预测发生",
+          "type": "日期时间选择",
+          "formFields": [],
+          "required": true,
+          "dateType": "date"
+        }
+      ]
+    },
+    {
+      "id": "1683d61855c",
+      "name": "新字段4",
+      "type": "行",
+      "formFields": [
+        {
+          "id": "16381b0afbc",
+          "name": "probability",
+          "text": "发生概率(%)",
+          "type": "数字输入框",
+          "formFields": [],
+          "required": true,
+          "textRestrict": "浮点",
+          "spinnerMax": 100,
+          "spinnerMin": 1,
+          "spinnerInc": 1,
+          "spinnerPageInc": 10
+        },
+        {
+          "id": "16380f4583d",
+          "name": "detectable",
+          "text": "可检测性",
+          "type": "对象选择框",
+          "formFields": [],
+          "required": true,
+          "optionValue": "",
+          "optionText": "",
+          "radioStyle": "纵向",
+          "selectorAssemblyId": "可探测性级别",
+          "valueFieldName": "index"
+        }
+      ]
+    },
+    {
+      "id": "1683d65ae05",
+      "name": "新字段5",
+      "type": "行",
+      "formFields": [
+        {
+          "id": "16380effe7e",
+          "name": "timeInf",
+          "text": "工期影响(天)",
+          "type": "数字输入框",
+          "formFields": [],
+          "required": true,
+          "textRestrict": "整数",
+          "spinnerMax": 999999,
+          "spinnerMin": -999999,
+          "spinnerInc": 1,
+          "spinnerPageInc": 100
+        },
+        {
+          "id": "16380f0c77a",
+          "name": "costInf",
+          "text": "成本影响(万)",
+          "type": "数字输入框",
+          "formFields": [],
+          "required": true,
+          "textRestrict": "浮点",
+          "spinnerMax": 999999,
+          "spinnerMin": -999999,
+          "spinnerInc": 1,
+          "spinnerDigits": 1,
+          "spinnerPageInc": 100
+        }
+      ]
+    },
+    {
+      "id": "16380f1e5c3",
+      "name": "qtyInf",
+      "text": "质量影响",
+      "type": "下拉选择框",
+      "formFields": [],
+      "required": true,
+      "optionValue": "",
+      "optionText": "",
+      "radioStyle": "纵向"
+    }
+  ],
+  "actions": [],
+  "smallEditor": true,
+  "disableInitLoadData": false
+}

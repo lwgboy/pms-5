@@ -1,0 +1,31 @@
+{
+  "id": "编辑工作包-基本",
+  "name": "编辑工作包-基本",
+  "title": "工作包交付要求",
+  "layout": [],
+  "type": "editor",
+  "folderId": "1638c405264",
+  "fields": [
+    {
+      "id": "1636c464925",
+      "name": "description",
+      "text": "描述",
+      "type": "单行文本框",
+      "formFields": [],
+      "required": true
+    },
+    {
+      "id": "1636c469227",
+      "name": "charger",
+      "text": "负责人",
+      "type": "对象选择框",
+      "formFields": [],
+      "required": true,
+      "selectorAssemblyId": "用户选择列表"
+    }
+  ],
+  "actions": [],
+  "smallEditor": true,
+  "tinyEditor": true,
+  "disableInitLoadData": false
+}

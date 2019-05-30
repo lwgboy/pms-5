@@ -1,0 +1,72 @@
+{
+  "id": "问题智能分析",
+  "name": "问题智能分析",
+  "layout": [],
+  "type": "drillchart",
+  "stickerTitle": "检索知识库",
+  "folderId": "168987437fd",
+  "gridDataSetService": "com.bizvisionsoft.service.ProblemService",
+  "fields": [
+    {
+      "id": "168b99c4e7a",
+      "name": "keyword",
+      "text": "输入关键字",
+      "type": "多行文本框",
+      "verticalLabel": true,
+      "formFields": []
+    }
+  ],
+  "rowActions": [
+    {
+      "id": "168c40b04f7",
+      "name": "detail",
+      "text": "详细",
+      "image": "/img/info_w.svg",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.problem.action.AnlysisActions",
+      "style": "info",
+      "actionBehavier": true,
+      "type": "customized"
+    },
+    {
+      "id": "168c40c1e2e",
+      "name": "addERA",
+      "text": "复制到ERA",
+      "tooltips": "复制到当前问题的紧急应对行动计划",
+      "image": "/img/copy_w.svg",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.problem.action.AnlysisActions",
+      "style": "normal",
+      "actionBehavier": true,
+      "type": "customized",
+      "parameters": "{\"stage\":\"era\"}"
+    },
+    {
+      "id": "168cde02b79",
+      "name": "addICA",
+      "text": "复制到ICA",
+      "tooltips": "复制到当前问题的临时控制行动计划",
+      "image": "/img/copy_w.svg",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.problem.action.AnlysisActions",
+      "style": "normal",
+      "actionBehavier": true,
+      "type": "customized",
+      "parameters": "{\"stage\":\"ica\"}"
+    },
+    {
+      "id": "168cddf40b5",
+      "name": "addPCA",
+      "text": "复制到PCA",
+      "tooltips": "复制到当前问题的永久纠正措施",
+      "image": "/img/copy_w.svg",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.problem.action.AnlysisActions",
+      "style": "normal",
+      "actionBehavier": true,
+      "type": "customized",
+      "parameters": "{\"stage\":\"pca\"}"
+    }
+  ],
+  "hasTitlebar": true
+}

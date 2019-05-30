@@ -1,0 +1,300 @@
+{
+  "id": "项目甘特图（编辑）",
+  "name": "项目甘特图（编辑）",
+  "title": "进度计划甘特图",
+  "description": "项目计划编辑，显示计划开始和完成",
+  "layout": [],
+  "type": "gantt",
+  "stickerTitle": "进度计划甘特图",
+  "folderId": "1631b7e24e7",
+  "gridDataSetService": "",
+  "gridDataSetBundleId": "com.bizvisionsoft.pms",
+  "gridDataSetClassName": "com.bizvisionsoft.pms.project.dataset.EditableGantt",
+  "columns": [
+    {
+      "id": "1628f30623d",
+      "name": "text",
+      "text": "名称",
+      "alignment": 16384,
+      "width": 240,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "165f20bf306",
+      "name": "wbs",
+      "text": "WBS",
+      "alignment": 16384,
+      "width": 60,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "1652f18b25f",
+      "name": "chargerInfo",
+      "text": "负责",
+      "alignment": 16777216,
+      "width": 64,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "1628f3062e6",
+      "name": "start_date",
+      "text": "开始",
+      "alignment": 16384,
+      "width": 96,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "1628f306399",
+      "name": "end_date",
+      "text": "完成",
+      "alignment": 16384,
+      "width": 96,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "1628f306450",
+      "name": "duration",
+      "text": "工期",
+      "alignment": 16384,
+      "width": 40,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "166b3b29808",
+      "name": "predecessors",
+      "text": "前序",
+      "alignment": 16384,
+      "width": 80,
+      "resizeable": true,
+      "columns": [],
+      "hide": true
+    }
+  ],
+  "actions": [
+    {
+      "id": "16675f1e68c",
+      "name": "undo",
+      "tooltips": "Undo (CTRL+Z)",
+      "image": "/img/undo_w.svg",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.work.gantt.action.GanttEditUndo",
+      "style": "normal",
+      "type": "customized",
+      "shortcutKey": "CTRL+Z"
+    },
+    {
+      "id": "16675f18362",
+      "name": "redo",
+      "tooltips": "Redo (CTRL+Y)",
+      "image": "/img/redo_w.svg",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.work.gantt.action.GanttEditRedo",
+      "style": "normal",
+      "type": "customized",
+      "shortcutKey": "CTRL+Y"
+    },
+    {
+      "id": "1642b43ca2a",
+      "name": "关键路径",
+      "text": "关键路径",
+      "tooltips": "显示关键路径",
+      "image": "/img/path_w.svg",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.work.gantt.action.DisplayCriticalPath",
+      "style": "info",
+      "type": "customized",
+      "verticalSpan": 0
+    },
+    {
+      "id": "1642b44033b",
+      "name": "时间刻度",
+      "text": "时间刻度",
+      "tooltips": "调整甘特图时间刻度",
+      "image": "/img/scale_w.svg",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.work.gantt.action.TimeScaleSetting",
+      "style": "info",
+      "type": "customized",
+      "verticalSpan": 0
+    },
+    {
+      "id": "163440d0bbb",
+      "name": "检查",
+      "text": "检查",
+      "tooltips": "检查计划是否符合要求",
+      "image": "/img/check_w.svg",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.work.gantt.action.CheckSchedule",
+      "style": "info",
+      "type": "customized",
+      "verticalSpan": 0
+    },
+    {
+      "id": "163440d1637",
+      "name": "比较",
+      "text": "比较",
+      "tooltips": "将当前计划与检出的计划进行比较",
+      "image": "/img/compare_w.svg",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.work.gantt.action.CompareSchedule",
+      "style": "info",
+      "type": "customized",
+      "verticalSpan": 0
+    },
+    {
+      "id": "163440c2ab3",
+      "name": "排程",
+      "text": "排程",
+      "tooltips": "对当前计划运行排程",
+      "image": "/img/schedule_16_w.svg",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.work.gantt.action.Reschedule",
+      "style": "normal",
+      "type": "customized",
+      "shortcutKey": ""
+    },
+    {
+      "id": "164554de05f",
+      "name": "保存",
+      "text": "保存",
+      "tooltips": "保存当前的编辑 (CTRL+S)",
+      "image": "/img/save_w.svg",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.work.gantt.action.SaveGantt",
+      "style": "normal",
+      "type": "customized",
+      "shortcutKey": "CTRL+S"
+    },
+    {
+      "id": "16344200545",
+      "name": "取消",
+      "text": "取消",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.work.gantt.action.CancelSchedule",
+      "forceText": true,
+      "style": "serious",
+      "type": "customized",
+      "verticalSpan": 0
+    },
+    {
+      "id": "163440d2284",
+      "name": "提交",
+      "text": "提交",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.work.gantt.action.SubmitSchedule",
+      "forceText": true,
+      "style": "warning",
+      "type": "customized",
+      "verticalSpan": 0
+    }
+  ],
+  "rowActions": [
+    {
+      "id": "162519f7181",
+      "name": "创建子任务",
+      "text": "工作",
+      "image": "/img/add_w.svg",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.work.gantt.action.AddTask",
+      "style": "normal",
+      "objectBehavier": true,
+      "type": "customized",
+      "verticalSpan": 0
+    },
+    {
+      "id": "1645994736d",
+      "name": "创建里程碑",
+      "text": "里程碑",
+      "image": "/img/add_w.svg",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.work.gantt.action.AddMilestone",
+      "style": "normal",
+      "objectBehavier": true,
+      "type": "customized",
+      "verticalSpan": 0
+    },
+    {
+      "id": "164f54eab24",
+      "name": "添加WBS模块",
+      "text": "添加模块",
+      "image": "/img/module_w.svg",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.project.action.AddProjectModuleACT",
+      "style": "normal",
+      "objectBehavier": true,
+      "type": "customized",
+      "verticalSpan": 0
+    },
+    {
+      "id": "162516cb740",
+      "name": "编辑",
+      "text": "编辑",
+      "image": "/img/edit_w.svg",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.work.gantt.action.EditTask",
+      "style": "normal",
+      "type": "customized",
+      "verticalSpan": 0
+    },
+    {
+      "id": "165f9dc6a9c",
+      "name": "指定负责人",
+      "text": "指定负责人",
+      "image": "/img/appointment_w.svg",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.work.gantt.action.SetCharger",
+      "style": "normal",
+      "objectBehavier": true,
+      "type": "customized",
+      "verticalSpan": 0
+    },
+    {
+      "id": "162516ce0ff",
+      "name": "删除任务",
+      "text": "删除",
+      "image": "/img/minus_w.svg",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.work.gantt.action.DeleteTask",
+      "style": "warning",
+      "objectBehavier": true,
+      "type": "customized",
+      "verticalSpan": 0
+    }
+  ],
+  "ganttTimeScaleType": "year-month-week",
+  "ganttGridWidthCalculate": true,
+  "eventHandlerBundleId": "com.bizvisionsoft.pms",
+  "eventHandlerClassName": "com.bizvisionsoft.pms.work.gantt.event.EventHandler",
+  "headActions": [
+    {
+      "id": "1625087e381",
+      "name": "创建",
+      "text": "创建",
+      "image": "/img/add_16_w.svg",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.work.gantt.action.CreateRootTask",
+      "style": "normal",
+      "type": "customized",
+      "verticalSpan": 0
+    },
+    {
+      "id": "164f54c80fa",
+      "name": "添加WBS模块",
+      "text": "添加模块",
+      "image": "/img/module_w.svg",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.project.action.AddProjectModuleACT",
+      "style": "normal",
+      "type": "customized",
+      "verticalSpan": 0
+    }
+  ],
+  "hasTitlebar": true,
+  "disableInitLoadData": false
+}

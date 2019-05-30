@@ -1,0 +1,98 @@
+{
+  "id": "风险评分标准",
+  "name": "风险评分标准",
+  "layout": [],
+  "type": "grid",
+  "stickerTitle": "风险评分标准",
+  "folderId": "168403fc076",
+  "gridLineVisiable": true,
+  "gridHeaderVisiable": true,
+  "gridHasVScroll": true,
+  "gridDataSetService": "com.bizvisionsoft.service.RiskService",
+  "columns": [
+    {
+      "id": "1642fcfa60f",
+      "name": "name",
+      "text": "影响度",
+      "alignment": 16384,
+      "width": 80,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "1642fcfa75a",
+      "name": "score",
+      "text": "分值",
+      "alignment": 131072,
+      "width": 80,
+      "resizeable": true,
+      "columns": [],
+      "format": "0.00"
+    },
+    {
+      "id": "1642fcfa8c5",
+      "name": "timeImpact",
+      "text": "时间(天)",
+      "alignment": 131072,
+      "width": 80,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "1642fcfaa05",
+      "name": "costImpact",
+      "text": "成本(万元)",
+      "alignment": 131072,
+      "width": 80,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "1642fcfab50",
+      "name": "quanlityImpact",
+      "text": "质量",
+      "alignment": 16384,
+      "width": 80,
+      "resizeable": true,
+      "columns": []
+    }
+  ],
+  "fields": [],
+  "gridAutoColumnWidth": true,
+  "actions": [
+    {
+      "id": "1642feab208",
+      "name": "创建风险评分项",
+      "image": "/img/add_16_w.svg",
+      "style": "normal",
+      "editorAssemblyId": "风险评分项编辑器",
+      "type": "insert",
+      "createActionNewInstanceBundleId": "com.bizvisionsoft.service",
+      "createActionNewInstanceClassName": "com.bizvisionsoft.service.model.RiskScore",
+      "verticalSpan": 0
+    }
+  ],
+  "rowActions": [
+    {
+      "id": "1642fe99754",
+      "name": "编辑风险评分项",
+      "image": "/img/edit_w.svg",
+      "style": "normal",
+      "editorAssemblyId": "风险评分项编辑器",
+      "editorAssemblyEditable": true,
+      "type": "edit",
+      "verticalSpan": 0
+    },
+    {
+      "id": "1642fea4eba",
+      "name": "删除风险评分项",
+      "image": "/img/minus_16_w.svg",
+      "style": "warning",
+      "type": "delete",
+      "verticalSpan": 0
+    }
+  ],
+  "hasTitlebar": true,
+  "disableInitLoadData": false,
+  "sortFields": []
+}

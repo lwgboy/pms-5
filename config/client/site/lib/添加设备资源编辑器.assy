@@ -1,0 +1,68 @@
+{
+  "id": "添加设备资源编辑器",
+  "name": "添加设备资源编辑器",
+  "title": "添加设备资源",
+  "layout": [],
+  "type": "editor",
+  "folderId": "16396e136be",
+  "fields": [
+    {
+      "id": "1637d16e62a",
+      "name": "usedEquipRes",
+      "text": "设备资源",
+      "type": "对象选择框",
+      "formFields": [],
+      "selectorAssemblyId": "设备设施选择表格"
+    },
+    {
+      "id": "1639708d884",
+      "name": "新字段4",
+      "type": "行",
+      "formFields": [
+        {
+          "id": "1639708e6b3",
+          "name": "from",
+          "text": "使用时间：从",
+          "type": "日期时间选择",
+          "formFields": [],
+          "required": true,
+          "dateType": "date"
+        },
+        {
+          "id": "1639708e766",
+          "name": "to",
+          "text": "到",
+          "type": "日期时间选择",
+          "formFields": [],
+          "required": true,
+          "dateType": "date"
+        }
+      ]
+    },
+    {
+      "id": "1637d1b39da",
+      "name": "新字段4",
+      "type": "行",
+      "formFields": [
+        {
+          "id": "1637d179f9e",
+          "name": "actualBasicQty",
+          "text": "标准单位用量",
+          "type": "单行文本框",
+          "formFields": [],
+          "textRestrict": "浮点"
+        },
+        {
+          "id": "1637d180bed",
+          "name": "actualOverTimeQty",
+          "text": "加班单位用量",
+          "type": "单行文本框",
+          "formFields": [],
+          "textRestrict": "浮点"
+        }
+      ]
+    }
+  ],
+  "smallEditor": true,
+  "disableInitLoadData": false
+}

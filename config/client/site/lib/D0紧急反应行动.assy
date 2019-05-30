@@ -1,0 +1,51 @@
+{
+  "id": "D0紧急反应行动",
+  "name": "D0紧急反应行动",
+  "title": "",
+  "layout": [],
+  "type": "board",
+  "stickerTitle": "紧急反应行动",
+  "folderId": "168987781d7",
+  "gridAutoHeight": true,
+  "gridDataSetService": "com.bizvisionsoft.service.ProblemService",
+  "fields": [],
+  "actions": [
+    {
+      "id": "1681cc9cb36",
+      "name": "create",
+      "text": "",
+      "tooltips": "创建紧急反应行动",
+      "image": "/img/emergency_w.svg",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.problem.action.GenericAction",
+      "style": "normal",
+      "actionBehavier": true,
+      "type": "customized",
+      "parameters": "{\"render\":\"card\",\"stage\":\"era\"}"
+    },
+    {
+      "id": "16828de480a",
+      "name": "切换",
+      "image": "/img/right_w.svg",
+      "switchContentToAssemblyId": "D0紧急反应行动表格",
+      "style": "normal",
+      "type": "switch"
+    }
+  ],
+  "rowActions": [
+    {
+      "id": "1681f47b8c2",
+      "name": "操作",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.problem.action.GenericAction",
+      "type": "customized",
+      "parameters": "{\"render\":\"card\",\"stage\":\"era\"}"
+    }
+  ],
+  "hasTitlebar": true,
+  "disableStdQuery": true,
+  "parameters": "{\"render\":\"card\",\"stage\":\"era\"}",
+  "scrollLoadData": false,
+  "compactTitleBar": true,
+  "sortFields": []
+}

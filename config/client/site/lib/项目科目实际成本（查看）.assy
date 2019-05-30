@@ -1,0 +1,13 @@
+{
+  "id": "项目科目实际成本（查看）",
+  "name": "项目科目实际成本（查看）",
+  "title": "",
+  "bundleId": "com.bizvisionsoft.pms",
+  "className": "com.bizvisionsoft.pms.cbs.assembly.CostSubject",
+  "layout": [],
+  "folderId": "16390fab944",
+  "gridDataSetService": "com.bizvisionsoft.service.CBSService",
+  "actions": [],
+  "rowActions": [],
+  "disableInitLoadData": false
+}

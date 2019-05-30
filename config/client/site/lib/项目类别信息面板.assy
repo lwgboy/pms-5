@@ -1,0 +1,88 @@
+{
+  "id": "项目类别信息面板",
+  "name": "项目类别信息面板",
+  "title": "项目类别信息",
+  "layout": [],
+  "type": "infopad",
+  "stickerTitle": "类别和特性",
+  "folderId": "1631b7d0058",
+  "gridDataSetService": "",
+  "gridDataSetBundleId": "com.bizvisionsoft.pms",
+  "gridDataSetClassName": "com.bizvisionsoft.pms.project.dataset.ProjectInfo",
+  "fields": [
+    {
+      "id": "1639145b623",
+      "name": "新字段5",
+      "type": "行",
+      "formFields": [
+        {
+          "id": "1639145d458",
+          "name": "eps",
+          "text": "EPS",
+          "type": "文本标签",
+          "formFields": []
+        },
+        {
+          "id": "1639145db8f",
+          "name": "program",
+          "text": "项目集",
+          "type": "文本标签",
+          "formFields": []
+        }
+      ]
+    },
+    {
+      "id": "163055bd383",
+      "name": "catalog",
+      "text": "项目类型",
+      "type": "文本标签",
+      "formFields": []
+    },
+    {
+      "id": "163055d871c",
+      "name": "type1",
+      "text": "组织形式",
+      "type": "单选框",
+      "formFields": [],
+      "optionText": "纵向#横向#争取#自主",
+      "radioStyle": "横向分段（默认）"
+    },
+    {
+      "id": "163055d89c6",
+      "name": "type2_3",
+      "text": "合作方式",
+      "type": "文本标签",
+      "formFields": []
+    },
+    {
+      "id": "163055d8a7c",
+      "name": "arms",
+      "text": "产品特性",
+      "type": "多项勾选框",
+      "formFields": [],
+      "optionText": "智能#教育#功能#传统",
+      "radioStyle": "横向分段（默认）"
+    },
+    {
+      "id": "163055d8b24",
+      "name": "area",
+      "text": "目标地域",
+      "type": "多项勾选框",
+      "formFields": [],
+      "optionText": "欧美#亚洲#南美#非洲#城市#农村",
+      "radioStyle": "横向分段（默认）"
+    },
+    {
+      "id": "1639142d00e",
+      "name": "customer",
+      "text": "客户",
+      "type": "文本标签",
+      "formFields": []
+    }
+  ],
+  "actions": [],
+  "borderRight": true,
+  "borderBottom": true,
+  "hasTitlebar": true,
+  "disableInitLoadData": false
+}

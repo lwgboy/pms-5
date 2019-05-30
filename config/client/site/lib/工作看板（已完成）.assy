@@ -1,0 +1,122 @@
+{
+  "id": "工作看板（已完成）",
+  "name": "工作看板（已完成）",
+  "layout": [],
+  "type": "board",
+  "stickerTitle": "我的工作 - 已完成",
+  "folderId": "166bdf4dc3f",
+  "gridAutoHeight": true,
+  "gridDataSetService": "com.bizvisionsoft.service.WorkService",
+  "gridPageCount": 10,
+  "columns": [],
+  "fields": [
+    {
+      "id": "1670bd50d18",
+      "name": "projectNumber",
+      "text": "项目编号",
+      "type": "文本输入框（查询）",
+      "formFields": []
+    },
+    {
+      "id": "1670bd50c7e",
+      "name": "projectName",
+      "text": "项目名称",
+      "type": "文本输入框（查询）",
+      "formFields": []
+    },
+    {
+      "id": "1670bd50992",
+      "name": "fullName",
+      "text": "工作名称",
+      "type": "文本输入框（查询）",
+      "formFields": []
+    },
+    {
+      "id": "1670bd50dbc",
+      "name": "actualStart",
+      "text": "实际开始",
+      "type": "日期时间（查询）",
+      "formFields": []
+    },
+    {
+      "id": "1670bd50e52",
+      "name": "actualFinish",
+      "text": "实际完成",
+      "type": "日期时间（查询）",
+      "formFields": []
+    }
+  ],
+  "actions": [
+    {
+      "id": "1670bd63854",
+      "name": "filter",
+      "tooltips": "过滤所选日期完成的工作",
+      "image": "/img/calendar_w.svg",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.work.action.FilterWork",
+      "style": "info",
+      "type": "customized",
+      "parameters": "{\"filterType\":\"实际完成\"}"
+    },
+    {
+      "id": "167152bc2d4",
+      "name": "切换列表",
+      "image": "/img/right_w.svg",
+      "switchContentToAssemblyId": "我的工作（已完成）",
+      "style": "info",
+      "type": "switch",
+      "verticalSpan": 0
+    }
+  ],
+  "rowActions": [
+    {
+      "id": "1670d3f0380",
+      "name": "操作",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.work.WorkCardACT",
+      "type": "customized",
+      "verticalSpan": 0
+    }
+  ],
+  "hasTitlebar": true,
+  "disableInitLoadData": false,
+  "compactTitleBar": true,
+  "candidates": [],
+  "sortFields": [
+    {
+      "id": "167315a93ab",
+      "name": "projectNumber",
+      "text": "项目编号",
+      "type": "排序字段",
+      "formFields": []
+    },
+    {
+      "id": "167315a9452",
+      "name": "projectName",
+      "text": "项目名称",
+      "type": "排序字段",
+      "formFields": []
+    },
+    {
+      "id": "167315a90f1",
+      "name": "fullName",
+      "text": "工作名称",
+      "type": "排序字段",
+      "formFields": []
+    },
+    {
+      "id": "167315a91a8",
+      "name": "actualStart",
+      "text": "实际开始",
+      "type": "排序字段",
+      "formFields": []
+    },
+    {
+      "id": "167315a9281",
+      "name": "actualFinish",
+      "text": "实际完成",
+      "type": "排序字段",
+      "formFields": []
+    }
+  ]
+}

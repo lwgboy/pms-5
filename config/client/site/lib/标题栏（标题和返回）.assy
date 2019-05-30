@@ -1,0 +1,13 @@
+{
+  "id": "标题栏（标题和返回）",
+  "name": "标题栏（标题和返回）",
+  "title": "Brui在线开发环境",
+  "description": "用于侧边栏",
+  "bundleId": "com.bizvisionsoft.onlinedesigner",
+  "className": "com.bizvisionsoft.onlinedesigner.SidebarHeader",
+  "layout": [],
+  "folderId": "1631b42dbd8",
+  "actions": [],
+  "rowActions": [],
+  "disableInitLoadData": false
+}

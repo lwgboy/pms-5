@@ -1,0 +1,253 @@
+{
+  "id": "账户管理",
+  "name": "账户管理",
+  "layout": [],
+  "type": "grid",
+  "stickerTitle": "账户管理",
+  "folderId": "162dc3d9a67",
+  "gridLineVisiable": true,
+  "gridMultiSelection": true,
+  "gridHeaderVisiable": true,
+  "gridHasHScroll": true,
+  "gridHasVScroll": true,
+  "gridFix": 2,
+  "gridPageControl": true,
+  "gridDataSetService": "com.bizvisionsoft.service.UserService",
+  "gridDataSetBundleId": "",
+  "gridDataSetClassName": "",
+  "columns": [
+    {
+      "id": "161db823fab",
+      "name": "userId",
+      "text": "账号",
+      "alignment": 16384,
+      "width": 120,
+      "minimumWidth": 60,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "161db839f32",
+      "name": "name",
+      "text": "姓名",
+      "alignment": 16384,
+      "width": 120,
+      "minimumWidth": 60,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "16507be3c65",
+      "name": "trace",
+      "text": "跟踪",
+      "alignment": 16777216,
+      "width": 80,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "161db85fc50",
+      "name": "activated",
+      "text": "激活",
+      "alignment": 16777216,
+      "width": 60,
+      "minimumWidth": 60,
+      "columns": []
+    },
+    {
+      "id": "1640669a89e",
+      "name": "admin",
+      "text": "管理员",
+      "alignment": 16777216,
+      "width": 60,
+      "columns": []
+    },
+    {
+      "id": "16507b03fad",
+      "name": "consigner",
+      "text": "受托账号",
+      "alignment": 16384,
+      "width": 80,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "161db845953",
+      "name": "联系方式",
+      "text": "联系方式",
+      "alignment": 16777216,
+      "expanded": true,
+      "columns": [
+        {
+          "id": "161db85f29d",
+          "name": "tel",
+          "text": "办公电话",
+          "alignment": 16384,
+          "width": 240,
+          "minimumWidth": 80,
+          "resizeable": true,
+          "detail": true,
+          "summary": true,
+          "columns": []
+        },
+        {
+          "id": "161db85edfa",
+          "name": "email",
+          "text": "电子邮件",
+          "alignment": 16384,
+          "width": 240,
+          "minimumWidth": 80,
+          "resizeable": true,
+          "detail": true,
+          "summary": true,
+          "columns": []
+        },
+        {
+          "id": "161e5ad2a13",
+          "name": "mobile",
+          "text": "移动电话",
+          "alignment": 16384,
+          "width": 240,
+          "resizeable": true,
+          "detail": true,
+          "columns": []
+        }
+      ]
+    },
+    {
+      "id": "161e5aeb95c",
+      "name": "orgFullName",
+      "text": "所属组织",
+      "alignment": 16384,
+      "width": 260,
+      "resizeable": true,
+      "columns": []
+    }
+  ],
+  "fields": [
+    {
+      "id": "1622d6990eb",
+      "name": "userId",
+      "text": "账号",
+      "type": "文本输入框（查询）",
+      "formFields": [],
+      "textQueryType": "字符串"
+    },
+    {
+      "id": "1623122bf59",
+      "name": "name",
+      "text": "姓名",
+      "type": "文本输入框（查询）",
+      "formFields": [],
+      "textQueryType": "字符串"
+    },
+    {
+      "id": "16236b38381",
+      "name": "orgIds",
+      "text": "组织",
+      "type": "多个对象选择框（查询）",
+      "formFields": [],
+      "selectorAssemblyId": "组织选择器"
+    },
+    {
+      "id": "1623124fb98",
+      "name": "activated",
+      "text": "激活",
+      "type": "复选框（查询）",
+      "formFields": [],
+      "checkStyle": "开关（默认）"
+    }
+  ],
+  "actions": [
+    {
+      "id": "162bc86d504",
+      "name": "创建账户",
+      "text": "创建账户",
+      "bundleId": "com.bizvisionsoft.bruiengine",
+      "className": "com.bizvisionsoft.bruiengine.app.user.CreateAccountACT",
+      "forceText": true,
+      "style": "normal",
+      "type": "customized",
+      "verticalSpan": 0
+    },
+    {
+      "id": "166e2157337",
+      "name": "要求用户更改密码",
+      "text": "要求用户更改密码",
+      "bundleId": "com.bizvisionsoft.bruiengine",
+      "className": "com.bizvisionsoft.bruiengine.app.user.RequestAccountChangePasswordACT",
+      "forceText": true,
+      "style": "normal",
+      "type": "customized",
+      "verticalSpan": 0
+    },
+    {
+      "id": "166e2b06814",
+      "name": "要求所有用户更改密码",
+      "text": "要求所有用户更改密码",
+      "bundleId": "com.bizvisionsoft.bruiengine",
+      "className": "com.bizvisionsoft.bruiengine.app.user.RequestAllAccountChangePasswordACT",
+      "forceText": true,
+      "style": "normal",
+      "type": "customized",
+      "verticalSpan": 0
+    }
+  ],
+  "rowActions": [
+    {
+      "id": "161fab27a2a",
+      "name": "编辑账户",
+      "text": "编辑",
+      "image": "/img/edit_w.svg",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.bruiengine.app.user.EditAccountACT",
+      "style": "normal",
+      "type": "customized",
+      "verticalSpan": 0
+    },
+    {
+      "id": "162bcceb1a3",
+      "name": "删除账户",
+      "text": "删除",
+      "image": "/img/minus_16_w.svg",
+      "bundleId": "",
+      "className": "",
+      "style": "warning",
+      "type": "delete",
+      "verticalSpan": 0
+    },
+    {
+      "id": "162bcd4ff41",
+      "name": "修改账户密码",
+      "text": "密码",
+      "bundleId": "com.bizvisionsoft.bruiengine",
+      "className": "com.bizvisionsoft.bruiengine.app.user.EditPasswordACT",
+      "style": "",
+      "type": "customized",
+      "verticalSpan": 0
+    },
+    {
+      "id": "16507a7ed03",
+      "name": "账户托管",
+      "text": "托管",
+      "bundleId": "com.bizvisionsoft.bruiengine",
+      "className": "com.bizvisionsoft.bruiengine.app.user.ConsignACT",
+      "style": "",
+      "type": "customized",
+      "verticalSpan": 0
+    },
+    {
+      "id": "16507b8d475",
+      "name": "账户跟踪",
+      "text": "账户跟踪",
+      "bundleId": "com.bizvisionsoft.bruiengine",
+      "className": "com.bizvisionsoft.bruiengine.app.user.TraceUserACT",
+      "type": "customized",
+      "verticalSpan": 0
+    }
+  ],
+  "queryBuilderBundle": "com.bizvisionsoft.pms",
+  "queryBuilderClass": "com.bizvisionsoft.bruiengine.app.user.UserQueryBuilder",
+  "hasTitlebar": true,
+  "disableInitLoadData": false
+}

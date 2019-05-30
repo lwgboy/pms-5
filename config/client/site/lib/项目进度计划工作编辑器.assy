@@ -1,0 +1,83 @@
+{
+  "id": "项目进度计划工作编辑器",
+  "name": "项目进度计划工作编辑器",
+  "title": "创建工作",
+  "description": "用于编辑负责人和指派者",
+  "layout": [],
+  "type": "editor",
+  "folderId": "162ff4c2ed9",
+  "fields": [
+    {
+      "id": "1638c1a5de1",
+      "name": "基本信息",
+      "type": "标签页",
+      "formFields": [
+        {
+          "id": "1638c198ff2",
+          "name": "text",
+          "text": "名称",
+          "type": "单行文本框",
+          "formFields": [],
+          "required": true
+        },
+        {
+          "id": "1638c199222",
+          "name": "fullName",
+          "text": "全称",
+          "type": "单行文本框",
+          "formFields": []
+        },
+        {
+          "id": "1634eb0599b",
+          "name": "charger",
+          "text": "负责人",
+          "type": "对象选择框",
+          "formFields": [],
+          "selectorAssemblyId": "项目团队"
+        },
+        {
+          "id": "16371320d44",
+          "name": "assigner",
+          "text": "指派者",
+          "type": "对象选择框",
+          "formFields": [],
+          "selectorAssemblyId": "项目团队"
+        }
+      ]
+    },
+    {
+      "id": "1638c1a6d56",
+      "name": "工作包设置",
+      "type": "标签页",
+      "formFields": [
+        {
+          "id": "1638c1738d1",
+          "name": "workPackageSetting",
+          "text": "工作包设置",
+          "type": "多个对象选择框",
+          "formFields": [],
+          "selectorAssemblyId": "视图和工作包选择器"
+        }
+      ]
+    },
+    {
+      "id": "1638c1bc61a",
+      "name": "执业资格要求",
+      "type": "标签页",
+      "formFields": [
+        {
+          "id": "1638c1bfbcc",
+          "name": "certificates",
+          "text": "执业资格",
+          "type": "多个对象选择框",
+          "formFields": [],
+          "selectorAssemblyId": "执业资格选择器列表"
+        }
+      ]
+    }
+  ],
+  "actions": [],
+  "nullValueAllowedFields": "workPackageSetting#certificates#chargerId#assignerId",
+  "smallEditor": true,
+  "disableInitLoadData": false
+}

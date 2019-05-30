@@ -1,0 +1,26 @@
+{
+  "id": "项目档案库文件夹",
+  "name": "项目档案库文件夹",
+  "layout": [],
+  "type": "grid",
+  "folderId": "163dac10775",
+  "gridAutoExpandLevel": 2,
+  "gridMarkupEnabled": true,
+  "gridHasVScroll": true,
+  "columns": [
+    {
+      "id": "163dad257be",
+      "name": "folderName",
+      "text": "",
+      "alignment": 16384,
+      "width": 80,
+      "resizeable": true,
+      "columns": []
+    }
+  ],
+  "fields": [],
+  "gridAutoColumnWidth": true,
+  "actions": [],
+  "rowActions": [],
+  "disableInitLoadData": false
+}

@@ -1,0 +1,461 @@
+{
+  "id": "问题清单（问题数据库）",
+  "name": "问题清单（问题数据库）",
+  "description": "查看所有状态不为已取消的问题",
+  "layout": [],
+  "type": "grid",
+  "stickerTitle": "问题数据库",
+  "folderId": "167e83f2862",
+  "gridLineVisiable": true,
+  "gridHeaderVisiable": true,
+  "gridHasHScroll": true,
+  "gridHasVScroll": true,
+  "gridPageControl": true,
+  "gridDataSetService": "com.bizvisionsoft.service.ProblemService",
+  "columns": [
+    {
+      "id": "167e912d73a",
+      "name": "id",
+      "text": "问题编号",
+      "alignment": 16384,
+      "width": 100,
+      "resizeable": true,
+      "columns": [],
+      "enableColumnSort": true
+    },
+    {
+      "id": "16a9bb5aa53",
+      "name": "status",
+      "text": "状态",
+      "alignment": 16777216,
+      "width": 80,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "168462e6288",
+      "name": "classifyProblem",
+      "text": "类别",
+      "alignment": 16384,
+      "width": 120,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "167e912d7e8",
+      "name": "name",
+      "text": "问题简述",
+      "alignment": 16384,
+      "width": 160,
+      "resizeable": true,
+      "columns": [],
+      "enableColumnSort": false
+    },
+    {
+      "id": "167e916039f",
+      "name": "deptName",
+      "text": "责任部门",
+      "alignment": 16384,
+      "width": 120,
+      "resizeable": true,
+      "columns": [],
+      "enableColumnSort": true
+    },
+    {
+      "id": "167eaef5504",
+      "name": "issueDate",
+      "text": "发起日期",
+      "alignment": 16777216,
+      "width": 96,
+      "resizeable": true,
+      "columns": [],
+      "enableColumnSort": true
+    },
+    {
+      "id": "167eaef8e1d",
+      "name": "issueBy",
+      "text": "发起人",
+      "alignment": 16777216,
+      "width": 80,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "16840cfa753",
+      "name": "问题最初发现",
+      "text": "问题最初发现",
+      "alignment": 16384,
+      "width": 80,
+      "resizeable": true,
+      "columns": [
+        {
+          "id": "167eaf01139",
+          "name": "initiatedFrom",
+          "text": "最初来源",
+          "alignment": 16777216,
+          "width": 120,
+          "resizeable": true,
+          "detail": true,
+          "summary": true,
+          "columns": []
+        },
+        {
+          "id": "167e912d899",
+          "name": "custId",
+          "text": "客户编号",
+          "alignment": 16384,
+          "width": 80,
+          "resizeable": true,
+          "detail": true,
+          "columns": [],
+          "enableColumnSort": false
+        },
+        {
+          "id": "167e912d950",
+          "name": "custInfo",
+          "text": "客户名称",
+          "alignment": 16384,
+          "width": 160,
+          "resizeable": true,
+          "detail": true,
+          "summary": true,
+          "columns": [],
+          "enableColumnSort": false
+        },
+        {
+          "id": "167e912da06",
+          "name": "partNum",
+          "text": "零部件编号",
+          "alignment": 16384,
+          "width": 96,
+          "resizeable": true,
+          "detail": true,
+          "columns": [],
+          "enableColumnSort": false
+        },
+        {
+          "id": "167eaee2367",
+          "name": "partVer",
+          "text": "版本",
+          "alignment": 16777216,
+          "width": 48,
+          "resizeable": true,
+          "detail": true,
+          "columns": []
+        },
+        {
+          "id": "167eaee61bd",
+          "name": "partName",
+          "text": "零部件名称",
+          "alignment": 16384,
+          "width": 120,
+          "resizeable": true,
+          "detail": true,
+          "columns": []
+        },
+        {
+          "id": "167e9146303",
+          "name": "lotNum",
+          "text": "批次",
+          "alignment": 16777216,
+          "width": 64,
+          "resizeable": true,
+          "detail": true,
+          "columns": []
+        },
+        {
+          "id": "167e914a4cf",
+          "name": "distDate",
+          "text": "发料日期",
+          "alignment": 16777216,
+          "width": 96,
+          "resizeable": true,
+          "detail": true,
+          "columns": []
+        },
+        {
+          "id": "167eaeefd8b",
+          "name": "distQty",
+          "text": "发料数量",
+          "alignment": 16777216,
+          "width": 96,
+          "resizeable": true,
+          "detail": true,
+          "columns": []
+        }
+      ]
+    },
+    {
+      "id": "1684a732ad7",
+      "name": "cost.summary",
+      "text": "损失成本",
+      "alignment": 131072,
+      "width": 120,
+      "resizeable": true,
+      "columns": [],
+      "format": "￥#,###.00"
+    },
+    {
+      "id": "16879573d8e",
+      "name": "进度",
+      "text": "进度",
+      "alignment": 16384,
+      "width": 80,
+      "resizeable": true,
+      "columns": [
+        {
+          "id": "16506245e79",
+          "name": "createOn",
+          "text": "创建",
+          "alignment": 16777216,
+          "width": 160,
+          "resizeable": true,
+          "detail": true,
+          "summary": true,
+          "columns": [],
+          "format": "yyyy-MM-dd HH:mm:ss"
+        },
+        {
+          "id": "165062466ac",
+          "name": "createBy",
+          "text": "",
+          "alignment": 16777216,
+          "width": 64,
+          "resizeable": true,
+          "detail": true,
+          "summary": false,
+          "columns": []
+        },
+        {
+          "id": "1650624a277",
+          "name": "initOn",
+          "text": "启动",
+          "alignment": 16777216,
+          "width": 160,
+          "resizeable": true,
+          "detail": true,
+          "summary": true,
+          "columns": [],
+          "format": "yyyy-MM-dd HH:mm:ss"
+        },
+        {
+          "id": "1650624a501",
+          "name": "initBy",
+          "text": "",
+          "alignment": 16777216,
+          "width": 64,
+          "resizeable": true,
+          "detail": true,
+          "columns": []
+        },
+        {
+          "id": "167eaf1adb7",
+          "name": "icaConfirmedOn",
+          "text": "ICA确认",
+          "alignment": 16777216,
+          "width": 160,
+          "resizeable": true,
+          "detail": true,
+          "summary": true,
+          "columns": [],
+          "format": "yyyy-MM-dd HH:mm:ss"
+        },
+        {
+          "id": "167eaf16122",
+          "name": "icaConfirmedBy",
+          "text": "",
+          "alignment": 16777216,
+          "width": 64,
+          "resizeable": true,
+          "detail": true,
+          "columns": []
+        },
+        {
+          "id": "167eaf1adb7",
+          "name": "pcaApprovedOn",
+          "text": "PCA批准",
+          "alignment": 16777216,
+          "width": 160,
+          "resizeable": true,
+          "detail": true,
+          "summary": true,
+          "columns": [],
+          "format": "yyyy-MM-dd HH:mm:ss"
+        },
+        {
+          "id": "167eaf16122",
+          "name": "pcaApprovedBy",
+          "text": "",
+          "alignment": 16777216,
+          "width": 64,
+          "resizeable": true,
+          "detail": true,
+          "columns": []
+        },
+        {
+          "id": "167eaf1adb7",
+          "name": "pcaValidatedOn",
+          "text": "PCA验证",
+          "alignment": 16777216,
+          "width": 160,
+          "resizeable": true,
+          "detail": true,
+          "summary": true,
+          "columns": [],
+          "format": "yyyy-MM-dd HH:mm:ss"
+        },
+        {
+          "id": "167eaf16122",
+          "name": "pcaValidatedBy",
+          "text": "",
+          "alignment": 16777216,
+          "width": 64,
+          "resizeable": true,
+          "detail": true,
+          "columns": []
+        },
+        {
+          "id": "167eaf1adb7",
+          "name": "pcaConfirmedOn",
+          "text": "PCA确认",
+          "alignment": 16777216,
+          "width": 160,
+          "resizeable": true,
+          "detail": true,
+          "summary": true,
+          "columns": [],
+          "format": "yyyy-MM-dd HH:mm:ss"
+        },
+        {
+          "id": "167eaf16122",
+          "name": "pcaConfirmedBy",
+          "text": "",
+          "alignment": 16777216,
+          "width": 64,
+          "resizeable": true,
+          "detail": true,
+          "columns": []
+        },
+        {
+          "id": "1650624adeb",
+          "name": "closeOn",
+          "text": "关闭",
+          "alignment": 16777216,
+          "width": 160,
+          "resizeable": true,
+          "detail": true,
+          "summary": true,
+          "columns": [],
+          "format": "yyyy-MM-dd HH:mm:ss"
+        },
+        {
+          "id": "1650624b020",
+          "name": "closeBy",
+          "text": "",
+          "alignment": 16777216,
+          "width": 64,
+          "resizeable": true,
+          "detail": true,
+          "columns": []
+        }
+      ]
+    }
+  ],
+  "fields": [
+    {
+      "id": "16a9bb03d30",
+      "name": "status",
+      "text": "状态",
+      "type": "下拉选择框（查询）",
+      "formFields": [],
+      "optionText": "已创建#解决中#已关闭"
+    },
+    {
+      "id": "167e9737f03",
+      "name": "id",
+      "text": "问题编号",
+      "type": "文本输入框（查询）",
+      "formFields": []
+    },
+    {
+      "id": "167e9737fa3",
+      "name": "name",
+      "text": "问题简述",
+      "type": "文本输入框（查询）",
+      "formFields": []
+    },
+    {
+      "id": "167e973811c",
+      "name": "custId",
+      "text": "客户编号",
+      "type": "文本输入框（查询）",
+      "formFields": []
+    },
+    {
+      "id": "167e973819c",
+      "name": "custInfo",
+      "text": "客户名称",
+      "type": "文本输入框（查询）",
+      "formFields": []
+    },
+    {
+      "id": "168902fcce0",
+      "name": "deptName",
+      "text": "责任部门",
+      "type": "文本输入框（查询）",
+      "formFields": []
+    },
+    {
+      "id": "1689030e315",
+      "name": "issueDate",
+      "text": "发起日期",
+      "type": "日期时间范围（查询）",
+      "formFields": []
+    },
+    {
+      "id": "167e975fb5d",
+      "name": "creationInfo.date",
+      "text": "创建时间",
+      "type": "日期时间范围（查询）",
+      "formFields": [],
+      "dateType": "datetime"
+    },
+    {
+      "id": "167e9795766",
+      "name": "creationInfo.userName",
+      "text": "创建人",
+      "type": "文本输入框（查询）",
+      "formFields": []
+    },
+    {
+      "id": "1689018a79c",
+      "name": "classifyProblem._ids",
+      "text": "问题类别",
+      "type": "多个对象选择框（查询）",
+      "verticalLabel": true,
+      "formFields": [],
+      "selectorAssemblyId": "问题分类选择表格（查询用）",
+      "grabVertical": true,
+      "valueFieldName": "_id"
+    }
+  ],
+  "actions": [],
+  "rowActions": [
+    {
+      "id": "167e9e6c197",
+      "name": "打开",
+      "image": "/img/right_w.svg",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.problem.action.OpenProblem",
+      "style": "info",
+      "type": "customized",
+      "openPageName": ""
+    }
+  ],
+  "hasTitlebar": true,
+  "disableInitLoadData": true,
+  "disableStdQuery": true,
+  "parameters": "{\"render\":\"gridrow\"}",
+  "sortFields": [],
+  "stickerTitleScript": ""
+}

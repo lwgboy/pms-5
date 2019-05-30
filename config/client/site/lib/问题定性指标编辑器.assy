@@ -1,0 +1,68 @@
+{
+  "id": "问题定性指标编辑器",
+  "name": "问题定性指标编辑器",
+  "title": "问题定性指标",
+  "layout": [],
+  "type": "editor",
+  "folderId": "168403f8c15",
+  "fields": [
+    {
+      "id": "16840450b84",
+      "name": "latestTimeReq",
+      "text": "最晚时间要求",
+      "type": "日期时间选择",
+      "formFields": [],
+      "required": true,
+      "dateType": "datetime"
+    },
+    {
+      "id": "1684043b3b8",
+      "name": "severityInd",
+      "text": "严重性级别",
+      "type": "对象选择框",
+      "formFields": [],
+      "required": true,
+      "selectorAssemblyId": "严重性等级",
+      "valueFieldName": ""
+    },
+    {
+      "id": "16840a9a557",
+      "name": "freqInd",
+      "text": "发生频度",
+      "type": "对象选择框",
+      "formFields": [],
+      "required": true,
+      "selectorAssemblyId": "频度等级"
+    },
+    {
+      "id": "16840b42e72",
+      "name": "detectionInd",
+      "text": "可探测性指标",
+      "type": "对象选择框",
+      "formFields": [],
+      "required": true,
+      "selectorAssemblyId": "可探测性级别"
+    },
+    {
+      "id": "1684046b216",
+      "name": "lostInd",
+      "text": "问题损失级别",
+      "type": "对象选择框",
+      "formFields": [],
+      "required": true,
+      "selectorAssemblyId": "损失等级"
+    },
+    {
+      "id": "16840a9a75a",
+      "name": "incidenceInd",
+      "text": "影响范围指标",
+      "type": "对象选择框",
+      "formFields": [],
+      "required": true,
+      "selectorAssemblyId": "影响范围等级"
+    }
+  ],
+  "actions": [],
+  "smallEditor": true,
+  "tinyEditor": true
+}

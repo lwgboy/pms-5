@@ -1,0 +1,13 @@
+{
+  "id": "部门工作日程表",
+  "name": "部门工作日程表",
+  "layout": [],
+  "type": "scheduler",
+  "folderId": "16367c5636d",
+  "gridDataSetBundleId": "com.bizvisionsoft.pms",
+  "gridDataSetClassName": "com.bizvisionsoft.pms.work.dataset.MySchedule",
+  "actions": [],
+  "rowActions": [],
+  "schedulerType": "timeline",
+  "disableInitLoadData": false
+}

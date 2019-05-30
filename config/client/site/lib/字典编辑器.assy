@@ -1,0 +1,48 @@
+{
+  "id": "字典编辑器",
+  "name": "字典编辑器",
+  "title": "字典",
+  "layout": [],
+  "type": "editor",
+  "folderId": "162dc3e928e",
+  "fields": [
+    {
+      "id": "162dc440ece",
+      "name": "type",
+      "text": "类型",
+      "type": "下拉选择框",
+      "formFields": [],
+      "required": true,
+      "optionText": "角色名称#文档类型#Tag#功能角色#工作标签"
+    },
+    {
+      "id": "162bd20048c",
+      "name": "id",
+      "text": "编号",
+      "type": "单行文本框",
+      "formFields": [],
+      "required": true,
+      "optionValue": "国家#行业#公司",
+      "optionText": "国家#行业#公司",
+      "radioStyle": "横向分段（默认）"
+    },
+    {
+      "id": "162bd1ff051",
+      "name": "name",
+      "text": "名称",
+      "type": "单行文本框",
+      "formFields": [],
+      "required": true
+    },
+    {
+      "id": "162bd200392",
+      "name": "description",
+      "text": "说明",
+      "type": "单行文本框",
+      "formFields": []
+    }
+  ],
+  "actions": [],
+  "smallEditor": true,
+  "disableInitLoadData": false
+}

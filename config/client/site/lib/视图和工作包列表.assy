@@ -1,0 +1,150 @@
+{
+  "id": "视图和工作包列表",
+  "name": "视图和工作包列表",
+  "layout": [],
+  "type": "grid",
+  "stickerTitle": "视图和工作包",
+  "folderId": "16362281dda",
+  "gridLineVisiable": true,
+  "gridHeaderVisiable": true,
+  "gridHasHScroll": true,
+  "gridHasVScroll": true,
+  "gridPageControl": true,
+  "gridDataSetService": "com.bizvisionsoft.service.CommonService",
+  "gridPageCount": 100,
+  "columns": [
+    {
+      "id": "162dc43cc1d",
+      "name": "catagory",
+      "text": "类别",
+      "alignment": 16384,
+      "width": 80,
+      "resizeable": true,
+      "columns": [],
+      "enableColumnSort": true
+    },
+    {
+      "id": "162bd1ccbe0",
+      "name": "name",
+      "text": "名称",
+      "alignment": 16384,
+      "width": 80,
+      "resizeable": true,
+      "columns": [],
+      "enableColumnSort": true
+    },
+    {
+      "id": "1636895dc1b",
+      "name": "packageAssembly",
+      "text": "清单组件",
+      "alignment": 16384,
+      "width": 200,
+      "resizeable": true,
+      "columns": [],
+      "enableColumnSort": true
+    },
+    {
+      "id": "1636cc911ea",
+      "name": "editAssembly",
+      "text": "编辑组件",
+      "alignment": 16384,
+      "width": 200,
+      "resizeable": true,
+      "columns": [],
+      "enableColumnSort": true
+    },
+    {
+      "id": "1639149cd2e",
+      "name": "viewAssembly",
+      "text": "跟踪组件",
+      "alignment": 16384,
+      "width": 200,
+      "resizeable": true,
+      "columns": [],
+      "enableColumnSort": true
+    }
+  ],
+  "fields": [
+    {
+      "id": "16763a274d6",
+      "name": "catagory",
+      "text": "类别",
+      "type": "下拉选择框（查询）",
+      "formFields": [],
+      "optionText": "研发#采购#生产#质量"
+    },
+    {
+      "id": "16763a275be",
+      "name": "name",
+      "text": "名称",
+      "type": "文本输入框（查询）",
+      "formFields": []
+    },
+    {
+      "id": "16763a27684",
+      "name": "packageAssembly",
+      "text": "清单组件",
+      "type": "文本输入框（查询）",
+      "formFields": []
+    },
+    {
+      "id": "16763a2775e",
+      "name": "editAssembly",
+      "text": "编辑器组件",
+      "type": "文本输入框（查询）",
+      "formFields": []
+    },
+    {
+      "id": "16763a27858",
+      "name": "viewAssembly",
+      "text": "跟踪组件",
+      "type": "文本输入框（查询）",
+      "formFields": []
+    }
+  ],
+  "gridAutoColumnWidth": true,
+  "actions": [
+    {
+      "id": "162bd220157",
+      "name": "创建",
+      "image": "/img/add_16_w.svg",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.cert.action.CreateCertificate",
+      "style": "normal",
+      "editorAssemblyId": "视图和工作包编辑",
+      "type": "insert",
+      "createActionNewInstanceBundleId": "com.bizvisionsoft.service",
+      "createActionNewInstanceClassName": "com.bizvisionsoft.service.model.TrackView",
+      "verticalSpan": 0
+    }
+  ],
+  "rowActions": [
+    {
+      "id": "162bd541af5",
+      "name": "编辑",
+      "text": "编辑",
+      "image": "/img/edit_w.svg",
+      "bundleId": "",
+      "className": "",
+      "style": "normal",
+      "editorAssemblyId": "视图和工作包编辑",
+      "editorAssemblyEditable": true,
+      "type": "edit",
+      "verticalSpan": 0
+    },
+    {
+      "id": "162bd239c04",
+      "name": "删除",
+      "text": "删除",
+      "image": "/img/minus_16_w.svg",
+      "bundleId": "",
+      "className": "",
+      "style": "warning",
+      "type": "delete",
+      "verticalSpan": 0
+    }
+  ],
+  "hasTitlebar": true,
+  "disableInitLoadData": false,
+  "sortFields": []
+}

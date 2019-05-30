@@ -1,0 +1,93 @@
+{
+  "id": "指派用户选择列表",
+  "name": "指派用户选择列表",
+  "layout": [],
+  "type": "grid",
+  "folderId": "162bd9dad9d",
+  "gridLineVisiable": true,
+  "gridHeaderVisiable": true,
+  "gridHasHScroll": true,
+  "gridHasVScroll": true,
+  "gridPageControl": true,
+  "gridDataSetService": "com.bizvisionsoft.service.UserService",
+  "gridDataSetBundleId": "",
+  "gridDataSetClassName": "",
+  "columns": [
+    {
+      "id": "161db823fab",
+      "name": "userId",
+      "text": "账号",
+      "alignment": 16384,
+      "width": 120,
+      "minimumWidth": 60,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "161db839f32",
+      "name": "name",
+      "text": "姓名",
+      "alignment": 16384,
+      "width": 120,
+      "minimumWidth": 60,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "161e5aeb95c",
+      "name": "orgFullName",
+      "text": "所属组织",
+      "alignment": 16384,
+      "width": 260,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "1653d1acf37",
+      "name": "position",
+      "text": "职位",
+      "alignment": 16384,
+      "width": 160,
+      "resizeable": true,
+      "columns": []
+    }
+  ],
+  "fields": [
+    {
+      "id": "1622d68f151",
+      "name": "查询条件",
+      "text": "查询条件",
+      "type": "标签页",
+      "formFields": [
+        {
+          "id": "1622d6990eb",
+          "name": "userId",
+          "text": "账号",
+          "type": "文本输入框（查询）",
+          "formFields": [],
+          "textQueryType": "字符串"
+        },
+        {
+          "id": "1623122bf59",
+          "name": "name",
+          "text": "姓名",
+          "type": "文本输入框（查询）",
+          "formFields": [],
+          "textQueryType": "字符串"
+        },
+        {
+          "id": "162c6e25def",
+          "name": "orgText",
+          "text": "组织",
+          "type": "文本输入框（查询）",
+          "formFields": []
+        }
+      ]
+    }
+  ],
+  "actions": [],
+  "rowActions": [],
+  "queryBuilderBundle": "com.bizvisionsoft.pms",
+  "queryBuilderClass": "com.bizvisionsoft.bruiengine.app.user.UserQueryBuilder",
+  "disableInitLoadData": false
+}

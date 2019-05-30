@@ -1,0 +1,130 @@
+{
+  "id": "项目基本信息面板",
+  "name": "项目基本信息面板",
+  "title": "基本信息",
+  "layout": [],
+  "type": "infopad",
+  "stickerTitle": "基本属性",
+  "folderId": "1631b7d0058",
+  "gridDataSetService": "",
+  "gridDataSetBundleId": "com.bizvisionsoft.pms",
+  "gridDataSetClassName": "com.bizvisionsoft.pms.project.dataset.ProjectInfo",
+  "fields": [
+    {
+      "id": "163055bd2cb",
+      "name": "新字段15",
+      "type": "行",
+      "formFields": [
+        {
+          "id": "163055bccbe",
+          "name": "securityLevel",
+          "text": "项目密级",
+          "type": "单选框",
+          "formFields": [],
+          "optionText": "非密#秘密#机密#绝密",
+          "radioStyle": "横向分段（默认）"
+        },
+        {
+          "id": "163055c763b",
+          "name": "classfication",
+          "text": "项目等级",
+          "type": "单选框",
+          "formFields": [],
+          "optionText": "A#B#C",
+          "radioStyle": "横向分段（默认）"
+        }
+      ]
+    },
+    {
+      "id": "1630541d4b6",
+      "name": "新字段2",
+      "type": "行",
+      "formFields": [
+        {
+          "id": "163055931b8",
+          "name": "id",
+          "text": "编号",
+          "type": "文本标签",
+          "formFields": []
+        },
+        {
+          "id": "16305599226",
+          "name": "workOrder",
+          "text": "工作令号",
+          "type": "文本标签",
+          "formFields": []
+        }
+      ]
+    },
+    {
+      "id": "163becfbd40",
+      "name": "新字段3",
+      "type": "行",
+      "formFields": [
+        {
+          "id": "163becf02c7",
+          "name": "status",
+          "text": "状态",
+          "type": "文本标签",
+          "formFields": []
+        },
+        {
+          "id": "163bece7e91",
+          "name": "stage",
+          "text": "当前阶段",
+          "type": "文本标签",
+          "formFields": []
+        }
+      ]
+    },
+    {
+      "id": "1630541e1b9",
+      "name": "name",
+      "text": "项目名称",
+      "type": "文本标签",
+      "formFields": []
+    },
+    {
+      "id": "163055a3ada",
+      "name": "新字段10",
+      "type": "行",
+      "formFields": [
+        {
+          "id": "163054d0482",
+          "name": "planStart",
+          "text": "计划开始",
+          "type": "文本标签",
+          "formFields": [],
+          "format": "yyyy-MM-dd"
+        },
+        {
+          "id": "163054d0518",
+          "name": "planFinish",
+          "text": "计划完成",
+          "type": "文本标签",
+          "formFields": [],
+          "format": "yyyy-MM-dd"
+        }
+      ]
+    },
+    {
+      "id": "163055ab495",
+      "name": "pm",
+      "text": "项目经理",
+      "type": "文本标签",
+      "formFields": []
+    },
+    {
+      "id": "163055b0aba",
+      "name": "impUnit",
+      "text": "责任单位",
+      "type": "文本标签",
+      "formFields": []
+    }
+  ],
+  "actions": [],
+  "borderRight": true,
+  "borderBottom": true,
+  "hasTitlebar": true,
+  "disableInitLoadData": false
+}

@@ -1,0 +1,138 @@
+{
+  "id": "项目干系人",
+  "name": "项目干系人",
+  "layout": [],
+  "type": "grid",
+  "stickerTitle": "项目相关方",
+  "folderId": "1632b68c299",
+  "gridLineVisiable": true,
+  "gridHeaderVisiable": true,
+  "gridHasHScroll": true,
+  "gridHasVScroll": true,
+  "gridDataSetService": "com.bizvisionsoft.service.ProjectService",
+  "columns": [
+    {
+      "id": "1632b6b4aa1",
+      "name": "name",
+      "text": "名称",
+      "alignment": 16384,
+      "width": 80,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "1632b6d73c1",
+      "name": "contact",
+      "text": "联系人",
+      "alignment": 16384,
+      "width": 50,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "1632b6e1a54",
+      "name": "tel",
+      "text": "电话",
+      "alignment": 16384,
+      "width": 60,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "1632b6e542d",
+      "name": "fax",
+      "text": "传真",
+      "alignment": 16384,
+      "width": 60,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "1632b6e89c9",
+      "name": "email",
+      "text": "邮件",
+      "alignment": 16384,
+      "width": 60,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "1638aeaafee",
+      "name": "address",
+      "text": "通信地址",
+      "alignment": 16384,
+      "width": 80,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "1632b6cd313",
+      "name": "description",
+      "text": "描述",
+      "alignment": 16384,
+      "width": 80,
+      "resizeable": true,
+      "columns": []
+    }
+  ],
+  "fields": [
+    {
+      "id": "1632bae7eb2",
+      "name": "name",
+      "text": "名称",
+      "type": "文本输入框（查询）",
+      "formFields": []
+    },
+    {
+      "id": "1632baeca83",
+      "name": "type",
+      "text": "类别",
+      "type": "下拉选择框（查询）",
+      "formFields": [],
+      "optionText": "承担单位#主管部门#第一责任人#第二责任人#第三责任人#参与单位#客户#供应商#合作伙伴#项目组#专家组"
+    }
+  ],
+  "gridAutoColumnWidth": true,
+  "actions": [
+    {
+      "id": "1632b9071aa",
+      "name": "创建干系人",
+      "text": "",
+      "tooltips": "创建干系人",
+      "image": "/img/add_16_w.svg",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.project.action.CreateStockholder",
+      "style": "normal",
+      "editorAssemblyId": "项目干系人编辑器",
+      "type": "customized",
+      "createActionNewInstanceBundleId": "com.bizvisionsoft.pms",
+      "createActionNewInstanceClassName": "com.bizvisionsoft.service.model.Stockholder",
+      "verticalSpan": 0
+    }
+  ],
+  "rowActions": [
+    {
+      "id": "1632ba8770c",
+      "name": "编辑",
+      "text": "编辑",
+      "image": "/img/edit_w.svg",
+      "style": "normal",
+      "editorAssemblyId": "项目干系人编辑器",
+      "editorAssemblyEditable": true,
+      "type": "edit",
+      "verticalSpan": 0
+    },
+    {
+      "id": "1632ba888a2",
+      "name": "删除",
+      "text": "删除",
+      "image": "/img/minus_16_w.svg",
+      "style": "warning",
+      "type": "delete",
+      "verticalSpan": 0
+    }
+  ],
+  "hasTitlebar": true,
+  "disableInitLoadData": false,
+  "sortFields": []
+}

@@ -1,0 +1,30 @@
+{
+  "id": "text-value编辑器",
+  "name": "text-value编辑器",
+  "title": "",
+  "layout": [],
+  "type": "editor",
+  "folderId": "1631b42dbd8",
+  "fields": [
+    {
+      "id": "16386c4797d",
+      "name": "value",
+      "text": "值",
+      "type": "单行文本框",
+      "formFields": [],
+      "required": true
+    },
+    {
+      "id": "16386c46b6c",
+      "name": "text",
+      "text": "名称",
+      "type": "单行文本框",
+      "formFields": [],
+      "required": true
+    }
+  ],
+  "actions": [],
+  "smallEditor": true,
+  "tinyEditor": true,
+  "disableInitLoadData": false
+}

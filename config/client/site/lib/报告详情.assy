@@ -1,0 +1,45 @@
+{
+  "id": "报告详情",
+  "name": "报告详情",
+  "layout": [
+    {
+      "id": "163f33bd18f",
+      "name": "默认",
+      "columnCount": 1,
+      "makeColumnsEqualWidth": true,
+      "css": "",
+      "assemblys": [
+        {
+          "id": "工作报告基本信息面板",
+          "horizontalAlignment": 4,
+          "verticalAlignment": 4,
+          "grabExcessHorizontalSpace": true,
+          "verticalSpan": 1,
+          "horizontalSpan": 1,
+          "widthHint": -1,
+          "heightHint": -1,
+          "layoutName": "工作报告基本信息面板"
+        },
+        {
+          "id": "报告-工作",
+          "horizontalAlignment": 4,
+          "verticalAlignment": 4,
+          "grabExcessHorizontalSpace": true,
+          "grabExcessVerticalSpace": true,
+          "verticalSpan": 1,
+          "horizontalSpan": 1,
+          "widthHint": -1,
+          "heightHint": -1
+        }
+      ],
+      "carouselInterval": 0
+    }
+  ],
+  "stickerTitle": "项目日报",
+  "folderId": "163f7ee85bf",
+  "actions": [],
+  "rowActions": [],
+  "displayInputLabelInTitlebar": true,
+  "disableInitLoadData": false,
+  "candidates": []
+}

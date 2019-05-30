@@ -1,0 +1,33 @@
+{
+  "id": "项目资金计划（查看）",
+  "name": "项目资金计划（查看）",
+  "layout": [
+    {
+      "id": "162ec7aed97",
+      "name": "默认",
+      "columnCount": 1,
+      "makeColumnsEqualWidth": true,
+      "assemblys": [
+        {
+          "id": "项目科目资金计划（查看）",
+          "horizontalAlignment": 4,
+          "verticalAlignment": 4,
+          "grabExcessHorizontalSpace": true,
+          "grabExcessVerticalSpace": true,
+          "verticalSpan": 1,
+          "horizontalSpan": 1,
+          "widthHint": -1,
+          "heightHint": -1,
+          "layoutName": "cbssubject（查看）"
+        }
+      ],
+      "carouselInterval": 0
+    }
+  ],
+  "type": "sticker",
+  "stickerTitle": "科目预算（人民币万元）",
+  "folderId": "16390fa07d3",
+  "actions": [],
+  "displayInputLabelInTitlebar": true,
+  "disableInitLoadData": false
+}

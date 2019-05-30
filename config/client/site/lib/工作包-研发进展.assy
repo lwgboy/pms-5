@@ -1,0 +1,85 @@
+{
+  "id": "工作包-研发进展",
+  "name": "工作包-研发进展",
+  "layout": [],
+  "type": "grid",
+  "stickerTitle": "研发进展",
+  "folderId": "1638c40764f",
+  "gridLineVisiable": true,
+  "gridHeaderVisiable": true,
+  "gridHasVScroll": true,
+  "gridDataSetBundleId": "com.bizvisionsoft.pms",
+  "gridDataSetClassName": "com.bizvisionsoft.pms.workpackage.dataset.WorkPackageProgressDataset",
+  "columns": [
+    {
+      "id": "16380d681a8",
+      "name": "time",
+      "text": "日期",
+      "alignment": 16777216,
+      "width": 180,
+      "resizeable": true,
+      "columns": [],
+      "format": "yyyy-MM-dd hh:mm:ss"
+    },
+    {
+      "id": "1638fad6b0b",
+      "name": "description",
+      "text": "描述",
+      "alignment": 16384,
+      "width": 200,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "163814f5463",
+      "name": "completeStatus",
+      "text": "状态",
+      "alignment": 131072,
+      "width": 120,
+      "resizeable": true,
+      "columns": []
+    }
+  ],
+  "fields": [],
+  "actions": [
+    {
+      "id": "16380de1360",
+      "name": "新建研发进展",
+      "text": "新建",
+      "image": "/img/add_16_w.svg",
+      "style": "normal",
+      "editorAssemblyId": "编辑工作包-研发进展",
+      "type": "insert",
+      "createActionNewInstanceBundleId": "com.bizvisionsoft.service",
+      "createActionNewInstanceClassName": "com.bizvisionsoft.service.model.WorkPackageProgress",
+      "verticalSpan": 0
+    }
+  ],
+  "rowActions": [
+    {
+      "id": "16381090e3a",
+      "name": "编辑研发进展",
+      "text": "编辑",
+      "image": "/img/edit_w.svg",
+      "style": "normal",
+      "editorAssemblyId": "编辑工作包-研发进展",
+      "editorAssemblyEditable": true,
+      "objectBehavier": true,
+      "type": "edit",
+      "verticalSpan": 0
+    },
+    {
+      "id": "1638109183b",
+      "name": "删除研发进展",
+      "text": "删除",
+      "image": "/img/minus_16_w.svg",
+      "style": "warning",
+      "objectBehavier": true,
+      "type": "delete",
+      "verticalSpan": 0
+    }
+  ],
+  "hasTitlebar": true,
+  "displayInputLabelInTitlebar": true,
+  "disableInitLoadData": false
+}

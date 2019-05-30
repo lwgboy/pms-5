@@ -1,0 +1,94 @@
+{
+  "id": "项目主页",
+  "name": "项目主页",
+  "layout": [
+    {
+      "id": "1630572e84f",
+      "name": "默认",
+      "minimalDeviceWidth": 0,
+      "columnCount": 3,
+      "horizontalSpacing": 16,
+      "verticalSpacing": 16,
+      "makeColumnsEqualWidth": true,
+      "marginHeight": 16,
+      "marginWidth": 16,
+      "css": "brui_bg_deep_relief",
+      "itemCss": "brui_card",
+      "layoutType": "grid",
+      "assemblys": [
+        {
+          "id": "项目基本指标（小组件）",
+          "horizontalAlignment": 4,
+          "verticalAlignment": 4,
+          "grabExcessHorizontalSpace": true,
+          "grabExcessVerticalSpace": false,
+          "verticalSpan": 1,
+          "horizontalSpan": 1,
+          "widthHint": -1,
+          "heightHint": 300
+        },
+        {
+          "id": "项目摘要信息轮播",
+          "horizontalAlignment": 4,
+          "verticalAlignment": 4,
+          "grabExcessHorizontalSpace": true,
+          "verticalSpan": 1,
+          "horizontalSpan": 1,
+          "widthHint": -1,
+          "heightHint": -1
+        },
+        {
+          "id": "项目各类工作评分",
+          "horizontalAlignment": 4,
+          "verticalAlignment": 4,
+          "grabExcessHorizontalSpace": true,
+          "verticalSpan": 1,
+          "horizontalSpan": 1,
+          "widthHint": -1,
+          "heightHint": -1
+        },
+        {
+          "id": "项目资源计划用量对比",
+          "horizontalAlignment": 4,
+          "verticalAlignment": 4,
+          "grabExcessHorizontalSpace": true,
+          "grabExcessVerticalSpace": false,
+          "verticalSpan": 1,
+          "horizontalSpan": 1,
+          "widthHint": -1,
+          "heightHint": 300
+        },
+        {
+          "id": "项目首页甘特图",
+          "horizontalAlignment": 4,
+          "verticalAlignment": 4,
+          "grabExcessHorizontalSpace": true,
+          "grabExcessVerticalSpace": true,
+          "verticalSpan": 2,
+          "horizontalSpan": 2,
+          "widthHint": -1,
+          "heightHint": -1
+        },
+        {
+          "id": "项目预算成本对比（首页小组件）",
+          "horizontalAlignment": 4,
+          "verticalAlignment": 4,
+          "grabExcessHorizontalSpace": true,
+          "grabExcessVerticalSpace": false,
+          "verticalSpan": 1,
+          "horizontalSpan": 1,
+          "widthHint": -1,
+          "heightHint": -1
+        }
+      ],
+      "carouselInterval": 0
+    }
+  ],
+  "stickerTitle": "项目",
+  "folderId": "163b6fe6dac",
+  "actions": [],
+  "rowActions": [],
+  "displayRootInputLabelInTitlebar": true,
+  "disableInitLoadData": false,
+  "candidates": []
+}

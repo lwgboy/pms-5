@@ -1,0 +1,204 @@
+{
+  "id": "工作包-检验",
+  "name": "工作包-检验",
+  "description": "检验",
+  "layout": [],
+  "type": "grid",
+  "folderId": "1638c40bc80",
+  "gridMarkupEnabled": true,
+  "gridLineVisiable": true,
+  "gridHeaderVisiable": true,
+  "gridHasHScroll": true,
+  "gridHasVScroll": true,
+  "gridPageControl": true,
+  "gridDataSetService": "",
+  "gridDataSetBundleId": "com.bizvisionsoft.pms",
+  "gridDataSetClassName": "com.bizvisionsoft.pms.workpackage.dataset.WorkPackageDataset",
+  "columns": [
+    {
+      "id": "1636bd98aa7",
+      "name": "matId",
+      "text": "物料编号",
+      "alignment": 16384,
+      "width": 120,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "1636ccfce55",
+      "name": "matDesc",
+      "text": "物料描述",
+      "alignment": 16384,
+      "width": 240,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "1636cd0c442",
+      "name": "unit",
+      "text": "单位",
+      "alignment": 16777216,
+      "width": 40,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "1636cd17af4",
+      "name": "plan",
+      "text": "计划",
+      "alignment": 16384,
+      "width": 80,
+      "resizeable": true,
+      "expanded": true,
+      "columns": [
+        {
+          "id": "1636c4468dc",
+          "name": "deadline",
+          "text": "期限",
+          "alignment": 16777216,
+          "width": 80,
+          "resizeable": true,
+          "detail": true,
+          "columns": [],
+          "format": "yyyy-MM-dd"
+        },
+        {
+          "id": "1636cd0fafb",
+          "name": "planQty",
+          "text": "计划",
+          "alignment": 131072,
+          "width": 80,
+          "resizeable": true,
+          "detail": true,
+          "summary": true,
+          "columns": [],
+          "format": "#.0"
+        }
+      ],
+      "noToggleGridColumnGroup": true
+    },
+    {
+      "id": "16380afdda6",
+      "name": "actual",
+      "text": "进展",
+      "alignment": 16384,
+      "width": 80,
+      "resizeable": true,
+      "expanded": true,
+      "columns": [
+        {
+          "id": "16380aff119",
+          "name": "completeQty",
+          "text": "已检",
+          "alignment": 131072,
+          "width": 80,
+          "resizeable": true,
+          "detail": true,
+          "summary": true,
+          "columns": []
+        },
+        {
+          "id": "16380ba6c3c",
+          "name": "requiredQty",
+          "text": "待检",
+          "alignment": 131072,
+          "width": 80,
+          "resizeable": true,
+          "detail": true,
+          "columns": []
+        },
+        {
+          "id": "16381934a42",
+          "name": "qualifiedQty",
+          "text": "合格",
+          "alignment": 16384,
+          "width": 80,
+          "resizeable": true,
+          "detail": true,
+          "columns": []
+        },
+        {
+          "id": "16381934c89",
+          "name": "qualifiedRate",
+          "text": "合格率（%）",
+          "alignment": 16384,
+          "width": 80,
+          "resizeable": true,
+          "detail": true,
+          "columns": []
+        },
+        {
+          "id": "16380ba6cfa",
+          "name": "updateTime",
+          "text": "更新时间",
+          "alignment": 16777216,
+          "width": 180,
+          "resizeable": true,
+          "detail": true,
+          "summary": true,
+          "columns": [],
+          "format": "yyyy-MM-dd hh:mm:ss"
+        }
+      ],
+      "noToggleGridColumnGroup": true
+    },
+    {
+      "id": "1636bd9b1b2",
+      "name": "chargerInfoHtml",
+      "text": "负责人",
+      "alignment": 16384,
+      "width": 80,
+      "resizeable": true,
+      "columns": []
+    }
+  ],
+  "fields": [],
+  "gridAutoColumnWidth": true,
+  "actions": [],
+  "rowActions": [
+    {
+      "id": "1636c6c5781",
+      "name": "编辑工作包",
+      "image": "/img/edit_w.svg",
+      "style": "normal",
+      "editorAssemblyId": "编辑工作包-检验",
+      "editorAssemblyEditable": true,
+      "objectBehavier": true,
+      "type": "edit",
+      "verticalSpan": 0
+    },
+    {
+      "id": "1636c6be572",
+      "name": "删除工作包",
+      "image": "/img/minus_16_w.svg",
+      "style": "warning",
+      "objectBehavier": true,
+      "type": "delete",
+      "verticalSpan": 0
+    },
+    {
+      "id": "1647dbd0b8f",
+      "name": "文档",
+      "text": "文档",
+      "switchContentToAssemblyId": "输出文档",
+      "openContent": true,
+      "forceText": true,
+      "style": "",
+      "type": "switch",
+      "verticalSpan": 0
+    },
+    {
+      "id": "1636c6d351a",
+      "name": "查看工作包进度",
+      "text": "进度",
+      "image": "/img/right.svg",
+      "switchContentToAssemblyId": "工作包-检验进展",
+      "openContent": true,
+      "style": "",
+      "objectBehavier": true,
+      "type": "switch",
+      "verticalSpan": 0
+    }
+  ],
+  "disableInitLoadData": false
+}

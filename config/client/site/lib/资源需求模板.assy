@@ -1,0 +1,12 @@
+{
+  "id": "资源需求模板",
+  "name": "资源需求模板",
+  "title": "资源需求",
+  "bundleId": "com.bizvisionsoft.pms",
+  "className": "com.bizvisionsoft.pms.projecttemplate.ResourceReqASM",
+  "layout": [],
+  "folderId": "163cf74cc79",
+  "actions": [],
+  "rowActions": [],
+  "disableInitLoadData": false
+}

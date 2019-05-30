@@ -1,0 +1,105 @@
+{
+  "id": "我的流程任务（待处理）",
+  "name": "我的流程任务（待处理）",
+  "description": "查询已经分配到我的流程任务",
+  "layout": [],
+  "type": "board",
+  "stickerTitle": "我的流程任务",
+  "folderId": "16a3ff19f75",
+  "gridAutoHeight": true,
+  "gridDataSetService": "com.bizvisionsoft.service.BPMService",
+  "gridPageCount": 8,
+  "columns": [],
+  "fields": [
+    {
+      "id": "16aa128a944",
+      "name": "processInstance.meta.name",
+      "text": "流程名称",
+      "type": "文本输入框（查询）",
+      "formFields": []
+    },
+    {
+      "id": "16aa126057a",
+      "name": "description",
+      "text": "任务描述",
+      "type": "文本输入框（查询）",
+      "formFields": []
+    },
+    {
+      "id": "16aa12398be",
+      "name": "name",
+      "text": "任务名称",
+      "type": "文本输入框（查询）",
+      "formFields": []
+    },
+    {
+      "id": "16aa126571c",
+      "name": "processInstance.meta.startDate",
+      "text": "流程启动",
+      "type": "日期时间范围（查询）",
+      "formFields": []
+    },
+    {
+      "id": "16aa17861ce",
+      "name": "taskData.createOn",
+      "text": "任务签发",
+      "type": "日期时间范围（查询）",
+      "formFields": []
+    }
+  ],
+  "actions": [
+    {
+      "id": "16aa00ff449",
+      "name": "发起流程",
+      "image": "/img/add_16_w.svg",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.bpm.SelectAndLaunchProcess",
+      "style": "info",
+      "type": "customized"
+    }
+  ],
+  "rowActions": [
+    {
+      "id": "1670d294caf",
+      "name": "操作",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.bpm.TaskCardACT",
+      "type": "customized",
+      "verticalSpan": 0
+    }
+  ],
+  "hasTitlebar": true,
+  "disableInitLoadData": false,
+  "compactTitleBar": true,
+  "candidates": [],
+  "sortFields": [
+    {
+      "id": "16aa179d7a4",
+      "name": "name",
+      "text": "任务名称",
+      "type": "排序字段",
+      "formFields": []
+    },
+    {
+      "id": "16aa17aad9e",
+      "name": "processInstance.meta.name",
+      "text": "流程名称",
+      "type": "排序字段",
+      "formFields": []
+    },
+    {
+      "id": "16aa17aaf19",
+      "name": "processInstance.meta.startDate",
+      "text": "流程启动",
+      "type": "排序字段",
+      "formFields": []
+    },
+    {
+      "id": "16aa17aae5e",
+      "name": "taskData.createOn",
+      "text": "任务签发",
+      "type": "排序字段",
+      "formFields": []
+    }
+  ]
+}

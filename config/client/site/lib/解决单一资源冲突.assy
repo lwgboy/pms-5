@@ -1,0 +1,12 @@
+{
+  "id": "解决单一资源冲突",
+  "name": "解决单一资源冲突",
+  "title": "解决资源冲突",
+  "bundleId": "com.bizvisionsoft.pms",
+  "className": "com.bizvisionsoft.pms.resource.SingleResourceConflictSolutionASM",
+  "layout": [],
+  "folderId": "163ae4a739d",
+  "actions": [],
+  "rowActions": [],
+  "disableInitLoadData": false
+}

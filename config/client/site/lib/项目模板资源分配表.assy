@@ -1,0 +1,56 @@
+{
+  "id": "项目模板资源分配表",
+  "name": "项目模板资源分配表",
+  "layout": [],
+  "type": "grid",
+  "folderId": "163cf74cc79",
+  "gridMarkupEnabled": true,
+  "gridLineVisiable": true,
+  "gridHeaderVisiable": true,
+  "gridHasVScroll": true,
+  "gridDataSetBundleId": "com.bizvisionsoft.pms",
+  "gridDataSetClassName": "com.bizvisionsoft.pms.projecttemplate.ResourceReqDS",
+  "columns": [
+    {
+      "id": "1637bd12ba0",
+      "name": "resId",
+      "text": "资源编号",
+      "alignment": 16384,
+      "width": 80,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "1637e0d052b",
+      "name": "type",
+      "text": "资源类型",
+      "alignment": 16384,
+      "width": 80,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "1637bd10adf",
+      "name": "name",
+      "text": "名称",
+      "alignment": 16384,
+      "width": 160,
+      "resizeable": true,
+      "columns": []
+    }
+  ],
+  "fields": [],
+  "gridAutoColumnWidth": true,
+  "actions": [],
+  "rowActions": [
+    {
+      "id": "1637cc59a43",
+      "name": "删除工作分配的资源",
+      "image": "/img/minus_16_w.svg",
+      "style": "warning",
+      "type": "delete",
+      "verticalSpan": 0
+    }
+  ],
+  "disableInitLoadData": false
+}

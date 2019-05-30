@@ -1,0 +1,41 @@
+{
+  "id": "甘特图里程碑工作编辑器",
+  "name": "甘特图里程碑工作编辑器",
+  "title": "创建里程碑",
+  "description": "用于甘特图里程碑工作创建和编辑",
+  "layout": [],
+  "type": "editor",
+  "folderId": "162ff4c2ed9",
+  "fields": [
+    {
+      "id": "162905df447",
+      "name": "text",
+      "text": "工作名称",
+      "type": "单行文本框",
+      "formFields": [],
+      "required": true
+    },
+    {
+      "id": "162905df52c",
+      "name": "fullName",
+      "text": "全称",
+      "type": "单行文本框",
+      "formFields": [],
+      "textMessage": "请填写在项目中能识别的名称，默认为工作名称"
+    },
+    {
+      "id": "162905df5d4",
+      "name": "start_date",
+      "text": "日期",
+      "type": "日期时间选择",
+      "formFields": [],
+      "required": true,
+      "dateType": "datetime"
+    }
+  ],
+  "actions": [],
+  "nullValueAllowedFields": "",
+  "smallEditor": true,
+  "tinyEditor": true,
+  "disableInitLoadData": false
+}

@@ -1,0 +1,170 @@
+{
+  "id": "项目启动设置",
+  "name": "项目启动设置",
+  "title": "项目启动设置",
+  "layout": [],
+  "type": "editor",
+  "folderId": "16782e72b28",
+  "fields": [
+    {
+      "id": "1678305303d",
+      "name": "info3",
+      "text": "\u003cdiv class\u003d\u0027label_title\u0027\u003e项目计划完整性\u003c/div\u003e\n\u003cspan class\u003d\u0027layui-badge\u0027\u003e要求\u003c/span\u003e，该要素不完整时，不允许启动；\n\u003cspan class\u003d\u0027layui-badge layui-bg-green\u0027\u003e警告\u003c/span\u003e默认，缺少该要素时，系统警告，由项目经理决定是否启动。\n",
+      "type": "横幅",
+      "formFields": [],
+      "height": 0,
+      "staticContent": true
+    },
+    {
+      "id": "1678305fcee",
+      "name": "新字段10",
+      "type": "行",
+      "formFields": [
+        {
+          "id": "1678360df71",
+          "name": "plan",
+          "description": "",
+          "text": "进度计划",
+          "type": "单选框",
+          "verticalLabel": false,
+          "formFields": [],
+          "optionValue": "",
+          "optionText": "要求#警告#忽略",
+          "radioStyle": "横向分段（默认）"
+        },
+        {
+          "id": "167830605f6",
+          "name": "budget",
+          "text": "项目预算",
+          "type": "单选框",
+          "formFields": [],
+          "optionValue": "",
+          "optionText": "要求#警告#忽略",
+          "radioStyle": "横向分段（默认）"
+        },
+        {
+          "id": "167830606e1",
+          "name": "obs",
+          "text": "项目组",
+          "type": "单选框",
+          "formFields": [],
+          "optionValue": "",
+          "optionText": "要求#警告#忽略",
+          "radioStyle": "横向分段（默认）"
+        }
+      ]
+    },
+    {
+      "id": "16783060c9a",
+      "name": "新字段13",
+      "type": "行",
+      "formFields": [
+        {
+          "id": "1678306134e",
+          "name": "rbs",
+          "text": "风险管理计划",
+          "type": "单选框",
+          "formFields": [],
+          "optionValue": "",
+          "optionText": "要求#警告#忽略",
+          "radioStyle": "横向分段（默认）"
+        },
+        {
+          "id": "167bad21b47",
+          "name": "resource",
+          "text": "资源计划",
+          "type": "单选框",
+          "formFields": [],
+          "optionValue": "",
+          "optionText": "要求#警告#忽略",
+          "radioStyle": "横向分段（默认）"
+        }
+      ]
+    },
+    {
+      "id": "16782ecb108",
+      "name": "info2",
+      "text": "\u003cdiv class\u003d\u0027label_title\u0027\u003e人员指派\u003c/div\u003e\n\u003cspan class\u003d\u0027layui-badge\u0027\u003e要求\u003c/span\u003e，必须指定；\n\u003cspan class\u003d\u0027layui-badge layui-bg-green\u0027\u003e警告\u003c/span\u003e默认，未指定时，系统警告，由项目经理决定。",
+      "type": "横幅",
+      "formFields": [],
+      "height": 0,
+      "staticContent": true
+    },
+    {
+      "id": "16782ff55b8",
+      "name": "新字段7",
+      "type": "行",
+      "formFields": [
+        {
+          "id": "16782fe6f64",
+          "name": "asgnAll",
+          "text": "所有工作",
+          "type": "单选框",
+          "formFields": [],
+          "optionValue": "",
+          "optionText": "要求#警告#忽略",
+          "radioStyle": "横向分段（默认）"
+        },
+        {
+          "id": "1676ae360ad",
+          "name": "asgnL1",
+          "text": "1级管理节点",
+          "type": "单选框",
+          "formFields": [],
+          "optionValue": "",
+          "optionText": "要求#警告#忽略",
+          "radioStyle": "横向分段（默认）",
+          "checkStyle": "开关（默认）"
+        }
+      ]
+    },
+    {
+      "id": "16782ff6dc8",
+      "name": "新字段8",
+      "type": "行",
+      "formFields": [
+        {
+          "id": "1676ae5f1bd",
+          "name": "asgnL2",
+          "text": "2级管理节点",
+          "type": "单选框",
+          "formFields": [],
+          "optionValue": "",
+          "optionText": "要求#警告#忽略",
+          "radioStyle": "横向分段（默认）",
+          "checkStyle": "开关（默认）"
+        },
+        {
+          "id": "16782fdef9a",
+          "name": "asgnL3",
+          "text": "3级管理节点",
+          "type": "单选框",
+          "formFields": [],
+          "optionValue": "",
+          "optionText": "要求#警告#忽略",
+          "radioStyle": "横向分段（默认）"
+        }
+      ]
+    },
+    {
+      "id": "1676af7aa8a",
+      "name": "info1",
+      "text": "\u003cdiv class\u003d\u0027label_title\u0027\u003e项目启动批准\u003c/div\u003e\n开启后，必须由项目管理人员批准后才能启动项目。默认不开启。",
+      "type": "横幅",
+      "formFields": [],
+      "height": 0,
+      "staticContent": true
+    },
+    {
+      "id": "1676ae0ada0",
+      "name": "appvOnStart",
+      "text": "要求批准",
+      "type": "复选框",
+      "formFields": [],
+      "checkStyle": "开关（默认）"
+    }
+  ],
+  "actions": [],
+  "disableInitLoadData": false,
+  "labelWidth": 100
+}

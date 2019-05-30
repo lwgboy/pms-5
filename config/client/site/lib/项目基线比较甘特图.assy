@@ -1,0 +1,36 @@
+{
+  "id": "项目基线比较甘特图",
+  "name": "项目基线比较甘特图",
+  "title": "项目基线比较甘特图",
+  "description": "",
+  "layout": [],
+  "type": "gantt",
+  "stickerTitle": "进度计划比较",
+  "folderId": "1643f84eaef",
+  "gridDataSetService": "",
+  "gridDataSetBundleId": "com.bizvisionsoft.pms",
+  "gridDataSetClassName": "com.bizvisionsoft.pms.baseline.ComparableBaselineGantt",
+  "columns": [],
+  "actions": [
+    {
+      "id": "16362f9b990",
+      "name": "时间刻度",
+      "text": "时间刻度",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.work.gantt.action.TimeScaleSetting",
+      "forceText": true,
+      "style": "normal",
+      "type": "customized",
+      "verticalSpan": 0
+    }
+  ],
+  "rowActions": [],
+  "readonly": true,
+  "enableGanttCompare": true,
+  "ganttTimeScaleType": "year-month-week",
+  "eventHandlerBundleId": "",
+  "eventHandlerClassName": "",
+  "headActions": [],
+  "hasTitlebar": true,
+  "disableInitLoadData": false
+}

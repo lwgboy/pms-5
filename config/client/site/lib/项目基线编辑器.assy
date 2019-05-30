@@ -1,0 +1,26 @@
+{
+  "id": "项目基线编辑器",
+  "name": "项目基线编辑器",
+  "layout": [],
+  "type": "editor",
+  "folderId": "1643f84eaef",
+  "fields": [
+    {
+      "id": "1643fb8d4d7",
+      "name": "name",
+      "text": "名称",
+      "type": "单行文本框",
+      "formFields": [],
+      "required": true
+    },
+    {
+      "id": "1643fb8d73f",
+      "name": "description",
+      "text": "描述",
+      "type": "多行文本框",
+      "formFields": []
+    }
+  ],
+  "smallEditor": true,
+  "disableInitLoadData": false
+}

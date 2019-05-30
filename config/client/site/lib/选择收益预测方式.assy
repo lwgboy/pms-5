@@ -1,0 +1,32 @@
+{
+  "id": "选择收益预测方式",
+  "name": "选择收益预测方式",
+  "title": "选择收益预测方式",
+  "layout": [],
+  "type": "editor",
+  "folderId": "165564b4b38",
+  "fields": [
+    {
+      "id": "1655ab29295",
+      "name": "info1",
+      "text": "请选择项目收益预测的时间周期，一个项目只能使用一种时间周期进行预测。\u003cbr\u003e\n请注意：如果所选的时间周期与当前收益预测的使用时间周期不同，当前的预测将被覆盖。\n",
+      "type": "横幅",
+      "formFields": [],
+      "height": 72,
+      "staticContent": true
+    },
+    {
+      "id": "1655ab09a2a",
+      "name": "type",
+      "text": "时间周期",
+      "type": "单选框",
+      "formFields": [],
+      "required": true,
+      "optionValue": "年#季度#月",
+      "optionText": "按年预测#按季度预测#按月预测",
+      "radioStyle": "横向分段（默认）"
+    }
+  ],
+  "smallEditor": true,
+  "disableInitLoadData": false
+}

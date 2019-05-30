@@ -1,0 +1,128 @@
+{
+  "id": "8D问题看板",
+  "name": "8D问题看板",
+  "layout": [
+    {
+      "id": "167e9fd9e6f",
+      "name": "默认",
+      "columnCount": 1,
+      "horizontalSpacing": 0,
+      "verticalSpacing": 0,
+      "makeColumnsEqualWidth": true,
+      "marginHeight": 0,
+      "marginTop": 16,
+      "marginWidth": 8,
+      "css": "brui_bg_deep_relief",
+      "itemCss": "",
+      "layoutType": "lane",
+      "assemblys": [
+        {
+          "id": "D0问题初始记录",
+          "horizontalAlignment": 4,
+          "verticalAlignment": 16777216,
+          "grabExcessHorizontalSpace": true,
+          "verticalSpan": 1,
+          "horizontalSpan": 1,
+          "widthHint": -1,
+          "heightHint": -1
+        },
+        {
+          "id": "D1多功能小组",
+          "horizontalAlignment": 4,
+          "verticalAlignment": 16777216,
+          "grabExcessHorizontalSpace": true,
+          "verticalSpan": 1,
+          "horizontalSpan": 1,
+          "widthHint": -1,
+          "heightHint": -1
+        },
+        {
+          "id": "D2问题描述",
+          "horizontalAlignment": 4,
+          "verticalAlignment": 16777216,
+          "grabExcessHorizontalSpace": true,
+          "verticalSpan": 1,
+          "horizontalSpan": 1,
+          "widthHint": -1,
+          "heightHint": -1
+        },
+        {
+          "id": "D3临时控制行动",
+          "horizontalAlignment": 4,
+          "verticalAlignment": 16777216,
+          "grabExcessHorizontalSpace": true,
+          "verticalSpan": 1,
+          "horizontalSpan": 1,
+          "widthHint": -1,
+          "heightHint": -1
+        },
+        {
+          "id": "D4根本原因分析",
+          "horizontalAlignment": 4,
+          "verticalAlignment": 16777216,
+          "grabExcessHorizontalSpace": true,
+          "verticalSpan": 1,
+          "horizontalSpan": 1,
+          "widthHint": -1,
+          "heightHint": -1
+        },
+        {
+          "id": "D5永久措施",
+          "horizontalAlignment": 4,
+          "verticalAlignment": 16777216,
+          "grabExcessHorizontalSpace": true,
+          "verticalSpan": 1,
+          "horizontalSpan": 1,
+          "widthHint": -1,
+          "heightHint": -1
+        },
+        {
+          "id": "D6执行和确认",
+          "horizontalAlignment": 4,
+          "verticalAlignment": 16777216,
+          "grabExcessHorizontalSpace": true,
+          "verticalSpan": 1,
+          "horizontalSpan": 1,
+          "widthHint": -1,
+          "heightHint": -1
+        },
+        {
+          "id": "D7系统预防",
+          "horizontalAlignment": 4,
+          "verticalAlignment": 16777216,
+          "grabExcessHorizontalSpace": true,
+          "verticalSpan": 1,
+          "horizontalSpan": 1,
+          "widthHint": -1,
+          "heightHint": -1
+        },
+        {
+          "id": "D8关闭结案",
+          "horizontalAlignment": 4,
+          "verticalAlignment": 16777216,
+          "grabExcessHorizontalSpace": true,
+          "verticalSpan": 1,
+          "horizontalSpan": 1,
+          "widthHint": -1,
+          "heightHint": -1
+        }
+      ],
+      "laneWidth": 320
+    }
+  ],
+  "folderId": "168987781d7",
+  "actions": [],
+  "rowActions": [],
+  "candidates": [
+    "D0紧急反应行动",
+    "D1多功能小组",
+    "D2问题描述",
+    "D3临时控制行动",
+    "D4根本原因分析",
+    "D5永久措施",
+    "D6执行和确认",
+    "D7系统预防",
+    "D8关闭结案",
+    "D0问题初始记录"
+  ]
+}

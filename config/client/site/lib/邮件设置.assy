@@ -1,0 +1,73 @@
+{
+  "id": "邮件设置",
+  "name": "邮件设置",
+  "title": "邮件设置",
+  "layout": [],
+  "type": "editor",
+  "folderId": "165d57b9f4a",
+  "fields": [
+    {
+      "id": "165d57c3a0d",
+      "name": "emailNotice",
+      "text": "发送邮件通知",
+      "type": "复选框",
+      "formFields": [],
+      "checkStyle": "开关（默认）"
+    },
+    {
+      "id": "165d57c3ac4",
+      "name": "smtpHost",
+      "text": "服务器地址",
+      "type": "单行文本框",
+      "formFields": []
+    },
+    {
+      "id": "165d57c3b7f",
+      "name": "smtpPort",
+      "text": "端口号",
+      "type": "单行文本框",
+      "formFields": []
+    },
+    {
+      "id": "165d57c3c46",
+      "name": "smtpUseSSL",
+      "text": "使用SSL",
+      "type": "复选框",
+      "formFields": [],
+      "checkStyle": "开关（默认）"
+    },
+    {
+      "id": "165d57c3cfd",
+      "name": "senderAddress",
+      "text": "发送者",
+      "type": "单行文本框",
+      "formFields": [],
+      "textMessage": "发送者账户，例如:abc@bizvisionsoft.com"
+    },
+    {
+      "id": "165d57c3da4",
+      "name": "senderPassword",
+      "text": "发送者密码",
+      "type": "单行文本框",
+      "formFields": []
+    },
+    {
+      "id": "165ed218a4c",
+      "name": "notice",
+      "text": "如果系统可连接到安装有本功能的DPS注册服务器，可以开启本开关。",
+      "type": "横幅",
+      "formFields": [],
+      "staticContent": true
+    },
+    {
+      "id": "165ed23e067",
+      "name": "dps",
+      "text": "使用DPS服务",
+      "type": "复选框",
+      "formFields": [],
+      "checkStyle": "开关（默认）"
+    }
+  ],
+  "smallEditor": true,
+  "disableInitLoadData": false
+}

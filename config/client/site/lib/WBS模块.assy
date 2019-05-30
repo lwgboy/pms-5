@@ -1,0 +1,94 @@
+{
+  "id": "WBS模块",
+  "name": "WBS模块",
+  "layout": [],
+  "type": "grid",
+  "stickerTitle": "WBS模块管理",
+  "folderId": "164ef206a5a",
+  "gridLineVisiable": true,
+  "gridHeaderVisiable": true,
+  "gridHasHScroll": true,
+  "gridHasVScroll": true,
+  "gridDataSetService": "com.bizvisionsoft.service.ProjectTemplateService",
+  "columns": [
+    {
+      "id": "162b392082e",
+      "name": "id",
+      "text": "编号",
+      "alignment": 16384,
+      "width": 160,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "162b392097b",
+      "name": "name",
+      "text": "名称",
+      "alignment": 16384,
+      "width": 300,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "162b39208d4",
+      "name": "description",
+      "text": "说明",
+      "alignment": 16384,
+      "width": 320,
+      "resizeable": true,
+      "columns": []
+    }
+  ],
+  "fields": [],
+  "gridAutoColumnWidth": true,
+  "actions": [
+    {
+      "id": "163d04fa5a9",
+      "name": "创建WBS模块",
+      "text": "创建WBS模块",
+      "forceText": true,
+      "style": "normal",
+      "editorAssemblyId": "WBS模块编辑器",
+      "type": "insert",
+      "createActionNewInstanceBundleId": "com.bizvisionsoft.service",
+      "createActionNewInstanceClassName": "com.bizvisionsoft.service.model.WBSModule",
+      "verticalSpan": 0
+    }
+  ],
+  "rowActions": [
+    {
+      "id": "162b3d6b327",
+      "name": "删除",
+      "text": "删除",
+      "image": "/img/minus_16_w.svg",
+      "style": "warning",
+      "type": "delete",
+      "verticalSpan": 0
+    },
+    {
+      "id": "164efa37d40",
+      "name": "编辑",
+      "image": "/img/edit_w.svg",
+      "style": "normal",
+      "editorAssemblyId": "WBS模块编辑器",
+      "editorAssemblyEditable": true,
+      "type": "edit",
+      "verticalSpan": 0
+    },
+    {
+      "id": "162b3945ea1",
+      "name": "打开",
+      "image": "/img/right.svg",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.projecttemplate.OpenProjectTemplateACT",
+      "switchContentToAssemblyId": "项目模板甘特图",
+      "openContent": true,
+      "style": "",
+      "type": "customized",
+      "openPageName": "项目模板",
+      "verticalSpan": 0
+    }
+  ],
+  "hasTitlebar": true,
+  "disableInitLoadData": false
+}
