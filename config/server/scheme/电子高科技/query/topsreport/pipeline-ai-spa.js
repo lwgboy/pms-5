@@ -25,7 +25,7 @@
 												"as" : "attarchments",
 												"in" : {
 													"$concat" : [
-															"<a href=\"/bvs/fs?id=",
+															"<a href=\"/bvs/fs?domain=","<domain>", "&id=",
 															{
 																"$toString" : "$$attarchments._id"
 															},
@@ -48,7 +48,7 @@
 												"as" : "attarchments",
 												"in" : {
 													"$concat" : [
-															"<a href=\"/bvs/fs?id=",
+															"<a href=\"/bvs/fs?domain=","<domain>", "&id=",
 															{
 																"$toString" : "$$attarchments._id"
 															},

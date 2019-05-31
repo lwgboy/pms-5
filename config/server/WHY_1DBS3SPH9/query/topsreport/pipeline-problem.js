@@ -133,7 +133,7 @@
 						"input" : "$idrrept",
 						"as" : "idrrept",
 						"in" : {
-							"$concat" : [ "<a href='/bvs/fs?id=", {
+							"$concat" : [ "<a href='/bvs/fs?domain=","<domain>", "&id=", {
 								"$toString" : "$$idrrept._id"
 							}, "&namespace=", "$$idrrept.namepace", "&name=",
 									"$$idrrept.name", "&sid=rwt'>",
@@ -146,7 +146,7 @@
 						"input" : "$attarchments",
 						"as" : "attarchments",
 						"in" : {
-							"$concat" : [ "<a href='/bvs/fs?id=", {
+							"$concat" : [ "<a href='/bvs/fs?domain=","<domain>", "&id=", {
 								"$toString" : "$$attarchments._id"
 							}, "&namespace=", "$$attarchments.namepace",
 									"&name=", "$$attarchments.name",

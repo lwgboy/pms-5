@@ -88,8 +88,8 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 		appendOrgFullName(pipeline, "dept_id", "deptName");
 		appendConditionToPipeline(pipeline, condition);
 		pipeline.add(Aggregates.lookup("d2ProblemPhoto", "_id", "problem_id", "d2ProblemPhoto"));
-		pipeline.addAll(Domain.getJQ(domain, "追加-目标时间的临近性").set("dateField", "$latestTimeReq").set("targetDate", new Date())
-				.set("urgencyIndField", "urgencyInd").array());
+		pipeline.addAll(Domain.getJQ(domain, "追加-目标时间的临近性").set("dateField", "$latestTimeReq")
+				.set("targetDate", new Date()).set("urgencyIndField", "urgencyInd").array());
 		pipeline.addAll(Domain.getJQ(domain, "追加-问题成本合计").array());
 		return pipeline;
 	}
@@ -132,8 +132,8 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 
 	@Override
 	public List<Result> icaConfirm(ObjectId _id, String domain) {
-		updateProblems(new FilterAndUpdate().filter(new BasicDBObject("_id", _id)).set(new BasicDBObject("confirmD3ICA", true)).bson(),
-				domain);
+		updateProblems(new FilterAndUpdate().filter(new BasicDBObject("_id", _id))
+				.set(new BasicDBObject("confirmD3ICA", true)).bson(), domain);
 		return new ArrayList<Result>();
 	}
 
@@ -142,8 +142,8 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 		p.setStatus(Problem.StatusCreated);
 
 		p = insert(p, domain);
-		List<Bson> pipe = appendBasicQueryPipeline(new Query().filter(new BasicDBObject("_id", p.get_id())).bson(), new ArrayList<>(),
-				domain);
+		List<Bson> pipe = appendBasicQueryPipeline(new Query().filter(new BasicDBObject("_id", p.get_id())).bson(),
+				new ArrayList<>(), domain);
 		return c(Problem.class, domain).aggregate(pipe).first();
 	}
 
@@ -157,15 +157,16 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 	}
 
 	@Override
-	public List<Document> listProblemsCard(BasicDBObject condition, String status, String userid, String lang, String domain) {
+	public List<Document> listProblemsCard(BasicDBObject condition, String status, String userid, String lang,
+			String domain) {
 		ensureGet(condition, "filter").append("status", status);
 		List<Bson> pipeline = appendBasicQueryPipeline(condition, new ArrayList<>(), domain);
 		pipeline.addAll(Domain.getJQ(domain, "追加-问题查询权限").set("userId", userid).array());
 		ArrayList<Document> result = c("problem", domain).aggregate(pipeline)
 				.map(d -> new ProblemCardRenderer(lang, domain).renderProblem(d, true)).into(new ArrayList<>());
 		if ("已创建".equals(status) && result.isEmpty()) {
-			result.add(
-					new ProblemCardRenderer(lang, domain).renderActionPlaceHoder(new Document("_action", "create").append("_text", "+")));
+			result.add(new ProblemCardRenderer(lang, domain)
+					.renderActionPlaceHoder(new Document("_action", "create").append("_text", "+")));
 		}
 		return result;
 	}
@@ -204,7 +205,8 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 	}
 
 	@Override
-	public Document insertAction(Document t, ObjectId problem_id, String stage, String lang, String render, String domain) {
+	public Document insertAction(Document t, ObjectId problem_id, String stage, String lang, String render,
+			String domain) {
 		c("problemAction", domain).insertOne(t.append("problem_id", problem_id).append("stage", stage));
 		// 判断该成员是否在项目团队中，如果不在，自动加入
 		String charger = t.getString("charger");
@@ -213,8 +215,8 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 			int roleId = Arrays.asList(cftRoleText).indexOf(stage.toUpperCase());
 			if (roleId != -1) {
 				Document charger_meta = (Document) t.get("charger_meta");
-				Document d1 = new Document("member_meta", charger_meta).append("member", charger).append("role", "" + roleId)
-						.append("problem_id", problem_id);
+				Document d1 = new Document("member_meta", charger_meta).append("member", charger)
+						.append("role", "" + roleId).append("problem_id", problem_id);
 				insertD1Item(d1, lang, null, domain);
 			}
 		}
@@ -251,8 +253,8 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 		String sender = problem.getCreationInfo().userId;
 		String actionName = action.getString("action");
 		String content = "问题：" + problem + "<br>" + "行动：" + actionName;
-		ArrayList<String> receivers = c("d1CFT", domain).find(new Document("problem_id", problem_id)).map(d -> d.getString("member"))
-				.into(new ArrayList<>());
+		ArrayList<String> receivers = c("d1CFT", domain).find(new Document("problem_id", problem_id))
+				.map(d -> d.getString("member")).into(new ArrayList<>());
 		receivers.add(sender);
 		sendMessage(subject, content, null, receivers, null, domain);
 	}
@@ -273,8 +275,8 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 		content = "问题：" + problem + "<br>" + content;
 		String sender = problem.getCreationInfo().userId;
 		String subject = "问题解决团队更新";
-		ArrayList<String> receivers = c("d1CFT", domain).find(new Document("problem_id", problem_id)).map(d -> d.getString("member"))
-				.into(new ArrayList<>());
+		ArrayList<String> receivers = c("d1CFT", domain).find(new Document("problem_id", problem_id))
+				.map(d -> d.getString("member")).into(new ArrayList<>());
 		receivers.add(sender);
 		sendMessage(subject, content, null, receivers, null, domain);
 	}
@@ -308,16 +310,16 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 		}
 		String sender = problem.getCreationInfo().userId;
 		String content = "问题：" + problem;
-		ArrayList<String> receivers = c("d1CFT", domain).find(new Document("problem_id", problem.get_id())).map(d -> d.getString("member"))
-				.into(new ArrayList<>());
+		ArrayList<String> receivers = c("d1CFT", domain).find(new Document("problem_id", problem.get_id()))
+				.map(d -> d.getString("member")).into(new ArrayList<>());
 		receivers.add(sender);
 		sendMessage(subject, content, null, receivers, null, domain);
 
 	}
 
 	@Override
-	public List<Document> listActions(BasicDBObject condition, ObjectId problem_id, String stage, String lang, String render,
-			String domain) {
+	public List<Document> listActions(BasicDBObject condition, ObjectId problem_id, String stage, String lang,
+			String render, String domain) {
 		boolean editable = isProblemEditable(problem_id, domain);
 
 		Function<Document, Document> f;
@@ -330,12 +332,13 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 			};
 		}
 		// TODO condition
-		FindIterable<Document> iter = c("problemAction", domain).find(new Document("problem_id", problem_id).append("stage", stage))
+		FindIterable<Document> iter = c("problemAction", domain)
+				.find(new Document("problem_id", problem_id).append("stage", stage))
 				.sort(new Document("actionType", 1).append("index", 1));
 		ArrayList<Document> result = iter.map(f).into(new ArrayList<>());
 		if (editable && "card".equals(render) && result.isEmpty())
-			result.add(
-					new ProblemCardRenderer(lang, domain).renderActionPlaceHoder(new Document("_action", "create").append("_text", "+")));
+			result.add(new ProblemCardRenderer(lang, domain)
+					.renderActionPlaceHoder(new Document("_action", "create").append("_text", "+")));
 		return result;
 	}
 
@@ -365,7 +368,8 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	@Override
-	public List<Document> listD0Init(BasicDBObject condition, ObjectId problem_id, String lang, String render, String domain) {
+	public List<Document> listD0Init(BasicDBObject condition, ObjectId problem_id, String lang, String render,
+			String domain) {
 		return c("problem", domain).find(new Document("_id", problem_id))
 				.map(d -> new ProblemCardRenderer(lang, domain).renderProblem(d, false)).into(new ArrayList<>());
 	}
@@ -393,15 +397,17 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 		String role = d1.getString("role");
 		ObjectId problem_id = d1.getObjectId("problem_id");
 
-		if ("0".equals(role) && c("d1CFT", domain).countDocuments(new Document("problem_id", problem_id).append("role", "0")) > 0)
+		if ("0".equals(role)
+				&& c("d1CFT", domain).countDocuments(new Document("problem_id", problem_id).append("role", "0")) > 0)
 			throw new ServiceException("违反唯一性规则：一个CFT多功能小组只允许存在一位组长。");
 
-		Document doc = new Document("_id", new ObjectId()).append("problem_id", problem_id).append("member", userId).append("role", role)
-				.append("name", user.get("name")).append("mobile", user.get("mobile")).append("position", user.get("position"))
-				.append("email", user.get("email")).append("headPics", user.get("headPics"));
+		Document doc = new Document("_id", new ObjectId()).append("problem_id", problem_id).append("member", userId)
+				.append("role", role).append("name", user.get("name")).append("mobile", user.get("mobile"))
+				.append("position", user.get("position")).append("email", user.get("email"))
+				.append("headPics", user.get("headPics"));
 
-		List<Bson> pipe = Domain.getJQ(domain, "查询-用户所在组织-根据组织类型").set("match", new Document("userId", userId)).set("orgType", "部门")
-				.array();
+		List<Bson> pipe = Domain.getJQ(domain, "查询-用户所在组织-根据组织类型").set("match", new Document("userId", userId))
+				.set("orgType", "部门").array();
 		pipe.add(Aggregates.sort(new Document("idx", -1)));
 		user = c("user", domain).aggregate(pipe).first();
 
@@ -430,7 +436,8 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 	}
 
 	@Override
-	public List<Document> listD1(BasicDBObject condition, ObjectId problem_id, String userId, String lang, String render, String domain) {
+	public List<Document> listD1(BasicDBObject condition, ObjectId problem_id, String userId, String lang,
+			String render, String domain) {
 		ensureGet(condition, "sort").append("role", 1).append("_id", -1);
 		List<Bson> pipeline = createDxPipeline(condition, problem_id);
 		Function<Document, Document> f;
@@ -443,8 +450,8 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 		}
 		ArrayList<Document> result = c("d1CFT", domain).aggregate(pipeline).map(f).into(new ArrayList<>());
 		if ("card".equals(render) && result.isEmpty())
-			result.add(
-					new ProblemCardRenderer(lang, domain).renderActionPlaceHoder(new Document("_action", "create").append("_text", "+")));
+			result.add(new ProblemCardRenderer(lang, domain)
+					.renderActionPlaceHoder(new Document("_action", "create").append("_text", "+")));
 		return result;
 	}
 
@@ -457,8 +464,8 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 	public Document updateD2ProblemDesc(Document d, String lang, String domain) {
 		Document filter = new Document("_id", d.get("_id"));
 		Document set = new Document("$set", d);
-		return new ProblemCardRenderer(lang, domain).renderD25W2H(c("d2ProblemDesc", domain).findOneAndUpdate(filter, set,
-				new FindOneAndUpdateOptions().upsert(true).returnDocument(ReturnDocument.AFTER)));
+		return new ProblemCardRenderer(lang, domain).renderD25W2H(c("d2ProblemDesc", domain).findOneAndUpdate(filter,
+				set, new FindOneAndUpdateOptions().upsert(true).returnDocument(ReturnDocument.AFTER)));
 	}
 
 	@Override
@@ -494,7 +501,8 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 	public List<Document> listD2(BasicDBObject condition, ObjectId problem_id, String lang, String domain) {
 		List<Document> result = new ArrayList<>();
 		// photos
-		listD2ProblemPhotos(problem_id, domain).forEach(d -> result.add(new ProblemCardRenderer(lang, domain).renderD2PhotoCard(d)));
+		listD2ProblemPhotos(problem_id, domain)
+				.forEach(d -> result.add(new ProblemCardRenderer(lang, domain).renderD2PhotoCard(d)));
 		// 5w2h
 		Document doc = getD2ProblemDesc(problem_id, domain);
 		if (doc.get("what") != null)
@@ -553,8 +561,8 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 		List<Document> data = new ArrayList<>();
 		List<Document> links = new ArrayList<>();
 
-		List<String> causeSubject = c("classifyCause", domain).find(new Document("parent_id", null)).map(d -> d.getString("name"))
-				.into(new ArrayList<>());
+		List<String> causeSubject = c("classifyCause", domain).find(new Document("parent_id", null))
+				.map(d -> d.getString("name")).into(new ArrayList<>());
 		// 根节点
 		data.add(new Document("id", problem_id)//
 				.append("name", problem.getName())//
@@ -576,27 +584,30 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 					new Document("label", new Document("show", false))));
 		});
 
-		c("causeRelation", domain).find(new Document("problem_id", problem_id).append("type", type)).forEach((Document d) -> {
-			String id = d.getObjectId("_id").toHexString();
-			Document item = new Document("id", id)//
-					.append("name", d.get("name"))//
-					.append("desc", Optional.ofNullable(d.getString("description")).orElse(""))//
-					.append("draggable", true)//
-					.append("category", d.getString("subject"))//
-					.append("symbolSize", 5 * d.getInteger("weight", 1))//
-					.append("value", 100 * d.getDouble("probability"));
-			data.add(item);
-			String parentId = Optional.ofNullable(d.getObjectId("parent_id")).map(p -> p.toHexString()).orElse(d.getString("subject"));
-			links.add(new Document("source", parentId).append("target", id).append("emphasis",
-					new Document("label", new Document("show", false))));
-		});
+		c("causeRelation", domain).find(new Document("problem_id", problem_id).append("type", type))
+				.forEach((Document d) -> {
+					String id = d.getObjectId("_id").toHexString();
+					Document item = new Document("id", id)//
+							.append("name", d.get("name"))//
+							.append("desc", Optional.ofNullable(d.getString("description")).orElse(""))//
+							.append("draggable", true)//
+							.append("category", d.getString("subject"))//
+							.append("symbolSize", 5 * d.getInteger("weight", 1))//
+							.append("value", 100 * d.getDouble("probability"));
+					data.add(item);
+					String parentId = Optional.ofNullable(d.getObjectId("parent_id")).map(p -> p.toHexString())
+							.orElse(d.getString("subject"));
+					links.add(new Document("source", parentId).append("target", id).append("emphasis",
+							new Document("label", new Document("show", false))));
+				});
 
 		List<Document> categories = new ArrayList<>();
 		categories.add(new Document("name", "问题"));
 		categories.add(new Document("name", "类别"));
 		categories.addAll(causeSubject.stream().map(e -> new Document("name", e)).collect(Collectors.toList()));
 
-		return Domain.getJQ(domain, "图表-因果关系图").set("data", data).set("links", links).set("categories", categories).doc();
+		return Domain.getJQ(domain, "图表-因果关系图").set("data", data).set("links", links).set("categories", categories)
+				.doc();
 	}
 
 	@Override
@@ -628,7 +639,8 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 		pipe.add(new Document("$lookup", new Document("from", "causeRelation").append("localField", "_id")
 				.append("foreignField", "parent_id").append("as", "parent")));
 		pipe.add(new Document("$match", new Document("parent", new Document("$size", 0))));
-		c("causeRelation", domain).aggregate(pipe).map(d -> new ProblemCardRenderer(lang, domain).renderD4CauseConsequence(d)).into(result);
+		c("causeRelation", domain).aggregate(pipe)
+				.map(d -> new ProblemCardRenderer(lang, domain).renderD4CauseConsequence(d)).into(result);
 		// 问题流出的原因
 		if (epCard != null) {
 			result.add(epCard);
@@ -638,7 +650,8 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 		pipe.add(new Document("$lookup", new Document("from", "causeRelation").append("localField", "_id")
 				.append("foreignField", "parent_id").append("as", "parent")));
 		pipe.add(new Document("$match", new Document("parent", new Document("$size", 0))));
-		c("causeRelation", domain).aggregate(pipe).map(d -> new ProblemCardRenderer(lang, domain).renderD4CauseConsequence(d)).into(result);
+		c("causeRelation", domain).aggregate(pipe)
+				.map(d -> new ProblemCardRenderer(lang, domain).renderD4CauseConsequence(d)).into(result);
 
 		return result;
 	}
@@ -729,20 +742,23 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 	@Override
 	public Document updateD7Similar(Document d, String lang, String render, String domain) {
 		if ("card".equals(render))
-			return updateThen(d, lang, "d7Similar", domain, (doc, l) -> new ProblemCardRenderer(lang, domain).renderD7Similar(doc));
+			return updateThen(d, lang, "d7Similar", domain,
+					(doc, l) -> new ProblemCardRenderer(lang, domain).renderD7Similar(doc));
 		else
 			return updateThen(d, lang, "d7Similar", domain, this::appendDegreeText);
 
 	}
 
 	@Override
-	public List<Document> listD7Similar(BasicDBObject condition, ObjectId problem_id, String lang, String render, String domain) {
+	public List<Document> listD7Similar(BasicDBObject condition, ObjectId problem_id, String lang, String render,
+			String domain) {
 		return c("d7Similar", domain).find(new Document("problem_id", problem_id)).sort(new Document("degree", 1))
 				.map(d -> appendDegreeText(d, lang)).into(new ArrayList<>());
 	}
 
 	@Override
-	public List<Document> listD7(BasicDBObject condition, ObjectId problem_id, String lang, String render, String domain) {
+	public List<Document> listD7(BasicDBObject condition, ObjectId problem_id, String lang, String render,
+			String domain) {
 		List<Document> result = new ArrayList<>();
 		c("d7Similar", domain).find(new Document("problem_id", problem_id)).sort(new Document("degree", 1))
 				.map(d -> new ProblemCardRenderer(lang, domain).renderD7Similar(d)).into(result);
@@ -768,14 +784,16 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 			t.append("keyword", result);
 		}
 		if ("card".equals(render)) {
-			return updateThen(t, lang, "d8Exp", domain, (doc, l) -> new ProblemCardRenderer(lang, domain).renderD8Exp(doc));
+			return updateThen(t, lang, "d8Exp", domain,
+					(doc, l) -> new ProblemCardRenderer(lang, domain).renderD8Exp(doc));
 		} else {
 			return updateThen(t, lang, "d8Exp", domain, null);
 		}
 	}
 
 	@Override
-	public List<Document> listD8(BasicDBObject condition, ObjectId problem_id, String lang, String render, String domain) {
+	public List<Document> listD8(BasicDBObject condition, ObjectId problem_id, String lang, String render,
+			String domain) {
 		if ("card".equals(render)) {
 			return c("d8Exp", domain).find(new Document("problem_id", problem_id))
 					.map(d -> new ProblemCardRenderer(lang, domain).renderD8Exp(d)).into(new ArrayList<>());
@@ -1023,8 +1041,8 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 	public List<ProblemCostItem> listCostItems(BasicDBObject condition, ObjectId problem_id, String domain) {
 		ensureGet(condition, "filter").append("problem_id", problem_id);
 		ensureGet(condition, "sort").append("date", -1);
-		return list(ProblemCostItem.class, domain, condition,
-				Aggregates.addFields(new Field<Document>("summary", new Document("$subtract", Arrays.asList("$drAmount", "$crAmount")))));
+		return list(ProblemCostItem.class, domain, condition, Aggregates.addFields(
+				new Field<Document>("summary", new Document("$subtract", Arrays.asList("$drAmount", "$crAmount")))));
 	}
 
 	@Override
@@ -1052,9 +1070,10 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 	public Document getSummaryCost(ObjectId problem_id, String domain) {
 		List<Document> pipe = Arrays.asList(new Document("$match", new Document("problem_id", problem_id)),
 				new Document("$group",
-						new Document("_id", "$problem_id").append("drAmount", new Document("$sum", "$drAmount")).append("crAmount",
-								new Document("$sum", "$crAmount"))),
-				new Document("$addFields", new Document("summary", new Document("$subtract", Arrays.asList("$drAmount", "$crAmount")))));
+						new Document("_id", "$problem_id").append("drAmount", new Document("$sum", "$drAmount"))
+								.append("crAmount", new Document("$sum", "$crAmount"))),
+				new Document("$addFields",
+						new Document("summary", new Document("$subtract", Arrays.asList("$drAmount", "$crAmount")))));
 		debugPipeline(pipe);
 		return c("problemCostItem", domain).aggregate(pipe).first();
 	}
@@ -1064,8 +1083,8 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 		List<String> x = new ArrayList<>();
 		Set<String> legend = new HashSet<>();
 		Map<String, Document> ds = new HashMap<>();
-		c("problemCostItem", domain)
-				.aggregate(Domain.getJQ(domain, "查询-问题成本-根科目和年月汇总").set("match", new Document("problem_id", problem_id)).array())
+		c("problemCostItem", domain).aggregate(
+				Domain.getJQ(domain, "查询-问题成本-根科目和年月汇总").set("match", new Document("problem_id", problem_id)).array())
 				.forEach((Document d) -> {
 					// 科目构建系列
 					// 期间为x轴
@@ -1099,7 +1118,8 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 			return new Document("name", l).append("type", "bar").append("barGap", 0).append("data", data);
 		}).collect(Collectors.toList());
 
-		return Domain.getJQ(domain, "图表-通用-多维堆叠柱图").set("legend", legend).set("xAxis", xAxis).set("series", series).doc();
+		return Domain.getJQ(domain, "图表-通用-多维堆叠柱图").set("legend", legend).set("xAxis", xAxis).set("series", series)
+				.doc();
 	}
 
 	@Override
@@ -1124,7 +1144,8 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 
 	private List<Bson> createAdvisePipeline(ObjectId problem_id, String stage, String domain) {
 		String stageName = getStageName(stage);
-		return Domain.getJQ(domain, "查询-行动预案-匹配问题").set("problem_id", problem_id).set("in", Arrays.asList(stageName, "$stage")).array();
+		return Domain.getJQ(domain, "查询-行动预案-匹配问题").set("problem_id", problem_id)
+				.set("in", Arrays.asList(stageName, "$stage")).array();
 	}
 
 	private String getStageName(String stage) {
@@ -1158,8 +1179,8 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 
 	@Override
 	public List<Catalog> listClassifyCostStructure(Catalog parent, String domain) {
-		return c("classifyProblemLost", domain).find(new Document("parent_id", parent._id)).sort(new Document("index", 1))
-				.map(CatalogMapper::classifyProblem).into(new ArrayList<>());
+		return c("classifyProblemLost", domain).find(new Document("parent_id", parent._id))
+				.sort(new Document("index", 1)).map(CatalogMapper::classifyProblem).into(new ArrayList<>());
 	}
 
 	@Override
@@ -1186,7 +1207,8 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 
 	@Override
 	public List<Catalog> listClassifyProblemStructure(Catalog parent, String domain) {
-		return c("classifyProblem", domain).find(new Document("parent_id", Optional.ofNullable(parent).map(p -> p._id).orElse(null)))
+		return c("classifyProblem", domain)
+				.find(new Document("parent_id", Optional.ofNullable(parent).map(p -> p._id).orElse(null)))
 				.sort(new Document("index", 1)).map(CatalogMapper::classifyProblem).into(new ArrayList<>());
 	}
 
@@ -1225,13 +1247,14 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 
 	@Override
 	public List<Catalog> listOrgRoot(String domain) {
-		return c("organization", domain).find(new Document("parent_id", null)).map(CatalogMapper::org).into(new ArrayList<>());
+		return c("organization", domain).find(new Document("parent_id", null)).map(CatalogMapper::org)
+				.into(new ArrayList<>());
 	}
 
 	@Override
 	public List<Catalog> listOrgStructure(Catalog parent, String domain) {
-		return c("organization", domain).find(new Document("parent_id", parent._id)).sort(new Document("index", 1)).map(CatalogMapper::org)
-				.into(new ArrayList<>());
+		return c("organization", domain).find(new Document("parent_id", parent._id)).sort(new Document("index", 1))
+				.map(CatalogMapper::org).into(new ArrayList<>());
 	}
 
 	@Override
@@ -1271,8 +1294,9 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 		pipeline.add(Aggregates.lookup("problem", "problem_id", "_id", "problem")); //
 		pipeline.add(Aggregates.unwind("$problem"));
 		pipeline.add(Aggregates.lookup("d7Similar", "problem._id", "problem_id", "similar"));//
-		pipeline.add(Aggregates.addFields(new Field<Document>("similar", new Document("$reduce", new Document("input", "$similar.desc")
-				.append("initialValue", "").append("in", new Document("$concat", Arrays.asList("$$value", "$$this", "; ")))))));
+		pipeline.add(Aggregates.addFields(new Field<Document>("similar",
+				new Document("$reduce", new Document("input", "$similar.desc").append("initialValue", "").append("in",
+						new Document("$concat", Arrays.asList("$$value", "$$this", "; ")))))));
 		appendConditionToPipeline(pipeline, condition);
 
 		return c("problemAction", domain).aggregate(pipeline).into(new ArrayList<>());
@@ -1283,15 +1307,16 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 		return count("problemAction", domain, filter, Aggregates.match(new Document("stage", stage)),
 				Aggregates.lookup("problem", "problem_id", "_id", "problem"), //
 				Aggregates.unwind("$problem"), Aggregates.lookup("d7Similar", "problem._id", "problem_id", "similar"), //
-				Aggregates.addFields(new Field<Document>("similar", new Document("$reduce", new Document("input", "$similar.desc")
-						.append("initialValue", "").append("in", new Document("$concat", Arrays.asList("$$value", "$$this", "; ")))))));
+				Aggregates.addFields(new Field<Document>("similar",
+						new Document("$reduce", new Document("input", "$similar.desc").append("initialValue", "")
+								.append("in", new Document("$concat", Arrays.asList("$$value", "$$this", "; ")))))));
 	}
 
 	@Override
 	public List<Document> listExp(BasicDBObject condition, String domain) {
 		List<Bson> pipe = new ArrayList<>();
-		pipe.add(new Document("$lookup",
-				new Document("from", "problem").append("localField", "problem_id").append("foreignField", "_id").append("as", "problem")));
+		pipe.add(new Document("$lookup", new Document("from", "problem").append("localField", "problem_id")
+				.append("foreignField", "_id").append("as", "problem")));
 		pipe.add(new Document("$unwind", new Document("path", "$problem").append("preserveNullAndEmptyArrays", true)));
 		appendConditionToPipeline(pipe, condition);
 		return c("d8Exp", domain).aggregate(pipe).into(new ArrayList<>());
@@ -1300,9 +1325,10 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 	@Override
 	public long countExp(BasicDBObject filter, String domain) {
 		List<Bson> prefixPipelines = new ArrayList<>();
-		prefixPipelines.add(new Document("$lookup",
-				new Document("from", "problem").append("localField", "problem_id").append("foreignField", "_id").append("as", "problem")));
-		prefixPipelines.add(new Document("$unwind", new Document("path", "$problem").append("preserveNullAndEmptyArrays", true)));
+		prefixPipelines.add(new Document("$lookup", new Document("from", "problem").append("localField", "problem_id")
+				.append("foreignField", "_id").append("as", "problem")));
+		prefixPipelines.add(
+				new Document("$unwind", new Document("path", "$problem").append("preserveNullAndEmptyArrays", true)));
 		return count("d8Exp", domain, filter, prefixPipelines);
 	}
 
@@ -1310,8 +1336,8 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 	public List<ProblemActionInfo> listGanttActions(ObjectId problem_id, String domain) {
 		List<ProblemActionInfo> result = new ArrayList<>();
 
-		String[][] stages = new String[][] { { "era", "紧急应对行动" }, { "ica", "临时控制行动" }, { "pca", "永久纠正措施" }, { "spa", "系统性预防措施" },
-				{ "lra", "挽回和善后措施" } };
+		String[][] stages = new String[][] { { "era", "紧急应对行动" }, { "ica", "临时控制行动" }, { "pca", "永久纠正措施" },
+				{ "spa", "系统性预防措施" }, { "lra", "挽回和善后措施" } };
 
 		for (int i = 0; i < stages.length; i++) {
 			List<ProblemActionInfo> actions = listGanttStageActions(problem_id, stages[i][0], domain);
@@ -1379,7 +1405,8 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 
 	@Override
 	public Document defaultProblemAnlysisOption(ObjectId problem_id, String domain) {
-		return new Document("keyword", getString("problem", "name", problem_id, domain)).append("problem_id", problem_id);
+		return new Document("keyword", getString("problem", "name", problem_id, domain)).append("problem_id",
+				problem_id);
 	}
 
 	@Override
@@ -1416,7 +1443,8 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 		pipeline.add(new Document("$match", new Document("problem_id", problem_id)));
 		pipeline.add(new Document("$lookup", new Document("from", "causeRelation").append("localField", "_id")
 				.append("foreignField", "parent_id").append("as", "child")));
-		pipeline.add(new Document("$match", new Document("$expr", new Document("$eq", Arrays.asList(new Document("$size", "$child"), 0)))));
+		pipeline.add(new Document("$match",
+				new Document("$expr", new Document("$eq", Arrays.asList(new Document("$size", "$child"), 0)))));
 		pipeline.add(new Document("$project", new Document("child", false)));
 
 		c("causeRelation", domain).aggregate(pipeline).forEach((Document d) -> {
@@ -1461,8 +1489,8 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 	}
 
 	@Override
-	public InputStream createReportAndGetDownloadPath(Document rptParam, ObjectId _id, String template, String fileName, String serverName,
-			int serverPath, String domain) {// TODO domain传递
+	public InputStream createReportAndGetDownloadPath(Document rptParam, ObjectId _id, String template, String fileName,
+			String serverName, int serverPath, String domain) {// TODO domain传递
 		try {
 			// 获取JQ中的查询语句
 
@@ -1474,9 +1502,11 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 						.registerTypeAdapter(Date.class, new DateAdapter())//
 						.registerTypeAdapter(BasicDBObject.class, new BasicDBObjectAdapter())//
 						.registerTypeAdapter(Document.class, new DocumentAdapter())//
-						.create().toJson(Domain.getJQ(domain, queryName).set("id", _id).list());
+						.create().toJson(Domain.getJQ(domain, queryName).set("id", _id).set("domain", domain).list());
 				param.put(key, json);
 			}
+			Domain dom = Domain.get(domain);
+			param.put("dbConnect", dom.getDatabaseUrl());
 			List<Map<String, Object>> processors = new ArrayList<Map<String, Object>>();
 
 			// 构建第一个处理器及其参数
@@ -1539,7 +1569,8 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 
 			Dispatcher dispatcher = Service.get(Dispatcher.class);
 			try {
-				Map<String, Object> result = dispatcher.run(processors, "com.bizvpm.dps.processor.dispatch:dispatch.sequential");
+				Map<String, Object> result = dispatcher.run(processors,
+						"com.bizvpm.dps.processor.dispatch:dispatch.sequential");
 				return (InputStream) result.get("file");
 			} catch (Exception e) {
 				logger.error("DPS 转换出错。", e);
