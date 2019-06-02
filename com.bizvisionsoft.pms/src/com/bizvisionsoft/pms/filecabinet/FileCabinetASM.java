@@ -12,7 +12,6 @@ import com.bizvisionsoft.annotations.ui.common.Inject;
 import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.service.DocumentService;
-import com.bizvisionsoft.service.model.Docu;
 import com.bizvisionsoft.service.model.Folder;
 import com.bizvisionsoft.service.model.FolderInTemplate;
 import com.bizvisionsoft.service.model.IFolder;
@@ -107,9 +106,9 @@ public class FileCabinetASM extends CabinetASM {
 	@Override
 	protected boolean doDeleteFolder(IFolder folder) {
 		if (input instanceof Project) {
-			Services.get(DocumentService.class).deleteProjectFolder(folder.get_id(), br.getDomain());
+			return Services.get(DocumentService.class).deleteProjectFolder(folder.get_id(), br.getDomain());
 		} else if (input instanceof ProjectTemplate) {
-			Services.get(DocumentService.class).deleteProjectTemplateFolder(folder.get_id(), br.getDomain());
+			return Services.get(DocumentService.class).deleteProjectTemplateFolder(folder.get_id(), br.getDomain());
 		}
 		return false;
 	}

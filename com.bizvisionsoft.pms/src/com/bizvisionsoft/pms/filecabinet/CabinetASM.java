@@ -14,6 +14,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 
+import com.bizvisionsoft.bruicommons.factory.action.ActionFactory;
 import com.bizvisionsoft.bruicommons.model.Action;
 import com.bizvisionsoft.bruiengine.assembly.GridPart;
 import com.bizvisionsoft.bruiengine.assembly.StickerTitlebar;
@@ -113,8 +114,7 @@ public abstract class CabinetASM {
 
 	private Composite createFolderPane(Composite parent) {
 		AssemblyContainer left;
-		left = new AssemblyContainer(parent, context).setAssembly(br.getAssembly("项目档案库文件夹")).setServices(br)
-				.create();
+		left = new AssemblyContainer(parent, context).setAssembly(br.getAssembly("项目档案库文件夹")).setServices(br).create();
 
 		folderPane = (GridPart) left.getContext().getContent();
 		folderPane.getViewer().getControl().addListener(SWT.Selection, e -> {
@@ -141,55 +141,44 @@ public abstract class CabinetASM {
 
 	private void showMenu(final IFolder folder) {
 		// 显示资源选择框
-		Action a1 = new Action();
-		a1.setName("createFile");
-		a1.setText("创建文档");
-		a1.setImage("/img/file_add_w.svg");
-		a1.setStyle("normal");
 
-		Action a2 = new Action();
-		a2.setName("createFolder");
-		a2.setText("创建子文件夹");
-		a2.setImage("/img/folder_add_w.svg");
-		a2.setStyle("normal");
+		new ActionMenu(br).setActions(Arrays.asList(
+				// a1
+				new ActionFactory().text("创建文档").name("createFile").img("/img/file_add_w.svg").normalStyle()
+						.exec((e, c) -> {
+							Docu docu = br.newInstance(Docu.class).setFolder_id(folder.get_id())
+									.setCreationInfo(br.operationInfo());
+							Editor.open("通用文档编辑器", context, docu, true, (b, t) -> {
+								filePane.insert(Services.get(DocumentService.class).createDocument(t, br.getDomain()));
+							});
+						}).get(),
+				// a2
 
-		Action a3 = new Action();
-		a3.setName("renameFolder");
-		a3.setText("文件夹更名");
-		a3.setImage("/img/folder_rename_w.svg");
-		a3.setStyle("normal");
+				new ActionFactory().text("创建子文件夹").name("createFolder").img("/img/folder_add_w.svg").normalStyle()
+						.exec((e, c) -> {
+							if (createFolder(folder)) {
+								folderPane.refresh(folder);
+								folderPane.getViewer().expandToLevel(folder, 1);
+							}
+						}).get(),
+				// a3
 
-		Action a4 = new Action();
-		a4.setName("deleteFolder");
-		a4.setText("删除文件夹");
-		a4.setImage("/img/delete_w.svg");
-		a4.setStyle("warning");
+				new ActionFactory().text("文件夹更名").name("renameFolder").img("/img/folder_rename_w.svg").normalStyle()
+						.exec((e, c) -> {
+							if (renameFolder(folder)) {
+								folderPane.update(folder);
+							}
+						}).get(),
+				// a4
 
-		// 弹出menu
-		new ActionMenu(br).setActions(Arrays.asList(a1, a2, a3, a4)).handleActionExecute("createFile", a -> {
-			Docu docu = br.newInstance(Docu.class).setFolder_id(folder.get_id()).setCreationInfo(br.operationInfo());
-			Editor.open("通用文档编辑器", context, docu, true, (b, t) -> {
-				filePane.insert(Services.get(DocumentService.class).createDocument(t,br.getDomain()));
-			});
-			return false;
-		}).handleActionExecute("renameFolder", a -> {
-			if (renameFolder(folder)) {
-				folderPane.update(folder);
-			}
-			return false;
-		}).handleActionExecute("createFolder", a -> {
-			if (createFolder(folder)) {
-				folderPane.refresh(folder);
-				folderPane.getViewer().expandToLevel(folder, 1);
-			}
-			return false;
-		}).handleActionExecute("deleteFolder", a -> {
-			if (deleteFolder(folder)) {
-				folderPane.remove(folder);
-			}
-			return false;
-		}).open();
-
+				new ActionFactory().text("删除文件夹").name("deleteFolder").img("/img/delete_w.svg").warningStyle()
+						.exec((e, c) -> {
+							if (deleteFolder(folder)) {
+								folderPane.remove(folder);
+							}
+						}).get()
+		//
+		)).open();
 	}
 
 	protected abstract List<?> getInput();

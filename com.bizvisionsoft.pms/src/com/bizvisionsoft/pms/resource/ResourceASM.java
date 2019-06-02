@@ -15,6 +15,7 @@ import com.bizivisionsoft.widgets.gantt.GanttEventCode;
 import com.bizivisionsoft.widgets.util.Layer;
 import com.bizvisionsoft.annotations.ui.common.CreateUI;
 import com.bizvisionsoft.annotations.ui.common.Inject;
+import com.bizvisionsoft.bruicommons.factory.action.ActionFactory;
 import com.bizvisionsoft.bruicommons.model.Action;
 import com.bizvisionsoft.bruiengine.assembly.GanttPart;
 import com.bizvisionsoft.bruiengine.assembly.StickerTitlebar;
@@ -72,14 +73,14 @@ public class ResourceASM {
 		}
 		parent.setLayout(new FormLayout());
 
-		StickerTitlebar bar = Controls.handle(new StickerTitlebar(parent, null, null)).height(48).left().top().right().get()
-				.setText(stickerTitleText).setActions(context.getAssembly().getActions());
+		StickerTitlebar bar = Controls.handle(new StickerTitlebar(parent, null, null)).height(48).left().top().right()
+				.get().setText(stickerTitleText).setActions(context.getAssembly().getActions());
 
 		Composite content = Controls.contentPanel(parent).mLoc().mTop(bar).layout(new FillLayout(SWT.VERTICAL)).get();
 
 		// 修改控件title，以便在导出按钮进行显示
-		gantt = (GanttPart) new AssemblyContainer(content, context).setAssembly(br.getAssembly(ganttAssemblyName)).setServices(br)
-				.create().getContext().getContent();
+		gantt = (GanttPart) new AssemblyContainer(content, context).setAssembly(br.getAssembly(ganttAssemblyName))
+				.setServices(br).create().getContext().getContent();
 
 		gantt.setExportActionText("甘特图");
 		ResourceTransfer rt = new ResourceTransfer();
@@ -103,8 +104,8 @@ public class ResourceASM {
 		}
 
 		// 修改控件title，以便在导出按钮进行显示
-		grid = (EditResourceASM) new AssemblyContainer(content, context).setAssembly(br.getAssembly("编辑资源情况")).setInput(rt)
-				.setServices(br).create().getContext().getContent();
+		grid = (EditResourceASM) new AssemblyContainer(content, context).setAssembly(br.getAssembly("编辑资源情况"))
+				.setInput(rt).setServices(br).create().getContext().getContent();
 		grid.setExportActionText(gridExportActionText);
 		// 侦听gantt的selection
 		gantt.addGanttEventListener(GanttEventCode.onTaskSelected.name(), l -> select((Work) ((GanttEvent) l).task));
@@ -141,36 +142,18 @@ public class ResourceASM {
 	}
 
 	private void allocateResource() {
-		// 显示资源选择框
-		Action hrRes = new Action();
-		hrRes.setName("hr");
-		hrRes.setText("人力资源");
-		hrRes.setImage("/img/team_w.svg");
-		hrRes.setStyle("normal");
-
-		Action eqRes = new Action();
-		eqRes.setName("eq");
-		eqRes.setText("设备资源");
-		eqRes.setImage("/img/equipment_w.svg");
-		eqRes.setStyle("normal");
-
-		Action typedRes = new Action();
-		typedRes.setName("tr");
-		typedRes.setText("资源类型");
-		typedRes.setImage("/img/resource_w.svg");
-		typedRes.setStyle("info");
-
 		// 弹出menu
-		new ActionMenu(br).setActions(Arrays.asList(hrRes, eqRes, typedRes)).handleActionExecute("hr", a -> {
-			addResource("人力资源选择器");
-			return false;
-		}).handleActionExecute("eq", a -> {
-			addResource("设备设施选择器");
-			return false;
-		}).handleActionExecute("tr", a -> {
-			addResource("资源类型选择器");
-			return false;
-		}).open();
+		new ActionMenu(br).setActions(Arrays.asList(
+				//
+				new ActionFactory().name("hr").text("人力资源").img("/img/team_w.svg").normalStyle()
+						.exec((e, c) -> addResource("人力资源选择器")).get(),
+				//
+				new ActionFactory().name("eq").text("设备资源").img("/img/equipment_w.svg").normalStyle()
+						.exec((e, c) -> addResource("设备设施选择器")).get(),
+				//
+				new ActionFactory().name("tr").text("资源类型").img("/img/resource_w.svg").infoStyle()
+						.exec((e, c) -> addResource("资源类型选择器")).get()))
+				.open();
 	}
 
 	private void addResource(String selectorId) {

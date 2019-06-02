@@ -65,7 +65,8 @@ public class BasicServiceImpl {
 
 	public static String CLOSE_SETTING_NAME = "项目关闭设置";
 
-	protected static List<String> PROJECT_SETTING_NAMES = Arrays.asList(CHECKIN_SETTING_NAME, START_SETTING_NAME, CLOSE_SETTING_NAME);
+	protected static List<String> PROJECT_SETTING_NAMES = Arrays.asList(CHECKIN_SETTING_NAME, START_SETTING_NAME,
+			CLOSE_SETTING_NAME);
 
 	public Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -217,12 +218,14 @@ public class BasicServiceImpl {
 	 * @param domain
 	 * @return
 	 */
-	final protected <T> List<T> list(Class<T> clazz, String domain, BasicDBObject condition, List<Bson> appendPipelines) {
+	final protected <T> List<T> list(Class<T> clazz, String domain, BasicDBObject condition,
+			List<Bson> appendPipelines) {
 		ArrayList<Bson> pipeline = combinateQueryPipeline(condition, appendPipelines);
 		return c(clazz, domain).aggregate(pipeline).into(new ArrayList<T>());
 	}
 
-	final protected List<Document> list(String col, String domain, BasicDBObject condition, List<Bson> appendPipelines) {
+	final protected List<Document> list(String col, String domain, BasicDBObject condition,
+			List<Bson> appendPipelines) {
 		ArrayList<Bson> pipeline = combinateQueryPipeline(condition, appendPipelines);
 		return c(col, domain).aggregate(pipeline).into(new ArrayList<>());
 	}
@@ -236,8 +239,8 @@ public class BasicServiceImpl {
 
 	final protected long count(String col, String domain, BasicDBObject filter, List<Bson> prefixPipelines) {
 		ArrayList<Bson> pipeline = combinateCountPipeline(prefixPipelines, filter);
-		return Optional.ofNullable(c(col, domain).aggregate(pipeline).first()).map(d -> (Number) d.get("count")).map(d -> d.longValue())
-				.orElse(0l);
+		return Optional.ofNullable(c(col, domain).aggregate(pipeline).first()).map(d -> (Number) d.get("count"))
+				.map(d -> d.longValue()).orElse(0l);
 	}
 
 	protected List<Bson> appendConditionToPipeline(List<Bson> pipeline, BasicDBObject condition) {
@@ -279,7 +282,8 @@ public class BasicServiceImpl {
 		return query(skip, limit, filter, null, clazz, domain);
 	}
 
-	<T> List<T> query(Integer skip, Integer limit, BasicDBObject filter, BasicDBObject sort, Class<T> clazz, String domain) {
+	<T> List<T> query(Integer skip, Integer limit, BasicDBObject filter, BasicDBObject sort, Class<T> clazz,
+			String domain) {
 		return query(null, skip, limit, filter, sort, null, clazz, domain);
 	}
 
@@ -315,8 +319,8 @@ public class BasicServiceImpl {
 
 	protected void appendLookupAndUnwind(List<Bson> pipeline, String from, String field, String newField,
 			boolean preserveNullAndEmptyArrays) {
-		pipeline.add(new Document("$lookup",
-				new Document("from", from).append("localField", field).append("foreignField", "_id").append("as", newField)));
+		pipeline.add(new Document("$lookup", new Document("from", from).append("localField", field)
+				.append("foreignField", "_id").append("as", newField)));
 
 		pipeline.add(new Document("$unwind",
 				new Document("path", "$" + newField).append("preserveNullAndEmptyArrays", preserveNullAndEmptyArrays)));
@@ -344,7 +348,8 @@ public class BasicServiceImpl {
 		appendUserInfo(pipeline, useIdField, userInfoField, userInfoField + "_meta", domain);
 	}
 
-	protected void appendUserInfo(List<Bson> pipeline, String useIdField, String userInfoField, String userMetaField, String domain) {
+	protected void appendUserInfo(List<Bson> pipeline, String useIdField, String userInfoField, String userMetaField,
+			String domain) {
 		pipeline.addAll(Domain.getJQ(domain, "追加-用户")//
 				.set("$chargerId", "$" + useIdField)//
 				.set("chargerInfo_meta", userMetaField)//
@@ -356,7 +361,8 @@ public class BasicServiceImpl {
 				.array());
 	}
 
-	protected void appendUserInfoAndHeadPic(List<Bson> pipeline, String useIdField, String userInfoField, String headPicField) {
+	protected void appendUserInfoAndHeadPic(List<Bson> pipeline, String useIdField, String userInfoField,
+			String headPicField) {
 		String tempField = "_user_" + useIdField;
 
 		pipeline.add(Aggregates.lookup("user", useIdField, "userId", tempField));
@@ -385,8 +391,8 @@ public class BasicServiceImpl {
 	protected void appendProject(List<Bson> pipeline) {
 		pipeline.add(Aggregates.lookup("project", "project_id", "_id", "project"));
 		pipeline.add(Aggregates.unwind("$project"));
-		pipeline.add(Aggregates.addFields(
-				Arrays.asList(new Field<String>("projectName", "$project.name"), new Field<String>("projectNumber", "$project.id"))));
+		pipeline.add(Aggregates.addFields(Arrays.asList(new Field<String>("projectName", "$project.name"),
+				new Field<String>("projectNumber", "$project.id"))));
 		pipeline.add(Aggregates.project(new BasicDBObject("project", false)));
 	}
 
@@ -429,20 +435,18 @@ public class BasicServiceImpl {
 	 * 使用lookupDesentItems替代
 	 * 
 	 * @param inputIds
+	 *            输入的_id列表
 	 * @param cName
+	 *            集合名称
 	 * @param key
+	 *            关键字
 	 * @return
 	 */
-	@Deprecated
 	protected List<ObjectId> getDesentItems(List<ObjectId> inputIds, String cName, String key, String domain) {
 		List<ObjectId> result = new ArrayList<ObjectId>();
-		if (inputIds != null && !inputIds.isEmpty()) {
-			result.addAll(inputIds);
-			List<ObjectId> childrenIds = c(cName, domain)
-					.distinct("_id", new BasicDBObject(key, new BasicDBObject("$in", inputIds)), ObjectId.class)
-					.into(new ArrayList<ObjectId>());
-			result.addAll(getDesentItems(childrenIds, cName, key, domain));
-		}
+		lookupDesentItems(inputIds, cName, domain, key, true).forEach(d -> {
+			result.add(d.getObjectId("_id"));
+		});
 		return result;
 	}
 
@@ -481,7 +485,8 @@ public class BasicServiceImpl {
 	}
 
 	protected int generateCode(String name, String key) {
-		Document doc = Service.database.getCollection(name).findOneAndUpdate(Filters.eq("_id", key), Updates.inc("next_val", 1),
+		Document doc = Service.database.getCollection(name).findOneAndUpdate(Filters.eq("_id", key),
+				Updates.inc("next_val", 1),
 				new FindOneAndUpdateOptions().upsert(true).returnDocument(ReturnDocument.AFTER));
 		return doc.getInteger("next_val");
 	}
@@ -498,8 +503,8 @@ public class BasicServiceImpl {
 		// new Document("$project", new Document("works", true)));
 
 		List<? extends Bson> pipeline = Domain.getJQ(domain, "查询-日历-资源类-每日工时").set("resTypeId", resTypeId).array();
-		return Optional.ofNullable(c("calendar", domain).aggregate(pipeline).first()).map(d -> d.getDouble("basicWorks"))
-				.map(w -> w.doubleValue()).orElse(0d);
+		return Optional.ofNullable(c("calendar", domain).aggregate(pipeline).first())
+				.map(d -> d.getDouble("basicWorks")).map(w -> w.doubleValue()).orElse(0d);
 	}
 
 	public boolean checkDayIsWorkingDay(Calendar cal, ObjectId resTypeId, String domain) {
@@ -539,8 +544,8 @@ public class BasicServiceImpl {
 		// new Document("$sort", new Document("workdate", -1).append("workingDay",
 		// -1)));
 
-		List<? extends Bson> pipeline = Domain.getJQ(domain, "查询-日历-资源类-工作日").set("resTypeId", resTypeId).set("week", getDateWeek(cal))
-				.set("date", cal.getTime()).array();
+		List<? extends Bson> pipeline = Domain.getJQ(domain, "查询-日历-资源类-工作日").set("resTypeId", resTypeId)
+				.set("week", getDateWeek(cal)).set("date", cal.getTime()).array();
 
 		Document doc = c("calendar", domain).aggregate(pipeline).first();
 		if (doc != null) {
@@ -575,14 +580,17 @@ public class BasicServiceImpl {
 		}
 	}
 
-	protected boolean sendMessage(String subject, String content, String sender, String receiver, String url, String domain) {
+	protected boolean sendMessage(String subject, String content, String sender, String receiver, String url,
+			String domain) {
 		sendMessage(Message.newInstance(subject, content, sender, receiver, url), domain);
 		return true;
 	}
 
-	protected boolean sendMessage(String subject, String content, String sender, List<String> receivers, String url, String domain) {
+	protected boolean sendMessage(String subject, String content, String sender, List<String> receivers, String url,
+			String domain) {
 		List<Message> toBeInsert = new ArrayList<>();
-		new HashSet<String>(receivers).forEach(r -> toBeInsert.add(Message.newInstance(subject, content, sender, r, url)));
+		new HashSet<String>(receivers)
+				.forEach(r -> toBeInsert.add(Message.newInstance(subject, content, sender, r, url)));
 		return sendMessages(toBeInsert, domain);
 	}
 
@@ -625,8 +633,9 @@ public class BasicServiceImpl {
 		links.forEach(doc -> createGrphicRoute(routes, tasks, doc));
 	}
 
-	protected void convertGraphicWithRisks(ArrayList<Document> works, ArrayList<Document> links, ArrayList<Document> riskEffect,
-			final ArrayList<Task> tasks, final ArrayList<Route> routes, final ArrayList<Risk> risks) {
+	protected void convertGraphicWithRisks(ArrayList<Document> works, ArrayList<Document> links,
+			ArrayList<Document> riskEffect, final ArrayList<Task> tasks, final ArrayList<Route> routes,
+			final ArrayList<Risk> risks) {
 		convertGraphic(works, links, tasks, routes);
 		riskEffect.forEach(doc -> createGraphicRiskNode(tasks, risks, doc));
 		riskEffect.forEach(doc -> setGraphicRiskParent(risks, doc));
@@ -688,8 +697,8 @@ public class BasicServiceImpl {
 				Document rf = (Document) riskEffects.get(i);
 				Integer timeInf = rf.getInteger("timeInf");
 				if (timeInf != null) {
-					Task task = tasks.stream().filter(t -> t.getId().equals(rf.getObjectId("work_id").toHexString())).findFirst()
-							.orElse(null);
+					Task task = tasks.stream().filter(t -> t.getId().equals(rf.getObjectId("work_id").toHexString()))
+							.findFirst().orElse(null);
 					if (task != null) {
 						cons.add(new Consequence(task, timeInf.intValue()));
 					}
@@ -794,8 +803,8 @@ public class BasicServiceImpl {
 	 */
 	protected List<ObjectId> getAdministratedProjects(String userId, String domain) {
 		List<Bson> pipeline = new ArrayList<Bson>();
-		pipeline.add(new Document("$match",
-				new Document("status", new Document("$in", Arrays.asList(ProjectStatus.Processing, ProjectStatus.Closing)))));
+		pipeline.add(new Document("$match", new Document("status",
+				new Document("$in", Arrays.asList(ProjectStatus.Processing, ProjectStatus.Closing)))));
 
 		// 当前用户具有项目总监权限时显示全部，不显示全部时，加载PMO团队查询
 		if (!checkUserRoles(userId, Role.SYS_ROLE_PD_ID, domain)) {
@@ -815,7 +824,8 @@ public class BasicServiceImpl {
 	 * @param domain
 	 */
 	protected void appendQueryUserInProjectPMO(List<Bson> pipeline, String userid, String scopeIdName, String domain) {
-		pipeline.addAll(Domain.getJQ(domain, "查询-项目PMO成员").set("scopeIdName", scopeIdName).set("userId", userid).array());
+		pipeline.addAll(
+				Domain.getJQ(domain, "查询-项目PMO成员").set("scopeIdName", scopeIdName).set("userId", userid).array());
 	}
 
 	/**
@@ -826,12 +836,12 @@ public class BasicServiceImpl {
 	 * @return
 	 */
 	final protected ServiceException handleMongoException(Exception e, String message) {
-		if (e instanceof MongoException && ((MongoException) e).getCode() == 11000) {//11000为唯一索引提示
+		if (e instanceof MongoException && ((MongoException) e).getCode() == 11000) {// 11000为唯一索引提示
 			if (Check.isAssigned(message))
 				return new ServiceException("违反唯一性规则：" + message);
 			else
 				return new ServiceException("违反唯一性规则");
-		}//TODO 其他代码的提示可增加到下方
+		} // TODO 其他代码的提示可增加到下方
 		return new ServiceException(e.getMessage());
 	}
 
@@ -853,12 +863,14 @@ public class BasicServiceImpl {
 		if (pj.getBoolean("backgroundScheduling", false)) {
 			return -1;
 		}
-		c("project", domain).updateOne(new Document("_id", _id), new Document("$set", new Document("backgroundScheduling", true)));
+		c("project", domain).updateOne(new Document("_id", _id),
+				new Document("$set", new Document("backgroundScheduling", true)));
 
 		/////////////////////////////////////////////////////////////////////////////////////////////////
 		// 前处理：构造图
 		ArrayList<Document> works = c("work", domain).find(new Document("project_id", _id)).into(new ArrayList<>());
-		ArrayList<Document> links = c("worklinks", domain).find(new Document("project_id", _id)).into(new ArrayList<>());
+		ArrayList<Document> links = c("worklinks", domain).find(new Document("project_id", _id))
+				.into(new ArrayList<>());
 		ArrayList<Task> tasks = new ArrayList<Task>();
 		ArrayList<Route> routes = new ArrayList<Route>();
 		convertGraphic(works, links, tasks, routes);
@@ -880,8 +892,8 @@ public class BasicServiceImpl {
 		Document scheduleEst = null;
 		// 0级预警检查
 		float overTime = gh.getT() - ((end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24));
-		scheduleEst = new Document("date", new Date()).append("overdue", (int) overTime).append("finish", gh.getFinishDate())
-				.append("duration", (int) gh.getT());
+		scheduleEst = new Document("date", new Date()).append("overdue", (int) overTime)
+				.append("finish", gh.getFinishDate()).append("duration", (int) gh.getT());
 
 		if (overTime > 0) {
 			warningLevel = 0;// 0级预警，项目可能超期。
@@ -920,8 +932,9 @@ public class BasicServiceImpl {
 
 		/////////////////////////////////////////////////////////////////////////////////////////////////
 		// 后处理：保存排程结果，解除锁定
-		c("project", domain).updateOne(new Document("_id", _id), new Document("$set",
-				new Document("overdueIndex", warningLevel).append("scheduleEst", scheduleEst).append("backgroundScheduling", false)));
+		c("project", domain).updateOne(new Document("_id", _id),
+				new Document("$set", new Document("overdueIndex", warningLevel).append("scheduleEst", scheduleEst)
+						.append("backgroundScheduling", false)));
 
 		return warningLevel;
 	}
@@ -1093,7 +1106,8 @@ public class BasicServiceImpl {
 			list.forEach(itm -> deleteFile((Document) itm, domain));
 	}
 
-	protected Document updateThen(Document d, String lang, String col, String domain, BiFunction<Document, String, Document> func) {
+	protected Document updateThen(Document d, String lang, String col, String domain,
+			BiFunction<Document, String, Document> func) {
 		Document doc = update(d, col, domain);
 		return Optional.ofNullable(func).map(f -> f.apply(doc, lang)).orElse(doc);
 	}
@@ -1102,7 +1116,8 @@ public class BasicServiceImpl {
 		Document filter = new Document("_id", d.get("_id"));
 		d.remove("_id");
 		Document set = new Document("$set", d);
-		FindOneAndUpdateOptions options = new FindOneAndUpdateOptions().upsert(true).returnDocument(ReturnDocument.AFTER);
+		FindOneAndUpdateOptions options = new FindOneAndUpdateOptions().upsert(true)
+				.returnDocument(ReturnDocument.AFTER);
 		Document doc = c(col, domain).findOneAndUpdate(filter, set, options);
 		return doc;
 	}

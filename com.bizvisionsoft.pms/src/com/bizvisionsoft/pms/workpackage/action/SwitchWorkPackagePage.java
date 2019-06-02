@@ -3,6 +3,7 @@ package com.bizvisionsoft.pms.workpackage.action;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.bizvisionsoft.bruicommons.factory.action.ActionFactory;
 import com.bizvisionsoft.bruicommons.model.Action;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.ui.ActionMenu;
@@ -22,26 +23,16 @@ public class SwitchWorkPackagePage {
 			ArrayList<Action> actions = new ArrayList<Action>();
 			ActionMenu menu = new ActionMenu(brui);
 			wps.forEach(view -> {
-				actions.add(createAction(view));
-				menu.handleActionExecute(view.get_id().toHexString(), f -> {
-					brui.openContent(brui.getAssembly("工作包计划"), new Object[] { work, view });
-					return false;
-				});
+				actions.add(new ActionFactory().name(view.get_id().toHexString())
+						.text("<div>" + view.getCatagory()
+								+ "</div><div style='width:120px;text-overflow:ellipsis;overflow: hidden;'>"
+								+ view.getName() + "</div>")
+						.tooltips(view.getName()).normalStyle()
+						.exec((e, c) -> brui.openContent(brui.getAssembly("工作包计划"), new Object[] { work, view }))
+						.get());
 			});
 			menu.setActions(actions);
 			menu.open();
 		}
 	}
-
-	private static Action createAction(TrackView view) {
-		// 显示资源选择框
-		Action hrRes = new Action();
-		hrRes.setName(view.get_id().toHexString());
-		hrRes.setText("<div>" + view.getCatagory() + "</div><div style='width:120px;text-overflow:ellipsis;overflow: hidden;'>"
-				+ view.getName() + "</div>");
-		hrRes.setTooltips(view.getName());
-		hrRes.setStyle("normal");
-		return hrRes;
-	}
-
 }

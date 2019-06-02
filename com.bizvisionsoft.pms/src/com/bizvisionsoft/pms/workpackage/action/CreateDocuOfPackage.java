@@ -11,6 +11,7 @@ import com.bizvisionsoft.annotations.UniversalResult;
 import com.bizvisionsoft.annotations.ui.common.Execute;
 import com.bizvisionsoft.annotations.ui.common.Inject;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
+import com.bizvisionsoft.bruicommons.factory.action.ActionFactory;
 import com.bizvisionsoft.bruicommons.model.Action;
 import com.bizvisionsoft.bruiengine.assembly.GridPart;
 import com.bizvisionsoft.bruiengine.service.IBruiContext;
@@ -46,45 +47,21 @@ public class CreateDocuOfPackage {
 	public void execute(final @MethodParam(Execute.CONTEXT) IBruiContext context) {
 		// 检查是否存在文档设置
 		WorkPackage wp = (WorkPackage) context.getInput();
-		List<DocuSetting> setting = Services.get(DocumentService.class).listDocumentSetting(wp.get_id(), br.getDomain());
+		List<DocuSetting> setting = Services.get(DocumentService.class).listDocumentSetting(wp.get_id(),
+				br.getDomain());
 		if (setting.isEmpty()) {
 			createGenaricDocument(context);
 		} else {
 			ActionMenu am = new ActionMenu(br);
 			List<Action> actions = new ArrayList<>();
 
-			appendGeneriDocument(am, actions, context);
-			setting.forEach(ds -> appendDocuSettingAct(am, actions, ds, context));
+			actions.add(new ActionFactory().name("create").text("文档").normalStyle()
+					.exec((e, c) -> createGenaricDocument(context)).get());
+			setting.forEach(ds -> actions.add(new ActionFactory().name("create_" + ds.get_id()).text(ds.getName())
+					.normalStyle().exec((e, c) -> createDocumentFromSetting(context, ds)).get()));
 
 			am.setActions(actions).open();
 		}
-	}
-
-	private void appendGeneriDocument(ActionMenu am, List<Action> actions, IBruiContext context) {
-		Action a = new Action();
-		String name = "create";
-		a.setName(name);
-		a.setText("文档");
-		a.setStyle("normal");
-		actions.add(a);
-		am.handleActionExecute(name, act -> {
-			createGenaricDocument(context);
-			return false;
-		});
-	}
-
-	private void appendDocuSettingAct(ActionMenu am, List<Action> actions, DocuSetting ds, IBruiContext context) {
-
-		Action a = new Action();
-		String name = "create_" + ds.get_id();
-		a.setName(name);
-		a.setText(ds.getName());
-		a.setStyle("normal");
-		actions.add(a);
-		am.handleActionExecute(name, act -> {
-			createDocumentFromSetting(context, ds);
-			return false;
-		});
 	}
 
 	private void createDocumentFromSetting(IBruiContext context, DocuSetting ds) {
@@ -101,10 +78,10 @@ public class CreateDocuOfPackage {
 				.setName(wp.description)//
 				.setTag(dt.getTag())//
 				.setCategory(dt.getCategory());//
-		
+
 		String editorName = dt.getEditorName();
 		if (Check.isAssigned(editorName)) {
-			docu.setEditorName(editorName);//保存编辑器名称
+			docu.setEditorName(editorName);// 保存编辑器名称
 			Document encodeDocument = docu.encodeDocument();
 			Editor.open(editorName, context, encodeDocument, true, (r, t) -> {
 				String id = docu.generateId();

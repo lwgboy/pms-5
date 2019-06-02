@@ -34,6 +34,7 @@ import com.bizvisionsoft.annotations.AUtil;
 import com.bizvisionsoft.annotations.ui.common.CreateUI;
 import com.bizvisionsoft.annotations.ui.common.Init;
 import com.bizvisionsoft.annotations.ui.common.Inject;
+import com.bizvisionsoft.bruicommons.factory.action.ActionFactory;
 import com.bizvisionsoft.bruicommons.model.Action;
 import com.bizvisionsoft.bruicommons.model.Column;
 import com.bizvisionsoft.bruiengine.assembly.GridPart;
@@ -299,36 +300,19 @@ public class EditResourceASM extends GridPart {
 	}
 
 	private void allocateResource() {
-		// 显示资源选择框
-		Action hrRes = new Action();
-		hrRes.setName("hr");
-		hrRes.setText("人力资源");
-		hrRes.setImage("/img/team_w.svg");
-		hrRes.setStyle("normal");
-
-		Action eqRes = new Action();
-		eqRes.setName("eq");
-		eqRes.setText("设备资源");
-		eqRes.setImage("/img/equipment_w.svg");
-		eqRes.setStyle("normal");
-
-		Action typedRes = new Action();
-		typedRes.setName("tr");
-		typedRes.setText("资源类型");
-		typedRes.setImage("/img/resource_w.svg");
-		typedRes.setStyle("info");
-
 		// 弹出menu
-		new ActionMenu(br).setActions(Arrays.asList(hrRes, eqRes, typedRes)).handleActionExecute("hr", a -> {
-			addResource("人力资源选择器");
-			return false;
-		}).handleActionExecute("eq", a -> {
-			addResource("设备设施选择器");
-			return false;
-		}).handleActionExecute("tr", a -> {
-			addResource("资源类型选择器");
-			return false;
-		}).open();
+		new ActionMenu(br).setActions(Arrays.asList(
+				//
+				new ActionFactory().name("hr").text("人力资源").img("/img/team_w.svg").normalStyle()
+						.exec((e, c) -> addResource("人力资源选择器")).get(),
+				//
+				new ActionFactory().name("eq").text("设备资源").img("/img/equipment_w.svg").normalStyle()
+						.exec((e, c) -> addResource("设备设施选择器")).get(),
+				//
+				new ActionFactory().name("tr").text("资源类型").img("/img/resource_w.svg").infoStyle()
+						.exec((e, c) -> addResource("资源类型选择器")).get()))
+				.open();
+
 	}
 
 	private void addResource(String editorId) {
@@ -336,7 +320,8 @@ public class EditResourceASM extends GridPart {
 			List<ResourceAssignment> resas = new ArrayList<ResourceAssignment>();
 			if (ResourceTransfer.TYPE_PLAN == rt.getType()) {
 				l.forEach(o -> {
-					rt.getWorkIds().forEach(work_id -> resas.add(new ResourceAssignment().setTypedResource(o).setWork_id(work_id)));
+					rt.getWorkIds().forEach(
+							work_id -> resas.add(new ResourceAssignment().setTypedResource(o).setWork_id(work_id)));
 				});
 				workService.addResourcePlan(resas, br.getDomain());
 			} else if (ResourceTransfer.TYPE_ACTUAL == rt.getType()) {
@@ -364,14 +349,16 @@ public class EditResourceASM extends GridPart {
 		rt.getWorkIds().forEach(work_id -> {
 			if (rt.getType() == ResourceTransfer.TYPE_PLAN) {
 				if (doc.get("usedEquipResId") != null)
-					workService.deleteEquipmentResourcePlan(work_id, (String) doc.get("usedEquipResId"), br.getDomain());
+					workService.deleteEquipmentResourcePlan(work_id, (String) doc.get("usedEquipResId"),
+							br.getDomain());
 				else if (doc.get("usedHumanResId") != null)
 					workService.deleteHumanResourcePlan(work_id, (String) doc.get("usedHumanResId"), br.getDomain());
 				else if (doc.get("usedTypedResId") != null)
 					workService.deleteTypedResourcePlan(work_id, (String) doc.get("usedTypedResId"), br.getDomain());
 			} else if (rt.getType() == ResourceTransfer.TYPE_ACTUAL) {
 				if (doc.get("usedEquipResId") != null)
-					workService.deleteEquipmentResourceActual(work_id, (String) doc.get("usedEquipResId"), br.getDomain());
+					workService.deleteEquipmentResourceActual(work_id, (String) doc.get("usedEquipResId"),
+							br.getDomain());
 				else if (doc.get("usedHumanResId") != null)
 					workService.deleteHumanResourceActual(work_id, (String) doc.get("usedHumanResId"), br.getDomain());
 				else if (doc.get("usedTypedResId") != null)
@@ -441,8 +428,8 @@ public class EditResourceASM extends GridPart {
 			qty = doc.getDouble("actualQty").intValue();
 		String name = doc.getString("name");
 		String usedTypedResId = doc.getString("usedTypedResId");
-		InputDialog id = new InputDialog(br.getCurrentShell(), "编辑资源数量", "请输入资源 " + name + "[" + usedTypedResId + "]" + " 数量",
-				qty.toString(), t -> {
+		InputDialog id = new InputDialog(br.getCurrentShell(), "编辑资源数量",
+				"请输入资源 " + name + "[" + usedTypedResId + "]" + " 数量", qty.toString(), t -> {
 					if (t.trim().isEmpty())
 						return "请输入资源使用数量";
 					try {
@@ -455,12 +442,14 @@ public class EditResourceASM extends GridPart {
 		if (InputDialog.OK == id.open()) {
 			int userQty = Integer.parseInt(id.getValue());
 			if (ResourceTransfer.TYPE_PLAN == rt.getType())
-				workService.updateResourcePlan(new FilterAndUpdate().filter(new BasicDBObject("work_id", doc.get("work_id"))
-						.append("usedTypedResId", usedTypedResId).append("resTypeId", doc.get("resTypeId")))
+				workService.updateResourcePlan(new FilterAndUpdate()
+						.filter(new BasicDBObject("work_id", doc.get("work_id"))
+								.append("usedTypedResId", usedTypedResId).append("resTypeId", doc.get("resTypeId")))
 						.set(new BasicDBObject("qty", userQty)).bson(), br.getDomain());
 			else
-				workService.updateResourceActual(new FilterAndUpdate().filter(new BasicDBObject("work_id", doc.get("work_id"))
-						.append("usedTypedResId", usedTypedResId).append("resTypeId", doc.get("resTypeId")))
+				workService.updateResourceActual(new FilterAndUpdate()
+						.filter(new BasicDBObject("work_id", doc.get("work_id"))
+								.append("usedTypedResId", usedTypedResId).append("resTypeId", doc.get("resTypeId")))
 						.set(new BasicDBObject("qty", userQty)).bson(), br.getDomain());
 		}
 		doRefresh();
@@ -565,18 +554,16 @@ public class EditResourceASM extends GridPart {
 					key += "OverTimeQty";
 				}
 				if (_id != null && rt.getType() == ResourceTransfer.TYPE_PLAN) {
-					workService.updateResourcePlan(
-							new FilterAndUpdate().filter(new Document("_id", _id)).set(new Document("plan" + key, userQty)).bson(),
-							br.getDomain());
+					workService.updateResourcePlan(new FilterAndUpdate().filter(new Document("_id", _id))
+							.set(new Document("plan" + key, userQty)).bson(), br.getDomain());
 				} else if (_id != null && rt.getType() == ResourceTransfer.TYPE_ACTUAL) {
 					if (rt.isReport())
-						workService.updateWorkReportResourceActual(
-								new FilterAndUpdate().filter(new Document("_id", _id)).set(new Document("actual" + key, userQty)).bson(),
+						workService.updateWorkReportResourceActual(new FilterAndUpdate()
+								.filter(new Document("_id", _id)).set(new Document("actual" + key, userQty)).bson(),
 								br.getDomain());
 					else
-						workService.updateResourceActual(
-								new FilterAndUpdate().filter(new Document("_id", _id)).set(new Document("actual" + key, userQty)).bson(),
-								br.getDomain());
+						workService.updateResourceActual(new FilterAndUpdate().filter(new Document("_id", _id))
+								.set(new Document("actual" + key, userQty)).bson(), br.getDomain());
 				}
 
 			}
@@ -614,7 +601,8 @@ public class EditResourceASM extends GridPart {
 
 	private void createColumn() {
 		Column c;
-		if (showType == ResourceTransfer.SHOWTYPE_MULTIWORK_MULTIRESOURCE || showType == ResourceTransfer.SHOWTYPE_MULTIWORK_ONERESOURCE) {
+		if (showType == ResourceTransfer.SHOWTYPE_MULTIWORK_MULTIRESOURCE
+				|| showType == ResourceTransfer.SHOWTYPE_MULTIWORK_ONERESOURCE) {
 			c = new Column();
 			c.setName("workName");
 			c.setText("工作名称");
@@ -654,7 +642,8 @@ public class EditResourceASM extends GridPart {
 			createTitleColumn(c);
 		}
 
-		if (showType == ResourceTransfer.SHOWTYPE_MULTIWORK_MULTIRESOURCE || showType == ResourceTransfer.SHOWTYPE_ONEWORK_MULTIRESOURCE) {
+		if (showType == ResourceTransfer.SHOWTYPE_MULTIWORK_MULTIRESOURCE
+				|| showType == ResourceTransfer.SHOWTYPE_ONEWORK_MULTIRESOURCE) {
 			c = new Column();
 			c.setName("resId");
 			c.setText("资源编号");
@@ -1056,9 +1045,11 @@ public class EditResourceASM extends GridPart {
 								value = doc.get("actual" + key + "Qty");
 							}
 							String text = Formatter.getString(value, null, locale);
-							if (canEditDateValue && ("OverTime".equals(key) || isWorkDay((Document) element)) && now.before((Date) eFinish)
+							if (canEditDateValue && ("OverTime".equals(key) || isWorkDay((Document) element))
+									&& now.before((Date) eFinish)
 									&& (now.after((Date) eStart) || sdf.format(now).equals(sdf.format((Date) eStart))))
-								return "<a href='" + key + doc.get("_id").toString() + "' target='_rwt' style='width: 100%;'>"
+								return "<a href='" + key + doc.get("_id").toString()
+										+ "' target='_rwt' style='width: 100%;'>"
 										+ ("0.0".equals(text) || "".equals(text)
 												? ("<button class='layui-btn layui-btn-xs layui-btn-primary' style='bottom:0px;right:0px;'>"
 														+ "<i class='layui-icon  layui-icon-edit'></i></button>")
@@ -1071,7 +1062,8 @@ public class EditResourceASM extends GridPart {
 
 				}
 
-				if (canEditDateValue && ("OverTime".equals(key) || isWorkDay((Document) element)) && now.before((Date) eFinish)
+				if (canEditDateValue && ("OverTime".equals(key) || isWorkDay((Document) element))
+						&& now.before((Date) eFinish)
 						&& (now.after((Date) eStart) || sdf.format(now).equals(sdf.format((Date) eStart))))
 					return "<a href='" + key + "-" + id
 							+ "' target='_rwt' style='width: 100%;'><button class='layui-btn layui-btn-xs layui-btn-primary' style='bottom:0px;right:0px;'>"
@@ -1165,9 +1157,13 @@ public class EditResourceASM extends GridPart {
 						}
 					}
 					if (key.startsWith("Basic")) {
-						return workTime > ((Document) element).getDouble("basicWorks") ? BruiColors.getColor(BruiColor.Red_400) : null;
+						return workTime > ((Document) element).getDouble("basicWorks")
+								? BruiColors.getColor(BruiColor.Red_400)
+								: null;
 					} else if (key.startsWith("OverTime")) {
-						return workTime > ((Document) element).getDouble("overTimeWorks") ? BruiColors.getColor(BruiColor.Red_400) : null;
+						return workTime > ((Document) element).getDouble("overTimeWorks")
+								? BruiColors.getColor(BruiColor.Red_400)
+								: null;
 					}
 
 					return workTime > 8 ? BruiColors.getColor(BruiColor.Red_400) : null;
@@ -1217,7 +1213,8 @@ public class EditResourceASM extends GridPart {
 					format = "#,###.0";
 					value = ((Document) element).get(name);
 				} else if ("conflict".equals(name)) {
-					if (Boolean.TRUE.equals(((Document) element).get("conflict")) && !"资源类型".equals(((Document) element).get("type")))
+					if (Boolean.TRUE.equals(((Document) element).get("conflict"))
+							&& !"资源类型".equals(((Document) element).get("type")))
 						if (canEditDateValue)
 							value = "<a class='layui-badge layui-bg-red' href='conflict' target='_rwt'>冲突</a>";
 						else
@@ -1236,7 +1233,8 @@ public class EditResourceASM extends GridPart {
 					// TODO资源用量时，计划数量错误。
 					// 增加资源计划数量填写功能，只有类型为资源类型时，才能填写数量
 					value = ((Document) element).get("actualQty");
-					if (ResourceTransfer.TYPE_ACTUAL == rt.getType() && "资源类型".equals(((Document) element).get("type"))) {
+					if (ResourceTransfer.TYPE_ACTUAL == rt.getType()
+							&& "资源类型".equals(((Document) element).get("type"))) {
 						value = Formatter.getString(value, format, locale);
 						return "<a href='qty' target='_rwt' style='width: 100%;'>" + value + "</a>";
 					}
@@ -1260,7 +1258,8 @@ public class EditResourceASM extends GridPart {
 	@Override
 	public void export() {
 		// 修改没有数据时的导出文件名称
-		exportExcel(rt.getTitle() != null ? rt.getTitle() : (ResourceTransfer.TYPE_PLAN == rt.getType() ? "资源计划" : "资源用量"), viewer,
-				viewer.getInput());
+		exportExcel(
+				rt.getTitle() != null ? rt.getTitle() : (ResourceTransfer.TYPE_PLAN == rt.getType() ? "资源计划" : "资源用量"),
+				viewer, viewer.getInput());
 	}
 }

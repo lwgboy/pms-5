@@ -1,7 +1,6 @@
 package com.bizvisionsoft.pms.projecttemplate;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Arrays;
 
 import org.bson.types.ObjectId;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -10,7 +9,7 @@ import com.bizivisionsoft.widgets.gantt.GanttEvent;
 import com.bizvisionsoft.annotations.md.service.Listener;
 import com.bizvisionsoft.annotations.ui.common.Init;
 import com.bizvisionsoft.annotations.ui.common.Inject;
-import com.bizvisionsoft.bruicommons.model.Action;
+import com.bizvisionsoft.bruicommons.factory.action.ActionFactory;
 import com.bizvisionsoft.bruiengine.assembly.GanttPart;
 import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
@@ -46,7 +45,7 @@ public class GanttEventHandler {
 
 	@Listener({ "项目模板甘特图/onTaskLinkBefore" })
 	public void onTaskLinkBeforeBySpace(GanttEvent event) {
-		WorkLinkInTemplate input = WorkLinkInTemplate.newInstance(template_id,br.getDomain())
+		WorkLinkInTemplate input = WorkLinkInTemplate.newInstance(template_id, br.getDomain())
 				.setSource((WorkInTemplate) event.linkSource).setTarget((WorkInTemplate) event.linkTarget)
 				.setType(event.linkType);
 
@@ -58,38 +57,24 @@ public class GanttEventHandler {
 
 	@Listener({ "项目模板甘特图/onLinkDblClick" })
 	public void onLinkDblClickBySpace(GanttEvent event) {
-		List<Action> actions = new ArrayList<Action>();
-		// 编辑Link action
-		Action editAction = new Action();
-		editAction.setName("编辑link");
-		editAction.setText("编辑");
-		editAction.setImage("/img/edit_w.svg");
-		editAction.setStyle("normal");
-		editAction.setType("customized");
-		actions.add(editAction);
-
-		// 删除Link action
-		Action deleteAction = new Action();
-		deleteAction.setName("删除link");
-		deleteAction.setText("删除");
-		deleteAction.setImage("/img/minus_w.svg");
-		deleteAction.setStyle("warning");
-		actions.add(deleteAction);
-
 		// 弹出menu
 		new ActionMenu(br).setAssembly(context.getAssembly()).setContext(context).setInput(event.link)
-				.setActions(actions).setEvent(event).handleActionExecute("编辑link", t -> {
-					Editor.open("工作搭接关系编辑器（1对1）", context, ((GanttEvent) event).link,
-							(r, wi) -> ganttPart.updateLink(wi));
-					return false;
-				}).handleActionExecute("删除link", t -> {
-					if (MessageDialog.openConfirm(br.getCurrentShell(), "删除", "请确认将要删除选择的工作搭接关系。")) {
-						WorkLinkInTemplate link = (WorkLinkInTemplate) ((GanttEvent) event).link;
-						ganttPart.deleteLink(link.getId());
-					}
-					return false;
-				}).open();
-
+				.setActions(Arrays.asList(
+						// 编辑Link action
+						new ActionFactory().text("编辑").name("编辑link").normalStyle().img("/img/edit_w.svg")
+								.type("customized").exec((e, c) -> {
+									Editor.open("工作搭接关系编辑器（1对1）", context, ((GanttEvent) event).link,
+											(r, wi) -> ganttPart.updateLink(wi));
+								}).get(),
+						// 删除Link action
+						new ActionFactory().text("删除").name("删除link").warningStyle().img("/img/minus_w.svg")
+								.exec((e, c) -> {
+									if (MessageDialog.openConfirm(br.getCurrentShell(), "删除", "请确认将要删除选择的工作搭接关系。")) {
+										WorkLinkInTemplate link = (WorkLinkInTemplate) ((GanttEvent) event).link;
+										ganttPart.deleteLink(link.getId());
+									}
+								}).get()))
+				.setEvent(event).open();
 	}
 
 	@Listener({ "项目模板甘特图/onTaskDblClick" })
