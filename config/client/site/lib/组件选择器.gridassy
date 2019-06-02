@@ -4,7 +4,7 @@
   "layout": [],
   "type": "grid",
   "stickerTitle": "",
-  "folderId": "162c97e7531",
+  "folderId": "16897fe7470",
   "gridAutoExpandLevel": -1,
   "gridLineVisiable": true,
   "gridHeaderVisiable": true,
@@ -46,6 +46,5 @@
   "gridAutoColumnWidth": true,
   "actions": [],
   "rowActions": [],
-  "disableInitLoadData": false,
-  "sortFields": []
+  "disableInitLoadData": false
 }

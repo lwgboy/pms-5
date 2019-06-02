@@ -4,7 +4,7 @@
   "title": "测试编辑器控件",
   "layout": [],
   "type": "editor",
-  "folderId": "162c97e7531",
+  "folderId": "16897fe7470",
   "fields": [
     {
       "id": "16555369922",
@@ -102,7 +102,7 @@
           "text": "多个对象选择",
           "type": "多个对象选择框",
           "formFields": [],
-          "selectorAssemblyId": "资源类型"
+          "selectorAssemblyId": "162c4579eee"
         },
         {
           "id": "165553741c7",

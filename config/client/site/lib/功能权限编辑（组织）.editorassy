@@ -40,8 +40,7 @@
       "dateType": "datetime"
     }
   ],
-  "actions": [],
-  "nullValueAllowedFields": "from#to",
+  "nullValueAllowedFields": "rom#to",
   "smallEditor": true,
   "disableInitLoadData": false
 }

@@ -102,7 +102,7 @@
           "text": "资源类型",
           "type": "对象选择框",
           "formFields": [],
-          "selectorAssemblyId": "资源类型"
+          "selectorAssemblyId": "162c4579eee"
         }
       ]
     },
@@ -112,7 +112,7 @@
       "text": "执业资格",
       "type": "多个对象选择框",
       "formFields": [],
-      "selectorAssemblyId": "执业资格选择器列表"
+      "selectorAssemblyId": "162bd6340f5"
     },
     {
       "id": "1622353f017",
