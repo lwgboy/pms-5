@@ -18,7 +18,7 @@ import com.bizvisionsoft.bruicommons.model.Assembly;
 import com.bizvisionsoft.bruicommons.model.FormField;
 import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
 import com.bizvisionsoft.bruiengine.service.IBruiContext;
-import com.bizvisionsoft.bruiengine.service.UserSession;
+import com.bizvisionsoft.bruiengine.service.Model;
 import com.bizvisionsoft.bruiengine.ui.Editor;
 import com.bizvisionsoft.bruiengine.ui.Selector;
 import com.bizvisionsoft.service.BPMService;
@@ -58,7 +58,7 @@ public class BPMClient {
 		// 2.是否有表单，如有，打开
 		String editor = pd.getEditor();
 		if (Check.isAssigned(editor)) {
-			Assembly assembly = UserSession.site().getAssemblyByName(editor);
+			Assembly assembly = Model.getAssembly(editor);
 			if (assembly == null)
 				throw new RuntimeException("无法获得表单：" + editor);
 			assembly.getFields().forEach(f -> {
@@ -124,7 +124,7 @@ public class BPMClient {
 		// 4. 打开编辑器表单
 		String editor = td == null ? null : td.getEditor();
 		if (Check.isAssigned(editor)) {// 如果定义了编辑器
-			Assembly assembly = UserSession.site().getAssemblyByName(editor);
+			Assembly assembly = Model.getAssembly(editor);
 			if (assembly == null)
 				return Result.error("无法获得表单：" + editor);
 			if (!editInput(context, assembly, td.getName(), input))
@@ -154,7 +154,7 @@ public class BPMClient {
 	}
 
 	public Result delegateTask(IBruiContext context, long taskId, String userId) {
-		Assembly config = UserSession.site().getAssemblyByName("任务委托人选择器");
+		Assembly config = Model.getAssembly("任务委托人选择器");
 		Selector selector = new Selector(config, context).setTitle("请选择委托本任务的执行人");
 		if (Window.OK != selector.open()) {
 			return Result.terminated();
