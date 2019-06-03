@@ -1,0 +1,30 @@
+{
+  "id": "成本项编辑器",
+  "name": "成本项编辑器",
+  "title": "成本项",
+  "layout": [],
+  "type": "editor",
+  "folderId": "16390fab944",
+  "fields": [
+    {
+      "id": "162c49c1b1e",
+      "name": "id",
+      "text": "编号",
+      "type": "单行文本框",
+      "formFields": [],
+      "required": true
+    },
+    {
+      "id": "162c46185f6",
+      "name": "name",
+      "text": "成本项名称",
+      "type": "单行文本框",
+      "formFields": [],
+      "required": true,
+      "textLimit": 25
+    }
+  ],
+  "actions": [],
+  "smallEditor": true,
+  "disableInitLoadData": false
+}

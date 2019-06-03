@@ -1,0 +1,191 @@
+{
+  "id": "月报管理",
+  "name": "月报管理",
+  "description": "项目管理员和项目总监查看所管理的项目月报",
+  "layout": [],
+  "type": "grid",
+  "stickerTitle": "月报管理",
+  "folderId": "16685841b75",
+  "gridAutoExpandLevel": -1,
+  "gridMarkupEnabled": true,
+  "gridLineVisiable": true,
+  "gridHeaderVisiable": true,
+  "gridHasHScroll": true,
+  "gridHasVScroll": true,
+  "gridPageControl": true,
+  "gridDataSetService": "com.bizvisionsoft.service.WorkReportService",
+  "gridDataSetBundleId": "",
+  "gridDataSetClassName": "",
+  "columns": [
+    {
+      "id": "163f29425a0",
+      "name": "period",
+      "text": "周期",
+      "alignment": 16777216,
+      "width": 140,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "163f297ca57",
+      "name": "projectName",
+      "text": "项目",
+      "alignment": 16384,
+      "width": 320,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "163f297ccad",
+      "name": "stageName",
+      "text": "阶段",
+      "alignment": 16777216,
+      "width": 120,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "163f297cd82",
+      "name": "reporterInfoHtml",
+      "text": "报告人",
+      "alignment": 16384,
+      "width": 120,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "163f297ce3f",
+      "name": "reportDate",
+      "text": "报告时间",
+      "alignment": 16777216,
+      "width": 100,
+      "resizeable": true,
+      "columns": [],
+      "format": "yyyy-MM-dd"
+    },
+    {
+      "id": "163f298cb4c",
+      "name": "submitDate",
+      "text": "提交时间",
+      "alignment": 16777216,
+      "width": 100,
+      "resizeable": true,
+      "columns": [],
+      "format": "yyyy-MM-dd"
+    },
+    {
+      "id": "163f298c883",
+      "name": "verifierInfo",
+      "text": "确认人",
+      "alignment": 16384,
+      "width": 120,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "163f2990178",
+      "name": "verifyDate",
+      "text": "确认时间",
+      "alignment": 16777216,
+      "width": 100,
+      "resizeable": true,
+      "columns": [],
+      "format": "yyyy-MM-dd"
+    }
+  ],
+  "fields": [
+    {
+      "id": "1646fc33e9c",
+      "name": "projectName",
+      "text": "项目",
+      "type": "文本输入框（查询）",
+      "formFields": []
+    },
+    {
+      "id": "1646fc33f85",
+      "name": "period",
+      "text": "周期",
+      "type": "日期时间范围（查询）",
+      "formFields": [],
+      "dateType": "date"
+    }
+  ],
+  "actions": [],
+  "rowActions": [
+    {
+      "id": "163f2dc8560",
+      "name": "打开月报",
+      "text": "打开月报",
+      "image": "/img/right.svg",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.workreport.OpenWorkReportACT",
+      "switchContentToAssemblyId": "报告详情",
+      "openContent": true,
+      "style": "",
+      "editorAssemblyId": "163f2d9d844",
+      "editorAssemblyEditable": true,
+      "type": "customized",
+      "verticalSpan": 0
+    }
+  ],
+  "hasTitlebar": true,
+  "disableInitLoadData": false,
+  "sortFields": [
+    {
+      "id": "1675dc327ca",
+      "name": "projectName",
+      "text": "项目名称",
+      "type": "排序字段",
+      "formFields": []
+    },
+    {
+      "id": "1675dc32871",
+      "name": "projectNumber",
+      "text": "项目编号",
+      "type": "排序字段",
+      "formFields": []
+    },
+    {
+      "id": "1675dc39539",
+      "name": "period",
+      "text": "周期",
+      "type": "排序字段",
+      "formFields": []
+    },
+    {
+      "id": "1675dc395e2",
+      "name": "reporterInfo",
+      "text": "报告人",
+      "type": "排序字段",
+      "formFields": []
+    },
+    {
+      "id": "1675dc4f1b6",
+      "name": "verifierInfo",
+      "text": "确认人",
+      "type": "排序字段",
+      "formFields": []
+    },
+    {
+      "id": "1675dc447d7",
+      "name": "reportDate",
+      "text": "报告时间",
+      "type": "排序字段",
+      "formFields": []
+    },
+    {
+      "id": "1675dc47c9c",
+      "name": "submitDate",
+      "text": "提交时间",
+      "type": "排序字段",
+      "formFields": []
+    },
+    {
+      "id": "1675dc4b5ff",
+      "name": "verifyDate",
+      "text": "确认时间",
+      "type": "排序字段",
+      "formFields": []
+    }
+  ]
+}

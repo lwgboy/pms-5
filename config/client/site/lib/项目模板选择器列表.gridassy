@@ -1,0 +1,94 @@
+{
+  "id": "项目模板选择器列表",
+  "name": "项目模板选择器列表",
+  "layout": [],
+  "type": "grid",
+  "stickerTitle": "项目模板管理",
+  "folderId": "162bd9f0190",
+  "gridLineVisiable": true,
+  "gridHeaderVisiable": true,
+  "gridHasHScroll": true,
+  "gridHasVScroll": true,
+  "gridDataSetService": "com.bizvisionsoft.service.ProjectTemplateService",
+  "columns": [
+    {
+      "id": "162b392082e",
+      "name": "id",
+      "text": "编号",
+      "alignment": 16384,
+      "width": 160,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "162b392097b",
+      "name": "name",
+      "text": "名称",
+      "alignment": 16384,
+      "width": 300,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "162b39208d4",
+      "name": "description",
+      "text": "说明",
+      "alignment": 16384,
+      "width": 320,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "163d08a2c56",
+      "name": "enabled",
+      "text": "启用",
+      "alignment": 16384,
+      "width": 64,
+      "resizeable": true,
+      "columns": []
+    }
+  ],
+  "fields": [],
+  "gridAutoColumnWidth": true,
+  "actions": [
+    {
+      "id": "163d04fa5a9",
+      "name": "创建项目模板",
+      "text": "创建项目模板",
+      "forceText": true,
+      "style": "normal",
+      "editorAssemblyId": "项目模板编辑器",
+      "type": "insert",
+      "createActionNewInstanceBundleId": "com.bizvisionsoft.service",
+      "createActionNewInstanceClassName": "com.bizvisionsoft.service.model.ProjectTemplate",
+      "verticalSpan": 0
+    }
+  ],
+  "rowActions": [
+    {
+      "id": "162b3d6b327",
+      "name": "删除项目模板",
+      "text": "删除",
+      "image": "/img/minus_16_w.svg",
+      "style": "warning",
+      "type": "delete",
+      "verticalSpan": 0
+    },
+    {
+      "id": "162b3945ea1",
+      "name": "打开项目模板",
+      "image": "/img/right.svg",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.projecttemplate.OpenProjectTemplateACT",
+      "switchContentToAssemblyId": "项目模板甘特图",
+      "openContent": true,
+      "style": "",
+      "objectBehavier": true,
+      "type": "customized",
+      "openPageName": "项目模板",
+      "verticalSpan": 0
+    }
+  ],
+  "hasTitlebar": true,
+  "disableInitLoadData": false
+}

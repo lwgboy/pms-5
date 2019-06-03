@@ -1,0 +1,28 @@
+{
+  "id": "项目科目资金计划",
+  "name": "项目科目资金计划",
+  "title": "",
+  "bundleId": "com.bizvisionsoft.pms",
+  "className": "com.bizvisionsoft.pms.cbs.assembly.BudgetSubject",
+  "layout": [],
+  "folderId": "16390fa07d3",
+  "gridDataSetService": "com.bizvisionsoft.service.CBSService",
+  "actions": [],
+  "rowActions": [
+    {
+      "id": "165340adb64",
+      "name": "编辑",
+      "text": "编辑",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.cbs.action.EditCBSSubjectBudget",
+      "forceText": true,
+      "style": "",
+      "objectBehavier": true,
+      "type": "customized",
+      "role": "PM#PA#PFM",
+      "verticalSpan": 0
+    }
+  ],
+  "disableInitLoadData": false,
+  "candidates": []
+}

@@ -1,0 +1,46 @@
+{
+  "id": "功能权限编辑（组织）",
+  "name": "功能权限编辑（组织）",
+  "title": "授权组织",
+  "layout": [],
+  "type": "editor",
+  "folderId": "1640e481843",
+  "fields": [
+    {
+      "id": "1640e574b80",
+      "name": "role",
+      "text": "功能角色",
+      "type": "下拉选择框",
+      "formFields": [],
+      "required": true
+    },
+    {
+      "id": "1640e574f46",
+      "name": "organization",
+      "text": "被授权组织",
+      "type": "对象选择框",
+      "formFields": [],
+      "required": true,
+      "selectorAssemblyId": "组织选择器"
+    },
+    {
+      "id": "1640e57501f",
+      "name": "from",
+      "text": "起始日期",
+      "type": "日期时间选择",
+      "formFields": [],
+      "dateType": "datetime"
+    },
+    {
+      "id": "1640e575119",
+      "name": "to",
+      "text": "中止日期",
+      "type": "日期时间选择",
+      "formFields": [],
+      "dateType": "datetime"
+    }
+  ],
+  "nullValueAllowedFields": "rom#to",
+  "smallEditor": true,
+  "disableInitLoadData": false
+}

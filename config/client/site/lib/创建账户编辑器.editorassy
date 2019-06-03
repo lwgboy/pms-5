@@ -1,0 +1,147 @@
+{
+  "id": "创建账户编辑器",
+  "name": "创建账户编辑器",
+  "title": "创建账户",
+  "layout": [],
+  "type": "editor",
+  "folderId": "162dc3d9a67",
+  "fields": [
+    {
+      "id": "162bc9f992f",
+      "name": "新字段2",
+      "type": "行",
+      "formFields": [
+        {
+          "id": "16204a6a889",
+          "name": "userId",
+          "text": "账号",
+          "type": "单行文本框",
+          "formFields": [],
+          "required": true,
+          "textRestrict": "无限定"
+        },
+        {
+          "id": "16204a94616",
+          "name": "name",
+          "text": "姓名",
+          "type": "单行文本框",
+          "formFields": [],
+          "required": true,
+          "textLimit": 12,
+          "textRestrict": "无限定"
+        },
+        {
+          "id": "162bca55fab",
+          "name": "activated",
+          "text": "激活",
+          "type": "复选框",
+          "formFields": [],
+          "checkStyle": "开关（默认）"
+        }
+      ]
+    },
+    {
+      "id": "16204a98170",
+      "name": "联系电话",
+      "text": "",
+      "type": "行",
+      "formFields": [
+        {
+          "id": "16204aa0f26",
+          "name": "tel",
+          "text": "办公电话",
+          "type": "单行文本框",
+          "formFields": [],
+          "textLimit": 24,
+          "textRestrict": "无限定"
+        },
+        {
+          "id": "16204aa5d40",
+          "name": "mobile",
+          "text": "移动电话",
+          "type": "单行文本框",
+          "formFields": [],
+          "required": true,
+          "textLimit": 24,
+          "textRestrict": "无限定"
+        },
+        {
+          "id": "16204ab1472",
+          "name": "email",
+          "text": "电子邮件",
+          "type": "单行文本框",
+          "formFields": [],
+          "required": true,
+          "textRestrict": "无限定"
+        }
+      ]
+    },
+    {
+      "id": "16406e34f2c",
+      "name": "新字段2",
+      "type": "行",
+      "formFields": [
+        {
+          "id": "1621d2b257b",
+          "name": "organization",
+          "text": "所属组织",
+          "type": "对象选择框",
+          "formFields": [],
+          "selectorAssemblyId": "组织选择器"
+        },
+        {
+          "id": "16af8e0ee1e",
+          "name": "position",
+          "text": "职位",
+          "type": "单行文本框",
+          "formFields": []
+        },
+        {
+          "id": "16af8e26ff3",
+          "name": "resourceType",
+          "text": "资源类型",
+          "type": "对象选择框",
+          "formFields": [],
+          "selectorAssemblyId": "资源类型"
+        }
+      ]
+    },
+    {
+      "id": "16af8e2838e",
+      "name": "certificates",
+      "text": "执业资格",
+      "type": "多个对象选择框",
+      "formFields": [],
+      "selectorAssemblyId": "执业资格选择器列表"
+    },
+    {
+      "id": "1622353f017",
+      "name": "headPics",
+      "text": "头像",
+      "type": "文件选择框",
+      "formFields": [],
+      "fileNamespace": "headpics",
+      "fileFilerExts": ".png,.jpg"
+    },
+    {
+      "id": "162bcad77a9",
+      "name": "password",
+      "text": "登录密码",
+      "type": "单行文本框",
+      "formFields": [],
+      "textPasswordStyle": true,
+      "required": true
+    },
+    {
+      "id": "162bcad8071",
+      "name": "password2",
+      "text": "再次输入",
+      "type": "单行文本框",
+      "formFields": [],
+      "textPasswordStyle": true
+    }
+  ],
+  "actions": [],
+  "nullValueAllowedFields": "org_id#headPics",
+  "disableInitLoadData": false
+}

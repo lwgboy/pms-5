@@ -1,0 +1,37 @@
+{
+  "id": "新消息",
+  "name": "新消息",
+  "layout": [],
+  "type": "editor",
+  "folderId": "165316c7974",
+  "fields": [
+    {
+      "id": "1653176c044",
+      "name": "receiver",
+      "text": "接收者",
+      "type": "对象选择框",
+      "formFields": [],
+      "required": true,
+      "selectorAssemblyId": "用户选择列表"
+    },
+    {
+      "id": "1653178c286",
+      "name": "subject",
+      "text": "标题",
+      "type": "单行文本框",
+      "formFields": [],
+      "required": true
+    },
+    {
+      "id": "165317900da",
+      "name": "content",
+      "text": "内容",
+      "type": "多行文本框",
+      "formFields": [],
+      "required": true,
+      "grabVertical": true
+    }
+  ],
+  "smallEditor": true,
+  "disableInitLoadData": false
+}

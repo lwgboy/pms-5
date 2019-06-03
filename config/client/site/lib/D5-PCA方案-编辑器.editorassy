@@ -1,0 +1,133 @@
+{
+  "id": "D5-PCA方案-编辑器",
+  "name": "D5-PCA方案-编辑器",
+  "title": "永久纠正措施",
+  "layout": [],
+  "type": "editor",
+  "folderId": "1689872b96f",
+  "fields": [
+    {
+      "id": "168115b06f3",
+      "name": "杜绝问题产生",
+      "type": "标签页",
+      "formFields": [
+        {
+          "id": "168115bdf7b",
+          "name": "name",
+          "text": "方案名称",
+          "type": "单行文本框",
+          "formFields": [],
+          "required": true,
+          "textLimit": 12
+        },
+        {
+          "id": "1680f10b509",
+          "name": "pca1",
+          "text": "消除问题产生",
+          "type": "表格",
+          "verticalLabel": false,
+          "formFields": [],
+          "required": true,
+          "selectorAssemblyId": "单name列表格",
+          "grabVertical": true,
+          "hideLabel": false,
+          "verticalAlignLabel": false,
+          "enableCreateItem": true
+        },
+        {
+          "id": "168113c1887",
+          "name": "charger1",
+          "text": "负责人",
+          "type": "对象选择框",
+          "formFields": [],
+          "required": true,
+          "selectorAssemblyId": "用户选择列表",
+          "valueFieldName": "userId"
+        },
+        {
+          "id": "1682901cd11",
+          "name": "新字段25",
+          "type": "行",
+          "formFields": [
+            {
+              "id": "168113c777d",
+              "name": "planStart1",
+              "text": "计划开始",
+              "type": "日期时间选择",
+              "formFields": [],
+              "required": true,
+              "dateType": "date"
+            },
+            {
+              "id": "1682901ee67",
+              "name": "planFinish1",
+              "text": "计划完成",
+              "type": "日期时间选择",
+              "formFields": [],
+              "required": true,
+              "dateType": "date"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "168115b1512",
+      "name": "控制问题流出",
+      "type": "标签页",
+      "formFields": [
+        {
+          "id": "1680f130231",
+          "name": "pca2",
+          "text": "控制问题流出",
+          "type": "表格",
+          "verticalLabel": false,
+          "formFields": [],
+          "required": true,
+          "selectorAssemblyId": "单name列表格",
+          "grabVertical": true,
+          "hideLabel": false,
+          "verticalAlignLabel": false,
+          "enableCreateItem": true
+        },
+        {
+          "id": "168113cf4f0",
+          "name": "charger2",
+          "text": "负责人",
+          "type": "对象选择框",
+          "formFields": [],
+          "required": true,
+          "selectorAssemblyId": "用户选择列表",
+          "valueFieldName": "userId"
+        },
+        {
+          "id": "16829027c58",
+          "name": "新字段27",
+          "type": "行",
+          "formFields": [
+            {
+              "id": "168290287cf",
+              "name": "planStart2",
+              "text": "计划开始",
+              "type": "日期时间选择",
+              "formFields": [],
+              "required": true,
+              "dateType": "date"
+            },
+            {
+              "id": "168113cf5e9",
+              "name": "planFinish2",
+              "text": "计划完成",
+              "type": "日期时间选择",
+              "formFields": [],
+              "required": true,
+              "dateType": "date"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "actions": [],
+  "smallEditor": true
+}

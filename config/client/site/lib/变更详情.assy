@@ -1,0 +1,41 @@
+{
+  "id": "变更详情",
+  "name": "变更详情",
+  "layout": [
+    {
+      "id": "1644505e92d",
+      "name": "默认",
+      "columnCount": 1,
+      "makeColumnsEqualWidth": true,
+      "assemblys": [
+        {
+          "id": "变更详情信息面板",
+          "horizontalAlignment": 4,
+          "verticalAlignment": 4,
+          "grabExcessHorizontalSpace": true,
+          "verticalSpan": 1,
+          "horizontalSpan": 1,
+          "widthHint": -1,
+          "heightHint": -1,
+          "layoutName": "变更详情信息面板"
+        },
+        {
+          "id": "项目变更审核信息",
+          "horizontalAlignment": 4,
+          "verticalAlignment": 4,
+          "grabExcessHorizontalSpace": true,
+          "grabExcessVerticalSpace": true,
+          "verticalSpan": 1,
+          "horizontalSpan": 1,
+          "widthHint": -1,
+          "heightHint": -1
+        }
+      ],
+      "carouselInterval": 0
+    }
+  ],
+  "folderId": "16441e49ba4",
+  "actions": [],
+  "rowActions": [],
+  "disableInitLoadData": false
+}

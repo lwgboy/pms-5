@@ -1,0 +1,38 @@
+{
+  "id": "编辑工作包-采购进展",
+  "name": "编辑工作包-采购进展",
+  "title": "采购进展",
+  "layout": [],
+  "type": "editor",
+  "folderId": "1638c40accd",
+  "fields": [
+    {
+      "id": "16380df661d",
+      "name": "time",
+      "text": "日期",
+      "type": "日期时间选择",
+      "formFields": [],
+      "required": true,
+      "dateType": "datetime"
+    },
+    {
+      "id": "1638547c3ae",
+      "name": "description",
+      "text": "描述",
+      "type": "单行文本框",
+      "formFields": [],
+      "required": true
+    },
+    {
+      "id": "16380df68b7",
+      "name": "completeQty",
+      "text": "入库数量",
+      "type": "单行文本框",
+      "formFields": [],
+      "required": true,
+      "textRestrict": "浮点"
+    }
+  ],
+  "smallEditor": true,
+  "disableInitLoadData": false
+}

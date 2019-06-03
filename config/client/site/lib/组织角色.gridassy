@@ -1,0 +1,98 @@
+{
+  "id": "组织角色",
+  "name": "组织角色",
+  "layout": [],
+  "type": "grid",
+  "stickerTitle": "组织角色",
+  "folderId": "162bd9c7da4",
+  "gridAutoExpandLevel": -1,
+  "gridMarkupEnabled": true,
+  "gridLineVisiable": true,
+  "gridHeaderVisiable": true,
+  "gridHasVScroll": true,
+  "gridDataSetBundleId": "com.bizvisionsoft.pms",
+  "gridDataSetClassName": "com.bizvisionsoft.pms.org.dataset.OrganizationDataSet",
+  "columns": [
+    {
+      "id": "162c1133cef",
+      "name": "id",
+      "text": "编号",
+      "alignment": 16384,
+      "width": 80,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "162c1133de8",
+      "name": "name",
+      "text": "名称",
+      "alignment": 16384,
+      "width": 160,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "162c1134083",
+      "name": "description",
+      "text": "描述",
+      "alignment": 16384,
+      "width": 320,
+      "resizeable": true,
+      "columns": []
+    }
+  ],
+  "fields": [],
+  "gridAutoColumnWidth": true,
+  "actions": [
+    {
+      "id": "162c12e2b1d",
+      "name": "创建角色",
+      "image": "/img/add_16_w.svg",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.org.action.CreateRole",
+      "style": "normal",
+      "editorAssemblyId": "角色编辑器",
+      "type": "customized",
+      "createActionNewInstanceBundleId": "com.bizvisionsoft.service",
+      "createActionNewInstanceClassName": "com.bizvisionsoft.service.model.Role",
+      "verticalSpan": 0
+    }
+  ],
+  "rowActions": [
+    {
+      "id": "162c13fa1b8",
+      "name": "添加用户",
+      "image": "/img/add_16_w.svg",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.org.action.AddUserToRole",
+      "style": "normal",
+      "objectBehavier": true,
+      "type": "customized",
+      "verticalSpan": 0
+    },
+    {
+      "id": "162c130ce67",
+      "name": "编辑角色",
+      "image": "/img/edit_w.svg",
+      "style": "normal",
+      "editorAssemblyId": "角色编辑器",
+      "editorAssemblyEditable": true,
+      "objectBehavier": true,
+      "type": "edit",
+      "verticalSpan": 0
+    },
+    {
+      "id": "162c12f6a83",
+      "name": "删除角色",
+      "image": "/img/minus_16_w.svg",
+      "bundleId": "",
+      "className": "",
+      "style": "warning",
+      "type": "delete",
+      "verticalSpan": 0
+    }
+  ],
+  "hasTitlebar": true,
+  "displayInputLabelInTitlebar": true,
+  "disableInitLoadData": false
+}

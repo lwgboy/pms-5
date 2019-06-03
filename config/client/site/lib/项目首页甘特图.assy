@@ -1,0 +1,34 @@
+{
+  "id": "项目首页甘特图",
+  "name": "项目首页甘特图",
+  "bundleId": "com.bizvisionsoft.pms",
+  "className": "com.bizvisionsoft.pms.project.ProjectGanttViewWidgetASM",
+  "layout": [
+    {
+      "id": "1644af9b9aa",
+      "name": "默认布局",
+      "columnCount": 1,
+      "makeColumnsEqualWidth": true,
+      "assemblys": [
+        {
+          "id": "项目甘特图（无表格查看）",
+          "horizontalAlignment": 4,
+          "verticalAlignment": 4,
+          "grabExcessHorizontalSpace": true,
+          "grabExcessVerticalSpace": true,
+          "verticalSpan": 1,
+          "horizontalSpan": 1,
+          "widthHint": -1,
+          "heightHint": -1,
+          "layoutName": "gantt"
+        }
+      ],
+      "carouselInterval": 0
+    }
+  ],
+  "folderId": "163b6fe6dac",
+  "actions": [],
+  "rowActions": [],
+  "disableInitLoadData": false,
+  "candidates": []
+}

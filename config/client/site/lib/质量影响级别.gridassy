@@ -1,0 +1,70 @@
+{
+  "id": "质量影响级别",
+  "name": "质量影响级别",
+  "layout": [],
+  "type": "grid",
+  "stickerTitle": "质量影响级别",
+  "folderId": "168403fc076",
+  "gridLineVisiable": true,
+  "gridHeaderVisiable": true,
+  "gridHasVScroll": true,
+  "gridDataSetService": "com.bizvisionsoft.service.RiskService",
+  "columns": [
+    {
+      "id": "16386c236f2",
+      "name": "text",
+      "text": "显示文本",
+      "alignment": 16384,
+      "width": 80,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "16386c27c91",
+      "name": "value",
+      "text": "值",
+      "alignment": 16384,
+      "width": 80,
+      "resizeable": true,
+      "columns": []
+    }
+  ],
+  "fields": [],
+  "gridAutoColumnWidth": true,
+  "actions": [
+    {
+      "id": "16386c34c71",
+      "name": "创建",
+      "image": "/img/add_16_w.svg",
+      "style": "normal",
+      "editorAssemblyId": "text-value编辑器",
+      "type": "insert",
+      "createActionNewInstanceBundleId": "com.bizvisionsoft.service",
+      "createActionNewInstanceClassName": "com.bizvisionsoft.service.model.QuanlityInfInd",
+      "verticalSpan": 0
+    }
+  ],
+  "rowActions": [
+    {
+      "id": "16386c3d9c8",
+      "name": "编辑",
+      "image": "/img/edit_w.svg",
+      "style": "normal",
+      "editorAssemblyId": "text-value编辑器",
+      "editorAssemblyEditable": true,
+      "type": "edit",
+      "verticalSpan": 0
+    },
+    {
+      "id": "16386c2d80c",
+      "name": "删除",
+      "image": "/img/minus_16_w.svg",
+      "style": "warning",
+      "type": "delete",
+      "verticalSpan": 0
+    }
+  ],
+  "hasTitlebar": true,
+  "disableInitLoadData": false,
+  "sortFields": []
+}

@@ -1,0 +1,30 @@
+{
+  "id": "资源用量综合分析",
+  "name": "资源用量综合分析",
+  "layout": [
+    {
+      "id": "1642649e673",
+      "name": "默认",
+      "columnCount": 1,
+      "makeColumnsEqualWidth": true,
+      "assemblys": [
+        {
+          "id": "资源计划实际用量对比分析",
+          "horizontalAlignment": 4,
+          "verticalAlignment": 4,
+          "grabExcessHorizontalSpace": true,
+          "grabExcessVerticalSpace": true,
+          "verticalSpan": 1,
+          "horizontalSpan": 1,
+          "widthHint": -1,
+          "heightHint": -1
+        }
+      ],
+      "carouselInterval": 0
+    }
+  ],
+  "folderId": "1642648dcbf",
+  "actions": [],
+  "rowActions": [],
+  "disableInitLoadData": false
+}

@@ -7,6 +7,7 @@ import com.bizvisionsoft.annotations.ui.common.Inject;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.bruiengine.service.IBruiContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
+import com.bizvisionsoft.bruiengine.service.Model;
 import com.bizvisionsoft.bruiengine.ui.Editor;
 import com.bizvisionsoft.service.ProjectService;
 import com.bizvisionsoft.service.WorkSpaceService;
@@ -21,8 +22,8 @@ public class CreateProject {
 
 	@Execute
 	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
-		new Editor<Project>(br.getAssembly("创建项目编辑器"), context)
-				.setInput(br.newInstance(Project.class).setStatus(ProjectStatus.Created).setStageEnable(true).setCreationInfo(br.operationInfo()))
+		new Editor<Project>(Model.getAssembly("创建项目编辑器"), context).setInput(
+				br.newInstance(Project.class).setStatus(ProjectStatus.Created).setStageEnable(true).setCreationInfo(br.operationInfo()))
 				.ok((r, proj) -> {
 					Project pj = Services.get(ProjectService.class).insert(proj, br.getDomain());
 					if (pj != null) {

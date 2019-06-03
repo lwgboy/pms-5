@@ -1,0 +1,123 @@
+{
+  "id": "用户编辑器",
+  "name": "用户编辑器",
+  "title": "用户",
+  "layout": [],
+  "type": "editor",
+  "folderId": "162bd9dad9d",
+  "fields": [
+    {
+      "id": "162bc9f992f",
+      "name": "新字段2",
+      "type": "行",
+      "formFields": [
+        {
+          "id": "16204a6a889",
+          "name": "userId",
+          "text": "账号",
+          "type": "单行文本框",
+          "formFields": [],
+          "readOnly": true,
+          "textRestrict": "无限定"
+        },
+        {
+          "id": "16204a94616",
+          "name": "name",
+          "text": "姓名",
+          "type": "单行文本框",
+          "formFields": [],
+          "readOnly": true,
+          "textLimit": 12,
+          "textRestrict": "无限定"
+        }
+      ]
+    },
+    {
+      "id": "16204a98170",
+      "name": "联系电话",
+      "text": "",
+      "type": "行",
+      "formFields": [
+        {
+          "id": "16204aa0f26",
+          "name": "tel",
+          "text": "办公电话",
+          "type": "单行文本框",
+          "formFields": [],
+          "textLimit": 24,
+          "textRestrict": "无限定"
+        },
+        {
+          "id": "16204aa5d40",
+          "name": "mobile",
+          "text": "移动电话",
+          "type": "单行文本框",
+          "formFields": [],
+          "required": true,
+          "textLimit": 24,
+          "textRestrict": "浮点"
+        }
+      ]
+    },
+    {
+      "id": "162bc7e37b7",
+      "name": "新字段1",
+      "type": "行",
+      "formFields": [
+        {
+          "id": "16204ab1472",
+          "name": "email",
+          "text": "电子邮件",
+          "type": "单行文本框",
+          "formFields": [],
+          "required": true,
+          "textRestrict": "无限定"
+        },
+        {
+          "id": "1622353f017",
+          "name": "headPics",
+          "text": "头像",
+          "type": "文件选择框",
+          "formFields": [],
+          "fileNamespace": "headpics",
+          "fileFilerExts": ".png,.jpg"
+        }
+      ]
+    },
+    {
+      "id": "167b7cf65fa",
+      "name": "新字段1",
+      "type": "行",
+      "formFields": [
+        {
+          "id": "1621d2b257b",
+          "name": "organization",
+          "text": "所属组织",
+          "type": "对象选择框",
+          "formFields": [],
+          "required": true,
+          "selectorAssemblyId": "组织选择器"
+        },
+        {
+          "id": "1653d177d78",
+          "name": "position",
+          "text": "职位",
+          "type": "单行文本框",
+          "formFields": []
+        }
+      ]
+    },
+    {
+      "id": "162c6f4f800",
+      "name": "resourceType",
+      "text": "资源类型",
+      "type": "对象选择框",
+      "formFields": [],
+      "selectorAssemblyId": "162c4579eee",
+      "enableCreateItem": false,
+      "enableInsertAndCreateItem": false
+    }
+  ],
+  "actions": [],
+  "disableInitLoadData": false
+}

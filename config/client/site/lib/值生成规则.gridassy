@@ -1,0 +1,91 @@
+{
+  "id": "值生成规则",
+  "name": "值生成规则",
+  "layout": [],
+  "type": "grid",
+  "stickerTitle": "值生成规则",
+  "folderId": "1677a194b59",
+  "gridLineVisiable": true,
+  "gridHeaderVisiable": true,
+  "gridHasVScroll": true,
+  "gridPageControl": true,
+  "gridDataSetService": "com.bizvisionsoft.service.SystemService",
+  "columns": [
+    {
+      "id": "1677a1a9db6",
+      "name": "className",
+      "text": "类",
+      "alignment": 16384,
+      "width": 80,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "1677a1af990",
+      "name": "fieldName",
+      "text": "字段",
+      "alignment": 16384,
+      "width": 80,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "1677a3b0d0f",
+      "name": "enable",
+      "text": "启用",
+      "alignment": 16384,
+      "width": 80,
+      "resizeable": true,
+      "columns": []
+    }
+  ],
+  "fields": [],
+  "gridAutoColumnWidth": true,
+  "actions": [
+    {
+      "id": "1677a461189",
+      "name": "创建规则",
+      "text": "创建规则",
+      "image": "",
+      "forceText": true,
+      "style": "normal",
+      "editorAssemblyId": "值生成规则编辑器",
+      "type": "insert",
+      "createActionNewInstanceBundleId": "com.bizvisionsoft.service",
+      "createActionNewInstanceClassName": "com.bizvisionsoft.service.ValueRule",
+      "verticalSpan": 0
+    }
+  ],
+  "rowActions": [
+    {
+      "id": "1677a43d9f0",
+      "name": "编辑规则",
+      "style": "normal",
+      "editorAssemblyId": "值生成规则编辑器",
+      "editorAssemblyEditable": true,
+      "type": "edit",
+      "verticalSpan": 0
+    },
+    {
+      "id": "1677a4353f8",
+      "name": "删除规则",
+      "image": "/img/minus_16_w.svg",
+      "style": "warning",
+      "type": "delete",
+      "verticalSpan": 0
+    },
+    {
+      "id": "1677a447b38",
+      "name": "打开规则",
+      "image": "/img/right_w.svg",
+      "switchContentToAssemblyId": "值规则段",
+      "openContent": true,
+      "style": "info",
+      "type": "switch",
+      "verticalSpan": 0
+    }
+  ],
+  "hasTitlebar": true,
+  "disableInitLoadData": false,
+  "sortFields": []
+}

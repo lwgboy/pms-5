@@ -1,0 +1,44 @@
+{
+  "id": "文档模板编辑器",
+  "name": "文档模板编辑器",
+  "title": "文档",
+  "layout": [],
+  "type": "editor",
+  "folderId": "165c65ad203",
+  "fields": [
+    {
+      "id": "163dde76edf",
+      "name": "name",
+      "text": "模板名称",
+      "type": "单行文本框",
+      "formFields": [],
+      "required": true
+    },
+    {
+      "id": "163dde7b4b6",
+      "name": "description",
+      "text": "描述",
+      "type": "单行文本框",
+      "formFields": []
+    },
+    {
+      "id": "165c6934c39",
+      "name": "editorName",
+      "text": "表单名称",
+      "type": "单行文本框",
+      "formFields": []
+    },
+    {
+      "id": "163ddea1193",
+      "name": "category",
+      "text": "类别",
+      "type": "多个对象选择框",
+      "formFields": [],
+      "required": true,
+      "selectorAssemblyId": "文档类型选择"
+    }
+  ],
+  "nullValueAllowedFields": "tag#category",
+  "smallEditor": true,
+  "disableInitLoadData": false
+}

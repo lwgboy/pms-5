@@ -1,0 +1,49 @@
+{
+  "id": "问题管理主页",
+  "name": "问题管理主页",
+  "layout": [
+    {
+      "id": "16898800ec9",
+      "name": "默认",
+      "columnCount": 2,
+      "horizontalSpacing": 8,
+      "verticalSpacing": 16,
+      "makeColumnsEqualWidth": false,
+      "extendHorizontalSpace": false,
+      "marginHeight": 16,
+      "marginWidth": 16,
+      "css": "brui_bg_deep_relief",
+      "itemCss": "",
+      "layoutType": "grid",
+      "assemblys": [
+        {
+          "id": "问题原因因果关系",
+          "horizontalAlignment": 4,
+          "verticalAlignment": 4,
+          "grabExcessHorizontalSpace": false,
+          "grabExcessVerticalSpace": true,
+          "verticalSpan": 1,
+          "horizontalSpan": 1,
+          "widthHint": 480,
+          "heightHint": -1,
+          "itemCss": "brui_card"
+        },
+        {
+          "id": "问题管理看板（嵌入）",
+          "horizontalAlignment": 4,
+          "verticalAlignment": 4,
+          "grabExcessHorizontalSpace": true,
+          "grabExcessVerticalSpace": true,
+          "verticalSpan": 1,
+          "horizontalSpan": 1,
+          "widthHint": -1,
+          "heightHint": -1
+        }
+      ]
+    }
+  ],
+  "folderId": "168988a062b",
+  "actions": [],
+  "rowActions": [],
+  "candidates": []
+}

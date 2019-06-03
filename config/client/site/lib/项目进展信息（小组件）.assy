@@ -1,0 +1,13 @@
+{
+  "id": "项目进展信息（小组件）",
+  "name": "项目进展信息（小组件）",
+  "title": "进展摘要",
+  "bundleId": "com.bizvisionsoft.pms",
+  "className": "com.bizvisionsoft.pms.project.ProjectProgressWidgetASM",
+  "layout": [],
+  "folderId": "163b6fe6dac",
+  "actions": [],
+  "rowActions": [],
+  "disableInitLoadData": false,
+  "candidates": []
+}

@@ -1,0 +1,40 @@
+{
+  "id": "编辑收益实现",
+  "name": "编辑收益实现",
+  "title": "收益录入",
+  "layout": [],
+  "type": "editor",
+  "folderId": "165564b4b38",
+  "fields": [
+    {
+      "id": "1655ab29295",
+      "name": "info1",
+      "text": "填写某一期间的实现的收益金额。\u003cbr\u003e例如，2018年8月，收益为50，\n期间栏位选择2018-08，收益栏位填写50\n",
+      "type": "横幅",
+      "formFields": [],
+      "height": 72,
+      "staticContent": true
+    },
+    {
+      "id": "1655f070471",
+      "name": "index",
+      "text": "期间",
+      "type": "日期时间选择",
+      "formFields": [],
+      "required": true,
+      "textRestrict": "整数",
+      "dateType": "yearMonth"
+    },
+    {
+      "id": "1655f06b16e",
+      "name": "amount",
+      "text": "金额",
+      "type": "单行文本框",
+      "formFields": [],
+      "required": true,
+      "textRestrict": "浮点"
+    }
+  ],
+  "smallEditor": true,
+  "disableInitLoadData": false
+}

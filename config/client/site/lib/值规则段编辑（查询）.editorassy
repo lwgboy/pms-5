@@ -1,0 +1,166 @@
+{
+  "id": "值规则段编辑（查询）",
+  "name": "值规则段编辑（查询）",
+  "title": "值规则段编辑（查询）",
+  "layout": [],
+  "type": "editor",
+  "folderId": "1677a194b59",
+  "fields": [
+    {
+      "id": "1677d345dee",
+      "name": "新字段1",
+      "type": "行",
+      "formFields": [
+        {
+          "id": "1677d399e33",
+          "name": "type",
+          "text": "类型",
+          "type": "单行文本框",
+          "formFields": [],
+          "readOnly": true
+        },
+        {
+          "id": "1677cfea3e7",
+          "name": "index",
+          "text": "序号",
+          "type": "单行文本框",
+          "formFields": [],
+          "tooltips": "本段字符串的拼接顺序",
+          "required": true
+        },
+        {
+          "id": "1677cfea502",
+          "name": "executeSequance",
+          "text": "执行顺序",
+          "type": "单行文本框",
+          "formFields": [],
+          "tooltips": "本段字符串的执行顺序",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "1677d347856",
+      "name": "新字段2",
+      "type": "行",
+      "formFields": [
+        {
+          "id": "1677cfea6b1",
+          "name": "collection",
+          "text": "集合名称",
+          "type": "单行文本框",
+          "formFields": [],
+          "tooltips": "查询时使用的集合",
+          "required": true
+        },
+        {
+          "id": "1677d0616fa",
+          "name": "query",
+          "text": "JQ查询文件",
+          "type": "单行文本框",
+          "formFields": [],
+          "tooltips": "查询对应的JQ名称"
+        }
+      ]
+    },
+    {
+      "id": "1677e14e063",
+      "name": "pipelineJson",
+      "text": "聚合管道",
+      "type": "多行文本框",
+      "formFields": []
+    },
+    {
+      "id": "1677d34b9fc",
+      "name": "新字段3",
+      "type": "行",
+      "formFields": [
+        {
+          "id": "1677d0b4b83",
+          "name": "params",
+          "text": "参数",
+          "type": "单行文本框",
+          "formFields": [],
+          "tooltips": "查询时的参数多个使用;分割，格式为jqParam\u003dcName/fName，其中jqParam为JQ的参数名，cName，fName为当前对象的ReadValue注解的名称"
+        },
+        {
+          "id": "1677d065b57",
+          "name": "returnField",
+          "text": "返回字段",
+          "type": "单行文本框",
+          "formFields": [],
+          "tooltips": "查询时，返回结果的字段名称，可以为null，为null时返回结果的Document类型"
+        }
+      ]
+    },
+    {
+      "id": "1677e0a39bc",
+      "name": "disableOutput",
+      "text": "禁止输出",
+      "type": "复选框",
+      "formFields": [],
+      "tooltips": "如果禁止输出，这个值仍然可以提供给其他段使用",
+      "checkStyle": "开关（默认）"
+    },
+    {
+      "id": "1677d103604",
+      "name": "新字段14",
+      "type": "行",
+      "formFields": [
+        {
+          "id": "1677d0d3f31",
+          "name": "format",
+          "text": "格式",
+          "type": "单行文本框",
+          "formFields": [],
+          "tooltips": "如果是日期类型，遵循DateFormat, 如果是数字类型，使用NumberFormat"
+        },
+        {
+          "id": "1677d0f113d",
+          "name": "caser",
+          "text": "大小写",
+          "type": "单选框",
+          "formFields": [],
+          "optionText": "大写#小写#不变",
+          "radioStyle": "横向分段（默认）"
+        }
+      ]
+    },
+    {
+      "id": "1677d0fd74a",
+      "name": "新字段13",
+      "type": "行",
+      "formFields": [
+        {
+          "id": "1677d0dd196",
+          "name": "length",
+          "text": "长度",
+          "type": "单行文本框",
+          "formFields": []
+        },
+        {
+          "id": "1677d0dfe15",
+          "name": "supplymentDir",
+          "text": "截补方向",
+          "type": "单选框",
+          "formFields": [],
+          "tooltips": "根据当前的值的文本长度，和要求的长度进行处理。 如果需要补齐，补齐的方向，左，右分别表示左补齐和右补齐。 如果需要截断，截断的方向，左，右分别表示从左边开始截断和从右边开始截断",
+          "optionText": "左#右",
+          "radioStyle": "横向分段（默认）"
+        },
+        {
+          "id": "1677d0ea349",
+          "name": "supplymentPlaceholder",
+          "text": "占位符",
+          "type": "单行文本框",
+          "formFields": [],
+          "tooltips": "补齐长度使用的占位符，只能是一个字符",
+          "textLimit": 1
+        }
+      ]
+    }
+  ],
+  "smallEditor": true,
+  "tinyEditor": true,
+  "disableInitLoadData": false
+}

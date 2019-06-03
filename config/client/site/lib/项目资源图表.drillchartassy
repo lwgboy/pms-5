@@ -1,0 +1,67 @@
+{
+  "id": "项目资源图表",
+  "name": "项目资源图表",
+  "description": "针对项目的资源分析和数据钻取功能。",
+  "layout": [],
+  "type": "drillchart",
+  "stickerTitle": "项目资源图表",
+  "folderId": "1671a65fff6",
+  "gridDataSetService": "com.bizvisionsoft.service.CatalogService",
+  "fields": [
+    {
+      "id": "1673edf978b",
+      "name": "dateRange",
+      "text": "时间范围",
+      "type": "日期时间范围选择",
+      "formFields": [],
+      "dateType": "date"
+    },
+    {
+      "id": "1673edf9844",
+      "name": "dateType",
+      "text": "时间类型",
+      "type": "单选框",
+      "formFields": [],
+      "optionText": "年#月#日",
+      "radioStyle": "横向分段（默认）"
+    },
+    {
+      "id": "1673edf9909",
+      "name": "seriesType",
+      "text": "系列显示",
+      "type": "单选框",
+      "formFields": [],
+      "optionText": "并列#汇总",
+      "radioStyle": "横向分段（默认）"
+    },
+    {
+      "id": "1673edf99b0",
+      "name": "dataType",
+      "text": "数据类型",
+      "type": "多项勾选框",
+      "formFields": [],
+      "optionText": "计划#实际",
+      "radioStyle": "横向分段（默认）"
+    },
+    {
+      "id": "1673edf9a46",
+      "name": "showData",
+      "text": "标准/加班",
+      "type": "单选框",
+      "formFields": [],
+      "optionText": "标准#加班#汇总#叠加",
+      "radioStyle": "横向分段（默认）"
+    },
+    {
+      "id": "1673edfa92e",
+      "name": "aggregateType",
+      "text": "累计值",
+      "type": "单选框",
+      "formFields": [],
+      "optionText": "不累计#总计#标准加班",
+      "radioStyle": "横向分段（默认）"
+    }
+  ],
+  "hasTitlebar": true,
+  "disableInitLoadData": false
+}

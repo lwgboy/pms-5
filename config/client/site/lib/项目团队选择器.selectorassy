@@ -1,0 +1,9 @@
+{
+  "id": "项目团队选择器",
+  "name": "项目团队选择器",
+  "layout": [],
+  "type": "selector",
+  "folderId": "162d7e33b8a",
+  "selectorGridAssemblyId": "项目团队",
+  "disableInitLoadData": false
+}

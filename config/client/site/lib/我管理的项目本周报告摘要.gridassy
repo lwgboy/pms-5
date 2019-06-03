@@ -1,0 +1,61 @@
+{
+  "id": "我管理的项目本周报告摘要",
+  "name": "我管理的项目本周报告摘要",
+  "layout": [],
+  "type": "grid",
+  "stickerTitle": "项目一周报告摘要",
+  "folderId": "1645e3822ed",
+  "gridCustomItemHeight": 112,
+  "gridMarkupEnabled": true,
+  "gridLineVisiable": true,
+  "gridHeaderVisiable": true,
+  "gridHasVScroll": true,
+  "gridRenderBundleId": "com.bizvisionsoft.pms",
+  "gridRenderClassName": "com.bizvisionsoft.pms.workreport.WeeklyProjectReportSummaryRender",
+  "gridDataSetService": "com.bizvisionsoft.service.WorkReportService",
+  "gridPageCount": 12,
+  "columns": [
+    {
+      "id": "1645e48dfb0",
+      "name": "plan",
+      "text": "项目一周报告摘要",
+      "alignment": 16384,
+      "width": 200,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "164636c872b",
+      "name": "statement",
+      "text": "完成情况",
+      "alignment": 16384,
+      "width": 200,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "164636c87d2",
+      "name": "problems",
+      "text": "存在问题",
+      "alignment": 16384,
+      "width": 200,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "164636c887c",
+      "name": "pmRemark",
+      "text": "项目经理批注",
+      "alignment": 16384,
+      "width": 200,
+      "resizeable": true,
+      "columns": []
+    }
+  ],
+  "fields": [],
+  "gridAutoColumnWidth": true,
+  "actions": [],
+  "rowActions": [],
+  "disableInitLoadData": false,
+  "scrollLoadData": true
+}

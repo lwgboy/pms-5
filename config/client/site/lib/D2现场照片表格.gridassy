@@ -1,0 +1,91 @@
+{
+  "id": "D2现场照片表格",
+  "name": "D2现场照片表格",
+  "layout": [],
+  "type": "grid",
+  "stickerTitle": "现场照片",
+  "folderId": "168987437fd",
+  "gridLineVisiable": true,
+  "gridHeaderVisiable": true,
+  "gridHasHScroll": true,
+  "gridHasVScroll": true,
+  "gridDataSetService": "com.bizvisionsoft.service.ProblemService",
+  "columns": [
+    {
+      "id": "16828c482ef",
+      "name": "location",
+      "text": "地点",
+      "alignment": 16384,
+      "width": 80,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "16828c48225",
+      "name": "receiver",
+      "text": "接收人",
+      "alignment": 16777216,
+      "width": 96,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "16828c483d6",
+      "name": "receiveDate",
+      "text": "日期",
+      "alignment": 16777216,
+      "width": 180,
+      "resizeable": true,
+      "columns": [],
+      "format": "yyyy-MM-dd HH:mm:ss"
+    },
+    {
+      "id": "16828c48494",
+      "name": "problemImgDesc",
+      "text": "描述",
+      "alignment": 16384,
+      "width": 320,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "1682b775d12",
+      "name": "problemImg",
+      "text": "现场照片",
+      "alignment": 16384,
+      "width": 320,
+      "resizeable": true,
+      "columns": []
+    }
+  ],
+  "fields": [],
+  "actions": [
+    {
+      "id": "16828d58dbb",
+      "name": "createPhoto",
+      "image": "/img/add_16_w.svg",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.problem.action.D2Action",
+      "style": "normal",
+      "actionBehavier": true,
+      "type": "customized",
+      "parameters": "{\"render\":\"gridrow\"}"
+    }
+  ],
+  "rowActions": [
+    {
+      "id": "16828d6fc47",
+      "name": "deletephoto",
+      "text": "删除",
+      "image": "/img/minus_16_w.svg",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.problem.action.D2Action",
+      "style": "warning",
+      "actionBehavier": true,
+      "type": "customized"
+    }
+  ],
+  "hasTitlebar": true,
+  "parameters": "{\"render\":\"gridrow\"}",
+  "sortFields": []
+}

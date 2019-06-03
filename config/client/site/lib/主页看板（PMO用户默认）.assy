@@ -1,0 +1,75 @@
+{
+  "id": "主页看板（PMO用户默认）",
+  "name": "主页看板（PMO用户默认）",
+  "layout": [
+    {
+      "id": "166bea2ae4b",
+      "name": "默认",
+      "columnCount": 4,
+      "makeColumnsEqualWidth": true,
+      "extendHorizontalSpace": true,
+      "marginTop": 16,
+      "marginWidth": 8,
+      "css": "brui_bg_deep_relief",
+      "layoutType": "lane",
+      "assemblys": [
+        {
+          "id": "我的流程任务（待处理）",
+          "horizontalAlignment": 4,
+          "verticalAlignment": 16777216,
+          "grabExcessHorizontalSpace": true,
+          "verticalSpan": 1,
+          "horizontalSpan": 1,
+          "widthHint": -1,
+          "heightHint": -1
+        },
+        {
+          "id": "工作看板（待处理）",
+          "horizontalAlignment": 4,
+          "verticalAlignment": 16777216,
+          "grabExcessHorizontalSpace": true,
+          "verticalSpan": 1,
+          "horizontalSpan": 1,
+          "widthHint": -1,
+          "heightHint": -1
+        },
+        {
+          "id": "我管理的项目看板（未关闭）",
+          "horizontalAlignment": 4,
+          "verticalAlignment": 16777216,
+          "grabExcessHorizontalSpace": true,
+          "verticalSpan": 1,
+          "horizontalSpan": 1,
+          "widthHint": -1,
+          "heightHint": -1
+        },
+        {
+          "id": "未读消息",
+          "horizontalAlignment": 4,
+          "verticalAlignment": 16777216,
+          "grabExcessHorizontalSpace": true,
+          "verticalSpan": 1,
+          "horizontalSpan": 1,
+          "widthHint": -1,
+          "heightHint": -1
+        }
+      ],
+      "laneWidth": 320,
+      "carouselInterval": 0
+    }
+  ],
+  "folderId": "166bdf4dc3f",
+  "actions": [],
+  "rowActions": [],
+  "disableInitLoadData": false,
+  "candidates": [
+    "工作看板（已完成）",
+    "未读消息",
+    "我参与的项目看板（未关闭）",
+    "我管理的项目看板（未关闭）",
+    "待确认的项目报告",
+    "待审批的项目变更（看板）",
+    "我的流程任务（待处理）",
+    "工作看板（待处理）"
+  ]
+}

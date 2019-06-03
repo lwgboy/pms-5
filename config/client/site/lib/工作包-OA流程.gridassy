@@ -1,0 +1,128 @@
+{
+  "id": "工作包-OA流程",
+  "name": "工作包-OA流程",
+  "description": "OA流程",
+  "layout": [],
+  "type": "grid",
+  "folderId": "165ad9a9ced",
+  "gridMarkupEnabled": true,
+  "gridLineVisiable": true,
+  "gridHeaderVisiable": true,
+  "gridHasHScroll": true,
+  "gridHasVScroll": true,
+  "gridDataSetBundleId": "com.awesometech.leoco",
+  "gridDataSetClassName": "com.awesometech.leoco.ds.OADataset",
+  "columns": [
+    {
+      "id": "165adc61d83",
+      "name": "INST_ID",
+      "text": "流程编号",
+      "alignment": 16384,
+      "width": 160,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "165ad9f216a",
+      "name": "TYPE_NAME",
+      "text": "流程类型",
+      "alignment": 16384,
+      "width": 160,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "165adc6aa93",
+      "name": "WF_NAME",
+      "text": "流程名",
+      "alignment": 16384,
+      "width": 160,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "165adc71b7a",
+      "name": "INST_NAME",
+      "text": "流程实例名",
+      "alignment": 16384,
+      "width": 240,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "165adc76fb9",
+      "name": "STATUS",
+      "text": "状态",
+      "alignment": 16384,
+      "width": 160,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "165adc7d466",
+      "name": "CREATE_DATE",
+      "text": "创建时间",
+      "alignment": 16384,
+      "width": 160,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "165adc81214",
+      "name": "CREATER",
+      "text": "创建人",
+      "alignment": 16384,
+      "width": 160,
+      "resizeable": true,
+      "columns": []
+    }
+  ],
+  "fields": [],
+  "actions": [
+    {
+      "id": "165add315ac",
+      "name": "关联流程查询",
+      "text": "流程关联",
+      "bundleId": "com.awesometech.leoco",
+      "className": "com.awesometech.leoco.action.SelectOA",
+      "forceText": true,
+      "style": "normal",
+      "editorAssemblyId": "165ae0db67b",
+      "type": "customized",
+      "verticalSpan": 0
+    }
+  ],
+  "rowActions": [
+    {
+      "id": "165adca342d",
+      "name": "查看流程图",
+      "text": "流程图",
+      "image": "",
+      "switchContentToAssemblyId": "流程图",
+      "openContent": true,
+      "style": "normal",
+      "type": "switch",
+      "verticalSpan": 0
+    },
+    {
+      "id": "165add6446e",
+      "name": "查看流程活动",
+      "text": "流程活动",
+      "switchContentToAssemblyId": "OA流程活动日志查看",
+      "openContent": true,
+      "style": "normal",
+      "type": "switch",
+      "verticalSpan": 0
+    },
+    {
+      "id": "165ada1fd9c",
+      "name": "删除流程关联",
+      "text": "取消关联",
+      "image": "",
+      "style": "warning",
+      "type": "delete",
+      "verticalSpan": 0
+    }
+  ],
+  "disableInitLoadData": false
+}

@@ -1,0 +1,261 @@
+{
+  "id": "我的工作（已完成）",
+  "name": "我的工作（已完成）",
+  "layout": [],
+  "type": "grid",
+  "stickerTitle": "已完成的工作",
+  "folderId": "163624e9684",
+  "gridMarkupEnabled": true,
+  "gridLineVisiable": true,
+  "gridHeaderVisiable": true,
+  "gridHasHScroll": true,
+  "gridHasVScroll": true,
+  "gridPageControl": true,
+  "gridDataSetService": "com.bizvisionsoft.service.WorkService",
+  "gridPageCount": 30,
+  "columns": [
+    {
+      "id": "1636324ed09",
+      "name": "projectText",
+      "text": "项目",
+      "alignment": 16384,
+      "width": 280,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "16362575571",
+      "name": "fullName",
+      "text": "名称",
+      "alignment": 16384,
+      "width": 300,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "1636258808b",
+      "name": "manageLevelHtml",
+      "text": "级\u003cbr/\u003e别",
+      "alignment": 16777216,
+      "width": 40,
+      "columns": [],
+      "markupEnabled": true
+    },
+    {
+      "id": "1636786ab74",
+      "name": "计划",
+      "text": "计划",
+      "alignment": 16384,
+      "width": 80,
+      "resizeable": true,
+      "columns": [
+        {
+          "id": "16362575688",
+          "name": "planStart",
+          "text": "开始",
+          "alignment": 16777216,
+          "width": 96,
+          "resizeable": true,
+          "detail": true,
+          "summary": true,
+          "columns": [],
+          "format": "yyyy-MM-dd"
+        },
+        {
+          "id": "16362575769",
+          "name": "planFinish",
+          "text": "完成",
+          "alignment": 16777216,
+          "width": 96,
+          "resizeable": true,
+          "detail": true,
+          "summary": true,
+          "columns": [],
+          "format": "yyyy-MM-dd"
+        },
+        {
+          "id": "16362575849",
+          "name": "planDuration",
+          "text": "工期",
+          "alignment": 131072,
+          "width": 52,
+          "resizeable": true,
+          "detail": true,
+          "columns": []
+        }
+      ]
+    },
+    {
+      "id": "1636786f8b2",
+      "name": "实际",
+      "text": "实际",
+      "alignment": 16384,
+      "width": 80,
+      "resizeable": true,
+      "expanded": true,
+      "columns": [
+        {
+          "id": "16367702fb6",
+          "name": "actualStart",
+          "text": "开始",
+          "alignment": 16777216,
+          "width": 96,
+          "resizeable": true,
+          "detail": true,
+          "summary": true,
+          "columns": [],
+          "format": "yyyy-MM-dd"
+        },
+        {
+          "id": "16367702cf3",
+          "name": "actualFinish",
+          "text": "完成",
+          "alignment": 16777216,
+          "width": 96,
+          "resizeable": true,
+          "detail": true,
+          "summary": true,
+          "columns": [],
+          "format": "yyyy-MM-dd"
+        },
+        {
+          "id": "163677029a5",
+          "name": "actualDuration",
+          "text": "工期",
+          "alignment": 131072,
+          "width": 52,
+          "resizeable": true,
+          "detail": true,
+          "columns": []
+        }
+      ]
+    },
+    {
+      "id": "16362587b53",
+      "name": "warningIcon",
+      "text": "进度\u003cbr/\u003e状态",
+      "alignment": 16777216,
+      "width": 52,
+      "columns": [],
+      "markupEnabled": true
+    }
+  ],
+  "fields": [
+    {
+      "id": "165b950b45b",
+      "name": "查询条件",
+      "type": "标签页",
+      "formFields": [
+        {
+          "id": "163668a4b2e",
+          "name": "projectName",
+          "text": "项目名称",
+          "type": "文本输入框（查询）",
+          "formFields": []
+        },
+        {
+          "id": "163668a4d3b",
+          "name": "projectNumber",
+          "text": "项目编号",
+          "type": "文本输入框（查询）",
+          "formFields": []
+        },
+        {
+          "id": "163668a4e6a",
+          "name": "fullName",
+          "text": "工作名称",
+          "type": "文本输入框（查询）",
+          "formFields": []
+        },
+        {
+          "id": "163668a4f44",
+          "name": "actualStart",
+          "text": "实际开始",
+          "type": "日期时间范围（查询）",
+          "formFields": [],
+          "dateType": "date"
+        },
+        {
+          "id": "163668a4ff4",
+          "name": "actualFinish",
+          "text": "实际完成",
+          "type": "日期时间范围（查询）",
+          "formFields": [],
+          "dateType": "date"
+        },
+        {
+          "id": "163668a50f0",
+          "name": "overdue",
+          "text": "超期",
+          "type": "下拉选择框（查询）",
+          "formFields": [],
+          "optionText": "是#否"
+        },
+        {
+          "id": "163668a518a",
+          "name": "manageLevel",
+          "text": "管理级别",
+          "type": "下拉选择框（查询）",
+          "formFields": [],
+          "optionText": "1#2#3"
+        }
+      ]
+    }
+  ],
+  "actions": [],
+  "rowActions": [],
+  "hasTitlebar": true,
+  "disableInitLoadData": true,
+  "disableStdQuery": true,
+  "sortFields": [
+    {
+      "id": "1675db783b3",
+      "name": "fullName",
+      "text": "工作名称",
+      "type": "排序字段",
+      "formFields": []
+    },
+    {
+      "id": "1675db78460",
+      "name": "projectNumber",
+      "text": "项目编号",
+      "type": "排序字段",
+      "formFields": []
+    },
+    {
+      "id": "1675db78528",
+      "name": "projectName",
+      "text": "项目名称",
+      "type": "排序字段",
+      "formFields": []
+    },
+    {
+      "id": "1675db78619",
+      "name": "actualStart",
+      "text": "实际开始",
+      "type": "排序字段",
+      "formFields": []
+    },
+    {
+      "id": "1675db7872c",
+      "name": "actualFinish",
+      "text": "实际完成",
+      "type": "排序字段",
+      "formFields": []
+    },
+    {
+      "id": "1675db789f4",
+      "name": "overdue",
+      "text": "超期预警",
+      "type": "排序字段",
+      "formFields": []
+    },
+    {
+      "id": "1675db78e75",
+      "name": "manageLevel",
+      "text": "管理级别",
+      "type": "排序字段",
+      "formFields": []
+    }
+  ]
+}

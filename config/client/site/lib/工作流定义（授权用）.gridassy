@@ -1,0 +1,160 @@
+{
+  "id": "工作流定义（授权用）",
+  "name": "工作流定义（授权用）",
+  "layout": [],
+  "type": "grid",
+  "stickerTitle": "工作流启动权限",
+  "folderId": "16a38999733",
+  "gridLineVisiable": true,
+  "gridHeaderVisiable": true,
+  "gridHasHScroll": true,
+  "gridHasVScroll": true,
+  "gridDataSetService": "com.bizvisionsoft.service.UniversalDataService",
+  "columns": [
+    {
+      "id": "16a056354f8",
+      "name": "name",
+      "text": "名称",
+      "alignment": 16384,
+      "width": 160,
+      "resizeable": true,
+      "columns": [],
+      "enableColumnSort": true
+    },
+    {
+      "id": "16a1bf027d3",
+      "name": "type",
+      "text": "类型",
+      "alignment": 16384,
+      "width": 80,
+      "resizeable": true,
+      "columns": [],
+      "enableColumnSort": true
+    },
+    {
+      "id": "16a05635c7e",
+      "name": "description",
+      "text": "描述",
+      "alignment": 16384,
+      "width": 160,
+      "resizeable": true,
+      "columns": [],
+      "enableColumnSort": true
+    },
+    {
+      "id": "16a056358cd",
+      "name": "enabled",
+      "text": "可用",
+      "alignment": 16777216,
+      "width": 60,
+      "resizeable": true,
+      "columns": [],
+      "enableColumnSort": true
+    },
+    {
+      "id": "16a05635971",
+      "name": "bpmnId",
+      "text": "流程Id",
+      "alignment": 16384,
+      "width": 240,
+      "resizeable": true,
+      "columns": [],
+      "enableColumnSort": true
+    },
+    {
+      "id": "16a1c3cf3ed",
+      "name": "allUser",
+      "text": "授权全部",
+      "alignment": 16777216,
+      "width": 80,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "16a05635a20",
+      "name": "users",
+      "text": "启动授权（用户）",
+      "alignment": 16384,
+      "width": 320,
+      "resizeable": true,
+      "columns": [],
+      "enableColumnSort": false
+    },
+    {
+      "id": "16a0b8757a6",
+      "name": "organizations",
+      "text": "启动授权（组织）",
+      "alignment": 16384,
+      "width": 320,
+      "resizeable": true,
+      "columns": [],
+      "enableColumnSort": false
+    },
+    {
+      "id": "16a1c3ca114",
+      "name": "roles",
+      "text": "启动授权（角色）",
+      "alignment": 16384,
+      "width": 320,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "16a05635d27",
+      "name": "properties",
+      "text": "属性",
+      "alignment": 16384,
+      "width": 240,
+      "resizeable": true,
+      "columns": [],
+      "enableColumnSort": false
+    }
+  ],
+  "fields": [
+    {
+      "id": "16a05915ffa",
+      "name": "name",
+      "text": "名称",
+      "type": "文本输入框（查询）",
+      "formFields": []
+    },
+    {
+      "id": "16a059161ae",
+      "name": "description",
+      "text": "描述",
+      "type": "文本输入框（查询）",
+      "formFields": []
+    },
+    {
+      "id": "16a05916264",
+      "name": "bpmnId",
+      "text": "BPMN",
+      "type": "文本输入框（查询）",
+      "formFields": []
+    },
+    {
+      "id": "16a1bffaf3d",
+      "name": "type",
+      "text": "类型",
+      "type": "文本输入框（查询）",
+      "formFields": []
+    }
+  ],
+  "actions": [],
+  "rowActions": [
+    {
+      "id": "16a056d89b1",
+      "name": "权限",
+      "image": "",
+      "forceText": true,
+      "style": "normal",
+      "editorAssemblyId": "工作流定义编辑器（授权用）",
+      "editorAssemblyEditable": true,
+      "type": "edit"
+    }
+  ],
+  "hasTitlebar": true,
+  "modelClassName": "com.bizvisionsoft.service.model.ProcessDefinition",
+  "modelBundleName": "",
+  "sortFields": []
+}

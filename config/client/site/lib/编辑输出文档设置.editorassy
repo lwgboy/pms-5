@@ -1,0 +1,48 @@
+{
+  "id": "编辑输出文档设置",
+  "name": "编辑输出文档设置",
+  "title": "输出文档设置",
+  "layout": [],
+  "type": "editor",
+  "folderId": "163cd3feba0",
+  "fields": [
+    {
+      "id": "165d1043fe3",
+      "name": "name",
+      "text": "名称",
+      "type": "单行文本框",
+      "formFields": [],
+      "required": true
+    },
+    {
+      "id": "165d103bf20",
+      "name": "docuTemplate",
+      "text": "文档模板",
+      "type": "对象选择框",
+      "formFields": [],
+      "selectorAssemblyId": "文档模板",
+      "valueFieldName": ""
+    },
+    {
+      "id": "165d10318b4",
+      "name": "folderInTemplate",
+      "text": "保存到",
+      "type": "对象选择框",
+      "formFields": [],
+      "selectorAssemblyId": "项目模板文件夹选择列表",
+      "valueFieldName": ""
+    },
+    {
+      "id": "165d1047db3",
+      "name": "description",
+      "text": "说明",
+      "type": "多行文本框",
+      "formFields": [],
+      "grabVertical": true
+    }
+  ],
+  "smallEditor": true,
+  "tinyEditor": true,
+  "addToParentContext": true,
+  "disableInitLoadData": false
+}

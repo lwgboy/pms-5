@@ -1,0 +1,9 @@
+{
+  "id": "WBS模块选择器",
+  "name": "WBS模块选择器",
+  "layout": [],
+  "type": "selector",
+  "folderId": "163cd3ebfd0",
+  "selectorGridAssemblyId": "WBS模块",
+  "disableInitLoadData": false
+}

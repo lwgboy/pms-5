@@ -1,0 +1,266 @@
+{
+  "id": "预算成本对比分析",
+  "name": "预算成本对比分析",
+  "description": "用于首页显示预算成本对比分析",
+  "layout": [],
+  "type": "grid",
+  "stickerTitle": "预算成本对比分析",
+  "folderId": "163d33c2f06",
+  "gridAutoExpandLevel": 1,
+  "gridMarkupEnabled": true,
+  "gridLineVisiable": true,
+  "gridHeaderVisiable": true,
+  "gridFooterVisiable": true,
+  "gridHasHScroll": true,
+  "gridHasVScroll": true,
+  "gridPageControl": true,
+  "gridRenderBundleId": "com.bizvisionsoft.pms",
+  "gridRenderClassName": "com.bizvisionsoft.pms.cost.ManagedProjectsCostRender",
+  "gridDataSetBundleId": "com.bizvisionsoft.pms",
+  "gridDataSetClassName": "com.bizvisionsoft.pms.cost.ManagedProjectsCostDS",
+  "columns": [
+    {
+      "id": "163c90c1ed5",
+      "name": "scopeId",
+      "text": "项目编号",
+      "alignment": 16384,
+      "width": 160,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "163c90c1fe5",
+      "name": "scopename",
+      "text": "项目名称",
+      "alignment": 16384,
+      "width": 320,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "163d9dc45be",
+      "name": "scopeCharger",
+      "text": "项目经理",
+      "alignment": 16384,
+      "width": 100,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "163d9dc6495",
+      "name": "scopePlanStart",
+      "text": "计划开始",
+      "alignment": 16777216,
+      "width": 100,
+      "resizeable": true,
+      "columns": [],
+      "format": "yyyy-MM-dd"
+    },
+    {
+      "id": "163d9dc7cdb",
+      "name": "scopePlanFinish",
+      "text": "计划结束",
+      "alignment": 16777216,
+      "width": 100,
+      "resizeable": true,
+      "columns": [],
+      "format": "yyyy-MM-dd"
+    },
+    {
+      "id": "163d9dc9a67",
+      "name": "scopeStatus",
+      "text": "状态",
+      "alignment": 16777216,
+      "width": 80,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "163c9009744",
+      "name": "合计",
+      "text": "合计（万元）",
+      "alignment": 16777216,
+      "width": 160,
+      "expanded": true,
+      "columns": [
+        {
+          "id": "163d33e0ddc",
+          "name": "totalBudget",
+          "text": "预算",
+          "alignment": 131072,
+          "width": 100,
+          "resizeable": true,
+          "detail": true,
+          "columns": []
+        },
+        {
+          "id": "163d33e0ec2",
+          "name": "totalCost",
+          "text": "成本",
+          "alignment": 131072,
+          "width": 100,
+          "resizeable": true,
+          "detail": true,
+          "columns": []
+        },
+        {
+          "id": "163e87f2ed3",
+          "name": "totalOverspend",
+          "text": "超支金额",
+          "alignment": 131072,
+          "width": 100,
+          "resizeable": true,
+          "detail": true,
+          "summary": true,
+          "columns": []
+        },
+        {
+          "id": "163d33e0f82",
+          "name": "totalCAR",
+          "text": "预算使用",
+          "alignment": 131072,
+          "width": 100,
+          "resizeable": true,
+          "detail": true,
+          "summary": true,
+          "columns": [],
+          "format": "##.0%"
+        },
+        {
+          "id": "163d33e1088",
+          "name": "totalBDR",
+          "text": "预算偏差",
+          "alignment": 131072,
+          "width": 100,
+          "resizeable": true,
+          "detail": true,
+          "summary": true,
+          "columns": [],
+          "format": "##.0%"
+        }
+      ],
+      "noToggleGridColumnGroup": true
+    },
+    {
+      "id": "163c9657747",
+      "name": "period",
+      "text": "当期（万元）",
+      "alignment": 16777216,
+      "width": 160,
+      "expanded": true,
+      "columns": [
+        {
+          "id": "163d33ec9ae",
+          "name": "budget",
+          "text": "预算",
+          "alignment": 131072,
+          "width": 100,
+          "resizeable": true,
+          "detail": true,
+          "columns": []
+        },
+        {
+          "id": "163d33ecaa1",
+          "name": "cost",
+          "text": "成本",
+          "alignment": 131072,
+          "width": 100,
+          "resizeable": true,
+          "detail": true,
+          "columns": []
+        },
+        {
+          "id": "163e87f2fa3",
+          "name": "overspend",
+          "text": "超支金额",
+          "alignment": 131072,
+          "width": 100,
+          "resizeable": true,
+          "detail": true,
+          "summary": true,
+          "columns": []
+        },
+        {
+          "id": "163d33ecb54",
+          "name": "car",
+          "text": "预算使用",
+          "alignment": 131072,
+          "width": 100,
+          "resizeable": true,
+          "detail": true,
+          "summary": true,
+          "columns": [],
+          "format": "##.0%"
+        },
+        {
+          "id": "163d33ecc38",
+          "name": "bdr",
+          "text": "预算偏差",
+          "alignment": 131072,
+          "width": 100,
+          "resizeable": true,
+          "detail": true,
+          "summary": true,
+          "columns": [],
+          "format": "##.0%"
+        }
+      ],
+      "noToggleGridColumnGroup": true
+    }
+  ],
+  "fields": [
+    {
+      "id": "163da7b8828",
+      "name": "scopeId",
+      "text": "项目编号",
+      "type": "文本输入框（查询）",
+      "formFields": []
+    },
+    {
+      "id": "163da7b8aaf",
+      "name": "scopename",
+      "text": "项目名称",
+      "type": "文本输入框（查询）",
+      "formFields": []
+    },
+    {
+      "id": "163da7b8c5e",
+      "name": "scopeStatus",
+      "text": "状态",
+      "type": "下拉选择框（查询）",
+      "formFields": [],
+      "optionText": "已创建#进行中#收尾中#已关闭#已暂停#已中止"
+    }
+  ],
+  "actions": [
+    {
+      "id": "163c99b00f2",
+      "name": "期间",
+      "text": "期间",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.cost.SetSearchCBSPeriodByAnalysisACT",
+      "forceText": true,
+      "style": "info",
+      "type": "customized",
+      "verticalSpan": 0
+    }
+  ],
+  "rowActions": [
+    {
+      "id": "163c9dcf614",
+      "name": "打开项目预算成本对比分析",
+      "image": "/img/right.svg",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.cost.OpenProjectAnalysis",
+      "switchContentToAssemblyId": "项目预算成本对比分析",
+      "openContent": true,
+      "style": "",
+      "objectBehavier": true,
+      "type": "switch",
+      "verticalSpan": 0
+    }
+  ],
+  "hasTitlebar": true,
+  "disableInitLoadData": false,
+  "sortFields": []
+}

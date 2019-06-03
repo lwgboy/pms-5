@@ -1,0 +1,103 @@
+{
+  "id": "Dx-行动计划-编辑器",
+  "name": "Dx-行动计划-编辑器",
+  "title": "行动",
+  "layout": [],
+  "type": "editor",
+  "folderId": "1689872b96f",
+  "fields": [
+    {
+      "id": "167ee57b5c3",
+      "name": "action",
+      "text": "行动描述",
+      "type": "单行文本框",
+      "formFields": [],
+      "required": true
+    },
+    {
+      "id": "167f3a15f22",
+      "name": "objective",
+      "text": "预期结果",
+      "type": "单行文本框",
+      "formFields": [],
+      "required": true
+    },
+    {
+      "id": "167f3db3e0d",
+      "name": "新字段22",
+      "type": "行",
+      "formFields": [
+        {
+          "id": "168730a578a",
+          "name": "index",
+          "text": "行动序号",
+          "type": "数字输入框",
+          "formFields": [],
+          "spinnerMax": 99,
+          "spinnerMin": 0,
+          "spinnerInc": 1,
+          "spinnerPageInc": 10
+        },
+        {
+          "id": "167f2a0d85f",
+          "name": "charger",
+          "text": "行动负责",
+          "type": "对象选择框",
+          "formFields": [],
+          "required": true,
+          "selectorAssemblyId": "用户选择列表",
+          "valueFieldName": "userId"
+        },
+        {
+          "id": "167f2a01f57",
+          "name": "planStart",
+          "text": "计划开始",
+          "type": "日期时间选择",
+          "formFields": [],
+          "required": true,
+          "dateType": "datetime"
+        },
+        {
+          "id": "167ee4f0821",
+          "name": "planFinish",
+          "text": "计划完成",
+          "type": "日期时间选择",
+          "formFields": [],
+          "required": true,
+          "dateType": "datetime"
+        }
+      ]
+    },
+    {
+      "id": "16a96880662",
+      "name": "attachments",
+      "text": "附件",
+      "type": "多个文件选择框",
+      "formFields": [],
+      "fileNamespace": "prmAtt"
+    },
+    {
+      "id": "167f2b37774",
+      "name": "detail",
+      "text": "详细计划",
+      "type": "HTML文本框",
+      "formFields": [],
+      "grabVertical": true
+    }
+  ],
+  "actions": [
+    {
+      "id": "167f2c77d76",
+      "name": "选择预案",
+      "text": "选择预案",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.problem.action.SelectPlan",
+      "style": "info",
+      "type": "customized"
+    }
+  ],
+  "smallEditor": false,
+  "tinyEditor": false,
+  "addToParentContext": true,
+  "labelWidth": 80
+}

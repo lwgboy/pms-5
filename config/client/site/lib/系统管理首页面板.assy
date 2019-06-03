@@ -1,0 +1,34 @@
+{
+  "id": "系统管理首页面板",
+  "name": "系统管理首页面板",
+  "title": "系统管理",
+  "layout": [
+    {
+      "id": "164071a20bd",
+      "name": "默认布局",
+      "columnCount": 1,
+      "makeColumnsEqualWidth": true,
+      "extendVerticalSpace": true,
+      "marginHeight": 64,
+      "marginWidth": 12,
+      "assemblys": [
+        {
+          "id": "警告（系统管理）",
+          "horizontalAlignment": 16777216,
+          "verticalAlignment": 16777216,
+          "grabExcessHorizontalSpace": true,
+          "grabExcessVerticalSpace": true,
+          "verticalSpan": 1,
+          "horizontalSpan": 1,
+          "widthHint": 800,
+          "heightHint": 600
+        }
+      ],
+      "carouselInterval": 0
+    }
+  ],
+  "folderId": "162bccab082",
+  "actions": [],
+  "rowActions": [],
+  "disableInitLoadData": false
+}

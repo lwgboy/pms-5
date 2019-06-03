@@ -1,0 +1,123 @@
+{
+  "id": "待确认的项目报告",
+  "name": "待确认的项目报告",
+  "layout": [],
+  "type": "board",
+  "stickerTitle": "待确认的项目报告",
+  "folderId": "166bdf4dc3f",
+  "gridAutoHeight": true,
+  "gridDataSetService": "com.bizvisionsoft.service.WorkReportService",
+  "gridPageCount": 8,
+  "columns": [],
+  "fields": [
+    {
+      "id": "1670bd50d18",
+      "name": "projectNumber",
+      "text": "项目编号",
+      "type": "文本输入框（查询）",
+      "formFields": []
+    },
+    {
+      "id": "1670bd50c7e",
+      "name": "projectName",
+      "text": "项目名称",
+      "type": "文本输入框（查询）",
+      "formFields": []
+    },
+    {
+      "id": "1670bd50dbc",
+      "name": "period",
+      "text": "周期",
+      "type": "日期时间范围（查询）",
+      "formFields": []
+    },
+    {
+      "id": "1670bd50e52",
+      "name": "type",
+      "text": "类型",
+      "type": "下拉选择框（查询）",
+      "formFields": [],
+      "optionText": "日报#周报#月报"
+    },
+    {
+      "id": "1673165d69c",
+      "name": "reporterInfo",
+      "text": "报告人",
+      "type": "文本输入框（查询）",
+      "formFields": []
+    }
+  ],
+  "actions": [
+    {
+      "id": "1670bd63854",
+      "name": "filter",
+      "tooltips": "过滤在所选日期以前需开始的工作",
+      "image": "/img/calendar_w.svg",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.work.action.FilterWork",
+      "style": "info",
+      "type": "customized",
+      "parameters": "{\"filterType\":\"计划开始\"}"
+    },
+    {
+      "id": "16715207345",
+      "name": "切换列表",
+      "image": "/img/right_w.svg",
+      "switchContentToAssemblyId": "待确认的报告",
+      "style": "info",
+      "type": "switch",
+      "verticalSpan": 0
+    }
+  ],
+  "rowActions": [
+    {
+      "id": "1670d294caf",
+      "name": "操作",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.work.WorkCardACT",
+      "type": "customized",
+      "verticalSpan": 0
+    }
+  ],
+  "hasTitlebar": true,
+  "disableInitLoadData": false,
+  "compactTitleBar": true,
+  "candidates": [],
+  "sortFields": [
+    {
+      "id": "1673166181c",
+      "name": "projectNumber",
+      "text": "项目编号",
+      "type": "排序字段",
+      "formFields": []
+    },
+    {
+      "id": "16731661778",
+      "name": "projectName",
+      "text": "项目名称",
+      "type": "排序字段",
+      "formFields": []
+    },
+    {
+      "id": "167316618d5",
+      "name": "period",
+      "text": "周期",
+      "type": "排序字段",
+      "formFields": []
+    },
+    {
+      "id": "1673166197d",
+      "name": "type",
+      "text": "类型",
+      "type": "排序字段",
+      "formFields": []
+    },
+    {
+      "id": "16731661a45",
+      "name": "reporterInfo",
+      "text": "报告人",
+      "type": "排序字段",
+      "formFields": []
+    }
+  ]
+}

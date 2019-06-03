@@ -1,0 +1,10 @@
+{
+  "id": "EPS选择器",
+  "name": "EPS选择器",
+  "layout": [],
+  "type": "selector",
+  "folderId": "162bda3464a",
+  "selectorGridAssemblyId": "EPS管理",
+  "selectorMultiSelection": true,
+  "disableInitLoadData": false
+}

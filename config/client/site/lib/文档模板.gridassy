@@ -1,0 +1,136 @@
+{
+  "id": "文档模板",
+  "name": "文档模板",
+  "layout": [],
+  "type": "grid",
+  "stickerTitle": "文档模板",
+  "folderId": "165c65ad203",
+  "gridLineVisiable": true,
+  "gridHeaderVisiable": true,
+  "gridHasVScroll": true,
+  "gridPageControl": true,
+  "gridDataSetService": "",
+  "columns": [
+    {
+      "id": "15ce2de8452",
+      "name": "name",
+      "text": "模板名称",
+      "alignment": 16384,
+      "width": 240,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "15ce2df87b7",
+      "name": "category",
+      "text": "类别",
+      "alignment": 16384,
+      "width": 120,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "15ce2df96c8",
+      "name": "description",
+      "text": "描述",
+      "alignment": 16384,
+      "width": 240,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "165c6976307",
+      "name": "editorName",
+      "text": "表单名称",
+      "alignment": 16384,
+      "width": 120,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "165cc513121",
+      "name": "createOn",
+      "text": "创建",
+      "alignment": 16384,
+      "width": 180,
+      "resizeable": true,
+      "columns": [],
+      "format": "yyyy-MM-dd HH:mm:ss"
+    },
+    {
+      "id": "165cc513303",
+      "name": "createByInfo",
+      "text": "创建者",
+      "alignment": 16384,
+      "width": 80,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "165c6989ab0",
+      "name": "docuFiles",
+      "text": "模板文件",
+      "alignment": 16384,
+      "width": 320,
+      "resizeable": true,
+      "columns": []
+    }
+  ],
+  "fields": [
+    {
+      "id": "165c673f600",
+      "name": "name",
+      "text": "模板名称",
+      "type": "文本输入框（查询）",
+      "formFields": []
+    },
+    {
+      "id": "165c6745138",
+      "name": "category",
+      "text": "类别",
+      "type": "文本输入框（查询）",
+      "formFields": []
+    }
+  ],
+  "actions": [
+    {
+      "id": "15ce2e07749",
+      "name": "创建",
+      "text": "创建",
+      "image": "/img/add_16_w.svg",
+      "bundleId": "",
+      "className": "",
+      "style": "normal",
+      "editorAssemblyId": "文档模板编辑器",
+      "type": "insert",
+      "createActionNewInstanceBundleId": "com.bizvisionsoft.service",
+      "createActionNewInstanceClassName": "com.bizvisionsoft.service.model.DocuTemplate",
+      "verticalSpan": 0
+    }
+  ],
+  "rowActions": [
+    {
+      "id": "163e37cdd36",
+      "name": "打开",
+      "image": "/img/edit_w.svg",
+      "style": "normal",
+      "editorAssemblyId": "文档模板编辑器",
+      "editorAssemblyEditable": true,
+      "type": "edit",
+      "verticalSpan": 0
+    },
+    {
+      "id": "15ce2ecf5c2",
+      "name": "移除",
+      "text": "移除",
+      "image": "/img/minus_16_w.svg",
+      "style": "warning",
+      "type": "delete",
+      "verticalSpan": 0
+    }
+  ],
+  "hasTitlebar": true,
+  "displayInputLabelInTitlebar": true,
+  "disableInitLoadData": false,
+  "modelClassName": "com.bizvisionsoft.service.model.DocuTemplate"
+}

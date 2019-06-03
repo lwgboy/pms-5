@@ -1,0 +1,12 @@
+{
+  "id": "我的工作（日历牌）",
+  "name": "我的工作（日历牌）",
+  "layout": [],
+  "type": "scheduler",
+  "folderId": "163624e9684",
+  "gridDataSetService": "com.bizvisionsoft.service.WorkService",
+  "actions": [],
+  "rowActions": [],
+  "schedulerType": "scheduler",
+  "disableInitLoadData": false
+}

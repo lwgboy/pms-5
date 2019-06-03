@@ -1,0 +1,72 @@
+{
+  "id": "资源类型编辑器",
+  "name": "资源类型编辑器",
+  "layout": [],
+  "type": "editor",
+  "folderId": "16396e06a26",
+  "fields": [
+    {
+      "id": "162c49c1b1e",
+      "name": "id",
+      "text": "编号",
+      "type": "单行文本框",
+      "formFields": [],
+      "required": true
+    },
+    {
+      "id": "162c46185f6",
+      "name": "name",
+      "text": "资源类别名称",
+      "type": "单行文本框",
+      "formFields": [],
+      "required": true,
+      "textLimit": 25
+    },
+    {
+      "id": "162c4ad27a8",
+      "name": "type",
+      "text": "类型",
+      "type": "单选框",
+      "formFields": [],
+      "required": true,
+      "optionValue": "人力资源#设备设施",
+      "optionText": "人力资源#设备设施",
+      "radioStyle": "横向分段（默认）"
+    },
+    {
+      "id": "162c4619ab8",
+      "name": "basicRate",
+      "text": "标准费率(元)",
+      "type": "单行文本框",
+      "formFields": [],
+      "textRestrict": "浮点"
+    },
+    {
+      "id": "162c4619b5e",
+      "name": "overtimeRate",
+      "text": "加班费率(元)",
+      "type": "单行文本框",
+      "formFields": [],
+      "textRestrict": "浮点"
+    },
+    {
+      "id": "162c4a9e27e",
+      "name": "description",
+      "text": "说明",
+      "type": "单行文本框",
+      "formFields": []
+    },
+    {
+      "id": "16395942d91",
+      "name": "calendar",
+      "text": "资源日历",
+      "type": "对象选择框",
+      "formFields": [],
+      "required": true,
+      "selectorAssemblyId": "工作日历选择表格"
+    }
+  ],
+  "actions": [],
+  "smallEditor": true,
+  "disableInitLoadData": false
+}

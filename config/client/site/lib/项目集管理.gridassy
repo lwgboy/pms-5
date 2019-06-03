@@ -1,0 +1,203 @@
+{
+  "id": "项目集管理",
+  "name": "项目集管理",
+  "layout": [],
+  "type": "grid",
+  "stickerTitle": "项目集管理",
+  "folderId": "16548782113",
+  "gridMarkupEnabled": true,
+  "gridLineVisiable": true,
+  "gridHeaderVisiable": true,
+  "gridHasHScroll": true,
+  "gridHasVScroll": true,
+  "gridPageControl": true,
+  "gridDataSetService": "com.bizvisionsoft.service.ProgramService",
+  "columns": [
+    {
+      "id": "16548a9b5bc",
+      "name": "name",
+      "text": "名称",
+      "alignment": 16384,
+      "width": 320,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "16548a98da6",
+      "name": "id",
+      "text": "编号",
+      "alignment": 16384,
+      "width": 80,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "16548a9db79",
+      "name": "pmInfoHtml",
+      "text": "项目集/项目经理",
+      "alignment": 16384,
+      "width": 140,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "16548aa35fb",
+      "name": "description",
+      "text": "描述",
+      "alignment": 16384,
+      "width": 320,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "1654befced1",
+      "name": "createOn",
+      "text": "创建",
+      "alignment": 16384,
+      "width": 160,
+      "resizeable": true,
+      "columns": [],
+      "format": "yyyy-MM-dd HH:mm:ss"
+    },
+    {
+      "id": "1654bf01c9f",
+      "name": "createByInfo",
+      "text": "创建人",
+      "alignment": 16777216,
+      "width": 64,
+      "resizeable": true,
+      "columns": []
+    }
+  ],
+  "fields": [
+    {
+      "id": "1654be47da6",
+      "name": "id",
+      "text": "项目集编号",
+      "type": "文本输入框（查询）",
+      "formFields": []
+    },
+    {
+      "id": "1654be47f74",
+      "name": "name",
+      "text": "项目集名称",
+      "type": "文本输入框（查询）",
+      "formFields": []
+    },
+    {
+      "id": "1654be480c6",
+      "name": "pgmId",
+      "text": "项目集经理",
+      "type": "对象选择（查询）",
+      "formFields": [],
+      "selectorAssemblyId": "用户选择列表",
+      "valueFieldName": "userId"
+    },
+    {
+      "id": "1654be48261",
+      "name": "description",
+      "text": "描述",
+      "type": "文本输入框（查询）",
+      "formFields": []
+    }
+  ],
+  "actions": [
+    {
+      "id": "1654baa2f2c",
+      "name": "创建项目集",
+      "text": "创建项目集",
+      "forceText": true,
+      "style": "normal",
+      "editorAssemblyId": "项目集编辑器",
+      "type": "insert",
+      "createActionNewInstanceBundleId": "com.bizvisionsoft.service",
+      "createActionNewInstanceClassName": "com.bizvisionsoft.service.model.Program",
+      "verticalSpan": 0
+    }
+  ],
+  "rowActions": [
+    {
+      "id": "1654e26608d",
+      "name": "从项目集移除项目",
+      "text": "移除",
+      "image": "",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.program.RemoveProjectFromProgram",
+      "style": "",
+      "objectBehavier": true,
+      "type": "customized",
+      "verticalSpan": 0
+    },
+    {
+      "id": "1654df57f4f",
+      "name": "项目集操作",
+      "image": "/img/menu.svg",
+      "style": "",
+      "children": [
+        {
+          "id": "1654c755aa1",
+          "name": "创建子项目集",
+          "text": "创建子项目集",
+          "image": "/img/add_16_w.svg",
+          "bundleId": "com.bizvisionsoft.pms",
+          "className": "com.bizvisionsoft.pms.program.CreateSubProgram",
+          "forceText": true,
+          "style": "normal",
+          "type": "customized",
+          "createActionNewInstanceBundleId": "",
+          "createActionNewInstanceClassName": "",
+          "verticalSpan": 0
+        },
+        {
+          "id": "1654df607cf",
+          "name": "添加项目",
+          "text": "添加项目",
+          "image": "/img/add_16_w.svg",
+          "bundleId": "com.bizvisionsoft.pms",
+          "className": "com.bizvisionsoft.pms.program.AddProjectToProgram",
+          "forceText": true,
+          "style": "normal",
+          "type": "customized",
+          "verticalSpan": 0
+        },
+        {
+          "id": "1654bed2fb2",
+          "name": "编辑项目集属性",
+          "text": "编辑",
+          "image": "/img/edit_w.svg",
+          "forceText": true,
+          "style": "normal",
+          "editorAssemblyId": "项目集编辑器",
+          "editorAssemblyEditable": true,
+          "type": "edit",
+          "verticalSpan": 0
+        },
+        {
+          "id": "1654bfc6956",
+          "name": "删除项目集",
+          "text": "删除",
+          "image": "/img/delete_w.svg",
+          "forceText": true,
+          "style": "warning",
+          "objectBehavier": true,
+          "type": "delete",
+          "verticalSpan": 0
+        }
+      ],
+      "objectBehavier": true,
+      "type": "customized",
+      "verticalSpan": 0
+    },
+    {
+      "id": "1654bee24fb",
+      "name": "打开项目集",
+      "image": "/img/right.svg",
+      "style": "",
+      "objectBehavier": true,
+      "type": "switch",
+      "verticalSpan": 0
+    }
+  ],
+  "hasTitlebar": true,
+  "disableInitLoadData": false
+}

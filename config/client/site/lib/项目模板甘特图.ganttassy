@@ -1,0 +1,184 @@
+{
+  "id": "项目模板甘特图",
+  "name": "项目模板甘特图",
+  "title": "项目模板",
+  "layout": [],
+  "type": "gantt",
+  "stickerTitle": "计划模板",
+  "folderId": "163cd3ebfd0",
+  "gridDataSetService": "",
+  "gridDataSetBundleId": "com.bizvisionsoft.pms",
+  "gridDataSetClassName": "com.bizvisionsoft.pms.projecttemplate.GanttDS",
+  "columns": [
+    {
+      "id": "1628f30623d",
+      "name": "text",
+      "text": "名称",
+      "alignment": 16384,
+      "width": 320,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "1628f3062e6",
+      "name": "start_date",
+      "text": "开始",
+      "alignment": 16384,
+      "width": 96,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "1628f306399",
+      "name": "end_date",
+      "text": "完成",
+      "alignment": 16384,
+      "width": 96,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "1628f306450",
+      "name": "duration",
+      "text": "工期",
+      "alignment": 16384,
+      "width": 40,
+      "resizeable": true,
+      "columns": []
+    }
+  ],
+  "actions": [
+    {
+      "id": "1647c9bbaa0",
+      "name": "关键路径",
+      "text": "关键路径",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.work.gantt.action.DisplayCriticalPath",
+      "forceText": true,
+      "style": "info",
+      "type": "customized",
+      "verticalSpan": 0
+    },
+    {
+      "id": "1647c9bb467",
+      "name": "时间刻度",
+      "text": "时间刻度",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.work.gantt.action.TimeScaleSetting",
+      "forceText": true,
+      "style": "info",
+      "type": "customized",
+      "verticalSpan": 0
+    },
+    {
+      "id": "163440c2ab3",
+      "name": "排程",
+      "text": "排程",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.work.gantt.action.Reschedule",
+      "forceText": true,
+      "style": "normal",
+      "type": "customized",
+      "verticalSpan": 0
+    },
+    {
+      "id": "1645683ebbe",
+      "name": "保存",
+      "text": "保存",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.work.gantt.action.SaveGantt",
+      "forceText": true,
+      "style": "normal",
+      "type": "customized",
+      "verticalSpan": 0
+    }
+  ],
+  "rowActions": [
+    {
+      "id": "162519f7181",
+      "name": "创建子任务",
+      "text": "创建",
+      "image": "/img/add_w.svg",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.projecttemplate.AddTaskACT",
+      "style": "normal",
+      "type": "customized",
+      "verticalSpan": 0
+    },
+    {
+      "id": "164701bc522",
+      "name": "创建里程碑",
+      "text": "里程碑",
+      "image": "/img/add_w.svg",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.projecttemplate.AddMilestoneACT",
+      "style": "normal",
+      "type": "customized",
+      "verticalSpan": 0
+    },
+    {
+      "id": "164f073844c",
+      "name": "添加WBS模块",
+      "text": "添加WBS模块",
+      "image": "/img/module_w.svg",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.projecttemplate.AddWBSModuleACT",
+      "style": "normal",
+      "type": "customized",
+      "verticalSpan": 0
+    },
+    {
+      "id": "162516cb740",
+      "name": "编辑",
+      "text": "编辑",
+      "image": "/img/edit_w.svg",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.projecttemplate.EditTaskACT",
+      "style": "normal",
+      "type": "customized",
+      "verticalSpan": 0
+    },
+    {
+      "id": "162516ce0ff",
+      "name": "删除任务",
+      "text": "删除",
+      "image": "/img/minus_w.svg",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.projecttemplate.DeleteTaskACT",
+      "style": "warning",
+      "type": "customized",
+      "verticalSpan": 0
+    }
+  ],
+  "ganttTimeScaleType": "year-month-week",
+  "ganttGridWidthCalculate": true,
+  "eventHandlerBundleId": "com.bizvisionsoft.pms",
+  "eventHandlerClassName": "com.bizvisionsoft.pms.projecttemplate.GanttEventHandler",
+  "headActions": [
+    {
+      "id": "1625087e381",
+      "name": "创建",
+      "text": "创建",
+      "image": "/img/add_16_w.svg",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.projecttemplate.CreateRootTaskACT",
+      "style": "normal",
+      "type": "customized",
+      "verticalSpan": 0
+    },
+    {
+      "id": "164f076652b",
+      "name": "添加WBS模块",
+      "text": "添加模块",
+      "image": "/img/module_w.svg",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.projecttemplate.AddWBSModuleACT",
+      "style": "normal",
+      "type": "customized",
+      "verticalSpan": 0
+    }
+  ],
+  "hasTitlebar": true,
+  "displayInputLabelInTitlebar": true,
+  "disableInitLoadData": false
+}

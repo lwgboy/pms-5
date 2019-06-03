@@ -1,0 +1,69 @@
+{
+  "id": "项目WBS",
+  "name": "项目WBS",
+  "description": "",
+  "layout": [],
+  "type": "grid",
+  "stickerTitle": "",
+  "folderId": "1631b7e24e7",
+  "gridAutoExpandLevel": -1,
+  "gridLineVisiable": true,
+  "gridHeaderVisiable": true,
+  "gridHasHScroll": true,
+  "gridHasVScroll": true,
+  "gridFix": 2,
+  "gridDataSetBundleId": "com.bizvisionsoft.pms",
+  "gridDataSetClassName": "com.bizvisionsoft.pms.project.dataset.ProjectSchedule",
+  "columns": [
+    {
+      "id": "1631b8413df",
+      "name": "text",
+      "text": "工作名称",
+      "alignment": 16384,
+      "width": 420,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "1631b83b50d",
+      "name": "wbsCode",
+      "text": "WBS",
+      "alignment": 16384,
+      "width": 72,
+      "resizeable": true,
+      "columns": []
+    }
+  ],
+  "fields": [],
+  "gridAutoColumnWidth": true,
+  "actions": [],
+  "rowActions": [
+    {
+      "id": "1638c11bccd",
+      "name": "编辑负责人和工作包",
+      "text": "编辑",
+      "image": "/img/edit_w.svg",
+      "style": "normal",
+      "editorAssemblyId": "项目进度计划工作编辑器",
+      "editorAssemblyEditable": true,
+      "objectBehavier": true,
+      "type": "edit",
+      "verticalSpan": 0
+    },
+    {
+      "id": "1638c0f97f9",
+      "name": "打开工作包",
+      "text": "工作包",
+      "image": "/img/right.svg",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.work.action.OpenWorkPackage",
+      "switchContentToAssemblyId": "16385fa5fa3",
+      "openContent": true,
+      "style": "",
+      "objectBehavier": true,
+      "type": "customized",
+      "verticalSpan": 0
+    }
+  ],
+  "disableInitLoadData": false
+}

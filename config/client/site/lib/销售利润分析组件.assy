@@ -1,0 +1,11 @@
+{
+  "id": "销售利润分析组件",
+  "name": "销售利润分析组件",
+  "bundleId": "com.bizvisionsoft.pms",
+  "className": "com.bizvisionsoft.pms.investment.MonthProfitIAASM",
+  "layout": [],
+  "folderId": "163eac3f1ac",
+  "actions": [],
+  "rowActions": [],
+  "disableInitLoadData": false
+}

@@ -1,0 +1,94 @@
+{
+  "id": "我报告的项目选择列表-日报",
+  "name": "我报告的项目选择列表-日报",
+  "layout": [],
+  "type": "grid",
+  "stickerTitle": "我的项目",
+  "folderId": "163f7eed09c",
+  "gridLineVisiable": true,
+  "gridHeaderVisiable": true,
+  "gridHasHScroll": true,
+  "gridHasVScroll": true,
+  "gridFix": 3,
+  "gridPageControl": true,
+  "gridDataSetService": "com.bizvisionsoft.service.ProjectService",
+  "gridDataSetClassName": "com.bizvisionsoft.service.WorkReportProjectDS",
+  "columns": [
+    {
+      "id": "1632e70d9f6",
+      "name": "name",
+      "text": "名称",
+      "alignment": 16384,
+      "width": 320,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "1632e6f69f7",
+      "name": "id",
+      "text": "编号",
+      "alignment": 16384,
+      "width": 80,
+      "minimumWidth": 40,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "1632e717b2e",
+      "name": "pmInfo",
+      "text": "项目经理",
+      "alignment": 16384,
+      "width": 100,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "1632e720bc1",
+      "name": "impUnitOrgFullName",
+      "text": "责任单位",
+      "alignment": 16384,
+      "width": 240,
+      "resizeable": true,
+      "columns": []
+    }
+  ],
+  "fields": [
+    {
+      "id": "1632f063e7b",
+      "name": "id",
+      "text": "编号",
+      "type": "文本输入框（查询）",
+      "formFields": []
+    },
+    {
+      "id": "1632f06d065",
+      "name": "name",
+      "text": "名称",
+      "type": "文本输入框（查询）",
+      "formFields": []
+    }
+  ],
+  "actions": [
+    {
+      "id": "1632f054ced",
+      "name": "查询项目",
+      "image": "/img/search_w.svg",
+      "style": "info",
+      "type": "query",
+      "verticalSpan": 0
+    }
+  ],
+  "rowActions": [
+    {
+      "id": "1632eb0c047",
+      "name": "打开",
+      "image": "/img/right.svg",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.eps.action.OpenEPSOrProject",
+      "style": "",
+      "type": "customized",
+      "verticalSpan": 0
+    }
+  ],
+  "disableInitLoadData": false
+}

@@ -1,0 +1,96 @@
+{
+  "id": "许可证",
+  "name": "许可证",
+  "layout": [],
+  "type": "grid",
+  "stickerTitle": "查看许可证",
+  "folderId": "162bccab082",
+  "gridLineVisiable": true,
+  "gridHeaderVisiable": true,
+  "gridHasVScroll": true,
+  "gridDataSetBundleId": "com.bizvisionsoft.bruiengine",
+  "gridDataSetClassName": "com.bizvisionsoft.bruiengine.app.sysman.LicenseDS",
+  "columns": [
+    {
+      "id": "16407a532dd",
+      "name": "prodId",
+      "text": "产品编号",
+      "alignment": 16384,
+      "width": 80,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "16407a57e8a",
+      "name": "version",
+      "text": "版本号",
+      "alignment": 16384,
+      "width": 72,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "16407a6372b",
+      "name": "expiredDate",
+      "text": "有效期",
+      "alignment": 16384,
+      "width": 96,
+      "resizeable": true,
+      "columns": [],
+      "format": ""
+    },
+    {
+      "id": "16407a61387",
+      "name": "qty",
+      "text": "数量",
+      "alignment": 131072,
+      "width": 64,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "16407cca592",
+      "name": "unit",
+      "text": "单位",
+      "alignment": 16384,
+      "width": 80,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "16407a7b217",
+      "name": "usage",
+      "text": "使用场所",
+      "alignment": 16384,
+      "width": 240,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "16407b5fdf1",
+      "name": "contractNo",
+      "text": "合同号",
+      "alignment": 16384,
+      "width": 120,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "16407ef1188",
+      "name": "remark",
+      "text": "说明",
+      "alignment": 16384,
+      "width": 80,
+      "resizeable": true,
+      "columns": []
+    }
+  ],
+  "fields": [],
+  "gridAutoColumnWidth": true,
+  "actions": [],
+  "rowActions": [],
+  "borderTop": true,
+  "borderLeft": true,
+  "hasTitlebar": true,
+  "disableInitLoadData": false
+}

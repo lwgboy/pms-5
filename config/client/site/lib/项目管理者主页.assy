@@ -1,0 +1,58 @@
+{
+  "id": "项目管理者主页",
+  "name": "项目管理者主页",
+  "layout": [
+    {
+      "id": "1645e3db2ae",
+      "name": "默认",
+      "columnCount": 3,
+      "horizontalSpacing": 16,
+      "verticalSpacing": 16,
+      "makeColumnsEqualWidth": true,
+      "marginHeight": 16,
+      "marginWidth": 16,
+      "css": "brui_bg_deep_relief",
+      "itemCss": "brui_card",
+      "assemblys": [
+        {
+          "id": "我管理的项目本周报告摘要",
+          "horizontalAlignment": 4,
+          "verticalAlignment": 4,
+          "grabExcessHorizontalSpace": true,
+          "grabExcessVerticalSpace": true,
+          "verticalSpan": 3,
+          "horizontalSpan": 2,
+          "widthHint": -1,
+          "heightHint": -1
+        },
+        {
+          "id": "我管理的项目进展信息（小组件）",
+          "horizontalAlignment": 4,
+          "verticalAlignment": 4,
+          "grabExcessHorizontalSpace": true,
+          "verticalSpan": 1,
+          "horizontalSpan": 1,
+          "widthHint": -1,
+          "heightHint": 280
+        },
+        {
+          "id": "我管理的项目各类工作评分",
+          "horizontalAlignment": 4,
+          "verticalAlignment": 4,
+          "grabExcessHorizontalSpace": true,
+          "grabExcessVerticalSpace": true,
+          "verticalSpan": 1,
+          "horizontalSpan": 1,
+          "widthHint": -1,
+          "heightHint": -1
+        }
+      ],
+      "carouselInterval": 0
+    }
+  ],
+  "folderId": "1645e3822ed",
+  "actions": [],
+  "rowActions": [],
+  "disableInitLoadData": false,
+  "candidates": []
+}

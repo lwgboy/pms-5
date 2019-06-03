@@ -1,0 +1,33 @@
+{
+  "id": "期间成本编辑器",
+  "name": "期间成本编辑器",
+  "title": "期间成本",
+  "layout": [],
+  "type": "editor",
+  "folderId": "16390fab944",
+  "fields": [
+    {
+      "id": "165c2eb82b9",
+      "name": "period",
+      "text": "期间",
+      "type": "日期时间选择",
+      "formFields": [],
+      "required": true,
+      "dateType": "yearMonth"
+    },
+    {
+      "id": "162c46185f6",
+      "name": "cost",
+      "text": "金额",
+      "type": "单行文本框",
+      "formFields": [],
+      "textMessage": "人民币 万元",
+      "required": true,
+      "textLimit": 25,
+      "textRestrict": "浮点"
+    }
+  ],
+  "actions": [],
+  "smallEditor": true,
+  "disableInitLoadData": false
+}

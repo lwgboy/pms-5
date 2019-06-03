@@ -1,0 +1,233 @@
+{
+  "id": "项目选择列表",
+  "name": "项目选择列表",
+  "layout": [],
+  "type": "grid",
+  "stickerTitle": "所有项目",
+  "folderId": "16548782113",
+  "gridAutoExpandLevel": 2,
+  "gridLineVisiable": true,
+  "gridHeaderVisiable": true,
+  "gridHasHScroll": true,
+  "gridHasVScroll": true,
+  "gridFix": 1,
+  "gridPageControl": true,
+  "gridDataSetService": "com.bizvisionsoft.service.ProjectService",
+  "columns": [
+    {
+      "id": "1632e70d9f6",
+      "name": "name",
+      "text": "名称",
+      "alignment": 16384,
+      "width": 320,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "1632e6f69f7",
+      "name": "id",
+      "text": "编号",
+      "alignment": 16384,
+      "width": 80,
+      "minimumWidth": 40,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "1632e717b2e",
+      "name": "pmInfoHtml",
+      "text": "项目\u003cbr/\u003e经理",
+      "alignment": 16777216,
+      "width": 64,
+      "resizeable": true,
+      "columns": [],
+      "markupEnabled": true
+    },
+    {
+      "id": "1632e726004",
+      "name": "statusHtml",
+      "text": "状态",
+      "alignment": 16777216,
+      "width": 120,
+      "resizeable": true,
+      "detail": true,
+      "summary": true,
+      "columns": []
+    },
+    {
+      "id": "1646ab26111",
+      "name": "eps",
+      "text": "EPS",
+      "alignment": 16384,
+      "width": 160,
+      "moveable": true,
+      "resizeable": true,
+      "detail": true,
+      "columns": []
+    },
+    {
+      "id": "1654e6910d9",
+      "name": "program",
+      "text": "项目集",
+      "alignment": 16384,
+      "width": 160,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "1632e720bc1",
+      "name": "impUnitOrgFullName",
+      "text": "责任单位",
+      "alignment": 16384,
+      "width": 240,
+      "resizeable": true,
+      "columns": []
+    }
+  ],
+  "fields": [
+    {
+      "id": "165058dea34",
+      "name": "基本",
+      "type": "标签页",
+      "formFields": [
+        {
+          "id": "1632f06d065",
+          "name": "name",
+          "text": "项目名称",
+          "type": "文本输入框（查询）",
+          "formFields": []
+        },
+        {
+          "id": "16505a1fbdf",
+          "name": "classfication",
+          "text": "级别",
+          "type": "下拉选择框（查询）",
+          "formFields": [],
+          "optionText": "A#B#C"
+        },
+        {
+          "id": "1632f063e7b",
+          "name": "id",
+          "text": "项目编号",
+          "type": "文本输入框（查询）",
+          "formFields": []
+        },
+        {
+          "id": "1654b459bbd",
+          "name": "eps_id",
+          "text": "EPS",
+          "type": "对象选择（查询）",
+          "formFields": [],
+          "selectorAssemblyId": "EPS选择",
+          "valueFieldName": "_id"
+        },
+        {
+          "id": "1654e6861d5",
+          "name": "program_id",
+          "text": "项目集",
+          "type": "对象选择（查询）",
+          "formFields": [],
+          "selectorAssemblyId": "项目集选择列表",
+          "valueFieldName": "_id"
+        },
+        {
+          "id": "1650585cc6a",
+          "name": "impUnitOrgFullName",
+          "text": "责任单位",
+          "type": "文本输入框（查询）",
+          "formFields": []
+        },
+        {
+          "id": "165056969e8",
+          "name": "pmInfo",
+          "text": "项目经理",
+          "type": "文本输入框（查询）",
+          "formFields": [],
+          "selectorAssemblyId": "用户选择列表"
+        }
+      ]
+    }
+  ],
+  "actions": [
+    {
+      "id": "1632f054ced",
+      "name": "查询项目",
+      "image": "/img/search_w.svg",
+      "style": "info",
+      "type": "query",
+      "verticalSpan": 0
+    }
+  ],
+  "rowActions": [
+    {
+      "id": "16504ff9e32",
+      "name": "菜单",
+      "image": "/img/menu.svg",
+      "style": "",
+      "children": [
+        {
+          "id": "1646abf731d",
+          "name": "编辑",
+          "text": "编辑",
+          "image": "/img/edit_w.svg",
+          "bundleId": "com.bizvisionsoft.pms",
+          "className": "com.bizvisionsoft.pms.project.action.EditProjectInfo",
+          "style": "normal",
+          "type": "customized",
+          "verticalSpan": 0
+        },
+        {
+          "id": "16502da06cd",
+          "name": "设置编号",
+          "text": "设置编号",
+          "image": "/img/setting_w.svg",
+          "bundleId": "com.bizvisionsoft.pms",
+          "className": "com.bizvisionsoft.pms.project.action.SettingProjectId",
+          "forceText": true,
+          "style": "normal",
+          "objectBehavier": true,
+          "type": "customized",
+          "verticalSpan": 0
+        },
+        {
+          "id": "16502da91f9",
+          "name": "批准启动",
+          "text": "批准启动",
+          "image": "/img/finish_w.svg",
+          "bundleId": "com.bizvisionsoft.pms",
+          "className": "com.bizvisionsoft.pms.project.action.ApproveProject",
+          "forceText": true,
+          "style": "normal",
+          "objectBehavier": true,
+          "type": "customized",
+          "verticalSpan": 0
+        },
+        {
+          "id": "164d056c9a4",
+          "name": "删除",
+          "text": "删除",
+          "image": "/img/delete_w.svg",
+          "style": "warning",
+          "objectBehavier": true,
+          "type": "delete",
+          "verticalSpan": 0
+        }
+      ],
+      "type": "customized",
+      "verticalSpan": 0
+    },
+    {
+      "id": "1632eb0c047",
+      "name": "打开",
+      "text": "进入项目主页",
+      "image": "/img/right.svg",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.eps.action.OpenEPSOrProject",
+      "style": "",
+      "type": "customized",
+      "verticalSpan": 0
+    }
+  ],
+  "hasTitlebar": true,
+  "disableInitLoadData": false
+}
