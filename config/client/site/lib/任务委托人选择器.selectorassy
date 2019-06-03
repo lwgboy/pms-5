@@ -1,9 +1,0 @@
-{
-  "id": "任务委托人选择器",
-  "name": "任务委托人选择器",
-  "layout": [],
-  "type": "selector",
-  "folderId": "162bd9dad9d",
-  "selectorGridAssemblyId": "任务委托人选择列表",
-  "disableInitLoadData": false
-}

@@ -1,9 +1,0 @@
-{
-  "id": "选取PLM对象选择器",
-  "name": "选取PLM对象选择器",
-  "layout": [],
-  "type": "selector",
-  "folderId": "1638c40764f",
-  "selectorGridAssemblyId": "选取PLM对象",
-  "disableInitLoadData": false
-}
