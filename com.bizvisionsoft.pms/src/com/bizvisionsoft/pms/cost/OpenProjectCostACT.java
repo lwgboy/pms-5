@@ -14,7 +14,7 @@ public class OpenProjectCostACT {
 	@Execute
 	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
 		context.selected(em -> {
-			br.openContent(br.getAssembly("项目成本管理"), em);
+			br.openContent(br.getAssembly("项目成本管理.gridassy"), em);
 		});
 	}
 

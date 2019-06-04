@@ -42,7 +42,7 @@ public class WorkReportCardACT {
 	}
 
 	private void open(WorkReport workReport, String userid, Document element, GridTreeViewer viewer) {
-		br.openContent(br.getAssembly("报告详情"), workReport, e -> {
+		br.openContent(br.getAssembly("报告详情.assy"), workReport, e -> {
 			if (workReport instanceof WorkReport) {
 				Layer.message("报告已确认");
 				((List<?>) viewer.getInput()).remove(workReport);

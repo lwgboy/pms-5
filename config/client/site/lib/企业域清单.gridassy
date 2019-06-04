@@ -1,0 +1,75 @@
+{
+  "id": "/企业域清单.gridassy",
+  "name": "企业域清单",
+  "layout": [],
+  "type": "grid",
+  "stickerTitle": "企业域",
+  "folderId": "1626b905a63",
+  "gridLineVisiable": true,
+  "gridHeaderVisiable": true,
+  "gridHasHScroll": true,
+  "gridHasVScroll": true,
+  "gridDataSetService": "com.bizvisionsoft.service.SystemService",
+  "columns": [
+    {
+      "id": "16ae363d0d5",
+      "name": "_id",
+      "text": "Id",
+      "alignment": 16384,
+      "width": 80,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "16ae363d1f9",
+      "name": "activated",
+      "text": "启用",
+      "alignment": 16384,
+      "width": 80,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "16ae363d2b5",
+      "name": "rootPath",
+      "text": "服务端根路径",
+      "alignment": 16384,
+      "width": 320,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "16ae363d406",
+      "name": "site",
+      "text": "可用站点",
+      "alignment": 16384,
+      "width": 480,
+      "resizeable": true,
+      "columns": []
+    }
+  ],
+  "fields": [
+    {
+      "id": "16ae3651401",
+      "name": "_id",
+      "text": "Id",
+      "type": "文本输入框（查询）",
+      "formFields": []
+    }
+  ],
+  "actions": [],
+  "rowActions": [
+    {
+      "id": "16ae36705ce",
+      "name": "编辑",
+      "image": "/img/edit_w.svg",
+      "forceText": false,
+      "style": "normal",
+      "editorAssemblyId": "/企业域编辑器.editorassy",
+      "editorAssemblyEditable": true,
+      "type": "edit"
+    }
+  ],
+  "hasTitlebar": true,
+  "sortFields": []
+}

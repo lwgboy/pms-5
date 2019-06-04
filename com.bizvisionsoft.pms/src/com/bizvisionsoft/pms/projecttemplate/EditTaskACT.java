@@ -18,11 +18,11 @@ public class EditTaskACT {
 	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context,
 			@MethodParam(Execute.EVENT) GanttEvent event) {
 		WorkInTemplate workinfo = (WorkInTemplate) event.task;
-		String editor = "项目模板工作编辑器";
+		String editor = "项目模板工作编辑器.editoassy";
 		if (workinfo.isMilestone()) {
-			editor = "项目模板里程碑工作编辑器";
+			editor = "项目模板里程碑工作编辑器.editoassy";
 		} else {
-			editor = "项目模板工作编辑器";
+			editor = "项目模板工作编辑器.editoassy";
 		}
 		Editor.create(editor, context, workinfo, false).setTitle(workinfo.toString()).ok((r, wi) -> {
 			GanttPart content = (GanttPart) context.getContent();

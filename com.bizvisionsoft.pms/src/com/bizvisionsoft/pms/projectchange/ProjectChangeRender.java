@@ -38,7 +38,7 @@ public class ProjectChangeRender extends GridPartDefaultRender {
 			if (e.text != null) {
 				ProjectChangeTask item = (ProjectChangeTask) e.item.getData();
 				if (e.text.startsWith("userInfo/")) {
-					Selector.open("用户选择器—单选", context, null, l -> {
+					Selector.open("用户选择器—单选.selectorassy", context, null, l -> {
 						item.user = ((User) l.get(0)).getUserId();
 						ServicesLoader.get(ProjectService.class).updateProjectChange(item, ((ProjectChange) context.getInput()).get_id(),
 								br.getDomain());

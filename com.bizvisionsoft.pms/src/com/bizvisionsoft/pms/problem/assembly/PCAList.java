@@ -392,7 +392,7 @@ public class PCAList {
 	}
 
 	private void handleCreatePCA() {
-		Editor.open("D5-PCA方案-编辑器", context, new Document(), (r, t) -> {
+		Editor.open("D5-PCA方案-编辑器.editorassy", context, new Document(), (r, t) -> {
 			t.append("problem_id", problem.get_id()).append("_id", new ObjectId());
 			service.insertD5PCA(t, language, br.getDomain());
 			pcaList.add(t);
@@ -407,7 +407,7 @@ public class PCAList {
 		if (insert) {
 			d = new Document();
 		}
-		Editor.create("D5-目标和准则-编辑器", context, d, true).ok((r, t) -> {
+		Editor.create("D5-目标和准则-编辑器.editorassy", context, d, true).ok((r, t) -> {
 			if (insert) {
 				t.append("_id", problem.get_id());
 				service.insertD5DecisionCriteria(t, language, br.getDomain());
@@ -423,7 +423,7 @@ public class PCAList {
 	}
 
 	private void handleEditPCA(Document pca) {
-		Editor.open("D5-PCA方案-编辑器", context, pca, (r, t) -> {
+		Editor.open("D5-PCA方案-编辑器.editorassy", context, pca, (r, t) -> {
 			r.remove("_id");
 			FilterAndUpdate fu = new FilterAndUpdate().filter(new BasicDBObject("_id", pca.get("_id"))).set(r);
 			service.updateD5PCA(fu.bson(), language, br.getDomain());

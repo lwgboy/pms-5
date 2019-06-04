@@ -63,7 +63,7 @@ public class RBSItem {
 
 	@ReadEditorConfig("项目风险登记簿/编辑")
 	private Object getEditorConfig() {
-		return "风险项编辑器";
+		return "风险项编辑器.editorassy";
 	}
 
 	@ReadValue("title")

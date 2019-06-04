@@ -30,7 +30,7 @@ public class CreateDocuSettingACT {
 		DocuSetting docu = new DocuSetting()//
 				.setWorkPackage_id(wp.get_id())//
 				.setName(wp.description);
-		Editor.open("±à¼­Êä³öÎÄµµÉèÖÃ", context, docu, (r, t) -> {
+		Editor.open("±à¼­Êä³öÎÄµµÉèÖÃ.editorassy", context, docu, (r, t) -> {
 			((GridPart) context.getContent()).insert(Services.get(DocumentService.class).createDocumentSetting(t, br.getDomain()));
 		});
 

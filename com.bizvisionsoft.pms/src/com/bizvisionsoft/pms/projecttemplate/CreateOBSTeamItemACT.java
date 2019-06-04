@@ -25,7 +25,7 @@ public class CreateOBSTeamItemACT {
 
 			String message = Optional.ofNullable(AUtil.readLabel(em)).orElse("");
 			message = "创建" + message + "下级团队";
-			open(context, em, message, "OBS模板节点编辑器（团队）", false);
+			open(context, em, message, "OBS模板节点编辑器（团队）.editorassy", false);
 
 		});
 	}

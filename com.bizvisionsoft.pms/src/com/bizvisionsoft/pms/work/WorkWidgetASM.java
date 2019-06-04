@@ -12,6 +12,7 @@ import org.eclipse.swt.widgets.Composite;
 import com.bizvisionsoft.annotations.ui.common.CreateUI;
 import com.bizvisionsoft.annotations.ui.common.Inject;
 import com.bizvisionsoft.bruicommons.model.Action;
+import com.bizvisionsoft.bruicommons.model.Assembly;
 import com.bizvisionsoft.bruiengine.assembly.GridPart;
 import com.bizvisionsoft.bruiengine.assembly.SchedulerPart;
 import com.bizvisionsoft.bruiengine.assembly.StickerTitlebar;
@@ -48,11 +49,10 @@ public class WorkWidgetASM {
 
 		parent.setLayout(new FormLayout());
 
-		StickerTitlebar bar = new StickerTitlebar(parent, null, null).setText("待处理工作")
-				.setActions(context.getAssembly().getActions());
+		StickerTitlebar bar = new StickerTitlebar(parent, null, null).setText("待处理工作").setActions(context.getAssembly().getActions());
 		bar.addListener(SWT.Selection, l -> {
 			if ("打开".equals(((Action) l.data).getName())) {
-				br.switchContent(br.getAssembly("我的工作"), null);
+				br.switchContent(br.getAssembly("我的工作.gridassy"), null);
 			} else if ("查询".equals(((Action) l.data).getName())) {
 				workPane.openQueryEditor();
 			}
@@ -65,8 +65,7 @@ public class WorkWidgetASM {
 		fd.right = new FormAttachment(100);
 		fd.height = 48;
 
-		Composite content = Controls.contentPanel(parent).mLoc().mTop(bar).layout(new FormLayout())
-				.bg(BruiColor.Grey_200).get();
+		Composite content = Controls.contentPanel(parent).mLoc().mTop(bar).layout(new FormLayout()).bg(BruiColor.Grey_200).get();
 
 		Composite cal = createCalendarSelector(content);
 		// Label sep = new Label(content, SWT.SEPARATOR | SWT.HORIZONTAL);
@@ -97,7 +96,7 @@ public class WorkWidgetASM {
 	}
 
 	private Composite createCalendarSelector(Composite parent) {
-		AssemblyContainer asm = new AssemblyContainer(parent, context).setAssembly(br.getAssembly("我的待处理工作日历选择器"))
+		AssemblyContainer asm = new AssemblyContainer(parent, context).setAssembly(br.getAssembly("我的待处理工作日历选择器.schedulerassy"))//TODO ???
 				.setServices(br).create();
 		calPan = (SchedulerPart) asm.getContext().getContent();
 		calPan.addPostSelectionChangedListener(i -> {
@@ -125,7 +124,7 @@ public class WorkWidgetASM {
 	}
 
 	private Composite createBottomAsm(Composite parent) {
-		AssemblyContainer asm = new AssemblyContainer(parent, context).setAssembly(br.getAssembly("我的待处理工作（工作抽屉）"))
+		AssemblyContainer asm = new AssemblyContainer(parent, context).setAssembly(br.getAssembly("我的待处理工作（工作抽屉）.assy"))// TODO ???
 				.setServices(br).create();
 		asm.getContext().setName("worklist");
 		workPane = (GridPart) asm.getContext().getContent();

@@ -23,7 +23,7 @@ public class SearchMonthCostIAProjectACT {
 
 	@Execute
 	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context, @MethodParam(Execute.EVENT) Event event) {
-		Selector.open("EPS选择器", context, null, d -> {
+		Selector.open("EPS选择器.selectorassy", context, null, d -> {
 			if (d.size() == 0) {
 				Layer.message("请选择需要对比分析的范围", Layer.ICON_ERROR);
 				return;

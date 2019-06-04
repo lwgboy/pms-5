@@ -24,7 +24,7 @@ public class AddOBSModuleACT {
 	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
 		Project project = (Project) context.getRootInput();
 		context.selected(o -> {
-			Selector.open("组织模板选择器", context, project, l -> {
+			Selector.open("组织模板选择器.selectorassy", context, project, l -> {
 				boolean overide = false;
 				// 检查重复的角色
 				OBSService obsService = Services.get(OBSService.class);

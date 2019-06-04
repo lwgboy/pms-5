@@ -27,7 +27,7 @@ public class AddProjectToProgram {
 	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
 		context.selected(em -> {
 			if (em instanceof Program) {
-				Selector.open("项目选择器", context, null, s -> {
+				Selector.open("项目选择器.selectorassy", context, null, s -> {
 					List<ObjectId> pjIds = new ArrayList<ObjectId>();
 					s.forEach(pj -> pjIds.add(((Project) pj).get_id()));
 					Services.get(ProgramService.class).addProjects(pjIds, ((Program) em).get_id(), br.getDomain());

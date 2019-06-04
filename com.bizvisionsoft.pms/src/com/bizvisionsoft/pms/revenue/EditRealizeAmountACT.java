@@ -23,7 +23,7 @@ public class EditRealizeAmountACT {
 	@Execute
 	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
 		context.selected(t -> {
-			Editor.open("编辑收益实现", context, new Document(), (r, d) -> {
+			Editor.open("编辑收益实现.editorassy", context, new Document(), (r, d) -> {
 				try {
 					Date _index = r.getDate("index");
 					String _amount = r.getString("amount");

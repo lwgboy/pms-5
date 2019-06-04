@@ -25,7 +25,7 @@ public class CreateOBSRoleItemACT  {
 
 			String message = Optional.ofNullable(AUtil.readLabel(em)).orElse("");
 			message = "添加角色到" + message;
-			String editor = "OBS模板节点编辑器（角色）";
+			String editor = "OBS模板节点编辑器（角色）.editorassy";
 			open(context, em, message, editor,true);
 
 		});

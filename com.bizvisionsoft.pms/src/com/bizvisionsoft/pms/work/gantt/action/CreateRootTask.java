@@ -35,11 +35,11 @@ public class CreateRootTask {
 		}
 		if ((rootInput instanceof Project) && ((Project) rootInput).isStageEnable()) {
 			title = "创建阶段";
-			editor = br.getAssembly("甘特图阶段工作编辑器");
+			editor = br.getAssembly("甘特图阶段工作编辑器.editorassy");
 			workInfo.setManageLevel("1").setStage(true).setStatus(ProjectStatus.Created);
 		} else {
 			title = "创建工作";
-			editor = br.getAssembly("甘特图工作编辑器");
+			editor = br.getAssembly("甘特图工作编辑器.editorassy");
 		}
 
 		new Editor<WorkInfo>(editor, context).setTitle(title).setInput(workInfo).ok((r, wi) -> {

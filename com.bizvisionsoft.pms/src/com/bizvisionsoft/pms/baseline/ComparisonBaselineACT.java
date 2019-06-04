@@ -61,7 +61,7 @@ public class ComparisonBaselineACT {
 		}
 		// brui.openContent(brui.getAssembly("项目进度跟踪甘特图"), null);
 		// TODO 不能直接设置Assembly，应将其作为参数传入到content中
-		Assembly assembly = br.getAssembly("项目基线比较甘特图");
+		Assembly assembly = br.getAssembly("项目基线比较甘特图.ganttassy");
 		assembly.setTitle(title);
 		assembly.setStickerTitle(title);
 		br.openContent(assembly, projectIds.toArray(new ObjectId[0]));

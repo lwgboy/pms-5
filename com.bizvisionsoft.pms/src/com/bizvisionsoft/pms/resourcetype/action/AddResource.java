@@ -35,7 +35,7 @@ public class AddResource {
 	}
 
 	private void addDR(ResourceType rt, IBruiContext context) {
-		new Selector(br.getAssembly("设备设施选择器"), context).setTitle("添加设备设施资源").open(r -> {
+		new Selector(br.getAssembly("设备设施选择器.selectorassy"), context).setTitle("添加设备设施资源").open(r -> {
 			final Set<Object> ids = new HashSet<Object>();
 			r.forEach(a -> ids.add(((Equipment) a).get_id()));
 			if (!ids.isEmpty()) {
@@ -49,7 +49,7 @@ public class AddResource {
 	}
 
 	private void addHR(ResourceType rt, IBruiContext context) {
-		new Selector(br.getAssembly("用户选择器"), context).setTitle("添加人力资源").open(r -> {
+		new Selector(br.getAssembly("用户选择器.selectorassy"), context).setTitle("添加人力资源").open(r -> {
 			final Set<String> ids = new HashSet<String>();
 			r.forEach(a -> ids.add(((User) a).getUserId()));
 			if (!ids.isEmpty()) {

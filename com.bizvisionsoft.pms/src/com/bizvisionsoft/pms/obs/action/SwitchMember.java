@@ -20,10 +20,10 @@ public class SwitchMember {
 	public void execute(@MethodParam(Execute.CONTEXT_SELECTION_1ST) OBSItem obs) {
 		ObjectId org_id = obs.getOrg_id();
 		if (org_id == null) {
-			br.openContent("团队成员", obs);
+			br.openContent("团队成员.gridassy", obs);
 		} else {
 			Organization org = Services.get(OrganizationService.class).get(org_id, br.getDomain());
-			br.openContent("组织成员（浏览）", org);
+			br.openContent("组织成员（浏览）.gridassy", org);
 		}
 	}
 

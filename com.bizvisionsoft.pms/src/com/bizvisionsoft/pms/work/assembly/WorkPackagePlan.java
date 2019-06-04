@@ -56,10 +56,9 @@ public class WorkPackagePlan {
 		bar.setText(title);
 
 		targetAssembly = Optional.ofNullable(view).map(v -> v.getPackageAssembly()).map(a -> br.getAssembly(a))
-				.orElse(br.getAssembly("工作包-基本"));
+				.orElse(br.getAssembly("工作包-基本.gridassy"));
 
-		bar.setActions(
-				UserSession.bruiToolkit().getAcceptedActions(targetAssembly, br.getCurrentUserInfo(), context));
+		bar.setActions(UserSession.bruiToolkit().getAcceptedActions(targetAssembly, br.getCurrentUserInfo(), context));
 
 		Controls.handle(bar).height(48).left().top().right();
 
@@ -74,13 +73,13 @@ public class WorkPackagePlan {
 			}
 		});
 
-		grid = (GridPart) new AssemblyContainer(content, context).setInput(view).setAssembly(targetAssembly)
-				.setServices(br).create().getContext().getContent();
+		grid = (GridPart) new AssemblyContainer(content, context).setInput(view).setAssembly(targetAssembly).setServices(br).create()
+				.getContext().getContent();
 	}
 
 	public void doCreate() {
-		String editorId = Optional.ofNullable(view).map(t -> t.getEditAssembly()).orElse("编辑工作包-基本");
-		Editor.open(editorId, context, WorkPackage.newInstance(work, view,br.getDomain()), (r, o) -> {
+		String editorId = Optional.ofNullable(view).map(t -> t.getEditAssembly()).orElse("编辑工作包-基本.editorassy");
+		Editor.open(editorId, context, WorkPackage.newInstance(work, view, br.getDomain()), (r, o) -> {
 			grid.doCreate(null, o);
 		});
 	}

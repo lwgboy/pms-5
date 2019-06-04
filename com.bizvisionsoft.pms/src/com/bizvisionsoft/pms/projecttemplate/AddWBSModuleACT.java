@@ -30,7 +30,7 @@ public class AddWBSModuleACT {
 	@Execute
 	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
 		WorkInTemplate parent = (WorkInTemplate) context.getFirstElement();
-		Selector.open("WBS模块选择器", context, null, r -> {
+		Selector.open("WBS模块选择器.selectorassy", context, null, r -> {
 			GanttPart content = (GanttPart) context.getContent();
 			Object input = context.getInput();
 			if (input == null) {

@@ -320,13 +320,13 @@ public class EditResourceASM extends GridPart {
 
 		// 弹出menu
 		new ActionMenu(br).setActions(Arrays.asList(hrRes, eqRes, typedRes)).handleActionExecute("hr", a -> {
-			addResource("人力资源选择器");
+			addResource("人力资源选择器.selectorassy");
 			return false;
 		}).handleActionExecute("eq", a -> {
-			addResource("设备设施选择器");
+			addResource("设备设施选择器.selectorassy");
 			return false;
 		}).handleActionExecute("tr", a -> {
-			addResource("资源类型选择器");
+			addResource("资源类型选择器.selectorassy");
 			return false;
 		}).open();
 	}
@@ -402,7 +402,7 @@ public class EditResourceASM extends GridPart {
 		// 二次测试
 		newRT.setTitle("资源冲突  - " + doc.get("name") + "[" + doc.get("resId") + "]");
 
-		br.openContent(br.getAssembly("编辑资源情况"), newRT, e -> {
+		br.openContent(br.getAssembly("编辑资源情况.assy"), newRT, e -> {
 			// 构建用于刷新的ResourceTransfer
 			ResourceTransfer nRT = new ResourceTransfer();
 			nRT.setType(rt.getType());

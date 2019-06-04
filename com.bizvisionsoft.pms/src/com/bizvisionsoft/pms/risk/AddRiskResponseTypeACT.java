@@ -21,7 +21,7 @@ public class AddRiskResponseTypeACT {
 	private void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
 		context.selected(c -> {
 			String type = ((RiskResponseType) c).getType();
-			Editor.create("项目风险应对计划编辑器-" + type, context,
+			Editor.create("项目风险应对计划编辑器-" + type+".editorassy", context,
 					br.newInstance(RiskResponse.class).setType(type).setRBSItem_id(((RiskResponseType) c).get_id()), false)
 					.setTitle("创建 " + type).ok((r, o) -> {
 						Services.get(RiskService.class).insertRiskResponse(o, br.getDomain());

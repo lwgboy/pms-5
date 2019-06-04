@@ -55,9 +55,9 @@ public class ResourceReqASM {
 
 		Composite content = Controls.contentPanel(parent).mLoc().mTop(bar).layout(new FillLayout(SWT.VERTICAL)).get();
 
-		gantt = (GanttPart) new AssemblyContainer(content, context).setAssembly(br.getAssembly("项目模板甘特图（用于资源分配）"))
+		gantt = (GanttPart) new AssemblyContainer(content, context).setAssembly(br.getAssembly("项目模板甘特图（用于资源分配）.ganttassy"))
 				.setServices(br).create().getContext().getContent();
-		grid = (GridPart) new AssemblyContainer(content, context).setAssembly(br.getAssembly("项目模板资源分配表"))
+		grid = (GridPart) new AssemblyContainer(content, context).setAssembly(br.getAssembly("项目模板资源分配表.gridassy"))
 				.setServices(br).create().getContext().getContent();
 		// 侦听gantt的selection
 		gantt.addGanttEventListener(GanttEventCode.onTaskSelected.name(),
@@ -102,13 +102,13 @@ public class ResourceReqASM {
 
 		// 弹出menu
 		new ActionMenu(br).setActions(Arrays.asList(hrRes, eqRes, typedRes)).handleActionExecute("hr", a -> {
-			addResource("人力资源选择器");
+			addResource("人力资源选择器.selectorassy");
 			return false;
 		}).handleActionExecute("eq", a -> {
-			addResource("设备设施选择器");
+			addResource("设备设施选择器.selectorassy");
 			return false;
 		}).handleActionExecute("tr", a -> {
-			addResource("资源类型选择器");
+			addResource("资源类型选择器.selectorassy");
 			return false;
 		}).open();
 	}

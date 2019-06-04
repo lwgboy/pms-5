@@ -34,7 +34,7 @@ public class OpenOBSScopeRootDiagram extends AbstractCreateOBSItem {
 					// TODO 错误处理
 				}
 			}
-			br.switchContent("组织结构图", null);
+			br.switchContent("组织结构图.treeassy", null);
 		}
 	}
 

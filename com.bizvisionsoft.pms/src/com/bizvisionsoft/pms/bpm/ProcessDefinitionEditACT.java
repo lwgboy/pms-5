@@ -43,7 +43,7 @@ public class ProcessDefinitionEditACT {
 
 	private void editTaskDefinition(TaskDefinition td) {
 		IStructuredDataPart grid = (IStructuredDataPart) context.getContent();
-		Editor.create("任务定义编辑器", context, td, false).setEditable(true).setTitle("编辑任务定义"+td.toString()).ok((r,o)->{
+		Editor.create("任务定义编辑器.editorassy", context, td, false).setEditable(true).setTitle("编辑任务定义"+td.toString()).ok((r,o)->{
 			Object _id = r.get("_id");
 			r.removeField("_id");
 			BasicDBObject fu = new FilterAndUpdate().filter(new BasicDBObject("_id", _id)).set(r).bson();
@@ -54,7 +54,7 @@ public class ProcessDefinitionEditACT {
 
 	private void createTaskDefinition(TaskDefinition td) {
 		GridPart grid = (GridPart) context.getContent();
-		Editor.create("任务定义编辑器", context, td, false).setEditable(true).setTitle("创建任务定义"+td.toString()).ok((r,o)->{
+		Editor.create("任务定义编辑器.editorassy", context, td, false).setEditable(true).setTitle("创建任务定义"+td.toString()).ok((r,o)->{
 			Services.get(BPMService.class).insertTaskDefinition(o,br.getDomain());
 			GridTreeViewer viewer = grid.getViewer();
 			GridItem item = (GridItem) viewer.testFindItem(td);
@@ -65,7 +65,7 @@ public class ProcessDefinitionEditACT {
 
 	private void editProcessDefinition(ProcessDefinition pd) {
 		IStructuredDataPart grid = (IStructuredDataPart) context.getContent();
-		Editor.create("工作流定义编辑器", context, pd, false).setEditable(true).setTitle("编辑任务定义"+pd.toString()).ok((r,o)->{
+		Editor.create("工作流定义编辑器.editorassy", context, pd, false).setEditable(true).setTitle("编辑任务定义"+pd.toString()).ok((r,o)->{
 			grid.doModify(pd, o, r);
 		});
 	}

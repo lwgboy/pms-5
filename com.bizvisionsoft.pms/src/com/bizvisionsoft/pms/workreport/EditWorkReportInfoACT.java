@@ -24,7 +24,7 @@ public class EditWorkReportInfoACT {
 	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
 
 		WorkReport input = (WorkReport) context.getInput();
-		Editor.open("工作报告编辑器", context, input, (r, i) -> {
+		Editor.open("工作报告编辑器.editorassy", context, input, (r, i) -> {
 			ServicesLoader.get(WorkReportService.class).update(new FilterAndUpdate()
 					.filter(new BasicDBObject("_id", i.get_id())).set(BsonTools.getBasicDBObject((WorkReport) i, "_id")).bson(), br.getDomain());
 			AUtil.simpleCopy(i, input);

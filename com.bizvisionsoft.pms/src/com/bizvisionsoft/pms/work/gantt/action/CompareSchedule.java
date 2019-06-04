@@ -31,7 +31,7 @@ public class CompareSchedule {
 			List<WorkInfo> workSet = Services.get(WorkSpaceService.class).createComparableWorkDataSet(ws.getSpace_id(), br.getDomain());
 			List<WorkLinkInfo> linkSet = Services.get(WorkSpaceService.class)
 					.createLinkDataSet(new BasicDBObject("space_id", ws.getSpace_id()), br.getDomain());
-			br.openContent(br.getAssembly("比较甘特图"), new Object[] { workSet, linkSet });
+			br.openContent(br.getAssembly("比较甘特图.ganttassy"), new Object[] { workSet, linkSet });
 		}
 	}
 }

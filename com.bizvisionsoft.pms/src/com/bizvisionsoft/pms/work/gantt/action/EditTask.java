@@ -22,15 +22,15 @@ public class EditTask {
 		String editor;
 		if (workinfo.isStage()) {
 			if (workinfo.isSummary())
-				editor = "¸ÊÌØÍ¼×Ü³É½×¶Î±à¼­Æ÷";
+				editor = "¸ÊÌØÍ¼×Ü³É½×¶Î±à¼­Æ÷.editoassy";
 			else
-				editor = "¸ÊÌØÍ¼½×¶Î¹¤×÷±à¼­Æ÷";
+				editor = "¸ÊÌØÍ¼½×¶Î¹¤×÷±à¼­Æ÷.editoassy";
 		} else if (workinfo.isSummary()) {
-			editor = "¸ÊÌØÍ¼×Ü³É¹¤×÷±à¼­Æ÷";
+			editor = "¸ÊÌØÍ¼×Ü³É¹¤×÷±à¼­Æ÷.editoassy";
 		} else if (workinfo.isMilestone()) {
-			editor = "¸ÊÌØÍ¼Àï³Ì±®¹¤×÷±à¼­Æ÷";
+			editor = "¸ÊÌØÍ¼Àï³Ì±®¹¤×÷±à¼­Æ÷.editoassy";
 		} else {
-			editor = "¸ÊÌØÍ¼¹¤×÷±à¼­Æ÷";
+			editor = "¸ÊÌØÍ¼¹¤×÷±à¼­Æ÷.editoassy";
 		}
 		Editor.create(editor, context, workinfo, false).setTitle(workinfo.toString()).ok((r, wi) -> {
 			GanttPart content = (GanttPart) context.getContent();

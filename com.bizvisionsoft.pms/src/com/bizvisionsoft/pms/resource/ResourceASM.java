@@ -62,11 +62,11 @@ public class ResourceASM {
 		String gridExportActionText;
 
 		if ("plan".equals(this.type)) {
-			ganttAssemblyName = "项目甘特图（资源计划分配）";
+			ganttAssemblyName = "项目甘特图（资源计划分配）.ganttassy";
 			stickerTitleText = "资源计划";
 			gridExportActionText = "资源计划";
 		} else {
-			ganttAssemblyName = "项目甘特图（资源实际分配）";
+			ganttAssemblyName = "项目甘特图（资源实际分配）.ganttassy";
 			stickerTitleText = "资源用量";
 			gridExportActionText = "资源用量";
 		}
@@ -103,7 +103,7 @@ public class ResourceASM {
 		}
 
 		// 修改控件title，以便在导出按钮进行显示
-		grid = (EditResourceASM) new AssemblyContainer(content, context).setAssembly(br.getAssembly("编辑资源情况")).setInput(rt)
+		grid = (EditResourceASM) new AssemblyContainer(content, context).setAssembly(br.getAssembly("编辑资源情况.assy")).setInput(rt)
 				.setServices(br).create().getContext().getContent();
 		grid.setExportActionText(gridExportActionText);
 		// 侦听gantt的selection
@@ -162,13 +162,13 @@ public class ResourceASM {
 
 		// 弹出menu
 		new ActionMenu(br).setActions(Arrays.asList(hrRes, eqRes, typedRes)).handleActionExecute("hr", a -> {
-			addResource("人力资源选择器");
+			addResource("人力资源选择器.selectorassy");
 			return false;
 		}).handleActionExecute("eq", a -> {
-			addResource("设备设施选择器");
+			addResource("设备设施选择器.selectorassy");
 			return false;
 		}).handleActionExecute("tr", a -> {
-			addResource("资源类型选择器");
+			addResource("资源类型选择器.selectorassy");
 			return false;
 		}).open();
 	}

@@ -24,7 +24,7 @@ public class CreateRole {
 		ObjectId org_id = ((Organization) context.getInput()).get_id();
 		Role role = br.newInstance(Role.class).setOrg_id(org_id);
 
-		new Editor<Role>(br.getAssembly("角色编辑器"), context).setTitle("创建角色")
+		new Editor<Role>(br.getAssembly("角色编辑器.editorassy"), context).setTitle("创建角色")
 
 				.setInput(role)
 

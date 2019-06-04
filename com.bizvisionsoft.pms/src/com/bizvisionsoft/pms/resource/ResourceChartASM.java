@@ -41,7 +41,7 @@ import com.bizvisionsoft.serviceconsumer.Services;
 
 @Deprecated
 public class ResourceChartASM {
-	
+
 	@Inject
 	private String type;
 
@@ -63,7 +63,7 @@ public class ResourceChartASM {
 
 	@Init
 	private void init() {
-		
+
 		service = Services.get(CatalogService.class);
 
 		input = context.getRootInput();
@@ -135,7 +135,8 @@ public class ResourceChartASM {
 	}
 
 	private Composite createResourceSelector(Composite parent) {
-		AssemblyContainer ac = new AssemblyContainer(parent, context).setAssembly(br.getAssembly("资源目录")).setServices(br).create();
+		AssemblyContainer ac = new AssemblyContainer(parent, context).setAssembly(br.getAssembly("资源目录")).setServices(br).create();// TODO
+																																	// ???
 		part = (GridPart) ac.getContext().getContent();
 		// 控制树的选择
 		Grid grid = part.getViewer().getGrid();
@@ -171,7 +172,7 @@ public class ResourceChartASM {
 				"<div class='label_title' style='height: 1px;width:100%;line-height:1px;padding-left:16px;border-bottom:solid 1px rgb(230,230,230);'></div>")
 				.loc(SWT.TOP | SWT.LEFT | SWT.RIGHT, 1).add(() -> Controls.comp(pane).loc()).get();//
 
-		Assembly assembly = br.getAssembly("资源图表选项");
+		Assembly assembly = br.getAssembly("资源图表选项");// TODO ???
 		BruiAssemblyEngine engine = BruiAssemblyEngine.newInstance(assembly);
 		BruiEditorContext optionContext = UserSession.newEditorContext();
 		context.add(optionContext);

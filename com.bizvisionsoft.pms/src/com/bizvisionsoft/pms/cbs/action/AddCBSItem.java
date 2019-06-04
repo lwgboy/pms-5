@@ -24,7 +24,7 @@ public class AddCBSItem {
 	@Execute
 	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
 		context.selected(parent -> {
-			Editor.create("成本项编辑器", context, CBSItem.getInstance((CBSItem) parent,br.getDomain()), true).setTitle("添加子项")
+			Editor.create("成本项编辑器.editorassy", context, CBSItem.getInstance((CBSItem) parent,br.getDomain()), true).setTitle("添加子项")
 					.ok((r, o) -> {
 						BudgetCBS cbsGrid = (BudgetCBS) context.getContent();
 						AUtil.simpleCopy(cbsGrid, o);

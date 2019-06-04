@@ -23,7 +23,7 @@ public class CreateSubProgram {
 				Program pjSet = br.newInstance(Program.class);
 				pjSet.setParent_id(((Program) em).get_id());
 				pjSet.setCreationInfo(br.operationInfo());
-				new Editor<Program>(br.getAssembly("项目集编辑器"), context)
+				new Editor<Program>(br.getAssembly("项目集编辑器.editorassy"), context)
 						.setInput(pjSet)
 
 						.ok((r, t) -> {

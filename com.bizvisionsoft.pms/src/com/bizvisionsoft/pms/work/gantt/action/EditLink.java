@@ -17,7 +17,7 @@ public class EditLink {
 	@Execute
 	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context,
 			@MethodParam(Execute.EVENT) GanttEvent event) {
-		Editor.open("工作搭接关系编辑器（1对1）", context, event.link, (r, wi) -> {
+		Editor.open("工作搭接关系编辑器（1对1）.editorassy", context, event.link, (r, wi) -> {
 			GanttPart content = (GanttPart) context.getContent();
 			content.updateLink(wi);
 		});

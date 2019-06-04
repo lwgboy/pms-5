@@ -44,7 +44,7 @@ public class EditProblem {
 	}
 
 	private void edit(IBruiContext context, Problem problem, boolean editable) {
-		new Editor<Problem>(br.getAssembly("问题编辑器（编辑）"), context).setTitle("问题初始记录").setEditable(editable).setInput(problem).ok((r, t) -> {
+		new Editor<Problem>(br.getAssembly("问题编辑器（编辑）.editorassy"), context).setTitle("问题初始记录").setEditable(editable).setInput(problem).ok((r, t) -> {
 			r.remove("_id");
 			BasicDBObject fu = new FilterAndUpdate().filter(new BasicDBObject("_id", problem.get_id())).set(r).bson();
 			long l = Services.get(ProblemService.class).updateProblems(fu, br.getDomain());
@@ -56,7 +56,7 @@ public class EditProblem {
 	}
 
 	private void create(IBruiContext context) {
-		new Editor<Problem>(br.getAssembly("问题编辑器（创建）"), context).setInput(br.newInstance(Problem.class).setCreationInfo(br.operationInfo())).ok((r, t) -> {
+		new Editor<Problem>(br.getAssembly("问题编辑器（创建）.editorassy"), context).setInput(br.newInstance(Problem.class).setCreationInfo(br.operationInfo())).ok((r, t) -> {
 			ProblemService service = Services.get(ProblemService.class);
 			t = service.insertProblem(t, br.getDomain());
 			if (t != null) {

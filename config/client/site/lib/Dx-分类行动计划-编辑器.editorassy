@@ -67,7 +67,7 @@
           "type": "对象选择框",
           "formFields": [],
           "required": true,
-          "selectorAssemblyId": "/tops/用户选择列表.gridassy",
+          "selectorAssemblyId": "/用户选择列表.gridassy",
           "valueFieldName": "userId"
         },
         {

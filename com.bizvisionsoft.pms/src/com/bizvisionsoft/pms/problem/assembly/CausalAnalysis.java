@@ -163,7 +163,7 @@ public class CausalAnalysis {
 	private void createCauseItem(CauseConsequence parent) {
 		CauseConsequence cc = new CauseConsequence().setProblem_id(problem.get_id()).setType(type)
 				.setSubject(parent.getSubject()).setParent_id(parent.get_id());
-		Editor.open("ÒòËØ±à¼­Æ÷", context, cc, true, (r, t) -> {
+		Editor.open("ÒòËØ±à¼­Æ÷.editorassy", context, cc, true, (r, t) -> {
 			t = service.insertCauseConsequence(t, br.getDomain());
 			tree.refresh(parent, false);
 			refreshChart();
@@ -174,7 +174,7 @@ public class CausalAnalysis {
 	private void createCauseItem(ClassifyCause element) {
 		CauseConsequence cc = new CauseConsequence().setProblem_id(problem.get_id()).setType(type)
 				.setSubject(element.name);
-		Editor.open("ÒòËØ±à¼­Æ÷", context, cc, true, (r, t) -> {
+		Editor.open("ÒòËØ±à¼­Æ÷.editorassy", context, cc, true, (r, t) -> {
 			t = service.insertCauseConsequence(t, br.getDomain());
 			tree.refresh(element, false);
 			refreshChart();
@@ -183,7 +183,7 @@ public class CausalAnalysis {
 	}
 
 	private void editCauseItem(CauseConsequence cc) {
-		Editor.open("ÒòËØ±à¼­Æ÷", context, cc, false, (r, t) -> {
+		Editor.open("ÒòËØ±à¼­Æ÷.editorassy", context, cc, false, (r, t) -> {
 			r.remove("_id");
 			FilterAndUpdate fu = new FilterAndUpdate().filter(new BasicDBObject("_id", t.get_id())).set(r);
 			service.updateCauseConsequence(fu.bson(), br.getDomain());

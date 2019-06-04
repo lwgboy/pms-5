@@ -32,7 +32,7 @@ public class OpenProjectInfo {
 
 		String title = Optional.ofNullable(AUtil.readTypeAndLabel(project)).orElse("");
 
-		new Editor<Project>(br.getAssembly("项目编辑器"), context).setInput(project).setTitle(title).setEditable(false).ok((r, proj) -> {
+		new Editor<Project>(br.getAssembly("项目编辑器.editorassy"), context).setInput(project).setTitle(title).setEditable(false).ok((r, proj) -> {
 			try {
 				Services.get(ProjectService.class)
 						.update(new FilterAndUpdate().filter(new BasicDBObject("_id", project.get_id())).set(r).bson(), br.getDomain());

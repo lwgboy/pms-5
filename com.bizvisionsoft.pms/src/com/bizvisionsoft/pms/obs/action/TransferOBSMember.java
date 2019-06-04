@@ -22,7 +22,7 @@ public class TransferOBSMember {
 			@MethodParam(Execute.CONTEXT) IBruiContext context) {
 		if (br.confirm("移交", "请确认将 " + em + " 的工作进行移交。")) {
 			// 弹出项目团队成员选择器，选择被移交人员
-			new Selector(br.getAssembly("项目团队选择器"), context).setInput(rootInput).setTitle("选择工作移交人").open(l -> {
+			new Selector(br.getAssembly("项目团队选择器.selectorassy"), context).setInput(rootInput).setTitle("选择工作移交人").open(l -> {
 				Services.get(WorkService.class).transferWorkUser(((OBSItem) input).getScope_id(), ((User) em).getUserId(),
 						((OBSItemWarpper) l.get(0)).getUserId(), br.getCurrentUserId(), br.getDomain());
 			});

@@ -28,7 +28,7 @@ public class CreateProjectChangeACT {
 			Layer.message("存在未完成的项目变更，无法创建新变更申请", Layer.ICON_ERROR);
 			return;
 		}
-		Editor.open("项目变更编辑器", context,
+		Editor.open("项目变更编辑器.editorassy", context,
 				br.newInstance(ProjectChange.class).setProject_id(project.get_id()).setApplicant(br.getCurrentUserInfo())
 						.setStatus(ProjectChange.STATUS_CREATE).setApplicantDate(new Date()).setApplicantUnitId(project.getImpUnit_id()),
 				(r, o) -> {

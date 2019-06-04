@@ -93,13 +93,12 @@ public abstract class CabinetASM {
 	}
 
 	private Composite createFilePane(Composite parent) {
-		AssemblyContainer right = new AssemblyContainer(parent, context).setAssembly(br.getAssembly("项目档案库文件列表"))
-				.setServices(br).create();
+		AssemblyContainer right = new AssemblyContainer(parent, context).setAssembly(br.getAssembly("项目档案库文件列表.gridassy")).setServices(br)
+				.create();
 
 		filePane = (GridPart) right.getContext().getContent();
 		select(null);
-		folderPane.getViewer()
-				.addPostSelectionChangedListener(e -> select((IFolder) e.getStructuredSelection().getFirstElement()));
+		folderPane.getViewer().addPostSelectionChangedListener(e -> select((IFolder) e.getStructuredSelection().getFirstElement()));
 		return right.getContainer();
 	}
 
@@ -113,8 +112,7 @@ public abstract class CabinetASM {
 
 	private Composite createFolderPane(Composite parent) {
 		AssemblyContainer left;
-		left = new AssemblyContainer(parent, context).setAssembly(br.getAssembly("项目档案库文件夹")).setServices(br)
-				.create();
+		left = new AssemblyContainer(parent, context).setAssembly(br.getAssembly("项目档案库文件夹.gridassy")).setServices(br).create();
 
 		folderPane = (GridPart) left.getContext().getContent();
 		folderPane.getViewer().getControl().addListener(SWT.Selection, e -> {
@@ -168,8 +166,8 @@ public abstract class CabinetASM {
 		// 弹出menu
 		new ActionMenu(br).setActions(Arrays.asList(a1, a2, a3, a4)).handleActionExecute("createFile", a -> {
 			Docu docu = br.newInstance(Docu.class).setFolder_id(folder.get_id()).setCreationInfo(br.operationInfo());
-			Editor.open("通用文档编辑器", context, docu, true, (b, t) -> {
-				filePane.insert(Services.get(DocumentService.class).createDocument(t,br.getDomain()));
+			Editor.open("通用文档编辑器.editorassy", context, docu, true, (b, t) -> {
+				filePane.insert(Services.get(DocumentService.class).createDocument(t, br.getDomain()));
 			});
 			return false;
 		}).handleActionExecute("renameFolder", a -> {
@@ -207,8 +205,8 @@ public abstract class CabinetASM {
 		b.setTooltips("查询项目文档");
 		b.setStyle("info");
 
-		StickerTitlebar bar = new StickerTitlebar(parent, null, Arrays.asList(a, b))
-				.setActions(context.getAssembly().getActions()).setText(context.getAssembly().getTitle());
+		StickerTitlebar bar = new StickerTitlebar(parent, null, Arrays.asList(a, b)).setActions(context.getAssembly().getActions())
+				.setText(context.getAssembly().getTitle());
 		bar.addListener(SWT.Selection, l -> {
 			if ("创建项目根文件夹".equals(((Action) l.data).getName())) {
 				if (createFolder(null)) {

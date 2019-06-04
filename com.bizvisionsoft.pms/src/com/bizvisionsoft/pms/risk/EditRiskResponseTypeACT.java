@@ -24,7 +24,7 @@ public class EditRiskResponseTypeACT {
 		context.selected(c -> {
 			if (c instanceof RiskResponse) {
 				String type = ((RiskResponse) c).getType();
-				Editor.create("项目风险应对计划编辑器-" + type, context, ((RiskResponse) c), false).setTitle("创建 " + type)
+				Editor.create("项目风险应对计划编辑器-" + type+".editorassy", context, ((RiskResponse) c), false).setTitle("创建 " + type)
 						.ok((r, o) -> {
 							Services.get(RiskService.class).updateRiskResponse(
 									new FilterAndUpdate().filter(new BasicDBObject("_id", o.get_id())).set(r).bson(), br.getDomain());

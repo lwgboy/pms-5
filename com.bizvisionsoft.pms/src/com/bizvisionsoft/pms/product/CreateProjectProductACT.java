@@ -18,7 +18,7 @@ public class CreateProjectProductACT {
 	@Execute
 	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
 		Product product = br.newInstance(Product.class).setProject_id(context.getRootInput(Project.class, false).get_id());
-		Editor<?> editor = new Editor<Object>(br.getAssembly("产品编辑器"), context).setInput(product);
+		Editor<?> editor = new Editor<Object>(br.getAssembly("产品编辑器.editorassy"), context).setInput(product);
 		editor.setTitle("创建项目目标产品");
 		editor.ok((r, o) -> {
 			GridPart grid = (GridPart) context.getContent();

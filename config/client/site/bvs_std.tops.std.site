@@ -64,7 +64,7 @@
                 "name": "权限管理",
                 "bundleId": "",
                 "className": "",
-                "switchContentToAssemblyId": "/tops/功能权限设置.gridassy",
+                "switchContentToAssemblyId": "/功能权限设置.gridassy",
                 "type": "switch",
                 "verticalSpan": 0
               },

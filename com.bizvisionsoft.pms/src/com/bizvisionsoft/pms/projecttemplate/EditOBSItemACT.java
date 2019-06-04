@@ -23,11 +23,11 @@ public class EditOBSItemACT {
 		context.selected(em -> {
 			Assembly assembly;
 			if (((OBSInTemplate) em).isRole()) {
-				assembly = br.getAssembly("OBS模板节点编辑器（角色）");
+				assembly = br.getAssembly("OBS模板节点编辑器（角色）.editorassy");
 			} else if (((OBSInTemplate) em).isScopeRoot()) {
-				assembly = br.getAssembly("OBS模板节点编辑器（根）");
+				assembly = br.getAssembly("OBS模板节点编辑器（根）.editorassy");
 			} else {
-				assembly = br.getAssembly("OBS模板节点编辑器（团队）");
+				assembly = br.getAssembly("OBS模板节点编辑器（团队）.editorassy");
 			}
 			String message = "编辑 " + Optional.ofNullable(AUtil.readLabel(em)).orElse("");
 

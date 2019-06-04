@@ -37,7 +37,7 @@ public class EventHandler {
 		WorkLinkInfo input = WorkLinkInfo.newInstance(wbsspace.getProject_id(),br.getDomain()).setSource((WorkInfo) event.linkSource)
 				.setTarget((WorkInfo) event.linkTarget).setType(event.linkType);
 
-		Editor.open("工作搭接关系编辑器（1对1）", context, input, (r, wi) -> {
+		Editor.open("工作搭接关系编辑器（1对1）.editorassy", context, input, (r, wi) -> {
 			GanttPart content = (GanttPart) context.getContent();
 			content.addLink(wi);
 		});
@@ -78,15 +78,15 @@ public class EventHandler {
 		String editor;
 		if (((WorkInfo) event.task).isStage()) {
 			if (((WorkInfo) event.task).isSummary())
-				editor = "甘特图总成阶段编辑器";
+				editor = "甘特图总成阶段编辑器.editorassy";
 			else
-				editor = "甘特图阶段工作编辑器";
+				editor = "甘特图阶段工作编辑器.editorassy";
 		} else if (((WorkInfo) event.task).isSummary()) {
-			editor = "甘特图总成工作编辑器";
+			editor = "甘特图总成工作编辑器.editorassy";
 		} else if (((WorkInfo) event.task).isMilestone()) {
-			editor = "甘特图里程碑工作编辑器";
+			editor = "甘特图里程碑工作编辑器.editorassy";
 		} else {
-			editor = "甘特图工作编辑器";
+			editor = "甘特图工作编辑器.editorassy";
 		}
 		Editor.create(editor, context, event.task, false).setTitle(((WorkInfo) event.task).toString()).ok((r, wi) -> {
 			GanttPart content = (GanttPart) context.getContent();

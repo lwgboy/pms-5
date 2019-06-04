@@ -49,7 +49,7 @@
       "text": "管理者",
       "type": "对象选择框",
       "formFields": [],
-      "selectorAssemblyId": "/tops/用户选择列表.gridassy"
+      "selectorAssemblyId": "/用户选择列表.gridassy"
     },
     {
       "id": "16892de7b50",

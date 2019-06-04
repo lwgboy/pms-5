@@ -18,7 +18,7 @@ public class SelectAndLaunchProcess {
 
 	@Execute
 	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context, @MethodParam(Execute.CURRENT_USER_ID) String userId) {
-		Selector.create("用户工作流定义选择器", context, null).setTitle("请选择将要发起的流程").open(list -> {
+		Selector.create("用户工作流定义选择器.selectorassy", context, null).setTitle("请选择将要发起的流程").open(list -> {
 			if (list != null && list.size() > 0) {
 				ProcessDefinition pd = (ProcessDefinition) list.get(0);
 				Long id = new BPMClient(br.getDomain()).startProcess(context, pd, userId);

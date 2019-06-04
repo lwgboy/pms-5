@@ -112,7 +112,7 @@ public class CreateDocuOfPackage {
 				insert(gridPart, t);
 			});
 		} else {
-			Editor.open("通用文档编辑器", context, docu, (r, t) -> {
+			Editor.open("通用文档编辑器.editorassy", context, docu, (r, t) -> {
 				gridPart.insert(Services.get(DocumentService.class).createDocument(t, br.getDomain()));
 			});
 		}
@@ -131,14 +131,14 @@ public class CreateDocuOfPackage {
 		GridPart gridPart = (GridPart) context.getContent();
 		ObjectId project_id = Services.get(WorkService.class).getProjectId(wp.getWork_id(), br.getDomain());
 		// 选择文件夹
-		Selector.open("项目文件夹选择", context, br.newInstance(Project.class).set_id(project_id), em -> {
+		Selector.open("项目文件夹选择.selectorassy", context, br.newInstance(Project.class).set_id(project_id), em -> {
 			Docu docu = br.newInstance(Docu.class)//
 					.setCreationInfo(br.operationInfo())//
 					.addWorkPackageId(wp.get_id())//
 					.setFolder_id(((Folder) em.get(0)).get_id())//
 					.setName(wp.description);
 
-			Editor.open("通用文档编辑器", context, docu, (r, t) -> {
+			Editor.open("通用文档编辑器.editorassy", context, docu, (r, t) -> {
 				gridPart.insert(Services.get(DocumentService.class).createDocument(t, br.getDomain()));
 			});
 		});

@@ -154,7 +154,7 @@ public class BPMClient {
 	}
 
 	public Result delegateTask(IBruiContext context, long taskId, String userId) {
-		Assembly config = Model.getAssembly("任务委托人选择器");
+		Assembly config = Model.getAssembly("任务委托人选择器.selectorassy");
 		Selector selector = new Selector(config, context).setTitle("请选择委托本任务的执行人");
 		if (Window.OK != selector.open()) {
 			return Result.terminated();

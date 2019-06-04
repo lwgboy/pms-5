@@ -32,7 +32,7 @@ public class AddSubAccountACT {
 			} else {
 				return;
 			}
-			Editor.create("财务科目编辑器", context, input, true).ok((r, o) -> {
+			Editor.create("财务科目编辑器.editorassy", context, input, true).ok((r, o) -> {
 				GridPart grid = (GridPart) context.getContent();
 				grid.doCreateSubItem(parent, o);
 			});

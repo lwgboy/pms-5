@@ -15,16 +15,16 @@ public class SwitchWorkPackagePage {
 	public static void openWorkPackage(IBruiService brui, IWorkPackageMaster work) {
 		List<TrackView> wps = work.getWorkPackageSetting();
 		if (Check.isNotAssigned(wps)) {
-			brui.openContent(brui.getAssembly("工作包计划"), new Object[] { work, null });
+			brui.openContent(brui.getAssembly("工作包计划.assy"), new Object[] { work, null });
 		} else if (wps.size() == 1) {
-			brui.openContent(brui.getAssembly("工作包计划"), new Object[] { work, wps.get(0) });
+			brui.openContent(brui.getAssembly("工作包计划.assy"), new Object[] { work, wps.get(0) });
 		} else {
 			ArrayList<Action> actions = new ArrayList<Action>();
 			ActionMenu menu = new ActionMenu(brui);
 			wps.forEach(view -> {
 				actions.add(createAction(view));
 				menu.handleActionExecute(view.get_id().toHexString(), f -> {
-					brui.openContent(brui.getAssembly("工作包计划"), new Object[] { work, view });
+					brui.openContent(brui.getAssembly("工作包计划.assy"), new Object[] { work, view });
 					return false;
 				});
 			});

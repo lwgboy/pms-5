@@ -134,5 +134,14 @@ PMS6-10.10.015 警告信息显示，文本过多
 PMS6-10.10.016 工作包，检查项，文档模板似乎没有从模板导入到项目
 
 
-1. 后缀名更改问题
-1.1. modelupdate
+1. 测试更改用户名密码
+2. 工作流完成任务打开的编辑器
+3. 测试Addworktimetocalender
+CreateValueRuleSegmentACT
+createDocumentFromSetting
+OpenDocuAct
+OpenResourceActualACT
+OpenWorkPackageACT
+WorkPackagePlan
+ResourceChartASM
+管理员设置列，保存出错

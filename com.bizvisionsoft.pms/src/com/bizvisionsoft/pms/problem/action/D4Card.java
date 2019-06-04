@@ -21,7 +21,7 @@ public class D4Card {
 		}else {
 			parameter = "{\"type\":\"因果分析-流出\",\"title\":\"问题流出因果分析\"}";
 		}
-		br.switchContent("D4关系图", null, parameter);
+		br.switchContent("D4关系图.assy", null, parameter);
 	}
 
 }

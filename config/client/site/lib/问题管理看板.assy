@@ -36,7 +36,7 @@
           "heightHint": -1
         },
         {
-          "id": "/tops/未读消息.boardassy",
+          "id": "/未读消息.boardassy",
           "horizontalAlignment": 4,
           "verticalAlignment": 16777216,
           "grabExcessHorizontalSpace": true,
@@ -57,6 +57,6 @@
     "/解决中问题看板.boardassy",
     "/已关闭问题看板.boardassy",
     "/已取消问题看板.boardassy",
-    "/tops/未读消息.boardassy"
+    "/未读消息.boardassy"
   ]
 }
