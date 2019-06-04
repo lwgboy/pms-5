@@ -5,6 +5,7 @@
   "type": "grid",
   "stickerTitle": "账户管理",
   "folderId": "1626b905a63",
+  "gridMarkupEnabled": true,
   "gridLineVisiable": true,
   "gridMultiSelection": true,
   "gridHeaderVisiable": true,
@@ -109,19 +110,7 @@
     }
   ],
   "actions": [],
-  "rowActions": [
-    {
-      "id": "161fab27a2a",
-      "name": "编辑账户",
-      "text": "编辑",
-      "image": "/img/edit_w.svg",
-      "bundleId": "com.bizvisionsoft.pms",
-      "className": "com.bizvisionsoft.bruiengine.app.user.EditAccountACT",
-      "style": "normal",
-      "type": "customized",
-      "verticalSpan": 0
-    }
-  ],
+  "rowActions": [],
   "queryBuilderBundle": "",
   "queryBuilderClass": "",
   "hasTitlebar": true,
