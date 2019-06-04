@@ -1,0 +1,58 @@
+{
+  "id": "/OBS节点编辑器（根）.editorassy",
+  "name": "OBS节点编辑器（根）",
+  "layout": [],
+  "type": "editor",
+  "folderId": "162dbfef40e",
+  "fields": [
+    {
+      "id": "162b7bcc540",
+      "name": "name",
+      "text": "团队名称",
+      "type": "单行文本框",
+      "formFields": [],
+      "readOnly": true
+    },
+    {
+      "id": "162b7bcc424",
+      "name": "roleId",
+      "text": "编号",
+      "type": "单行文本框",
+      "formFields": [],
+      "textMessage": "比如：PPM",
+      "readOnly": true
+    },
+    {
+      "id": "162b7bcc69e",
+      "name": "roleName",
+      "text": "管理角色头衔",
+      "type": "单行文本框",
+      "formFields": [],
+      "textMessage": "例如：组长",
+      "readOnly": true
+    },
+    {
+      "id": "162b7bcc83e",
+      "name": "manager",
+      "text": "担任者",
+      "type": "对象选择框",
+      "formFields": [],
+      "readOnly": true,
+      "selectorAssemblyId": "/用户选择列表.gridassy"
+    },
+    {
+      "id": "164e5b20b8c",
+      "name": "dir",
+      "text": "排列方向",
+      "type": "单选框",
+      "formFields": [],
+      "optionValue": "horizontal#vertical",
+      "optionText": "横向排列#垂直排列",
+      "radioStyle": "横向分段（默认）"
+    }
+  ],
+  "actions": [],
+  "nullValueAllowedFields": "org_id",
+  "smallEditor": true,
+  "disableInitLoadData": false
+}

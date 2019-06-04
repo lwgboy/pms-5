@@ -1,0 +1,72 @@
+{
+  "id": "/D4根本原因分析.boardassy",
+  "name": "D4根本原因分析",
+  "title": "D4 根本原因分析",
+  "layout": [],
+  "type": "board",
+  "stickerTitle": "根本原因",
+  "folderId": "168987781d7",
+  "gridAutoHeight": true,
+  "gridDataSetService": "com.bizvisionsoft.service.ProblemService",
+  "fields": [],
+  "actions": [
+    {
+      "id": "167faafa224",
+      "name": "切换",
+      "tooltips": "",
+      "image": "/img/right_w.svg",
+      "style": "normal",
+      "children": [
+        {
+          "id": "1681ebd409a",
+          "name": "问题产生原因",
+          "text": "问题产生原因",
+          "image": "/img/path_w.svg",
+          "switchContentToAssemblyId": "/D4关系图.assy",
+          "style": "normal",
+          "type": "switch",
+          "parameters": "",
+          "passParametersToAssembly": "{\"type\":\"因果分析-制造\",\"title\":\"问题产生因果分析\"}"
+        },
+        {
+          "id": "1681ebe0611",
+          "name": "问题流出原因",
+          "text": "问题流出原因",
+          "image": "/img/path_w.svg",
+          "switchContentToAssemblyId": "/D4关系图.assy",
+          "style": "normal",
+          "type": "switch",
+          "parameters": "",
+          "passParametersToAssembly": "{\"type\":\"因果分析-流出\",\"title\":\"问题流出因果分析\"}"
+        },
+        {
+          "id": "167fabafbc8",
+          "name": "描述根本原因",
+          "text": "描述根本原因",
+          "tooltips": "",
+          "image": "/img/edit_w.svg",
+          "bundleId": "com.bizvisionsoft.pms",
+          "className": "com.bizvisionsoft.pms.problem.action.EditD4RootCauseDesc",
+          "style": "normal",
+          "type": "customized"
+        }
+      ],
+      "type": "customized"
+    }
+  ],
+  "rowActions": [
+    {
+      "id": "168517f112b",
+      "name": "操作",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.problem.action.D4Card",
+      "type": "customized"
+    }
+  ],
+  "hasTitlebar": true,
+  "disableStdQuery": true,
+  "parameters": "{\"render\":\"card\"}",
+  "scrollLoadData": false,
+  "compactTitleBar": true,
+  "sortFields": []
+}

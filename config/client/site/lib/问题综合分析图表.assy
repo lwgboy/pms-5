@@ -1,0 +1,81 @@
+{
+  "id": "/问题综合分析图表.assy",
+  "name": "问题综合分析图表",
+  "layout": [
+    {
+      "id": "16866683a12",
+      "name": "默认",
+      "columnCount": 3,
+      "horizontalSpacing": 16,
+      "verticalSpacing": 16,
+      "makeColumnsEqualWidth": true,
+      "extendVerticalSpace": false,
+      "marginHeight": 16,
+      "marginWidth": 16,
+      "css": "brui_bg_deep_relief",
+      "itemCss": "brui_card",
+      "layoutType": "grid",
+      "assemblys": [
+        {
+          "id": "/问题损失按问题分类条形图.chartassy",
+          "horizontalAlignment": 4,
+          "verticalAlignment": 4,
+          "grabExcessHorizontalSpace": true,
+          "grabExcessVerticalSpace": false,
+          "verticalSpan": 1,
+          "horizontalSpan": 1,
+          "widthHint": -1,
+          "heightHint": 320
+        },
+        {
+          "id": "/问题数量按问题分类条形图.chartassy",
+          "horizontalAlignment": 4,
+          "verticalAlignment": 4,
+          "grabExcessHorizontalSpace": true,
+          "grabExcessVerticalSpace": false,
+          "verticalSpan": 1,
+          "horizontalSpan": 1,
+          "widthHint": -1,
+          "heightHint": 320
+        },
+        {
+          "id": "/问题损失按部门分类饼图.chartassy",
+          "horizontalAlignment": 4,
+          "verticalAlignment": 4,
+          "grabExcessHorizontalSpace": true,
+          "grabExcessVerticalSpace": false,
+          "verticalSpan": 1,
+          "horizontalSpan": 1,
+          "widthHint": -1,
+          "heightHint": 320
+        },
+        {
+          "id": "/问题原因因果关系.chartassy",
+          "horizontalAlignment": 4,
+          "verticalAlignment": 4,
+          "grabExcessHorizontalSpace": true,
+          "grabExcessVerticalSpace": true,
+          "verticalSpan": 1,
+          "horizontalSpan": 2,
+          "widthHint": -1,
+          "heightHint": -1
+        },
+        {
+          "id": "/问题损失按原因分类饼图.chartassy",
+          "horizontalAlignment": 4,
+          "verticalAlignment": 4,
+          "grabExcessHorizontalSpace": true,
+          "grabExcessVerticalSpace": true,
+          "verticalSpan": 1,
+          "horizontalSpan": 1,
+          "widthHint": -1,
+          "heightHint": -1
+        }
+      ]
+    }
+  ],
+  "folderId": "168987ad286",
+  "actions": [],
+  "rowActions": [],
+  "candidates": []
+}

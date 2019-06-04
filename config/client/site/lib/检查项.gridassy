@@ -1,0 +1,76 @@
+{
+  "id": "/检查项.gridassy",
+  "name": "检查项",
+  "layout": [],
+  "type": "grid",
+  "stickerTitle": "检查项",
+  "folderId": "167b5b0f900",
+  "gridLineVisiable": true,
+  "gridHeaderVisiable": true,
+  "gridHasVScroll": true,
+  "gridPageControl": true,
+  "gridDataSetService": "",
+  "columns": [
+    {
+      "id": "167b5cb338a",
+      "name": "name",
+      "text": "名称",
+      "alignment": 16384,
+      "width": 80,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "167b5e18e6c",
+      "name": "description",
+      "text": "描述",
+      "alignment": 16384,
+      "width": 160,
+      "resizeable": true,
+      "columns": []
+    }
+  ],
+  "fields": [
+    {
+      "id": "167b5cb8a58",
+      "name": "name",
+      "text": "名称",
+      "type": "文本输入框（查询）",
+      "formFields": []
+    }
+  ],
+  "gridAutoColumnWidth": true,
+  "actions": [
+    {
+      "id": "167b5e24c4b",
+      "name": "创建",
+      "image": "/img/add_16_w.svg",
+      "style": "normal",
+      "editorAssemblyId": "/检查项编辑器.editorassy",
+      "type": "insert",
+      "createActionNewInstanceBundleId": "com.bizvisionsoft.service",
+      "createActionNewInstanceClassName": "com.bizvisionsoft.service.model.CheckItem"
+    }
+  ],
+  "rowActions": [
+    {
+      "id": "167b5e2f6bb",
+      "name": "编辑",
+      "image": "/img/edit_w.svg",
+      "style": "normal",
+      "editorAssemblyId": "/检查项编辑器.editorassy",
+      "editorAssemblyEditable": true,
+      "type": "edit"
+    },
+    {
+      "id": "167b5e2bb41",
+      "name": "删除",
+      "image": "/img/minus_16_w.svg",
+      "style": "warning",
+      "type": "delete"
+    }
+  ],
+  "hasTitlebar": true,
+  "modelClassName": "com.bizvisionsoft.service.model.CheckItem",
+  "sortFields": []
+}

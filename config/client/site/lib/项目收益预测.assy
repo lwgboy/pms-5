@@ -1,0 +1,24 @@
+{
+  "id": "/项目收益预测.assy",
+  "name": "项目收益预测",
+  "bundleId": "com.bizvisionsoft.pms",
+  "className": "com.bizvisionsoft.pms.revenue.ForecastASM",
+  "layout": [],
+  "folderId": "165564b4b38",
+  "actions": [],
+  "rowActions": [
+    {
+      "id": "1655aa7fa42",
+      "name": "编辑收益预测",
+      "image": "/img/edit_w.svg",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.revenue.EditForecastAmountACT",
+      "style": "normal",
+      "objectBehavier": true,
+      "type": "customized",
+      "role": "PM#PA#PFM",
+      "verticalSpan": 0
+    }
+  ],
+  "disableInitLoadData": false
+}

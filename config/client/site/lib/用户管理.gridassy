@@ -1,0 +1,178 @@
+{
+  "id": "/用户管理.gridassy",
+  "name": "用户管理",
+  "layout": [],
+  "type": "grid",
+  "stickerTitle": "用户管理",
+  "folderId": "162bd9dad9d",
+  "gridLineVisiable": true,
+  "gridHeaderVisiable": true,
+  "gridHasHScroll": true,
+  "gridHasVScroll": true,
+  "gridFix": 0,
+  "gridPageControl": true,
+  "gridDataSetService": "com.bizvisionsoft.service.UserService",
+  "gridDataSetBundleId": "",
+  "gridDataSetClassName": "",
+  "columns": [
+    {
+      "id": "161db823fab",
+      "name": "userId",
+      "text": "账号",
+      "alignment": 16384,
+      "width": 120,
+      "minimumWidth": 60,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "161db839f32",
+      "name": "name",
+      "text": "姓名",
+      "alignment": 16384,
+      "width": 120,
+      "minimumWidth": 60,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "161db845953",
+      "name": "联系方式",
+      "text": "联系方式",
+      "alignment": 16777216,
+      "expanded": true,
+      "columns": [
+        {
+          "id": "161db85f29d",
+          "name": "tel",
+          "text": "办公电话",
+          "alignment": 16384,
+          "width": 240,
+          "minimumWidth": 80,
+          "resizeable": true,
+          "detail": true,
+          "summary": true,
+          "columns": []
+        },
+        {
+          "id": "161db85edfa",
+          "name": "email",
+          "text": "电子邮件",
+          "alignment": 16384,
+          "width": 240,
+          "minimumWidth": 80,
+          "resizeable": true,
+          "detail": true,
+          "summary": true,
+          "columns": []
+        },
+        {
+          "id": "161e5ad2a13",
+          "name": "mobile",
+          "text": "移动电话",
+          "alignment": 16384,
+          "width": 240,
+          "resizeable": true,
+          "detail": true,
+          "columns": []
+        }
+      ]
+    },
+    {
+      "id": "161db85fc50",
+      "name": "activated",
+      "text": "激活",
+      "alignment": 16777216,
+      "width": 60,
+      "minimumWidth": 60,
+      "columns": []
+    },
+    {
+      "id": "161e5aeb95c",
+      "name": "orgFullName",
+      "text": "所属组织",
+      "alignment": 16384,
+      "width": 260,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "1653d181b1f",
+      "name": "position",
+      "text": "职位",
+      "alignment": 16384,
+      "width": 160,
+      "resizeable": true,
+      "columns": []
+    }
+  ],
+  "fields": [
+    {
+      "id": "1622d68f151",
+      "name": "查询条件",
+      "text": "查询条件",
+      "type": "标签页",
+      "formFields": [
+        {
+          "id": "1622d6990eb",
+          "name": "userId",
+          "text": "账号",
+          "type": "文本输入框（查询）",
+          "formFields": [],
+          "textQueryType": "字符串"
+        },
+        {
+          "id": "1623122bf59",
+          "name": "name",
+          "text": "姓名",
+          "type": "文本输入框（查询）",
+          "formFields": [],
+          "textQueryType": "字符串"
+        },
+        {
+          "id": "16236b38381",
+          "name": "orgIds",
+          "text": "组织",
+          "type": "多个对象选择框（查询）",
+          "formFields": [],
+          "selectorAssemblyId": "/组织选择器.gridassy"
+        },
+        {
+          "id": "1623124fb98",
+          "name": "activated",
+          "text": "激活",
+          "type": "复选框（查询）",
+          "formFields": [],
+          "checkStyle": "开关（默认）"
+        }
+      ]
+    }
+  ],
+  "actions": [],
+  "rowActions": [
+    {
+      "id": "161fab27a2a",
+      "name": "编辑用户",
+      "text": "编辑",
+      "image": "/img/edit_w.svg",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.bruiengine.app.user.EditUserACT",
+      "style": "normal",
+      "type": "customized",
+      "verticalSpan": 0
+    }
+  ],
+  "queryBuilderBundle": "com.bizvisionsoft.pms",
+  "queryBuilderClass": "com.bizvisionsoft.bruiengine.app.user.UserQueryBuilder",
+  "hasTitlebar": true,
+  "disableInitLoadData": false,
+  "sortFields": [
+    {
+      "id": "16a8af14632",
+      "name": "name",
+      "text": "姓名",
+      "type": "排序字段",
+      "formFields": []
+    }
+  ]
+}

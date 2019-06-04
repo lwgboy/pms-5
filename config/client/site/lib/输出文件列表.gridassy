@@ -1,0 +1,126 @@
+{
+  "id": "/输出文件列表.gridassy",
+  "name": "输出文件列表",
+  "layout": [],
+  "type": "grid",
+  "folderId": "1636715acf8",
+  "gridLineVisiable": true,
+  "gridHeaderVisiable": true,
+  "gridHasVScroll": true,
+  "gridFix": 2,
+  "gridDataSetService": "",
+  "gridDataSetBundleId": "com.bizvisionsoft.pms",
+  "gridDataSetClassName": "com.bizvisionsoft.pms.filecabinet.ProjectDocuDS",
+  "columns": [
+    {
+      "id": "163dad31dc9",
+      "name": "id",
+      "text": "文档编号",
+      "alignment": 16384,
+      "width": 120,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "163dad30883",
+      "name": "name",
+      "text": "文档名称",
+      "alignment": 16384,
+      "width": 240,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "163dad3c8f4",
+      "name": "category",
+      "text": "类别",
+      "alignment": 16384,
+      "width": 120,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "163dad3839a",
+      "name": "description",
+      "text": "描述",
+      "alignment": 16384,
+      "width": 240,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "163dad4e4a0",
+      "name": "createByInfo",
+      "text": "创建者",
+      "alignment": 16384,
+      "width": 80,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "163dad511ca",
+      "name": "createOn",
+      "text": "创建时间",
+      "alignment": 16384,
+      "width": 96,
+      "resizeable": true,
+      "columns": []
+    }
+  ],
+  "fields": [
+    {
+      "id": "163deecef3b",
+      "name": "id",
+      "text": "文件编号",
+      "type": "文本输入框（查询）",
+      "formFields": []
+    },
+    {
+      "id": "163deec9298",
+      "name": "name",
+      "text": "文件名称",
+      "type": "文本输入框（查询）",
+      "formFields": []
+    },
+    {
+      "id": "163deed19da",
+      "name": "category",
+      "text": "文档类型",
+      "type": "多个对象选择框（查询）",
+      "formFields": [],
+      "selectorAssemblyId": "/文档类型选择.gridassy"
+    },
+    {
+      "id": "163deed5af9",
+      "name": "tag",
+      "text": "标签",
+      "type": "多个对象选择框（查询）",
+      "formFields": [],
+      "selectorAssemblyId": "/Tag选择.gridassy"
+    }
+  ],
+  "gridAutoColumnWidth": true,
+  "actions": [],
+  "rowActions": [
+    {
+      "id": "163dad5d3ab",
+      "name": "编辑",
+      "text": "编辑",
+      "image": "/img/edit_w.svg",
+      "style": "normal",
+      "editorAssemblyId": "/通用文档编辑器.editorassy",
+      "editorAssemblyEditable": true,
+      "type": "edit",
+      "verticalSpan": 0
+    },
+    {
+      "id": "163ded3b0d5",
+      "name": "删除",
+      "image": "/img/delete_w.svg",
+      "style": "warning",
+      "type": "delete",
+      "verticalSpan": 0
+    }
+  ],
+  "disableInitLoadData": false
+}

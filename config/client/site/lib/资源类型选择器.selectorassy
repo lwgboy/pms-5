@@ -1,0 +1,9 @@
+{
+  "id": "/资源类型选择器.selectorassy",
+  "name": "资源类型选择器",
+  "layout": [],
+  "type": "selector",
+  "folderId": "16396e06a26",
+  "selectorGridAssemblyId": "/资源类型.gridassy",
+  "disableInitLoadData": false
+}

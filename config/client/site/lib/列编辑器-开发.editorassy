@@ -1,0 +1,198 @@
+{
+  "id": "/列编辑器-开发.editorassy",
+  "name": "列编辑器-开发",
+  "title": "列",
+  "layout": [],
+  "type": "editor",
+  "folderId": "162ca15a85f",
+  "fields": [
+    {
+      "id": "1664dd35a17",
+      "name": "name",
+      "text": "列名称",
+      "type": "单行文本框",
+      "formFields": [],
+      "readOnly": true
+    },
+    {
+      "id": "1664ddacc37",
+      "name": "新字段10",
+      "type": "行",
+      "formFields": [
+        {
+          "id": "1664dd35bd7",
+          "name": "text",
+          "text": "列头文本",
+          "type": "单行文本框",
+          "formFields": []
+        },
+        {
+          "id": "1664dda54d5",
+          "name": "markupEnabled",
+          "text": "Html标题",
+          "type": "复选框",
+          "formFields": []
+        }
+      ]
+    },
+    {
+      "id": "16652a3297f",
+      "name": "新字段2",
+      "type": "行",
+      "formFields": [
+        {
+          "id": "1664dd76d5e",
+          "name": "description",
+          "text": "描述",
+          "type": "单行文本框",
+          "formFields": []
+        },
+        {
+          "id": "1664dd35da9",
+          "name": "tooltipText",
+          "text": "工具提示",
+          "type": "单行文本框",
+          "formFields": []
+        }
+      ]
+    },
+    {
+      "id": "1664ddb535c",
+      "name": "新字段12",
+      "type": "行",
+      "formFields": [
+        {
+          "id": "1664dd35c6c",
+          "name": "summary",
+          "text": "收起时显示",
+          "type": "复选框",
+          "formFields": [],
+          "checkStyle": "开关（默认）"
+        },
+        {
+          "id": "1664dd35d15",
+          "name": "detail",
+          "text": "展开时显示",
+          "type": "复选框",
+          "formFields": [],
+          "checkStyle": "开关（默认）"
+        }
+      ]
+    },
+    {
+      "id": "1664de1ca0a",
+      "name": "新字段24",
+      "type": "行",
+      "formFields": [
+        {
+          "id": "1664de155d5",
+          "name": "width",
+          "text": "列宽",
+          "type": "单行文本框",
+          "formFields": [],
+          "textRestrict": "整数"
+        },
+        {
+          "id": "1664de1ea41",
+          "name": "minimumWidth",
+          "text": "最小列宽",
+          "type": "单行文本框",
+          "formFields": [],
+          "textRestrict": "整数"
+        }
+      ]
+    },
+    {
+      "id": "16652a24191",
+      "name": "alignment",
+      "text": "对齐方式",
+      "type": "单选框",
+      "formFields": [],
+      "optionValue": "16384#16777216#131072",
+      "optionText": "左对齐#居中#右对齐",
+      "radioStyle": "横向分段（默认）"
+    },
+    {
+      "id": "1664ddb6f69",
+      "name": "新字段13",
+      "type": "行",
+      "formFields": [
+        {
+          "id": "1664dd93224",
+          "name": "moveable",
+          "text": "拖动位置",
+          "type": "复选框",
+          "formFields": [],
+          "checkStyle": "开关（默认）"
+        },
+        {
+          "id": "1664dd98cb9",
+          "name": "resizeable",
+          "text": "改变宽度",
+          "type": "复选框",
+          "formFields": [],
+          "checkStyle": "开关（默认）"
+        }
+      ]
+    },
+    {
+      "id": "1664ddd0800",
+      "name": "format",
+      "text": "显示格式",
+      "type": "单行文本框",
+      "formFields": []
+    },
+    {
+      "id": "1664ddd38a9",
+      "name": "forceDisplayZero",
+      "text": "显示0值",
+      "type": "复选框",
+      "formFields": [],
+      "checkStyle": "开关（默认）"
+    },
+    {
+      "id": "1664dddba13",
+      "name": "新字段17",
+      "type": "行",
+      "formFields": [
+        {
+          "id": "1664dddc5a9",
+          "name": "negativeStyle",
+          "text": "CSS(\u003c0)",
+          "type": "单行文本框",
+          "formFields": []
+        },
+        {
+          "id": "1664dde3b7c",
+          "name": "postiveStyle",
+          "text": "CSS(\u003e0)",
+          "type": "单行文本框",
+          "formFields": []
+        }
+      ]
+    },
+    {
+      "id": "1664ddf2263",
+      "name": "新字段20",
+      "type": "行",
+      "formFields": [
+        {
+          "id": "1664ddf2906",
+          "name": "gt1Style",
+          "text": "CSS(\u003e1)",
+          "type": "单行文本框",
+          "formFields": []
+        },
+        {
+          "id": "1664ddf2b60",
+          "name": "lt1Style",
+          "text": "CSS(\u003c1)",
+          "type": "单行文本框",
+          "formFields": []
+        }
+      ]
+    }
+  ],
+  "smallEditor": true,
+  "disableInitLoadData": false
+}

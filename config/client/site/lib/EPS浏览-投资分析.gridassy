@@ -1,0 +1,313 @@
+{
+  "id": "/EPS浏览-投资分析.gridassy",
+  "name": "EPS浏览-投资分析",
+  "title": "企业项目结构",
+  "layout": [],
+  "type": "grid",
+  "stickerTitle": "投资回报分析",
+  "folderId": "163eac2c766",
+  "gridMarkupEnabled": true,
+  "gridLineVisiable": true,
+  "gridHeaderVisiable": true,
+  "gridHasHScroll": true,
+  "gridHasVScroll": true,
+  "gridFix": 3,
+  "gridRenderBundleId": "com.bizvisionsoft.pms",
+  "gridRenderClassName": "com.bizvisionsoft.pms.investment.EPSInfoInvestmentAnalysisRender",
+  "gridDataSetService": "com.bizvisionsoft.service.EPSService",
+  "columns": [
+    {
+      "id": "16275ccab7a",
+      "name": "name",
+      "text": "名称",
+      "alignment": 16384,
+      "width": 320,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "16275cca88b",
+      "name": "id",
+      "text": "编号",
+      "alignment": 16384,
+      "width": 80,
+      "minimumWidth": 40,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "16275cd409e",
+      "name": "finish",
+      "text": "完工日期",
+      "alignment": 16777216,
+      "width": 96,
+      "resizeable": true,
+      "detail": true,
+      "summary": true,
+      "columns": [],
+      "format": "yyyy-MM-dd"
+    },
+    {
+      "id": "163e936dbfc",
+      "name": "累计",
+      "text": "累计",
+      "alignment": 16384,
+      "width": 80,
+      "resizeable": true,
+      "expanded": true,
+      "columns": [
+        {
+          "id": "16275cd45b1",
+          "name": "totalCost",
+          "text": "资金投入",
+          "alignment": 131072,
+          "width": 100,
+          "resizeable": true,
+          "detail": true,
+          "summary": true,
+          "columns": []
+        },
+        {
+          "id": "163e92e567d",
+          "name": "totalProfit",
+          "text": "销售利润",
+          "alignment": 131072,
+          "width": 100,
+          "resizeable": true,
+          "detail": true,
+          "summary": true,
+          "columns": []
+        }
+      ],
+      "noToggleGridColumnGroup": true
+    },
+    {
+      "id": "163eab65e6d",
+      "name": "指标",
+      "text": "指标",
+      "alignment": 16384,
+      "width": 80,
+      "resizeable": true,
+      "expanded": true,
+      "columns": [
+        {
+          "id": "163e9300470",
+          "name": "irp",
+          "text": "PP\u0027/M",
+          "alignment": 131072,
+          "width": 80,
+          "resizeable": true,
+          "detail": true,
+          "summary": true,
+          "columns": []
+        },
+        {
+          "id": "163e9316011",
+          "name": "roi",
+          "text": "ROI",
+          "alignment": 131072,
+          "width": 80,
+          "resizeable": true,
+          "detail": true,
+          "summary": true,
+          "columns": [],
+          "format": "#.0%"
+        },
+        {
+          "id": "1640d973938",
+          "name": "npv",
+          "text": "NPV",
+          "alignment": 131072,
+          "width": 80,
+          "resizeable": true,
+          "detail": true,
+          "summary": true,
+          "columns": []
+        },
+        {
+          "id": "1640d97db16",
+          "name": "npvr",
+          "text": "NPVR",
+          "alignment": 131072,
+          "width": 80,
+          "resizeable": true,
+          "detail": true,
+          "summary": true,
+          "columns": [],
+          "format": "#.0%"
+        }
+      ],
+      "noToggleGridColumnGroup": true
+    },
+    {
+      "id": "163e93703e7",
+      "name": "period",
+      "text": "今年 销售利润（万元）",
+      "alignment": 16384,
+      "width": 80,
+      "resizeable": true,
+      "expanded": true,
+      "columns": [
+        {
+          "id": "1640d1f8bd3",
+          "name": "profit",
+          "text": "合计",
+          "alignment": 131072,
+          "width": 100,
+          "resizeable": true,
+          "detail": true,
+          "summary": true,
+          "columns": []
+        },
+        {
+          "id": "163e9b06419",
+          "name": "01",
+          "text": "一月",
+          "alignment": 131072,
+          "width": 100,
+          "resizeable": true,
+          "detail": true,
+          "columns": []
+        },
+        {
+          "id": "163e9b109e2",
+          "name": "02",
+          "text": "二月",
+          "alignment": 131072,
+          "width": 100,
+          "resizeable": true,
+          "detail": true,
+          "columns": []
+        },
+        {
+          "id": "163e9b120f3",
+          "name": "03",
+          "text": "三月",
+          "alignment": 131072,
+          "width": 100,
+          "resizeable": true,
+          "detail": true,
+          "columns": []
+        },
+        {
+          "id": "163e9b12302",
+          "name": "04",
+          "text": "四月",
+          "alignment": 131072,
+          "width": 100,
+          "resizeable": true,
+          "detail": true,
+          "columns": []
+        },
+        {
+          "id": "163e9b1255f",
+          "name": "05",
+          "text": "五月",
+          "alignment": 131072,
+          "width": 100,
+          "resizeable": true,
+          "detail": true,
+          "columns": []
+        },
+        {
+          "id": "163e9b127b6",
+          "name": "06",
+          "text": "六月",
+          "alignment": 131072,
+          "width": 100,
+          "resizeable": true,
+          "detail": true,
+          "columns": []
+        },
+        {
+          "id": "163e9b129fc",
+          "name": "07",
+          "text": "七月",
+          "alignment": 131072,
+          "width": 100,
+          "resizeable": true,
+          "detail": true,
+          "columns": []
+        },
+        {
+          "id": "163e9b12c72",
+          "name": "08",
+          "text": "八月",
+          "alignment": 131072,
+          "width": 100,
+          "resizeable": true,
+          "detail": true,
+          "columns": []
+        },
+        {
+          "id": "163e9b12f1d",
+          "name": "09",
+          "text": "九月",
+          "alignment": 131072,
+          "width": 100,
+          "resizeable": true,
+          "detail": true,
+          "columns": []
+        },
+        {
+          "id": "163e9b131a1",
+          "name": "10",
+          "text": "十月",
+          "alignment": 131072,
+          "width": 100,
+          "resizeable": true,
+          "detail": true,
+          "columns": []
+        },
+        {
+          "id": "163e9b14af7",
+          "name": "11",
+          "text": "十一月",
+          "alignment": 131072,
+          "width": 100,
+          "resizeable": true,
+          "detail": true,
+          "columns": []
+        },
+        {
+          "id": "163e9b14cd6",
+          "name": "12",
+          "text": "十二月",
+          "alignment": 131072,
+          "width": 100,
+          "resizeable": true,
+          "detail": true,
+          "columns": []
+        }
+      ]
+    }
+  ],
+  "fields": [],
+  "actions": [
+    {
+      "id": "163ea817bf9",
+      "name": "期间",
+      "text": "期间",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.investment.SearchInvestmentAnalysisYearACT",
+      "forceText": true,
+      "style": "info",
+      "type": "customized",
+      "verticalSpan": 0
+    }
+  ],
+  "rowActions": [
+    {
+      "id": "162760c01de",
+      "name": "打开",
+      "image": "/img/right.svg",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.eps.action.OpenEPSOrProject",
+      "style": "",
+      "type": "customized",
+      "verticalSpan": 0
+    }
+  ],
+  "hasTitlebar": true,
+  "disableInitLoadData": false
+}

@@ -1,0 +1,53 @@
+{
+  "id": "/损益类科目编辑器.editorassy",
+  "name": "损益类科目编辑器",
+  "title": "损益类科目",
+  "layout": [],
+  "type": "editor",
+  "folderId": "162e59b2f46",
+  "fields": [
+    {
+      "id": "162c49c1b1e",
+      "name": "id",
+      "text": "科目代码",
+      "type": "单行文本框",
+      "formFields": [],
+      "required": true
+    },
+    {
+      "id": "162c46185f6",
+      "name": "name",
+      "text": "科目名称",
+      "type": "单行文本框",
+      "formFields": [],
+      "required": true,
+      "textLimit": 25
+    },
+    {
+      "id": "16569a45368",
+      "name": "type",
+      "text": "类别",
+      "type": "单选框",
+      "formFields": [],
+      "optionText": "收入#费用",
+      "radioStyle": "横向分段（默认）"
+    },
+    {
+      "id": "1656b2fbddb",
+      "name": "formula",
+      "text": "计算式",
+      "type": "单行文本框",
+      "formFields": []
+    },
+    {
+      "id": "162c4a9e27e",
+      "name": "description",
+      "text": "说明",
+      "type": "单行文本框",
+      "formFields": []
+    }
+  ],
+  "actions": [],
+  "smallEditor": true,
+  "disableInitLoadData": false
+}

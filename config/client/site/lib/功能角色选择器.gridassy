@@ -1,0 +1,37 @@
+{
+  "id": "/功能角色选择器.gridassy",
+  "name": "功能角色选择器",
+  "layout": [],
+  "type": "grid",
+  "folderId": "162c97e7531",
+  "gridLineVisiable": true,
+  "gridHeaderVisiable": true,
+  "gridHasVScroll": true,
+  "gridDataSetService": "com.bizvisionsoft.service.CommonService",
+  "columns": [
+    {
+      "id": "16a19f3a665",
+      "name": "id",
+      "text": "角色Id",
+      "alignment": 16384,
+      "width": 80,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "16a19e567ce",
+      "name": "name",
+      "text": "角色名称",
+      "alignment": 16384,
+      "width": 80,
+      "resizeable": true,
+      "columns": [],
+      "element": false
+    }
+  ],
+  "fields": [],
+  "gridAutoColumnWidth": true,
+  "actions": [],
+  "rowActions": [],
+  "sortFields": []
+}

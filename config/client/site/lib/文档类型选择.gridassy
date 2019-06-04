@@ -1,0 +1,29 @@
+{
+  "id": "/文档类型选择.gridassy",
+  "name": "文档类型选择",
+  "description": "",
+  "layout": [],
+  "type": "grid",
+  "folderId": "165c135e901",
+  "gridLineVisiable": true,
+  "gridHasVScroll": true,
+  "gridDataSetBundleId": "com.bizvisionsoft.pms",
+  "gridDataSetClassName": "com.bizvisionsoft.pms.filecabinet.DocumentCommonDS",
+  "columns": [
+    {
+      "id": "162230955ff",
+      "name": "名称",
+      "text": "名称",
+      "alignment": 16384,
+      "width": 80,
+      "resizeable": true,
+      "columns": [],
+      "element": true
+    }
+  ],
+  "fields": [],
+  "gridAutoColumnWidth": true,
+  "actions": [],
+  "rowActions": [],
+  "disableInitLoadData": false
+}

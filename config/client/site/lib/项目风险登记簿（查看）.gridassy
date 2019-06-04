@@ -1,0 +1,165 @@
+{
+  "id": "/项目风险登记簿（查看）.gridassy",
+  "name": "项目风险登记簿（查看）",
+  "layout": [],
+  "type": "grid",
+  "stickerTitle": "项目风险登记簿",
+  "folderId": "1646952b89d",
+  "gridAutoExpandLevel": -1,
+  "gridMarkupEnabled": true,
+  "gridLineVisiable": true,
+  "gridHeaderVisiable": true,
+  "gridHasHScroll": true,
+  "gridHasVScroll": true,
+  "gridPageControl": true,
+  "gridDataSetBundleId": "com.bizvisionsoft.pms",
+  "gridDataSetClassName": "com.bizvisionsoft.pms.risk.ProjectRiskDS",
+  "columns": [
+    {
+      "id": "16380a23d6f",
+      "name": "id",
+      "text": "RBS编号",
+      "alignment": 16384,
+      "width": 160,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "16380a2409b",
+      "name": "name",
+      "text": "名称",
+      "alignment": 16384,
+      "width": 160,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "16380a25132",
+      "name": "stage",
+      "text": "阶段",
+      "alignment": 16384,
+      "width": 80,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "16380a2520b",
+      "name": "desc",
+      "text": "描述",
+      "alignment": 16384,
+      "width": 240,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "16380a252f2",
+      "name": "result",
+      "text": "后果",
+      "alignment": 16384,
+      "width": 240,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "16380a2721e",
+      "name": "inf",
+      "text": "影响分析",
+      "alignment": 16384,
+      "width": 80,
+      "resizeable": true,
+      "expanded": true,
+      "columns": [
+        {
+          "id": "16380a2756f",
+          "name": "timeInf",
+          "text": "工期",
+          "alignment": 16777216,
+          "width": 80,
+          "resizeable": true,
+          "detail": true,
+          "summary": true,
+          "columns": []
+        },
+        {
+          "id": "16380a276ab",
+          "name": "costInf",
+          "text": "成本",
+          "alignment": 16777216,
+          "width": 80,
+          "resizeable": true,
+          "detail": true,
+          "summary": true,
+          "columns": [],
+          "format": "#.0"
+        },
+        {
+          "id": "16380a277d6",
+          "name": "qtyInf",
+          "text": "质量",
+          "alignment": 16777216,
+          "width": 80,
+          "resizeable": true,
+          "detail": true,
+          "summary": true,
+          "columns": []
+        },
+        {
+          "id": "16380a27947",
+          "name": "infValue",
+          "text": "量值",
+          "alignment": 16777216,
+          "width": 80,
+          "resizeable": true,
+          "detail": true,
+          "summary": true,
+          "columns": [],
+          "format": "#.0"
+        }
+      ],
+      "noToggleGridColumnGroup": true
+    },
+    {
+      "id": "16380a27a2b",
+      "name": "probability",
+      "text": "概率",
+      "alignment": 16777216,
+      "width": 80,
+      "resizeable": true,
+      "columns": [],
+      "format": "#.0"
+    },
+    {
+      "id": "16385e3be91",
+      "name": "rci",
+      "text": "RCI",
+      "alignment": 16777216,
+      "width": 80,
+      "resizeable": true,
+      "columns": [],
+      "format": "#.0"
+    },
+    {
+      "id": "16380a27c11",
+      "name": "urgency",
+      "text": "临近性",
+      "alignment": 16777216,
+      "width": 80,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "16380a27d2e",
+      "name": "detectable",
+      "text": "可探测性",
+      "alignment": 16777216,
+      "width": 80,
+      "resizeable": true,
+      "columns": []
+    }
+  ],
+  "fields": [],
+  "actions": [],
+  "rowActions": [],
+  "hasTitlebar": true,
+  "disableInitLoadData": false
+}

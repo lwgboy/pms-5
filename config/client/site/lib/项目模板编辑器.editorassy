@@ -1,0 +1,36 @@
+{
+  "id": "/项目模板编辑器.editorassy",
+  "name": "项目模板编辑器",
+  "title": "项目模板",
+  "layout": [],
+  "type": "editor",
+  "folderId": "162bd9f0190",
+  "fields": [
+    {
+      "id": "162bda0ddf4",
+      "name": "id",
+      "text": "编号",
+      "type": "单行文本框",
+      "formFields": [],
+      "required": true
+    },
+    {
+      "id": "162bda0e250",
+      "name": "name",
+      "text": "名称",
+      "type": "单行文本框",
+      "formFields": [],
+      "required": true
+    },
+    {
+      "id": "162bda0e3bf",
+      "name": "description",
+      "text": "说明",
+      "type": "单行文本框",
+      "formFields": []
+    }
+  ],
+  "actions": [],
+  "smallEditor": true,
+  "disableInitLoadData": false
+}

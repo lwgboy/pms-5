@@ -1,0 +1,126 @@
+{
+  "id": "/tops/TestEditor.editorassy",
+  "name": "TestEditor",
+  "title": "测试编辑器控件",
+  "layout": [],
+  "type": "editor",
+  "folderId": "16897fe7470",
+  "fields": [
+    {
+      "id": "16555369922",
+      "name": "Page1",
+      "type": "标签页",
+      "formFields": [
+        {
+          "id": "1655536b71f",
+          "name": "f1",
+          "text": "测试文本",
+          "type": "单行文本框",
+          "formFields": []
+        },
+        {
+          "id": "1655536c20f",
+          "name": "f2",
+          "text": "测试标签",
+          "type": "文本标签",
+          "formFields": []
+        },
+        {
+          "id": "1655536c2d5",
+          "name": "f3",
+          "text": "测试数值范围",
+          "type": "数值范围输入",
+          "formFields": []
+        },
+        {
+          "id": "1655536c38c",
+          "name": "f4",
+          "text": "测试多行",
+          "type": "多行文本框",
+          "formFields": []
+        },
+        {
+          "id": "1655536c432",
+          "name": "f5",
+          "text": "测试下拉1",
+          "type": "下拉选择框",
+          "formFields": [],
+          "optionText": "A#B#C#D#E"
+        },
+        {
+          "id": "1655536c4d9",
+          "name": "f6",
+          "text": "测试单选",
+          "type": "单选框",
+          "formFields": [],
+          "optionText": "单选1#单选2#单选3#单选4#单选5",
+          "radioStyle": "横向分段（默认）"
+        },
+        {
+          "id": "1655536c581",
+          "name": "f7",
+          "text": "测试复选",
+          "type": "复选框",
+          "formFields": [],
+          "checkStyle": "开关（默认）"
+        },
+        {
+          "id": "1655536c627",
+          "name": "f8",
+          "text": "测试勾选",
+          "type": "多项勾选框",
+          "formFields": [],
+          "optionText": "勾选1#勾选2#勾选3#勾选4",
+          "radioStyle": "横向分段（默认）"
+        }
+      ]
+    },
+    {
+      "id": "165553729f5",
+      "name": "Page2",
+      "type": "标签页",
+      "formFields": [
+        {
+          "id": "16555373fcf",
+          "name": "f9",
+          "text": "日期时间",
+          "type": "日期时间选择",
+          "formFields": [],
+          "dateType": "date"
+        },
+        {
+          "id": "16555374077",
+          "name": "f10",
+          "text": "用户",
+          "type": "对象选择框",
+          "formFields": [],
+          "selectorAssemblyId": "/tops/用户选择列表.gridassy"
+        },
+        {
+          "id": "1655537411e",
+          "name": "f11",
+          "text": "多个对象选择",
+          "type": "多个对象选择框",
+          "formFields": [],
+          "selectorAssemblyId": "162c4579eee"
+        },
+        {
+          "id": "165553741c7",
+          "name": "f12",
+          "text": "文件",
+          "type": "文件选择框",
+          "formFields": []
+        },
+        {
+          "id": "16555378701",
+          "name": "f13",
+          "text": "多文件",
+          "type": "多个文件选择框",
+          "formFields": []
+        }
+      ]
+    }
+  ],
+  "smallEditor": true,
+  "disableInitLoadData": false
+}

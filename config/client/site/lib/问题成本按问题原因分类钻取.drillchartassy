@@ -1,0 +1,31 @@
+{
+  "id": "/问题成本按问题原因分类钻取.drillchartassy",
+  "name": "问题成本按问题原因分类钻取",
+  "description": "针对问题原因分类的成本数据钻取功能。",
+  "layout": [],
+  "type": "drillchart",
+  "stickerTitle": "问题损失统计-原因分类",
+  "folderId": "168987ad286",
+  "gridDataSetService": "com.bizvisionsoft.service.ProblemService",
+  "fields": [
+    {
+      "id": "168543b12af",
+      "name": "dateRange",
+      "text": "时间范围",
+      "type": "日期时间范围选择",
+      "formFields": [],
+      "dateType": "date"
+    },
+    {
+      "id": "168543b7fed",
+      "name": "xAxis",
+      "text": "数据系列",
+      "type": "单选框",
+      "formFields": [],
+      "optionValue": "year#month#date",
+      "optionText": "年#月#日",
+      "radioStyle": "横向分段（默认）"
+    }
+  ],
+  "hasTitlebar": true
+}

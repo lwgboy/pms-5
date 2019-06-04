@@ -1,0 +1,72 @@
+{
+  "id": "/项目成本管理（查看）.gridassy",
+  "name": "项目成本管理（查看）",
+  "description": "用于显示单个项目的成本",
+  "layout": [],
+  "type": "grid",
+  "stickerTitle": "成本管理",
+  "folderId": "163d3f03d9f",
+  "gridAutoExpandLevel": -1,
+  "gridMarkupEnabled": true,
+  "gridLineVisiable": true,
+  "gridHeaderVisiable": true,
+  "gridHasHScroll": true,
+  "gridHasVScroll": true,
+  "gridRenderBundleId": "com.bizvisionsoft.pms",
+  "gridRenderClassName": "com.bizvisionsoft.pms.cost.ManagedProjectsCostRender",
+  "gridDataSetBundleId": "com.bizvisionsoft.pms",
+  "gridDataSetClassName": "com.bizvisionsoft.pms.cost.ManagedProjectsCostDS",
+  "columns": [
+    {
+      "id": "163c90c1ed5",
+      "name": "id",
+      "text": "编号",
+      "alignment": 16384,
+      "width": 160,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "163c90c1fe5",
+      "name": "name",
+      "text": "名称",
+      "alignment": 16384,
+      "width": 320,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "163c9f40438",
+      "name": "scopename",
+      "text": "范围",
+      "alignment": 16384,
+      "width": 160,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "163c9009744",
+      "name": "totalCost",
+      "text": "累计成本（万元）",
+      "alignment": 131072,
+      "width": 160,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "163c9657747",
+      "name": "periodCost",
+      "text": "期间",
+      "alignment": 131072,
+      "width": 160,
+      "resizeable": true,
+      "columns": []
+    }
+  ],
+  "fields": [],
+  "actions": [],
+  "rowActions": [],
+  "hasTitlebar": true,
+  "displayInputLabelInTitlebar": true,
+  "disableInitLoadData": false
+}

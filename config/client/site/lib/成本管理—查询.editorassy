@@ -1,0 +1,36 @@
+{
+  "id": "/成本管理—查询.editorassy",
+  "name": "成本管理—查询",
+  "layout": [],
+  "type": "editor",
+  "folderId": "163c8e527aa",
+  "fields": [
+    {
+      "id": "163c9c50c77",
+      "name": "新字段2",
+      "type": "行",
+      "formFields": [
+        {
+          "id": "163c9c53095",
+          "name": "date1",
+          "text": "起始月份",
+          "type": "日期时间选择",
+          "formFields": [],
+          "required": true,
+          "dateType": "yearMonth"
+        },
+        {
+          "id": "163c9c5333e",
+          "name": "date2",
+          "text": "中止月份",
+          "type": "日期时间选择",
+          "formFields": [],
+          "required": true,
+          "dateType": "yearMonth"
+        }
+      ]
+    }
+  ],
+  "smallEditor": true,
+  "disableInitLoadData": false
+}

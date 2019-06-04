@@ -1,0 +1,114 @@
+{
+  "id": "/损益类科目.gridassy",
+  "name": "损益类科目",
+  "layout": [],
+  "type": "grid",
+  "stickerTitle": "项目损益科目",
+  "folderId": "162e59b2f46",
+  "gridAutoExpandLevel": -1,
+  "gridLineVisiable": true,
+  "gridHeaderVisiable": true,
+  "gridHasHScroll": true,
+  "gridHasVScroll": true,
+  "gridDataSetService": "com.bizvisionsoft.service.CommonService",
+  "columns": [
+    {
+      "id": "162c73aa337",
+      "name": "id",
+      "text": "科目代码",
+      "alignment": 16384,
+      "width": 80,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "162c73aa432",
+      "name": "name",
+      "text": "科目名称",
+      "alignment": 16384,
+      "width": 160,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "16569835e74",
+      "name": "type",
+      "text": "类型",
+      "alignment": 16384,
+      "width": 80,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "1656b3093fc",
+      "name": "formula",
+      "text": "计算式",
+      "alignment": 16384,
+      "width": 80,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "162c73aa50a",
+      "name": "description",
+      "text": "说明",
+      "alignment": 16384,
+      "width": 240,
+      "resizeable": true,
+      "columns": []
+    }
+  ],
+  "fields": [],
+  "gridAutoColumnWidth": true,
+  "actions": [
+    {
+      "id": "162c73e4687",
+      "name": "创建财务科目",
+      "image": "/img/add_16_w.svg",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.equipment.action.CreateEquipment",
+      "style": "normal",
+      "editorAssemblyId": "/损益类科目编辑器.editorassy",
+      "type": "insert",
+      "createActionNewInstanceBundleId": "com.bizvisionsoft.service",
+      "createActionNewInstanceClassName": "com.bizvisionsoft.service.model.AccountIncome",
+      "verticalSpan": 0
+    }
+  ],
+  "rowActions": [
+    {
+      "id": "162e5ae314f",
+      "name": "添加",
+      "image": "/img/add_16_w.svg",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.account.AddSubAccountACT",
+      "style": "normal",
+      "editorAssemblyId": "/财务科目编辑器.editorassy",
+      "type": "customized",
+      "createActionNewInstanceBundleId": "com.bizvisionsoft.service",
+      "createActionNewInstanceClassName": "com.bizvisionsoft.service.model.AccountItem",
+      "verticalSpan": 0
+    },
+    {
+      "id": "162c73d4502",
+      "name": "编辑",
+      "image": "/img/edit_w.svg",
+      "style": "normal",
+      "editorAssemblyId": "/损益类科目编辑器.editorassy",
+      "editorAssemblyEditable": true,
+      "type": "edit",
+      "verticalSpan": 0
+    },
+    {
+      "id": "162c73d4748",
+      "name": "删除",
+      "image": "/img/minus_16_w.svg",
+      "style": "warning",
+      "type": "delete",
+      "verticalSpan": 0
+    }
+  ],
+  "hasTitlebar": true,
+  "disableInitLoadData": false,
+  "sortFields": []
+}

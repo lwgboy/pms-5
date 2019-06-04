@@ -1,0 +1,10 @@
+{
+  "id": "/输出文件选择器.selectorassy",
+  "name": "输出文件选择器",
+  "layout": [],
+  "type": "selector",
+  "folderId": "1636715acf8",
+  "selectorGridAssemblyId": "/输出文件列表.gridassy",
+  "selectorMultiSelection": true,
+  "disableInitLoadData": false
+}

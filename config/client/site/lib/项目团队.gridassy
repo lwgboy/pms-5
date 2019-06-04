@@ -1,0 +1,90 @@
+{
+  "id": "/项目团队.gridassy",
+  "name": "项目团队",
+  "layout": [],
+  "type": "grid",
+  "stickerTitle": "组织结构",
+  "folderId": "162d7e33b8a",
+  "gridAutoExpandLevel": 2,
+  "gridMarkupEnabled": true,
+  "gridLineVisiable": true,
+  "gridHasHScroll": true,
+  "gridHasVScroll": true,
+  "gridDataSetService": "",
+  "gridDataSetBundleId": "com.bizvisionsoft.pms",
+  "gridDataSetClassName": "com.bizvisionsoft.pms.obs.OBSItemDS",
+  "columns": [
+    {
+      "id": "16475d81ea3",
+      "name": "userName",
+      "text": "姓名",
+      "alignment": 16384,
+      "width": 80,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "16475d82022",
+      "name": "name",
+      "text": "团队名称",
+      "alignment": 16384,
+      "width": 80,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "16475d820da",
+      "name": "roleId",
+      "text": "角色编号",
+      "alignment": 16384,
+      "width": 80,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "16475d82387",
+      "name": "role",
+      "text": "角色名称",
+      "alignment": 16384,
+      "width": 80,
+      "resizeable": true,
+      "columns": []
+    }
+  ],
+  "fields": [
+    {
+      "id": "16475e74b5c",
+      "name": "userName",
+      "text": "姓名",
+      "type": "文本输入框（查询）",
+      "formFields": []
+    },
+    {
+      "id": "16475e74c27",
+      "name": "name",
+      "text": "团队名称",
+      "type": "文本输入框（查询）",
+      "formFields": []
+    },
+    {
+      "id": "16475e74d05",
+      "name": "roleId",
+      "text": "角色编号",
+      "type": "文本输入框（查询）",
+      "formFields": []
+    },
+    {
+      "id": "16475e74eb8",
+      "name": "role",
+      "text": "角色名称",
+      "type": "文本输入框（查询）",
+      "formFields": []
+    }
+  ],
+  "gridAutoColumnWidth": true,
+  "actions": [],
+  "rowActions": [],
+  "hasTitlebar": true,
+  "disableInitLoadData": false,
+  "sortFields": []
+}

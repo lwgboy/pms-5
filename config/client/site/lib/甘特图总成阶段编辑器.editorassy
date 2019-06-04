@@ -1,0 +1,51 @@
+{
+  "id": "/甘特图总成阶段编辑器.editorassy",
+  "name": "甘特图总成阶段编辑器",
+  "title": "阶段",
+  "description": "用于阶段分解后编辑阶段",
+  "layout": [],
+  "type": "editor",
+  "folderId": "162ff4c2ed9",
+  "fields": [
+    {
+      "id": "162b37658a3",
+      "name": "text",
+      "text": "阶段名称",
+      "type": "单行文本框",
+      "formFields": [],
+      "required": true
+    },
+    {
+      "id": "162b3781a49",
+      "name": "start_date",
+      "text": "计划开始",
+      "type": "日期时间选择",
+      "formFields": [],
+      "readOnly": true,
+      "dateType": "datetime"
+    },
+    {
+      "id": "162b3781c3d",
+      "name": "end_date",
+      "text": "计划完成",
+      "type": "日期时间选择",
+      "formFields": [],
+      "readOnly": true,
+      "dateType": "datetime"
+    },
+    {
+      "id": "1631659e850",
+      "name": "charger",
+      "text": "阶段负责",
+      "type": "对象选择框",
+      "formFields": [],
+      "required": true,
+      "selectorAssemblyId": "/项目团队.gridassy"
+    }
+  ],
+  "actions": [],
+  "smallEditor": true,
+  "tinyEditor": false,
+  "addToParentContext": true,
+  "disableInitLoadData": false
+}

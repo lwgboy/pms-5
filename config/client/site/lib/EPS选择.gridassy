@@ -1,0 +1,28 @@
+{
+  "id": "/EPSÑ¡Ôñ.gridassy",
+  "name": "EPSÑ¡Ôñ",
+  "layout": [],
+  "type": "grid",
+  "folderId": "1626f9bc707",
+  "gridAutoExpandLevel": -1,
+  "gridLineVisiable": true,
+  "gridHeaderVisiable": true,
+  "gridHasVScroll": true,
+  "gridDataSetService": "com.bizvisionsoft.service.EPSService",
+  "columns": [
+    {
+      "id": "1628adebf6d",
+      "name": "name",
+      "text": "Ãû³Æ",
+      "alignment": 16384,
+      "width": 300,
+      "resizeable": true,
+      "columns": []
+    }
+  ],
+  "fields": [],
+  "actions": [],
+  "rowActions": [],
+  "disableInitLoadData": false,
+  "sortFields": []
+}

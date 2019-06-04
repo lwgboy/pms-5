@@ -1,0 +1,54 @@
+{
+  "id": "/项目收益预测容器.stickerassy",
+  "name": "项目收益预测容器",
+  "layout": [
+    {
+      "id": "16557efc23c",
+      "name": "默认",
+      "columnCount": 1,
+      "makeColumnsEqualWidth": true,
+      "assemblys": [
+        {
+          "id": "/项目收益预测.assy",
+          "horizontalAlignment": 4,
+          "verticalAlignment": 4,
+          "grabExcessHorizontalSpace": true,
+          "grabExcessVerticalSpace": true,
+          "verticalSpan": 1,
+          "horizontalSpan": 1,
+          "widthHint": -1,
+          "heightHint": -1,
+          "layoutName": ""
+        }
+      ],
+      "carouselInterval": 0
+    }
+  ],
+  "type": "sticker",
+  "stickerTitle": "项目收益预测（人名币万元）",
+  "folderId": "165564b4b38",
+  "actions": [
+    {
+      "id": "1655aa6ac7e",
+      "name": "选择预测类型",
+      "text": "选择预测类型",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.revenue.SelectForecastTypeACT",
+      "forceText": true,
+      "style": "info",
+      "type": "customized",
+      "verticalSpan": 0
+    },
+    {
+      "id": "1655b0a6e6c",
+      "name": "添加时间周期",
+      "image": "/img/add_16_w.svg",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.revenue.AddForecastPeriodACT",
+      "style": "normal",
+      "type": "customized",
+      "verticalSpan": 0
+    }
+  ],
+  "disableInitLoadData": false
+}

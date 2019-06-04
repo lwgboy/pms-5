@@ -1,0 +1,56 @@
+{
+  "id": "/编辑工作包-采购.editorassy",
+  "name": "编辑工作包-采购",
+  "title": "工作包交付要求",
+  "layout": [],
+  "type": "editor",
+  "folderId": "1638c40accd",
+  "fields": [
+    {
+      "id": "1636c464925",
+      "name": "matId",
+      "text": "物料编号",
+      "type": "单行文本框",
+      "formFields": [],
+      "required": true
+    },
+    {
+      "id": "1636cd4d4c0",
+      "name": "matDesc",
+      "text": "物料描述",
+      "type": "单行文本框",
+      "formFields": [],
+      "required": true
+    },
+    {
+      "id": "1636cd4d759",
+      "name": "planQty",
+      "text": "计划数量",
+      "type": "单行文本框",
+      "formFields": [],
+      "required": true,
+      "textRestrict": "浮点"
+    },
+    {
+      "id": "1636cd4d6c1",
+      "name": "unit",
+      "text": "单位",
+      "type": "下拉选择框",
+      "formFields": [],
+      "required": true,
+      "optionText": "件#套"
+    },
+    {
+      "id": "1636c469227",
+      "name": "charger",
+      "text": "负责人",
+      "type": "对象选择框",
+      "formFields": [],
+      "selectorAssemblyId": "/用户选择列表.gridassy"
+    }
+  ],
+  "actions": [],
+  "smallEditor": true,
+  "tinyEditor": true,
+  "disableInitLoadData": false
+}

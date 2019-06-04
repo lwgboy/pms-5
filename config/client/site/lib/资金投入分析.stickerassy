@@ -1,0 +1,59 @@
+{
+  "id": "/资金投入分析.stickerassy",
+  "name": "资金投入分析",
+  "layout": [
+    {
+      "id": "163d955bad3",
+      "name": "默认",
+      "columnCount": 1,
+      "horizontalSpacing": 16,
+      "verticalSpacing": 16,
+      "makeColumnsEqualWidth": true,
+      "marginHeight": 16,
+      "marginWidth": 16,
+      "assemblys": [
+        {
+          "id": "/资金投入分析组件.assy",
+          "horizontalAlignment": 4,
+          "verticalAlignment": 4,
+          "grabExcessHorizontalSpace": true,
+          "grabExcessVerticalSpace": true,
+          "verticalSpan": 1,
+          "horizontalSpan": 1,
+          "widthHint": -1,
+          "heightHint": -1,
+          "layoutName": "资金投入分析组件"
+        }
+      ],
+      "carouselInterval": 0
+    }
+  ],
+  "type": "sticker",
+  "stickerTitle": "资金投入分析",
+  "folderId": "163eac3f1ac",
+  "actions": [
+    {
+      "id": "163d9659547",
+      "name": "期间",
+      "text": "期间",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.investment.SearchMonthCostIAYearACT",
+      "forceText": true,
+      "style": "info",
+      "type": "customized",
+      "verticalSpan": 0
+    },
+    {
+      "id": "16411ff5ab4",
+      "name": "范围",
+      "text": "范围",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.investment.SearchMonthCostIAProjectACT",
+      "forceText": true,
+      "style": "info",
+      "type": "customized",
+      "verticalSpan": 0
+    }
+  ],
+  "disableInitLoadData": false
+}

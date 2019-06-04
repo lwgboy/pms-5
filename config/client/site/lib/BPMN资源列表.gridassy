@@ -1,0 +1,153 @@
+{
+  "id": "/BPMN资源列表.gridassy",
+  "name": "BPMN资源列表",
+  "layout": [],
+  "type": "grid",
+  "folderId": "16a38adcbc2",
+  "gridLineVisiable": true,
+  "gridHeaderVisiable": true,
+  "gridHasHScroll": true,
+  "gridHasVScroll": true,
+  "gridPageControl": true,
+  "gridDataSetService": "com.bizvisionsoft.service.BPMService",
+  "columns": [
+    {
+      "id": "16a0b9d775c",
+      "name": "id",
+      "text": "流程Id",
+      "alignment": 16384,
+      "width": 120,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "16a0ba83aa2",
+      "name": "name",
+      "text": "名称",
+      "alignment": 16384,
+      "width": 120,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "16a0ba7daaa",
+      "name": "packageName",
+      "text": "包名",
+      "alignment": 16384,
+      "width": 120,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "16a0ba80a80",
+      "name": "namespace",
+      "text": "名称空间",
+      "alignment": 16384,
+      "width": 120,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "16a0be47b65",
+      "name": "version",
+      "text": "版本",
+      "alignment": 16384,
+      "width": 60,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "16a0be47cad",
+      "name": "knowledgeType",
+      "text": "知识类型",
+      "alignment": 16384,
+      "width": 80,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "16a0be47ddb",
+      "name": "type",
+      "text": "类别",
+      "alignment": 16384,
+      "width": 80,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "16a0be47ed5",
+      "name": "resource.sourcePath",
+      "text": "资源源路径",
+      "alignment": 16384,
+      "width": 160,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "16a0be651fe",
+      "name": "resource.targetPath",
+      "text": "资源目标路径",
+      "alignment": 16384,
+      "width": 160,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "16a0be68bc0",
+      "name": "resource.resourceType",
+      "text": "资源类型",
+      "alignment": 16384,
+      "width": 160,
+      "resizeable": true,
+      "columns": []
+    }
+  ],
+  "fields": [
+    {
+      "id": "16a5c6d9237",
+      "name": "id",
+      "text": "流程Id",
+      "type": "文本输入框（查询）",
+      "formFields": []
+    },
+    {
+      "id": "16a5c6d943b",
+      "name": "name",
+      "text": "名称",
+      "type": "文本输入框（查询）",
+      "formFields": []
+    },
+    {
+      "id": "16a5c6d94f1",
+      "name": "packageName",
+      "text": "包名",
+      "type": "文本输入框（查询）",
+      "formFields": []
+    },
+    {
+      "id": "16a5c6d959b",
+      "name": "namespace",
+      "text": "名称空间",
+      "type": "文本输入框（查询）",
+      "formFields": []
+    },
+    {
+      "id": "16a5c6d9630",
+      "name": "knowledgeType",
+      "text": "知识类型",
+      "type": "文本输入框（查询）",
+      "formFields": []
+    },
+    {
+      "id": "16a5c6f5c32",
+      "name": "type",
+      "text": "类别",
+      "type": "文本输入框（查询）",
+      "formFields": []
+    }
+  ],
+  "actions": [],
+  "rowActions": [],
+  "disableInitLoadData": false,
+  "sortFields": []
+}

@@ -1,0 +1,10 @@
+{
+  "id": "/项目资源计划用量对比.chartassy",
+  "name": "项目资源计划用量对比",
+  "layout": [],
+  "type": "chart",
+  "folderId": "163b6fe6dac",
+  "gridDataSetService": "com.bizvisionsoft.service.WorkService",
+  "actions": [],
+  "disableInitLoadData": false
+}

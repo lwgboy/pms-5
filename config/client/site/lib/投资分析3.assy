@@ -1,0 +1,11 @@
+{
+  "id": "/投资分析3.assy",
+  "name": "投资分析3",
+  "bundleId": "com.bizvisionsoft.pms",
+  "className": "com.bizvisionsoft.pms.cost.PeriodCostCompositionAnalysisASM",
+  "layout": [],
+  "folderId": "163eac3f1ac",
+  "actions": [],
+  "rowActions": [],
+  "disableInitLoadData": false
+}

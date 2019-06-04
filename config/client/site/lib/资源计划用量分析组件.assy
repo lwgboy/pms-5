@@ -1,0 +1,12 @@
+{
+  "id": "/资源计划用量分析组件.assy",
+  "name": "资源计划用量分析组件",
+  "bundleId": "com.bizvisionsoft.pms",
+  "className": "com.bizvisionsoft.pms.resource.ResourcePlanAnalysisASM",
+  "layout": [],
+  "folderId": "16426806eaf",
+  "actions": [],
+  "rowActions": [],
+  "disableInitLoadData": false,
+  "parameters": "{\"type\":\"plan\"}"
+}

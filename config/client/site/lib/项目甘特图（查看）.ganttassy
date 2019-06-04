@@ -1,0 +1,102 @@
+{
+  "id": "/项目甘特图（查看）.ganttassy",
+  "name": "项目甘特图（查看）",
+  "title": "进度计划甘特图",
+  "description": "用于收尾和关闭状态的项目和阶段",
+  "layout": [],
+  "type": "gantt",
+  "stickerTitle": "进度计划",
+  "folderId": "1631b7e24e7",
+  "gridDataSetService": "",
+  "gridDataSetBundleId": "com.bizvisionsoft.pms",
+  "gridDataSetClassName": "com.bizvisionsoft.pms.project.dataset.ReadonlyGantt",
+  "columns": [
+    {
+      "id": "1628f30623d",
+      "name": "text",
+      "text": "名称",
+      "alignment": 16384,
+      "width": 240,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "165f225b213",
+      "name": "wbs",
+      "text": "WBS",
+      "alignment": 16384,
+      "width": 60,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "1652f3b454f",
+      "name": "chargerInfo",
+      "text": "负责",
+      "alignment": 16777216,
+      "width": 64,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "1628f3062e6",
+      "name": "start_date",
+      "text": "开始",
+      "alignment": 16384,
+      "width": 96,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "1628f306399",
+      "name": "end_date",
+      "text": "完成",
+      "alignment": 16384,
+      "width": 96,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "1628f306450",
+      "name": "duration",
+      "text": "工期",
+      "alignment": 16384,
+      "width": 40,
+      "resizeable": true,
+      "columns": []
+    }
+  ],
+  "actions": [
+    {
+      "id": "163620bdec1",
+      "name": "关键路径",
+      "text": "关键路径",
+      "image": "/img/path_w.svg",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.work.gantt.action.DisplayCriticalPath",
+      "style": "info",
+      "type": "customized",
+      "verticalSpan": 0
+    },
+    {
+      "id": "163620be9c2",
+      "name": "时间刻度",
+      "text": "时间刻度",
+      "image": "/img/scale_w.svg",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.work.gantt.action.TimeScaleSetting",
+      "style": "info",
+      "type": "customized",
+      "verticalSpan": 0
+    }
+  ],
+  "rowActions": [],
+  "readonly": true,
+  "ganttTimeScaleType": "year-month-week",
+  "ganttGridWidthCalculate": true,
+  "eventHandlerBundleId": "",
+  "eventHandlerClassName": "",
+  "headActions": [],
+  "hasTitlebar": true,
+  "disableInitLoadData": false
+}

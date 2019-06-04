@@ -1,0 +1,27 @@
+{
+  "id": "/项目文件夹选择列表.gridassy",
+  "name": "项目文件夹选择列表",
+  "layout": [],
+  "type": "grid",
+  "folderId": "163dac10775",
+  "gridAutoExpandLevel": 2,
+  "gridMarkupEnabled": true,
+  "gridHasVScroll": true,
+  "gridDataSetService": "com.bizvisionsoft.service.DocumentService",
+  "columns": [
+    {
+      "id": "163dad257be",
+      "name": "folderName",
+      "text": "",
+      "alignment": 16384,
+      "width": 80,
+      "resizeable": true,
+      "columns": []
+    }
+  ],
+  "fields": [],
+  "gridAutoColumnWidth": true,
+  "actions": [],
+  "rowActions": [],
+  "disableInitLoadData": false
+}

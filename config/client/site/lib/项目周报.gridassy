@@ -1,0 +1,106 @@
+{
+  "id": "/项目周报.gridassy",
+  "name": "项目周报",
+  "layout": [],
+  "type": "grid",
+  "stickerTitle": "项目周报",
+  "folderId": "16401bb3bf7",
+  "gridAutoExpandLevel": -1,
+  "gridMarkupEnabled": true,
+  "gridLineVisiable": true,
+  "gridHeaderVisiable": true,
+  "gridHasHScroll": true,
+  "gridHasVScroll": true,
+  "gridPageControl": true,
+  "gridDataSetService": "com.bizvisionsoft.service.WorkReportService",
+  "gridDataSetBundleId": "",
+  "gridDataSetClassName": "",
+  "columns": [
+    {
+      "id": "163f29425a0",
+      "name": "period",
+      "text": "周期",
+      "alignment": 16777216,
+      "width": 140,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "163f297ccad",
+      "name": "stageName",
+      "text": "阶段",
+      "alignment": 16777216,
+      "width": 120,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "163f297cd82",
+      "name": "reporterInfoHtml",
+      "text": "报告人",
+      "alignment": 16384,
+      "width": 120,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "163f297ce3f",
+      "name": "reportDate",
+      "text": "报告时间",
+      "alignment": 16777216,
+      "width": 100,
+      "resizeable": true,
+      "columns": [],
+      "format": "yyyy-MM-dd"
+    },
+    {
+      "id": "163f298cb4c",
+      "name": "submitDate",
+      "text": "提交时间",
+      "alignment": 16777216,
+      "width": 100,
+      "resizeable": true,
+      "columns": [],
+      "format": "yyyy-MM-dd"
+    },
+    {
+      "id": "163f298c883",
+      "name": "verifierInfo",
+      "text": "确认人",
+      "alignment": 16384,
+      "width": 120,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "163f2990178",
+      "name": "verifyDate",
+      "text": "确认时间",
+      "alignment": 16777216,
+      "width": 100,
+      "resizeable": true,
+      "columns": [],
+      "format": "yyyy-MM-dd"
+    }
+  ],
+  "fields": [],
+  "actions": [],
+  "rowActions": [
+    {
+      "id": "163f2dc8560",
+      "name": "打开周报",
+      "text": "打开周报",
+      "image": "/img/right.svg",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.workreport.OpenWorkReportACT",
+      "openContent": true,
+      "style": "",
+      "editorAssemblyId": "163f2d9d844",
+      "editorAssemblyEditable": true,
+      "type": "customized",
+      "verticalSpan": 0
+    }
+  ],
+  "hasTitlebar": true,
+  "disableInitLoadData": false
+}

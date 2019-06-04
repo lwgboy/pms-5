@@ -1,0 +1,119 @@
+{
+  "id": "/报告-工作.gridassy",
+  "name": "报告-工作",
+  "layout": [],
+  "type": "grid",
+  "stickerTitle": "工作内容",
+  "folderId": "163f7ee85bf",
+  "gridCustomItemHeight": 120,
+  "gridMarkupEnabled": true,
+  "gridLineVisiable": true,
+  "gridHeaderVisiable": true,
+  "gridHasVScroll": true,
+  "gridRenderBundleId": "com.bizvisionsoft.pms",
+  "gridRenderClassName": "com.bizvisionsoft.pms.workreport.ReportItemRender",
+  "gridDataSetService": "com.bizvisionsoft.service.WorkReportService",
+  "gridDataSetBundleId": "",
+  "gridDataSetClassName": "",
+  "columns": [
+    {
+      "id": "16362575571",
+      "name": "reportWorkPlan",
+      "text": "工作计划",
+      "alignment": 16384,
+      "width": 320,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "163fa5bbd25",
+      "name": "reportWorkStatement",
+      "text": "完成情况",
+      "alignment": 16384,
+      "width": 320,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "163fa5c2fc6",
+      "name": "reportProblems",
+      "text": "存在问题",
+      "alignment": 16384,
+      "width": 320,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "163fa5c954d",
+      "name": "reportPMRemark",
+      "text": "项目经理批注",
+      "alignment": 16384,
+      "width": 320,
+      "resizeable": true,
+      "columns": []
+    }
+  ],
+  "fields": [
+    {
+      "id": "163668a4b2e",
+      "name": "projectName",
+      "text": "项目名称",
+      "type": "文本输入框（查询）",
+      "formFields": []
+    },
+    {
+      "id": "163668a4d3b",
+      "name": "projectNumber",
+      "text": "项目编号",
+      "type": "文本输入框（查询）",
+      "formFields": []
+    },
+    {
+      "id": "163668a4e6a",
+      "name": "fullName",
+      "text": "工作名称",
+      "type": "文本输入框（查询）",
+      "formFields": []
+    },
+    {
+      "id": "163668a4f44",
+      "name": "planStart",
+      "text": "计划开始",
+      "type": "日期时间范围（查询）",
+      "formFields": [],
+      "dateType": "date"
+    },
+    {
+      "id": "163668a4ff4",
+      "name": "planFinish",
+      "text": "计划完成",
+      "type": "日期时间范围（查询）",
+      "formFields": [],
+      "dateType": "date"
+    },
+    {
+      "id": "163668a50f0",
+      "name": "overdue",
+      "text": "超期预警",
+      "type": "下拉选择框（查询）",
+      "formFields": [],
+      "optionText": "已超期#预警"
+    },
+    {
+      "id": "163668a518a",
+      "name": "manageLevel",
+      "text": "管理级别",
+      "type": "下拉选择框（查询）",
+      "formFields": [],
+      "optionText": "1#2#3"
+    }
+  ],
+  "gridAutoColumnWidth": true,
+  "actions": [],
+  "rowActions": [],
+  "hasTitlebar": true,
+  "disableInitLoadData": false,
+  "disableStandardExport": true,
+  "disableCustomized": true,
+  "disableStdQuery": true
+}

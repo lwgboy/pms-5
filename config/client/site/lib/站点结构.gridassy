@@ -1,0 +1,95 @@
+{
+  "id": "/站点结构.gridassy",
+  "name": "站点结构",
+  "layout": [],
+  "type": "grid",
+  "stickerTitle": "站点结构",
+  "folderId": "162c97e7531",
+  "gridAutoExpandLevel": 2,
+  "gridLineVisiable": true,
+  "gridHeaderVisiable": true,
+  "gridHasHScroll": true,
+  "gridHasVScroll": true,
+  "gridDataSetService": "",
+  "gridDataSetBundleId": "com.bizvisionsoft.onlinedesigner",
+  "gridDataSetClassName": "com.bizvisionsoft.onlinedesigner.SiteService",
+  "columns": [
+    {
+      "id": "162c9b54322",
+      "name": "_elementType",
+      "text": "类型",
+      "alignment": 16384,
+      "width": 80,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "162c9ac6685",
+      "name": "name",
+      "text": "名称",
+      "alignment": 16384,
+      "width": 160,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "162c9ac67a0",
+      "name": "title",
+      "text": "标题",
+      "alignment": 16384,
+      "width": 240,
+      "resizeable": true,
+      "columns": []
+    }
+  ],
+  "fields": [],
+  "gridAutoColumnWidth": true,
+  "actions": [
+    {
+      "id": "16631871b8f",
+      "name": "导出",
+      "text": "导出",
+      "forceText": true,
+      "style": "normal",
+      "type": "export",
+      "verticalSpan": 0
+    }
+  ],
+  "rowActions": [
+    {
+      "id": "162c9dd1016",
+      "name": "添加",
+      "image": "/img/add_16_w.svg",
+      "bundleId": "com.bizvisionsoft.onlinedesigner",
+      "className": "com.bizvisionsoft.onlinedesigner.actions.AddSiteElement",
+      "style": "normal",
+      "objectBehavier": true,
+      "type": "customized",
+      "verticalSpan": 0
+    },
+    {
+      "id": "162c9e8b99e",
+      "name": "编辑",
+      "image": "/img/edit_w.svg",
+      "bundleId": "com.bizvisionsoft.onlinedesigner",
+      "className": "com.bizvisionsoft.onlinedesigner.actions.EditSiteElement",
+      "style": "normal",
+      "objectBehavier": true,
+      "type": "customized",
+      "verticalSpan": 0
+    },
+    {
+      "id": "162c9e04731",
+      "name": "删除",
+      "image": "/img/minus_16_w.svg",
+      "bundleId": "com.bizvisionsoft.onlinedesigner",
+      "className": "com.bizvisionsoft.onlinedesigner.actions.RemoveSiteElement",
+      "style": "warning",
+      "objectBehavier": true,
+      "type": "customized",
+      "verticalSpan": 0
+    }
+  ],
+  "hasTitlebar": true,
+  "disableInitLoadData": false
+}

@@ -1,0 +1,43 @@
+{
+  "id": "/角色编辑器.editorassy",
+  "name": "角色编辑器",
+  "title": "角色",
+  "layout": [],
+  "type": "editor",
+  "folderId": "162bd9c7da4",
+  "fields": [
+    {
+      "id": "162f0b0dc06",
+      "name": "新字段10",
+      "type": "行",
+      "formFields": [
+        {
+          "id": "162c12b5694",
+          "name": "id",
+          "text": "编号",
+          "type": "单行文本框",
+          "formFields": [],
+          "required": true
+        },
+        {
+          "id": "162c12b5730",
+          "name": "name",
+          "text": "名称",
+          "type": "单行文本框",
+          "formFields": [],
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "162c12b5866",
+      "name": "description",
+      "text": "说明",
+      "type": "单行文本框",
+      "formFields": []
+    }
+  ],
+  "actions": [],
+  "smallEditor": true,
+  "disableInitLoadData": false
+}

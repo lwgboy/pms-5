@@ -1,0 +1,52 @@
+{
+  "id": "/项目变更编辑器.editorassy",
+  "name": "项目变更编辑器",
+  "title": "变更申请",
+  "layout": [],
+  "type": "editor",
+  "folderId": "16441e49ba4",
+  "gridRenderBundleId": "",
+  "gridRenderClassName": "",
+  "fields": [
+    {
+      "id": "1643fb8d4d7",
+      "name": "projectSituation",
+      "text": "项目现状",
+      "type": "标签页（文本编辑）",
+      "formFields": [],
+      "required": true
+    },
+    {
+      "id": "1643fb8d73f",
+      "name": "reason",
+      "text": "申请调整原因",
+      "type": "标签页（文本编辑）",
+      "formFields": [],
+      "required": true
+    },
+    {
+      "id": "164454938ed",
+      "name": "requirement",
+      "text": "进度要求",
+      "type": "标签页（文本编辑）",
+      "formFields": [],
+      "required": true
+    },
+    {
+      "id": "16445493adb",
+      "name": "achievements",
+      "text": "成果形式及数量",
+      "type": "标签页（文本编辑）",
+      "formFields": []
+    },
+    {
+      "id": "16445493b8b",
+      "name": "questionProcessing",
+      "text": "问题处理",
+      "type": "标签页（文本编辑）",
+      "formFields": []
+    }
+  ],
+  "smallEditor": true,
+  "disableInitLoadData": false
+}

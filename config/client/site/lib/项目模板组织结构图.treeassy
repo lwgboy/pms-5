@@ -1,0 +1,78 @@
+{
+  "id": "/项目模板组织结构图.treeassy",
+  "name": "项目模板组织结构图",
+  "layout": [],
+  "type": "tree",
+  "stickerTitle": "组织结构模板",
+  "folderId": "163cd3e0d4c",
+  "gridDataSetService": "com.bizvisionsoft.service.ProjectTemplateService",
+  "actions": [
+    {
+      "id": "166757737ac",
+      "name": "另存组织模板",
+      "text": "另存组织模板",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.projecttemplate.SaveAsOBSModuleACT",
+      "forceText": true,
+      "style": "normal",
+      "type": "customized",
+      "verticalSpan": 0
+    }
+  ],
+  "rowActions": [
+    {
+      "id": "162e1f767ff",
+      "name": "添加角色",
+      "text": "添加角色",
+      "image": "/img/add_16_w.svg",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.projecttemplate.CreateOBSRoleItemACT",
+      "forceText": true,
+      "style": "normal",
+      "objectBehavier": true,
+      "type": "customized",
+      "verticalSpan": 0
+    },
+    {
+      "id": "162e1f7e309",
+      "name": "创建团队",
+      "text": "创建团队",
+      "image": "/img/team_w.svg",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.projecttemplate.CreateOBSTeamItemACT",
+      "forceText": true,
+      "style": "normal",
+      "objectBehavier": true,
+      "type": "customized",
+      "verticalSpan": 0
+    },
+    {
+      "id": "162e1f7e84d",
+      "name": "编辑",
+      "text": "编辑",
+      "image": "/img/edit_w.svg",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.projecttemplate.EditOBSItemACT",
+      "forceText": true,
+      "style": "normal",
+      "objectBehavier": true,
+      "type": "customized",
+      "verticalSpan": 0
+    },
+    {
+      "id": "162e1f7edd5",
+      "name": "删除",
+      "text": "删除",
+      "image": "/img/minus_w.svg",
+      "bundleId": "",
+      "className": "",
+      "forceText": true,
+      "style": "warning",
+      "objectBehavier": true,
+      "type": "delete",
+      "verticalSpan": 0
+    }
+  ],
+  "hasTitlebar": true,
+  "disableInitLoadData": false
+}

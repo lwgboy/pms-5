@@ -1,0 +1,126 @@
+{
+  "id": "/项目模板WBS.gridassy",
+  "name": "项目模板WBS",
+  "description": "",
+  "layout": [],
+  "type": "grid",
+  "stickerTitle": "WBS模板",
+  "folderId": "163cd3feba0",
+  "gridAutoExpandLevel": 2,
+  "gridMarkupEnabled": true,
+  "gridLineVisiable": true,
+  "gridHeaderVisiable": true,
+  "gridHasHScroll": true,
+  "gridHasVScroll": true,
+  "gridFix": 2,
+  "gridDataSetService": "com.bizvisionsoft.service.ProjectTemplateService",
+  "gridDataSetBundleId": "",
+  "gridDataSetClassName": "",
+  "columns": [
+    {
+      "id": "1631b8413df",
+      "name": "text",
+      "text": "工作名称",
+      "alignment": 16384,
+      "width": 320,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "163caf92bfa",
+      "name": "wbsCode",
+      "text": "WBS",
+      "alignment": 16384,
+      "width": 72,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "163ca562ee3",
+      "name": "milestoneIcon",
+      "text": "里程碑",
+      "alignment": 16384,
+      "width": 64,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "163ca56a1cd",
+      "name": "manageLevelHtml",
+      "text": "级别",
+      "alignment": 16777216,
+      "width": 48,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "1631b8556a6",
+      "name": "planDuration",
+      "text": "工期",
+      "alignment": 131072,
+      "width": 64,
+      "resizeable": true,
+      "detail": true,
+      "columns": []
+    },
+    {
+      "id": "164eb2badb2",
+      "name": "chargerRole",
+      "text": "负责人角色",
+      "alignment": 16384,
+      "width": 180,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "1631b85c485",
+      "name": "planWorks",
+      "text": "工时",
+      "alignment": 131072,
+      "width": 64,
+      "resizeable": true,
+      "detail": true,
+      "columns": []
+    },
+    {
+      "id": "163ca514151",
+      "name": "wpsText",
+      "text": "工作包的类型",
+      "alignment": 16384,
+      "width": 540,
+      "resizeable": true,
+      "columns": []
+    }
+  ],
+  "fields": [],
+  "actions": [],
+  "rowActions": [
+    {
+      "id": "1638c11bccd",
+      "name": "设定工作包类型",
+      "text": "类型",
+      "image": "",
+      "style": "",
+      "editorAssemblyId": "/工作属性编辑器.editorassy",
+      "editorAssemblyEditable": true,
+      "objectBehavier": true,
+      "type": "edit",
+      "verticalSpan": 0
+    },
+    {
+      "id": "163d2e1f742",
+      "name": "工作包",
+      "text": "工作包",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.work.action.OpenWorkPackage",
+      "style": "",
+      "objectBehavier": true,
+      "type": "customized",
+      "verticalSpan": 0
+    }
+  ],
+  "queryBuilderClass": "",
+  "hasTitlebar": true,
+  "disableInitLoadData": false,
+  "sortFields": []
+}

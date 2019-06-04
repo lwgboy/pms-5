@@ -1,0 +1,111 @@
+{
+  "id": "/D4-根本原因描述-编辑器.editorassy",
+  "name": "D4-根本原因描述-编辑器",
+  "title": "验证和确认根本原因",
+  "layout": [],
+  "type": "editor",
+  "folderId": "1689872b96f",
+  "fields": [
+    {
+      "id": "16809ae53c5",
+      "name": "根本原因",
+      "type": "标签页",
+      "formFields": [
+        {
+          "id": "167ed6ff14b",
+          "name": "rootCauseDesc",
+          "text": "根本原因",
+          "type": "多行文本框",
+          "verticalLabel": false,
+          "formFields": [],
+          "textMessage": "什么问题？/当前状况是什么？",
+          "required": true,
+          "hideLabel": false,
+          "verticalAlignLabel": true
+        },
+        {
+          "id": "16a96ca9963",
+          "name": "rootCauseAtt",
+          "text": "根本原因附件",
+          "type": "多个文件选择框",
+          "formFields": [],
+          "fileNamespace": "prmAtt",
+          "verticalAlignLabel": true
+        },
+        {
+          "id": "1680938a34c",
+          "name": "escapePoint",
+          "text": "问题逃出点",
+          "type": "多行文本框",
+          "formFields": [],
+          "required": true,
+          "verticalAlignLabel": true
+        },
+        {
+          "id": "16a96caa2fd",
+          "name": "escapePointAtt",
+          "text": "问题逃出点附件",
+          "type": "多个文件选择框",
+          "formFields": [],
+          "fileNamespace": "prmAtt",
+          "verticalAlignLabel": true
+        },
+        {
+          "id": "16809a7ede1",
+          "name": "evidenceFile",
+          "text": "验证证据",
+          "type": "多个文件选择框",
+          "formFields": [],
+          "fileNamespace": "prmAtt",
+          "verticalAlignLabel": true
+        },
+        {
+          "id": "1687e42f939",
+          "name": "新字段13",
+          "type": "行",
+          "formFields": [
+            {
+              "id": "16809ffd53c",
+              "name": "charger",
+              "text": "负责人",
+              "type": "对象选择框",
+              "formFields": [],
+              "required": true,
+              "selectorAssemblyId": "/tops/用户选择列表.gridassy",
+              "valueFieldName": "userId"
+            },
+            {
+              "id": "1680a02f81b",
+              "name": "date",
+              "text": "日期",
+              "type": "日期时间选择",
+              "formFields": [],
+              "required": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "16809aefca9",
+      "name": "evidenceData",
+      "text": "验证记录",
+      "type": "标签页（HTML编辑）",
+      "formFields": []
+    }
+  ],
+  "actions": [
+    {
+      "id": "16a9f4a1c1a",
+      "name": "读取问题分析",
+      "text": "读取问题分析",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.problem.action.LoadCauseAnalysis",
+      "style": "info",
+      "type": "customized"
+    }
+  ],
+  "smallEditor": true,
+  "tinyEditor": false,
+  "addToParentContext": true
+}

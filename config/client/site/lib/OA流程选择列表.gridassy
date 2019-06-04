@@ -1,0 +1,109 @@
+{
+  "id": "/OA流程选择列表.gridassy",
+  "name": "OA流程选择列表",
+  "description": "OA流程选择列表",
+  "layout": [],
+  "type": "grid",
+  "folderId": "165add7bd87",
+  "gridLineVisiable": true,
+  "gridHeaderVisiable": true,
+  "gridHasHScroll": true,
+  "gridDataSetBundleId": "com.awesometech.leoco",
+  "gridDataSetClassName": "com.awesometech.leoco.ds.OADataset",
+  "columns": [
+    {
+      "id": "165ae2b5484",
+      "name": "INST_ID",
+      "text": "流程编号",
+      "alignment": 16384,
+      "width": 80,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "165ae2b5543",
+      "name": "TYPE_NAME",
+      "text": "流程类型",
+      "alignment": 16384,
+      "width": 80,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "165ae2b55f6",
+      "name": "WF_NAME",
+      "text": "流程名",
+      "alignment": 16384,
+      "width": 80,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "165ae2b5758",
+      "name": "INST_NAME",
+      "text": "流程实例名",
+      "alignment": 16384,
+      "width": 80,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "165ae2c5861",
+      "name": "STATUS",
+      "text": "状态",
+      "alignment": 16384,
+      "width": 80,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "165ae2c8d24",
+      "name": "CREATE_DATE",
+      "text": "创建时间",
+      "alignment": 16384,
+      "width": 80,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "165ae2cc404",
+      "name": "CREATER",
+      "text": "创建人",
+      "alignment": 16384,
+      "width": 80,
+      "resizeable": true,
+      "columns": []
+    }
+  ],
+  "fields": [
+    {
+      "id": "165ae2d2ace",
+      "name": "查询条件",
+      "text": "查询条件",
+      "type": "标签页",
+      "formFields": [
+        {
+          "id": "165ae2dce65",
+          "name": "INST_ID",
+          "text": "流程编号",
+          "type": "文本输入框（查询）",
+          "formFields": [],
+          "textQueryType": "字符串"
+        },
+        {
+          "id": "165ae2dd281",
+          "name": "TYPE_NAME",
+          "text": "流程类型",
+          "type": "下拉选择框（查询）",
+          "formFields": [],
+          "tooltips": "",
+          "optionText": "系统默认工作流#日常工作#总结和计划#通知#费用相关#服务支持#人事管理#资产管理#公文管理#合同管理#考勤相关#文档审批#报表填报#HR流程#培训流程#业务流程#采购流程#PM流程#生产流程#品保流程#货仓流程#工程流程#生管流程#财务流程#资讯流程#管理课流程",
+          "textQueryType": "字符串"
+        }
+      ]
+    }
+  ],
+  "actions": [],
+  "rowActions": [],
+  "disableInitLoadData": false
+}

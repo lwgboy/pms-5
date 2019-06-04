@@ -1,0 +1,222 @@
+{
+  "id": "/我参与的项目看板（未关闭）.boardassy",
+  "name": "我参与的项目看板（未关闭）",
+  "description": "当前用户参与的项目",
+  "layout": [],
+  "type": "board",
+  "stickerTitle": "我的项目",
+  "folderId": "166bdf4dc3f",
+  "gridAutoHeight": true,
+  "gridDataSetService": "com.bizvisionsoft.service.ProjectService",
+  "gridPageCount": 8,
+  "columns": [],
+  "fields": [
+    {
+      "id": "1671533717b",
+      "name": "id",
+      "text": "项目编号",
+      "type": "文本输入框（查询）",
+      "formFields": []
+    },
+    {
+      "id": "1671533465a",
+      "name": "新字段1",
+      "type": "行",
+      "formFields": [
+        {
+          "id": "16715335d0f",
+          "name": "name",
+          "text": "项目名称",
+          "type": "文本输入框（查询）",
+          "formFields": []
+        },
+        {
+          "id": "16715335e38",
+          "name": "classfication",
+          "text": "项目等级",
+          "type": "下拉选择框（查询）",
+          "formFields": [],
+          "optionText": "A#B#C"
+        }
+      ]
+    },
+    {
+      "id": "167153347b5",
+      "name": "新字段3",
+      "type": "行",
+      "formFields": [
+        {
+          "id": "167153377c9",
+          "name": "eps_id",
+          "text": "EPS",
+          "type": "对象选择（查询）",
+          "formFields": [],
+          "selectorAssemblyId": "/EPS选择.gridassy",
+          "valueFieldName": "_id"
+        },
+        {
+          "id": "16715337860",
+          "name": "program_id",
+          "text": "项目集",
+          "type": "对象选择（查询）",
+          "formFields": [],
+          "selectorAssemblyId": "/项目集选择列表.gridassy",
+          "valueFieldName": "_id"
+        }
+      ]
+    },
+    {
+      "id": "1671533485d",
+      "name": "新字段4",
+      "type": "行",
+      "formFields": [
+        {
+          "id": "16715337c8d",
+          "name": "status",
+          "text": "状态",
+          "type": "下拉选择框（查询）",
+          "formFields": [],
+          "optionText": "已创建#进行中#收尾中#已关闭#已暂停#已中止"
+        },
+        {
+          "id": "16715337cff",
+          "name": "stage",
+          "text": "当前阶段",
+          "type": "文本输入框（查询）",
+          "formFields": []
+        }
+      ]
+    },
+    {
+      "id": "167153349ba",
+      "name": "新字段5",
+      "type": "行",
+      "formFields": [
+        {
+          "id": "16715338107",
+          "name": "planStart",
+          "text": "计划开始",
+          "type": "日期时间范围（查询）",
+          "formFields": [],
+          "dateType": "date"
+        },
+        {
+          "id": "167153381cf",
+          "name": "planFinish",
+          "text": "计划完成",
+          "type": "日期时间范围（查询）",
+          "formFields": [],
+          "dateType": "date"
+        }
+      ]
+    },
+    {
+      "id": "16715334ebd",
+      "name": "新字段6",
+      "type": "行",
+      "formFields": [
+        {
+          "id": "16715338713",
+          "name": "pmInfo",
+          "text": "项目经理",
+          "type": "文本输入框（查询）",
+          "formFields": []
+        },
+        {
+          "id": "167153387bf",
+          "name": "impUnitOrgFullName",
+          "text": "责任单位",
+          "type": "文本输入框（查询）",
+          "formFields": []
+        }
+      ]
+    }
+  ],
+  "actions": [
+    {
+      "id": "167153c2173",
+      "name": "filter",
+      "tooltips": "过滤在所选日期以前计划开始的项目",
+      "image": "/img/calendar_w.svg",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.work.action.FilterWork",
+      "style": "info",
+      "type": "customized",
+      "parameters": "{\"filterType\":\"计划开始\"}"
+    },
+    {
+      "id": "167153d62ce",
+      "name": "切换列表",
+      "image": "/img/right_w.svg",
+      "switchContentToAssemblyId": "/我的项目.gridassy",
+      "style": "info",
+      "type": "switch",
+      "verticalSpan": 0
+    }
+  ],
+  "rowActions": [
+    {
+      "id": "1670d294caf",
+      "name": "操作",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.project.ProjectCardACT",
+      "type": "customized",
+      "verticalSpan": 0
+    }
+  ],
+  "hasTitlebar": true,
+  "disableInitLoadData": false,
+  "compactTitleBar": true,
+  "candidates": [],
+  "sortFields": [
+    {
+      "id": "16731593ba0",
+      "name": "id",
+      "text": "项目编号",
+      "type": "排序字段",
+      "formFields": []
+    },
+    {
+      "id": "16731556357",
+      "name": "name",
+      "text": "项目名称",
+      "type": "排序字段",
+      "formFields": []
+    },
+    {
+      "id": "16731556413",
+      "name": "classfication",
+      "text": "项目等级",
+      "type": "排序字段",
+      "formFields": []
+    },
+    {
+      "id": "167315564c8",
+      "name": "planStart",
+      "text": "计划开始",
+      "type": "排序字段",
+      "formFields": []
+    },
+    {
+      "id": "16731556592",
+      "name": "planFinish",
+      "text": "计划完成",
+      "type": "排序字段",
+      "formFields": []
+    },
+    {
+      "id": "1673156fb7a",
+      "name": "actualStart",
+      "text": "实际开始",
+      "type": "排序字段",
+      "formFields": []
+    },
+    {
+      "id": "167315566ed",
+      "name": "overdueIndex",
+      "text": "预警级别",
+      "type": "排序字段",
+      "formFields": []
+    }
+  ]
+}

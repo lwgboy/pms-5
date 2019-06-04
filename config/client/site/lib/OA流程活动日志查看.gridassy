@@ -1,0 +1,66 @@
+{
+  "id": "/OA流程活动日志查看.gridassy",
+  "name": "OA流程活动日志查看",
+  "layout": [],
+  "type": "grid",
+  "stickerTitle": "OA流程活动日志",
+  "folderId": "165add7bd87",
+  "gridLineVisiable": true,
+  "gridHeaderVisiable": true,
+  "gridHasVScroll": true,
+  "gridDataSetBundleId": "com.awesometech.leoco",
+  "gridDataSetClassName": "com.awesometech.leoco.ds.OALogDataset",
+  "columns": [
+    {
+      "id": "165ae46b02b",
+      "name": "INST_ID",
+      "text": "流程ID",
+      "alignment": 16384,
+      "width": 160,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "165ae573b95",
+      "name": "NODE_NAME",
+      "text": "流程活动节点名",
+      "alignment": 16384,
+      "width": 160,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "165ae573c34",
+      "name": "OPR_DAT",
+      "text": "操作日期",
+      "alignment": 16384,
+      "width": 160,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "165ae573d0e",
+      "name": "OPERATOR",
+      "text": "操作人",
+      "alignment": 16384,
+      "width": 160,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "165ae573e52",
+      "name": "COMMENT",
+      "text": "评论",
+      "alignment": 16384,
+      "width": 240,
+      "resizeable": true,
+      "columns": []
+    }
+  ],
+  "fields": [],
+  "actions": [],
+  "rowActions": [],
+  "hasTitlebar": true,
+  "displayInputLabelInTitlebar": true,
+  "disableInitLoadData": false
+}

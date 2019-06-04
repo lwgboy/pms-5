@@ -1,0 +1,30 @@
+{
+  "id": "/项目模板文件夹选择列表.gridassy",
+  "name": "项目模板文件夹选择列表",
+  "layout": [],
+  "type": "grid",
+  "stickerTitle": "文档结构",
+  "folderId": "16464eebefb",
+  "gridAutoExpandLevel": -1,
+  "gridLineVisiable": true,
+  "gridHeaderVisiable": true,
+  "gridHasVScroll": true,
+  "gridDataSetService": "com.bizvisionsoft.service.DocumentService",
+  "columns": [
+    {
+      "id": "16464f017a0",
+      "name": "folderName",
+      "text": "名称",
+      "alignment": 16384,
+      "width": 120,
+      "resizeable": true,
+      "columns": []
+    }
+  ],
+  "fields": [],
+  "gridAutoColumnWidth": true,
+  "actions": [],
+  "rowActions": [],
+  "hasTitlebar": true,
+  "disableInitLoadData": false
+}

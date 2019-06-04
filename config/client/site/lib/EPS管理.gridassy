@@ -1,0 +1,123 @@
+{
+  "id": "/EPS管理.gridassy",
+  "name": "EPS管理",
+  "title": "企业项目结构设置",
+  "layout": [],
+  "type": "grid",
+  "stickerTitle": "企业项目结构管理",
+  "folderId": "162bda3464a",
+  "gridAutoExpandLevel": -1,
+  "gridLineVisiable": true,
+  "gridHeaderVisiable": true,
+  "gridHasHScroll": true,
+  "gridHasVScroll": true,
+  "gridDataSetService": "com.bizvisionsoft.service.EPSService",
+  "columns": [
+    {
+      "id": "1626ff49cca",
+      "name": "id",
+      "text": "编号",
+      "alignment": 16384,
+      "width": 160,
+      "minimumWidth": 40,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "1626ff49e8a",
+      "name": "name",
+      "text": "名称",
+      "alignment": 16384,
+      "width": 300,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "162752818ba",
+      "name": "description",
+      "text": "说明",
+      "alignment": 16384,
+      "width": 320,
+      "resizeable": true,
+      "columns": []
+    }
+  ],
+  "fields": [
+    {
+      "id": "162709ade3a",
+      "name": "查询条件",
+      "type": "标签页",
+      "formFields": [
+        {
+          "id": "162709a40e7",
+          "name": "number",
+          "text": "编号",
+          "type": "文本输入框（查询）",
+          "formFields": []
+        },
+        {
+          "id": "162709a8bfe",
+          "name": "name",
+          "text": "名称",
+          "type": "文本输入框（查询）",
+          "formFields": []
+        }
+      ]
+    }
+  ],
+  "gridAutoColumnWidth": true,
+  "actions": [
+    {
+      "id": "162841d7d70",
+      "name": "创建",
+      "image": "/img/add_16_w.svg",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.eps.action.CreateEPSRootNode",
+      "style": "normal",
+      "editorAssemblyId": "/EPS编辑器.editorassy",
+      "type": "insert",
+      "createActionNewInstanceBundleId": "com.bizvisionsoft.service",
+      "createActionNewInstanceClassName": "com.bizvisionsoft.service.model.EPS",
+      "verticalSpan": 0
+    }
+  ],
+  "rowActions": [
+    {
+      "id": "162709c6078",
+      "name": "添加节点",
+      "text": "添加",
+      "image": "/img/add_16_w.svg",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.eps.action.AddEPSNode",
+      "style": "normal",
+      "type": "customized",
+      "verticalSpan": 0
+    },
+    {
+      "id": "16270a44ad8",
+      "name": "编辑节点",
+      "text": "编辑",
+      "image": "/img/edit_w.svg",
+      "bundleId": "",
+      "className": "",
+      "style": "normal",
+      "editorAssemblyId": "/EPS编辑器.editorassy",
+      "editorAssemblyEditable": true,
+      "type": "edit",
+      "verticalSpan": 0
+    },
+    {
+      "id": "16270a0606c",
+      "name": "删除节点",
+      "text": "删除",
+      "image": "/img/minus_16_w.svg",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.eps.action.DeleteEPSNode",
+      "style": "warning",
+      "type": "delete",
+      "verticalSpan": 0
+    }
+  ],
+  "hasTitlebar": true,
+  "disableInitLoadData": false
+}

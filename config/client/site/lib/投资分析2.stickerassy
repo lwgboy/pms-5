@@ -1,0 +1,47 @@
+{
+  "id": "/投资分析2.stickerassy",
+  "name": "投资分析2",
+  "layout": [
+    {
+      "id": "163d955bad3",
+      "name": "默认",
+      "columnCount": 1,
+      "horizontalSpacing": 16,
+      "verticalSpacing": 16,
+      "makeColumnsEqualWidth": true,
+      "marginHeight": 16,
+      "marginWidth": 16,
+      "assemblys": [
+        {
+          "id": "163d954322f",
+          "horizontalAlignment": 4,
+          "verticalAlignment": 4,
+          "grabExcessHorizontalSpace": true,
+          "grabExcessVerticalSpace": true,
+          "verticalSpan": 1,
+          "horizontalSpan": 1,
+          "widthHint": -1,
+          "heightHint": -1,
+          "layoutName": "成本组成分析组件"
+        }
+      ],
+      "carouselInterval": 0
+    }
+  ],
+  "type": "sticker",
+  "stickerTitle": "成本组成分析",
+  "folderId": "163eac3f1ac",
+  "actions": [
+    {
+      "id": "163d9659547",
+      "name": "查询期间",
+      "text": "查询期间",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.cost.SearchCostAnalysisYearACT",
+      "forceText": true,
+      "style": "info",
+      "type": "customized",
+      "verticalSpan": 0
+    }
+  ]
+}

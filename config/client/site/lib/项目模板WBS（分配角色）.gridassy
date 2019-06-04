@@ -1,0 +1,95 @@
+{
+  "id": "/项目模板WBS（分配角色）.gridassy",
+  "name": "项目模板WBS（分配角色）",
+  "description": "",
+  "layout": [],
+  "type": "grid",
+  "stickerTitle": "WBS模板",
+  "folderId": "163d2b1a4d6",
+  "gridAutoExpandLevel": 2,
+  "gridMarkupEnabled": true,
+  "gridLineVisiable": true,
+  "gridHeaderVisiable": true,
+  "gridHasHScroll": true,
+  "gridHasVScroll": true,
+  "gridFix": 2,
+  "gridDataSetService": "com.bizvisionsoft.service.ProjectTemplateService",
+  "gridDataSetBundleId": "",
+  "gridDataSetClassName": "",
+  "columns": [
+    {
+      "id": "1631b8413df",
+      "name": "text",
+      "text": "工作名称",
+      "alignment": 16384,
+      "width": 420,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "163caf92bfa",
+      "name": "wbsCode",
+      "text": "WBS",
+      "alignment": 16384,
+      "width": 72,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "163ca562ee3",
+      "name": "milestoneIcon",
+      "text": "里程碑",
+      "alignment": 16384,
+      "width": 64,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "163ca56a1cd",
+      "name": "manageLevelHtml",
+      "text": "级别",
+      "alignment": 16777216,
+      "width": 48,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "163cd4e8472",
+      "name": "chargerRole",
+      "text": "负责人角色",
+      "alignment": 16384,
+      "width": 320,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "163cd500184",
+      "name": "assignerRole",
+      "text": "指派者角色",
+      "alignment": 16384,
+      "width": 320,
+      "resizeable": true,
+      "columns": []
+    }
+  ],
+  "fields": [],
+  "actions": [],
+  "rowActions": [
+    {
+      "id": "163cd53e8d1",
+      "name": "角色",
+      "bundleId": "",
+      "className": "",
+      "style": "",
+      "editorAssemblyId": "/项目模板工作分配角色.editorassy",
+      "editorAssemblyEditable": true,
+      "objectBehavier": true,
+      "type": "edit",
+      "verticalSpan": 0
+    }
+  ],
+  "queryBuilderClass": "",
+  "hasTitlebar": true,
+  "disableInitLoadData": false,
+  "sortFields": []
+}

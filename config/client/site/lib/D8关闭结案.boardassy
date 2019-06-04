@@ -1,0 +1,48 @@
+{
+  "id": "/D8关闭结案.boardassy",
+  "name": "D8关闭结案",
+  "title": "",
+  "layout": [],
+  "type": "board",
+  "stickerTitle": "总结经验教训",
+  "folderId": "168987781d7",
+  "gridAutoHeight": true,
+  "gridDataSetService": "com.bizvisionsoft.service.ProblemService",
+  "fields": [],
+  "actions": [
+    {
+      "id": "1681df9a1e7",
+      "name": "创建经验",
+      "tooltips": "创建经验总结",
+      "image": "/img/add_16_w.svg",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.problem.action.CreateD8Exp",
+      "style": "normal",
+      "type": "customized",
+      "parameters": "{\"render\":\"card\"}"
+    },
+    {
+      "id": "16833d7f906",
+      "name": "切换",
+      "image": "/img/right_w.svg",
+      "switchContentToAssemblyId": "/D8经验教训表格.gridassy",
+      "style": "normal",
+      "type": "switch"
+    }
+  ],
+  "rowActions": [
+    {
+      "id": "1681f70942a",
+      "name": "操作",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.problem.action.D8ExpCard",
+      "type": "customized"
+    }
+  ],
+  "hasTitlebar": true,
+  "disableStdQuery": true,
+  "parameters": "{\"render\":\"card\"}",
+  "scrollLoadData": false,
+  "compactTitleBar": true,
+  "sortFields": []
+}

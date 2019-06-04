@@ -1,0 +1,93 @@
+{
+  "id": "/团队成员（查看）.gridassy",
+  "name": "团队成员（查看）",
+  "layout": [],
+  "type": "grid",
+  "stickerTitle": "团队成员",
+  "folderId": "162d7e33b8a",
+  "gridLineVisiable": true,
+  "gridHeaderVisiable": true,
+  "gridHasHScroll": true,
+  "gridHasVScroll": true,
+  "gridPageControl": true,
+  "gridDataSetService": "com.bizvisionsoft.service.OBSService",
+  "gridDataSetBundleId": "",
+  "gridDataSetClassName": "",
+  "columns": [
+    {
+      "id": "162b8355315",
+      "name": "userId",
+      "text": "账号",
+      "alignment": 16384,
+      "width": 260,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "162b8355508",
+      "name": "name",
+      "text": "姓名",
+      "alignment": 16384,
+      "width": 160,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "162b83556bb",
+      "name": "tel",
+      "text": "办公电话",
+      "alignment": 16384,
+      "width": 240,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "162b8355807",
+      "name": "mobile",
+      "text": "移动电话",
+      "alignment": 16384,
+      "width": 240,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "162b8355770",
+      "name": "email",
+      "text": "电子邮件",
+      "alignment": 16384,
+      "width": 240,
+      "resizeable": true,
+      "columns": []
+    }
+  ],
+  "fields": [
+    {
+      "id": "162b943bbc3",
+      "name": "查询条件",
+      "type": "标签页",
+      "formFields": [
+        {
+          "id": "162b93dcde9",
+          "name": "userId",
+          "text": "账号",
+          "type": "文本输入框（查询）",
+          "formFields": []
+        },
+        {
+          "id": "162b93dcd10",
+          "name": "name",
+          "text": "姓名",
+          "type": "文本输入框（查询）",
+          "formFields": [],
+          "textQueryType": "字符串"
+        }
+      ]
+    }
+  ],
+  "gridAutoColumnWidth": true,
+  "actions": [],
+  "rowActions": [],
+  "hasTitlebar": true,
+  "displayInputLabelInTitlebar": true,
+  "disableInitLoadData": false
+}

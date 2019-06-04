@@ -1,0 +1,29 @@
+{
+  "id": "/D5永久措施.boardassy",
+  "name": "D5永久措施",
+  "title": "D5 永久纠正措施",
+  "layout": [],
+  "type": "board",
+  "stickerTitle": "永久纠正措施",
+  "folderId": "168987781d7",
+  "gridAutoHeight": true,
+  "gridDataSetService": "com.bizvisionsoft.service.ProblemService",
+  "fields": [],
+  "actions": [
+    {
+      "id": "168143d8ab4",
+      "name": "打开方案",
+      "image": "/img/right_w.svg",
+      "switchContentToAssemblyId": "/D5PCA候选方案.assy",
+      "style": "normal",
+      "type": "switch"
+    }
+  ],
+  "rowActions": [],
+  "hasTitlebar": true,
+  "disableStdQuery": true,
+  "parameters": "{\"render\":\"card\"}",
+  "scrollLoadData": false,
+  "compactTitleBar": true,
+  "sortFields": []
+}

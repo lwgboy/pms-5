@@ -1,0 +1,15 @@
+{
+  "id": "/权限查询.gridassy",
+  "name": "权限查询",
+  "layout": [],
+  "type": "grid",
+  "folderId": "1640e481843",
+  "gridLineVisiable": true,
+  "gridHeaderVisiable": true,
+  "gridHasVScroll": true,
+  "columns": [],
+  "fields": [],
+  "actions": [],
+  "rowActions": [],
+  "disableInitLoadData": false
+}

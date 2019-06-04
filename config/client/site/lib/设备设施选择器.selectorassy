@@ -1,0 +1,10 @@
+{
+  "id": "/设备设施选择器.selectorassy",
+  "name": "设备设施选择器",
+  "layout": [],
+  "type": "selector",
+  "folderId": "162bd9e5a59",
+  "selectorGridAssemblyId": "/设备设施选择表格.gridassy",
+  "selectorMultiSelection": true,
+  "disableInitLoadData": false
+}

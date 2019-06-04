@@ -1,0 +1,99 @@
+{
+  "id": "/D1多功能小组表格.gridassy",
+  "name": "D1多功能小组表格",
+  "layout": [],
+  "type": "grid",
+  "stickerTitle": "问题解决团队",
+  "folderId": "168987437fd",
+  "gridLineVisiable": true,
+  "gridHeaderVisiable": true,
+  "gridHasHScroll": true,
+  "gridHasVScroll": true,
+  "gridDataSetService": "com.bizvisionsoft.service.ProblemService",
+  "columns": [
+    {
+      "id": "16828c482ef",
+      "name": "roleName",
+      "text": "角色",
+      "alignment": 16384,
+      "width": 80,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "16828c48225",
+      "name": "name",
+      "text": "姓名",
+      "alignment": 16384,
+      "width": 80,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "16828c483d6",
+      "name": "dept",
+      "text": "部门",
+      "alignment": 16384,
+      "width": 320,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "16828c48494",
+      "name": "position",
+      "text": "职位",
+      "alignment": 16384,
+      "width": 120,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "16828c485ce",
+      "name": "mobile",
+      "text": "电话",
+      "alignment": 16384,
+      "width": 140,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "16828c48729",
+      "name": "email",
+      "text": "邮箱",
+      "alignment": 16384,
+      "width": 320,
+      "resizeable": true,
+      "columns": []
+    }
+  ],
+  "fields": [],
+  "actions": [
+    {
+      "id": "16828d58dbb",
+      "name": "create",
+      "image": "/img/add_16_w.svg",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.problem.action.D1Action",
+      "style": "normal",
+      "actionBehavier": true,
+      "type": "customized",
+      "parameters": "{\"render\":\"gridrow\"}"
+    }
+  ],
+  "rowActions": [
+    {
+      "id": "16828d6fc47",
+      "name": "delete",
+      "text": "删除",
+      "image": "/img/minus_16_w.svg",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.problem.action.D1Action",
+      "style": "warning",
+      "actionBehavier": true,
+      "type": "customized"
+    }
+  ],
+  "hasTitlebar": true,
+  "parameters": "{\"render\":\"gridrow\"}",
+  "sortFields": []
+}

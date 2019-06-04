@@ -1,0 +1,62 @@
+{
+  "id": "/D2问题描述5W2H信息面板.infopadassy",
+  "name": "D2问题描述5W2H信息面板",
+  "layout": [],
+  "type": "infopad",
+  "stickerTitle": "5W2H/问题描述",
+  "folderId": "168987437fd",
+  "gridDataSetService": "com.bizvisionsoft.service.ProblemService",
+  "fields": [
+    {
+      "id": "16827bb3ff1",
+      "name": "what",
+      "text": "What",
+      "type": "文本标签",
+      "formFields": []
+    },
+    {
+      "id": "16827bb40ab",
+      "name": "when",
+      "text": "When",
+      "type": "文本标签",
+      "formFields": []
+    },
+    {
+      "id": "16827bb4194",
+      "name": "where",
+      "text": "Where",
+      "type": "文本标签",
+      "formFields": []
+    },
+    {
+      "id": "16827bb426c",
+      "name": "who",
+      "text": "Who",
+      "type": "文本标签",
+      "formFields": []
+    },
+    {
+      "id": "16827bb4333",
+      "name": "why",
+      "text": "Why",
+      "type": "文本标签",
+      "formFields": []
+    },
+    {
+      "id": "16827bb441c",
+      "name": "how",
+      "text": "How",
+      "type": "文本标签",
+      "formFields": []
+    },
+    {
+      "id": "16827bb455a",
+      "name": "howmany",
+      "text": "How many",
+      "type": "文本标签",
+      "formFields": []
+    }
+  ],
+  "actions": [],
+  "hasTitlebar": true
+}

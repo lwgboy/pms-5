@@ -1,0 +1,54 @@
+{
+  "id": "/项目工作看板.assy",
+  "name": "项目工作看板",
+  "description": "用于项目首页显示工作",
+  "layout": [
+    {
+      "id": "166bea2ae4b",
+      "name": "默认",
+      "columnCount": 4,
+      "makeColumnsEqualWidth": true,
+      "extendHorizontalSpace": true,
+      "marginTop": 16,
+      "marginWidth": 8,
+      "css": "brui_bg_deep_relief",
+      "layoutType": "lane",
+      "assemblys": [
+        {
+          "id": "/项目工作看板-已计划.gridassy",
+          "horizontalAlignment": 4,
+          "verticalAlignment": 4,
+          "grabExcessVerticalSpace": true,
+          "verticalSpan": 1,
+          "horizontalSpan": 1,
+          "widthHint": 380,
+          "heightHint": -1,
+          "layoutName": "planned"
+        },
+        {
+          "id": "/项目工作看板-处理中.gridassy",
+          "horizontalAlignment": 4,
+          "verticalAlignment": 4,
+          "grabExcessVerticalSpace": true,
+          "verticalSpan": 1,
+          "horizontalSpan": 1,
+          "widthHint": 380,
+          "heightHint": -1,
+          "layoutName": "executing"
+        }
+      ],
+      "laneWidth": 380,
+      "carouselInterval": 0
+    }
+  ],
+  "folderId": "166d2b7d771",
+  "actions": [],
+  "rowActions": [],
+  "disableInitLoadData": false,
+  "candidates": [
+    "/项目工作看板-待指派.gridassy",
+    "/项目工作看板-已计划.gridassy",
+    "/项目工作看板-已完成.gridassy",
+    "/项目工作看板-处理中.gridassy"
+  ]
+}

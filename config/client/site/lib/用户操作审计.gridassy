@@ -1,0 +1,223 @@
+{
+  "id": "/用户操作审计.gridassy",
+  "name": "用户操作审计",
+  "layout": [],
+  "type": "grid",
+  "stickerTitle": "用户操作审计",
+  "folderId": "162bccab082",
+  "gridLineVisiable": true,
+  "gridHeaderVisiable": true,
+  "gridHasHScroll": true,
+  "gridHasVScroll": true,
+  "gridPageControl": true,
+  "gridDataSetService": "com.bizvisionsoft.service.UserService",
+  "columns": [
+    {
+      "id": "16524c79871",
+      "name": "date",
+      "text": "日期",
+      "alignment": 16384,
+      "width": 160,
+      "resizeable": true,
+      "columns": [],
+      "format": "yyyy-MM-dd HH:mm:ss"
+    },
+    {
+      "id": "16524c79b1d",
+      "name": "userName",
+      "text": "用户名",
+      "alignment": 16384,
+      "width": 64,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "16524c79a34",
+      "name": "userId",
+      "text": "账户Id",
+      "alignment": 16384,
+      "width": 64,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "16524c79cdf",
+      "name": "consignerName",
+      "text": "代理人",
+      "alignment": 16384,
+      "width": 64,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "16524c79bf5",
+      "name": "consignerId",
+      "text": "账户Id",
+      "alignment": 16384,
+      "width": 64,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "16524c79dd9",
+      "name": "contextInput",
+      "text": "上下文",
+      "alignment": 16384,
+      "width": 180,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "16524d77558",
+      "name": "contextRootInput",
+      "text": "上下文根",
+      "alignment": 16384,
+      "width": 180,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "16524c79ef4",
+      "name": "contextSelection",
+      "text": "操作目标",
+      "alignment": 16384,
+      "width": 180,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "16524c7a12c",
+      "name": "assemblyName",
+      "text": "界面组件",
+      "alignment": 16384,
+      "width": 180,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "16524c79fde",
+      "name": "assemblyId",
+      "text": "组件Id",
+      "alignment": 16384,
+      "width": 180,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "16524c7a2bb",
+      "name": "actionName",
+      "text": "操作名称",
+      "alignment": 16384,
+      "width": 180,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "16524c7a3f8",
+      "name": "actionId",
+      "text": "操作Id",
+      "alignment": 16384,
+      "width": 180,
+      "resizeable": true,
+      "columns": []
+    }
+  ],
+  "fields": [
+    {
+      "id": "16524d34126",
+      "name": "新字段12",
+      "type": "行",
+      "formFields": [
+        {
+          "id": "16524ced5e5",
+          "name": "userId",
+          "text": "账户Id",
+          "type": "文本输入框（查询）",
+          "formFields": []
+        },
+        {
+          "id": "16524ced69f",
+          "name": "userName",
+          "text": "用户名",
+          "type": "文本输入框（查询）",
+          "formFields": []
+        }
+      ]
+    },
+    {
+      "id": "16524d342e9",
+      "name": "新字段13",
+      "type": "行",
+      "formFields": [
+        {
+          "id": "16524ced745",
+          "name": "consignerId",
+          "text": "代理人Id",
+          "type": "文本输入框（查询）",
+          "formFields": []
+        },
+        {
+          "id": "16524ced80c",
+          "name": "consignerName",
+          "text": "代理人用户名",
+          "type": "文本输入框（查询）",
+          "formFields": []
+        }
+      ]
+    },
+    {
+      "id": "16524d3439f",
+      "name": "新字段14",
+      "type": "行",
+      "formFields": [
+        {
+          "id": "16524ced9ab",
+          "name": "actionId",
+          "text": "操作Id",
+          "type": "文本输入框（查询）",
+          "formFields": []
+        },
+        {
+          "id": "16524ced8b2",
+          "name": "actionName",
+          "text": "操作名",
+          "type": "文本输入框（查询）",
+          "formFields": []
+        }
+      ]
+    },
+    {
+      "id": "16524d37737",
+      "name": "新字段15",
+      "type": "行",
+      "formFields": [
+        {
+          "id": "16524cedde7",
+          "name": "assemblyId",
+          "text": "界面组件Id",
+          "type": "文本输入框（查询）",
+          "formFields": []
+        },
+        {
+          "id": "16524cedb6c",
+          "name": "assemblyName",
+          "text": "界面组件",
+          "type": "文本输入框（查询）",
+          "formFields": []
+        }
+      ]
+    },
+    {
+      "id": "16524d2ef4b",
+      "name": "date",
+      "text": "操作时间",
+      "type": "日期时间范围（查询）",
+      "formFields": [],
+      "dateType": "datetime"
+    }
+  ],
+  "actions": [],
+  "rowActions": [],
+  "hasTitlebar": true,
+  "disableInitLoadData": false
+}

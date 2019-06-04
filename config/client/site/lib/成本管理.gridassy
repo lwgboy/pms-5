@@ -1,0 +1,88 @@
+{
+  "id": "/成本管理.gridassy",
+  "name": "成本管理",
+  "description": "用于首页显示项目的成本",
+  "layout": [],
+  "type": "grid",
+  "stickerTitle": "成本管理",
+  "folderId": "163c8e527aa",
+  "gridMarkupEnabled": true,
+  "gridLineVisiable": true,
+  "gridHeaderVisiable": true,
+  "gridHasHScroll": true,
+  "gridHasVScroll": true,
+  "gridPageControl": true,
+  "gridRenderBundleId": "com.bizvisionsoft.pms",
+  "gridRenderClassName": "com.bizvisionsoft.pms.cost.ManagedProjectsCostRender",
+  "gridDataSetService": "com.bizvisionsoft.service.CBSService",
+  "gridDataSetBundleId": "",
+  "gridDataSetClassName": "",
+  "columns": [
+    {
+      "id": "163c90c1ed5",
+      "name": "scopeId",
+      "text": "项目编号",
+      "alignment": 16384,
+      "width": 80,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "163c90c1fe5",
+      "name": "scopename",
+      "text": "项目名称",
+      "alignment": 16384,
+      "width": 320,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "163c9009744",
+      "name": "totalCost",
+      "text": "累计成本（单位：万元）",
+      "alignment": 131072,
+      "width": 240,
+      "resizeable": true,
+      "columns": [],
+      "format": "#.0"
+    },
+    {
+      "id": "163c9657747",
+      "name": "periodCost",
+      "text": "期间",
+      "alignment": 131072,
+      "width": 240,
+      "resizeable": true,
+      "columns": [],
+      "format": "#.0"
+    }
+  ],
+  "fields": [],
+  "actions": [
+    {
+      "id": "163c99b00f2",
+      "name": "查询成本期间",
+      "text": "查询成本期间",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.cost.SetSearchCBSPeriodACT",
+      "forceText": true,
+      "style": "info",
+      "type": "customized",
+      "verticalSpan": 0
+    }
+  ],
+  "rowActions": [
+    {
+      "id": "163c9dcf614",
+      "name": "打开项目",
+      "image": "/img/right.svg",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.cost.OpenProjectCostACT",
+      "style": "",
+      "type": "customized",
+      "verticalSpan": 0
+    }
+  ],
+  "hasTitlebar": true,
+  "disableInitLoadData": false
+}

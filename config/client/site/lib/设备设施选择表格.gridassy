@@ -1,0 +1,64 @@
+{
+  "id": "/设备设施选择表格.gridassy",
+  "name": "设备设施选择表格",
+  "layout": [],
+  "type": "grid",
+  "stickerTitle": "设备设施",
+  "folderId": "162bd9e5a59",
+  "gridLineVisiable": true,
+  "gridHeaderVisiable": true,
+  "gridHasHScroll": true,
+  "gridHasVScroll": true,
+  "gridDataSetService": "com.bizvisionsoft.service.CommonService",
+  "columns": [
+    {
+      "id": "162c73aa337",
+      "name": "id",
+      "text": "编号",
+      "alignment": 16384,
+      "width": 80,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "162c73aa432",
+      "name": "name",
+      "text": "名称",
+      "alignment": 16384,
+      "width": 160,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "162c73aa50a",
+      "name": "description",
+      "text": "描述",
+      "alignment": 16384,
+      "width": 320,
+      "resizeable": true,
+      "columns": []
+    }
+  ],
+  "fields": [],
+  "gridAutoColumnWidth": true,
+  "actions": [],
+  "rowActions": [
+    {
+      "id": "162c73d4502",
+      "name": "编辑设备设施",
+      "image": "/img/edit_w.svg",
+      "style": "normal",
+      "editorAssemblyId": "/设备设施编辑器.editorassy",
+      "editorAssemblyEditable": true,
+      "verticalSpan": 0
+    },
+    {
+      "id": "162c73d4748",
+      "name": "删除设备设施",
+      "image": "/img/minus_16_w.svg",
+      "style": "warning",
+      "verticalSpan": 0
+    }
+  ],
+  "disableInitLoadData": false
+}

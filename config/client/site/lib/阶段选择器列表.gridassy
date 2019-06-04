@@ -1,0 +1,46 @@
+{
+  "id": "/阶段选择器列表.gridassy",
+  "name": "阶段选择器列表",
+  "layout": [],
+  "type": "grid",
+  "folderId": "1631b964ede",
+  "gridLineVisiable": true,
+  "gridHeaderVisiable": true,
+  "gridHasVScroll": true,
+  "gridDataSetBundleId": "com.bizvisionsoft.pms",
+  "gridDataSetClassName": "com.bizvisionsoft.pms.project.dataset.ProjectSchedule",
+  "columns": [
+    {
+      "id": "1631b97adb5",
+      "name": "text",
+      "text": "阶段名称",
+      "alignment": 16384,
+      "width": 240,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "1631b980be4",
+      "name": "budgetAssigned",
+      "text": "预算",
+      "alignment": 16384,
+      "width": 80,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "1631b986ed0",
+      "name": "teamAssigned",
+      "text": "团队",
+      "alignment": 16384,
+      "width": 80,
+      "resizeable": true,
+      "columns": []
+    }
+  ],
+  "fields": [],
+  "gridAutoColumnWidth": true,
+  "actions": [],
+  "rowActions": [],
+  "disableInitLoadData": false
+}

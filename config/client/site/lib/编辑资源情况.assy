@@ -1,0 +1,12 @@
+{
+  "id": "/编辑资源情况.assy",
+  "name": "编辑资源情况",
+  "title": "编辑资源情况",
+  "bundleId": "com.bizvisionsoft.pms",
+  "className": "com.bizvisionsoft.pms.resource.EditResourceASM",
+  "layout": [],
+  "folderId": "1636e54a6d9",
+  "actions": [],
+  "rowActions": [],
+  "disableInitLoadData": false
+}

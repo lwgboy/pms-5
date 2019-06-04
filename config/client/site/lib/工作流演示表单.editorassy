@@ -1,0 +1,54 @@
+{
+  "id": "/工作流演示表单.editorassy",
+  "name": "工作流演示表单",
+  "layout": [],
+  "type": "editor",
+  "folderId": "16a3919d17a",
+  "fields": [
+    {
+      "id": "16aa18d88cb",
+      "name": "proc_subject",
+      "text": "流程标题",
+      "type": "单行文本框",
+      "formFields": []
+    },
+    {
+      "id": "16a391a36fb",
+      "name": "deptName",
+      "text": "部门名称",
+      "type": "单行文本框",
+      "formFields": []
+    },
+    {
+      "id": "16a391c016a",
+      "name": "type",
+      "text": "类型",
+      "type": "单选框",
+      "formFields": [],
+      "optionText": "类型1#类型2#类型3",
+      "radioStyle": "横向分段（默认）"
+    },
+    {
+      "id": "16a391ca17a",
+      "name": "hr",
+      "text": "HR审核人",
+      "type": "多个对象选择框",
+      "formFields": [],
+      "required": true,
+      "selectorAssemblyId": "/用户选择列表.gridassy",
+      "valueFieldName": "userId"
+    },
+    {
+      "id": "16a391d23aa",
+      "name": "dept",
+      "text": "部门",
+      "type": "对象选择框",
+      "formFields": [],
+      "required": true,
+      "selectorAssemblyId": "/组织选择器.gridassy",
+      "valueFieldName": "_id"
+    }
+  ],
+  "actions": [],
+  "smallEditor": true
+}

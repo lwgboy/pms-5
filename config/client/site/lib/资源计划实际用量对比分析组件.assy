@@ -1,0 +1,11 @@
+{
+  "id": "/资源计划实际用量对比分析组件.assy",
+  "name": "资源计划实际用量对比分析组件",
+  "bundleId": "com.bizvisionsoft.pms",
+  "className": "com.bizvisionsoft.pms.resource.ResourceAllAnalysisASM",
+  "layout": [],
+  "folderId": "164268e80f6",
+  "actions": [],
+  "rowActions": [],
+  "disableInitLoadData": false
+}

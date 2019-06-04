@@ -1,0 +1,178 @@
+{
+  "id": "/工作包-研发.gridassy",
+  "name": "工作包-研发",
+  "description": "研发",
+  "layout": [],
+  "type": "grid",
+  "folderId": "1638c40764f",
+  "gridMarkupEnabled": true,
+  "gridLineVisiable": true,
+  "gridHeaderVisiable": true,
+  "gridHasHScroll": true,
+  "gridHasVScroll": true,
+  "gridPageControl": true,
+  "gridDataSetService": "",
+  "gridDataSetBundleId": "com.bizvisionsoft.pms",
+  "gridDataSetClassName": "com.bizvisionsoft.pms.workpackage.dataset.WorkPackageDataset",
+  "columns": [
+    {
+      "id": "1636bd98aa7",
+      "name": "description",
+      "text": "描述",
+      "alignment": 16384,
+      "width": 360,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "16386e0aa83",
+      "name": "documentType",
+      "text": "成果类型",
+      "alignment": 16777216,
+      "width": 160,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "16381c55e90",
+      "name": "计划",
+      "text": "计划",
+      "alignment": 16777216,
+      "width": 80,
+      "resizeable": true,
+      "expanded": true,
+      "columns": [
+        {
+          "id": "1636c4468dc",
+          "name": "deadline",
+          "text": "期限",
+          "alignment": 16384,
+          "width": 80,
+          "resizeable": true,
+          "detail": true,
+          "columns": [],
+          "format": "yyyy-MM-dd"
+        },
+        {
+          "id": "16381c52068",
+          "name": "planStatus",
+          "text": "发布状态",
+          "alignment": 16777216,
+          "width": 80,
+          "resizeable": true,
+          "detail": true,
+          "summary": true,
+          "columns": []
+        }
+      ],
+      "noToggleGridColumnGroup": true
+    },
+    {
+      "id": "16381c81e67",
+      "name": "进展",
+      "text": "进展",
+      "alignment": 16777216,
+      "width": 80,
+      "resizeable": true,
+      "expanded": true,
+      "columns": [
+        {
+          "id": "16381c84811",
+          "name": "completeStatus",
+          "text": "状态",
+          "alignment": 16777216,
+          "width": 80,
+          "resizeable": true,
+          "detail": true,
+          "summary": true,
+          "columns": []
+        },
+        {
+          "id": "16381c8511b",
+          "name": "updateTime",
+          "text": "更新时间",
+          "alignment": 16777216,
+          "width": 180,
+          "resizeable": true,
+          "detail": true,
+          "summary": true,
+          "columns": [],
+          "format": "yyyy-MM-dd hh:mm:ss"
+        }
+      ],
+      "noToggleGridColumnGroup": true
+    },
+    {
+      "id": "1636bd9b1b2",
+      "name": "chargerInfoHtml",
+      "text": "负责人",
+      "alignment": 16384,
+      "width": 80,
+      "resizeable": true,
+      "columns": []
+    }
+  ],
+  "fields": [],
+  "gridAutoColumnWidth": true,
+  "actions": [
+    {
+      "id": "165b20273d4",
+      "name": "创建工作包交付要求",
+      "text": "交付要求",
+      "image": "/img/add_16_w.svg",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.workpackage.action.CreatePlan",
+      "style": "info",
+      "type": "customized",
+      "verticalSpan": 0
+    }
+  ],
+  "rowActions": [
+    {
+      "id": "1636c6c5781",
+      "name": "编辑工作包",
+      "image": "/img/edit_w.svg",
+      "style": "normal",
+      "editorAssemblyId": "/编辑工作包-研发.editorassy",
+      "editorAssemblyEditable": true,
+      "objectBehavier": true,
+      "type": "edit",
+      "verticalSpan": 0
+    },
+    {
+      "id": "1636c6be572",
+      "name": "删除工作包",
+      "image": "/img/minus_16_w.svg",
+      "style": "warning",
+      "objectBehavier": true,
+      "type": "delete",
+      "verticalSpan": 0
+    },
+    {
+      "id": "15ce2ea0e79",
+      "name": "文档",
+      "text": "文档",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.workpackage.action.OpenDocuOrDocuSetting",
+      "switchContentToAssemblyId": "/输出文档.gridassy",
+      "openContent": true,
+      "forceText": true,
+      "style": "",
+      "type": "customized",
+      "verticalSpan": 0
+    },
+    {
+      "id": "1636c6d351a",
+      "name": "查看工作包进度",
+      "text": "进度",
+      "image": "/img/right.svg",
+      "switchContentToAssemblyId": "/工作包-研发进展.gridassy",
+      "openContent": true,
+      "style": "",
+      "objectBehavier": true,
+      "type": "switch",
+      "verticalSpan": 0
+    }
+  ],
+  "disableInitLoadData": false
+}

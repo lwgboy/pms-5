@@ -1,0 +1,136 @@
+{
+  "id": "/工作流定义编辑器.editorassy",
+  "name": "工作流定义编辑器",
+  "layout": [],
+  "type": "editor",
+  "folderId": "16a38adcbc2",
+  "fields": [
+    {
+      "id": "16a057d46c4",
+      "name": "流程属性",
+      "type": "标签页",
+      "formFields": [
+        {
+          "id": "16a0632241c",
+          "name": "新字段1",
+          "type": "行",
+          "formFields": [
+            {
+              "id": "16a057d44bb",
+              "name": "name",
+              "text": "名称",
+              "type": "单行文本框",
+              "formFields": [],
+              "required": true
+            },
+            {
+              "id": "16a057d461c",
+              "name": "enabled",
+              "text": "启用",
+              "type": "复选框",
+              "formFields": [],
+              "checkStyle": "开关（默认）"
+            }
+          ]
+        },
+        {
+          "id": "16aa183ebb8",
+          "name": "新字段13",
+          "type": "行",
+          "formFields": [
+            {
+              "id": "16a057d455a",
+              "name": "description",
+              "text": "描述",
+              "type": "单行文本框",
+              "formFields": []
+            },
+            {
+              "id": "16a1bef20da",
+              "name": "type",
+              "text": "类型",
+              "type": "下拉选择框",
+              "formFields": [],
+              "required": true,
+              "optionText": "项目#技术#采购#管理"
+            }
+          ]
+        },
+        {
+          "id": "16aa1844eb4",
+          "name": "说明",
+          "text": "提示：如果指定了启动表单，流程属性将传递到表单\n",
+          "type": "横幅",
+          "formFields": [],
+          "staticContent": true,
+          "bannerStyle": "info"
+        },
+        {
+          "id": "16aa1842e03",
+          "name": "新字段14",
+          "type": "行",
+          "formFields": [
+            {
+              "id": "16a0be77c28",
+              "name": "bpmnId",
+              "text": "流程Id",
+              "type": "对象选择框",
+              "formFields": [],
+              "required": true,
+              "selectorAssemblyId": "/BPMN资源列表.gridassy",
+              "valueFieldName": "id"
+            },
+            {
+              "id": "16a14c35122",
+              "name": "editor",
+              "text": "启动表单",
+              "type": "对象选择框",
+              "formFields": [],
+              "selectorAssemblyId": "/组件选择器（编辑器）.gridassy",
+              "valueFieldName": "name"
+            }
+          ]
+        },
+        {
+          "id": "16a057f9832",
+          "name": "properties",
+          "text": "流程属性",
+          "type": "表格",
+          "formFields": [],
+          "selectorAssemblyId": "/name-value多列表格.gridassy",
+          "grabVertical": true,
+          "enableCreateItem": true
+        }
+      ]
+    },
+    {
+      "id": "16a14d61486",
+      "name": "启动脚本",
+      "type": "标签页",
+      "formFields": [
+        {
+          "id": "16a38e039f6",
+          "name": "JavaScript脚本",
+          "text": "启动脚本(JavaScript)用于向流程传递启动参数\u003cbr\u003e\n1）如果指定了启动表单，input将绑定到表单编辑后出输出的对象，\n修改后的input将作为流程参数\u003cbr\u003e\n2）context已经绑定到当前上下文，ServiceHelper已被导入\u003cbr\u003e\n3）input中的launcher为流程发起者\u003cbr\u003e\n",
+          "type": "横幅",
+          "formFields": [],
+          "staticContent": true,
+          "bannerStyle": "info"
+        },
+        {
+          "id": "16a057d48d7",
+          "name": "script",
+          "text": "JavaScript",
+          "type": "多行文本框",
+          "formFields": [],
+          "selectorAssemblyId": "/单name列表格.gridassy",
+          "grabVertical": true,
+          "hideLabel": true,
+          "enableCreateItem": true
+        }
+      ]
+    }
+  ],
+  "actions": [],
+  "smallEditor": false
+}

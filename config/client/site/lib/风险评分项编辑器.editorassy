@@ -1,0 +1,91 @@
+{
+  "id": "/风险评分项编辑器.editorassy",
+  "name": "风险评分项编辑器",
+  "title": "风险评分项",
+  "layout": [],
+  "type": "editor",
+  "folderId": "168403fc076",
+  "fields": [
+    {
+      "id": "16431794cad",
+      "name": "新字段1",
+      "type": "行",
+      "formFields": [
+        {
+          "id": "1642fd58266",
+          "name": "name",
+          "text": "影响度",
+          "type": "下拉选择框",
+          "formFields": [],
+          "required": true,
+          "optionText": "重大负面影响#很大负面影响#中等负面影响#很小负面影响#很小正面影响#中等正面影响#很大正面影响#重大正面影响"
+        },
+        {
+          "id": "1642fd5cd3a",
+          "name": "score",
+          "text": "分值",
+          "type": "单行文本框",
+          "formFields": [],
+          "required": true,
+          "textRestrict": "浮点"
+        }
+      ]
+    },
+    {
+      "id": "1642fd5ce51",
+      "name": "新字段3",
+      "type": "行",
+      "formFields": [
+        {
+          "id": "1642fd5cf8d",
+          "name": "minTimeImpact",
+          "text": "最小时间影响",
+          "type": "单行文本框",
+          "formFields": [],
+          "textRestrict": "无限定"
+        },
+        {
+          "id": "1642fd5d0ac",
+          "name": "maxTimeImpact",
+          "text": "最大时间影响",
+          "type": "单行文本框",
+          "formFields": [],
+          "textRestrict": "无限定"
+        }
+      ]
+    },
+    {
+      "id": "1642fd5d1a6",
+      "name": "新字段6",
+      "type": "行",
+      "formFields": [
+        {
+          "id": "1642fd8b971",
+          "name": "minCostImpact",
+          "text": "最小成本影响",
+          "type": "单行文本框",
+          "formFields": [],
+          "textRestrict": "无限定"
+        },
+        {
+          "id": "1642fd8baed",
+          "name": "maxCostImpact",
+          "text": "最大成本影响",
+          "type": "单行文本框",
+          "formFields": [],
+          "textRestrict": "无限定"
+        }
+      ]
+    },
+    {
+      "id": "1642fd5d55a",
+      "name": "quanlityImpact",
+      "text": "质量影响",
+      "type": "多个对象选择框",
+      "formFields": [],
+      "selectorAssemblyId": "/质量影响级别.gridassy"
+    }
+  ],
+  "smallEditor": true,
+  "disableInitLoadData": false
+}

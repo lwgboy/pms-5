@@ -1,0 +1,69 @@
+{
+  "id": "/变更审核.gridassy",
+  "name": "变更审核",
+  "layout": [],
+  "type": "grid",
+  "stickerTitle": "变更审核设置",
+  "folderId": "1644693975f",
+  "gridLineVisiable": true,
+  "gridHeaderVisiable": true,
+  "gridHasVScroll": true,
+  "gridDataSetService": "com.bizvisionsoft.service.CommonService",
+  "columns": [
+    {
+      "id": "1644695a83a",
+      "name": "taskName",
+      "text": "审核活动",
+      "alignment": 16384,
+      "width": 160,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "1644695a9f2",
+      "name": "projectOBSInfo",
+      "text": "项目角色",
+      "alignment": 16384,
+      "width": 160,
+      "resizeable": true,
+      "columns": []
+    }
+  ],
+  "fields": [],
+  "actions": [
+    {
+      "id": "16446c34ceb",
+      "name": "新建变更审核",
+      "text": "新建变更审核",
+      "image": "/img/add_16_w.svg",
+      "style": "normal",
+      "editorAssemblyId": "/变更审核编辑器.editorassy",
+      "type": "insert",
+      "createActionNewInstanceBundleId": "com.bizvisionsoft.service",
+      "createActionNewInstanceClassName": "com.bizvisionsoft.service.model.ChangeProcess",
+      "verticalSpan": 0
+    }
+  ],
+  "rowActions": [
+    {
+      "id": "16446c43e18",
+      "name": "编辑变更审核",
+      "image": "/img/edit_w.svg",
+      "style": "normal",
+      "editorAssemblyId": "/变更审核编辑器.editorassy",
+      "editorAssemblyEditable": true,
+      "type": "edit",
+      "verticalSpan": 0
+    },
+    {
+      "id": "16446c446f2",
+      "name": "删除变更审核",
+      "image": "/img/minus_16_w.svg",
+      "style": "warning",
+      "type": "delete",
+      "verticalSpan": 0
+    }
+  ],
+  "hasTitlebar": true,
+  "disableInitLoadData": false
+}

@@ -1,0 +1,220 @@
+{
+  "id": "/D0紧急反应行动表格.gridassy",
+  "name": "D0紧急反应行动表格",
+  "layout": [],
+  "type": "grid",
+  "stickerTitle": "紧急反应行动",
+  "folderId": "168987437fd",
+  "gridLineVisiable": true,
+  "gridHeaderVisiable": true,
+  "gridHasHScroll": true,
+  "gridHasVScroll": true,
+  "gridDataSetService": "com.bizvisionsoft.service.ProblemService",
+  "columns": [
+    {
+      "id": "16828c482ef",
+      "name": "index",
+      "text": "序号",
+      "alignment": 16777216,
+      "width": 48,
+      "resizeable": true,
+      "columns": [],
+      "markupEnabled": true,
+      "forceDisplayZero": true
+    },
+    {
+      "id": "16828c48494",
+      "name": "action",
+      "text": "行动描述",
+      "alignment": 16384,
+      "width": 320,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "1682c66c120",
+      "name": "objective",
+      "text": "预期结果",
+      "alignment": 16384,
+      "width": 320,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "16828c48225",
+      "name": "charger_meta.name",
+      "text": "负责人",
+      "alignment": 16777216,
+      "width": 96,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "16828c483d6",
+      "name": "planStart",
+      "text": "计划开始",
+      "alignment": 16777216,
+      "width": 96,
+      "resizeable": true,
+      "columns": [],
+      "format": ""
+    },
+    {
+      "id": "1682c65c837",
+      "name": "planFinish",
+      "text": "计划完成",
+      "alignment": 16777216,
+      "width": 96,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "168519bf1df",
+      "name": "finish",
+      "text": "完成",
+      "alignment": 16777216,
+      "width": 48,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "1682c837cbc",
+      "name": "验证",
+      "text": "验证",
+      "alignment": 16384,
+      "width": 80,
+      "resizeable": true,
+      "expanded": false,
+      "columns": [
+        {
+          "id": "1682c83c7a1",
+          "name": "verification.title",
+          "text": "验证",
+          "alignment": 16384,
+          "width": 80,
+          "resizeable": true,
+          "detail": true,
+          "summary": true,
+          "columns": []
+        },
+        {
+          "id": "1682c83c90d",
+          "name": "verification.date",
+          "text": "日期",
+          "alignment": 16777216,
+          "width": 96,
+          "resizeable": true,
+          "detail": true,
+          "summary": true,
+          "columns": []
+        },
+        {
+          "id": "1682c83c9a5",
+          "name": "verification.user_meta.name",
+          "text": "验证人",
+          "alignment": 16777216,
+          "width": 80,
+          "resizeable": true,
+          "detail": true,
+          "columns": []
+        },
+        {
+          "id": "1682c83ca59",
+          "name": "verification.comment",
+          "text": "说明",
+          "alignment": 16384,
+          "width": 240,
+          "resizeable": true,
+          "detail": true,
+          "columns": []
+        }
+      ]
+    }
+  ],
+  "fields": [],
+  "actions": [
+    {
+      "id": "168286baede",
+      "name": "create",
+      "tooltips": "创建紧急反应行动",
+      "image": "/img/add_16_w.svg",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.problem.action.GenericAction",
+      "style": "normal",
+      "actionBehavier": true,
+      "type": "customized",
+      "parameters": "{\"render\":\"gridrow\",\"stage\":\"era\"}"
+    },
+    {
+      "id": "16833ddd8e1",
+      "name": "启动紧急反应行动",
+      "image": "/img/start_w.svg",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.problem.action.LifecycleChage",
+      "style": "normal",
+      "actionBehavier": true,
+      "type": "customized",
+      "parameters": "{\"stage\":\"eraStarted\"}"
+    },
+    {
+      "id": "16833de079b",
+      "name": "中止紧急反应行动",
+      "image": "/img/stop_w.svg",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.problem.action.LifecycleChage",
+      "style": "warning",
+      "actionBehavier": true,
+      "type": "customized",
+      "parameters": "{\"stage\":\"eraStopped\"}"
+    }
+  ],
+  "rowActions": [
+    {
+      "id": "1682887d90f",
+      "name": "edit",
+      "image": "/img/edit_w.svg",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.problem.action.GenericAction",
+      "style": "normal",
+      "actionBehavier": true,
+      "type": "customized",
+      "parameters": "{\"render\":\"gridrow\",\"stage\":\"era\"}"
+    },
+    {
+      "id": "16831a67790",
+      "name": "verify",
+      "image": "/img/verify_w.svg",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.problem.action.GenericAction",
+      "style": "normal",
+      "actionBehavier": true,
+      "type": "customized",
+      "parameters": "{\"render\":\"gridrow\",\"stage\":\"era\"}"
+    },
+    {
+      "id": "16831a67dae",
+      "name": "finish",
+      "image": "/img/finish_w.svg",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.problem.action.GenericAction",
+      "style": "normal",
+      "actionBehavier": true,
+      "type": "customized",
+      "parameters": "{\"render\":\"gridrow\",\"stage\":\"era\"}"
+    },
+    {
+      "id": "1682888bfd7",
+      "name": "delete",
+      "image": "/img/minus_16_w.svg",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.problem.action.GenericAction",
+      "style": "warning",
+      "actionBehavier": true,
+      "type": "customized",
+      "parameters": "{\"render\":\"gridrow\",\"stage\":\"era\"}"
+    }
+  ],
+  "hasTitlebar": true,
+  "parameters": "{\"render\":\"gridrow\",\"stage\":\"era\"}",
+  "sortFields": []
+}

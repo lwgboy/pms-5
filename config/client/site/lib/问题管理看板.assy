@@ -1,0 +1,62 @@
+{
+  "id": "/问题管理看板.assy",
+  "name": "问题管理看板",
+  "layout": [
+    {
+      "id": "167fcdd7318",
+      "name": "默认",
+      "columnCount": 1,
+      "horizontalSpacing": 0,
+      "verticalSpacing": 0,
+      "makeColumnsEqualWidth": true,
+      "marginHeight": 0,
+      "marginTop": 16,
+      "marginWidth": 8,
+      "css": "brui_bg_deep_relief",
+      "layoutType": "lane",
+      "assemblys": [
+        {
+          "id": "/已创建问题看板.boardassy",
+          "horizontalAlignment": 4,
+          "verticalAlignment": 16777216,
+          "grabExcessHorizontalSpace": true,
+          "verticalSpan": 1,
+          "horizontalSpan": 1,
+          "widthHint": -1,
+          "heightHint": -1
+        },
+        {
+          "id": "/解决中问题看板.boardassy",
+          "horizontalAlignment": 4,
+          "verticalAlignment": 16777216,
+          "grabExcessHorizontalSpace": true,
+          "verticalSpan": 1,
+          "horizontalSpan": 1,
+          "widthHint": -1,
+          "heightHint": -1
+        },
+        {
+          "id": "/tops/未读消息.boardassy",
+          "horizontalAlignment": 4,
+          "verticalAlignment": 16777216,
+          "grabExcessHorizontalSpace": true,
+          "verticalSpan": 1,
+          "horizontalSpan": 1,
+          "widthHint": -1,
+          "heightHint": -1
+        }
+      ],
+      "laneWidth": 320
+    }
+  ],
+  "folderId": "167fcdcde82",
+  "actions": [],
+  "rowActions": [],
+  "candidates": [
+    "/已创建问题看板.boardassy",
+    "/解决中问题看板.boardassy",
+    "/已关闭问题看板.boardassy",
+    "/已取消问题看板.boardassy",
+    "/tops/未读消息.boardassy"
+  ]
+}

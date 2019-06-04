@@ -1,0 +1,56 @@
+{
+  "id": "/D5-目标和准则-编辑器.editorassy",
+  "name": "D5-目标和准则-编辑器",
+  "title": "最终目标和决策准则",
+  "layout": [],
+  "type": "editor",
+  "folderId": "1689872b96f",
+  "fields": [
+    {
+      "id": "1680c15cf89",
+      "name": "endResult",
+      "text": "最终目标",
+      "type": "单行文本框",
+      "formFields": [],
+      "required": true,
+      "verticalAlignLabel": false
+    },
+    {
+      "id": "1680c17ab71",
+      "name": "givens",
+      "text": "强制要求",
+      "type": "表格",
+      "formFields": [],
+      "required": false,
+      "selectorAssemblyId": "/单name列表格.gridassy",
+      "verticalAlignLabel": false,
+      "enableCreateItem": true
+    },
+    {
+      "id": "1680c18939f",
+      "name": "wants",
+      "text": "期望目标",
+      "type": "表格",
+      "formFields": [],
+      "required": false,
+      "selectorAssemblyId": "/D5-目标和准则-期望.gridassy",
+      "grabVertical": true,
+      "verticalAlignLabel": false,
+      "enableCreateItem": true
+    }
+  ],
+  "actions": [
+    {
+      "id": "168745f6af0",
+      "name": "选择",
+      "text": "选择",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.problem.action.SelectCriteria",
+      "style": "info",
+      "type": "customized"
+    }
+  ],
+  "smallEditor": false,
+  "tinyEditor": false,
+  "addToParentContext": true
+}

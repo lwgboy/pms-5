@@ -1,0 +1,9 @@
+{
+  "id": "/用户选择器—单选.selectorassy",
+  "name": "用户选择器—单选",
+  "layout": [],
+  "type": "selector",
+  "folderId": "162bd9dad9d",
+  "selectorGridAssemblyId": "/tops/用户选择列表.gridassy",
+  "disableInitLoadData": false
+}

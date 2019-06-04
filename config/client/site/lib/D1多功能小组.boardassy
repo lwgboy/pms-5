@@ -1,0 +1,52 @@
+{
+  "id": "/D1多功能小组.boardassy",
+  "name": "D1多功能小组",
+  "title": "D1 多功能小组",
+  "layout": [],
+  "type": "board",
+  "stickerTitle": "团队",
+  "folderId": "168987781d7",
+  "gridAutoHeight": true,
+  "gridDataSetService": "com.bizvisionsoft.service.ProblemService",
+  "fields": [],
+  "actions": [
+    {
+      "id": "167eb76e58f",
+      "name": "create",
+      "tooltips": "创建CFT成员",
+      "image": "/img/add_16_w.svg",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.problem.action.D1Action",
+      "style": "normal",
+      "actionBehavier": true,
+      "type": "customized",
+      "createActionNewInstanceBundleId": "",
+      "createActionNewInstanceClassName": "",
+      "parameters": "{\"render\":\"card\"}"
+    },
+    {
+      "id": "16828ddd97e",
+      "name": "切换",
+      "image": "/img/right_w.svg",
+      "switchContentToAssemblyId": "/D1多功能小组表格.gridassy",
+      "style": "normal",
+      "type": "switch"
+    }
+  ],
+  "rowActions": [
+    {
+      "id": "167f27162c4",
+      "name": "操作",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.problem.action.D1Action",
+      "type": "customized",
+      "parameters": "{\"render\":\"card\"}"
+    }
+  ],
+  "hasTitlebar": true,
+  "disableStdQuery": true,
+  "parameters": "{\"render\":\"card\"}",
+  "scrollLoadData": false,
+  "compactTitleBar": true,
+  "sortFields": []
+}

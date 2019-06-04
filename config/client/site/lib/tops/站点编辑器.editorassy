@@ -1,0 +1,107 @@
+{
+  "id": "/tops/站点编辑器.editorassy",
+  "name": "站点编辑器",
+  "title": "站点",
+  "layout": [],
+  "type": "editor",
+  "folderId": "16897ff1799",
+  "fields": [
+    {
+      "id": "162c9ee178d",
+      "name": "基本信息",
+      "type": "标签页",
+      "formFields": [
+        {
+          "id": "162c9ef09a4",
+          "name": "id",
+          "text": "Id",
+          "type": "单行文本框",
+          "formFields": [],
+          "readOnly": true
+        },
+        {
+          "id": "162c9ef0af2",
+          "name": "name",
+          "text": "站点名称",
+          "type": "单行文本框",
+          "formFields": [],
+          "required": true
+        },
+        {
+          "id": "162c9ef0bdb",
+          "name": "title",
+          "text": "站点标题",
+          "type": "单行文本框",
+          "formFields": [],
+          "required": true
+        },
+        {
+          "id": "162c9ef0ff4",
+          "name": "description",
+          "text": "描述",
+          "type": "单行文本框",
+          "formFields": []
+        },
+        {
+          "id": "162c9ef0cf6",
+          "name": "path",
+          "text": "Servlet路径",
+          "type": "单行文本框",
+          "formFields": [],
+          "required": true
+        },
+        {
+          "id": "162c9ef0e00",
+          "name": "aliasOfResFolder",
+          "text": "资源路径别名",
+          "type": "单行文本框",
+          "formFields": [],
+          "required": true
+        },
+        {
+          "id": "162c9ef0efa",
+          "name": "favIcon",
+          "text": "站点图标",
+          "type": "单行文本框",
+          "formFields": [],
+          "required": true
+        },
+        {
+          "id": "162c9ef10fe",
+          "name": "pageOverflow",
+          "text": "页面滚动方式",
+          "type": "单选框",
+          "formFields": [],
+          "optionValue": "scroll#scrollX#scrollY# ",
+          "optionText": "横向和纵向#横向#纵向#不滚动",
+          "radioStyle": "横向分段（默认）"
+        },
+        {
+          "id": "162c9ef121a",
+          "name": "login",
+          "text": "用户登录组件",
+          "type": "对象选择框",
+          "formFields": [],
+          "required": true,
+          "selectorAssemblyId": "/tops/组件选择器.gridassy"
+        }
+      ]
+    },
+    {
+      "id": "162c9ee25aa",
+      "name": "headHtml",
+      "text": "\u003cHead\u003e",
+      "type": "标签页（文本编辑）",
+      "formFields": []
+    },
+    {
+      "id": "162c9ee2661",
+      "name": "bodyHtml",
+      "text": "\u003cBody\u003e",
+      "type": "标签页（文本编辑）",
+      "formFields": []
+    }
+  ],
+  "actions": [],
+  "disableInitLoadData": false
+}

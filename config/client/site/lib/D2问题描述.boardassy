@@ -1,0 +1,61 @@
+{
+  "id": "/D2问题描述.boardassy",
+  "name": "D2问题描述",
+  "title": "D2 问题描述",
+  "layout": [],
+  "type": "board",
+  "stickerTitle": "问题描述",
+  "folderId": "168987781d7",
+  "gridAutoHeight": true,
+  "gridDataSetService": "com.bizvisionsoft.service.ProblemService",
+  "fields": [],
+  "actions": [
+    {
+      "id": "167ed659e04",
+      "name": "编辑问题描述文本",
+      "tooltips": "编辑问题描述",
+      "image": "/img/edit_w.svg",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.problem.action.EditD2ProblemDesc",
+      "style": "normal",
+      "actionBehavier": true,
+      "type": "customized"
+    },
+    {
+      "id": "167ee4c3edc",
+      "name": "createPhoto",
+      "tooltips": "上传描述问题的现场照片",
+      "image": "/img/photo_w.svg",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.problem.action.D2Action",
+      "style": "normal",
+      "actionBehavier": true,
+      "type": "customized",
+      "parameters": "{\"render\":\"card\"}"
+    },
+    {
+      "id": "16833d562df",
+      "name": "切换",
+      "image": "/img/right_w.svg",
+      "switchContentToAssemblyId": "/D2现场照片表格.gridassy",
+      "style": "normal",
+      "type": "switch"
+    }
+  ],
+  "rowActions": [
+    {
+      "id": "167f373edb2",
+      "name": "操作",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.problem.action.D2Action",
+      "type": "customized",
+      "parameters": "{\"render\":\"card\"}"
+    }
+  ],
+  "hasTitlebar": true,
+  "disableStdQuery": true,
+  "parameters": "{\"render\":\"card\"}",
+  "scrollLoadData": false,
+  "compactTitleBar": true,
+  "sortFields": []
+}

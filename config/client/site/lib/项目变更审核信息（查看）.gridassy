@@ -1,0 +1,69 @@
+{
+  "id": "/项目变更审核信息（查看）.gridassy",
+  "name": "项目变更审核信息（查看）",
+  "layout": [],
+  "type": "grid",
+  "folderId": "16441e49ba4",
+  "gridAutoExpandLevel": 1,
+  "gridMarkupEnabled": true,
+  "gridLineVisiable": true,
+  "gridHeaderVisiable": true,
+  "gridHasVScroll": true,
+  "gridRenderBundleId": "",
+  "gridRenderClassName": "",
+  "gridDataSetBundleId": "com.bizvisionsoft.pms",
+  "gridDataSetClassName": "com.bizvisionsoft.pms.projectchange.ProjectChangeProcessDS",
+  "columns": [
+    {
+      "id": "1644ae1c10f",
+      "name": "name",
+      "text": "活动名称",
+      "alignment": 16384,
+      "width": 80,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "1644ae1c5bd",
+      "name": "userInfo",
+      "text": "审核人",
+      "alignment": 16384,
+      "width": 80,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "1644ae1c7cf",
+      "name": "date",
+      "text": "审核时间",
+      "alignment": 16777216,
+      "width": 80,
+      "resizeable": true,
+      "columns": [],
+      "format": "yyyy-MM-dd"
+    },
+    {
+      "id": "1644ae1c8b4",
+      "name": "choice",
+      "text": "结论",
+      "alignment": 16384,
+      "width": 80,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "1644ae1ce66",
+      "name": "comment",
+      "text": "意见",
+      "alignment": 16384,
+      "width": 320,
+      "resizeable": true,
+      "columns": []
+    }
+  ],
+  "fields": [],
+  "gridAutoColumnWidth": true,
+  "actions": [],
+  "rowActions": [],
+  "disableInitLoadData": false
+}

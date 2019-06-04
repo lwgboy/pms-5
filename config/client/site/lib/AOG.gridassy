@@ -1,0 +1,92 @@
+{
+  "id": "/AOG.gridassy",
+  "name": "AOG",
+  "description": "AOG",
+  "layout": [],
+  "type": "grid",
+  "stickerTitle": "Arrival of Goods",
+  "folderId": "1638c40accd",
+  "gridMarkupEnabled": true,
+  "gridLineVisiable": true,
+  "gridHeaderVisiable": true,
+  "gridHasHScroll": true,
+  "gridHasVScroll": true,
+  "gridDataSetService": "",
+  "gridDataSetBundleId": "com.awesometech.leoco",
+  "gridDataSetClassName": "com.awesometech.leoco.ds.AOGDataset",
+  "columns": [
+    {
+      "id": "16595933969",
+      "name": "PO_NUM",
+      "text": "PO单号",
+      "alignment": 16384,
+      "width": 160,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "16595933b36",
+      "name": "PO_IDX",
+      "text": "PO序号",
+      "alignment": 16384,
+      "width": 160,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "1636bd98aa7",
+      "name": "PRT_NUM",
+      "text": "物料编号",
+      "alignment": 16384,
+      "width": 160,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "1636ccfce55",
+      "name": "PRT_DESC",
+      "text": "物料描述",
+      "alignment": 16384,
+      "width": 240,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "1636cd0fafb",
+      "name": "QTY",
+      "text": "到货数量",
+      "alignment": 131072,
+      "width": 80,
+      "resizeable": true,
+      "detail": true,
+      "summary": true,
+      "columns": [],
+      "format": "#.0"
+    },
+    {
+      "id": "1636cd0c442",
+      "name": "UNIT",
+      "text": "单位",
+      "alignment": 16777216,
+      "width": 80,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "1636c4468dc",
+      "name": "ADATE",
+      "text": "到货日期",
+      "alignment": 16777216,
+      "width": 160,
+      "resizeable": true,
+      "detail": true,
+      "columns": [],
+      "format": "yyyy-MM-dd"
+    }
+  ],
+  "fields": [],
+  "actions": [],
+  "rowActions": [],
+  "hasTitlebar": true,
+  "disableInitLoadData": false
+}

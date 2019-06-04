@@ -1,0 +1,70 @@
+{
+  "id": "/tops/值规则段编辑（JS）.editorassy",
+  "name": "值规则段编辑（JS）",
+  "title": "值规则段编辑（JS）",
+  "layout": [],
+  "type": "editor",
+  "folderId": "1677a194b59",
+  "fields": [
+    {
+      "id": "1677d3504ad",
+      "name": "新字段4",
+      "type": "行",
+      "formFields": [
+        {
+          "id": "1677d3967de",
+          "name": "type",
+          "text": "类型",
+          "type": "单行文本框",
+          "formFields": [],
+          "readOnly": true
+        },
+        {
+          "id": "1677cfea3e7",
+          "name": "index",
+          "text": "序号",
+          "type": "单行文本框",
+          "formFields": [],
+          "tooltips": "本段字符串的拼接顺序",
+          "required": true
+        },
+        {
+          "id": "1677cfea502",
+          "name": "executeSequance",
+          "text": "执行顺序",
+          "type": "单行文本框",
+          "formFields": [],
+          "tooltips": "本段字符串的执行顺序",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "1677cfea6b1",
+      "name": "script",
+      "text": "JavaScript",
+      "type": "多行文本框",
+      "formFields": [],
+      "required": true,
+      "grabVertical": true
+    },
+    {
+      "id": "1677d03ea18",
+      "name": "function",
+      "text": "取值函数名",
+      "type": "单行文本框",
+      "formFields": [],
+      "tooltips": "类型为JavaScript时调用的函数，可以为null,为null时，计算JavaScript的返回值"
+    },
+    {
+      "id": "1677e09c6c5",
+      "name": "disableOutput",
+      "text": "禁止输出",
+      "type": "复选框",
+      "formFields": [],
+      "tooltips": "如果禁止输出，这个值仍然可以提供给其他段使用",
+      "checkStyle": "开关（默认）"
+    }
+  ],
+  "disableInitLoadData": false
+}

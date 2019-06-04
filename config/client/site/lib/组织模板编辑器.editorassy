@@ -1,0 +1,45 @@
+{
+  "id": "/组织模板编辑器.editorassy",
+  "name": "组织模板编辑器",
+  "title": "组织模板",
+  "layout": [],
+  "type": "editor",
+  "folderId": "1667891054a",
+  "fields": [
+    {
+      "id": "162bda0ddf4",
+      "name": "id",
+      "text": "编号",
+      "type": "单行文本框",
+      "formFields": [],
+      "required": true
+    },
+    {
+      "id": "162bda0e250",
+      "name": "name",
+      "text": "名称",
+      "type": "单行文本框",
+      "formFields": [],
+      "required": true
+    },
+    {
+      "id": "162bda0e3bf",
+      "name": "description",
+      "text": "说明",
+      "type": "单行文本框",
+      "formFields": []
+    },
+    {
+      "id": "166673b8bef",
+      "name": "epsInfos",
+      "text": "适用范围",
+      "type": "多个对象选择框",
+      "formFields": [],
+      "required": true,
+      "selectorAssemblyId": "/EPS管理.gridassy"
+    }
+  ],
+  "actions": [],
+  "smallEditor": true,
+  "disableInitLoadData": false
+}

@@ -1,0 +1,10 @@
+{
+  "id": "/问题原因因果关系.chartassy",
+  "name": "问题原因因果关系",
+  "description": "",
+  "layout": [],
+  "type": "chart",
+  "folderId": "168987ad286",
+  "gridDataSetService": "com.bizvisionsoft.service.ProblemService",
+  "actions": []
+}

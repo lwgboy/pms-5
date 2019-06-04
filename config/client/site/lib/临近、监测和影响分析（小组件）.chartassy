@@ -1,0 +1,11 @@
+{
+  "id": "/临近、监测和影响分析（小组件）.chartassy",
+  "name": "临近、监测和影响分析（小组件）",
+  "layout": [],
+  "type": "chart",
+  "stickerTitle": "",
+  "folderId": "1646952fba8",
+  "gridDataSetService": "com.bizvisionsoft.service.RiskService",
+  "actions": [],
+  "disableInitLoadData": false
+}

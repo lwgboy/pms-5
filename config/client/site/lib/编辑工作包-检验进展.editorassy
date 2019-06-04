@@ -1,0 +1,47 @@
+{
+  "id": "/编辑工作包-检验进展.editorassy",
+  "name": "编辑工作包-检验进展",
+  "title": "检验进展",
+  "layout": [],
+  "type": "editor",
+  "folderId": "1638c40bc80",
+  "fields": [
+    {
+      "id": "16380df661d",
+      "name": "time",
+      "text": "日期",
+      "type": "日期时间选择",
+      "formFields": [],
+      "required": true,
+      "dateType": "datetime"
+    },
+    {
+      "id": "163854970ea",
+      "name": "description",
+      "text": "描述",
+      "type": "单行文本框",
+      "formFields": [],
+      "required": true
+    },
+    {
+      "id": "16380df68b7",
+      "name": "completeQty",
+      "text": "检验数量",
+      "type": "单行文本框",
+      "formFields": [],
+      "required": true,
+      "textRestrict": "浮点"
+    },
+    {
+      "id": "163819e2a5f",
+      "name": "qualifiedQty",
+      "text": "合格数量",
+      "type": "单行文本框",
+      "formFields": [],
+      "required": true,
+      "textRestrict": "浮点"
+    }
+  ],
+  "smallEditor": true,
+  "disableInitLoadData": false
+}

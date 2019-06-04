@@ -1,0 +1,36 @@
+{
+  "id": "/D5-目标和准则-期望.gridassy",
+  "name": "D5-目标和准则-期望",
+  "layout": [],
+  "type": "grid",
+  "folderId": "1689872b96f",
+  "gridLineVisiable": true,
+  "gridHeaderVisiable": true,
+  "gridHasHScroll": true,
+  "gridHasVScroll": true,
+  "columns": [
+    {
+      "id": "1680c4bf304",
+      "name": "name",
+      "text": "期望",
+      "alignment": 16384,
+      "width": 240,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "1680c4c44d3",
+      "name": "weight",
+      "text": "重要度",
+      "alignment": 16384,
+      "width": 80,
+      "resizeable": true,
+      "columns": []
+    }
+  ],
+  "fields": [],
+  "gridAutoColumnWidth": true,
+  "actions": [],
+  "rowActions": [],
+  "sortFields": []
+}

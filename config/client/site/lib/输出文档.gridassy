@@ -1,0 +1,122 @@
+{
+  "id": "/输出文档.gridassy",
+  "name": "输出文档",
+  "layout": [],
+  "type": "grid",
+  "stickerTitle": "文档",
+  "folderId": "1636715acf8",
+  "gridLineVisiable": true,
+  "gridHeaderVisiable": true,
+  "gridHasVScroll": true,
+  "gridDataSetService": "com.bizvisionsoft.service.DocumentService",
+  "gridDataSetBundleId": "",
+  "gridDataSetClassName": "",
+  "columns": [
+    {
+      "id": "15ce2dee0b7",
+      "name": "id",
+      "text": "文档编号",
+      "alignment": 16384,
+      "width": 120,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "15ce2de8452",
+      "name": "name",
+      "text": "文档名称",
+      "alignment": 16384,
+      "width": 240,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "15ce2df87b7",
+      "name": "category",
+      "text": "类别",
+      "alignment": 16384,
+      "width": 120,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "15ce2df96c8",
+      "name": "description",
+      "text": "描述",
+      "alignment": 16384,
+      "width": 240,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "15ce2dfbccc",
+      "name": "createByInfo",
+      "text": "创建者",
+      "alignment": 16384,
+      "width": 160,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "15ce2dfdad0",
+      "name": "createOn",
+      "text": "创建时间",
+      "alignment": 16384,
+      "width": 160,
+      "resizeable": true,
+      "columns": []
+    }
+  ],
+  "fields": [],
+  "actions": [
+    {
+      "id": "15ce2e07749",
+      "name": "创建文档",
+      "text": "创建",
+      "image": "",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.workpackage.action.CreateDocuOfPackage",
+      "forceText": true,
+      "style": "normal",
+      "type": "customized",
+      "verticalSpan": 0
+    },
+    {
+      "id": "15ce2ec5254",
+      "name": "添加",
+      "text": "添加",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.filecabinet.AddDocuToPackageACT",
+      "forceText": true,
+      "style": "normal",
+      "type": "customized",
+      "verticalSpan": 0
+    }
+  ],
+  "rowActions": [
+    {
+      "id": "163e37cdd36",
+      "name": "打开",
+      "image": "/img/edit_w.svg",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.filecabinet.OpenDocuACT",
+      "style": "normal",
+      "type": "customized",
+      "verticalSpan": 0
+    },
+    {
+      "id": "15ce2ecf5c2",
+      "name": "移除",
+      "text": "移除",
+      "image": "/img/minus_16_w.svg",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.workpackage.action.RemoveDocuOfWorkPackage",
+      "style": "warning",
+      "type": "customized",
+      "verticalSpan": 0
+    }
+  ],
+  "hasTitlebar": true,
+  "displayInputLabelInTitlebar": true,
+  "disableInitLoadData": false
+}

@@ -1,0 +1,173 @@
+{
+  "id": "/变更详情信息面板.infopadassy",
+  "name": "变更详情信息面板",
+  "layout": [],
+  "type": "infopad",
+  "stickerTitle": "变更申请",
+  "folderId": "16441e49ba4",
+  "gridDataSetService": "com.bizvisionsoft.service.ProjectService",
+  "fields": [
+    {
+      "id": "16445096e9f",
+      "name": "新字段1",
+      "type": "行",
+      "formFields": [
+        {
+          "id": "164450973a0",
+          "name": "projectName",
+          "text": "项目名称",
+          "type": "文本标签",
+          "formFields": []
+        },
+        {
+          "id": "164454ca5a2",
+          "name": "applicantInfo",
+          "text": "申请人",
+          "type": "文本标签",
+          "formFields": []
+        },
+        {
+          "id": "164454ccc95",
+          "name": "applicantUnit",
+          "text": "申请单位",
+          "type": "文本标签",
+          "formFields": []
+        },
+        {
+          "id": "164454cce4b",
+          "name": "applicantDate",
+          "text": "申请时间",
+          "type": "文本标签",
+          "formFields": [],
+          "format": "yyyy-MM-dd"
+        }
+      ]
+    },
+    {
+      "id": "164454d84de",
+      "name": "新字段10",
+      "type": "行",
+      "formFields": [
+        {
+          "id": "164454dbdd8",
+          "name": "projectSituation",
+          "text": "项目现状",
+          "type": "多行文本标签",
+          "formFields": []
+        },
+        {
+          "id": "164454dbeb8",
+          "name": "reason",
+          "text": "调整原因",
+          "type": "多行文本标签",
+          "formFields": []
+        }
+      ]
+    },
+    {
+      "id": "164454e93a2",
+      "name": "新字段13",
+      "type": "行",
+      "formFields": [
+        {
+          "id": "164454e9971",
+          "name": "requirement",
+          "text": "进度要求",
+          "type": "多行文本标签",
+          "formFields": []
+        },
+        {
+          "id": "164454e9a10",
+          "name": "achievements",
+          "text": "成果形式",
+          "type": "多行文本标签",
+          "formFields": []
+        }
+      ]
+    },
+    {
+      "id": "164454f4143",
+      "name": "新字段16",
+      "type": "行",
+      "formFields": [
+        {
+          "id": "164454f4945",
+          "name": "questionProcessing",
+          "text": "问题处理",
+          "type": "多行文本标签",
+          "formFields": []
+        },
+        {
+          "id": "164454f49da",
+          "name": "新字段18",
+          "type": "行",
+          "formFields": []
+        }
+      ]
+    }
+  ],
+  "actions": [
+    {
+      "id": "164455bf4a8",
+      "name": "编辑变更",
+      "text": "编辑",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.projectchange.EditProjectChangeACT",
+      "forceText": true,
+      "style": "normal",
+      "objectBehavier": true,
+      "type": "customized",
+      "verticalSpan": 0
+    },
+    {
+      "id": "164455cd636",
+      "name": "提交变更",
+      "text": "提交",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.projectchange.SubmitProjectChangeACT",
+      "forceText": true,
+      "style": "info",
+      "objectBehavier": true,
+      "type": "customized",
+      "verticalSpan": 0
+    },
+    {
+      "id": "164455cdc67",
+      "name": "批准变更",
+      "text": "批准",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.projectchange.PassProjectChangeACT",
+      "forceText": true,
+      "style": "info",
+      "objectBehavier": true,
+      "type": "customized",
+      "verticalSpan": 0
+    },
+    {
+      "id": "164455ce49d",
+      "name": "否决变更",
+      "text": "否决",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.projectchange.CancelProjectChangeACT",
+      "forceText": true,
+      "style": "warning",
+      "objectBehavier": true,
+      "type": "customized",
+      "verticalSpan": 0
+    },
+    {
+      "id": "1644c2bcfab",
+      "name": "确认变更",
+      "text": "关闭",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.projectchange.ConfirmProjectChangeACT",
+      "forceText": true,
+      "style": "info",
+      "objectBehavier": true,
+      "type": "customized",
+      "verticalSpan": 0
+    }
+  ],
+  "hasTitlebar": true,
+  "disableInitLoadData": false
+}

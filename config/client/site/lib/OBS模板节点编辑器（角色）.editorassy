@@ -1,0 +1,40 @@
+{
+  "id": "/OBS模板节点编辑器（角色）.editorassy",
+  "name": "OBS模板节点编辑器（角色）",
+  "layout": [],
+  "type": "editor",
+  "folderId": "163cd3e0d4c",
+  "fields": [
+    {
+      "id": "162dc2904f9",
+      "name": "selectedRole",
+      "text": "选择角色",
+      "type": "下拉选择框",
+      "formFields": [],
+      "required": true
+    },
+    {
+      "id": "162b7bcc83e",
+      "name": "manager",
+      "text": "预设担任者",
+      "type": "对象选择框",
+      "formFields": [],
+      "selectorAssemblyId": "/用户选择列表.gridassy"
+    },
+    {
+      "id": "164e57563cf",
+      "name": "dir",
+      "description": "排列方向",
+      "text": "排列方向",
+      "type": "单选框",
+      "formFields": [],
+      "optionValue": "horizontal#vertical",
+      "optionText": "横向排列#垂直排列",
+      "radioStyle": "横向分段（默认）"
+    }
+  ],
+  "actions": [],
+  "smallEditor": true,
+  "tinyEditor": false,
+  "disableInitLoadData": false
+}

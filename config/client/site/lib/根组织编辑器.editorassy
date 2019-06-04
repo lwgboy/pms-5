@@ -1,0 +1,82 @@
+{
+  "id": "/根组织编辑器.editorassy",
+  "name": "根组织编辑器",
+  "layout": [],
+  "type": "editor",
+  "folderId": "162bd9c7da4",
+  "fields": [
+    {
+      "id": "162f0b08da0",
+      "name": "新字段8",
+      "type": "行",
+      "formFields": [
+        {
+          "id": "162b7bcc424",
+          "name": "id",
+          "text": "编号",
+          "type": "单行文本框",
+          "formFields": []
+        },
+        {
+          "id": "162b7bcc540",
+          "name": "name",
+          "text": "名称",
+          "type": "单行文本框",
+          "formFields": []
+        }
+      ]
+    },
+    {
+      "id": "162b7bcc69e",
+      "name": "fullName",
+      "text": "全称",
+      "type": "单行文本框",
+      "formFields": []
+    },
+    {
+      "id": "162b7bcc766",
+      "name": "type",
+      "text": "类型",
+      "type": "单选框",
+      "formFields": [],
+      "optionValue": "集团#公司",
+      "optionText": "集团#公司",
+      "radioStyle": "横向分段（默认）"
+    },
+    {
+      "id": "162b7bcc83e",
+      "name": "manager",
+      "text": "管理者",
+      "type": "对象选择框",
+      "formFields": [],
+      "selectorAssemblyId": "/tops/用户选择列表.gridassy"
+    },
+    {
+      "id": "16892de7b50",
+      "name": "新字段16",
+      "type": "行",
+      "formFields": [
+        {
+          "id": "164698ff443",
+          "name": "qualifiedContractor",
+          "text": "项目责任单位",
+          "type": "复选框",
+          "formFields": [],
+          "checkStyle": "开关（默认）"
+        },
+        {
+          "id": "16892dd34e6",
+          "name": "externalType",
+          "text": "组织类型",
+          "type": "单选框",
+          "formFields": [],
+          "optionText": "内部#客户#供应商#合作伙伴#监管机构",
+          "radioStyle": "横向分段（默认）",
+          "checkStyle": "开关（默认）"
+        }
+      ]
+    }
+  ],
+  "actions": [],
+  "disableInitLoadData": false
+}

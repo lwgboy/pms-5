@@ -1,0 +1,36 @@
+{
+  "id": "/OBS模板节点选择器.gridassy",
+  "name": "OBS模板节点选择器",
+  "layout": [],
+  "type": "grid",
+  "folderId": "163d2b1a4d6",
+  "gridLineVisiable": true,
+  "gridHeaderVisiable": true,
+  "gridHasVScroll": true,
+  "gridDataSetService": "com.bizvisionsoft.service.ProjectTemplateService",
+  "columns": [
+    {
+      "id": "163cd669786",
+      "name": "roleId",
+      "text": "角色编号",
+      "alignment": 16384,
+      "width": 80,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "163cd688722",
+      "name": "roleName",
+      "text": "角色名称",
+      "alignment": 16384,
+      "width": 80,
+      "resizeable": true,
+      "columns": []
+    }
+  ],
+  "fields": [],
+  "gridAutoColumnWidth": true,
+  "actions": [],
+  "rowActions": [],
+  "disableInitLoadData": false
+}

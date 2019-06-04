@@ -1,0 +1,30 @@
+{
+  "id": "/选取PLM对象.gridassy",
+  "name": "选取PLM对象",
+  "layout": [],
+  "type": "grid",
+  "stickerTitle": "选取PLM对象",
+  "folderId": "1638c40764f",
+  "gridLineVisiable": true,
+  "gridHeaderVisiable": true,
+  "gridHasVScroll": true,
+  "gridDataSetBundleId": "com.bizvisionsoft.pms",
+  "gridDataSetClassName": "com.bizvisionsoft.jz.project.PLMObjectDataset",
+  "columns": [
+    {
+      "id": "165466ba577",
+      "name": "name",
+      "text": "名称",
+      "alignment": 16384,
+      "width": 80,
+      "resizeable": true,
+      "columns": []
+    }
+  ],
+  "fields": [],
+  "gridAutoColumnWidth": true,
+  "actions": [],
+  "rowActions": [],
+  "displayInputLabelInTitlebar": true,
+  "disableInitLoadData": false
+}

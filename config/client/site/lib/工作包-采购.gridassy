@@ -1,0 +1,172 @@
+{
+  "id": "/工作包-采购.gridassy",
+  "name": "工作包-采购",
+  "description": "采购",
+  "layout": [],
+  "type": "grid",
+  "folderId": "1638c40accd",
+  "gridMarkupEnabled": true,
+  "gridLineVisiable": true,
+  "gridHeaderVisiable": true,
+  "gridHasHScroll": true,
+  "gridHasVScroll": true,
+  "gridDataSetService": "",
+  "gridDataSetBundleId": "com.awesometech.leoco",
+  "gridDataSetClassName": "com.awesometech.leoco.ds.PRDataset",
+  "columns": [
+    {
+      "id": "16595933969",
+      "name": "PR_NUM",
+      "text": "PR单号",
+      "alignment": 16384,
+      "width": 160,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "16595933b36",
+      "name": "PR_IDX",
+      "text": "PR序号",
+      "alignment": 16384,
+      "width": 160,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "1636bd98aa7",
+      "name": "PRT_NUM",
+      "text": "物料编号",
+      "alignment": 16384,
+      "width": 160,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "1636ccfce55",
+      "name": "PRT_DESC",
+      "text": "物料描述",
+      "alignment": 16384,
+      "width": 240,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "1636cd0fafb",
+      "name": "QTY",
+      "text": "需求数量",
+      "alignment": 131072,
+      "width": 80,
+      "resizeable": true,
+      "detail": true,
+      "summary": true,
+      "columns": [],
+      "format": "#.0"
+    },
+    {
+      "id": "1659d479e46",
+      "name": "进展",
+      "text": "进展",
+      "alignment": 16384,
+      "width": 80,
+      "resizeable": true,
+      "expanded": true,
+      "columns": [
+        {
+          "id": "1659d446ebb",
+          "name": "POQTY",
+          "text": "下单数量",
+          "alignment": 131072,
+          "width": 80,
+          "resizeable": true,
+          "detail": true,
+          "summary": true,
+          "columns": []
+        },
+        {
+          "id": "1659d44703a",
+          "name": "AQTY",
+          "text": "到货数量",
+          "alignment": 131072,
+          "width": 80,
+          "resizeable": true,
+          "detail": true,
+          "summary": true,
+          "columns": []
+        },
+        {
+          "id": "165963374dc",
+          "name": "completeQty",
+          "text": "备料数量",
+          "alignment": 131072,
+          "width": 80,
+          "resizeable": true,
+          "detail": true,
+          "summary": true,
+          "columns": [],
+          "format": "0.0"
+        }
+      ],
+      "noToggleGridColumnGroup": true
+    },
+    {
+      "id": "1636cd0c442",
+      "name": "UNIT",
+      "text": "单位",
+      "alignment": 16777216,
+      "width": 80,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "1636c4468dc",
+      "name": "RDATE",
+      "text": "需求日期",
+      "alignment": 16777216,
+      "width": 160,
+      "resizeable": true,
+      "detail": true,
+      "columns": [],
+      "format": "yyyy-MM-dd"
+    }
+  ],
+  "fields": [],
+  "actions": [
+    {
+      "id": "165985bf549",
+      "name": "注册SO",
+      "text": "注册SO...",
+      "bundleId": "com.awesometech.leoco",
+      "className": "com.awesometech.leoco.action.SelectSO",
+      "forceText": true,
+      "style": "normal",
+      "type": "customized",
+      "verticalSpan": 0
+    }
+  ],
+  "rowActions": [
+    {
+      "id": "1636c6d351a",
+      "name": "查看PO",
+      "text": "PO",
+      "image": "",
+      "switchContentToAssemblyId": "/PO.gridassy",
+      "openContent": true,
+      "forceText": true,
+      "style": "info",
+      "type": "switch",
+      "verticalSpan": 0
+    },
+    {
+      "id": "165958ed65b",
+      "name": "设置备料数量",
+      "text": "备料",
+      "bundleId": "com.awesometech.leoco",
+      "className": "com.awesometech.leoco.action.SetAcceptedQty",
+      "forceText": true,
+      "style": "warning",
+      "type": "customized",
+      "verticalSpan": 0
+    }
+  ],
+  "disableInitLoadData": false
+}

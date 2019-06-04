@@ -1,0 +1,60 @@
+{
+  "id": "/项目工作看板-已完成.gridassy",
+  "name": "项目工作看板-已完成",
+  "description": "用于项目中显示已完成的工作",
+  "layout": [],
+  "type": "grid",
+  "stickerTitle": "已完成",
+  "folderId": "166d2b7d771",
+  "gridCustomItemHeight": 64,
+  "gridMarkupEnabled": true,
+  "gridHasVScroll": true,
+  "gridHideIndentionImage": true,
+  "gridRenderBundleId": "com.bizvisionsoft.pms",
+  "gridRenderClassName": "com.bizvisionsoft.pms.work.ProjectWorkCardRender",
+  "gridDataSetService": "com.bizvisionsoft.service.WorkService",
+  "columns": [
+    {
+      "id": "163958005c5",
+      "name": "myWork",
+      "text": "myWork",
+      "alignment": 16384,
+      "width": 80,
+      "resizeable": true,
+      "columns": []
+    }
+  ],
+  "fields": [
+    {
+      "id": "163f49c2505",
+      "name": "fullName",
+      "text": "工作名称",
+      "type": "文本输入框（查询）",
+      "formFields": []
+    },
+    {
+      "id": "163f49a8a18",
+      "name": "projectName",
+      "text": "项目名称",
+      "type": "文本输入框（查询）",
+      "formFields": []
+    },
+    {
+      "id": "163f49cb371",
+      "name": "projectNumber",
+      "text": "项目编号",
+      "type": "文本输入框（查询）",
+      "formFields": []
+    }
+  ],
+  "gridAutoColumnWidth": true,
+  "actions": [],
+  "rowActions": [],
+  "hasTitlebar": true,
+  "disableInitLoadData": false,
+  "disableStandardExport": true,
+  "disableCustomized": true,
+  "parameters": "",
+  "scrollLoadData": true,
+  "compactTitleBar": true
+}

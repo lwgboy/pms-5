@@ -1,0 +1,49 @@
+{
+  "id": "/编辑工作包-研发.editorassy",
+  "name": "编辑工作包-研发",
+  "title": "工作包交付要求",
+  "layout": [],
+  "type": "editor",
+  "folderId": "1638c40764f",
+  "fields": [
+    {
+      "id": "1636cd4d4c0",
+      "name": "description",
+      "text": "描述",
+      "type": "单行文本框",
+      "formFields": [],
+      "required": true
+    },
+    {
+      "id": "16386dd58b1",
+      "name": "documentType",
+      "text": "成果类型",
+      "type": "下拉选择框",
+      "formFields": [],
+      "optionText": "文档#图纸#零部件"
+    },
+    {
+      "id": "16381ccfab2",
+      "name": "planStatus",
+      "text": "发布状态",
+      "type": "复选框",
+      "formFields": [],
+      "required": true,
+      "optionText": "",
+      "radioStyle": "横向分段（默认）",
+      "checkStyle": "开关（默认）"
+    },
+    {
+      "id": "1636c469227",
+      "name": "charger",
+      "text": "负责人",
+      "type": "对象选择框",
+      "formFields": [],
+      "selectorAssemblyId": "/用户选择列表.gridassy"
+    }
+  ],
+  "actions": [],
+  "smallEditor": true,
+  "tinyEditor": true,
+  "disableInitLoadData": false
+}

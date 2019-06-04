@@ -1,0 +1,105 @@
+{
+  "id": "/设备设施.gridassy",
+  "name": "设备设施",
+  "layout": [],
+  "type": "grid",
+  "stickerTitle": "设备设施基础数据",
+  "folderId": "162bd9e5a59",
+  "gridLineVisiable": true,
+  "gridHeaderVisiable": true,
+  "gridHasHScroll": true,
+  "gridHasVScroll": true,
+  "gridDataSetService": "com.bizvisionsoft.service.CommonService",
+  "columns": [
+    {
+      "id": "162c73aa337",
+      "name": "id",
+      "text": "编号",
+      "alignment": 16384,
+      "width": 80,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "162c73aa432",
+      "name": "name",
+      "text": "名称",
+      "alignment": 16384,
+      "width": 160,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "162c73aa50a",
+      "name": "description",
+      "text": "说明",
+      "alignment": 16384,
+      "width": 240,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "162d1824bee",
+      "name": "orgFullName",
+      "text": "所属组织",
+      "alignment": 16384,
+      "width": 260,
+      "resizeable": true,
+      "columns": []
+    }
+  ],
+  "fields": [
+    {
+      "id": "1646fbf3825",
+      "name": "id",
+      "text": "编号",
+      "type": "文本输入框（查询）",
+      "formFields": []
+    },
+    {
+      "id": "1646fbf3ad1",
+      "name": "name",
+      "text": "名称",
+      "type": "文本输入框（查询）",
+      "formFields": []
+    }
+  ],
+  "gridAutoColumnWidth": true,
+  "actions": [
+    {
+      "id": "162c73e4687",
+      "name": "创建设备设施",
+      "image": "/img/add_16_w.svg",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.equipment.action.CreateEquipment",
+      "style": "normal",
+      "editorAssemblyId": "/设备设施编辑器.editorassy",
+      "type": "insert",
+      "createActionNewInstanceBundleId": "com.bizvisionsoft.service",
+      "createActionNewInstanceClassName": "com.bizvisionsoft.service.model.Equipment",
+      "verticalSpan": 0
+    }
+  ],
+  "rowActions": [
+    {
+      "id": "162c73d4502",
+      "name": "编辑设备设施",
+      "image": "/img/edit_w.svg",
+      "style": "normal",
+      "editorAssemblyId": "/设备设施编辑器.editorassy",
+      "editorAssemblyEditable": true,
+      "type": "edit",
+      "verticalSpan": 0
+    },
+    {
+      "id": "162c73d4748",
+      "name": "删除设备设施",
+      "image": "/img/minus_16_w.svg",
+      "style": "warning",
+      "type": "delete",
+      "verticalSpan": 0
+    }
+  ],
+  "hasTitlebar": true,
+  "disableInitLoadData": false
+}

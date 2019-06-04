@@ -1,0 +1,30 @@
+{
+  "id": "/执业资格选择器列表.gridassy",
+  "name": "执业资格选择器列表",
+  "layout": [],
+  "type": "grid",
+  "stickerTitle": "",
+  "folderId": "162bd9af701",
+  "gridLineVisiable": true,
+  "gridHasHScroll": true,
+  "gridHasVScroll": true,
+  "gridDataSetService": "com.bizvisionsoft.service.CommonService",
+  "columns": [
+    {
+      "id": "162bd6eba9b",
+      "name": "name",
+      "text": "名称",
+      "alignment": 16384,
+      "width": 80,
+      "resizeable": true,
+      "columns": [],
+      "element": true
+    }
+  ],
+  "fields": [],
+  "gridAutoColumnWidth": true,
+  "actions": [],
+  "rowActions": [],
+  "disableInitLoadData": false,
+  "sortFields": []
+}

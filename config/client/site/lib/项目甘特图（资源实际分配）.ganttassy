@@ -1,0 +1,59 @@
+{
+  "id": "/项目甘特图（资源实际分配）.ganttassy",
+  "name": "项目甘特图（资源实际分配）",
+  "title": "",
+  "layout": [],
+  "type": "gantt",
+  "stickerTitle": "",
+  "folderId": "1636e54a6d9",
+  "gridDataSetService": "",
+  "gridDataSetBundleId": "com.bizvisionsoft.pms",
+  "gridDataSetClassName": "com.bizvisionsoft.pms.project.dataset.ReadonlyGantt",
+  "columns": [
+    {
+      "id": "1628f30623d",
+      "name": "text",
+      "text": "名称",
+      "alignment": 16384,
+      "width": 320,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "1628f3062e6",
+      "name": "start_date",
+      "text": "开始",
+      "alignment": 16384,
+      "width": 96,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "1628f306399",
+      "name": "end_date",
+      "text": "完成",
+      "alignment": 16384,
+      "width": 96,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "1628f306450",
+      "name": "duration",
+      "text": "工期",
+      "alignment": 16384,
+      "width": 40,
+      "resizeable": true,
+      "columns": []
+    }
+  ],
+  "actions": [],
+  "rowActions": [],
+  "readonly": true,
+  "ganttTimeScaleType": "year-month-week",
+  "ganttGridWidthCalculate": true,
+  "eventHandlerBundleId": "",
+  "eventHandlerClassName": "",
+  "headActions": [],
+  "disableInitLoadData": false
+}

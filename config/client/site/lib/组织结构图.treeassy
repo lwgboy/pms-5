@@ -1,0 +1,136 @@
+{
+  "id": "/组织结构图.treeassy",
+  "name": "组织结构图",
+  "layout": [],
+  "type": "tree",
+  "stickerTitle": "组织结构",
+  "folderId": "162d7e33b8a",
+  "gridDataSetService": "com.bizvisionsoft.service.OBSService",
+  "actions": [
+    {
+      "id": "163d971ccb3",
+      "name": "分配工作",
+      "text": "分配工作",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.obs.action.AssignToWork",
+      "forceText": true,
+      "style": "normal",
+      "type": "customized",
+      "verticalSpan": 0
+    },
+    {
+      "id": "166a3247590",
+      "name": "另存模板",
+      "text": "另存模板",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.project.action.SaveAsOBSModule",
+      "forceText": true,
+      "style": "normal",
+      "type": "customized",
+      "verticalSpan": 0
+    }
+  ],
+  "rowActions": [
+    {
+      "id": "162e1f767ff",
+      "name": "添加角色",
+      "text": "添加角色",
+      "image": "/img/add_16_w.svg",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.obs.action.CreateOBSItemSelectRole",
+      "forceText": true,
+      "style": "normal",
+      "objectBehavier": true,
+      "type": "customized",
+      "horizontalSpan": 1,
+      "verticalSpan": 1
+    },
+    {
+      "id": "162e1f7e309",
+      "name": "创建团队",
+      "text": "创建团队",
+      "image": "/img/team_w.svg",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.obs.action.CreateOBSItemTeam",
+      "forceText": true,
+      "style": "normal",
+      "objectBehavier": true,
+      "type": "customized",
+      "verticalSpan": 0
+    },
+    {
+      "id": "1668f6041a5",
+      "name": "添加组织模块",
+      "text": "添加模块",
+      "image": "/img/module_w.svg",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.obs.AddOBSModuleACT",
+      "style": "normal",
+      "type": "customized",
+      "verticalSpan": 0
+    },
+    {
+      "id": "16532e14c82",
+      "name": "指定担任者",
+      "text": "指定担任者",
+      "image": "/img/appointment_w.svg",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.obs.action.AppointmentOBSItem",
+      "style": "normal",
+      "objectBehavier": true,
+      "type": "customized",
+      "verticalSpan": 0
+    },
+    {
+      "id": "167eea7c11b",
+      "name": "移交担任者工作",
+      "text": "移交担任者工作",
+      "image": "/img/transfer_w.svg",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.obs.action.TransferOBSItem",
+      "style": "normal",
+      "type": "customized"
+    },
+    {
+      "id": "162e1f7e84d",
+      "name": "编辑",
+      "text": "编辑",
+      "image": "/img/edit_w.svg",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.obs.action.EditOBSItem",
+      "forceText": true,
+      "style": "normal",
+      "objectBehavier": true,
+      "type": "customized",
+      "verticalSpan": 0
+    },
+    {
+      "id": "162e1f7f403",
+      "name": "成员",
+      "text": "成员",
+      "image": "/img/people_list_w.svg",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.obs.action.SwitchMember",
+      "forceText": true,
+      "style": "info",
+      "objectBehavier": true,
+      "type": "customized",
+      "verticalSpan": 0
+    },
+    {
+      "id": "162e1f7edd5",
+      "name": "删除",
+      "text": "删除",
+      "image": "/img/minus_w.svg",
+      "bundleId": "",
+      "className": "",
+      "forceText": true,
+      "style": "warning",
+      "objectBehavier": true,
+      "type": "delete",
+      "verticalSpan": 0
+    }
+  ],
+  "hasTitlebar": true,
+  "disableInitLoadData": false
+}

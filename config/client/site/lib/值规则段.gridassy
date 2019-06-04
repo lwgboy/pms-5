@@ -1,0 +1,342 @@
+{
+  "id": "/值规则段.gridassy",
+  "name": "值规则段",
+  "layout": [],
+  "type": "grid",
+  "stickerTitle": "值规则段",
+  "folderId": "1677a194b59",
+  "gridLineVisiable": true,
+  "gridHeaderVisiable": true,
+  "gridHasHScroll": true,
+  "gridHasVScroll": true,
+  "gridPageControl": true,
+  "gridDataSetService": "com.bizvisionsoft.service.SystemService",
+  "columns": [
+    {
+      "id": "1677cb2ad16",
+      "name": "index",
+      "text": "序号",
+      "alignment": 16384,
+      "width": 60,
+      "resizeable": true,
+      "columns": [],
+      "enableColumnSort": true,
+      "forceDisplayZero": true
+    },
+    {
+      "id": "1677cb30371",
+      "name": "executeSequance",
+      "text": "执行顺序",
+      "alignment": 16384,
+      "width": 80,
+      "resizeable": true,
+      "columns": [],
+      "enableColumnSort": true,
+      "forceDisplayZero": true
+    },
+    {
+      "id": "1677e0f0dcb",
+      "name": "disableOutput",
+      "text": "禁止输出",
+      "alignment": 16384,
+      "width": 80,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "1677a4fe6e1",
+      "name": "type",
+      "text": "类型",
+      "alignment": 16384,
+      "width": 80,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "1677d8d64b9",
+      "name": "value",
+      "text": "常量类型\u003cbr\u003e文本",
+      "alignment": 16384,
+      "width": 80,
+      "resizeable": true,
+      "columns": [],
+      "markupEnabled": true
+    },
+    {
+      "id": "1677a4fe86e",
+      "name": "name",
+      "text": "对象字段类型\u003cbr\u003e字段名",
+      "alignment": 16384,
+      "width": 120,
+      "resizeable": true,
+      "columns": [],
+      "markupEnabled": true
+    },
+    {
+      "id": "1677cb37666",
+      "name": "snId",
+      "text": "流水号类型\u003cbr\u003eId",
+      "alignment": 16384,
+      "width": 120,
+      "resizeable": true,
+      "columns": [],
+      "markupEnabled": true
+    },
+    {
+      "id": "1677cb66b26",
+      "name": "查询类型",
+      "text": "查询类型",
+      "alignment": 16384,
+      "width": 80,
+      "resizeable": true,
+      "expanded": true,
+      "columns": [
+        {
+          "id": "1677a4fe935",
+          "name": "collection",
+          "text": "查询集合",
+          "alignment": 16384,
+          "width": 160,
+          "resizeable": true,
+          "detail": true,
+          "columns": []
+        },
+        {
+          "id": "1677a4fe9ec",
+          "name": "query",
+          "text": "查询名称",
+          "alignment": 16384,
+          "width": 160,
+          "resizeable": true,
+          "detail": true,
+          "summary": true,
+          "columns": []
+        },
+        {
+          "id": "1677a549d16",
+          "name": "returnField",
+          "text": "查询返回",
+          "alignment": 16384,
+          "width": 80,
+          "resizeable": true,
+          "detail": true,
+          "summary": true,
+          "columns": []
+        }
+      ],
+      "noToggleGridColumnGroup": true
+    },
+    {
+      "id": "1677cb77404",
+      "name": "JavaScript类型",
+      "text": "JavaScript类型",
+      "alignment": 16384,
+      "width": 80,
+      "resizeable": true,
+      "expanded": true,
+      "columns": [
+        {
+          "id": "1677a4feab5",
+          "name": "script",
+          "text": "脚本",
+          "alignment": 16384,
+          "width": 160,
+          "resizeable": true,
+          "detail": true,
+          "summary": true,
+          "columns": []
+        },
+        {
+          "id": "1677a4feb7d",
+          "name": "function",
+          "text": "函数名",
+          "alignment": 16384,
+          "width": 160,
+          "resizeable": true,
+          "detail": true,
+          "columns": []
+        }
+      ],
+      "noToggleGridColumnGroup": true
+    },
+    {
+      "id": "1677cb86e2c",
+      "name": "格式化",
+      "text": "格式化",
+      "alignment": 16384,
+      "width": 80,
+      "resizeable": true,
+      "expanded": true,
+      "columns": [
+        {
+          "id": "1677a531847",
+          "name": "format",
+          "text": "格式",
+          "alignment": 16384,
+          "width": 120,
+          "resizeable": true,
+          "detail": true,
+          "summary": true,
+          "columns": []
+        },
+        {
+          "id": "1677a5319c1",
+          "name": "length",
+          "text": "长度",
+          "alignment": 16384,
+          "width": 80,
+          "resizeable": true,
+          "detail": true,
+          "columns": []
+        },
+        {
+          "id": "1677a531a79",
+          "name": "supplymentDir",
+          "text": "方向",
+          "alignment": 16384,
+          "width": 60,
+          "resizeable": true,
+          "detail": true,
+          "columns": []
+        },
+        {
+          "id": "1677a53c331",
+          "name": "supplymentPlaceholder",
+          "text": "占位符",
+          "alignment": 16384,
+          "width": 80,
+          "resizeable": true,
+          "detail": true,
+          "columns": []
+        },
+        {
+          "id": "1677a53eea7",
+          "name": "caser",
+          "text": "大小写",
+          "alignment": 16384,
+          "width": 80,
+          "resizeable": true,
+          "detail": true,
+          "columns": []
+        }
+      ],
+      "noToggleGridColumnGroup": true
+    }
+  ],
+  "fields": [],
+  "actions": [
+    {
+      "id": "1677a6090a5",
+      "name": "创建",
+      "text": "创建值规则段",
+      "forceText": true,
+      "style": "normal",
+      "children": [
+        {
+          "id": "1677cf58a9c",
+          "name": "常量",
+          "text": "文本",
+          "image": "",
+          "bundleId": "com.bizvisionsoft.bruiengine",
+          "className": "com.bizvisionsoft.bruiengine.app.sysman.CreateValueRuleSegmentACT",
+          "style": "info",
+          "type": "customized",
+          "parameters": "{\"type\":\"常量\",\"editor\":\"值规则段编辑（常量）\"}"
+        },
+        {
+          "id": "1677cf6938a",
+          "name": "当前日期时间",
+          "text": "日期时间",
+          "image": "",
+          "bundleId": "com.bizvisionsoft.bruiengine",
+          "className": "com.bizvisionsoft.bruiengine.app.sysman.CreateValueRuleSegmentACT",
+          "style": "info",
+          "type": "customized",
+          "parameters": "{\"type\":\"当前日期时间\",\"editor\":\"值规则段编辑（系统变量）\"}"
+        },
+        {
+          "id": "1677cf70ca0",
+          "name": "当前时间戳",
+          "text": "时间戳",
+          "image": "",
+          "bundleId": "com.bizvisionsoft.bruiengine",
+          "className": "com.bizvisionsoft.bruiengine.app.sysman.CreateValueRuleSegmentACT",
+          "style": "info",
+          "type": "customized",
+          "parameters": "{\"type\":\"当前时间戳\",\"editor\":\"值规则段编辑（系统变量）\"}"
+        },
+        {
+          "id": "1677cf7476f",
+          "name": "字段",
+          "text": "字段",
+          "image": "",
+          "bundleId": "com.bizvisionsoft.bruiengine",
+          "className": "com.bizvisionsoft.bruiengine.app.sysman.CreateValueRuleSegmentACT",
+          "style": "info",
+          "type": "customized",
+          "parameters": "{\"type\":\"字段\",\"editor\":\"值规则段编辑（字段）\"}"
+        },
+        {
+          "id": "1677cf76eac",
+          "name": "JavaScript",
+          "text": "JavaScript",
+          "image": "",
+          "bundleId": "com.bizvisionsoft.bruiengine",
+          "className": "com.bizvisionsoft.bruiengine.app.sysman.CreateValueRuleSegmentACT",
+          "style": "info",
+          "type": "customized",
+          "parameters": "{\"type\":\"JavaScript\",\"editor\":\"值规则段编辑（JS）\"}"
+        },
+        {
+          "id": "1677cf7abc2",
+          "name": "查询",
+          "text": "查询",
+          "image": "",
+          "bundleId": "com.bizvisionsoft.bruiengine",
+          "className": "com.bizvisionsoft.bruiengine.app.sysman.CreateValueRuleSegmentACT",
+          "style": "info",
+          "type": "customized",
+          "parameters": "{\"type\":\"查询\",\"editor\":\"值规则段编辑（查询）\"}"
+        },
+        {
+          "id": "1677cf7d2db",
+          "name": "流水号",
+          "text": "流水号",
+          "image": "",
+          "bundleId": "com.bizvisionsoft.bruiengine",
+          "className": "com.bizvisionsoft.bruiengine.app.sysman.CreateValueRuleSegmentACT",
+          "style": "info",
+          "type": "customized",
+          "parameters": "{\"type\":\"流水号\",\"editor\":\"值规则段编辑（流水号）\"}"
+        }
+      ],
+      "type": "customized",
+      "createActionNewInstanceBundleId": "",
+      "createActionNewInstanceClassName": "",
+      "verticalSpan": 0
+    }
+  ],
+  "rowActions": [
+    {
+      "id": "1677da5fb4c",
+      "name": "编辑",
+      "image": "/img/edit_w.svg",
+      "style": "normal",
+      "editorAssemblyEditable": true,
+      "type": "edit",
+      "editorNameScript": "function getEditorName(){\n if(context_selection_1st.type\u003d\u003d\"常量\")\n   return \"值规则段编辑（常量）\";\n else if(context_selection_1st.type\u003d\u003d\"当前日期时间\")\n   return \"值规则段编辑（系统变量）\";\n else if(context_selection_1st.type\u003d\u003d\"当前时间戳\")\n   return \"值规则段编辑（系统变量）\";\n else if(context_selection_1st.type\u003d\u003d\"JavaScript\")\n   return \"值规则段编辑（JS）\";\n else if(context_selection_1st.type\u003d\u003d\"字段\")\n   return \"值规则段编辑（字段）\";\n else if(context_selection_1st.type\u003d\u003d\"查询\")\n   return \"值规则段编辑（查询）\";\n else if(context_selection_1st.type\u003d\u003d\"流水号\")\n   return \"值规则段编辑（流水号）\";\n}\n\n getEditorName()\n"
+    },
+    {
+      "id": "1677df12b15",
+      "name": "删除",
+      "image": "/img/minus_16_w.svg",
+      "style": "warning",
+      "type": "delete",
+      "verticalSpan": 0
+    }
+  ],
+  "hasTitlebar": true,
+  "displayInputLabelInTitlebar": true,
+  "disableInitLoadData": false,
+  "sortFields": []
+}

@@ -1,0 +1,48 @@
+{
+  "id": "/项目摘要信息轮播.assy",
+  "name": "项目摘要信息轮播",
+  "layout": [
+    {
+      "id": "1670b24a10f",
+      "name": "默认",
+      "columnCount": 1,
+      "horizontalSpacing": 16,
+      "verticalSpacing": 16,
+      "makeColumnsEqualWidth": true,
+      "marginHeight": 16,
+      "marginWidth": 16,
+      "layoutType": "carousel",
+      "assemblys": [
+        {
+          "id": "/项目进展小组件.assy",
+          "horizontalAlignment": 4,
+          "verticalAlignment": 16777216,
+          "grabExcessHorizontalSpace": true,
+          "verticalSpan": 1,
+          "horizontalSpan": 1,
+          "widthHint": -1,
+          "heightHint": -1
+        },
+        {
+          "id": "/临近、监测和影响分析（小组件）.chartassy",
+          "horizontalAlignment": 4,
+          "verticalAlignment": 16777216,
+          "grabExcessHorizontalSpace": true,
+          "verticalSpan": 1,
+          "horizontalSpan": 1,
+          "widthHint": -1,
+          "heightHint": -1
+        }
+      ],
+      "carouselAnimation": "default",
+      "carouselArrow": "none",
+      "carouselIndicator": "none",
+      "carouselInterval": 4000
+    }
+  ],
+  "folderId": "1670b23f7a3",
+  "actions": [],
+  "rowActions": [],
+  "disableInitLoadData": false,
+  "candidates": []
+}
