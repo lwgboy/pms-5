@@ -1,5 +1,5 @@
 {
-  "id": "组织管理",
+  "id": "/组织管理.gridassy",
   "name": "组织管理",
   "layout": [],
   "type": "grid",
@@ -87,7 +87,7 @@
       "bundleId": "com.bizvisionsoft.pms",
       "className": "com.bizvisionsoft.pms.org.action.CreateRootOrg",
       "style": "normal",
-      "editorAssemblyId": "根组织编辑器",
+      "editorAssemblyId": "/根组织编辑器.editorassy",
       "type": "insert",
       "createActionNewInstanceBundleId": "com.bizvisionsoft.service",
       "createActionNewInstanceClassName": "com.bizvisionsoft.service.model.Organization",
@@ -114,7 +114,7 @@
       "bundleId": "",
       "className": "",
       "style": "normal",
-      "editorAssemblyId": "组织编辑器",
+      "editorAssemblyId": "/组织编辑器.editorassy",
       "editorAssemblyEditable": true,
       "type": "edit",
       "verticalSpan": 0
@@ -137,7 +137,7 @@
       "image": "",
       "bundleId": "",
       "className": "",
-      "switchContentToAssemblyId": "组织成员",
+      "switchContentToAssemblyId": "/组织成员.gridassy",
       "openContent": true,
       "forceText": true,
       "style": "",

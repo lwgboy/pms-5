@@ -30,7 +30,7 @@ public class SelectOA {
 		IWorkPackageMaster work = (IWorkPackageMaster) input[0];
 		TrackView tv = (TrackView) input[1];
 		//OA流程选择器   用户选择器
-		new Selector(br.getAssembly("OA流程选择器"), context).setTitle("选择需要关联的流程").open(r -> {
+		new Selector(br.getAssembly("OA流程选择器.selectorassy"), context).setTitle("选择需要关联的流程").open(r -> {
 			Document row = (Document)r.get(0);
 			String inst_ID = row.get("INST_ID").toString();
 			
@@ -53,7 +53,7 @@ public class SelectOA {
 			//////////////////////////////////////////////////
 			// 刷新表格
 			tv.setParameter("WF_INSTS", instList);
-			GridPart grid = (GridPart) context.getChildContextByAssemblyName("工作包-OA流程").getContent();
+			GridPart grid = (GridPart) context.getChildContextByAssemblyName("工作包-OA流程.gridassy").getContent();
 			grid.setViewerInput();
 		});
 		

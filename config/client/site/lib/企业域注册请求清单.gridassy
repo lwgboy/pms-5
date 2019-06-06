@@ -1,0 +1,81 @@
+{
+  "id": "/企业域注册请求清单.gridassy",
+  "name": "企业域注册请求清单",
+  "layout": [],
+  "type": "grid",
+  "folderId": "1626b905a63",
+  "gridLineVisiable": true,
+  "gridHeaderVisiable": true,
+  "gridHasHScroll": true,
+  "gridHasVScroll": true,
+  "gridDataSetService": "com.bizvisionsoft.service.SystemService",
+  "columns": [
+    {
+      "id": "16ae38d4b98",
+      "name": "email",
+      "text": "电子邮件",
+      "alignment": 16384,
+      "width": 180,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "16ae38d6b44",
+      "name": "company",
+      "text": "公司全称",
+      "alignment": 16384,
+      "width": 180,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "16ae38d6bf0",
+      "name": "site",
+      "text": "站点",
+      "alignment": 16384,
+      "width": 360,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "16ae38d6c8d",
+      "name": "client",
+      "text": "请求地址",
+      "alignment": 16384,
+      "width": 180,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "16ae38d6d49",
+      "name": "request",
+      "text": "请求路径",
+      "alignment": 16384,
+      "width": 180,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "16ae38d6df6",
+      "name": "scheme",
+      "text": "方案",
+      "alignment": 16384,
+      "width": 180,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "16ae38f0d4e",
+      "name": "loadBasicData",
+      "text": "加载基础数据",
+      "alignment": 16384,
+      "width": 120,
+      "resizeable": true,
+      "columns": []
+    }
+  ],
+  "fields": [],
+  "actions": [],
+  "rowActions": [],
+  "sortFields": []
+}

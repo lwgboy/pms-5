@@ -1,5 +1,5 @@
 {
-  "id": "行动预案编辑器",
+  "id": "/行动预案编辑器.editorassy",
   "name": "行动预案编辑器",
   "title": "行动预案",
   "layout": [],
@@ -88,7 +88,7 @@
           "type": "多个对象选择框",
           "formFields": [],
           "required": true,
-          "selectorAssemblyId": "问题分类",
+          "selectorAssemblyId": "/问题分类.gridassy",
           "grabVertical": true
         }
       ]

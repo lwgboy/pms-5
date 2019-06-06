@@ -19,7 +19,7 @@ public class CreateOBSItemTeam extends AbstractCreateOBSItem {
 
 			String message = Optional.ofNullable(AUtil.readLabel(em)).orElse("");
 			message = "创建" + message + "下级团队";
-			open(context, em, message, "OBS节点编辑器（团队）",false, br.getDomain());
+			open(context, em, message, "OBS节点编辑器（团队）.editorassy",false, br.getDomain());
 
 	}
 

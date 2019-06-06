@@ -1,5 +1,5 @@
 {
-  "id": "变更详情",
+  "id": "/变更详情.assy",
   "name": "变更详情",
   "layout": [
     {
@@ -9,7 +9,7 @@
       "makeColumnsEqualWidth": true,
       "assemblys": [
         {
-          "id": "变更详情信息面板",
+          "id": "/变更详情信息面板.infopadassy",
           "horizontalAlignment": 4,
           "verticalAlignment": 4,
           "grabExcessHorizontalSpace": true,
@@ -20,7 +20,7 @@
           "layoutName": "变更详情信息面板"
         },
         {
-          "id": "项目变更审核信息",
+          "id": "/项目变更审核信息.gridassy",
           "horizontalAlignment": 4,
           "verticalAlignment": 4,
           "grabExcessHorizontalSpace": true,

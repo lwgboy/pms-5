@@ -1,5 +1,5 @@
 {
-  "id": "D1-CTF成员-编辑器",
+  "id": "/D1-CTF成员-编辑器.editorassy",
   "name": "D1-CTF成员-编辑器",
   "title": "CTF成员",
   "layout": [],
@@ -13,7 +13,7 @@
       "type": "对象选择框",
       "formFields": [],
       "required": true,
-      "selectorAssemblyId": "用户选择列表",
+      "selectorAssemblyId": "/用户选择列表.gridassy",
       "valueFieldName": "userId"
     },
     {

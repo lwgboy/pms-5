@@ -1,5 +1,5 @@
 {
-  "id": "报告详情",
+  "id": "/报告详情.assy",
   "name": "报告详情",
   "layout": [
     {
@@ -10,7 +10,7 @@
       "css": "",
       "assemblys": [
         {
-          "id": "工作报告基本信息面板",
+          "id": "/工作报告基本信息面板.infopadassy",
           "horizontalAlignment": 4,
           "verticalAlignment": 4,
           "grabExcessHorizontalSpace": true,
@@ -21,7 +21,7 @@
           "layoutName": "工作报告基本信息面板"
         },
         {
-          "id": "报告-工作",
+          "id": "/报告-工作.gridassy",
           "horizontalAlignment": 4,
           "verticalAlignment": 4,
           "grabExcessHorizontalSpace": true,

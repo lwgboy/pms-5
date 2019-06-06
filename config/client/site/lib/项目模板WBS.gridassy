@@ -1,5 +1,5 @@
 {
-  "id": "项目模板WBS",
+  "id": "/项目模板WBS.gridassy",
   "name": "项目模板WBS",
   "description": "",
   "layout": [],
@@ -101,7 +101,7 @@
       "text": "类型",
       "image": "",
       "style": "",
-      "editorAssemblyId": "工作属性编辑器",
+      "editorAssemblyId": "/工作属性编辑器.editorassy",
       "editorAssemblyEditable": true,
       "objectBehavier": true,
       "type": "edit",

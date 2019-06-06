@@ -1,0 +1,119 @@
+{
+  "id": "/全域账户管理.gridassy",
+  "name": "全域账户管理",
+  "layout": [],
+  "type": "grid",
+  "stickerTitle": "账户管理",
+  "folderId": "1626b905a63",
+  "gridMarkupEnabled": true,
+  "gridLineVisiable": true,
+  "gridMultiSelection": true,
+  "gridHeaderVisiable": true,
+  "gridHasHScroll": true,
+  "gridHasVScroll": true,
+  "gridFix": 0,
+  "gridPageControl": true,
+  "gridDataSetService": "com.bizvisionsoft.service.UserService",
+  "gridDataSetBundleId": "",
+  "gridDataSetClassName": "",
+  "columns": [
+    {
+      "id": "161db823fab",
+      "name": "userId",
+      "text": "账号",
+      "alignment": 16384,
+      "width": 120,
+      "minimumWidth": 60,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "16ae30d890a",
+      "name": "userName",
+      "text": "姓名",
+      "alignment": 16384,
+      "width": 80,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "161db85fc50",
+      "name": "activated",
+      "text": "激活",
+      "alignment": 16777216,
+      "width": 60,
+      "minimumWidth": 60,
+      "columns": []
+    },
+    {
+      "id": "1640669a89e",
+      "name": "admin",
+      "text": "管理员",
+      "alignment": 16777216,
+      "width": 60,
+      "columns": []
+    },
+    {
+      "id": "161db85f29d",
+      "name": "domain",
+      "text": "企业域",
+      "alignment": 16384,
+      "width": 240,
+      "minimumWidth": 80,
+      "resizeable": true,
+      "detail": true,
+      "summary": true,
+      "columns": []
+    },
+    {
+      "id": "16ae30d33c9",
+      "name": "email",
+      "text": "电子邮件",
+      "alignment": 16384,
+      "width": 80,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "16ae30d5df2",
+      "name": "tel",
+      "text": "联系电话",
+      "alignment": 16384,
+      "width": 80,
+      "resizeable": true,
+      "columns": []
+    }
+  ],
+  "fields": [
+    {
+      "id": "1622d6990eb",
+      "name": "userId",
+      "text": "账号",
+      "type": "文本输入框（查询）",
+      "formFields": [],
+      "textQueryType": "字符串"
+    },
+    {
+      "id": "16ae30c05d4",
+      "name": "domain",
+      "text": "企业域",
+      "type": "文本输入框（查询）",
+      "formFields": []
+    },
+    {
+      "id": "1623124fb98",
+      "name": "activated",
+      "text": "激活",
+      "type": "复选框（查询）",
+      "formFields": [],
+      "checkStyle": "开关（默认）"
+    }
+  ],
+  "actions": [],
+  "rowActions": [],
+  "queryBuilderBundle": "",
+  "queryBuilderClass": "",
+  "hasTitlebar": true,
+  "disableInitLoadData": false,
+  "sortFields": []
+}

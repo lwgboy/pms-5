@@ -1,5 +1,5 @@
 {
-  "id": "项目主页（创建状态）",
+  "id": "/项目主页（创建状态）.assy",
   "name": "项目主页（创建状态）",
   "layout": [
     {
@@ -9,7 +9,7 @@
       "makeColumnsEqualWidth": true,
       "assemblys": [
         {
-          "id": "项目快速启动（创建状态）",
+          "id": "/项目快速启动（创建状态）.actionpanelassy",
           "horizontalAlignment": 4,
           "verticalAlignment": 4,
           "grabExcessHorizontalSpace": true,

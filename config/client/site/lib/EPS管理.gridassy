@@ -1,5 +1,5 @@
 {
-  "id": "EPS管理",
+  "id": "/EPS管理.gridassy",
   "name": "EPS管理",
   "title": "企业项目结构设置",
   "layout": [],
@@ -74,7 +74,7 @@
       "bundleId": "com.bizvisionsoft.pms",
       "className": "com.bizvisionsoft.pms.eps.action.CreateEPSRootNode",
       "style": "normal",
-      "editorAssemblyId": "EPS编辑器",
+      "editorAssemblyId": "/EPS编辑器.editorassy",
       "type": "insert",
       "createActionNewInstanceBundleId": "com.bizvisionsoft.service",
       "createActionNewInstanceClassName": "com.bizvisionsoft.service.model.EPS",
@@ -101,7 +101,7 @@
       "bundleId": "",
       "className": "",
       "style": "normal",
-      "editorAssemblyId": "EPS编辑器",
+      "editorAssemblyId": "/EPS编辑器.editorassy",
       "editorAssemblyEditable": true,
       "type": "edit",
       "verticalSpan": 0

@@ -1,5 +1,5 @@
 {
-  "id": "D8关闭结案",
+  "id": "/D8关闭结案.boardassy",
   "name": "D8关闭结案",
   "title": "",
   "layout": [],
@@ -25,7 +25,7 @@
       "id": "16833d7f906",
       "name": "切换",
       "image": "/img/right_w.svg",
-      "switchContentToAssemblyId": "D8经验教训表格",
+      "switchContentToAssemblyId": "/D8经验教训表格.gridassy",
       "style": "normal",
       "type": "switch"
     }

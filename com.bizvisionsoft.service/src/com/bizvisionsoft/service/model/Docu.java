@@ -155,6 +155,6 @@ public class Docu implements JsonExternalizable {
 
 	@ReadEditorConfig({ "打开", "编辑" })
 	public String getEditorName() {
-		return Check.option(editorName).orElse("通用文档编辑器");
+		return Check.option(editorName).orElse("通用文档编辑器.editorassy");
 	}
 }

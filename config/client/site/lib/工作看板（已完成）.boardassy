@@ -1,5 +1,5 @@
 {
-  "id": "工作看板（已完成）",
+  "id": "/工作看板（已完成）.boardassy",
   "name": "工作看板（已完成）",
   "layout": [],
   "type": "board",
@@ -62,7 +62,7 @@
       "id": "167152bc2d4",
       "name": "切换列表",
       "image": "/img/right_w.svg",
-      "switchContentToAssemblyId": "我的工作（已完成）",
+      "switchContentToAssemblyId": "/我的工作（已完成）.gridassy",
       "style": "info",
       "type": "switch",
       "verticalSpan": 0

@@ -1,5 +1,5 @@
 {
-  "id": "资源类型编辑器",
+  "id": "/资源类型编辑器.editorassy",
   "name": "资源类型编辑器",
   "layout": [],
   "type": "editor",
@@ -63,7 +63,7 @@
       "type": "对象选择框",
       "formFields": [],
       "required": true,
-      "selectorAssemblyId": "工作日历选择表格"
+      "selectorAssemblyId": "/工作日历选择表格.gridassy"
     }
   ],
   "actions": [],

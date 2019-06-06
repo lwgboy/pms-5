@@ -1,5 +1,5 @@
 {
-  "id": "功能权限编辑（组织）",
+  "id": "/功能权限编辑（组织）.editorassy",
   "name": "功能权限编辑（组织）",
   "title": "授权组织",
   "layout": [],
@@ -21,7 +21,7 @@
       "type": "对象选择框",
       "formFields": [],
       "required": true,
-      "selectorAssemblyId": "组织选择器"
+      "selectorAssemblyId": "/组织选择器.gridassy"
     },
     {
       "id": "1640e57501f",
@@ -40,7 +40,8 @@
       "dateType": "datetime"
     }
   ],
-  "nullValueAllowedFields": "rom#to",
+  "actions": [],
+  "nullValueAllowedFields": "from#to",
   "smallEditor": true,
   "disableInitLoadData": false
 }

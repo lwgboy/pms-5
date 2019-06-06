@@ -72,22 +72,22 @@ public class AnlysisActions {
 
 	private String getEditorName(String stage) {
 		if ("pca".equals(stage)) {
-			return "Dx-分类行动计划-编辑器";
+			return "Dx-分类行动计划-编辑器.editorassy";
 		} else {
-			return "Dx-行动计划-编辑器";
+			return "Dx-行动计划-编辑器.editorassy";
 		}
 	}
 
 	private void handleDetail(Document data, String mType, ObjectId _id) {
 		if ("d8EXP".equals(mType)) {
 			Document doc = service.getD8Exp(_id, br.getDomain());
-			Editor.create("D8-经验总结-编辑器", context, doc, true).setEditable(false).open();
+			Editor.create("D8-经验总结-编辑器.editorassy", context, doc, true).setEditable(false).open();
 		} else if ("causeRelation".equals(mType)) {
 			CauseConsequence cc = service.listCauseConsequences(new BasicDBObject("_id", _id), br.getDomain()).get(0);
-			Editor.create("因素编辑器", context, cc, true).setEditable(false).open();
+			Editor.create("因素编辑器.editorassy", context, cc, true).setEditable(false).open();
 		} else if ("problemAction".equals(mType)) {
 			Document doc = service.getAction(_id, br.getDomain());
-			Editor.create("Dx-行动计划-编辑器（查看）", context, doc, true).setEditable(false).open();
+			Editor.create("Dx-行动计划-编辑器（查看）.editorassy", context, doc, true).setEditable(false).open();
 		}
 	}
 

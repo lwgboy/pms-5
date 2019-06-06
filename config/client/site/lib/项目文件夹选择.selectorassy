@@ -1,9 +1,9 @@
 {
-  "id": "项目文件夹选择",
+  "id": "/项目文件夹选择.selectorassy",
   "name": "项目文件夹选择",
   "layout": [],
   "type": "selector",
   "folderId": "163dac10775",
-  "selectorGridAssemblyId": "项目文件夹选择列表",
+  "selectorGridAssemblyId": "/项目文件夹选择列表.gridassy",
   "disableInitLoadData": false
 }

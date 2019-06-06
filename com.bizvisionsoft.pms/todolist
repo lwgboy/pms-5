@@ -132,3 +132,18 @@ PMS6-10.10.014 CKEditor上传图片出错----------------------OK
 PMS6-10.10.005 项目中可用的角色需要调整，有些角色是不能用的
 PMS6-10.10.015 警告信息显示，文本过多
 PMS6-10.10.016 工作包，检查项，文档模板似乎没有从模板导入到项目
+
+
+1. 测试更改用户名密码---------------OK
+2. 工作流完成任务打开的编辑器
+3. 测试Addworktimetocalender
+4. CreateValueRuleSegmentACT
+5. createDocumentFromSetting
+6. OpenDocuAct
+7. OpenResourceActualACT
+8. OpenWorkPackageACT
+9. WorkPackagePlan
+10.ResourceChartASM
+11.管理员设置列，保存出错
+12.全域账号管理
+13.注册请求缺少查询

@@ -36,7 +36,7 @@ public class EditCBSSubjectCostACT {
 					cbsSubject = new CBSSubject().setCBSItem_id(cbsSubjectCost.getCbsItem().get_id())
 							.setSubjectNumber(cbsSubjectCost.getId()).setId(id);
 				}
-				Editor.create("期间成本编辑器", context, cbsSubject, true).setTitle("科目:" + cbsSubjectCost.getName() + " 期间 :"
+				Editor.create("期间成本编辑器.editorassy", context, cbsSubject, true).setTitle("科目:" + cbsSubjectCost.getName() + " 期间 :"
 						+ cal.get(Calendar.YEAR) + "年" + (cal.get(java.util.Calendar.MONTH) + 1) + "月").ok((r, o) -> {
 							CBSSubject newSubjectCost = Services.get(CBSService.class).upsertCBSSubjectCost(o, br.getDomain());
 							// 更新CBSSubjectCost存储的CBSSubject

@@ -22,11 +22,11 @@ public class EditOBSItem extends AbstractChangeOBSItemMember {
 	public void execute(@MethodParam(Execute.CONTEXT_SELECTION_1ST) Object em, @MethodParam(Execute.CONTEXT) IBruiContext context) {
 		Assembly assembly;
 		if (((OBSItem) em).isRole()) {
-			assembly = br.getAssembly("OBS节点编辑器（角色）");
+			assembly = br.getAssembly("OBS节点编辑器（角色）.editorassy");
 		} else if (((OBSItem) em).isScopeRoot()) {
-			assembly = br.getAssembly("OBS节点编辑器（根）");
+			assembly = br.getAssembly("OBS节点编辑器（根）.editorassy");
 		} else {
-			assembly = br.getAssembly("OBS节点编辑器（团队）");
+			assembly = br.getAssembly("OBS节点编辑器（团队）.editorassy");
 		}
 		String message = "编辑 " + Optional.ofNullable(AUtil.readLabel(em)).orElse("");
 

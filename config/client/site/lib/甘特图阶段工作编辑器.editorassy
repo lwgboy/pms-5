@@ -1,5 +1,5 @@
 {
-  "id": "甘特图阶段工作编辑器",
+  "id": "/甘特图阶段工作编辑器.editorassy",
   "name": "甘特图阶段工作编辑器",
   "title": "工作",
   "layout": [],
@@ -55,7 +55,7 @@
       "type": "对象选择框",
       "formFields": [],
       "required": true,
-      "selectorAssemblyId": "项目团队"
+      "selectorAssemblyId": "/项目团队.gridassy"
     }
   ],
   "actions": [],

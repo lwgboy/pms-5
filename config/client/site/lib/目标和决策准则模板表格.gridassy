@@ -1,5 +1,5 @@
 {
-  "id": "目标和决策准则模板表格",
+  "id": "/目标和决策准则模板表格.gridassy",
   "name": "目标和决策准则模板表格",
   "layout": [],
   "type": "grid",
@@ -136,7 +136,7 @@
       "image": "/img/add_16_w.svg",
       "forceText": false,
       "style": "normal",
-      "editorAssemblyId": "目标和准则模板-编辑器",
+      "editorAssemblyId": "/目标和准则模板-编辑器.editorassy",
       "type": "insert",
       "createActionNewInstanceBundleId": "com.bizvisionsoft.service",
       "createActionNewInstanceClassName": "com.bizvisionsoft.service.model.SolutionCriteriaTemplate"
@@ -148,7 +148,7 @@
       "name": "编辑",
       "image": "/img/edit_w.svg",
       "style": "normal",
-      "editorAssemblyId": "目标和准则模板-编辑器",
+      "editorAssemblyId": "/目标和准则模板-编辑器.editorassy",
       "editorAssemblyEditable": true,
       "type": "edit"
     },

@@ -1,5 +1,5 @@
 {
-  "id": "工作日历",
+  "id": "/工作日历.gridassy",
   "name": "工作日历",
   "layout": [],
   "type": "grid",
@@ -76,7 +76,7 @@
       "bundleId": "com.bizvisionsoft.pms",
       "className": "com.bizvisionsoft.pms.equipment.action.CreateEquipment",
       "style": "normal",
-      "editorAssemblyId": "工作日历编辑器",
+      "editorAssemblyId": "/工作日历编辑器.editorassy",
       "type": "insert",
       "createActionNewInstanceBundleId": "com.bizvisionsoft.service",
       "createActionNewInstanceClassName": "com.bizvisionsoft.service.model.Calendar",
@@ -116,7 +116,7 @@
       "bundleId": "com.bizvisionsoft.pms",
       "className": "com.bizvisionsoft.pms.calendar.action.EditElement",
       "style": "normal",
-      "editorAssemblyId": "工作日历编辑器",
+      "editorAssemblyId": "/工作日历编辑器.editorassy",
       "objectBehavier": true,
       "type": "customized",
       "verticalSpan": 0

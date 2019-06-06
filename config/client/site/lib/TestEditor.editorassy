@@ -1,10 +1,10 @@
 {
-  "id": "TestEditor",
+  "id": "/TestEditor.editorassy",
   "name": "TestEditor",
   "title": "测试编辑器控件",
   "layout": [],
   "type": "editor",
-  "folderId": "16897fe7470",
+  "folderId": "162c97e7531",
   "fields": [
     {
       "id": "16555369922",
@@ -94,7 +94,7 @@
           "text": "用户",
           "type": "对象选择框",
           "formFields": [],
-          "selectorAssemblyId": "用户选择列表"
+          "selectorAssemblyId": "/用户选择列表.gridassy"
         },
         {
           "id": "1655537411e",
@@ -102,7 +102,7 @@
           "text": "多个对象选择",
           "type": "多个对象选择框",
           "formFields": [],
-          "selectorAssemblyId": "162c4579eee"
+          "selectorAssemblyId": "/资源类型.gridassy"
         },
         {
           "id": "165553741c7",

@@ -18,7 +18,7 @@ public class OpenProjectChangeACT {
 	@Execute
 	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
 		context.selected(s -> {
-			br.openContent(br.getAssembly("变更详情"), s, e -> {
+			br.openContent(br.getAssembly("变更详情.assy"), s, e -> {
 				if (s instanceof ProjectChange) {
 					ProjectChange o = ServicesLoader.get(ProjectService.class).getProjectChange(((ProjectChange) s).get_id(),
 							br.getDomain());

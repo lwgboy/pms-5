@@ -1,5 +1,5 @@
 {
-  "id": "D5永久措施",
+  "id": "/D5永久措施.boardassy",
   "name": "D5永久措施",
   "title": "D5 永久纠正措施",
   "layout": [],
@@ -14,7 +14,7 @@
       "id": "168143d8ab4",
       "name": "打开方案",
       "image": "/img/right_w.svg",
-      "switchContentToAssemblyId": "D5PCA候选方案",
+      "switchContentToAssemblyId": "/D5PCA候选方案.assy",
       "style": "normal",
       "type": "switch"
     }

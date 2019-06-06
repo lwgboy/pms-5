@@ -112,7 +112,7 @@ public interface IWorkAction {
 	 * @param callback
 	 */
 	public default void assignWork(Work work, IBruiContext context, Consumer<Work> callback) {
-		Selector.open("指派用户选择器", context, work, l -> {
+		Selector.open("指派用户选择器.selectorassy", context, work, l -> {
 			User user = (User) l.get(0);
 			Work w = getService().assignUserToWorkChager(work.get_id(), user.getUserId(), getBruiService().getDomain());
 			if (callback != null) {

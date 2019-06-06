@@ -1,5 +1,5 @@
 {
-  "id": "变更审核",
+  "id": "/变更审核.gridassy",
   "name": "变更审核",
   "layout": [],
   "type": "grid",
@@ -37,7 +37,7 @@
       "text": "新建变更审核",
       "image": "/img/add_16_w.svg",
       "style": "normal",
-      "editorAssemblyId": "变更审核编辑器",
+      "editorAssemblyId": "/变更审核编辑器.editorassy",
       "type": "insert",
       "createActionNewInstanceBundleId": "com.bizvisionsoft.service",
       "createActionNewInstanceClassName": "com.bizvisionsoft.service.model.ChangeProcess",
@@ -50,7 +50,7 @@
       "name": "编辑变更审核",
       "image": "/img/edit_w.svg",
       "style": "normal",
-      "editorAssemblyId": "变更审核编辑器",
+      "editorAssemblyId": "/变更审核编辑器.editorassy",
       "editorAssemblyEditable": true,
       "type": "edit",
       "verticalSpan": 0

@@ -26,7 +26,7 @@ public class AddOBSInTemplateMember {
 
 	@Execute
 	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
-		new Selector(br.getAssembly("用户选择器"), context).setTitle("选择用户添加为团队成员").open(r -> {
+		new Selector(br.getAssembly("用户选择器.selectorassy"), context).setTitle("选择用户添加为团队成员").open(r -> {
 			final List<String> ids = new ArrayList<String>();
 			GridPart grid = (GridPart) context.getContent();
 			List<?> input = (List<?>) grid.getViewerInput();

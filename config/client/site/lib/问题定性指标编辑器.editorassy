@@ -1,5 +1,5 @@
 {
-  "id": "问题定性指标编辑器",
+  "id": "/问题定性指标编辑器.editorassy",
   "name": "问题定性指标编辑器",
   "title": "问题定性指标",
   "layout": [],
@@ -22,7 +22,7 @@
       "type": "对象选择框",
       "formFields": [],
       "required": true,
-      "selectorAssemblyId": "严重性等级",
+      "selectorAssemblyId": "/严重性等级.gridassy",
       "valueFieldName": ""
     },
     {
@@ -32,7 +32,7 @@
       "type": "对象选择框",
       "formFields": [],
       "required": true,
-      "selectorAssemblyId": "频度等级"
+      "selectorAssemblyId": "/频度等级.gridassy"
     },
     {
       "id": "16840b42e72",
@@ -41,7 +41,7 @@
       "type": "对象选择框",
       "formFields": [],
       "required": true,
-      "selectorAssemblyId": "可探测性级别"
+      "selectorAssemblyId": "/可探测性级别.gridassy"
     },
     {
       "id": "1684046b216",
@@ -50,7 +50,7 @@
       "type": "对象选择框",
       "formFields": [],
       "required": true,
-      "selectorAssemblyId": "损失等级"
+      "selectorAssemblyId": "/损失等级.gridassy"
     },
     {
       "id": "16840a9a75a",
@@ -59,7 +59,7 @@
       "type": "对象选择框",
       "formFields": [],
       "required": true,
-      "selectorAssemblyId": "影响范围等级"
+      "selectorAssemblyId": "/影响范围等级.gridassy"
     }
   ],
   "actions": [],

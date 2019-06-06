@@ -1,5 +1,5 @@
 {
-  "id": "账户编辑器",
+  "id": "/账户编辑器.editorassy",
   "name": "账户编辑器",
   "title": "账户",
   "layout": [],
@@ -87,7 +87,7 @@
           "text": "所属组织",
           "type": "对象选择框",
           "formFields": [],
-          "selectorAssemblyId": "组织选择器"
+          "selectorAssemblyId": "/组织选择器.gridassy"
         },
         {
           "id": "16af8e4d17a",

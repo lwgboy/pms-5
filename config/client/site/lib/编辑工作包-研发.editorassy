@@ -1,5 +1,5 @@
 {
-  "id": "编辑工作包-研发",
+  "id": "/编辑工作包-研发.editorassy",
   "name": "编辑工作包-研发",
   "title": "工作包交付要求",
   "layout": [],
@@ -39,7 +39,7 @@
       "text": "负责人",
       "type": "对象选择框",
       "formFields": [],
-      "selectorAssemblyId": "用户选择列表"
+      "selectorAssemblyId": "/用户选择列表.gridassy"
     }
   ],
   "actions": [],

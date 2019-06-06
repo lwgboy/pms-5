@@ -1,5 +1,5 @@
 {
-  "id": "工作流演示表单",
+  "id": "/工作流演示表单.editorassy",
   "name": "工作流演示表单",
   "layout": [],
   "type": "editor",
@@ -35,7 +35,7 @@
       "type": "多个对象选择框",
       "formFields": [],
       "required": true,
-      "selectorAssemblyId": "用户选择列表",
+      "selectorAssemblyId": "/用户选择列表.gridassy",
       "valueFieldName": "userId"
     },
     {
@@ -45,7 +45,7 @@
       "type": "对象选择框",
       "formFields": [],
       "required": true,
-      "selectorAssemblyId": "组织选择器",
+      "selectorAssemblyId": "/组织选择器.gridassy",
       "valueFieldName": "_id"
     }
   ],

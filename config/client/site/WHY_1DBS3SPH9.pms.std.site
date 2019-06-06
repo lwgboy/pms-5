@@ -11,651 +11,10 @@
   "aliasOfResFolder": "extres",
   "favIcon": "/img/favicon.png",
   "description": "项目管理系统",
-  "login": "用户登录组件",
-  "changePSW": "用户更改密码页面",
+  "login": "/用户登录组件.assy",
+  "changePSW": "/用户更改密码页面.assy",
   "rootFolder": {
-    "children": [
-      {
-        "children": [
-          {
-            "children": [
-              {
-                "children": [],
-                "name": "项目编辑器",
-                "id": "162d7e29570"
-              },
-              {
-                "children": [],
-                "name": "工作编辑器",
-                "id": "162ff4c2ed9"
-              }
-            ],
-            "name": "编辑器",
-            "id": "1626f38d430"
-          },
-          {
-            "children": [
-              {
-                "children": [],
-                "name": "编辑器",
-                "id": "162dbfef40e"
-              }
-            ],
-            "name": "项目团队",
-            "id": "162d7e33b8a"
-          },
-          {
-            "children": [
-              {
-                "children": [],
-                "name": "预算",
-                "id": "16390fa07d3"
-              },
-              {
-                "children": [],
-                "name": "成本",
-                "id": "16390fab944"
-              },
-              {
-                "children": [],
-                "name": "预算成本对比",
-                "id": "163d3f03d9f"
-              }
-            ],
-            "name": "CBS",
-            "id": "162ec25146d"
-          },
-          {
-            "children": [],
-            "name": "信息面板",
-            "id": "1631b7d0058"
-          },
-          {
-            "children": [],
-            "name": "进度计划",
-            "id": "1631b7e24e7"
-          },
-          {
-            "children": [],
-            "name": "阶段选择器",
-            "id": "1631b964ede"
-          },
-          {
-            "children": [],
-            "name": "项目干系人",
-            "id": "1632b68c299"
-          },
-          {
-            "children": [
-              {
-                "children": [],
-                "name": "资源计划",
-                "id": "16396e06a26"
-              },
-              {
-                "children": [],
-                "name": "资源用量",
-                "id": "16396e136be"
-              },
-              {
-                "children": [],
-                "name": "资源冲突",
-                "id": "163ae4a739d"
-              },
-              {
-                "children": [
-                  {
-                    "children": [],
-                    "name": "资源计划用量分析",
-                    "id": "16426806eaf"
-                  },
-                  {
-                    "children": [],
-                    "name": "资源实际用量分析",
-                    "id": "164268150ff"
-                  },
-                  {
-                    "children": [],
-                    "name": "资源计划/实际用量对比分析",
-                    "id": "164268e80f6"
-                  }
-                ],
-                "name": "资源用量综合分析",
-                "id": "1642648dcbf"
-              }
-            ],
-            "name": "资源",
-            "id": "1636e54a6d9"
-          },
-          {
-            "children": [
-              {
-                "children": [],
-                "name": "研发进度监控",
-                "id": "163855b806b"
-              },
-              {
-                "children": [],
-                "name": "采购计划监控",
-                "id": "163855ba423"
-              },
-              {
-                "children": [],
-                "name": "生产计划监控",
-                "id": "163855bc338"
-              },
-              {
-                "children": [],
-                "name": "检验进度监控",
-                "id": "163855be2f3"
-              }
-            ],
-            "name": "进度监控",
-            "id": "163855b174a"
-          },
-          {
-            "children": [
-              {
-                "children": [],
-                "name": "项目日报",
-                "id": "16401bb1566"
-              },
-              {
-                "children": [],
-                "name": "项目周报",
-                "id": "16401bb3bf7"
-              },
-              {
-                "children": [],
-                "name": "项目月报",
-                "id": "16401bb5b3b"
-              }
-            ],
-            "name": "项目报告",
-            "id": "16401bac98f"
-          },
-          {
-            "children": [],
-            "name": "项目基线",
-            "id": "1643f84eaef"
-          },
-          {
-            "children": [],
-            "name": "项目变更",
-            "id": "16441e49ba4"
-          },
-          {
-            "children": [],
-            "name": "收益管理",
-            "id": "165564b4b38"
-          }
-        ],
-        "name": "项目",
-        "id": "1626f3768bc"
-      },
-      {
-        "children": [
-          {
-            "children": [],
-            "name": "EPS",
-            "id": "1626f9bc707"
-          },
-          {
-            "children": [],
-            "name": "我的项目",
-            "id": "1632e5a2dba"
-          },
-          {
-            "children": [],
-            "name": "采购计划监控",
-            "id": "16386aadd1a"
-          },
-          {
-            "children": [],
-            "name": "生产计划监控",
-            "id": "16386aae75b"
-          },
-          {
-            "children": [],
-            "name": "所有项目",
-            "id": "1646aa7fe79"
-          }
-        ],
-        "name": "项目管理",
-        "id": "1632e59ae68"
-      },
-      {
-        "children": [
-          {
-            "children": [],
-            "name": "账户管理",
-            "id": "162dc3d9a67"
-          },
-          {
-            "children": [],
-            "name": "名称字典",
-            "id": "162dc3e928e"
-          },
-          {
-            "children": [],
-            "name": "跟踪视图",
-            "id": "16362281dda"
-          },
-          {
-            "children": [],
-            "name": "备份和还原",
-            "id": "16527b186f1"
-          },
-          {
-            "children": [],
-            "name": "系统设置",
-            "id": "165d57b9f4a"
-          },
-          {
-            "children": [],
-            "name": "值生成规则",
-            "id": "1677a194b59"
-          }
-        ],
-        "name": "系统管理",
-        "id": "162bccab082"
-      },
-      {
-        "children": [
-          {
-            "children": [],
-            "name": "执业资格",
-            "id": "162bd9af701"
-          },
-          {
-            "children": [],
-            "name": "资源类型",
-            "id": "162bd9ba3bf"
-          },
-          {
-            "children": [],
-            "name": "组织管理",
-            "id": "162bd9c7da4"
-          },
-          {
-            "children": [],
-            "name": "用户管理",
-            "id": "162bd9dad9d"
-          },
-          {
-            "children": [],
-            "name": "设备设施",
-            "id": "162bd9e5a59"
-          },
-          {
-            "children": [],
-            "name": "工作时间",
-            "id": "162bd9e9635"
-          },
-          {
-            "children": [
-              {
-                "children": [],
-                "name": "OBS模板",
-                "id": "163cd3e0d4c"
-              },
-              {
-                "children": [],
-                "name": "WBS模板",
-                "id": "163cd3ebfd0"
-              },
-              {
-                "children": [],
-                "name": "工作包",
-                "id": "163cd3feba0"
-              },
-              {
-                "children": [],
-                "name": "资源需求",
-                "id": "163cf74cc79"
-              },
-              {
-                "children": [],
-                "name": "分配角色",
-                "id": "163d2b1a4d6"
-              },
-              {
-                "children": [],
-                "name": "文件夹结构",
-                "id": "16464eebefb"
-              },
-              {
-                "children": [],
-                "name": "WBS模块",
-                "id": "164ef206a5a"
-              }
-            ],
-            "name": "项目模板管理",
-            "id": "162bd9f0190"
-          },
-          {
-            "children": [],
-            "name": "EPS管理",
-            "id": "162bda3464a"
-          },
-          {
-            "children": [],
-            "name": "财务科目",
-            "id": "162e59b2f46"
-          },
-          {
-            "children": [],
-            "name": "权限管理",
-            "id": "1640e481843"
-          },
-          {
-            "children": [],
-            "name": "变更审核",
-            "id": "1644693975f"
-          },
-          {
-            "children": [],
-            "name": "文档模板",
-            "id": "165c65ad203"
-          },
-          {
-            "children": [],
-            "name": "组织模板",
-            "id": "1667891054a"
-          },
-          {
-            "children": [],
-            "name": "项目设置",
-            "id": "16782e72b28"
-          },
-          {
-            "children": [],
-            "name": "检查项",
-            "id": "167b5b0f900"
-          },
-          {
-            "children": [],
-            "name": "指标项",
-            "id": "168403fc076"
-          }
-        ],
-        "name": "业务管理",
-        "id": "162bd1af536"
-      },
-      {
-        "children": [
-          {
-            "children": [],
-            "name": "编辑器",
-            "id": "162ca15a85f"
-          }
-        ],
-        "name": "开发",
-        "id": "162c97e7531"
-      },
-      {
-        "children": [],
-        "name": "标题栏及杂项",
-        "id": "1631b42dbd8"
-      },
-      {
-        "children": [
-          {
-            "children": [],
-            "name": "我的工作",
-            "id": "163624e9684"
-          },
-          {
-            "children": [],
-            "name": "部门工作",
-            "id": "16367c5636d"
-          },
-          {
-            "children": [
-              {
-                "children": [],
-                "name": "工作包-基本",
-                "id": "1638c405264"
-              },
-              {
-                "children": [],
-                "name": "工作包-研发",
-                "id": "1638c40764f"
-              },
-              {
-                "children": [],
-                "name": "工作包-采购",
-                "id": "1638c40accd"
-              },
-              {
-                "children": [],
-                "name": "工作包-生产",
-                "id": "1638c40b735"
-              },
-              {
-                "children": [],
-                "name": "工作包-检验",
-                "id": "1638c40bc80"
-              },
-              {
-                "children": [],
-                "name": "工作包-OA流程",
-                "id": "165ad9a9ced"
-              }
-            ],
-            "name": "工作包",
-            "id": "1636715acf8"
-          },
-          {
-            "children": [],
-            "name": "待审批的项目变更",
-            "id": "1644f7d209b"
-          },
-          {
-            "children": [],
-            "name": "待确认的报告",
-            "id": "1646aced004"
-          }
-        ],
-        "name": "工作",
-        "id": "163624e5749"
-      },
-      {
-        "children": [
-          {
-            "children": [],
-            "name": "项目风险登记簿",
-            "id": "1646952b89d"
-          },
-          {
-            "children": [],
-            "name": "临近、监测和影响分析",
-            "id": "1646952fba8"
-          },
-          {
-            "children": [],
-            "name": "蒙特卡罗模拟",
-            "id": "164695339d2"
-          },
-          {
-            "children": [],
-            "name": "项目风险量化评估",
-            "id": "1646953956d"
-          },
-          {
-            "children": [],
-            "name": "风险应对计划",
-            "id": "1646953dea6"
-          }
-        ],
-        "name": "风险",
-        "id": "1637e5897d4"
-      },
-      {
-        "children": [
-          {
-            "children": [
-              {
-                "children": [],
-                "name": "项目工作看板",
-                "id": "166d2b7d771"
-              },
-              {
-                "children": [],
-                "name": "项目摘要信息轮播",
-                "id": "1670b23f7a3"
-              }
-            ],
-            "name": "项目主页",
-            "id": "163b6fe6dac"
-          },
-          {
-            "children": [],
-            "name": "项目管理者主页",
-            "id": "1645e3822ed"
-          },
-          {
-            "children": [],
-            "name": "看板",
-            "id": "166bdf4dc3f"
-          }
-        ],
-        "name": "主页",
-        "id": "1639583e46c"
-      },
-      {
-        "children": [
-          {
-            "children": [],
-            "name": "成本管理",
-            "id": "163c8e527aa"
-          },
-          {
-            "children": [],
-            "name": "预算成本对比",
-            "id": "163d33c2f06"
-          }
-        ],
-        "name": "成本管理",
-        "id": "163c8e4f3e6"
-      },
-      {
-        "children": [
-          {
-            "children": [],
-            "name": "文档",
-            "id": "165c135e901"
-          }
-        ],
-        "name": "档案库",
-        "id": "163dac10775"
-      },
-      {
-        "children": [
-          {
-            "children": [],
-            "name": "投资分析",
-            "id": "163eac2c766"
-          },
-          {
-            "children": [],
-            "name": "投资回报按月组成分析",
-            "id": "163eac3f1ac"
-          }
-        ],
-        "name": "投资分析",
-        "id": "163e873346f"
-      },
-      {
-        "children": [
-          {
-            "children": [],
-            "name": "报告详情",
-            "id": "163f7ee85bf"
-          },
-          {
-            "children": [],
-            "name": "编辑器",
-            "id": "163f7eed09c"
-          }
-        ],
-        "name": "我的报告",
-        "id": "163f1e2c682"
-      },
-      {
-        "children": [
-          {
-            "children": [],
-            "name": "资源数据分析",
-            "id": "1671a65fff6"
-          }
-        ],
-        "name": "资源管理",
-        "id": "1642c537dc7"
-      },
-      {
-        "children": [],
-        "name": "消息",
-        "id": "165316c7974"
-      },
-      {
-        "children": [],
-        "name": "项目集管理",
-        "id": "16548782113"
-      },
-      {
-        "children": [
-          {
-            "children": [],
-            "name": "OA集成",
-            "id": "165add7bd87"
-          }
-        ],
-        "name": "系统集成",
-        "id": "165add77e65"
-      },
-      {
-        "children": [],
-        "name": "项目文档表单",
-        "id": "16662209d99"
-      },
-      {
-        "children": [],
-        "name": "报告管理",
-        "id": "16685841b75"
-      },
-      {
-        "children": [
-          {
-            "children": [],
-            "name": "权限",
-            "id": "16a38999733"
-          },
-          {
-            "children": [],
-            "name": "工作流定义",
-            "id": "16a38adcbc2"
-          },
-          {
-            "children": [],
-            "name": "表单",
-            "id": "16a3919d17a"
-          },
-          {
-            "children": [],
-            "name": "发起工作流",
-            "id": "16a3925b272"
-          },
-          {
-            "children": [],
-            "name": "组件和主页",
-            "id": "16a3ff19f75"
-          }
-        ],
-        "name": "工作流",
-        "id": "16a14a9f5dc"
-      }
-    ],
+    "children": [],
     "name": "站点",
     "id": "1626b905a63"
   },
@@ -671,7 +30,7 @@
       "sidebar": {
         "enabled": true,
         "width": 240,
-        "header": "标题栏（带有用户头像和产品名称）",
+        "header": "/标题栏（带有用户头像和产品名称）.assy",
         "toolbarItems": [
           {
             "id": "16715679116",
@@ -703,7 +62,7 @@
                 "id": "1632e57b7a5",
                 "name": "我的项目",
                 "text": "我的项目",
-                "switchContentToAssemblyId": "我的项目",
+                "switchContentToAssemblyId": "/我的项目.gridassy",
                 "type": "switch",
                 "role": "",
                 "verticalSpan": 0
@@ -711,7 +70,7 @@
               {
                 "id": "1646aa835c4",
                 "name": "我管理的项目",
-                "switchContentToAssemblyId": "所有项目",
+                "switchContentToAssemblyId": "/所有项目.gridassy",
                 "type": "switch",
                 "role": "项目管理员#项目总监",
                 "verticalSpan": 0
@@ -719,7 +78,7 @@
               {
                 "id": "16548773bb3",
                 "name": "我管理的项目集",
-                "switchContentToAssemblyId": "项目集管理",
+                "switchContentToAssemblyId": "/项目集管理.gridassy",
                 "type": "switch",
                 "role": "trail",
                 "verticalSpan": 0
@@ -728,7 +87,7 @@
                 "id": "161989cc406",
                 "name": "企业项目结构",
                 "text": "企业项目结构",
-                "switchContentToAssemblyId": "EPS浏览",
+                "switchContentToAssemblyId": "/EPS浏览.gridassy",
                 "type": "switch",
                 "role": "项目管理员#项目总监",
                 "verticalSpan": 0
@@ -756,7 +115,7 @@
                 "id": "161989cc742",
                 "name": "处理工作",
                 "text": "处理工作",
-                "switchContentToAssemblyId": "我的工作",
+                "switchContentToAssemblyId": "/我的工作.gridassy",
                 "type": "switch",
                 "role": "",
                 "budgetServiceName": "com.bizvisionsoft.service.WorkService",
@@ -766,7 +125,7 @@
                 "id": "1646ae15164",
                 "name": "指派工作",
                 "text": "指派工作",
-                "switchContentToAssemblyId": "我的待指派工作",
+                "switchContentToAssemblyId": "/我的待指派工作.gridassy",
                 "type": "switch",
                 "budgetServiceName": "com.bizvisionsoft.service.WorkService",
                 "verticalSpan": 0
@@ -775,7 +134,7 @@
                 "id": "1646ad17bf4",
                 "name": "确认报告",
                 "text": "确认报告",
-                "switchContentToAssemblyId": "待确认的报告",
+                "switchContentToAssemblyId": "/待确认的报告.gridassy",
                 "type": "switch",
                 "budgetServiceName": "com.bizvisionsoft.service.WorkReportService",
                 "verticalSpan": 0
@@ -784,7 +143,7 @@
                 "id": "1644e8490d8",
                 "name": "审批项目变更",
                 "text": "审批项目变更",
-                "switchContentToAssemblyId": "待审批的项目变更",
+                "switchContentToAssemblyId": "/待审批的项目变更.gridassy",
                 "type": "switch",
                 "budgetServiceName": "com.bizvisionsoft.service.ProjectService",
                 "verticalSpan": 0
@@ -793,7 +152,7 @@
                 "id": "161989cc80d",
                 "name": "我的日程表",
                 "text": "我的日程表",
-                "switchContentToAssemblyId": "我的工作（日历牌）",
+                "switchContentToAssemblyId": "/我的工作（日历牌）.schedulerassy",
                 "type": "switch",
                 "role": "",
                 "verticalSpan": 0
@@ -802,7 +161,7 @@
                 "id": "163624d6384",
                 "name": "已完成的工作",
                 "text": "已完成的工作",
-                "switchContentToAssemblyId": "我的工作（已完成）",
+                "switchContentToAssemblyId": "/我的工作（已完成）.gridassy",
                 "type": "switch",
                 "role": "",
                 "verticalSpan": 0
@@ -817,7 +176,7 @@
             "id": "161989cc8b9",
             "name": "部门工作",
             "text": "部门工作",
-            "switchContentToAssemblyId": "部门工作日程表",
+            "switchContentToAssemblyId": "/部门工作日程表.schedulerassy",
             "type": "switch",
             "role": "部门经理",
             "verticalSpan": 0
@@ -829,21 +188,21 @@
               {
                 "id": "1671af7df71",
                 "name": "组织资源图表",
-                "switchContentToAssemblyId": "组织资源图表",
+                "switchContentToAssemblyId": "/组织资源图表.drillchartassy",
                 "type": "switch",
                 "passParametersToAssembly": ""
               },
               {
                 "id": "1673ff0f654",
                 "name": "EPS资源图表",
-                "switchContentToAssemblyId": "EPS资源图表",
+                "switchContentToAssemblyId": "/EPS资源图表.drillchartassy",
                 "type": "switch",
                 "verticalSpan": 0
               },
               {
                 "id": "1642aaac69a",
                 "name": "资源数据表",
-                "switchContentToAssemblyId": "查看资源汇总情况",
+                "switchContentToAssemblyId": "/查看资源汇总情况.assy",
                 "type": "switch",
                 "passParametersToAssembly": "{\"type\":\"dept\"}"
               }
@@ -859,21 +218,21 @@
               {
                 "id": "163f1e410ff",
                 "name": "日报",
-                "switchContentToAssemblyId": "日报",
+                "switchContentToAssemblyId": "/日报.gridassy",
                 "type": "switch",
                 "verticalSpan": 0
               },
               {
                 "id": "163fe80fbb0",
                 "name": "周报",
-                "switchContentToAssemblyId": "周报",
+                "switchContentToAssemblyId": "/周报.gridassy",
                 "type": "switch",
                 "verticalSpan": 0
               },
               {
                 "id": "163fea075de",
                 "name": "月报",
-                "switchContentToAssemblyId": "月报",
+                "switchContentToAssemblyId": "/月报.gridassy",
                 "type": "switch",
                 "verticalSpan": 0
               }
@@ -889,21 +248,21 @@
               {
                 "id": "1668582ac36",
                 "name": "日报管理",
-                "switchContentToAssemblyId": "日报管理",
+                "switchContentToAssemblyId": "/日报管理.gridassy",
                 "type": "switch",
                 "verticalSpan": 0
               },
               {
                 "id": "1668582b262",
                 "name": "周报管理",
-                "switchContentToAssemblyId": "周报管理",
+                "switchContentToAssemblyId": "/周报管理.gridassy",
                 "type": "switch",
                 "verticalSpan": 0
               },
               {
                 "id": "1668582b807",
                 "name": "月报管理",
-                "switchContentToAssemblyId": "月报管理",
+                "switchContentToAssemblyId": "/月报管理.gridassy",
                 "type": "switch",
                 "verticalSpan": 0
               }
@@ -920,21 +279,21 @@
               {
                 "id": "16752f4d799",
                 "name": "EPS预算成本图表",
-                "switchContentToAssemblyId": "EPS预算成本图表",
+                "switchContentToAssemblyId": "/EPS预算成本图表.drillchartassy",
                 "type": "switch",
                 "verticalSpan": 0
               },
               {
                 "id": "163d33f474f",
                 "name": "预算成本对比分析表",
-                "switchContentToAssemblyId": "预算成本对比分析",
+                "switchContentToAssemblyId": "/预算成本对比分析.gridassy",
                 "type": "switch",
                 "verticalSpan": 0
               },
               {
                 "id": "163c8e430a8",
                 "name": "成本管理",
-                "switchContentToAssemblyId": "成本管理",
+                "switchContentToAssemblyId": "/成本管理.gridassy",
                 "type": "switch",
                 "verticalSpan": 0
               }
@@ -947,7 +306,7 @@
             "id": "161989cbe38",
             "name": "采购管理",
             "text": "采购管理",
-            "switchContentToAssemblyId": "采购计划监控（项目管理）",
+            "switchContentToAssemblyId": "/采购计划监控（项目管理）.gridassy",
             "type": "switch",
             "role": "供应链管理#项目总监",
             "verticalSpan": 0
@@ -956,7 +315,7 @@
             "id": "161989cc03c",
             "name": "生产管理",
             "text": "生产管理",
-            "switchContentToAssemblyId": "生产计划监控（项目管理）",
+            "switchContentToAssemblyId": "/生产计划监控（项目管理）.gridassy",
             "type": "switch",
             "role": "制造管理#项目总监",
             "verticalSpan": 0
@@ -981,7 +340,7 @@
         "assemblyLinks": [
           {
             "typeName": "组件链接",
-            "id": "主页看板（一般用户默认）",
+            "id": "/主页看板（一般用户默认）.assy",
             "defaultAssembly": true,
             "excludeRole": "项目总监#项目管理员",
             "image": "/img/todo_w.svg",
@@ -989,7 +348,7 @@
           },
           {
             "typeName": "组件链接",
-            "id": "主页看板（PMO用户默认）",
+            "id": "/主页看板（PMO用户默认）.assy",
             "role": "项目总监#项目管理员",
             "image": "/img/todo_w.svg",
             "text": "工作看板"
@@ -1008,7 +367,7 @@
       "sidebar": {
         "enabled": true,
         "width": 240,
-        "header": "标题栏（当前对象和返回）",
+        "header": "/标题栏（当前对象和返回）.assy",
         "toolbarItems": [
           {
             "id": "163ff5e398b",
@@ -1034,7 +393,7 @@
                 "description": "权限控制了按钮",
                 "bundleId": "com.bizvisionsoft.pms",
                 "className": "com.bizvisionsoft.pms.work.gantt.action.OpenGantt",
-                "switchContentToAssemblyId": "项目甘特图",
+                "switchContentToAssemblyId": "/项目甘特图.ganttassy",
                 "type": "customized",
                 "verticalSpan": 0
               },
@@ -1042,7 +401,7 @@
                 "id": "1638b849d14",
                 "name": "项目进度计划和监控",
                 "text": "项目进度计划和监控",
-                "switchContentToAssemblyId": "进度计划和监控",
+                "switchContentToAssemblyId": "/进度计划和监控.gridassy",
                 "type": "switch",
                 "role": "PM#PA#PPM",
                 "verticalSpan": 0
@@ -1051,7 +410,7 @@
                 "id": "1641c281efd",
                 "name": "项目进度计划和监控（查看）",
                 "text": "项目进度计划和监控",
-                "switchContentToAssemblyId": "进度计划和监控（查看）",
+                "switchContentToAssemblyId": "/进度计划和监控（查看）.gridassy",
                 "type": "switch",
                 "excludeRole": "PM#PA#PPM",
                 "verticalSpan": 0
@@ -1060,14 +419,14 @@
                 "id": "163e37901f5",
                 "name": "项目进度跟踪甘特图",
                 "text": "项目进度跟踪甘特图",
-                "switchContentToAssemblyId": "项目进度跟踪甘特图",
+                "switchContentToAssemblyId": "/项目进度跟踪甘特图.ganttassy",
                 "type": "switch",
                 "verticalSpan": 0
               },
               {
                 "id": "1643efad59a",
                 "name": "项目进展甘特图",
-                "switchContentToAssemblyId": "项目进展甘特图",
+                "switchContentToAssemblyId": "/项目进展甘特图.ganttassy",
                 "type": "switch",
                 "verticalSpan": 0
               }
@@ -1079,7 +438,7 @@
             "id": "163099d3908",
             "name": "项目组织结构",
             "text": "项目组织结构",
-            "switchContentToAssemblyId": "组织结构图",
+            "switchContentToAssemblyId": "/组织结构图.treeassy",
             "type": "switch",
             "role": "PM#PA#PPM",
             "verticalSpan": 0
@@ -1091,28 +450,28 @@
               {
                 "id": "1628decc40b",
                 "name": "项目资源计划",
-                "switchContentToAssemblyId": "资源分配",
+                "switchContentToAssemblyId": "/资源分配.assy",
                 "type": "switch",
                 "passParametersToAssembly": "{\"type\":\"plan\",\"editable\":true}"
               },
               {
                 "id": "163c14c1fd6",
                 "name": "项目资源用量",
-                "switchContentToAssemblyId": "资源分配",
+                "switchContentToAssemblyId": "/资源分配.assy",
                 "type": "switch",
                 "passParametersToAssembly": "{\"type\":\"actual\",\"editable\":true}"
               },
               {
                 "id": "16750ae040c",
                 "name": "项目资源图表",
-                "switchContentToAssemblyId": "项目资源图表",
+                "switchContentToAssemblyId": "/项目资源图表.drillchartassy",
                 "type": "switch",
                 "verticalSpan": 0
               },
               {
                 "id": "16428a1c67a",
                 "name": "项目资源数据表",
-                "switchContentToAssemblyId": "查看资源汇总情况",
+                "switchContentToAssemblyId": "/查看资源汇总情况.assy",
                 "type": "switch",
                 "passParametersToAssembly": "{\"type\":\"project\"}"
               }
@@ -1129,14 +488,14 @@
               {
                 "id": "1641c105971",
                 "name": "项目资源计划",
-                "switchContentToAssemblyId": "资源分配",
+                "switchContentToAssemblyId": "/资源分配.assy",
                 "type": "switch",
                 "passParametersToAssembly": "{\"type\":\"plan\",\"editable\":false}"
               },
               {
                 "id": "1641c105f08",
                 "name": "项目资源用量",
-                "switchContentToAssemblyId": "资源分配",
+                "switchContentToAssemblyId": "/资源分配.assy",
                 "type": "switch",
                 "passParametersToAssembly": "{\"type\":\"actual\",\"editable\":false}"
               }
@@ -1154,7 +513,7 @@
                 "id": "1628decc878",
                 "name": "项目资金计划",
                 "text": "项目资金计划",
-                "switchContentToAssemblyId": "项目资金计划",
+                "switchContentToAssemblyId": "/项目资金计划.stickerassy",
                 "type": "switch",
                 "verticalSpan": 0
               },
@@ -1162,21 +521,21 @@
                 "id": "1628decc9e5",
                 "name": "项目实际成本",
                 "text": "项目实际成本",
-                "switchContentToAssemblyId": "项目实际成本",
+                "switchContentToAssemblyId": "/项目实际成本.stickerassy",
                 "type": "switch",
                 "verticalSpan": 0
               },
               {
                 "id": "16390f96644",
                 "name": "预算成本对比分析表",
-                "switchContentToAssemblyId": "项目预算成本对比分析",
+                "switchContentToAssemblyId": "/项目预算成本对比分析.gridassy",
                 "type": "switch",
                 "verticalSpan": 0
               },
               {
                 "id": "1675606e502",
                 "name": "项目预算成本图表",
-                "switchContentToAssemblyId": "项目预算成本图表",
+                "switchContentToAssemblyId": "/项目预算成本图表.drillchartassy",
                 "type": "switch",
                 "verticalSpan": 0
               }
@@ -1191,28 +550,28 @@
               {
                 "id": "1641b7feb82",
                 "name": "研发进度监控",
-                "switchContentToAssemblyId": "研发进度监控",
+                "switchContentToAssemblyId": "/研发进度监控.gridassy",
                 "type": "switch",
                 "verticalSpan": 0
               },
               {
                 "id": "1641b801e82",
                 "name": "采购计划监控",
-                "switchContentToAssemblyId": "采购计划监控",
+                "switchContentToAssemblyId": "/采购计划监控.gridassy",
                 "type": "switch",
                 "verticalSpan": 0
               },
               {
                 "id": "1641b805c50",
                 "name": "生产计划监控",
-                "switchContentToAssemblyId": "生产计划监控",
+                "switchContentToAssemblyId": "/生产计划监控.gridassy",
                 "type": "switch",
                 "verticalSpan": 0
               },
               {
                 "id": "1641b8054c8",
                 "name": "检验进度监控",
-                "switchContentToAssemblyId": "检验进度监控",
+                "switchContentToAssemblyId": "/检验进度监控.gridassy",
                 "type": "switch",
                 "verticalSpan": 0
               }
@@ -1224,7 +583,7 @@
           {
             "id": "1628decbc1b",
             "name": "研发进度监控",
-            "switchContentToAssemblyId": "研发进度监控",
+            "switchContentToAssemblyId": "/研发进度监控.gridassy",
             "type": "switch",
             "role": "PCE#SE",
             "excludeRole": "PM#PA#PPM",
@@ -1233,7 +592,7 @@
           {
             "id": "1628decbdcc",
             "name": "采购计划监控",
-            "switchContentToAssemblyId": "采购计划监控",
+            "switchContentToAssemblyId": "/采购计划监控.gridassy",
             "type": "switch",
             "role": "PR#SE",
             "excludeRole": "PM#PA#PPM",
@@ -1242,7 +601,7 @@
           {
             "id": "1628decbf7e",
             "name": "生产计划监控",
-            "switchContentToAssemblyId": "生产计划监控",
+            "switchContentToAssemblyId": "/生产计划监控.gridassy",
             "type": "switch",
             "role": "MR#SE",
             "excludeRole": "PM#PA#PPM",
@@ -1251,7 +610,7 @@
           {
             "id": "1628decd621",
             "name": "检验进度监控",
-            "switchContentToAssemblyId": "检验进度监控",
+            "switchContentToAssemblyId": "/检验进度监控.gridassy",
             "type": "switch",
             "role": "QME#SE",
             "excludeRole": "PM#PA#PPM",
@@ -1265,21 +624,21 @@
               {
                 "id": "16401d836ed",
                 "name": "项目日报",
-                "switchContentToAssemblyId": "项目日报",
+                "switchContentToAssemblyId": "/项目日报.gridassy",
                 "type": "switch",
                 "verticalSpan": 0
               },
               {
                 "id": "16401d83c9c",
                 "name": "项目周报",
-                "switchContentToAssemblyId": "项目周报",
+                "switchContentToAssemblyId": "/项目周报.gridassy",
                 "type": "switch",
                 "verticalSpan": 0
               },
               {
                 "id": "16401d843e6",
                 "name": "项目月报",
-                "switchContentToAssemblyId": "项目月报",
+                "switchContentToAssemblyId": "/项目月报.gridassy",
                 "type": "switch",
                 "verticalSpan": 0
               }
@@ -1296,14 +655,14 @@
               {
                 "id": "1628decce74",
                 "name": "项目风险登记簿",
-                "switchContentToAssemblyId": "项目风险登记簿",
+                "switchContentToAssemblyId": "/项目风险登记簿.gridassy",
                 "type": "switch",
                 "verticalSpan": 0
               },
               {
                 "id": "1645133f2e9",
                 "name": "可探测性和临近性分析",
-                "switchContentToAssemblyId": "临近、监测和影响分析（大图表）",
+                "switchContentToAssemblyId": "/临近、监测和影响分析（大图表）.chartassy",
                 "type": "switch",
                 "verticalSpan": 0
               },
@@ -1312,21 +671,21 @@
                 "name": "蒙特卡罗模拟",
                 "bundleId": "",
                 "className": "",
-                "switchContentToAssemblyId": "蒙特卡洛分析展示",
+                "switchContentToAssemblyId": "/蒙特卡洛分析展示.chartassy",
                 "type": "switch",
                 "verticalSpan": 0
               },
               {
                 "id": "1628deccfe3",
                 "name": "项目风险量化评估",
-                "switchContentToAssemblyId": "项目风险量化评估",
+                "switchContentToAssemblyId": "/项目风险量化评估.gridassy",
                 "type": "switch",
                 "verticalSpan": 0
               },
               {
                 "id": "1628decd302",
                 "name": "风险应对计划",
-                "switchContentToAssemblyId": "项目风险应对计划",
+                "switchContentToAssemblyId": "/项目风险应对计划.gridassy",
                 "type": "switch",
                 "verticalSpan": 0
               }
@@ -1342,7 +701,7 @@
               {
                 "id": "1628decdec9",
                 "name": "项目基线",
-                "switchContentToAssemblyId": "项目基线",
+                "switchContentToAssemblyId": "/项目基线.gridassy",
                 "type": "switch",
                 "role": "PM#PA#PPM",
                 "verticalSpan": 0
@@ -1350,7 +709,7 @@
               {
                 "id": "1628df2227f",
                 "name": "项目变更",
-                "switchContentToAssemblyId": "项目变更",
+                "switchContentToAssemblyId": "/项目变更.gridassy",
                 "type": "switch",
                 "verticalSpan": 0
               }
@@ -1361,14 +720,14 @@
           {
             "id": "1628df224b5",
             "name": "项目档案库",
-            "switchContentToAssemblyId": "项目档案库",
+            "switchContentToAssemblyId": "/项目档案库.assy",
             "type": "switch",
             "verticalSpan": 0
           },
           {
             "id": "1628decb6d6",
             "name": "项目相关方",
-            "switchContentToAssemblyId": "项目干系人",
+            "switchContentToAssemblyId": "/项目干系人.gridassy",
             "type": "switch",
             "verticalSpan": 0
           },
@@ -1412,13 +771,13 @@
         "assemblyLinks": [
           {
             "typeName": "组件链接",
-            "id": "项目主页",
+            "id": "/项目主页.assy",
             "image": "/img/dashboard_w.svg",
             "text": "项目仪表台"
           },
           {
             "typeName": "组件链接",
-            "id": "项目工作看板",
+            "id": "/项目工作看板.assy",
             "defaultAssembly": true,
             "image": "/img/todo_w.svg",
             "text": "项目工作看板"
@@ -1436,7 +795,7 @@
       "sidebar": {
         "enabled": true,
         "width": 240,
-        "header": "标题栏（当前对象和返回）",
+        "header": "/标题栏（当前对象和返回）.assy",
         "toolbarItems": [
           {
             "id": "1640180035b",
@@ -1459,14 +818,14 @@
                 "name": "项目进度计划甘特图",
                 "bundleId": "com.bizvisionsoft.pms",
                 "className": "com.bizvisionsoft.pms.work.gantt.action.OpenGantt",
-                "switchContentToAssemblyId": "项目甘特图",
+                "switchContentToAssemblyId": "/项目甘特图.ganttassy",
                 "type": "customized",
                 "verticalSpan": 0
               },
               {
                 "id": "163fe7d5eed",
                 "name": "项目进度计划",
-                "switchContentToAssemblyId": "进度计划",
+                "switchContentToAssemblyId": "/进度计划.gridassy",
                 "type": "switch",
                 "verticalSpan": 0
               }
@@ -1479,7 +838,7 @@
             "id": "1641b383d2e",
             "name": "项目进度计划（查看）",
             "text": "项目进度计划",
-            "switchContentToAssemblyId": "进度计划（查看）",
+            "switchContentToAssemblyId": "/进度计划（查看）.gridassy",
             "type": "switch",
             "role": "",
             "excludeRole": "PM#PA#PPM",
@@ -1488,7 +847,7 @@
           {
             "id": "16300006028",
             "name": "项目组织结构",
-            "switchContentToAssemblyId": "组织结构图",
+            "switchContentToAssemblyId": "/组织结构图.treeassy",
             "type": "switch",
             "role": "PM#PA#PPM",
             "verticalSpan": 0
@@ -1497,7 +856,7 @@
             "id": "1641b3795b4",
             "name": "项目组织结构（查看）",
             "text": "组织结构",
-            "switchContentToAssemblyId": "组织结构图（查看）",
+            "switchContentToAssemblyId": "/组织结构图（查看）.treeassy",
             "type": "switch",
             "role": "",
             "excludeRole": "PM#PA#PPM",
@@ -1507,7 +866,7 @@
             "id": "162fffad053",
             "name": "项目资金计划",
             "text": "项目资金计划",
-            "switchContentToAssemblyId": "项目资金计划",
+            "switchContentToAssemblyId": "/项目资金计划.stickerassy",
             "type": "switch",
             "role": "",
             "verticalSpan": 0
@@ -1515,7 +874,7 @@
           {
             "id": "16370fa7c16",
             "name": "项目资源计划",
-            "switchContentToAssemblyId": "资源分配",
+            "switchContentToAssemblyId": "/资源分配.assy",
             "type": "switch",
             "role": "PM#PA#PPM",
             "passParametersToAssembly": "{\"type\":\"plan\",\"editable\":true}"
@@ -1524,7 +883,7 @@
             "id": "1641c046ef8",
             "name": "项目资源计划（查看）",
             "text": "项目资源计划",
-            "switchContentToAssemblyId": "资源分配",
+            "switchContentToAssemblyId": "/资源分配.assy",
             "type": "switch",
             "excludeRole": "PM#PA#PPM",
             "passParametersToAssembly": "{\"type\":\"plan\",\"editable\":false}"
@@ -1537,28 +896,28 @@
                 "id": "16391051314",
                 "name": "项目风险登记簿",
                 "text": "项目风险登记簿",
-                "switchContentToAssemblyId": "项目风险登记簿",
+                "switchContentToAssemblyId": "/项目风险登记簿.gridassy",
                 "type": "switch",
                 "verticalSpan": 0
               },
               {
                 "id": "1643ccc3041",
                 "name": "蒙特卡罗模拟",
-                "switchContentToAssemblyId": "蒙特卡洛分析展示",
+                "switchContentToAssemblyId": "/蒙特卡洛分析展示.chartassy",
                 "type": "switch",
                 "verticalSpan": 0
               },
               {
                 "id": "1643cccddc9",
                 "name": "项目风险量化评估",
-                "switchContentToAssemblyId": "项目风险量化评估",
+                "switchContentToAssemblyId": "/项目风险量化评估.gridassy",
                 "type": "switch",
                 "verticalSpan": 0
               },
               {
                 "id": "163910518b0",
                 "name": "风险应对计划",
-                "switchContentToAssemblyId": "项目风险应对计划",
+                "switchContentToAssemblyId": "/项目风险应对计划.gridassy",
                 "type": "switch",
                 "verticalSpan": 0
               }
@@ -1570,7 +929,7 @@
           {
             "id": "162fffc1a86",
             "name": "项目相关方",
-            "switchContentToAssemblyId": "项目干系人",
+            "switchContentToAssemblyId": "/项目干系人.gridassy",
             "type": "switch",
             "role": "",
             "verticalSpan": 0
@@ -1601,7 +960,7 @@
           {
             "id": "16532b3c294",
             "name": "快速启动",
-            "switchContentToAssemblyId": "项目主页（创建状态）",
+            "switchContentToAssemblyId": "/项目主页（创建状态）.assy",
             "type": "switch",
             "verticalSpan": 0
           }
@@ -1613,7 +972,7 @@
         "assemblyLinks": [
           {
             "typeName": "组件链接",
-            "id": "项目主页（创建状态）",
+            "id": "/项目主页（创建状态）.assy",
             "defaultAssembly": true
           }
         ]
@@ -1629,7 +988,7 @@
       "sidebar": {
         "enabled": true,
         "width": 240,
-        "header": "标题栏（当前对象和返回）",
+        "header": "/标题栏（当前对象和返回）.assy",
         "toolbarItems": [
           {
             "id": "16401806691",
@@ -1654,7 +1013,7 @@
                 "text": "项目进度甘特图",
                 "bundleId": "com.bizvisionsoft.pms",
                 "className": "com.bizvisionsoft.pms.work.gantt.action.OpenGantt",
-                "switchContentToAssemblyId": "项目甘特图（查看）",
+                "switchContentToAssemblyId": "/项目甘特图（查看）.ganttassy",
                 "type": "switch",
                 "verticalSpan": 0
               },
@@ -1662,7 +1021,7 @@
                 "id": "9628decb92d",
                 "name": "项目进度计划和监控（查看）",
                 "text": "项目进度计划和监控",
-                "switchContentToAssemblyId": "进度计划和监控（查看）",
+                "switchContentToAssemblyId": "/进度计划和监控（查看）.gridassy",
                 "type": "switch",
                 "verticalSpan": 0
               },
@@ -1670,14 +1029,14 @@
                 "id": "1641d9cd069",
                 "name": "项目进度跟踪甘特图",
                 "text": "项目进度跟踪甘特图",
-                "switchContentToAssemblyId": "项目进度跟踪甘特图",
+                "switchContentToAssemblyId": "/项目进度跟踪甘特图.ganttassy",
                 "type": "switch",
                 "verticalSpan": 0
               },
               {
                 "id": "1643efee278",
                 "name": "项目进展甘特图",
-                "switchContentToAssemblyId": "项目进展甘特图",
+                "switchContentToAssemblyId": "/项目进展甘特图.ganttassy",
                 "type": "switch",
                 "verticalSpan": 0
               }
@@ -1688,7 +1047,7 @@
             "id": "963099d3908",
             "name": "项目组织结构",
             "text": "项目组织结构",
-            "switchContentToAssemblyId": "组织结构图（查看）",
+            "switchContentToAssemblyId": "/组织结构图（查看）.treeassy",
             "type": "switch",
             "verticalSpan": 0
           },
@@ -1700,28 +1059,28 @@
               {
                 "id": "9628decc40b",
                 "name": "项目资源计划",
-                "switchContentToAssemblyId": "资源分配",
+                "switchContentToAssemblyId": "/资源分配.assy",
                 "type": "switch",
                 "passParametersToAssembly": "{\"type\":\"plan\",\"editable\":false}"
               },
               {
                 "id": "9628decc58a",
                 "name": "资源用量状况",
-                "switchContentToAssemblyId": "资源分配",
+                "switchContentToAssemblyId": "/资源分配.assy",
                 "type": "switch",
                 "passParametersToAssembly": "{\"type\":\"actual\",\"editable\":false}"
               },
               {
                 "id": "166aa2c1314",
                 "name": "项目资源图表",
-                "switchContentToAssemblyId": "项目资源图表",
+                "switchContentToAssemblyId": "/项目资源图表.drillchartassy",
                 "type": "switch",
                 "verticalSpan": 0
               },
               {
                 "id": "166aa2c402b",
                 "name": "项目资源数据表",
-                "switchContentToAssemblyId": "查看资源汇总情况",
+                "switchContentToAssemblyId": "/查看资源汇总情况.assy",
                 "type": "switch",
                 "passParametersToAssembly": "{\n\"type\":\"project\"\n}"
               }
@@ -1737,28 +1096,28 @@
               {
                 "id": "9628decc878",
                 "name": "项目资金计划",
-                "switchContentToAssemblyId": "项目资金计划",
+                "switchContentToAssemblyId": "/项目资金计划.stickerassy",
                 "type": "switch",
                 "verticalSpan": 0
               },
               {
                 "id": "9628decc9e5",
                 "name": "项目实际成本",
-                "switchContentToAssemblyId": "项目实际成本",
+                "switchContentToAssemblyId": "/项目实际成本.stickerassy",
                 "type": "switch",
                 "verticalSpan": 0
               },
               {
                 "id": "16390f90fd8",
                 "name": "预算成本对比分析表",
-                "switchContentToAssemblyId": "项目预算成本对比分析",
+                "switchContentToAssemblyId": "/项目预算成本对比分析.gridassy",
                 "type": "switch",
                 "verticalSpan": 0
               },
               {
                 "id": "16756069d6c",
                 "name": "项目预算成本图表",
-                "switchContentToAssemblyId": "项目预算成本图表",
+                "switchContentToAssemblyId": "/项目预算成本图表.drillchartassy",
                 "type": "switch",
                 "verticalSpan": 0
               }
@@ -1774,28 +1133,28 @@
               {
                 "id": "9628decbc1b",
                 "name": "研发进度监控",
-                "switchContentToAssemblyId": "研发进度监控",
+                "switchContentToAssemblyId": "/研发进度监控.gridassy",
                 "type": "switch",
                 "verticalSpan": 0
               },
               {
                 "id": "9628decbdcc",
                 "name": "采购计划监控",
-                "switchContentToAssemblyId": "采购计划监控",
+                "switchContentToAssemblyId": "/采购计划监控.gridassy",
                 "type": "switch",
                 "verticalSpan": 0
               },
               {
                 "id": "9628decbf7e",
                 "name": "生产计划监控",
-                "switchContentToAssemblyId": "生产计划监控",
+                "switchContentToAssemblyId": "/生产计划监控.gridassy",
                 "type": "switch",
                 "verticalSpan": 0
               },
               {
                 "id": "9628decd621",
                 "name": "检验进度监控",
-                "switchContentToAssemblyId": "检验进度监控",
+                "switchContentToAssemblyId": "/检验进度监控.gridassy",
                 "type": "switch",
                 "verticalSpan": 0
               }
@@ -1806,7 +1165,7 @@
           {
             "id": "1641d9fef51",
             "name": "研发进度监控",
-            "switchContentToAssemblyId": "研发进度监控",
+            "switchContentToAssemblyId": "/研发进度监控.gridassy",
             "type": "switch",
             "role": "PCE#SE",
             "excludeRole": "PM#PA#PPM",
@@ -1815,7 +1174,7 @@
           {
             "id": "1641d9ff321",
             "name": "采购计划监控",
-            "switchContentToAssemblyId": "采购计划监控",
+            "switchContentToAssemblyId": "/采购计划监控.gridassy",
             "type": "switch",
             "role": "PR#SE",
             "excludeRole": "PM#PA#PPM",
@@ -1824,7 +1183,7 @@
           {
             "id": "1641d9ff67b",
             "name": "生产计划监控",
-            "switchContentToAssemblyId": "生产计划监控",
+            "switchContentToAssemblyId": "/生产计划监控.gridassy",
             "type": "switch",
             "role": "MR#SE",
             "excludeRole": "PM#PA#PPM",
@@ -1833,7 +1192,7 @@
           {
             "id": "1641d9ff9a8",
             "name": "检验进度监控",
-            "switchContentToAssemblyId": "检验进度监控",
+            "switchContentToAssemblyId": "/检验进度监控.gridassy",
             "type": "switch",
             "role": "QME#SE",
             "excludeRole": "PM#PA#PPM",
@@ -1846,21 +1205,21 @@
               {
                 "id": "16401fb6838",
                 "name": "项目日报",
-                "switchContentToAssemblyId": "项目日报",
+                "switchContentToAssemblyId": "/项目日报.gridassy",
                 "type": "switch",
                 "verticalSpan": 0
               },
               {
                 "id": "16401fb6da1",
                 "name": "项目周报",
-                "switchContentToAssemblyId": "项目周报",
+                "switchContentToAssemblyId": "/项目周报.gridassy",
                 "type": "switch",
                 "verticalSpan": 0
               },
               {
                 "id": "16401fb7616",
                 "name": "项目月报",
-                "switchContentToAssemblyId": "项目月报",
+                "switchContentToAssemblyId": "/项目月报.gridassy",
                 "type": "switch",
                 "verticalSpan": 0
               }
@@ -1878,35 +1237,35 @@
                 "id": "9628decce74",
                 "name": "项目风险登记簿",
                 "text": "项目风险登记簿",
-                "switchContentToAssemblyId": "项目风险登记簿",
+                "switchContentToAssemblyId": "/项目风险登记簿.gridassy",
                 "type": "switch",
                 "verticalSpan": 0
               },
               {
                 "id": "1646957a360",
                 "name": "可探测性和临近性分析",
-                "switchContentToAssemblyId": "临近、监测和影响分析（大图表）",
+                "switchContentToAssemblyId": "/临近、监测和影响分析（大图表）.chartassy",
                 "type": "switch",
                 "verticalSpan": 0
               },
               {
                 "id": "1646958b336",
                 "name": "蒙特卡罗模拟",
-                "switchContentToAssemblyId": "蒙特卡洛分析展示（查看）",
+                "switchContentToAssemblyId": "/蒙特卡洛分析展示（查看）.chartassy",
                 "type": "switch",
                 "verticalSpan": 0
               },
               {
                 "id": "9628deccfe3",
                 "name": "项目风险量化评估",
-                "switchContentToAssemblyId": "项目风险量化评估",
+                "switchContentToAssemblyId": "/项目风险量化评估.gridassy",
                 "type": "switch",
                 "verticalSpan": 0
               },
               {
                 "id": "9628decd302",
                 "name": "风险应对计划",
-                "switchContentToAssemblyId": "项目风险应对计划",
+                "switchContentToAssemblyId": "/项目风险应对计划.gridassy",
                 "type": "switch",
                 "verticalSpan": 0
               }
@@ -1921,7 +1280,7 @@
               {
                 "id": "9628decdec9",
                 "name": "项目基线",
-                "switchContentToAssemblyId": "项目基线（查看）",
+                "switchContentToAssemblyId": "/项目基线（查看）.gridassy",
                 "type": "switch",
                 "role": "PM#PA#PPM",
                 "verticalSpan": 0
@@ -1929,7 +1288,7 @@
               {
                 "id": "9628df2227f",
                 "name": "项目变更",
-                "switchContentToAssemblyId": "项目变更（查看）",
+                "switchContentToAssemblyId": "/项目变更（查看）.gridassy",
                 "type": "switch",
                 "verticalSpan": 0
               }
@@ -1939,14 +1298,14 @@
           {
             "id": "9628df224b5",
             "name": "项目档案库",
-            "switchContentToAssemblyId": "项目档案库",
+            "switchContentToAssemblyId": "/项目档案库.assy",
             "type": "switch",
             "verticalSpan": 0
           },
           {
             "id": "9628decb6d6",
             "name": "项目相关方",
-            "switchContentToAssemblyId": "项目干系人",
+            "switchContentToAssemblyId": "/项目干系人.gridassy",
             "type": "switch",
             "verticalSpan": 0
           },
@@ -1990,14 +1349,14 @@
         "assemblyLinks": [
           {
             "typeName": "组件链接",
-            "id": "项目主页",
+            "id": "/项目主页.assy",
             "defaultAssembly": true,
             "image": "/img/dashboard_w.svg",
             "text": "项目仪表台"
           },
           {
             "typeName": "组件链接",
-            "id": "项目工作看板",
+            "id": "/项目工作看板.assy",
             "image": "/img/todo_w.svg",
             "text": "项目工作看板"
           }
@@ -2014,7 +1373,7 @@
       "sidebar": {
         "enabled": true,
         "width": 240,
-        "header": "标题栏（当前对象和返回）",
+        "header": "/标题栏（当前对象和返回）.assy",
         "toolbarItems": [
           {
             "id": "16401809975",
@@ -2039,7 +1398,7 @@
                 "text": "项目进度甘特图",
                 "bundleId": "com.bizvisionsoft.pms",
                 "className": "com.bizvisionsoft.pms.work.gantt.action.OpenGantt",
-                "switchContentToAssemblyId": "项目甘特图（查看）",
+                "switchContentToAssemblyId": "/项目甘特图（查看）.ganttassy",
                 "type": "switch",
                 "verticalSpan": 0
               },
@@ -2047,7 +1406,7 @@
                 "id": "9928decb92d",
                 "name": "项目进度计划和监控（查看）",
                 "text": "项目进度计划和监控",
-                "switchContentToAssemblyId": "进度计划和监控（查看）",
+                "switchContentToAssemblyId": "/进度计划和监控（查看）.gridassy",
                 "type": "switch",
                 "verticalSpan": 0
               },
@@ -2055,14 +1414,14 @@
                 "id": "1641f8c638f",
                 "name": "项目进度跟踪甘特图",
                 "text": "项目进度跟踪甘特图",
-                "switchContentToAssemblyId": "项目进度跟踪甘特图",
+                "switchContentToAssemblyId": "/项目进度跟踪甘特图.ganttassy",
                 "type": "switch",
                 "verticalSpan": 0
               },
               {
                 "id": "1643efe5e9d",
                 "name": "项目进展甘特图",
-                "switchContentToAssemblyId": "项目进展甘特图",
+                "switchContentToAssemblyId": "/项目进展甘特图.ganttassy",
                 "type": "switch",
                 "verticalSpan": 0
               }
@@ -2073,7 +1432,7 @@
             "id": "993099d3908",
             "name": "项目组织结构",
             "text": "项目组织结构",
-            "switchContentToAssemblyId": "组织结构图（查看）",
+            "switchContentToAssemblyId": "/组织结构图（查看）.treeassy",
             "type": "switch",
             "verticalSpan": 0
           },
@@ -2085,28 +1444,28 @@
               {
                 "id": "9928decc40b",
                 "name": "项目资源计划",
-                "switchContentToAssemblyId": "资源分配",
+                "switchContentToAssemblyId": "/资源分配.assy",
                 "type": "switch",
                 "passParametersToAssembly": "{\"type\":\"plan\",\"editable\":false}"
               },
               {
                 "id": "9928decc58a",
                 "name": "资源用量状况",
-                "switchContentToAssemblyId": "资源分配",
+                "switchContentToAssemblyId": "/资源分配.assy",
                 "type": "switch",
                 "passParametersToAssembly": "{\"type\":\"actual\",\"editable\":false}"
               },
               {
                 "id": "166ab0a0c62",
                 "name": "资源数据表",
-                "switchContentToAssemblyId": "查看资源汇总情况",
+                "switchContentToAssemblyId": "/查看资源汇总情况.assy",
                 "type": "switch",
                 "passParametersToAssembly": "{\n\"type\":\"project\"\n}"
               },
               {
                 "id": "166ab0a084d",
                 "name": "资源图表",
-                "switchContentToAssemblyId": "项目资源图表",
+                "switchContentToAssemblyId": "/项目资源图表.drillchartassy",
                 "type": "switch",
                 "verticalSpan": 0
               }
@@ -2122,28 +1481,28 @@
               {
                 "id": "165c3045f19",
                 "name": "项目资金计划",
-                "switchContentToAssemblyId": "项目资金计划（查看）",
+                "switchContentToAssemblyId": "/项目资金计划（查看）.stickerassy",
                 "type": "switch",
                 "verticalSpan": 0
               },
               {
                 "id": "165c304971e",
                 "name": "项目实际成本",
-                "switchContentToAssemblyId": "项目实际成本（查看）",
+                "switchContentToAssemblyId": "/项目实际成本（查看）.stickerassy",
                 "type": "switch",
                 "verticalSpan": 0
               },
               {
                 "id": "16390f86458",
                 "name": "预算成本对比分析表",
-                "switchContentToAssemblyId": "项目预算成本对比分析",
+                "switchContentToAssemblyId": "/项目预算成本对比分析.gridassy",
                 "type": "switch",
                 "verticalSpan": 0
               },
               {
                 "id": "16756065962",
                 "name": "项目预算成本图表",
-                "switchContentToAssemblyId": "项目预算成本图表",
+                "switchContentToAssemblyId": "/项目预算成本图表.drillchartassy",
                 "type": "switch",
                 "verticalSpan": 0
               }
@@ -2159,35 +1518,35 @@
                 "id": "9928decce74",
                 "name": "项目风险登记簿",
                 "text": "项目风险登记簿",
-                "switchContentToAssemblyId": "项目风险登记簿（查看）",
+                "switchContentToAssemblyId": "/项目风险登记簿（查看）.gridassy",
                 "type": "switch",
                 "verticalSpan": 0
               },
               {
                 "id": "164695828f2",
                 "name": "可探测性和临近性分析",
-                "switchContentToAssemblyId": "临近、监测和影响分析（大图表）",
+                "switchContentToAssemblyId": "/临近、监测和影响分析（大图表）.chartassy",
                 "type": "switch",
                 "verticalSpan": 0
               },
               {
                 "id": "164695901e9",
                 "name": "蒙特卡罗模拟",
-                "switchContentToAssemblyId": "蒙特卡洛分析展示（查看）",
+                "switchContentToAssemblyId": "/蒙特卡洛分析展示（查看）.chartassy",
                 "type": "switch",
                 "verticalSpan": 0
               },
               {
                 "id": "9928deccfe3",
                 "name": "项目风险量化评估",
-                "switchContentToAssemblyId": "项目风险量化评估",
+                "switchContentToAssemblyId": "/项目风险量化评估.gridassy",
                 "type": "switch",
                 "verticalSpan": 0
               },
               {
                 "id": "9928decd302",
                 "name": "风险应对计划",
-                "switchContentToAssemblyId": "项目风险应对计划（查看）",
+                "switchContentToAssemblyId": "/项目风险应对计划（查看）.gridassy",
                 "type": "switch",
                 "verticalSpan": 0
               }
@@ -2202,28 +1561,28 @@
               {
                 "id": "9928decbc1b",
                 "name": "研发进度监控",
-                "switchContentToAssemblyId": "研发进度监控",
+                "switchContentToAssemblyId": "/研发进度监控.gridassy",
                 "type": "switch",
                 "verticalSpan": 0
               },
               {
                 "id": "9928decbdcc",
                 "name": "采购计划监控",
-                "switchContentToAssemblyId": "采购计划监控",
+                "switchContentToAssemblyId": "/采购计划监控.gridassy",
                 "type": "switch",
                 "verticalSpan": 0
               },
               {
                 "id": "9928decbf7e",
                 "name": "生产计划监控",
-                "switchContentToAssemblyId": "生产计划监控",
+                "switchContentToAssemblyId": "/生产计划监控.gridassy",
                 "type": "switch",
                 "verticalSpan": 0
               },
               {
                 "id": "9928decd621",
                 "name": "检验进度监控",
-                "switchContentToAssemblyId": "检验进度监控",
+                "switchContentToAssemblyId": "/检验进度监控.gridassy",
                 "type": "switch",
                 "verticalSpan": 0
               }
@@ -2238,7 +1597,7 @@
               {
                 "id": "164695bd073",
                 "name": "项目基线",
-                "switchContentToAssemblyId": "项目基线（查看）",
+                "switchContentToAssemblyId": "/项目基线（查看）.gridassy",
                 "type": "switch",
                 "role": "PM#PA#PPM",
                 "verticalSpan": 0
@@ -2246,7 +1605,7 @@
               {
                 "id": "164695bd405",
                 "name": "项目变更",
-                "switchContentToAssemblyId": "项目变更（查看）",
+                "switchContentToAssemblyId": "/项目变更（查看）.gridassy",
                 "type": "switch",
                 "verticalSpan": 0
               }
@@ -2257,14 +1616,14 @@
           {
             "id": "9928df224b5",
             "name": "项目档案库",
-            "switchContentToAssemblyId": "项目档案库",
+            "switchContentToAssemblyId": "/项目档案库.assy",
             "type": "switch",
             "verticalSpan": 0
           },
           {
             "id": "9928decb6d6",
             "name": "项目相关方",
-            "switchContentToAssemblyId": "项目干系人（查看）",
+            "switchContentToAssemblyId": "/项目干系人（查看）.gridassy",
             "type": "switch",
             "verticalSpan": 0
           }
@@ -2276,7 +1635,7 @@
         "assemblyLinks": [
           {
             "typeName": "组件链接",
-            "id": "项目主页（关闭状态）",
+            "id": "/项目主页（关闭状态）.assy",
             "defaultAssembly": true
           }
         ]
@@ -2292,13 +1651,13 @@
       "sidebar": {
         "enabled": true,
         "width": 240,
-        "header": "标题栏（当前对象和返回）",
+        "header": "/标题栏（当前对象和返回）.assy",
         "toolbarItems": [],
         "sidebarItems": [
           {
             "id": "163c9405fea",
             "name": "快速设置",
-            "switchContentToAssemblyId": "项目模板操作面板",
+            "switchContentToAssemblyId": "/项目模板操作面板.actionpanelassy",
             "type": "switch",
             "verticalSpan": 0
           },
@@ -2306,7 +1665,7 @@
             "id": "163c9237b01",
             "name": "进度计划",
             "text": "进度计划",
-            "switchContentToAssemblyId": "项目模板甘特图",
+            "switchContentToAssemblyId": "/项目模板甘特图.ganttassy",
             "type": "switch",
             "verticalSpan": 0
           },
@@ -2321,7 +1680,7 @@
           {
             "id": "163d2de2b37",
             "name": "分配角色",
-            "switchContentToAssemblyId": "项目模板WBS（分配角色）",
+            "switchContentToAssemblyId": "/项目模板WBS（分配角色）.gridassy",
             "type": "switch",
             "verticalSpan": 0
           },
@@ -2329,21 +1688,21 @@
             "id": "163c92520b2",
             "name": "工作交付",
             "text": "工作交付",
-            "switchContentToAssemblyId": "项目模板WBS",
+            "switchContentToAssemblyId": "/项目模板WBS.gridassy",
             "type": "switch",
             "verticalSpan": 0
           },
           {
             "id": "163c924a226",
             "name": "资源需求",
-            "switchContentToAssemblyId": "资源需求模板",
+            "switchContentToAssemblyId": "/资源需求模板.assy",
             "type": "switch",
             "verticalSpan": 0
           },
           {
             "id": "16464f3ad37",
             "name": "文件夹结构",
-            "switchContentToAssemblyId": "项目档案库",
+            "switchContentToAssemblyId": "/项目档案库.assy",
             "type": "switch",
             "verticalSpan": 0
           },
@@ -2378,7 +1737,7 @@
         "assemblyLinks": [
           {
             "typeName": "组件链接",
-            "id": "项目模板操作面板",
+            "id": "/项目模板操作面板.actionpanelassy",
             "defaultAssembly": true
           }
         ]
@@ -2394,13 +1753,13 @@
       "sidebar": {
         "enabled": true,
         "width": 240,
-        "header": "标题栏（带有用户头像和产品名称）",
+        "header": "/标题栏（带有用户头像和产品名称）.assy",
         "toolbarItems": [],
         "sidebarItems": [
           {
             "id": "164071f3044",
             "name": "重要提示",
-            "switchContentToAssemblyId": "系统管理首页面板",
+            "switchContentToAssemblyId": "/系统管理首页面板.assy",
             "type": "switch",
             "verticalSpan": 0
           },
@@ -2414,21 +1773,21 @@
                 "text": "组织管理",
                 "bundleId": "",
                 "className": "",
-                "switchContentToAssemblyId": "组织管理",
+                "switchContentToAssemblyId": "/组织管理.gridassy",
                 "type": "switch",
                 "verticalSpan": 0
               },
               {
                 "id": "162bc7b536f",
                 "name": "用户管理",
-                "switchContentToAssemblyId": "账户管理",
+                "switchContentToAssemblyId": "/账户管理.gridassy",
                 "type": "switch",
                 "verticalSpan": 0
               },
               {
                 "id": "16524c60c3c",
                 "name": "用户审计",
-                "switchContentToAssemblyId": "用户操作审计",
+                "switchContentToAssemblyId": "/用户操作审计.gridassy",
                 "type": "switch",
                 "verticalSpan": 0
               },
@@ -2436,7 +1795,7 @@
                 "id": "162bd2698b2",
                 "name": "资格",
                 "text": "资格",
-                "switchContentToAssemblyId": "执业资格列表",
+                "switchContentToAssemblyId": "/执业资格列表.gridassy",
                 "type": "switch",
                 "verticalSpan": 0
               },
@@ -2445,7 +1804,7 @@
                 "name": "功能权限",
                 "bundleId": "",
                 "className": "",
-                "switchContentToAssemblyId": "功能权限设置",
+                "switchContentToAssemblyId": "/功能权限设置.gridassy",
                 "type": "switch",
                 "verticalSpan": 0
               }
@@ -2461,7 +1820,7 @@
                 "id": "162751d6f59",
                 "name": "EPS管理",
                 "text": "EPS管理",
-                "switchContentToAssemblyId": "EPS管理",
+                "switchContentToAssemblyId": "/EPS管理.gridassy",
                 "type": "switch",
                 "verticalSpan": 0
               },
@@ -2469,55 +1828,55 @@
                 "id": "162b3903335",
                 "name": "项目模板",
                 "text": "项目模板",
-                "switchContentToAssemblyId": "项目模板管理",
+                "switchContentToAssemblyId": "/项目模板管理.gridassy",
                 "type": "switch",
                 "verticalSpan": 0
               },
               {
                 "id": "164ef1fc973",
                 "name": "WBS模块",
-                "switchContentToAssemblyId": "WBS模块",
+                "switchContentToAssemblyId": "/WBS模块.gridassy",
                 "type": "switch",
                 "verticalSpan": 0
               },
               {
                 "id": "166703c8a09",
                 "name": "组织模板",
-                "switchContentToAssemblyId": "组织模板",
+                "switchContentToAssemblyId": "/组织模板.gridassy",
                 "type": "switch",
                 "verticalSpan": 0
               },
               {
                 "id": "165c64ba47d",
                 "name": "文档模板",
-                "switchContentToAssemblyId": "文档模板",
+                "switchContentToAssemblyId": "/文档模板.gridassy",
                 "type": "switch",
                 "verticalSpan": 0
               },
               {
                 "id": "167b5df1586",
                 "name": "检查项",
-                "switchContentToAssemblyId": "检查项",
+                "switchContentToAssemblyId": "/检查项.gridassy",
                 "type": "switch"
               },
               {
                 "id": "16446c53e93",
                 "name": "变更审核",
-                "switchContentToAssemblyId": "变更审核",
+                "switchContentToAssemblyId": "/变更审核.gridassy",
                 "type": "switch",
                 "verticalSpan": 0
               },
               {
                 "id": "163621fae4c",
                 "name": "视图和工作包",
-                "switchContentToAssemblyId": "视图和工作包列表",
+                "switchContentToAssemblyId": "/视图和工作包列表.gridassy",
                 "type": "switch",
                 "verticalSpan": 0
               },
               {
                 "id": "162dc3d1622",
                 "name": "名称字典",
-                "switchContentToAssemblyId": "名称字典",
+                "switchContentToAssemblyId": "/名称字典.gridassy",
                 "type": "switch",
                 "verticalSpan": 0
               }
@@ -2533,7 +1892,7 @@
                 "id": "162e58e8ed5",
                 "name": "设置费用类科目",
                 "text": "项目预算和成本科目",
-                "switchContentToAssemblyId": "费用类科目",
+                "switchContentToAssemblyId": "/费用类科目.gridassy",
                 "type": "switch",
                 "verticalSpan": 0
               },
@@ -2541,7 +1900,7 @@
                 "id": "16555ce76d8",
                 "name": "设置收益类别",
                 "text": "项目损益科目",
-                "switchContentToAssemblyId": "损益类科目",
+                "switchContentToAssemblyId": "/损益类科目.gridassy",
                 "type": "switch",
                 "verticalSpan": 0
               }
@@ -2556,13 +1915,13 @@
               {
                 "id": "16a0551485b",
                 "name": "工作流定义",
-                "switchContentToAssemblyId": "工作流定义列表",
+                "switchContentToAssemblyId": "/工作流定义列表.gridassy",
                 "type": "switch"
               },
               {
                 "id": "16a3898180a",
                 "name": "工作流启动权限",
-                "switchContentToAssemblyId": "工作流定义（授权用）",
+                "switchContentToAssemblyId": "/工作流定义（授权用）.gridassy",
                 "type": "switch"
               }
             ],
@@ -2602,14 +1961,14 @@
               {
                 "id": "1637e57481b",
                 "name": "风险分解结构",
-                "switchContentToAssemblyId": "RBS类别",
+                "switchContentToAssemblyId": "/RBS类别.gridassy",
                 "type": "switch",
                 "verticalSpan": 0
               },
               {
                 "id": "1642fb940b8",
                 "name": "临近性指标设置",
-                "switchContentToAssemblyId": "临近性指标设置",
+                "switchContentToAssemblyId": "/临近性指标设置.gridassy",
                 "type": "switch",
                 "verticalSpan": 0
               },
@@ -2617,7 +1976,7 @@
                 "id": "1642fba9bb2",
                 "name": "风险评分标准",
                 "text": "风险评分标准",
-                "switchContentToAssemblyId": "风险评分标准",
+                "switchContentToAssemblyId": "/风险评分标准.gridassy",
                 "type": "switch",
                 "verticalSpan": 0
               }
@@ -2633,7 +1992,7 @@
                 "id": "162c709b128",
                 "name": "设备设施",
                 "text": "设备设施基础数据",
-                "switchContentToAssemblyId": "设备设施",
+                "switchContentToAssemblyId": "/设备设施.gridassy",
                 "type": "switch",
                 "verticalSpan": 0
               },
@@ -2641,7 +2000,7 @@
                 "id": "162bd782f64",
                 "name": "资源类型",
                 "text": "资源类型",
-                "switchContentToAssemblyId": "资源类型",
+                "switchContentToAssemblyId": "/资源类型.gridassy",
                 "type": "switch",
                 "verticalSpan": 0
               },
@@ -2649,7 +2008,7 @@
                 "id": "162bd7a224b",
                 "name": "工作日历",
                 "text": "节假日和工作时间",
-                "switchContentToAssemblyId": "工作日历",
+                "switchContentToAssemblyId": "/工作日历.gridassy",
                 "type": "switch",
                 "verticalSpan": 0
               }
@@ -2665,34 +2024,34 @@
                 "id": "1642fb9b626",
                 "name": "质量影响等级",
                 "text": "质量影响等级",
-                "switchContentToAssemblyId": "质量影响级别",
+                "switchContentToAssemblyId": "/质量影响级别.gridassy",
                 "type": "switch",
                 "verticalSpan": 0
               },
               {
                 "id": "1683ceda283",
                 "name": "严重性等级",
-                "switchContentToAssemblyId": "严重性等级",
+                "switchContentToAssemblyId": "/严重性等级.gridassy",
                 "type": "switch"
               },
               {
                 "id": "1642fba3602",
                 "name": "可探测性级别",
                 "text": "可探测性级别",
-                "switchContentToAssemblyId": "可探测性级别",
+                "switchContentToAssemblyId": "/可探测性级别.gridassy",
                 "type": "switch",
                 "verticalSpan": 0
               },
               {
                 "id": "16842d89cc9",
                 "name": "频度等级",
-                "switchContentToAssemblyId": "频度等级",
+                "switchContentToAssemblyId": "/频度等级.gridassy",
                 "type": "switch"
               },
               {
                 "id": "16842d93f0d",
                 "name": "影响范围等级",
-                "switchContentToAssemblyId": "影响范围等级",
+                "switchContentToAssemblyId": "/影响范围等级.gridassy",
                 "type": "switch"
               }
             ],
@@ -2721,14 +2080,14 @@
               {
                 "id": "1640b0ecf2a",
                 "name": "查看许可证",
-                "switchContentToAssemblyId": "许可证",
+                "switchContentToAssemblyId": "/许可证.gridassy",
                 "type": "switch",
                 "verticalSpan": 0
               },
               {
                 "id": "16527b11f80",
                 "name": "管理备份",
-                "switchContentToAssemblyId": "管理备份",
+                "switchContentToAssemblyId": "/管理备份.gridassy",
                 "type": "switch",
                 "verticalSpan": 0
               },
@@ -2736,7 +2095,7 @@
                 "id": "1677a1661b2",
                 "name": "值生成规则",
                 "bundleId": "",
-                "switchContentToAssemblyId": "值生成规则",
+                "switchContentToAssemblyId": "/值生成规则.gridassy",
                 "type": "switch",
                 "verticalSpan": 0
               }
@@ -2752,7 +2111,7 @@
         "assemblyLinks": [
           {
             "typeName": "组件链接",
-            "id": "系统管理首页面板",
+            "id": "/系统管理首页面板.assy",
             "defaultAssembly": true
           }
         ]

@@ -1,5 +1,5 @@
 {
-  "id": "8D问题看板",
+  "id": "/8D问题看板.assy",
   "name": "8D问题看板",
   "layout": [
     {
@@ -17,7 +17,7 @@
       "layoutType": "lane",
       "assemblys": [
         {
-          "id": "D0问题初始记录",
+          "id": "/D0问题初始记录.boardassy",
           "horizontalAlignment": 4,
           "verticalAlignment": 16777216,
           "grabExcessHorizontalSpace": true,
@@ -27,7 +27,7 @@
           "heightHint": -1
         },
         {
-          "id": "D1多功能小组",
+          "id": "/D1多功能小组.boardassy",
           "horizontalAlignment": 4,
           "verticalAlignment": 16777216,
           "grabExcessHorizontalSpace": true,
@@ -37,7 +37,7 @@
           "heightHint": -1
         },
         {
-          "id": "D2问题描述",
+          "id": "/D2问题描述.boardassy",
           "horizontalAlignment": 4,
           "verticalAlignment": 16777216,
           "grabExcessHorizontalSpace": true,
@@ -47,7 +47,7 @@
           "heightHint": -1
         },
         {
-          "id": "D3临时控制行动",
+          "id": "/D3临时控制行动.boardassy",
           "horizontalAlignment": 4,
           "verticalAlignment": 16777216,
           "grabExcessHorizontalSpace": true,
@@ -57,7 +57,7 @@
           "heightHint": -1
         },
         {
-          "id": "D4根本原因分析",
+          "id": "/D4根本原因分析.boardassy",
           "horizontalAlignment": 4,
           "verticalAlignment": 16777216,
           "grabExcessHorizontalSpace": true,
@@ -67,7 +67,7 @@
           "heightHint": -1
         },
         {
-          "id": "D5永久措施",
+          "id": "/D5永久措施.boardassy",
           "horizontalAlignment": 4,
           "verticalAlignment": 16777216,
           "grabExcessHorizontalSpace": true,
@@ -77,7 +77,7 @@
           "heightHint": -1
         },
         {
-          "id": "D6执行和确认",
+          "id": "/D6执行和确认.boardassy",
           "horizontalAlignment": 4,
           "verticalAlignment": 16777216,
           "grabExcessHorizontalSpace": true,
@@ -87,7 +87,7 @@
           "heightHint": -1
         },
         {
-          "id": "D7系统预防",
+          "id": "/D7系统预防.boardassy",
           "horizontalAlignment": 4,
           "verticalAlignment": 16777216,
           "grabExcessHorizontalSpace": true,
@@ -97,7 +97,7 @@
           "heightHint": -1
         },
         {
-          "id": "D8关闭结案",
+          "id": "/D8关闭结案.boardassy",
           "horizontalAlignment": 4,
           "verticalAlignment": 16777216,
           "grabExcessHorizontalSpace": true,
@@ -114,15 +114,15 @@
   "actions": [],
   "rowActions": [],
   "candidates": [
-    "D0紧急反应行动",
-    "D1多功能小组",
-    "D2问题描述",
-    "D3临时控制行动",
-    "D4根本原因分析",
-    "D5永久措施",
-    "D6执行和确认",
-    "D7系统预防",
-    "D8关闭结案",
-    "D0问题初始记录"
+    "/D0紧急反应行动.boardassy",
+    "/D1多功能小组.boardassy",
+    "/D2问题描述.boardassy",
+    "/D3临时控制行动.boardassy",
+    "/D4根本原因分析.boardassy",
+    "/D5永久措施.boardassy",
+    "/D6执行和确认.boardassy",
+    "/D7系统预防.boardassy",
+    "/D8关闭结案.boardassy",
+    "/D0问题初始记录.boardassy"
   ]
 }

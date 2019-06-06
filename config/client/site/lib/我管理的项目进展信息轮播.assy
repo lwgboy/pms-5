@@ -1,5 +1,5 @@
 {
-  "id": "我管理的项目进展信息轮播",
+  "id": "/我管理的项目进展信息轮播.assy",
   "name": "我管理的项目进展信息轮播",
   "bundleId": "com.bizvisionsoft.pms",
   "className": "com.bizvisionsoft.pms.work.WorkWidgetASM",

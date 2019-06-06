@@ -1,10 +1,10 @@
 {
-  "id": "人力资源选择器",
+  "id": "/人力资源选择器.selectorassy",
   "name": "人力资源选择器",
   "layout": [],
   "type": "selector",
   "folderId": "1636e54a6d9",
-  "selectorGridAssemblyId": "选择人力资源",
+  "selectorGridAssemblyId": "/选择人力资源.gridassy",
   "selectorMultiSelection": true,
   "disableInitLoadData": false
 }

@@ -25,7 +25,7 @@ public class OpenResourceActualACT {
 				resourceAssignment.from = workReport.getPeriodForm();
 				resourceAssignment.to = workReport.getPeriodTo();
 			}
-			if (resourceAssignment != null) {
+			if (resourceAssignment != null) {//TODO ???
 				br.openContent(br.getAssembly("编辑资源用量"), resourceAssignment);
 			}
 		});

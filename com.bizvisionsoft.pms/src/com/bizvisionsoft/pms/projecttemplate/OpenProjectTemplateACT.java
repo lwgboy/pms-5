@@ -22,7 +22,7 @@ public class OpenProjectTemplateACT {
 	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
 		context.selected(em -> {
 			if (em instanceof WBSModule) {
-				br.openContent(br.getAssembly("项目模板甘特图"), em);
+				br.openContent(br.getAssembly("项目模板甘特图.ganttassy"), em);
 			} else if (em instanceof OBSModule) {
 				// 当前选择为组织模板时，打开OBS模板组织结构图进行组织模板的编辑
 				br.openContent(br.getAssembly("OBS模板组织结构图"), em, e -> {

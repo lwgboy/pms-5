@@ -1,10 +1,10 @@
 {
-  "id": "用户选择器",
+  "id": "/用户选择器.selectorassy",
   "name": "用户选择器",
   "layout": [],
   "type": "selector",
   "folderId": "162bd9dad9d",
-  "selectorGridAssemblyId": "用户选择列表",
+  "selectorGridAssemblyId": "/用户选择列表.gridassy",
   "selectorMultiSelection": true,
   "disableInitLoadData": false
 }

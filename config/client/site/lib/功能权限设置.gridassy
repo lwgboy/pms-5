@@ -1,5 +1,5 @@
 {
-  "id": "功能权限设置",
+  "id": "/功能权限设置.gridassy",
   "name": "功能权限设置",
   "layout": [],
   "type": "grid",
@@ -118,7 +118,7 @@
       "text": "授权组织",
       "forceText": true,
       "style": "normal",
-      "editorAssemblyId": "功能权限编辑（组织）",
+      "editorAssemblyId": "/功能权限编辑（组织）.editorassy",
       "type": "insert",
       "createActionNewInstanceBundleId": "com.bizvisionsoft.service",
       "createActionNewInstanceClassName": "com.bizvisionsoft.service.model.FuncPermission",
@@ -130,7 +130,7 @@
       "text": "授权用户",
       "forceText": true,
       "style": "normal",
-      "editorAssemblyId": "功能权限编辑（用户）",
+      "editorAssemblyId": "/功能权限编辑（用户）.editorassy",
       "type": "insert",
       "createActionNewInstanceBundleId": "com.bizvisionsoft.service",
       "createActionNewInstanceClassName": "com.bizvisionsoft.service.model.FuncPermission",
@@ -148,5 +148,6 @@
     }
   ],
   "hasTitlebar": true,
-  "disableInitLoadData": false
+  "disableInitLoadData": false,
+  "sortFields": []
 }

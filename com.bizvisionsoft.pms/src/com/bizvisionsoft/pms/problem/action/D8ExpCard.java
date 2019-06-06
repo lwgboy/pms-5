@@ -56,7 +56,7 @@ public class D8ExpCard {
 
 	private void editExp(ObjectId _id, Document doc, GridTreeViewer viewer, BruiAssemblyContext context, String render) {
 		Document ivpca = service.getD8Exp(_id, br.getDomain());
-		Editor.create("D8-经验总结-编辑器", context, ivpca, true).ok((r, t) -> {
+		Editor.create("D8-经验总结-编辑器.editoassy", context, ivpca, true).ok((r, t) -> {
 			Document d = service.updateD8Exp(t, lang,render, br.getDomain());
 			viewer.update(AUtil.simpleCopy(d, doc), null);
 		});

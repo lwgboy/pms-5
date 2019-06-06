@@ -1,5 +1,5 @@
 {
-  "id": "工作流定义列表",
+  "id": "/工作流定义列表.gridassy",
   "name": "工作流定义列表",
   "layout": [],
   "type": "grid",
@@ -121,7 +121,7 @@
       "image": "/img/add_16_w.svg",
       "forceText": false,
       "style": "normal",
-      "editorAssemblyId": "工作流定义编辑器",
+      "editorAssemblyId": "/工作流定义编辑器.editorassy",
       "type": "insert",
       "createActionNewInstanceBundleId": "com.bizvisionsoft.service",
       "createActionNewInstanceClassName": "com.bizvisionsoft.service.model.ProcessDefinition"

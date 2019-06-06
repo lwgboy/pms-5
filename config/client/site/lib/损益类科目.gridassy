@@ -1,5 +1,5 @@
 {
-  "id": "损益类科目",
+  "id": "/损益类科目.gridassy",
   "name": "损益类科目",
   "layout": [],
   "type": "grid",
@@ -68,7 +68,7 @@
       "bundleId": "com.bizvisionsoft.pms",
       "className": "com.bizvisionsoft.pms.equipment.action.CreateEquipment",
       "style": "normal",
-      "editorAssemblyId": "损益类科目编辑器",
+      "editorAssemblyId": "/损益类科目编辑器.editorassy",
       "type": "insert",
       "createActionNewInstanceBundleId": "com.bizvisionsoft.service",
       "createActionNewInstanceClassName": "com.bizvisionsoft.service.model.AccountIncome",
@@ -83,7 +83,7 @@
       "bundleId": "com.bizvisionsoft.pms",
       "className": "com.bizvisionsoft.pms.account.AddSubAccountACT",
       "style": "normal",
-      "editorAssemblyId": "财务科目编辑器",
+      "editorAssemblyId": "/财务科目编辑器.editorassy",
       "type": "customized",
       "createActionNewInstanceBundleId": "com.bizvisionsoft.service",
       "createActionNewInstanceClassName": "com.bizvisionsoft.service.model.AccountItem",
@@ -94,7 +94,7 @@
       "name": "编辑",
       "image": "/img/edit_w.svg",
       "style": "normal",
-      "editorAssemblyId": "损益类科目编辑器",
+      "editorAssemblyId": "/损益类科目编辑器.editorassy",
       "editorAssemblyEditable": true,
       "type": "edit",
       "verticalSpan": 0

@@ -1,5 +1,5 @@
 {
-  "id": "值规则段编辑（JS）",
+  "id": "/值规则段编辑（JS）.editorassy",
   "name": "值规则段编辑（JS）",
   "title": "值规则段编辑（JS）",
   "layout": [],
@@ -66,5 +66,6 @@
       "checkStyle": "开关（默认）"
     }
   ],
+  "actions": [],
   "disableInitLoadData": false
 }

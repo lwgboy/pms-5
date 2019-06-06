@@ -34,7 +34,7 @@ public class OpenOBSScopeRootTable extends AbstractCreateOBSItem {
 					// TODO 错误处理
 				}
 			}
-			br.switchContent("项目团队", null);
+			br.switchContent("项目团队.gridassy", null);
 		}
 	}
 

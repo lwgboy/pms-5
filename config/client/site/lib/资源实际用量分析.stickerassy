@@ -1,5 +1,5 @@
 {
-  "id": "资源实际用量分析",
+  "id": "/资源实际用量分析.stickerassy",
   "name": "资源实际用量分析",
   "layout": [
     {
@@ -13,7 +13,7 @@
       "marginWidth": 16,
       "assemblys": [
         {
-          "id": "资源实际用量分析组件",
+          "id": "/资源实际用量分析组件.assy",
           "horizontalAlignment": 4,
           "verticalAlignment": 4,
           "grabExcessHorizontalSpace": true,

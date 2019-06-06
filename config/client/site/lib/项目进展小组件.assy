@@ -1,5 +1,5 @@
 {
-  "id": "项目进展小组件",
+  "id": "/项目进展小组件.assy",
   "name": "项目进展小组件",
   "bundleId": "com.bizvisionsoft.pms",
   "className": "com.bizvisionsoft.pms.project.ProjectProgressSummaryWidgetASM",

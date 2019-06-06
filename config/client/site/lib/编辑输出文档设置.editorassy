@@ -1,5 +1,5 @@
 {
-  "id": "编辑输出文档设置",
+  "id": "/编辑输出文档设置.editorassy",
   "name": "编辑输出文档设置",
   "title": "输出文档设置",
   "layout": [],
@@ -20,7 +20,7 @@
       "text": "文档模板",
       "type": "对象选择框",
       "formFields": [],
-      "selectorAssemblyId": "文档模板",
+      "selectorAssemblyId": "/文档模板.gridassy",
       "valueFieldName": ""
     },
     {
@@ -29,7 +29,7 @@
       "text": "保存到",
       "type": "对象选择框",
       "formFields": [],
-      "selectorAssemblyId": "项目模板文件夹选择列表",
+      "selectorAssemblyId": "/项目模板文件夹选择列表.gridassy",
       "valueFieldName": ""
     },
     {

@@ -1,5 +1,5 @@
 {
-  "id": "根组织编辑器",
+  "id": "/根组织编辑器.editorassy",
   "name": "根组织编辑器",
   "layout": [],
   "type": "editor",
@@ -49,7 +49,7 @@
       "text": "管理者",
       "type": "对象选择框",
       "formFields": [],
-      "selectorAssemblyId": "用户选择列表"
+      "selectorAssemblyId": "/用户选择列表.gridassy"
     },
     {
       "id": "16892de7b50",

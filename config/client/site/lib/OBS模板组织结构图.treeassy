@@ -1,5 +1,5 @@
 {
-  "id": "OBS模板组织结构图",
+  "id": "/OBS模板组织结构图.treeassy",
   "name": "OBS模板组织结构图",
   "layout": [],
   "type": "tree",
@@ -79,10 +79,10 @@
       "image": "/img/people_list_w.svg",
       "bundleId": "com.bizvisionsoft.pms",
       "className": "com.bizvisionsoft.pms.projecttemplate.SwitchMemberACT",
-      "switchContentToAssemblyId": "组织模板团队成员",
+      "switchContentToAssemblyId": "/组织模板团队成员.gridassy",
       "openContent": true,
       "style": "info",
-      "editorAssemblyId": "团队成员",
+      "editorAssemblyId": "/团队成员.gridassy",
       "objectBehavier": true,
       "type": "switch",
       "verticalSpan": 0

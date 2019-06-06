@@ -1,5 +1,5 @@
 {
-  "id": "投资分析3",
+  "id": "/投资分析3.assy",
   "name": "投资分析3",
   "bundleId": "com.bizvisionsoft.pms",
   "className": "com.bizvisionsoft.pms.cost.PeriodCostCompositionAnalysisASM",

@@ -1,5 +1,5 @@
 {
-  "id": "D0问题初始记录信息面板",
+  "id": "/D0问题初始记录信息面板.infopadassy",
   "name": "D0问题初始记录信息面板",
   "title": "问题初始记录",
   "layout": [],
@@ -127,7 +127,7 @@
           "type": "对象选择框",
           "formFields": [],
           "required": true,
-          "selectorAssemblyId": "组织选择器"
+          "selectorAssemblyId": "/组织选择器.gridassy"
         },
         {
           "id": "167eac3493e",

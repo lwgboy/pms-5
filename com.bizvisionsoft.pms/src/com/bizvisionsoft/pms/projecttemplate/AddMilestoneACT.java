@@ -16,13 +16,11 @@ public class AddMilestoneACT {
 	private IBruiService br;
 
 	@Execute
-	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context,
-			@MethodParam(Execute.EVENT) GanttEvent event) {
+	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context, @MethodParam(Execute.EVENT) GanttEvent event) {
 		// IWBSScope wbsScope = (IWBSScope) context.getRootInput();
 		// 显示编辑器
-		new Editor<WorkInTemplate>(br.getAssembly("项目模板里程碑工作编辑器"), context).setInput(WorkInTemplate
-				.newInstance((WorkInTemplate) event.task).setMilestone(true).setManageLevel("1"))
-				.ok((r, wi) -> {
+		new Editor<WorkInTemplate>(br.getAssembly("项目模板里程碑工作编辑器.editorassy"), context)
+				.setInput(WorkInTemplate.newInstance((WorkInTemplate) event.task).setMilestone(true).setManageLevel("1")).ok((r, wi) -> {
 					wi.setPlanFinish(wi.getPlanStart());
 					GanttPart content = (GanttPart) context.getContent();
 					content.addTask(wi);

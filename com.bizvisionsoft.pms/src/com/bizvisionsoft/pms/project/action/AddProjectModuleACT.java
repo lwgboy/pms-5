@@ -47,7 +47,7 @@ public class AddProjectModuleACT {
 			StructuredSelection selection = context.getSelection();
 			parent = (WorkInfo) selection.getFirstElement();
 		}
-		Selector.open("WBS模块选择器", context, null, r -> {
+		Selector.open("WBS模块选择器.selectorassy", context, null, r -> {
 			GanttPart content = (GanttPart) context.getContent();
 			Object input = context.getInput();
 			if (input == null || input instanceof Workspace) {

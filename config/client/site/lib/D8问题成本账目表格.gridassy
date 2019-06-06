@@ -1,5 +1,5 @@
 {
-  "id": "D8问题成本账目表格",
+  "id": "/D8问题成本账目表格.gridassy",
   "name": "D8问题成本账目表格",
   "layout": [],
   "type": "grid",
@@ -117,7 +117,7 @@
       "name": "创建",
       "image": "/img/add_16_w.svg",
       "style": "normal",
-      "editorAssemblyId": "D8问题成本项编辑器",
+      "editorAssemblyId": "/D8问题成本项编辑器.editorassy",
       "type": "insert",
       "createActionNewInstanceBundleId": "com.bizvisionsoft.service",
       "createActionNewInstanceClassName": "com.bizvisionsoft.service.model.ProblemCostItem"
@@ -129,7 +129,7 @@
       "name": "编辑",
       "image": "/img/edit_w.svg",
       "style": "normal",
-      "editorAssemblyId": "D8问题成本项编辑器",
+      "editorAssemblyId": "/D8问题成本项编辑器.editorassy",
       "editorAssemblyEditable": true,
       "type": "edit"
     },

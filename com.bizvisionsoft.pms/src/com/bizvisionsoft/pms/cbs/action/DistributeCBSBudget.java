@@ -28,7 +28,7 @@ public class DistributeCBSBudget {
 	@Execute
 	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
 		context.selected(parent -> {
-			new Selector(br.getAssembly("阶段选择器"), context).setInput(context.getRootInput()).setTitle("分配预算到指定阶段")
+			new Selector(br.getAssembly("阶段选择器.selectorassy"), context).setInput(context.getRootInput()).setTitle("分配预算到指定阶段")
 					.open(r -> {
 						// TODO 在CBS节点上显示分配到哪个阶段
 						// TODO 阶段选择器上显示分配情况

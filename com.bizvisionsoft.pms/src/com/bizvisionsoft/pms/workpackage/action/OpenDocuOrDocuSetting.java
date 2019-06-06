@@ -16,9 +16,9 @@ public class OpenDocuOrDocuSetting {
 			@MethodParam(Execute.CONTEXT_SELECTION_1ST) Object sele) {
 		String name;
 		if (rootInput instanceof ProjectTemplate) {
-			name = "输出文档设置";
+			name = "输出文档设置.gridassy";
 		} else {
-			name = "输出文档";
+			name = "输出文档.gridassy";
 		}
 		br.openContent(br.getAssembly(name), sele);
 	}

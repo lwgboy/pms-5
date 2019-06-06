@@ -21,7 +21,7 @@ public class SelectCriteria {
 		Problem pr = context.getRootInput(Problem.class, false);
 		Document cond = new Document("problem_id",pr.get_id());
 		
-		Selector sel =Selector.create("决策准则选择器", context, null);
+		Selector sel =Selector.create("决策准则选择器.selectorassy", context, null);
 		sel.getContext().acceptParamters(cond.toJson());
 
 		sel.setTitle("选择决策准则").open(s -> {

@@ -1,5 +1,5 @@
 {
-  "id": "风险评分标准",
+  "id": "/风险评分标准.gridassy",
   "name": "风险评分标准",
   "layout": [],
   "type": "grid",
@@ -65,7 +65,7 @@
       "name": "创建风险评分项",
       "image": "/img/add_16_w.svg",
       "style": "normal",
-      "editorAssemblyId": "风险评分项编辑器",
+      "editorAssemblyId": "/风险评分项编辑器.editorassy",
       "type": "insert",
       "createActionNewInstanceBundleId": "com.bizvisionsoft.service",
       "createActionNewInstanceClassName": "com.bizvisionsoft.service.model.RiskScore",
@@ -78,7 +78,7 @@
       "name": "编辑风险评分项",
       "image": "/img/edit_w.svg",
       "style": "normal",
-      "editorAssemblyId": "风险评分项编辑器",
+      "editorAssemblyId": "/风险评分项编辑器.editorassy",
       "editorAssemblyEditable": true,
       "type": "edit",
       "verticalSpan": 0

@@ -1,5 +1,5 @@
 {
-  "id": "项目WBS",
+  "id": "/项目WBS.gridassy",
   "name": "项目WBS",
   "description": "",
   "layout": [],
@@ -44,7 +44,7 @@
       "text": "编辑",
       "image": "/img/edit_w.svg",
       "style": "normal",
-      "editorAssemblyId": "项目进度计划工作编辑器",
+      "editorAssemblyId": "/项目进度计划工作编辑器.editorassy",
       "editorAssemblyEditable": true,
       "objectBehavier": true,
       "type": "edit",

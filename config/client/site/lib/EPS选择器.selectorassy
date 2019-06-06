@@ -1,10 +1,10 @@
 {
-  "id": "EPS选择器",
+  "id": "/EPS选择器.selectorassy",
   "name": "EPS选择器",
   "layout": [],
   "type": "selector",
   "folderId": "162bda3464a",
-  "selectorGridAssemblyId": "EPS管理",
+  "selectorGridAssemblyId": "/EPS管理.gridassy",
   "selectorMultiSelection": true,
   "disableInitLoadData": false
 }

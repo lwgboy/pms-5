@@ -1,10 +1,10 @@
 {
-  "id": "组织模板选择器",
+  "id": "/组织模板选择器.selectorassy",
   "name": "组织模板选择器",
   "description": "用于项目选择组织模板",
   "layout": [],
   "type": "selector",
   "folderId": "1667891054a",
-  "selectorGridAssemblyId": "组织模板选择器列表",
+  "selectorGridAssemblyId": "/组织模板选择器列表.gridassy",
   "disableInitLoadData": false
 }

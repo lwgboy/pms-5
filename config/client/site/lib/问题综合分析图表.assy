@@ -1,5 +1,5 @@
 {
-  "id": "问题综合分析图表",
+  "id": "/问题综合分析图表.assy",
   "name": "问题综合分析图表",
   "layout": [
     {
@@ -17,7 +17,7 @@
       "layoutType": "grid",
       "assemblys": [
         {
-          "id": "问题损失按问题分类条形图",
+          "id": "/问题损失按问题分类条形图.chartassy",
           "horizontalAlignment": 4,
           "verticalAlignment": 4,
           "grabExcessHorizontalSpace": true,
@@ -28,7 +28,7 @@
           "heightHint": 320
         },
         {
-          "id": "问题数量按问题分类条形图",
+          "id": "/问题数量按问题分类条形图.chartassy",
           "horizontalAlignment": 4,
           "verticalAlignment": 4,
           "grabExcessHorizontalSpace": true,
@@ -39,7 +39,7 @@
           "heightHint": 320
         },
         {
-          "id": "问题损失按部门分类饼图",
+          "id": "/问题损失按部门分类饼图.chartassy",
           "horizontalAlignment": 4,
           "verticalAlignment": 4,
           "grabExcessHorizontalSpace": true,
@@ -50,7 +50,7 @@
           "heightHint": 320
         },
         {
-          "id": "问题原因因果关系",
+          "id": "/问题原因因果关系.chartassy",
           "horizontalAlignment": 4,
           "verticalAlignment": 4,
           "grabExcessHorizontalSpace": true,
@@ -61,7 +61,7 @@
           "heightHint": -1
         },
         {
-          "id": "问题损失按原因分类饼图",
+          "id": "/问题损失按原因分类饼图.chartassy",
           "horizontalAlignment": 4,
           "verticalAlignment": 4,
           "grabExcessHorizontalSpace": true,

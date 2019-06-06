@@ -1,5 +1,5 @@
 {
-  "id": "工作包计划",
+  "id": "/工作包计划.assy",
   "name": "工作包计划",
   "bundleId": "com.bizvisionsoft.pms",
   "className": "com.bizvisionsoft.pms.work.assembly.WorkPackagePlan",

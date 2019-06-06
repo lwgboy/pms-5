@@ -1,5 +1,5 @@
 {
-  "id": "Ãû³Æ×Öµä",
+  "id": "/Ãû³Æ×Öµä.gridassy",
   "name": "Ãû³Æ×Öµä",
   "layout": [],
   "type": "grid",
@@ -58,7 +58,7 @@
       "bundleId": "com.bizvisionsoft.pms",
       "className": "com.bizvisionsoft.pms.cert.action.CreateCertificate",
       "style": "normal",
-      "editorAssemblyId": "×Öµä±à¼­Æ÷",
+      "editorAssemblyId": "/×Öµä±à¼­Æ÷.editorassy",
       "type": "insert",
       "createActionNewInstanceBundleId": "com.bizvisionsoft.service",
       "createActionNewInstanceClassName": "com.bizvisionsoft.service.model.Dictionary",
@@ -74,7 +74,7 @@
       "bundleId": "",
       "className": "",
       "style": "normal",
-      "editorAssemblyId": "×Öµä±à¼­Æ÷",
+      "editorAssemblyId": "/×Öµä±à¼­Æ÷.editorassy",
       "editorAssemblyEditable": true,
       "type": "edit",
       "verticalSpan": 0

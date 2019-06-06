@@ -60,7 +60,7 @@ public class WeeklyProjectReportSummaryRender extends GridPartDefaultRender {
 	}
 
 	private void editTag(WorkReportSummary item) {
-		Editor.open("工作报告标签编辑器", context, item, (r, t) -> {
+		Editor.open("工作报告标签编辑器.editorassy", context, item, (r, t) -> {
 			FilterAndUpdate fu = new FilterAndUpdate().filter(new BasicDBObject("_id", item.get_id())).set(new BasicDBObject("tags",t.getTags()));
 			Services.get(WorkReportService.class).updateWorkReportItem(fu.bson(), br.getDomain());
 			item.setTags(t.getTags());

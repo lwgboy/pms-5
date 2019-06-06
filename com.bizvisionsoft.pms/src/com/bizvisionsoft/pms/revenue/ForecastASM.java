@@ -121,7 +121,7 @@ public class ForecastASM extends GridPart {
 	}
 
 	public void selectType() {
-		Editor.open("选择收益预测方式", context, new BasicDBObject(), (r, d) -> {
+		Editor.open("选择收益预测方式.editorassy", context, new BasicDBObject(), (r, d) -> {
 			String type = r.getString("type");
 			setType(type);
 		});

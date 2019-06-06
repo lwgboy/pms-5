@@ -1,5 +1,5 @@
 {
-  "id": "用户登录组件",
+  "id": "/用户登录组件.assy",
   "name": "用户登录组件",
   "bundleId": "com.bizvisionsoft.pms",
   "className": "com.bizvisionsoft.bruiengine.app.login.LoginPage",

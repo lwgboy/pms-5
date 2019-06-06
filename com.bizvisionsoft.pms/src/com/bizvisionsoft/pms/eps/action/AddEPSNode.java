@@ -8,7 +8,6 @@ import com.bizvisionsoft.bruiengine.service.IBruiContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.ui.Editor;
 import com.bizvisionsoft.service.EPSService;
-import com.bizvisionsoft.service.model.Docu;
 import com.bizvisionsoft.service.model.EPS;
 import com.bizvisionsoft.serviceconsumer.Services;
 
@@ -22,7 +21,7 @@ public class AddEPSNode {
 		context.selected(elem -> {
 			if (elem instanceof EPS) {
 
-				new Editor<EPS>(br.getAssembly("EPS±à¼­Æ÷"), context)
+				new Editor<EPS>(br.getAssembly("EPS±à¼­Æ÷.editorassy"), context)
 
 						.setInput(br.newInstance(EPS.class).setParent_id(((EPS) elem).get_id()))
 

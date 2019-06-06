@@ -24,7 +24,7 @@ public class OpenWorkPackageACT {
 	@Execute
 	public void execute(@MethodParam(Execute.CONTEXT_SELECTION_1ST) WorkInTemplate work) {
 		List<TrackView> wps = work.getWorkPackageSetting();
-		if (Check.isNotAssigned(wps)) {
+		if (Check.isNotAssigned(wps)) {//TODO ???
 			br.openContent(br.getAssembly("模板工作包计划"), new Object[] { work, null });
 		} else {
 			ArrayList<Action> actions = new ArrayList<Action>();

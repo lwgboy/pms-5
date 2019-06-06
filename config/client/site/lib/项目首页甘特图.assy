@@ -1,5 +1,5 @@
 {
-  "id": "项目首页甘特图",
+  "id": "/项目首页甘特图.assy",
   "name": "项目首页甘特图",
   "bundleId": "com.bizvisionsoft.pms",
   "className": "com.bizvisionsoft.pms.project.ProjectGanttViewWidgetASM",
@@ -11,7 +11,7 @@
       "makeColumnsEqualWidth": true,
       "assemblys": [
         {
-          "id": "项目甘特图（无表格查看）",
+          "id": "/项目甘特图（无表格查看）.ganttassy",
           "horizontalAlignment": 4,
           "verticalAlignment": 4,
           "grabExcessHorizontalSpace": true,

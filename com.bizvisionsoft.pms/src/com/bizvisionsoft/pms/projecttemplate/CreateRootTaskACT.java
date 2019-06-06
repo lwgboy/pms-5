@@ -19,7 +19,7 @@ public class CreateRootTaskACT {
 
 	@Execute
 	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
-		Assembly editor = br.getAssembly("项目模板工作编辑器");
+		Assembly editor = br.getAssembly("项目模板工作编辑器.editorassy");
 
 		WorkInTemplate workInT = createWork(context);
 

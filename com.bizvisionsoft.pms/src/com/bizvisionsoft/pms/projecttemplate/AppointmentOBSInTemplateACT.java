@@ -20,7 +20,7 @@ public class AppointmentOBSInTemplateACT {
 	@Execute
 	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
 		OBSInTemplate element = (OBSInTemplate) context.getSelection().getFirstElement();
-		new Selector(br.getAssembly("用户选择器—单选"), context).setTitle("指定担任者").open(r -> {
+		new Selector(br.getAssembly("用户选择器—单选.selectorassy"), context).setTitle("指定担任者").open(r -> {
 			element.setManager((User) r.get(0));
 			String userId = ((User) r.get(0)).getUserId();
 			BasicDBObject data = new BasicDBObject("_id", element.get_id()).append("managerId", userId);

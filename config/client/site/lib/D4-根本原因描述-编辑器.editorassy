@@ -1,5 +1,5 @@
 {
-  "id": "D4-根本原因描述-编辑器",
+  "id": "/D4-根本原因描述-编辑器.editorassy",
   "name": "D4-根本原因描述-编辑器",
   "title": "验证和确认根本原因",
   "layout": [],
@@ -71,7 +71,7 @@
               "type": "对象选择框",
               "formFields": [],
               "required": true,
-              "selectorAssemblyId": "用户选择列表",
+              "selectorAssemblyId": "/用户选择列表.gridassy",
               "valueFieldName": "userId"
             },
             {

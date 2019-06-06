@@ -1,5 +1,5 @@
 {
-  "id": "D1多功能小组",
+  "id": "/D1多功能小组.boardassy",
   "name": "D1多功能小组",
   "title": "D1 多功能小组",
   "layout": [],
@@ -28,7 +28,7 @@
       "id": "16828ddd97e",
       "name": "切换",
       "image": "/img/right_w.svg",
-      "switchContentToAssemblyId": "D1多功能小组表格",
+      "switchContentToAssemblyId": "/D1多功能小组表格.gridassy",
       "style": "normal",
       "type": "switch"
     }

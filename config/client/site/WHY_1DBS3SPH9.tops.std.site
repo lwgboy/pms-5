@@ -11,158 +11,10 @@
   "aliasOfResFolder": "extres",
   "favIcon": "/img/favicon.png",
   "description": "问题管理系统",
-  "login": "用户登录组件",
-  "changePSW": "用户更改密码页面",
+  "login": "/用户登录组件.assy",
+  "changePSW": "/用户更改密码页面.assy",
   "rootFolder": {
-    "children": [
-      {
-        "children": [
-          {
-            "children": [],
-            "name": "账户管理",
-            "id": "162dc3d9a67"
-          },
-          {
-            "children": [],
-            "name": "名称字典",
-            "id": "162dc3e928e"
-          },
-          {
-            "children": [],
-            "name": "备份和还原",
-            "id": "16527b186f1"
-          },
-          {
-            "children": [],
-            "name": "系统设置",
-            "id": "165d57b9f4a"
-          },
-          {
-            "children": [],
-            "name": "值生成规则",
-            "id": "1677a194b59"
-          }
-        ],
-        "name": "系统管理",
-        "id": "162bccab082"
-      },
-      {
-        "children": [
-          {
-            "children": [],
-            "name": "组织管理",
-            "id": "162bd9c7da4"
-          },
-          {
-            "children": [],
-            "name": "用户管理",
-            "id": "162bd9dad9d"
-          },
-          {
-            "children": [],
-            "name": "权限管理",
-            "id": "1640e481843"
-          },
-          {
-            "children": [],
-            "name": "检查项",
-            "id": "167b5b0f900"
-          },
-          {
-            "children": [],
-            "name": "指标项",
-            "id": "168403fc076"
-          }
-        ],
-        "name": "业务管理",
-        "id": "162bd1af536"
-      },
-      {
-        "children": [
-          {
-            "children": [
-              {
-                "children": [],
-                "name": "编辑器",
-                "id": "16897ff1799"
-              }
-            ],
-            "name": "开发",
-            "id": "16897fe7470"
-          }
-        ],
-        "name": "通用",
-        "id": "1631b42dbd8"
-      },
-      {
-        "children": [],
-        "name": "消息",
-        "id": "165316c7974"
-      },
-      {
-        "children": [
-          {
-            "children": [],
-            "name": "组件",
-            "id": "167e83f2862"
-          },
-          {
-            "children": [
-              {
-                "children": [],
-                "name": "试验",
-                "id": "168988a062b"
-              }
-            ],
-            "name": "看板",
-            "id": "167fcdcde82"
-          },
-          {
-            "children": [],
-            "name": "编辑器",
-            "id": "168403f8c15"
-          }
-        ],
-        "name": "问题管理",
-        "id": "167e66a6b99"
-      },
-      {
-        "children": [
-          {
-            "children": [],
-            "name": "编辑器",
-            "id": "1689872b96f"
-          },
-          {
-            "children": [],
-            "name": "组件",
-            "id": "168987437fd"
-          },
-          {
-            "children": [],
-            "name": "看板",
-            "id": "168987781d7"
-          }
-        ],
-        "name": "TOPS过程",
-        "id": "1689872420c"
-      },
-      {
-        "children": [],
-        "name": "预案",
-        "id": "1689878baeb"
-      },
-      {
-        "children": [],
-        "name": "类别",
-        "id": "168987a1e5c"
-      },
-      {
-        "children": [],
-        "name": "图表",
-        "id": "168987ad286"
-      }
-    ],
+    "children": [],
     "name": "站点",
     "id": "1626b905a63"
   },
@@ -176,13 +28,13 @@
       "sidebar": {
         "enabled": true,
         "width": 240,
-        "header": "标题栏（带有用户头像和产品名称）",
+        "header": "/标题栏（带有用户头像和产品名称）.assy",
         "toolbarItems": [],
         "sidebarItems": [
           {
             "id": "164071f3044",
             "name": "重要提示",
-            "switchContentToAssemblyId": "系统管理首页面板",
+            "switchContentToAssemblyId": "/系统管理首页面板.assy",
             "type": "switch",
             "verticalSpan": 0
           },
@@ -196,14 +48,14 @@
                 "text": "组织管理",
                 "bundleId": "",
                 "className": "",
-                "switchContentToAssemblyId": "组织管理",
+                "switchContentToAssemblyId": "/组织管理.gridassy",
                 "type": "switch",
                 "verticalSpan": 0
               },
               {
                 "id": "162bc7b536f",
                 "name": "用户管理",
-                "switchContentToAssemblyId": "账户管理",
+                "switchContentToAssemblyId": "/账户管理.gridassy",
                 "type": "switch",
                 "verticalSpan": 0
               },
@@ -212,14 +64,14 @@
                 "name": "权限管理",
                 "bundleId": "",
                 "className": "",
-                "switchContentToAssemblyId": "功能权限设置",
+                "switchContentToAssemblyId": "/功能权限设置.gridassy",
                 "type": "switch",
                 "verticalSpan": 0
               },
               {
                 "id": "16524c60c3c",
                 "name": "用户审计",
-                "switchContentToAssemblyId": "用户操作审计",
+                "switchContentToAssemblyId": "/用户操作审计.gridassy",
                 "type": "switch",
                 "verticalSpan": 0
               }
@@ -234,19 +86,19 @@
               {
                 "id": "168642614dc",
                 "name": "成本分类",
-                "switchContentToAssemblyId": "问题成本分类",
+                "switchContentToAssemblyId": "/问题成本分类.gridassy",
                 "type": "switch"
               },
               {
                 "id": "168642683a7",
                 "name": "问题分类",
-                "switchContentToAssemblyId": "问题分类",
+                "switchContentToAssemblyId": "/问题分类.gridassy",
                 "type": "switch"
               },
               {
                 "id": "1686426fa8a",
                 "name": "原因分类",
-                "switchContentToAssemblyId": "原因分类",
+                "switchContentToAssemblyId": "/原因分类.gridassy",
                 "type": "switch"
               }
             ],
@@ -260,46 +112,46 @@
                 "id": "1642fb9b626",
                 "name": "质量影响等级",
                 "text": "质量影响等级",
-                "switchContentToAssemblyId": "质量影响级别",
+                "switchContentToAssemblyId": "/质量影响级别.gridassy",
                 "type": "switch",
                 "verticalSpan": 0
               },
               {
                 "id": "1683ceda283",
                 "name": "严重性等级",
-                "switchContentToAssemblyId": "严重性等级",
+                "switchContentToAssemblyId": "/严重性等级.gridassy",
                 "type": "switch"
               },
               {
                 "id": "1642fba3602",
                 "name": "可探测性级别",
                 "text": "可探测性级别",
-                "switchContentToAssemblyId": "可探测性级别",
+                "switchContentToAssemblyId": "/可探测性级别.gridassy",
                 "type": "switch",
                 "verticalSpan": 0
               },
               {
                 "id": "1683dd95dde",
                 "name": "损失等级",
-                "switchContentToAssemblyId": "损失等级",
+                "switchContentToAssemblyId": "/损失等级.gridassy",
                 "type": "switch"
               },
               {
                 "id": "16842d89cc9",
                 "name": "频度等级",
-                "switchContentToAssemblyId": "频度等级",
+                "switchContentToAssemblyId": "/频度等级.gridassy",
                 "type": "switch"
               },
               {
                 "id": "16842d93f0d",
                 "name": "影响范围等级",
-                "switchContentToAssemblyId": "影响范围等级",
+                "switchContentToAssemblyId": "/影响范围等级.gridassy",
                 "type": "switch"
               },
               {
                 "id": "1642fb940b8",
                 "name": "临近性指标设置",
-                "switchContentToAssemblyId": "临近性指标设置",
+                "switchContentToAssemblyId": "/临近性指标设置.gridassy",
                 "type": "switch",
                 "verticalSpan": 0
               }
@@ -329,14 +181,14 @@
               {
                 "id": "162dc3d1622",
                 "name": "名称字典",
-                "switchContentToAssemblyId": "名称字典",
+                "switchContentToAssemblyId": "/名称字典.gridassy",
                 "type": "switch",
                 "verticalSpan": 0
               },
               {
                 "id": "16527b11f80",
                 "name": "管理备份",
-                "switchContentToAssemblyId": "管理备份",
+                "switchContentToAssemblyId": "/管理备份.gridassy",
                 "type": "switch",
                 "verticalSpan": 0
               },
@@ -344,14 +196,14 @@
                 "id": "1677a1661b2",
                 "name": "值生成规则",
                 "bundleId": "",
-                "switchContentToAssemblyId": "值生成规则",
+                "switchContentToAssemblyId": "/值生成规则.gridassy",
                 "type": "switch",
                 "verticalSpan": 0
               },
               {
                 "id": "1640b0ecf2a",
                 "name": "查看许可证",
-                "switchContentToAssemblyId": "许可证",
+                "switchContentToAssemblyId": "/许可证.gridassy",
                 "type": "switch",
                 "verticalSpan": 0
               }
@@ -367,7 +219,7 @@
         "assemblyLinks": [
           {
             "typeName": "组件链接",
-            "id": "系统管理首页面板",
+            "id": "/系统管理首页面板.assy",
             "defaultAssembly": true
           }
         ]
@@ -384,19 +236,19 @@
       "sidebar": {
         "enabled": true,
         "width": 240,
-        "header": "标题栏（当前对象和返回）",
+        "header": "/标题栏（当前对象和返回）.assy",
         "toolbarItems": [
           {
             "id": "1682de11fd8",
             "name": "查看工作进度",
-            "switchContentToAssemblyId": "问题解决进度甘特图",
+            "switchContentToAssemblyId": "/问题解决进度甘特图.ganttassy",
             "type": "switch"
           },
           {
             "id": "168b9925766",
             "name": "检索知识库",
             "image": "/img/robot_w.svg",
-            "switchContentToAssemblyId": "问题智能分析",
+            "switchContentToAssemblyId": "/问题智能分析.drillchartassy",
             "type": "switch"
           },
           {
@@ -418,14 +270,14 @@
               {
                 "id": "1683ba1f2d2",
                 "name": "问题初始记录",
-                "switchContentToAssemblyId": "D0问题初始记录信息面板",
+                "switchContentToAssemblyId": "/D0问题初始记录信息面板.infopadassy",
                 "type": "switch"
               },
               {
                 "id": "167f814aa09",
                 "name": "紧急反应行动",
                 "image": "/img/emergency_w.svg",
-                "switchContentToAssemblyId": "D0紧急反应行动表格",
+                "switchContentToAssemblyId": "/D0紧急反应行动表格.gridassy",
                 "type": "switch"
               }
             ],
@@ -435,7 +287,7 @@
             "id": "167f80d9b31",
             "name": "问题解决团队",
             "image": "/img/team_w.svg",
-            "switchContentToAssemblyId": "D1多功能小组表格",
+            "switchContentToAssemblyId": "/D1多功能小组表格.gridassy",
             "type": "switch"
           },
           {
@@ -447,7 +299,7 @@
                 "name": "现场照片",
                 "bundleId": "",
                 "className": "",
-                "switchContentToAssemblyId": "D2现场照片表格",
+                "switchContentToAssemblyId": "/D2现场照片表格.gridassy",
                 "type": "switch"
               },
               {
@@ -455,7 +307,7 @@
                 "name": "5W2H问题描述",
                 "bundleId": "",
                 "className": "",
-                "switchContentToAssemblyId": "D2问题描述5W2H信息面板",
+                "switchContentToAssemblyId": "/D2问题描述5W2H信息面板.infopadassy",
                 "type": "switch",
                 "parameters": ""
               }
@@ -469,7 +321,7 @@
               {
                 "id": "167f80fe0e8",
                 "name": "制定临时控制行动",
-                "switchContentToAssemblyId": "D3临时控制行动表格",
+                "switchContentToAssemblyId": "/D3临时控制行动表格.gridassy",
                 "type": "switch"
               },
               {
@@ -491,14 +343,14 @@
               {
                 "id": "167f8113c45",
                 "name": "问题产生原因",
-                "switchContentToAssemblyId": "D4关系图",
+                "switchContentToAssemblyId": "/D4关系图.assy",
                 "type": "switch",
                 "passParametersToAssembly": "{\"type\":\"因果分析-制造\",\"title\":\"问题产生因果分析\"}"
               },
               {
                 "id": "167f817cab5",
                 "name": "问题流出原因",
-                "switchContentToAssemblyId": "D4关系图",
+                "switchContentToAssemblyId": "/D4关系图.assy",
                 "type": "switch",
                 "passParametersToAssembly": "{\"type\":\"因果分析-流出\",\"title\":\"问题流出因果分析\"}"
               },
@@ -519,7 +371,7 @@
               {
                 "id": "167f8170efd",
                 "name": "选择解决方案",
-                "switchContentToAssemblyId": "D5PCA候选方案",
+                "switchContentToAssemblyId": "/D5PCA候选方案.assy",
                 "children": [],
                 "type": "switch"
               },
@@ -541,7 +393,7 @@
               {
                 "id": "167f81defa9",
                 "name": "执行永久纠正措施",
-                "switchContentToAssemblyId": "D6执行和确认永久纠正措施表格",
+                "switchContentToAssemblyId": "/D6执行和确认永久纠正措施表格.gridassy",
                 "type": "switch"
               },
               {
@@ -571,13 +423,13 @@
               {
                 "id": "167f8202125",
                 "name": "类似系统分析",
-                "switchContentToAssemblyId": "D7类似系统表格",
+                "switchContentToAssemblyId": "/D7类似系统表格.gridassy",
                 "type": "switch"
               },
               {
                 "id": "167f820b345",
                 "name": "系统性预防措施",
-                "switchContentToAssemblyId": "D7系统性预防措施表格",
+                "switchContentToAssemblyId": "/D7系统性预防措施表格.gridassy",
                 "type": "switch"
               }
             ],
@@ -591,28 +443,28 @@
               {
                 "id": "1683df232ef",
                 "name": "挽回损失和善后措施",
-                "switchContentToAssemblyId": "D8损失挽回措施表格",
+                "switchContentToAssemblyId": "/D8损失挽回措施表格.gridassy",
                 "type": "switch",
                 "excludeRole": "外部用户"
               },
               {
                 "id": "1683b4c7bf0",
                 "name": "问题成本记账",
-                "switchContentToAssemblyId": "D8问题成本账目表格",
+                "switchContentToAssemblyId": "/D8问题成本账目表格.gridassy",
                 "type": "switch",
                 "excludeRole": "外部用户"
               },
               {
                 "id": "1684813f7ef",
                 "name": "问题成本统计图表",
-                "switchContentToAssemblyId": "D8问题成本期间分类汇总",
+                "switchContentToAssemblyId": "/D8问题成本期间分类汇总.chartassy",
                 "type": "switch",
                 "excludeRole": "外部用户"
               },
               {
                 "id": "1681e533665",
                 "name": "经验教训总结",
-                "switchContentToAssemblyId": "D8经验教训表格",
+                "switchContentToAssemblyId": "/D8经验教训表格.gridassy",
                 "type": "switch"
               },
               {
@@ -634,7 +486,7 @@
         "assemblyLinks": [
           {
             "typeName": "组件链接",
-            "id": "8D问题看板"
+            "id": "/8D问题看板.assy"
           }
         ]
       },
@@ -649,13 +501,13 @@
       "sidebar": {
         "enabled": true,
         "width": 240,
-        "header": "标题栏（带有用户头像和产品名称）",
+        "header": "/标题栏（带有用户头像和产品名称）.assy",
         "toolbarItems": [
           {
             "id": "16898a329fc",
             "name": "问题综合分析图表",
             "image": "/img/chart_linebar_w.svg",
-            "switchContentToAssemblyId": "问题综合分析图表",
+            "switchContentToAssemblyId": "/问题综合分析图表.assy",
             "type": "switch"
           }
         ],
@@ -677,7 +529,7 @@
               {
                 "id": "167fce928ca",
                 "name": "已创建的问题",
-                "switchContentToAssemblyId": "问题清单（已创建）",
+                "switchContentToAssemblyId": "/问题清单（已创建）.gridassy",
                 "type": "switch",
                 "parameters": "",
                 "passParametersToAssembly": "{\"status\":\"已创建\"}"
@@ -685,7 +537,7 @@
               {
                 "id": "167fcea761a",
                 "name": "已取消的问题",
-                "switchContentToAssemblyId": "问题清单（已取消）",
+                "switchContentToAssemblyId": "/问题清单（已取消）.gridassy",
                 "type": "switch",
                 "parameters": "",
                 "passParametersToAssembly": "{\"status\":\"已取消\"}"
@@ -696,7 +548,7 @@
           {
             "id": "167fce9fce4",
             "name": "解决问题",
-            "switchContentToAssemblyId": "问题清单（解决中）",
+            "switchContentToAssemblyId": "/问题清单（解决中）.gridassy",
             "type": "switch",
             "excludeRole": "质量经理",
             "parameters": "",
@@ -705,7 +557,7 @@
           {
             "id": "16a6e5b3ab7",
             "name": "解决问题",
-            "switchContentToAssemblyId": "问题清单（解决中-all）",
+            "switchContentToAssemblyId": "/问题清单（解决中-all）.gridassy",
             "type": "switch",
             "role": "质量经理",
             "passParametersToAssembly": "{\"status\":\"解决中\"}"
@@ -718,31 +570,31 @@
               {
                 "id": "1686446710d",
                 "name": "问题综合分析图表",
-                "switchContentToAssemblyId": "问题综合分析图表",
+                "switchContentToAssemblyId": "/问题综合分析图表.assy",
                 "type": "switch"
               },
               {
                 "id": "168431046ba",
                 "name": "成本分类图表",
-                "switchContentToAssemblyId": "问题成本按成本分类钻取",
+                "switchContentToAssemblyId": "/问题成本按成本分类钻取.drillchartassy",
                 "type": "switch"
               },
               {
                 "id": "1684311a679",
                 "name": "问题分类图表",
-                "switchContentToAssemblyId": "问题成本按问题分类钻取",
+                "switchContentToAssemblyId": "/问题成本按问题分类钻取.drillchartassy",
                 "type": "switch"
               },
               {
                 "id": "16863cf1235",
                 "name": "原因分类图表",
-                "switchContentToAssemblyId": "问题成本按问题原因分类钻取",
+                "switchContentToAssemblyId": "/问题成本按问题原因分类钻取.drillchartassy",
                 "type": "switch"
               },
               {
                 "id": "1684312b093",
                 "name": "责任部门分类图表",
-                "switchContentToAssemblyId": "问题成本按责任部门分类钻取",
+                "switchContentToAssemblyId": "/问题成本按责任部门分类钻取.drillchartassy",
                 "type": "switch"
               }
             ],
@@ -757,7 +609,7 @@
               {
                 "id": "167fcea4338",
                 "name": "问题数据库",
-                "switchContentToAssemblyId": "问题清单（问题数据库）",
+                "switchContentToAssemblyId": "/问题清单（问题数据库）.gridassy",
                 "type": "switch",
                 "parameters": "",
                 "passParametersToAssembly": ""
@@ -765,20 +617,20 @@
               {
                 "id": "168903732b5",
                 "name": "经验数据库",
-                "switchContentToAssemblyId": "问题经验库表格",
+                "switchContentToAssemblyId": "/问题经验库表格.gridassy",
                 "children": [],
                 "type": "switch"
               },
               {
                 "id": "167fcdfb304",
                 "name": "行动预案库",
-                "switchContentToAssemblyId": "行动预案",
+                "switchContentToAssemblyId": "/行动预案.gridassy",
                 "type": "switch"
               },
               {
                 "id": "16873b171a3",
                 "name": "目标和决策准则库",
-                "switchContentToAssemblyId": "目标和决策准则模板表格",
+                "switchContentToAssemblyId": "/目标和决策准则模板表格.gridassy",
                 "type": "switch"
               }
             ],
@@ -789,7 +641,7 @@
             "id": "16832bf3d33",
             "name": "问题预防",
             "image": "/img/prevent_w.svg",
-            "switchContentToAssemblyId": "系统性预防措施表格",
+            "switchContentToAssemblyId": "/系统性预防措施表格.gridassy",
             "type": "switch"
           }
         ]
@@ -800,7 +652,7 @@
         "assemblyLinks": [
           {
             "typeName": "组件链接",
-            "id": "问题管理看板"
+            "id": "/问题管理看板.assy"
           }
         ]
       },
@@ -816,7 +668,7 @@
       "sidebar": {
         "enabled": true,
         "width": 240,
-        "header": "标题栏（带有用户头像和产品名称）",
+        "header": "/标题栏（带有用户头像和产品名称）.assy",
         "toolbarItems": [],
         "sidebarItems": [
           {
@@ -832,7 +684,7 @@
           {
             "id": "167fce928ca",
             "name": "已创建的问题",
-            "switchContentToAssemblyId": "问题清单（已创建）",
+            "switchContentToAssemblyId": "/问题清单（已创建）.gridassy",
             "type": "switch",
             "parameters": "",
             "passParametersToAssembly": "{\"status\":\"已创建\"}"
@@ -840,7 +692,7 @@
           {
             "id": "167fce9fce4",
             "name": "解决中的问题",
-            "switchContentToAssemblyId": "问题清单（解决中）",
+            "switchContentToAssemblyId": "/问题清单（解决中）.gridassy",
             "type": "switch",
             "parameters": "",
             "passParametersToAssembly": "{\"status\":\"解决中\"}"
@@ -848,7 +700,7 @@
           {
             "id": "167fcea761a",
             "name": "已取消的问题",
-            "switchContentToAssemblyId": "问题清单（已取消）",
+            "switchContentToAssemblyId": "/问题清单（已取消）.gridassy",
             "type": "switch",
             "parameters": "",
             "passParametersToAssembly": "{\"status\":\"已取消\"}"
@@ -856,7 +708,7 @@
           {
             "id": "1689554f11c",
             "name": "已关闭的问题",
-            "switchContentToAssemblyId": "问题清单（已关闭）",
+            "switchContentToAssemblyId": "/问题清单（已关闭）.gridassy",
             "type": "switch",
             "passParametersToAssembly": "{\"status\":\"已关闭\"}"
           }
@@ -868,7 +720,7 @@
         "assemblyLinks": [
           {
             "typeName": "组件链接",
-            "id": "问题管理看板"
+            "id": "/问题管理看板.assy"
           }
         ]
       },

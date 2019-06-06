@@ -1,5 +1,5 @@
 {
-  "id": "项目干系人",
+  "id": "/项目干系人.gridassy",
   "name": "项目干系人",
   "layout": [],
   "type": "grid",
@@ -103,7 +103,7 @@
       "bundleId": "com.bizvisionsoft.pms",
       "className": "com.bizvisionsoft.pms.project.action.CreateStockholder",
       "style": "normal",
-      "editorAssemblyId": "项目干系人编辑器",
+      "editorAssemblyId": "/项目干系人编辑器.editorassy",
       "type": "customized",
       "createActionNewInstanceBundleId": "com.bizvisionsoft.pms",
       "createActionNewInstanceClassName": "com.bizvisionsoft.service.model.Stockholder",
@@ -117,7 +117,7 @@
       "text": "编辑",
       "image": "/img/edit_w.svg",
       "style": "normal",
-      "editorAssemblyId": "项目干系人编辑器",
+      "editorAssemblyId": "/项目干系人编辑器.editorassy",
       "editorAssemblyEditable": true,
       "type": "edit",
       "verticalSpan": 0

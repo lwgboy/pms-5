@@ -1,5 +1,5 @@
 {
-  "id": "目标和准则模板-编辑器",
+  "id": "/目标和准则模板-编辑器.editorassy",
   "name": "目标和准则模板-编辑器",
   "title": "目标和决策准则模板",
   "layout": [],
@@ -72,7 +72,7 @@
           "type": "表格",
           "formFields": [],
           "required": true,
-          "selectorAssemblyId": "单name列表格",
+          "selectorAssemblyId": "/单name列表格.gridassy",
           "height": 300,
           "grabVertical": true,
           "verticalAlignLabel": false,
@@ -85,7 +85,7 @@
           "type": "表格",
           "formFields": [],
           "required": true,
-          "selectorAssemblyId": "D5-目标和准则-期望",
+          "selectorAssemblyId": "/D5-目标和准则-期望.gridassy",
           "grabVertical": true,
           "verticalAlignLabel": false,
           "enableCreateItem": true
@@ -99,7 +99,7 @@
       "type": "多个对象选择框",
       "formFields": [],
       "required": true,
-      "selectorAssemblyId": "问题分类",
+      "selectorAssemblyId": "/问题分类.gridassy",
       "grabVertical": false
     }
   ],

@@ -1,5 +1,5 @@
 {
-  "id": "项目模板WBS（分配角色）",
+  "id": "/项目模板WBS（分配角色）.gridassy",
   "name": "项目模板WBS（分配角色）",
   "description": "",
   "layout": [],
@@ -81,7 +81,7 @@
       "bundleId": "",
       "className": "",
       "style": "",
-      "editorAssemblyId": "项目模板工作分配角色",
+      "editorAssemblyId": "/项目模板工作分配角色.editorassy",
       "editorAssemblyEditable": true,
       "objectBehavier": true,
       "type": "edit",

@@ -28,7 +28,7 @@ public class EditProblemIndicators {
 	@Execute
 	public void execute(@MethodParam(Execute.CONTEXT) BruiAssemblyContext context,
 			@MethodParam(Execute.CONTEXT_SELECTION_1ST) Problem problem, @MethodParam(Execute.CURRENT_USER_ID) String userId) {
-		Editor.open("问题定性指标编辑器", context, problem, true, (d, t) -> {
+		Editor.open("问题定性指标编辑器.editorassy", context, problem, true, (d, t) -> {
 			Check.instanceThen(context.getContent(), IStructuredDataPart.class, c -> {
 				ProblemService service = Services.get(ProblemService.class);
 				BasicDBObject fu = new FilterAndUpdate().filter(new BasicDBObject("_id", problem.get_id())).set(d).bson();

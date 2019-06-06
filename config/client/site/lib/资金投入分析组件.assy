@@ -1,5 +1,5 @@
 {
-  "id": "资金投入分析组件",
+  "id": "/资金投入分析组件.assy",
   "name": "资金投入分析组件",
   "bundleId": "com.bizvisionsoft.pms",
   "className": "com.bizvisionsoft.pms.investment.MonthCostIAASM",

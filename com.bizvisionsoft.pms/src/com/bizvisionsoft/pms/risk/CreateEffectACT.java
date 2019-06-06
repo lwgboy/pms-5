@@ -36,7 +36,7 @@ public class CreateEffectACT {
 				title = "¸ºÃæÓ°Ïì";
 			}
 			re.setPositive(positive);
-			Editor.create("·çÏÕÓ°Ïì±à¼­Æ÷", context, re, false).setTitle(title).ok((r, o) -> {
+			Editor.create("·çÏÕÓ°Ïì±à¼­Æ÷.editorassy", context, re, false).setTitle(title).ok((r, o) -> {
 				o = Services.get(RiskService.class).addRiskEffect(o, br.getDomain());
 				((GridPart) context.getContent()).add(c, o);
 			});

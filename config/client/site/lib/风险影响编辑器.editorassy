@@ -1,5 +1,5 @@
 {
-  "id": "风险影响编辑器",
+  "id": "/风险影响编辑器.editorassy",
   "name": "风险影响编辑器",
   "title": "风险影响",
   "layout": [],
@@ -13,7 +13,7 @@
       "type": "对象选择框",
       "formFields": [],
       "required": true,
-      "selectorAssemblyId": "项目WBS"
+      "selectorAssemblyId": "/项目WBS.gridassy"
     },
     {
       "id": "1655123ad79",

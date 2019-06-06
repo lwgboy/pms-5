@@ -1,5 +1,5 @@
 {
-  "id": "D0问题初始记录",
+  "id": "/D0问题初始记录.boardassy",
   "name": "D0问题初始记录",
   "title": "问题初始记录",
   "layout": [],
@@ -14,7 +14,7 @@
       "id": "16828ddd97e",
       "name": "切换",
       "image": "/img/right_w.svg",
-      "switchContentToAssemblyId": "D0问题初始记录信息面板",
+      "switchContentToAssemblyId": "/D0问题初始记录信息面板.infopadassy",
       "style": "normal",
       "type": "switch"
     }

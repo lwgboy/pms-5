@@ -1,5 +1,5 @@
 {
-  "id": "设备设施选择表格",
+  "id": "/设备设施选择表格.gridassy",
   "name": "设备设施选择表格",
   "layout": [],
   "type": "grid",
@@ -48,7 +48,7 @@
       "name": "编辑设备设施",
       "image": "/img/edit_w.svg",
       "style": "normal",
-      "editorAssemblyId": "设备设施编辑器",
+      "editorAssemblyId": "/设备设施编辑器.editorassy",
       "editorAssemblyEditable": true,
       "verticalSpan": 0
     },

@@ -40,7 +40,7 @@ public class ProblemCard {
 				}
 			}
 		} else if ("create".equals(e.text)) {
-			Editor.create("问题编辑器（创建）", context, br.newInstance(Problem.class).setCreationInfo(br.operationInfo()), true).ok((d,t)->{
+			Editor.create("问题编辑器（创建）.editoassy", context, br.newInstance(Problem.class).setCreationInfo(br.operationInfo()), true).ok((d,t)->{
 				Services.get(ProblemService.class).insertProblem(t, br.getDomain());
 				((IQueryEnable)context.getContent()).doRefresh();
 			});

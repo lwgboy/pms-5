@@ -1,10 +1,10 @@
 {
-  "id": "工作标签选择器",
+  "id": "/工作标签选择器.selectorassy",
   "name": "工作标签选择器",
   "layout": [],
   "type": "selector",
   "folderId": "1631b42dbd8",
-  "selectorGridAssemblyId": "工作标签",
+  "selectorGridAssemblyId": "/工作标签.gridassy",
   "selectorMultiSelection": true,
   "disableInitLoadData": false
 }

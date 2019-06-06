@@ -1,5 +1,5 @@
 {
-  "id": "值生成规则",
+  "id": "/值生成规则.gridassy",
   "name": "值生成规则",
   "layout": [],
   "type": "grid",
@@ -49,7 +49,7 @@
       "image": "",
       "forceText": true,
       "style": "normal",
-      "editorAssemblyId": "值生成规则编辑器",
+      "editorAssemblyId": "/值生成规则编辑器.editorassy",
       "type": "insert",
       "createActionNewInstanceBundleId": "com.bizvisionsoft.service",
       "createActionNewInstanceClassName": "com.bizvisionsoft.service.ValueRule",
@@ -61,7 +61,7 @@
       "id": "1677a43d9f0",
       "name": "编辑规则",
       "style": "normal",
-      "editorAssemblyId": "值生成规则编辑器",
+      "editorAssemblyId": "/值生成规则编辑器.editorassy",
       "editorAssemblyEditable": true,
       "type": "edit",
       "verticalSpan": 0
@@ -78,7 +78,7 @@
       "id": "1677a447b38",
       "name": "打开规则",
       "image": "/img/right_w.svg",
-      "switchContentToAssemblyId": "值规则段",
+      "switchContentToAssemblyId": "/值规则段.gridassy",
       "openContent": true,
       "style": "info",
       "type": "switch",

@@ -1,5 +1,5 @@
 {
-  "id": "RBS类别",
+  "id": "/RBS类别.gridassy",
   "name": "RBS类别",
   "layout": [],
   "type": "grid",
@@ -48,7 +48,7 @@
       "image": "",
       "forceText": true,
       "style": "normal",
-      "editorAssemblyId": "RBS类别编辑器",
+      "editorAssemblyId": "/RBS类别编辑器.editorassy",
       "type": "insert",
       "createActionNewInstanceBundleId": "com.bizvisionsoft.service",
       "createActionNewInstanceClassName": "com.bizvisionsoft.service.model.RBSType",
@@ -61,7 +61,7 @@
       "name": "编辑",
       "image": "/img/edit_w.svg",
       "style": "normal",
-      "editorAssemblyId": "RBS类别编辑器",
+      "editorAssemblyId": "/RBS类别编辑器.editorassy",
       "editorAssemblyEditable": true,
       "type": "edit",
       "verticalSpan": 0

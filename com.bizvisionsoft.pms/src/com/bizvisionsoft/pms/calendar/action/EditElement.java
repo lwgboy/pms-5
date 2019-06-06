@@ -25,11 +25,11 @@ public class EditElement {
 	public void execute(@MethodParam(Execute.CONTEXT_SELECTION_1ST) Object em,
 			@MethodParam(Execute.CONTEXT_CONTENT) GridPart grid, @MethodParam(Execute.CONTEXT) IBruiContext context) {
 		if (em instanceof Calendar) {
-			Editor.open("工作日历编辑器", context, em, (r, o) -> {
+			Editor.open("工作日历编辑器.editorassy", context, em, (r, o) -> {
 				grid.doModify(em, o, r);
 			});
 		} else if (em instanceof WorkTime) {
-			Editor.open("工作时间编辑器", context, em, (r, o) -> {
+			Editor.open("工作时间编辑器.editorassy", context, em, (r, o) -> {
 				Services.get(CommonService.class).updateCalendarWorkTime(r, br.getDomain());
 				grid.replaceItem(em, o);
 			});

@@ -1,5 +1,5 @@
 {
-  "id": "工作流定义编辑器（授权用）",
+  "id": "/工作流定义编辑器（授权用）.editorassy",
   "name": "工作流定义编辑器（授权用）",
   "title": "工作流启动授权",
   "layout": [],
@@ -75,7 +75,7 @@
           "text": "授权用户",
           "type": "多个对象选择框",
           "formFields": [],
-          "selectorAssemblyId": "用户选择列表",
+          "selectorAssemblyId": "/用户选择列表.gridassy",
           "grabVertical": true,
           "valueFieldName": "userId"
         }
@@ -92,7 +92,7 @@
           "text": "授权组织",
           "type": "多个对象选择框",
           "formFields": [],
-          "selectorAssemblyId": "组织选择器",
+          "selectorAssemblyId": "/组织选择器.gridassy",
           "grabVertical": true,
           "valueFieldName": "_id"
         }
@@ -109,7 +109,7 @@
           "text": "授权角色",
           "type": "多个对象选择框",
           "formFields": [],
-          "selectorAssemblyId": "功能角色选择器",
+          "selectorAssemblyId": "/功能角色选择器.gridassy",
           "grabVertical": true,
           "valueFieldName": "id"
         }

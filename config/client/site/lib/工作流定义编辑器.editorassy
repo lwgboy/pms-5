@@ -1,5 +1,5 @@
 {
-  "id": "工作流定义编辑器",
+  "id": "/工作流定义编辑器.editorassy",
   "name": "工作流定义编辑器",
   "layout": [],
   "type": "editor",
@@ -77,7 +77,7 @@
               "type": "对象选择框",
               "formFields": [],
               "required": true,
-              "selectorAssemblyId": "BPMN资源列表",
+              "selectorAssemblyId": "/BPMN资源列表.gridassy",
               "valueFieldName": "id"
             },
             {
@@ -86,7 +86,7 @@
               "text": "启动表单",
               "type": "对象选择框",
               "formFields": [],
-              "selectorAssemblyId": "组件选择器（编辑器）",
+              "selectorAssemblyId": "/组件选择器（编辑器）.gridassy",
               "valueFieldName": "name"
             }
           ]
@@ -97,7 +97,7 @@
           "text": "流程属性",
           "type": "表格",
           "formFields": [],
-          "selectorAssemblyId": "name-value多列表格",
+          "selectorAssemblyId": "/name-value多列表格.gridassy",
           "grabVertical": true,
           "enableCreateItem": true
         }
@@ -123,7 +123,7 @@
           "text": "JavaScript",
           "type": "多行文本框",
           "formFields": [],
-          "selectorAssemblyId": "单name列表格",
+          "selectorAssemblyId": "/单name列表格.gridassy",
           "grabVertical": true,
           "hideLabel": true,
           "enableCreateItem": true

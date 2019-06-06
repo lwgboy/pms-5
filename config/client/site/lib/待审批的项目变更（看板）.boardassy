@@ -1,5 +1,5 @@
 {
-  "id": "待审批的项目变更（看板）",
+  "id": "/待审批的项目变更（看板）.boardassy",
   "name": "待审批的项目变更（看板）",
   "layout": [],
   "type": "board",
@@ -62,7 +62,7 @@
       "id": "16715207345",
       "name": "切换列表",
       "image": "/img/right_w.svg",
-      "switchContentToAssemblyId": "待审批的项目变更",
+      "switchContentToAssemblyId": "/待审批的项目变更.gridassy",
       "style": "info",
       "type": "switch",
       "verticalSpan": 0

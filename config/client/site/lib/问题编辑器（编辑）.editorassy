@@ -1,5 +1,5 @@
 {
-  "id": "问题编辑器（编辑）",
+  "id": "/问题编辑器（编辑）.editorassy",
   "name": "问题编辑器（编辑）",
   "title": "编辑问题初始记录",
   "layout": [],
@@ -18,7 +18,7 @@
           "type": "对象选择框",
           "formFields": [],
           "required": false,
-          "selectorAssemblyId": "问题分类"
+          "selectorAssemblyId": "/问题分类.gridassy"
         },
         {
           "id": "167eac3493e",
@@ -159,7 +159,7 @@
       "type": "对象选择框",
       "formFields": [],
       "required": true,
-      "selectorAssemblyId": "组织选择器"
+      "selectorAssemblyId": "/组织选择器.gridassy"
     },
     {
       "id": "168402d9718",
@@ -206,7 +206,7 @@
           "type": "对象选择框",
           "formFields": [],
           "required": true,
-          "selectorAssemblyId": "严重性等级"
+          "selectorAssemblyId": "/严重性等级.gridassy"
         }
       ]
     },
@@ -222,7 +222,7 @@
           "type": "对象选择框",
           "formFields": [],
           "required": true,
-          "selectorAssemblyId": "频度等级"
+          "selectorAssemblyId": "/频度等级.gridassy"
         },
         {
           "id": "1689923220e",
@@ -231,7 +231,7 @@
           "type": "对象选择框",
           "formFields": [],
           "required": true,
-          "selectorAssemblyId": "可探测性级别"
+          "selectorAssemblyId": "/可探测性级别.gridassy"
         }
       ]
     },
@@ -247,7 +247,7 @@
           "type": "对象选择框",
           "formFields": [],
           "required": true,
-          "selectorAssemblyId": "损失等级"
+          "selectorAssemblyId": "/损失等级.gridassy"
         },
         {
           "id": "16899232796",
@@ -256,7 +256,7 @@
           "type": "对象选择框",
           "formFields": [],
           "required": true,
-          "selectorAssemblyId": "影响范围等级"
+          "selectorAssemblyId": "/影响范围等级.gridassy"
         }
       ]
     }

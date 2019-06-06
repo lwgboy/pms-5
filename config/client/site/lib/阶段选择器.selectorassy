@@ -1,9 +1,9 @@
 {
-  "id": "阶段选择器",
+  "id": "/阶段选择器.selectorassy",
   "name": "阶段选择器",
   "layout": [],
   "type": "selector",
   "folderId": "1631b964ede",
-  "selectorGridAssemblyId": "阶段选择器列表",
+  "selectorGridAssemblyId": "/阶段选择器列表.gridassy",
   "disableInitLoadData": false
 }

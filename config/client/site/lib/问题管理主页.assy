@@ -1,5 +1,5 @@
 {
-  "id": "问题管理主页",
+  "id": "/问题管理主页.assy",
   "name": "问题管理主页",
   "layout": [
     {
@@ -17,7 +17,7 @@
       "layoutType": "grid",
       "assemblys": [
         {
-          "id": "问题原因因果关系",
+          "id": "/问题原因因果关系.chartassy",
           "horizontalAlignment": 4,
           "verticalAlignment": 4,
           "grabExcessHorizontalSpace": false,
@@ -29,7 +29,7 @@
           "itemCss": "brui_card"
         },
         {
-          "id": "问题管理看板（嵌入）",
+          "id": "/问题管理看板（嵌入）.assy",
           "horizontalAlignment": 4,
           "verticalAlignment": 4,
           "grabExcessHorizontalSpace": true,

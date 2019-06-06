@@ -1,5 +1,5 @@
 {
-  "id": "D7系统预防",
+  "id": "/D7系统预防.boardassy",
   "name": "D7系统预防",
   "title": "",
   "layout": [],
@@ -39,7 +39,7 @@
       "name": "切换",
       "tooltips": "创建",
       "image": "/img/right_w.svg",
-      "switchContentToAssemblyId": "D7系统性预防措施表格",
+      "switchContentToAssemblyId": "/D7系统性预防措施表格.gridassy",
       "style": "normal",
       "children": [],
       "type": "switch"

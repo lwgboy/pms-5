@@ -1,5 +1,5 @@
 {
-  "id": "项目月报",
+  "id": "/项目月报.gridassy",
   "name": "项目月报",
   "layout": [],
   "type": "grid",
@@ -93,7 +93,7 @@
       "image": "/img/right.svg",
       "bundleId": "com.bizvisionsoft.pms",
       "className": "com.bizvisionsoft.pms.workreport.OpenWorkReportACT",
-      "switchContentToAssemblyId": "报告详情",
+      "switchContentToAssemblyId": "/报告详情.assy",
       "openContent": true,
       "style": "",
       "editorAssemblyId": "163f2d9d844",

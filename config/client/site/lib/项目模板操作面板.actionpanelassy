@@ -1,5 +1,5 @@
 {
-  "id": "项目模板操作面板",
+  "id": "/项目模板操作面板.actionpanelassy",
   "name": "项目模板操作面板",
   "layout": [],
   "type": "actionpanel",
@@ -16,7 +16,7 @@
       "image": "/img/calendar_c.svg",
       "bundleId": "com.bizvisionsoft.pms",
       "className": "",
-      "switchContentToAssemblyId": "项目模板甘特图",
+      "switchContentToAssemblyId": "/项目模板甘特图.ganttassy",
       "type": "switch",
       "verticalSpan": 0
     },
@@ -29,7 +29,7 @@
       "image": "/img/org_c.svg",
       "bundleId": "com.bizvisionsoft.pms",
       "className": "com.bizvisionsoft.pms.projecttemplate.OpenOBSDiagramACT",
-      "switchContentToAssemblyId": "组织结构图",
+      "switchContentToAssemblyId": "/组织结构图.treeassy",
       "openContent": true,
       "type": "customized",
       "verticalSpan": 0
@@ -40,7 +40,7 @@
       "text": "分配角色",
       "tooltips": "设定负责人和指派者角色",
       "image": "/img/appointment_c.svg",
-      "switchContentToAssemblyId": "项目模板WBS（分配角色）",
+      "switchContentToAssemblyId": "/项目模板WBS（分配角色）.gridassy",
       "type": "switch",
       "verticalSpan": 0
     },
@@ -53,7 +53,7 @@
       "image": "/img/workpackage_c.svg",
       "bundleId": "",
       "className": "",
-      "switchContentToAssemblyId": "项目模板WBS",
+      "switchContentToAssemblyId": "/项目模板WBS.gridassy",
       "type": "switch",
       "verticalSpan": 0
     },
@@ -64,7 +64,7 @@
       "description": "为工作分配资源分配",
       "tooltips": "预设工作需要的资源",
       "image": "/img/equipment_c.svg",
-      "switchContentToAssemblyId": "资源需求模板",
+      "switchContentToAssemblyId": "/资源需求模板.assy",
       "type": "switch",
       "verticalSpan": 0
     },
@@ -74,7 +74,7 @@
       "text": "文件夹结构",
       "tooltips": "预设资料库的文件夹",
       "image": "/img/folder_opened.svg",
-      "switchContentToAssemblyId": "项目档案库",
+      "switchContentToAssemblyId": "/项目档案库.assy",
       "type": "switch",
       "verticalSpan": 0
     },

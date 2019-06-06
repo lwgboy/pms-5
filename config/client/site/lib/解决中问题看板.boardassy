@@ -1,5 +1,5 @@
 {
-  "id": "解决中问题看板",
+  "id": "/解决中问题看板.boardassy",
   "name": "解决中问题看板",
   "title": "解决中问题看板",
   "layout": [],
@@ -151,7 +151,7 @@
       "id": "1683724411f",
       "name": "切换",
       "image": "/img/right_w.svg",
-      "switchContentToAssemblyId": "问题清单（已关闭）",
+      "switchContentToAssemblyId": "/问题清单（已关闭）.gridassy",
       "style": "info",
       "type": "switch",
       "passParametersToAssembly": "{\"status\":\"解决中\"}"

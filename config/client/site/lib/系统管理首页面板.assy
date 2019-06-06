@@ -1,5 +1,5 @@
 {
-  "id": "系统管理首页面板",
+  "id": "/系统管理首页面板.assy",
   "name": "系统管理首页面板",
   "title": "系统管理",
   "layout": [
@@ -13,7 +13,7 @@
       "marginWidth": 12,
       "assemblys": [
         {
-          "id": "警告（系统管理）",
+          "id": "/警告（系统管理）.assy",
           "horizontalAlignment": 16777216,
           "verticalAlignment": 16777216,
           "grabExcessHorizontalSpace": true,

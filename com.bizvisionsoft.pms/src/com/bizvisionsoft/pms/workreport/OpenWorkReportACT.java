@@ -18,7 +18,7 @@ public class OpenWorkReportACT {
 	@Execute
 	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
 		context.selected(s -> {
-			br.openContent(br.getAssembly("报告详情"), s, e -> {
+			br.openContent(br.getAssembly("报告详情.assy"), s, e -> {
 				if (s instanceof WorkReport) {
 					WorkReport o = ServicesLoader.get(WorkReportService.class).getWorkReport(((WorkReport) s).get_id(), br.getDomain());
 					GridPart viewer = (GridPart) context.getContent();

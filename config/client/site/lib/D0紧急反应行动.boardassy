@@ -1,5 +1,5 @@
 {
-  "id": "D0紧急反应行动",
+  "id": "/D0紧急反应行动.boardassy",
   "name": "D0紧急反应行动",
   "title": "",
   "layout": [],
@@ -27,7 +27,7 @@
       "id": "16828de480a",
       "name": "切换",
       "image": "/img/right_w.svg",
-      "switchContentToAssemblyId": "D0紧急反应行动表格",
+      "switchContentToAssemblyId": "/D0紧急反应行动表格.gridassy",
       "style": "normal",
       "type": "switch"
     }

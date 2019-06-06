@@ -35,7 +35,7 @@ public class EditCBSBudget {
 					.setCBSItem_id(((CBSItem) item).get_id());
 			Check.instanceThen(context.getRootInput(), ICBSScope.class, r -> period.setRange(r.getCBSRange()));
 
-			Editor.create("ÆÚ¼äÔ¤Ëã±à¼­Æ÷", context, period, true).setTitle("±à¼­ÆÚ¼äÔ¤Ëã").ok((r, o) -> {
+			Editor.create("ÆÚ¼äÔ¤Ëã±à¼­Æ÷.editorassy", context, period, true).setTitle("±à¼­ÆÚ¼äÔ¤Ëã").ok((r, o) -> {
 				try {
 					Date periodDate = new SimpleDateFormat("yyyyMM").parse(o.getId());
 					o.checkRange(periodDate);

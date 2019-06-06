@@ -45,7 +45,7 @@ public class D1Action {
 	}
 
 	private void createD1CFT(Problem problem, BruiAssemblyContext context) {
-		Editor.create("D1-CTF成员-编辑器", context, new Document("problem_id", problem.get_id()), true).ok((r, t) -> {
+		Editor.create("D1-CTF成员-编辑器.editorassy", context, new Document("problem_id", problem.get_id()), true).ok((r, t) -> {
 			t = Services.get(ProblemService.class).insertD1Item(t, RWT.getLocale().getLanguage(),render, br.getDomain());
 			((IQueryEnable)context.getContent()).doRefresh();
 		});		

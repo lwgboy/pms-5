@@ -1,5 +1,5 @@
 {
-  "id": "工作包-采购",
+  "id": "/工作包-采购.gridassy",
   "name": "工作包-采购",
   "description": "采购",
   "layout": [],
@@ -149,7 +149,7 @@
       "name": "查看PO",
       "text": "PO",
       "image": "",
-      "switchContentToAssemblyId": "PO",
+      "switchContentToAssemblyId": "/PO.gridassy",
       "openContent": true,
       "forceText": true,
       "style": "info",

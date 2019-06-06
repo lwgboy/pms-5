@@ -1,5 +1,5 @@
 {
-  "id": "资源用量综合分析",
+  "id": "/资源用量综合分析.assy",
   "name": "资源用量综合分析",
   "layout": [
     {
@@ -9,7 +9,7 @@
       "makeColumnsEqualWidth": true,
       "assemblys": [
         {
-          "id": "资源计划实际用量对比分析",
+          "id": "/资源计划实际用量对比分析.stickerassy",
           "horizontalAlignment": 4,
           "verticalAlignment": 4,
           "grabExcessHorizontalSpace": true,

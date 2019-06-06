@@ -1,5 +1,5 @@
 {
-  "id": "执业资格列表",
+  "id": "/执业资格列表.gridassy",
   "name": "执业资格列表",
   "layout": [],
   "type": "grid",
@@ -66,7 +66,7 @@
       "bundleId": "com.bizvisionsoft.pms",
       "className": "com.bizvisionsoft.pms.cert.action.CreateCertificate",
       "style": "normal",
-      "editorAssemblyId": "执业资格编辑器",
+      "editorAssemblyId": "/执业资格编辑器.editorassy",
       "type": "insert",
       "createActionNewInstanceBundleId": "com.bizvisionsoft.service",
       "createActionNewInstanceClassName": "com.bizvisionsoft.service.model.Certificate",
@@ -82,7 +82,7 @@
       "bundleId": "",
       "className": "",
       "style": "normal",
-      "editorAssemblyId": "执业资格编辑器",
+      "editorAssemblyId": "/执业资格编辑器.editorassy",
       "editorAssemblyEditable": true,
       "type": "edit",
       "verticalSpan": 0

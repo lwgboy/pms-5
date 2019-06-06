@@ -52,7 +52,7 @@ public class UserServiceImpl extends BasicServiceImpl implements UserService {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public User check(String userId, String password) {
+	public User check(String password, String userId) {
 
 		MongoCollection<Document> c = c("user");
 		Document userDoc = c.find(new Document("userId", userId)).first();

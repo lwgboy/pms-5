@@ -1,5 +1,5 @@
 {
-  "id": "D7-类似问题-编辑器",
+  "id": "/D7-类似问题-编辑器.editorassy",
   "name": "D7-类似问题-编辑器",
   "title": "类似问题",
   "layout": [],
@@ -16,7 +16,7 @@
       "required": true,
       "optionText": "环境#政策#法规#标准#系统#设备#材料#过程#人因#相关方",
       "radioStyle": "横向分段（默认）",
-      "selectorAssemblyId": "单name列表格",
+      "selectorAssemblyId": "/单name列表格.gridassy",
       "grabVertical": false,
       "verticalAlignLabel": false,
       "enableCreateItem": true
@@ -27,7 +27,7 @@
       "text": "识别相似物",
       "type": "表格",
       "formFields": [],
-      "selectorAssemblyId": "D7-相似物标记",
+      "selectorAssemblyId": "/D7-相似物标记.gridassy",
       "grabVertical": false,
       "enableCreateItem": true
     },

@@ -1,5 +1,5 @@
 {
-  "id": "问题分类选择表格（查询用）",
+  "id": "/问题分类选择表格（查询用）.gridassy",
   "name": "问题分类选择表格（查询用）",
   "layout": [],
   "type": "grid",
@@ -30,7 +30,7 @@
       "name": "创建",
       "image": "/img/add_16_w.svg",
       "style": "normal",
-      "editorAssemblyId": "分类项编辑器",
+      "editorAssemblyId": "/分类项编辑器.editorassy",
       "type": "insert",
       "createActionNewInstanceBundleId": "com.bizvisionsoft.service",
       "createActionNewInstanceClassName": "com.bizvisionsoft.service.model.ClassifyProblem"
@@ -42,7 +42,7 @@
       "name": "创建下级",
       "image": "/img/add_16_w.svg",
       "style": "normal",
-      "editorAssemblyId": "分类项编辑器",
+      "editorAssemblyId": "/分类项编辑器.editorassy",
       "type": "insertsub",
       "createActionNewInstanceBundleId": "com.bizvisionsoft.service",
       "createActionNewInstanceClassName": "com.bizvisionsoft.service.model.ClassifyProblem"
@@ -52,7 +52,7 @@
       "name": "编辑",
       "image": "/img/edit_w.svg",
       "style": "normal",
-      "editorAssemblyId": "分类项编辑器",
+      "editorAssemblyId": "/分类项编辑器.editorassy",
       "editorAssemblyEditable": true,
       "type": "edit"
     },

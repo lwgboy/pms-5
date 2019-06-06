@@ -57,7 +57,7 @@ public class AppointmentProjectMangerACT {
 			}
 		}
 
-		new Selector(br.getAssembly("用户选择器—单选"), context).setTitle("指定项目经理").open(r -> {
+		new Selector(br.getAssembly("用户选择器—单选.selectorassy"), context).setTitle("指定项目经理").open(r -> {
 			User user = (User) r.get(0);
 			Project p = Services.get(ProjectService.class).appointmentProjectManger(project.get_id(), user.getUserId(),
 					br.getCurrentUserId(), br.getDomain());

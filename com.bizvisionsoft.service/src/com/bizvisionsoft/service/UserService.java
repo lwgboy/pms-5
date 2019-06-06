@@ -107,11 +107,11 @@ public interface UserService {
 			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userId") String userId,
 			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
-	@GET
-	@Path("/check/{userId}/{password}")
+	@POST
+	@Path("/check/{userId}/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public User check(@PathParam("userId") String userId, @PathParam("password") String password);
+	public User check(String password, @PathParam("userId") String userId);
 
 	@GET
 	@Path("/{domain}/userId/{userId}")
@@ -187,7 +187,7 @@ public interface UserService {
 	@Path("/updatePsw/{userId}/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public long updatePassword(String newPassword,@PathParam("userId") String userId);
+	public long updatePassword(String newPassword, @PathParam("userId") String userId);
 
 	@PUT
 	@Path("/updateSite/{userId}/")
@@ -195,7 +195,7 @@ public interface UserService {
 	@Produces("application/json; charset=UTF-8")
 	@ApiOperation(value = "更新用户的当前默认站点", response = Long.class)
 	public long updateUserDefaultSite(String sitePath, @PathParam("userId") String userId);
-	
+
 	@POST
 	@Path("/updatepsw")
 	public void updatePassword();

@@ -1,5 +1,5 @@
 {
-  "id": "项目资金计划",
+  "id": "/项目资金计划.stickerassy",
   "name": "项目资金计划",
   "layout": [
     {
@@ -9,7 +9,7 @@
       "makeColumnsEqualWidth": true,
       "assemblys": [
         {
-          "id": "项目科目资金计划",
+          "id": "/项目科目资金计划.assy",
           "horizontalAlignment": 4,
           "verticalAlignment": 4,
           "grabExcessHorizontalSpace": true,

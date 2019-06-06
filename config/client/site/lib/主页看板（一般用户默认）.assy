@@ -1,5 +1,5 @@
 {
-  "id": "主页看板（一般用户默认）",
+  "id": "/主页看板（一般用户默认）.assy",
   "name": "主页看板（一般用户默认）",
   "layout": [
     {
@@ -14,7 +14,7 @@
       "layoutType": "lane",
       "assemblys": [
         {
-          "id": "我的流程任务（待处理）",
+          "id": "/我的流程任务（待处理）.boardassy",
           "horizontalAlignment": 4,
           "verticalAlignment": 16777216,
           "grabExcessHorizontalSpace": true,
@@ -24,7 +24,7 @@
           "heightHint": -1
         },
         {
-          "id": "工作看板（待处理）",
+          "id": "/工作看板（待处理）.boardassy",
           "horizontalAlignment": 4,
           "verticalAlignment": 16777216,
           "grabExcessHorizontalSpace": true,
@@ -34,7 +34,7 @@
           "heightHint": -1
         },
         {
-          "id": "我参与的项目看板（未关闭）",
+          "id": "/我参与的项目看板（未关闭）.boardassy",
           "horizontalAlignment": 4,
           "verticalAlignment": 16777216,
           "grabExcessHorizontalSpace": true,
@@ -44,7 +44,7 @@
           "heightHint": -1
         },
         {
-          "id": "未读消息",
+          "id": "/未读消息.boardassy",
           "horizontalAlignment": 4,
           "verticalAlignment": 16777216,
           "grabExcessHorizontalSpace": true,
@@ -63,12 +63,12 @@
   "rowActions": [],
   "disableInitLoadData": false,
   "candidates": [
-    "工作看板（已完成）",
-    "未读消息",
-    "我参与的项目看板（未关闭）",
-    "待确认的项目报告",
-    "待审批的项目变更（看板）",
-    "我的流程任务（待处理）",
-    "工作看板（待处理）"
+    "/工作看板（已完成）.boardassy",
+    "/未读消息.boardassy",
+    "/我参与的项目看板（未关闭）.boardassy",
+    "/待确认的项目报告.boardassy",
+    "/待审批的项目变更（看板）.boardassy",
+    "/我的流程任务（待处理）.boardassy",
+    "/工作看板（待处理）.boardassy"
   ]
 }

@@ -1,5 +1,5 @@
 {
-  "id": "问题管理看板",
+  "id": "/问题管理看板.assy",
   "name": "问题管理看板",
   "layout": [
     {
@@ -16,7 +16,7 @@
       "layoutType": "lane",
       "assemblys": [
         {
-          "id": "已创建问题看板",
+          "id": "/已创建问题看板.boardassy",
           "horizontalAlignment": 4,
           "verticalAlignment": 16777216,
           "grabExcessHorizontalSpace": true,
@@ -26,7 +26,7 @@
           "heightHint": -1
         },
         {
-          "id": "解决中问题看板",
+          "id": "/解决中问题看板.boardassy",
           "horizontalAlignment": 4,
           "verticalAlignment": 16777216,
           "grabExcessHorizontalSpace": true,
@@ -36,7 +36,7 @@
           "heightHint": -1
         },
         {
-          "id": "未读消息",
+          "id": "/未读消息.boardassy",
           "horizontalAlignment": 4,
           "verticalAlignment": 16777216,
           "grabExcessHorizontalSpace": true,
@@ -53,10 +53,10 @@
   "actions": [],
   "rowActions": [],
   "candidates": [
-    "已创建问题看板",
-    "解决中问题看板",
-    "已关闭问题看板",
-    "已取消问题看板",
-    "未读消息"
+    "/已创建问题看板.boardassy",
+    "/解决中问题看板.boardassy",
+    "/已关闭问题看板.boardassy",
+    "/已取消问题看板.boardassy",
+    "/未读消息.boardassy"
   ]
 }

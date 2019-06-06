@@ -1,5 +1,5 @@
 {
-  "id": "损失等级",
+  "id": "/损失等级.gridassy",
   "name": "损失等级",
   "layout": [],
   "type": "grid",
@@ -55,7 +55,7 @@
       "name": "创建",
       "image": "/img/add_16_w.svg",
       "style": "normal",
-      "editorAssemblyId": "指标编辑器",
+      "editorAssemblyId": "/指标编辑器.editorassy",
       "type": "insert",
       "createActionNewInstanceBundleId": "com.bizvisionsoft.service",
       "createActionNewInstanceClassName": "com.bizvisionsoft.service.model.LostInd",
@@ -68,7 +68,7 @@
       "name": "编辑",
       "image": "/img/edit_w.svg",
       "style": "normal",
-      "editorAssemblyId": "指标编辑器",
+      "editorAssemblyId": "/指标编辑器.editorassy",
       "editorAssemblyEditable": true,
       "type": "edit",
       "verticalSpan": 0

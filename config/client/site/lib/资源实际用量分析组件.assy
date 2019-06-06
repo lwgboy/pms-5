@@ -1,5 +1,5 @@
 {
-  "id": "资源实际用量分析组件",
+  "id": "/资源实际用量分析组件.assy",
   "name": "资源实际用量分析组件",
   "bundleId": "com.bizvisionsoft.pms",
   "className": "com.bizvisionsoft.pms.resource.ResourceAnalysisASM",

@@ -99,10 +99,10 @@ public class WorkCardACT implements IWorkAction {
 
 	private void openWorkPackage(Work work, String idx, GridTreeViewer viewer, BruiAssemblyContext context) {
 		if ("default".equals(idx)) {
-			br.openContent(br.getAssembly("工作包计划"), new Object[] { work, null });
+			br.openContent(br.getAssembly("工作包计划.assy"), new Object[] { work, null });
 		} else {
 			List<TrackView> wps = work.getWorkPackageSetting();
-			br.openContent(br.getAssembly("工作包计划"), new Object[] { work, wps.get(Integer.parseInt(idx)) });
+			br.openContent(br.getAssembly("工作包计划.assy"), new Object[] { work, wps.get(Integer.parseInt(idx)) });
 		}
 	}
 

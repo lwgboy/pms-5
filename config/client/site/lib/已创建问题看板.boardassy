@@ -1,5 +1,5 @@
 {
-  "id": "已创建问题看板",
+  "id": "/已创建问题看板.boardassy",
   "name": "已创建问题看板",
   "title": "已创建问题看板",
   "layout": [],
@@ -151,7 +151,7 @@
       "id": "16837222338",
       "name": "切换",
       "image": "/img/right_w.svg",
-      "switchContentToAssemblyId": "问题清单（已关闭）",
+      "switchContentToAssemblyId": "/问题清单（已关闭）.gridassy",
       "style": "info",
       "type": "switch",
       "parameters": "",

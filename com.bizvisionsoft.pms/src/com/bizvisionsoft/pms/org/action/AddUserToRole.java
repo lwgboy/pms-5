@@ -27,7 +27,7 @@ public class AddUserToRole {
 
 		context.selected(em -> {
 			if (em instanceof Role) {
-				new Selector(br.getAssembly("用户选择器"), context).setTitle("选择用户添加为组织角色").open(r -> {
+				new Selector(br.getAssembly("用户选择器.selectorassy"), context).setTitle("选择用户添加为组织角色").open(r -> {
 					final List<String> ids = new ArrayList<String>();
 					final List<User> users = new ArrayList<User>();
 					GridPart grid = (GridPart) context.getContent();

@@ -1,5 +1,5 @@
 {
-  "id": "OBS节点编辑器（根）",
+  "id": "/OBS节点编辑器（根）.editorassy",
   "name": "OBS节点编辑器（根）",
   "layout": [],
   "type": "editor",
@@ -38,7 +38,7 @@
       "type": "对象选择框",
       "formFields": [],
       "readOnly": true,
-      "selectorAssemblyId": "用户选择列表"
+      "selectorAssemblyId": "/用户选择列表.gridassy"
     },
     {
       "id": "164e5b20b8c",

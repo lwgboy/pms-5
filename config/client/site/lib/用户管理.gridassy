@@ -1,5 +1,5 @@
 {
-  "id": "用户管理",
+  "id": "/用户管理.gridassy",
   "name": "用户管理",
   "layout": [],
   "type": "grid",
@@ -9,6 +9,7 @@
   "gridHeaderVisiable": true,
   "gridHasHScroll": true,
   "gridHasVScroll": true,
+  "gridFix": 0,
   "gridPageControl": true,
   "gridDataSetService": "com.bizvisionsoft.service.UserService",
   "gridDataSetBundleId": "",
@@ -134,7 +135,7 @@
           "text": "组织",
           "type": "多个对象选择框（查询）",
           "formFields": [],
-          "selectorAssemblyId": "组织选择器"
+          "selectorAssemblyId": "/组织选择器.gridassy"
         },
         {
           "id": "1623124fb98",
@@ -164,5 +165,14 @@
   "queryBuilderBundle": "com.bizvisionsoft.pms",
   "queryBuilderClass": "com.bizvisionsoft.bruiengine.app.user.UserQueryBuilder",
   "hasTitlebar": true,
-  "disableInitLoadData": false
+  "disableInitLoadData": false,
+  "sortFields": [
+    {
+      "id": "16a8af14632",
+      "name": "name",
+      "text": "姓名",
+      "type": "排序字段",
+      "formFields": []
+    }
+  ]
 }

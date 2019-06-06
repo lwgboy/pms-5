@@ -1,5 +1,5 @@
 {
-  "id": "项目实际成本",
+  "id": "/项目实际成本.stickerassy",
   "name": "项目实际成本",
   "layout": [
     {
@@ -9,7 +9,7 @@
       "makeColumnsEqualWidth": true,
       "assemblys": [
         {
-          "id": "项目科目实际成本",
+          "id": "/项目科目实际成本.assy",
           "horizontalAlignment": 4,
           "verticalAlignment": 4,
           "grabExcessHorizontalSpace": true,

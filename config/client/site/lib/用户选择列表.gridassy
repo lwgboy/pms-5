@@ -1,9 +1,10 @@
 {
-  "id": "用户选择列表",
+  "id": "/用户选择列表.gridassy",
   "name": "用户选择列表",
   "layout": [],
   "type": "grid",
   "folderId": "162bd9dad9d",
+  "gridMarkupEnabled": true,
   "gridLineVisiable": true,
   "gridHeaderVisiable": true,
   "gridHasHScroll": true,

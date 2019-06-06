@@ -1,5 +1,5 @@
 {
-  "id": "项目收益预测",
+  "id": "/项目收益预测.assy",
   "name": "项目收益预测",
   "bundleId": "com.bizvisionsoft.pms",
   "className": "com.bizvisionsoft.pms.revenue.ForecastASM",

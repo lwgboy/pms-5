@@ -1,5 +1,5 @@
 {
-  "id": "项目档案库文件列表",
+  "id": "/项目档案库文件列表.gridassy",
   "name": "项目档案库文件列表",
   "layout": [],
   "type": "grid",
@@ -89,7 +89,7 @@
       "text": "文档类型",
       "type": "多个对象选择框（查询）",
       "formFields": [],
-      "selectorAssemblyId": "文档类型选择"
+      "selectorAssemblyId": "/文档类型选择.gridassy"
     },
     {
       "id": "163deed5af9",
@@ -97,7 +97,7 @@
       "text": "标签",
       "type": "多个对象选择框（查询）",
       "formFields": [],
-      "selectorAssemblyId": "Tag选择"
+      "selectorAssemblyId": "/Tag选择.gridassy"
     }
   ],
   "gridAutoColumnWidth": true,

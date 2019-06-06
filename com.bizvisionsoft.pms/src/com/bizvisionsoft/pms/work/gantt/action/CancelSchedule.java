@@ -24,7 +24,7 @@ public class CancelSchedule {
 			Result result = Services.get(WorkSpaceService.class).cancelCheckout(workspace, br.getDomain());
 			if (Result.CODE_WORK_SUCCESS == result.code) {
 				Layer.message("当前计划的修改已撤销。");
-				br.switchContent("项目甘特图", null);
+				br.switchContent("项目甘特图.ganttassy", null);
 			}
 		}
 	}

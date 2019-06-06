@@ -1,5 +1,5 @@
 {
-  "id": "项目收益预测容器",
+  "id": "/项目收益预测容器.stickerassy",
   "name": "项目收益预测容器",
   "layout": [
     {
@@ -9,7 +9,7 @@
       "makeColumnsEqualWidth": true,
       "assemblys": [
         {
-          "id": "项目收益预测",
+          "id": "/项目收益预测.assy",
           "horizontalAlignment": 4,
           "verticalAlignment": 4,
           "grabExcessHorizontalSpace": true,

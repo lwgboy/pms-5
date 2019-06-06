@@ -1,5 +1,5 @@
 {
-  "id": "OBS模板节点编辑器（团队）",
+  "id": "/OBS模板节点编辑器（团队）.editorassy",
   "name": "OBS模板节点编辑器（团队）",
   "layout": [],
   "type": "editor",
@@ -36,7 +36,7 @@
       "text": "担任者",
       "type": "对象选择框",
       "formFields": [],
-      "selectorAssemblyId": "用户选择列表"
+      "selectorAssemblyId": "/用户选择列表.gridassy"
     },
     {
       "id": "164e573d5cb",

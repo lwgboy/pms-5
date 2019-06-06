@@ -19,7 +19,7 @@ public class TimeScaleSetting {
 	@Execute
 	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context,
 			@MethodParam(Execute.EVENT) Event event) {
-		Editor.open("设置时间刻度", context, new TimeScaleType(), (d,r)->{
+		Editor.open("设置时间刻度.editorassy", context, new TimeScaleType(), (d,r)->{
 			((GanttPart) context.getContent()).setScaleType(r.type);
 		});
 	}

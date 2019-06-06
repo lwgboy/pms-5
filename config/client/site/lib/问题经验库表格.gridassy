@@ -1,5 +1,5 @@
 {
-  "id": "问题经验库表格",
+  "id": "/问题经验库表格.gridassy",
   "name": "问题经验库表格",
   "layout": [],
   "type": "grid",
@@ -144,7 +144,7 @@
       "type": "多个对象选择框（查询）",
       "verticalLabel": true,
       "formFields": [],
-      "selectorAssemblyId": "问题分类选择表格（查询用）",
+      "selectorAssemblyId": "/问题分类选择表格（查询用）.gridassy",
       "grabVertical": true,
       "valueFieldName": "_id"
     }
@@ -160,7 +160,7 @@
       "className": "",
       "forceText": false,
       "style": "normal",
-      "editorAssemblyId": "D8-经验总结-编辑器",
+      "editorAssemblyId": "/D8-经验总结-编辑器.editorassy",
       "type": "edit",
       "parameters": ""
     }

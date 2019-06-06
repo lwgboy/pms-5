@@ -1,5 +1,5 @@
 {
-  "id": "表单-技术可行性报告",
+  "id": "/表单-技术可行性报告.editorassy",
   "name": "表单-技术可行性报告",
   "title": "技术可行性报告",
   "layout": [],
@@ -57,7 +57,7 @@
           "type": "多个对象选择框",
           "verticalLabel": true,
           "formFields": [],
-          "selectorAssemblyId": "组织选择器",
+          "selectorAssemblyId": "/组织选择器.gridassy",
           "valueFieldName": "_id",
           "reloadFields": "",
           "hideLabel": false
@@ -160,7 +160,7 @@
               "type": "对象选择框",
               "formFields": [],
               "required": true,
-              "selectorAssemblyId": "用户选择列表",
+              "selectorAssemblyId": "/用户选择列表.gridassy",
               "valueFieldName": "userId"
             }
           ]

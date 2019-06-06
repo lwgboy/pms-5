@@ -59,7 +59,7 @@ public class AppointmentOBSItem {
 			}
 		}
 
-		new Selector(br.getAssembly("用户选择器—单选"), context).setTitle("指定担任者").open(r -> {
+		new Selector(br.getAssembly("用户选择器—单选.selectorassy"), context).setTitle("指定担任者").open(r -> {
 			Services.get(WorkService.class).removeUnStartWorkUser(Arrays.asList(element.getManagerId()), element.getScope_id(),
 					br.getCurrentUserId(), br.getDomain());
 			element.setManager((User) r.get(0));

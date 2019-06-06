@@ -1,5 +1,5 @@
 {
-  "id": "项目模板管理",
+  "id": "/项目模板管理.gridassy",
   "name": "项目模板管理",
   "layout": [],
   "type": "grid",
@@ -57,7 +57,7 @@
       "text": "创建项目模板",
       "forceText": true,
       "style": "normal",
-      "editorAssemblyId": "项目模板编辑器",
+      "editorAssemblyId": "/项目模板编辑器.editorassy",
       "type": "insert",
       "createActionNewInstanceBundleId": "com.bizvisionsoft.service",
       "createActionNewInstanceClassName": "com.bizvisionsoft.service.model.ProjectTemplate",
@@ -79,7 +79,7 @@
       "name": "编辑",
       "image": "/img/edit_w.svg",
       "style": "normal",
-      "editorAssemblyId": "项目模板编辑器",
+      "editorAssemblyId": "/项目模板编辑器.editorassy",
       "editorAssemblyEditable": true,
       "type": "edit",
       "verticalSpan": 0
@@ -90,7 +90,7 @@
       "image": "/img/right.svg",
       "bundleId": "com.bizvisionsoft.pms",
       "className": "com.bizvisionsoft.pms.projecttemplate.OpenProjectTemplateACT",
-      "switchContentToAssemblyId": "项目模板甘特图",
+      "switchContentToAssemblyId": "/项目模板甘特图.ganttassy",
       "openContent": true,
       "style": "",
       "type": "customized",

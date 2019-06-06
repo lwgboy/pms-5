@@ -1,5 +1,5 @@
 {
-  "id": "项目风险登记簿",
+  "id": "/项目风险登记簿.gridassy",
   "name": "项目风险登记簿",
   "layout": [],
   "type": "grid",
@@ -188,7 +188,7 @@
       "bundleId": "com.bizvisionsoft.pms",
       "className": "com.bizvisionsoft.pms.risk.CreateRootRBSItemACT",
       "style": "normal",
-      "editorAssemblyId": "风险项编辑器",
+      "editorAssemblyId": "/风险项编辑器.editorassy",
       "type": "customized",
       "createActionNewInstanceBundleId": "com.bizvisionsoft.service",
       "createActionNewInstanceClassName": "com.bizvisionsoft.service.model.RBSItem",

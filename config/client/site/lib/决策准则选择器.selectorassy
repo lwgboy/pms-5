@@ -1,8 +1,8 @@
 {
-  "id": "决策准则选择器",
+  "id": "/决策准则选择器.selectorassy",
   "name": "决策准则选择器",
   "layout": [],
   "type": "selector",
   "folderId": "1689878baeb",
-  "selectorGridAssemblyId": "目标和决策准则选择表格"
+  "selectorGridAssemblyId": "/目标和决策准则选择表格.gridassy"
 }

@@ -32,7 +32,7 @@ public class SelectPlan {
 					}
 				});
 
-		Selector sel =Selector.create("行动预案选择器", context, null);
+		Selector sel =Selector.create("行动预案选择器.selectorassy", context, null);
 		sel.getContext().acceptParamters(cond.toJson());
 		sel.setTitle("选择预案").open(s -> {
 			Document plan = (Document) s.get(0);

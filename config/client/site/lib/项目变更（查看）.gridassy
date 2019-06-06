@@ -1,5 +1,5 @@
 {
-  "id": "项目变更（查看）",
+  "id": "/项目变更（查看）.gridassy",
   "name": "项目变更（查看）",
   "layout": [],
   "type": "grid",
@@ -113,7 +113,7 @@
       "name": "打开变更",
       "text": "打开变更",
       "image": "/img/right.svg",
-      "switchContentToAssemblyId": "变更详情（查看）",
+      "switchContentToAssemblyId": "/变更详情（查看）.assy",
       "openContent": true,
       "style": "",
       "editorAssemblyId": "1644503ab8b",

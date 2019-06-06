@@ -1,5 +1,5 @@
 {
-  "id": "待确认的项目报告",
+  "id": "/待确认的项目报告.boardassy",
   "name": "待确认的项目报告",
   "layout": [],
   "type": "board",
@@ -63,7 +63,7 @@
       "id": "16715207345",
       "name": "切换列表",
       "image": "/img/right_w.svg",
-      "switchContentToAssemblyId": "待确认的报告",
+      "switchContentToAssemblyId": "/待确认的报告.gridassy",
       "style": "info",
       "type": "switch",
       "verticalSpan": 0

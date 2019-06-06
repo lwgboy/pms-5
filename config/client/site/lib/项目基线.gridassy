@@ -1,5 +1,5 @@
 {
-  "id": "项目基线",
+  "id": "/项目基线.gridassy",
   "name": "项目基线",
   "layout": [],
   "type": "grid",
@@ -73,7 +73,7 @@
       "text": "编辑基线",
       "image": "/img/edit_w.svg",
       "style": "normal",
-      "editorAssemblyId": "项目基线编辑器",
+      "editorAssemblyId": "/项目基线编辑器.editorassy",
       "editorAssemblyEditable": true,
       "type": "edit",
       "verticalSpan": 0
@@ -94,7 +94,7 @@
       "image": "/img/right.svg",
       "bundleId": "",
       "className": "",
-      "switchContentToAssemblyId": "项目基线甘特图",
+      "switchContentToAssemblyId": "/项目基线甘特图.ganttassy",
       "openContent": true,
       "style": "",
       "type": "switch",

@@ -27,7 +27,7 @@ public class AddDocuToPackageACT {
 	@Execute
 	public void execute(final @MethodParam(Execute.CONTEXT) IBruiContext context) {
 		WorkPackage wp = (WorkPackage) context.getInput();
-		Selector.create("输出文件选择器", context, wp).open(l -> {
+		Selector.create("输出文件选择器.selectorassy", context, wp).open(l -> {
 			if (l != null && l.size() > 0) {
 				List<ObjectId> docuIds = new ArrayList<ObjectId>();
 				l.forEach((Object docu) -> {

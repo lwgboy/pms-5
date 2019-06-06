@@ -1,5 +1,5 @@
 {
-  "id": "项目风险应对计划编辑器-应急预案",
+  "id": "/项目风险应对计划编辑器-应急预案.editorassy",
   "name": "项目风险应对计划编辑器-应急预案",
   "title": "应对计划",
   "layout": [],
@@ -13,7 +13,7 @@
       "type": "对象选择框",
       "formFields": [],
       "required": true,
-      "selectorAssemblyId": "用户选择列表"
+      "selectorAssemblyId": "/用户选择列表.gridassy"
     },
     {
       "id": "1643cf67fc8",
@@ -22,7 +22,7 @@
       "type": "对象选择框",
       "formFields": [],
       "required": true,
-      "selectorAssemblyId": "组织选择器"
+      "selectorAssemblyId": "/组织选择器.gridassy"
     },
     {
       "id": "1643cf68106",

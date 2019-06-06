@@ -1,5 +1,5 @@
 {
-  "id": "项目甘特图",
+  "id": "/项目甘特图.ganttassy",
   "name": "项目甘特图",
   "title": "进度计划甘特图",
   "description": "项目计划查看，显示计划开始和完成",
@@ -99,7 +99,7 @@
       "image": "/img/edit_w.svg",
       "bundleId": "com.bizvisionsoft.pms",
       "className": "com.bizvisionsoft.pms.work.gantt.action.EditGantt",
-      "switchContentToAssemblyId": "项目甘特图（编辑）",
+      "switchContentToAssemblyId": "/项目甘特图（编辑）.ganttassy",
       "style": "normal",
       "type": "customized",
       "role": "PM#PPM#WM",

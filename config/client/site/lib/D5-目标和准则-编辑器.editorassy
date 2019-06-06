@@ -1,5 +1,5 @@
 {
-  "id": "D5-目标和准则-编辑器",
+  "id": "/D5-目标和准则-编辑器.editorassy",
   "name": "D5-目标和准则-编辑器",
   "title": "最终目标和决策准则",
   "layout": [],
@@ -22,7 +22,7 @@
       "type": "表格",
       "formFields": [],
       "required": false,
-      "selectorAssemblyId": "单name列表格",
+      "selectorAssemblyId": "/单name列表格.gridassy",
       "verticalAlignLabel": false,
       "enableCreateItem": true
     },
@@ -33,7 +33,7 @@
       "type": "表格",
       "formFields": [],
       "required": false,
-      "selectorAssemblyId": "D5-目标和准则-期望",
+      "selectorAssemblyId": "/D5-目标和准则-期望.gridassy",
       "grabVertical": true,
       "verticalAlignLabel": false,
       "enableCreateItem": true

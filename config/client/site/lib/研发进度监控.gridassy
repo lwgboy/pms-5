@@ -1,5 +1,5 @@
 {
-  "id": "研发进度监控",
+  "id": "/研发进度监控.gridassy",
   "name": "研发进度监控",
   "description": "研发进度",
   "layout": [],
@@ -236,7 +236,7 @@
       "image": "/img/right.svg",
       "bundleId": "com.bizvisionsoft.pms",
       "className": "com.bizvisionsoft.pms.work.action.OpenWorkPackage",
-      "switchContentToAssemblyId": "工作包-研发",
+      "switchContentToAssemblyId": "/工作包-研发.gridassy",
       "openContent": true,
       "style": "",
       "objectBehavier": true,

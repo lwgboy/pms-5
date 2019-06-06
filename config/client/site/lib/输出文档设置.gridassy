@@ -1,5 +1,5 @@
 {
-  "id": "输出文档设置",
+  "id": "/输出文档设置.gridassy",
   "name": "输出文档设置",
   "layout": [],
   "type": "grid",
@@ -70,7 +70,7 @@
       "name": "打开",
       "image": "/img/edit_w.svg",
       "style": "normal",
-      "editorAssemblyId": "编辑输出文档设置",
+      "editorAssemblyId": "/编辑输出文档设置.editorassy",
       "editorAssemblyEditable": true,
       "type": "edit",
       "verticalSpan": 0

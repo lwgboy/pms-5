@@ -37,7 +37,7 @@ public class EditProjectInfo {
 		String title = Optional.ofNullable(AUtil.readTypeAndLabel(project)).orElse("");
 
 		Project pjForEdit = Services.get(ProjectService.class).get(project.get_id(), br.getDomain());
-		new Editor<Project>(br.getAssembly("ÏîÄ¿±à¼­Æ÷"), context).setInput(true, pjForEdit).setTitle("±à¼­ " + title).ok((r, proj) -> {
+		new Editor<Project>(br.getAssembly("ÏîÄ¿±à¼­Æ÷.editorassy"), context).setInput(true, pjForEdit).setTitle("±à¼­ " + title).ok((r, proj) -> {
 			try {
 				Services.get(ProjectService.class)
 						.update(new FilterAndUpdate().filter(new BasicDBObject("_id", project.get_id())).set(r).bson(), br.getDomain());

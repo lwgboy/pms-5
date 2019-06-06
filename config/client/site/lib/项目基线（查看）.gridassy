@@ -1,5 +1,5 @@
 {
-  "id": "项目基线（查看）",
+  "id": "/项目基线（查看）.gridassy",
   "name": "项目基线（查看）",
   "layout": [],
   "type": "grid",
@@ -63,7 +63,7 @@
       "image": "/img/right.svg",
       "bundleId": "",
       "className": "",
-      "switchContentToAssemblyId": "项目基线甘特图",
+      "switchContentToAssemblyId": "/项目基线甘特图.ganttassy",
       "openContent": true,
       "style": "",
       "type": "switch",

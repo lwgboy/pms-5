@@ -1,5 +1,5 @@
 {
-  "id": "项目集管理",
+  "id": "/项目集管理.gridassy",
   "name": "项目集管理",
   "layout": [],
   "type": "grid",
@@ -90,7 +90,7 @@
       "text": "项目集经理",
       "type": "对象选择（查询）",
       "formFields": [],
-      "selectorAssemblyId": "用户选择列表",
+      "selectorAssemblyId": "/用户选择列表.gridassy",
       "valueFieldName": "userId"
     },
     {
@@ -108,7 +108,7 @@
       "text": "创建项目集",
       "forceText": true,
       "style": "normal",
-      "editorAssemblyId": "项目集编辑器",
+      "editorAssemblyId": "/项目集编辑器.editorassy",
       "type": "insert",
       "createActionNewInstanceBundleId": "com.bizvisionsoft.service",
       "createActionNewInstanceClassName": "com.bizvisionsoft.service.model.Program",
@@ -167,7 +167,7 @@
           "image": "/img/edit_w.svg",
           "forceText": true,
           "style": "normal",
-          "editorAssemblyId": "项目集编辑器",
+          "editorAssemblyId": "/项目集编辑器.editorassy",
           "editorAssemblyEditable": true,
           "type": "edit",
           "verticalSpan": 0

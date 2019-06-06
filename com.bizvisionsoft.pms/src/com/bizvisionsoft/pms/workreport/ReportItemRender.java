@@ -117,7 +117,7 @@ public class ReportItemRender extends GridPartDefaultRender {
 					rt.setIsReport(true);
 					rt.setWorkReportItemId(((WorkReportItem) item).get_id());
 
-					br.openContent(br.getAssembly("编辑资源情况"), rt);
+					br.openContent(br.getAssembly("编辑资源情况.assy"), rt);
 
 				} else if (e.text.startsWith("editEstimatedFinish/")) {
 					Date currentEstFinish = item.getEstimatedFinish();

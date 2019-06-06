@@ -1,5 +1,5 @@
 {
-  "id": "风险项编辑器",
+  "id": "/风险项编辑器.editorassy",
   "name": "风险项编辑器",
   "title": "风险项",
   "layout": [],
@@ -13,7 +13,7 @@
       "type": "对象选择框",
       "formFields": [],
       "required": true,
-      "selectorAssemblyId": "RBS类别"
+      "selectorAssemblyId": "/RBS类别.gridassy"
     },
     {
       "id": "16380e7915b",
@@ -50,7 +50,7 @@
           "text": "涉及阶段",
           "type": "单行文本框",
           "formFields": [],
-          "selectorAssemblyId": "阶段选择器列表"
+          "selectorAssemblyId": "/阶段选择器列表.gridassy"
         },
         {
           "id": "16380f38d31",
@@ -91,7 +91,7 @@
           "optionValue": "",
           "optionText": "",
           "radioStyle": "纵向",
-          "selectorAssemblyId": "可探测性级别",
+          "selectorAssemblyId": "/可探测性级别.gridassy",
           "valueFieldName": "index"
         }
       ]

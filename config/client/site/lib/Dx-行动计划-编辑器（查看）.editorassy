@@ -1,5 +1,5 @@
 {
-  "id": "Dx-行动计划-编辑器（查看）",
+  "id": "/Dx-行动计划-编辑器（查看）.editorassy",
   "name": "Dx-行动计划-编辑器（查看）",
   "title": "行动",
   "layout": [],
@@ -54,7 +54,7 @@
           "type": "对象选择框",
           "formFields": [],
           "required": true,
-          "selectorAssemblyId": "用户选择列表",
+          "selectorAssemblyId": "/用户选择列表.gridassy",
           "valueFieldName": "userId"
         },
         {

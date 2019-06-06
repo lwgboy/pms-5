@@ -33,7 +33,7 @@ public class SetWorkPackage {
 
 	@Execute
 	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context, @MethodParam(Execute.EVENT) Event event) {
-		String editor = "工作属性编辑器";
+		String editor = "工作属性编辑器.editorassy";
 
 		if (event instanceof GanttEvent) {
 			WorkInfo workinfo = (WorkInfo) ((GanttEvent) event).task;

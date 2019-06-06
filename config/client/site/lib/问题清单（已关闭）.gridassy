@@ -1,5 +1,5 @@
 {
-  "id": "问题清单（已关闭）",
+  "id": "/问题清单（已关闭）.gridassy",
   "name": "问题清单（已关闭）",
   "layout": [],
   "type": "grid",
@@ -416,7 +416,7 @@
       "type": "多个对象选择框（查询）",
       "verticalLabel": true,
       "formFields": [],
-      "selectorAssemblyId": "问题分类选择表格（查询用）",
+      "selectorAssemblyId": "/问题分类选择表格（查询用）.gridassy",
       "grabVertical": true,
       "valueFieldName": "_id"
     }

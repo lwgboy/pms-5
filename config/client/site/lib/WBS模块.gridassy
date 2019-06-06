@@ -1,5 +1,5 @@
 {
-  "id": "WBS模块",
+  "id": "/WBS模块.gridassy",
   "name": "WBS模块",
   "layout": [],
   "type": "grid",
@@ -48,7 +48,7 @@
       "text": "创建WBS模块",
       "forceText": true,
       "style": "normal",
-      "editorAssemblyId": "WBS模块编辑器",
+      "editorAssemblyId": "/WBS模块编辑器.editorassy",
       "type": "insert",
       "createActionNewInstanceBundleId": "com.bizvisionsoft.service",
       "createActionNewInstanceClassName": "com.bizvisionsoft.service.model.WBSModule",
@@ -70,7 +70,7 @@
       "name": "编辑",
       "image": "/img/edit_w.svg",
       "style": "normal",
-      "editorAssemblyId": "WBS模块编辑器",
+      "editorAssemblyId": "/WBS模块编辑器.editorassy",
       "editorAssemblyEditable": true,
       "type": "edit",
       "verticalSpan": 0
@@ -81,7 +81,7 @@
       "image": "/img/right.svg",
       "bundleId": "com.bizvisionsoft.pms",
       "className": "com.bizvisionsoft.pms.projecttemplate.OpenProjectTemplateACT",
-      "switchContentToAssemblyId": "项目模板甘特图",
+      "switchContentToAssemblyId": "/项目模板甘特图.ganttassy",
       "openContent": true,
       "style": "",
       "type": "customized",

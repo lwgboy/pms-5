@@ -1,10 +1,10 @@
 {
-  "id": "用户进程管理",
+  "id": "/用户进程管理.gridassy",
   "name": "用户进程管理",
   "layout": [],
   "type": "grid",
   "stickerTitle": "用户进程管理",
-  "folderId": "162bccab082",
+  "folderId": "1626b905a63",
   "gridLineVisiable": true,
   "gridHeaderVisiable": true,
   "gridHasVScroll": true,

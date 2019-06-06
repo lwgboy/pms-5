@@ -1,5 +1,5 @@
 {
-  "id": "检查项",
+  "id": "/检查项.gridassy",
   "name": "检查项",
   "layout": [],
   "type": "grid",
@@ -46,7 +46,7 @@
       "name": "创建",
       "image": "/img/add_16_w.svg",
       "style": "normal",
-      "editorAssemblyId": "检查项编辑器",
+      "editorAssemblyId": "/检查项编辑器.editorassy",
       "type": "insert",
       "createActionNewInstanceBundleId": "com.bizvisionsoft.service",
       "createActionNewInstanceClassName": "com.bizvisionsoft.service.model.CheckItem"
@@ -58,7 +58,7 @@
       "name": "编辑",
       "image": "/img/edit_w.svg",
       "style": "normal",
-      "editorAssemblyId": "检查项编辑器",
+      "editorAssemblyId": "/检查项编辑器.editorassy",
       "editorAssemblyEditable": true,
       "type": "edit"
     },

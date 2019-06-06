@@ -1,5 +1,5 @@
 {
-  "id": "通用文档编辑器",
+  "id": "/通用文档编辑器.editorassy",
   "name": "通用文档编辑器",
   "title": "文档",
   "layout": [],
@@ -55,7 +55,7 @@
           "type": "多个对象选择框",
           "formFields": [],
           "required": true,
-          "selectorAssemblyId": "文档类型选择"
+          "selectorAssemblyId": "/文档类型选择.gridassy"
         },
         {
           "id": "163dde8051e",
@@ -63,7 +63,7 @@
           "text": "标签",
           "type": "多个对象选择框",
           "formFields": [],
-          "selectorAssemblyId": "Tag选择"
+          "selectorAssemblyId": "/Tag选择.gridassy"
         }
       ]
     }

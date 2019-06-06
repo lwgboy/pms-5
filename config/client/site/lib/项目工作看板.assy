@@ -1,5 +1,5 @@
 {
-  "id": "项目工作看板",
+  "id": "/项目工作看板.assy",
   "name": "项目工作看板",
   "description": "用于项目首页显示工作",
   "layout": [
@@ -15,7 +15,7 @@
       "layoutType": "lane",
       "assemblys": [
         {
-          "id": "项目工作看板-已计划",
+          "id": "/项目工作看板-已计划.gridassy",
           "horizontalAlignment": 4,
           "verticalAlignment": 4,
           "grabExcessVerticalSpace": true,
@@ -26,7 +26,7 @@
           "layoutName": "planned"
         },
         {
-          "id": "项目工作看板-处理中",
+          "id": "/项目工作看板-处理中.gridassy",
           "horizontalAlignment": 4,
           "verticalAlignment": 4,
           "grabExcessVerticalSpace": true,
@@ -46,9 +46,9 @@
   "rowActions": [],
   "disableInitLoadData": false,
   "candidates": [
-    "项目工作看板-待指派",
-    "项目工作看板-已计划",
-    "项目工作看板-已完成",
-    "项目工作看板-处理中"
+    "/项目工作看板-待指派.gridassy",
+    "/项目工作看板-已计划.gridassy",
+    "/项目工作看板-已完成.gridassy",
+    "/项目工作看板-处理中.gridassy"
   ]
 }

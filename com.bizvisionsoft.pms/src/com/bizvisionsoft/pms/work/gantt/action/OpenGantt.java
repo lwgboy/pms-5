@@ -21,9 +21,9 @@ public class OpenGantt {
 		Workspace workspace = rootInput.getWorkspace();
 		Assembly config;
 		if (workspace != null && br.getCurrentUserId().equals(workspace.getCheckoutBy())) {
-			config = br.getAssembly("项目甘特图（编辑）");
+			config = br.getAssembly("项目甘特图（编辑）.ganttassy");
 		} else {
-			config = br.getAssembly("项目甘特图");
+			config = br.getAssembly("项目甘特图.ganttassy");
 		}
 
 		if (Check.isTrue(action.getOpenContent())) {

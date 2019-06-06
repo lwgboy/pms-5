@@ -1,5 +1,5 @@
 {
-  "id": "临近性指标设置",
+  "id": "/临近性指标设置.gridassy",
   "name": "临近性指标设置",
   "layout": [],
   "type": "grid",
@@ -55,7 +55,7 @@
       "name": "创建",
       "image": "/img/add_16_w.svg",
       "style": "normal",
-      "editorAssemblyId": "临近性指标编辑",
+      "editorAssemblyId": "/临近性指标编辑.editorassy",
       "type": "insert",
       "createActionNewInstanceBundleId": "com.bizvisionsoft.service",
       "createActionNewInstanceClassName": "com.bizvisionsoft.service.model.RiskUrgencyInd",
@@ -68,7 +68,7 @@
       "name": "编辑",
       "image": "/img/edit_w.svg",
       "style": "normal",
-      "editorAssemblyId": "临近性指标编辑",
+      "editorAssemblyId": "/临近性指标编辑.editorassy",
       "editorAssemblyEditable": true,
       "type": "edit",
       "verticalSpan": 0

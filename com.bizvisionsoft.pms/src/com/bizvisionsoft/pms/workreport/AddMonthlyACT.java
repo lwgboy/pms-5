@@ -23,7 +23,7 @@ public class AddMonthlyACT {
 
 	@Execute
 	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
-		Selector.create("月报项目选择器", context, null).setTitle("请选择要填写月报的项目").open(em -> {
+		Selector.create("月报项目选择器.selectorassy", context, null).setTitle("请选择要填写月报的项目").open(em -> {
 			String reporter = br.getCurrentUserId();
 			Calendar cal = Calendar.getInstance();
 			cal.set(Calendar.HOUR_OF_DAY, 0);
@@ -38,7 +38,7 @@ public class AddMonthlyACT {
 			try {
 				report = ServicesLoader.get(WorkReportService.class).insert(report, br.getDomain());
 				((GridPart) context.getContent()).insert(report);
-				br.openContent(br.getAssembly("报告详情"), report);
+				br.openContent(br.getAssembly("报告详情.assy"), report);
 			} catch (Exception e) {
 				Layer.message("项目:" + ((Project) em.get(0)).getName() + " " + e.getMessage(), Layer.ICON_ERROR);
 			}

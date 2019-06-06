@@ -1,5 +1,5 @@
 {
-  "id": "问题清单（解决中-all）",
+  "id": "/问题清单（解决中-all）.gridassy",
   "name": "问题清单（解决中-all）",
   "description": "查看所有解决中的问题",
   "layout": [],
@@ -511,7 +511,7 @@
       "name": "编辑",
       "image": "/img/edit_w.svg",
       "style": "normal",
-      "editorAssemblyId": "问题编辑器（编辑）",
+      "editorAssemblyId": "/问题编辑器（编辑）.editorassy",
       "editorAssemblyEditable": true,
       "actionBehavier": false,
       "type": "edit",

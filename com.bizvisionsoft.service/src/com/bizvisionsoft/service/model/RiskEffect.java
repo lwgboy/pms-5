@@ -94,7 +94,7 @@ public class RiskEffect {
 
 	@ReadEditorConfig("项目风险登记簿/编辑")
 	private Object getEditorConfig() {
-		return "风险影响编辑器";
+		return "风险影响编辑器.editorassy";
 	}
 
 	@ReadValue("work")

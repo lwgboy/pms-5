@@ -53,7 +53,7 @@ public class ProjectGanttViewWidgetASM {
 	}
 
 	private void setTimeScale() {
-		Editor.open("设置时间刻度", context, new TimeScaleType(), (d, r) -> {
+		Editor.open("设置时间刻度.editorassy", context, new TimeScaleType(), (d, r) -> {
 			GanttPart part = (GanttPart) context.getChildContextByName("gantt").getContent();
 			part.setScaleType(r.type);
 		});

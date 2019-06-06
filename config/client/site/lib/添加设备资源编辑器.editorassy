@@ -1,5 +1,5 @@
 {
-  "id": "添加设备资源编辑器",
+  "id": "/添加设备资源编辑器.editorassy",
   "name": "添加设备资源编辑器",
   "title": "添加设备资源",
   "layout": [],
@@ -12,7 +12,7 @@
       "text": "设备资源",
       "type": "对象选择框",
       "formFields": [],
-      "selectorAssemblyId": "设备设施选择表格"
+      "selectorAssemblyId": "/设备设施选择表格.gridassy"
     },
     {
       "id": "1639708d884",

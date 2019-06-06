@@ -1,5 +1,5 @@
 {
-  "id": "设备设施",
+  "id": "/设备设施.gridassy",
   "name": "设备设施",
   "layout": [],
   "type": "grid",
@@ -73,7 +73,7 @@
       "bundleId": "com.bizvisionsoft.pms",
       "className": "com.bizvisionsoft.pms.equipment.action.CreateEquipment",
       "style": "normal",
-      "editorAssemblyId": "设备设施编辑器",
+      "editorAssemblyId": "/设备设施编辑器.editorassy",
       "type": "insert",
       "createActionNewInstanceBundleId": "com.bizvisionsoft.service",
       "createActionNewInstanceClassName": "com.bizvisionsoft.service.model.Equipment",
@@ -86,7 +86,7 @@
       "name": "编辑设备设施",
       "image": "/img/edit_w.svg",
       "style": "normal",
-      "editorAssemblyId": "设备设施编辑器",
+      "editorAssemblyId": "/设备设施编辑器.editorassy",
       "editorAssemblyEditable": true,
       "type": "edit",
       "verticalSpan": 0

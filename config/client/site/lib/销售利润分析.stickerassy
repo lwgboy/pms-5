@@ -1,5 +1,5 @@
 {
-  "id": "销售利润分析",
+  "id": "/销售利润分析.stickerassy",
   "name": "销售利润分析",
   "layout": [
     {
@@ -13,7 +13,7 @@
       "marginWidth": 16,
       "assemblys": [
         {
-          "id": "销售利润分析组件",
+          "id": "/销售利润分析组件.assy",
           "horizontalAlignment": 4,
           "verticalAlignment": 4,
           "grabExcessHorizontalSpace": true,

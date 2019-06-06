@@ -1,5 +1,5 @@
 {
-  "id": "编辑工作包-基本",
+  "id": "/编辑工作包-基本.editorassy",
   "name": "编辑工作包-基本",
   "title": "工作包交付要求",
   "layout": [],
@@ -21,7 +21,7 @@
       "type": "对象选择框",
       "formFields": [],
       "required": true,
-      "selectorAssemblyId": "用户选择列表"
+      "selectorAssemblyId": "/用户选择列表.gridassy"
     }
   ],
   "actions": [],

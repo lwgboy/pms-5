@@ -1,5 +1,5 @@
 {
-  "id": "项目模板工作分配角色",
+  "id": "/项目模板工作分配角色.editorassy",
   "name": "项目模板工作分配角色",
   "title": "分配角色",
   "layout": [],
@@ -12,7 +12,7 @@
       "text": "负责人角色",
       "type": "对象选择框",
       "formFields": [],
-      "selectorAssemblyId": "OBS模板节点选择器"
+      "selectorAssemblyId": "/OBS模板节点选择器.gridassy"
     },
     {
       "id": "163cd609730",
@@ -20,7 +20,7 @@
       "text": "指派人角色",
       "type": "对象选择框",
       "formFields": [],
-      "selectorAssemblyId": "OBS模板节点选择器"
+      "selectorAssemblyId": "/OBS模板节点选择器.gridassy"
     }
   ],
   "actions": [],

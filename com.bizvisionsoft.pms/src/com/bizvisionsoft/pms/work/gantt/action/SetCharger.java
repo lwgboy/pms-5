@@ -16,10 +16,9 @@ public class SetCharger {
 	private IBruiService br;
 
 	@Execute
-	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context,
-			@MethodParam(Execute.EVENT) GanttEvent event) {
+	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context, @MethodParam(Execute.EVENT) GanttEvent event) {
 		WorkInfo wi = (WorkInfo) event.task;
-		new Selector(br.getAssembly("项目团队选择器"), context,true).setTitle("指定负责人").open(r -> {
+		new Selector(br.getAssembly("项目团队选择器.selectorassy"), context, true).setTitle("指定负责人").open(r -> {
 			wi.setCharger((OBSItemWarpper) r.get(0));
 			GanttPart content = (GanttPart) context.getContent();
 			content.updateTask(wi);

@@ -1,5 +1,5 @@
 {
-  "id": "项目主页",
+  "id": "/项目主页.assy",
   "name": "项目主页",
   "layout": [
     {
@@ -17,7 +17,7 @@
       "layoutType": "grid",
       "assemblys": [
         {
-          "id": "项目基本指标（小组件）",
+          "id": "/项目基本指标（小组件）.assy",
           "horizontalAlignment": 4,
           "verticalAlignment": 4,
           "grabExcessHorizontalSpace": true,
@@ -28,7 +28,7 @@
           "heightHint": 300
         },
         {
-          "id": "项目摘要信息轮播",
+          "id": "/项目摘要信息轮播.assy",
           "horizontalAlignment": 4,
           "verticalAlignment": 4,
           "grabExcessHorizontalSpace": true,
@@ -38,7 +38,7 @@
           "heightHint": -1
         },
         {
-          "id": "项目各类工作评分",
+          "id": "/项目各类工作评分.chartassy",
           "horizontalAlignment": 4,
           "verticalAlignment": 4,
           "grabExcessHorizontalSpace": true,
@@ -48,7 +48,7 @@
           "heightHint": -1
         },
         {
-          "id": "项目资源计划用量对比",
+          "id": "/项目资源计划用量对比.chartassy",
           "horizontalAlignment": 4,
           "verticalAlignment": 4,
           "grabExcessHorizontalSpace": true,
@@ -59,7 +59,7 @@
           "heightHint": 300
         },
         {
-          "id": "项目首页甘特图",
+          "id": "/项目首页甘特图.assy",
           "horizontalAlignment": 4,
           "verticalAlignment": 4,
           "grabExcessHorizontalSpace": true,
@@ -70,7 +70,7 @@
           "heightHint": -1
         },
         {
-          "id": "项目预算成本对比（首页小组件）",
+          "id": "/项目预算成本对比（首页小组件）.chartassy",
           "horizontalAlignment": 4,
           "verticalAlignment": 4,
           "grabExcessHorizontalSpace": true,

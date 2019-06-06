@@ -1,5 +1,5 @@
 {
-  "id": "项目管理者主页",
+  "id": "/项目管理者主页.assy",
   "name": "项目管理者主页",
   "layout": [
     {
@@ -15,7 +15,7 @@
       "itemCss": "brui_card",
       "assemblys": [
         {
-          "id": "我管理的项目本周报告摘要",
+          "id": "/我管理的项目本周报告摘要.gridassy",
           "horizontalAlignment": 4,
           "verticalAlignment": 4,
           "grabExcessHorizontalSpace": true,
@@ -26,7 +26,7 @@
           "heightHint": -1
         },
         {
-          "id": "我管理的项目进展信息（小组件）",
+          "id": "/我管理的项目进展信息（小组件）.assy",
           "horizontalAlignment": 4,
           "verticalAlignment": 4,
           "grabExcessHorizontalSpace": true,
@@ -36,7 +36,7 @@
           "heightHint": 280
         },
         {
-          "id": "我管理的项目各类工作评分",
+          "id": "/我管理的项目各类工作评分.chartassy",
           "horizontalAlignment": 4,
           "verticalAlignment": 4,
           "grabExcessHorizontalSpace": true,

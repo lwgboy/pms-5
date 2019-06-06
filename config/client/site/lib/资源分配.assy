@@ -1,5 +1,5 @@
 {
-  "id": "资源分配",
+  "id": "/资源分配.assy",
   "name": "资源分配",
   "bundleId": "com.bizvisionsoft.pms",
   "className": "com.bizvisionsoft.pms.resource.ResourceASM",

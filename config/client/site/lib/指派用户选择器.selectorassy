@@ -1,9 +1,9 @@
 {
-  "id": "指派用户选择器",
+  "id": "/指派用户选择器.selectorassy",
   "name": "指派用户选择器",
   "layout": [],
   "type": "selector",
   "folderId": "162bd9dad9d",
-  "selectorGridAssemblyId": "指派用户选择列表",
+  "selectorGridAssemblyId": "/指派用户选择列表.gridassy",
   "disableInitLoadData": false
 }

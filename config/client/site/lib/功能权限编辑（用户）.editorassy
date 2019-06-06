@@ -1,5 +1,5 @@
 {
-  "id": "功能权限编辑（用户）",
+  "id": "/功能权限编辑（用户）.editorassy",
   "name": "功能权限编辑（用户）",
   "title": "授权用户",
   "layout": [],
@@ -21,7 +21,7 @@
       "type": "对象选择框",
       "formFields": [],
       "required": true,
-      "selectorAssemblyId": "用户选择列表"
+      "selectorAssemblyId": "/用户选择列表.gridassy"
     },
     {
       "id": "1640e57501f",
@@ -40,6 +40,7 @@
       "dateType": "datetime"
     }
   ],
+  "actions": [],
   "nullValueAllowedFields": "from#to",
   "smallEditor": true,
   "disableInitLoadData": false

@@ -1,5 +1,5 @@
 {
-  "id": "视图和工作包选择器",
+  "id": "/视图和工作包选择器.gridassy",
   "name": "视图和工作包选择器",
   "layout": [],
   "type": "grid",
@@ -39,7 +39,7 @@
       "bundleId": "com.bizvisionsoft.pms",
       "className": "com.bizvisionsoft.pms.cert.action.CreateCertificate",
       "style": "normal",
-      "editorAssemblyId": "视图和工作包编辑",
+      "editorAssemblyId": "/视图和工作包编辑.editorassy",
       "type": "insert",
       "createActionNewInstanceBundleId": "com.bizvisionsoft.service",
       "createActionNewInstanceClassName": "com.bizvisionsoft.service.model.TrackView",

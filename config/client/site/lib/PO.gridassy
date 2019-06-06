@@ -1,5 +1,5 @@
 {
-  "id": "PO",
+  "id": "/PO.gridassy",
   "name": "PO",
   "description": "PO",
   "layout": [],
@@ -91,7 +91,7 @@
       "id": "165958ed65b",
       "name": "²é¿´AOG",
       "text": "AOG",
-      "switchContentToAssemblyId": "AOG",
+      "switchContentToAssemblyId": "/AOG.gridassy",
       "openContent": true,
       "forceText": true,
       "style": "info",

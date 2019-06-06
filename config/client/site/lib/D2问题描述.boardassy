@@ -1,5 +1,5 @@
 {
-  "id": "D2问题描述",
+  "id": "/D2问题描述.boardassy",
   "name": "D2问题描述",
   "title": "D2 问题描述",
   "layout": [],
@@ -37,7 +37,7 @@
       "id": "16833d562df",
       "name": "切换",
       "image": "/img/right_w.svg",
-      "switchContentToAssemblyId": "D2现场照片表格",
+      "switchContentToAssemblyId": "/D2现场照片表格.gridassy",
       "style": "normal",
       "type": "switch"
     }

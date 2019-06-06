@@ -1,5 +1,5 @@
 {
-  "id": "原因分类",
+  "id": "/原因分类.gridassy",
   "name": "原因分类",
   "layout": [],
   "type": "grid",
@@ -47,7 +47,7 @@
       "name": "创建",
       "image": "/img/add_16_w.svg",
       "style": "normal",
-      "editorAssemblyId": "分类项编辑器",
+      "editorAssemblyId": "/分类项编辑器.editorassy",
       "type": "insert",
       "createActionNewInstanceBundleId": "com.bizvisionsoft.service",
       "createActionNewInstanceClassName": "com.bizvisionsoft.service.model.ClassifyCause"
@@ -59,7 +59,7 @@
       "name": "创建下级",
       "image": "/img/add_16_w.svg",
       "style": "normal",
-      "editorAssemblyId": "分类项编辑器",
+      "editorAssemblyId": "/分类项编辑器.editorassy",
       "type": "insertsub",
       "createActionNewInstanceBundleId": "com.bizvisionsoft.service",
       "createActionNewInstanceClassName": "com.bizvisionsoft.service.model.ClassifyCause"
@@ -69,7 +69,7 @@
       "name": "编辑",
       "image": "/img/edit_w.svg",
       "style": "normal",
-      "editorAssemblyId": "分类项编辑器",
+      "editorAssemblyId": "/分类项编辑器.editorassy",
       "editorAssemblyEditable": true,
       "type": "edit"
     },

@@ -1,5 +1,5 @@
 {
-  "id": "新消息",
+  "id": "/新消息.editorassy",
   "name": "新消息",
   "layout": [],
   "type": "editor",
@@ -12,7 +12,7 @@
       "type": "对象选择框",
       "formFields": [],
       "required": true,
-      "selectorAssemblyId": "用户选择列表"
+      "selectorAssemblyId": "/用户选择列表.gridassy"
     },
     {
       "id": "1653178c286",

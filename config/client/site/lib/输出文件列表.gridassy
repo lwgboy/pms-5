@@ -1,5 +1,5 @@
 {
-  "id": "输出文件列表",
+  "id": "/输出文件列表.gridassy",
   "name": "输出文件列表",
   "layout": [],
   "type": "grid",
@@ -88,7 +88,7 @@
       "text": "文档类型",
       "type": "多个对象选择框（查询）",
       "formFields": [],
-      "selectorAssemblyId": "文档类型选择"
+      "selectorAssemblyId": "/文档类型选择.gridassy"
     },
     {
       "id": "163deed5af9",
@@ -96,7 +96,7 @@
       "text": "标签",
       "type": "多个对象选择框（查询）",
       "formFields": [],
-      "selectorAssemblyId": "Tag选择"
+      "selectorAssemblyId": "/Tag选择.gridassy"
     }
   ],
   "gridAutoColumnWidth": true,
@@ -108,7 +108,7 @@
       "text": "编辑",
       "image": "/img/edit_w.svg",
       "style": "normal",
-      "editorAssemblyId": "通用文档编辑器",
+      "editorAssemblyId": "/通用文档编辑器.editorassy",
       "editorAssemblyEditable": true,
       "type": "edit",
       "verticalSpan": 0

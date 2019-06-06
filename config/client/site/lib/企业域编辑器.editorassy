@@ -1,0 +1,37 @@
+{
+  "id": "/企业域编辑器.editorassy",
+  "name": "企业域编辑器",
+  "title": "编辑企业域",
+  "layout": [],
+  "type": "editor",
+  "folderId": "1626b905a63",
+  "fields": [
+    {
+      "id": "16ae367c420",
+      "name": "_id",
+      "text": "Id",
+      "type": "单行文本框",
+      "formFields": [],
+      "readOnly": true
+    },
+    {
+      "id": "16ae367c4dc",
+      "name": "rootPath",
+      "text": "服务端根路径",
+      "type": "单行文本框",
+      "formFields": [],
+      "required": true
+    },
+    {
+      "id": "16ae367c62e",
+      "name": "activated",
+      "text": "启用",
+      "type": "复选框",
+      "formFields": [],
+      "checkStyle": "开关（默认）"
+    }
+  ],
+  "actions": [],
+  "smallEditor": true,
+  "tinyEditor": true
+}

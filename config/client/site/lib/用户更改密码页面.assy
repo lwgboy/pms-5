@@ -1,5 +1,5 @@
 {
-  "id": "用户更改密码页面",
+  "id": "/用户更改密码页面.assy",
   "name": "用户更改密码页面",
   "bundleId": "com.bizvisionsoft.pms",
   "className": "com.bizvisionsoft.bruiengine.app.login.ChangePasswordPage",

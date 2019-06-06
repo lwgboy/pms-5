@@ -19,14 +19,14 @@ import com.bizvisionsoft.service.model.User;
 import com.bizvisionsoft.serviceconsumer.Services;
 import com.mongodb.BasicDBObject;
 
-public class AddOBSMember{
+public class AddOBSMember {
 
 	@Inject
 	private IBruiService br;
 
 	@Execute
 	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
-		new Selector(br.getAssembly("用户选择器"), context).setTitle("选择用户添加为团队成员").open(r -> {
+		new Selector(br.getAssembly("用户选择器.selectorassy"), context).setTitle("选择用户添加为团队成员").open(r -> {
 			final List<String> ids = new ArrayList<String>();
 			GridPart grid = (GridPart) context.getContent();
 			List<?> input = (List<?>) grid.getViewerInput();
@@ -38,11 +38,9 @@ public class AddOBSMember{
 			});
 			if (!ids.isEmpty()) {
 				ObjectId obsId = ((OBSItem) context.getInput()).get_id();
-				BasicDBObject fu = new FilterAndUpdate().filter(new BasicDBObject("_id",obsId))
-						.update(new BasicDBObject("$addToSet",
-								new BasicDBObject("member", new BasicDBObject("$each", ids))))
-						.bson();
-				Services.get(OBSService.class).update(fu,br.getDomain());
+				BasicDBObject fu = new FilterAndUpdate().filter(new BasicDBObject("_id", obsId))
+						.update(new BasicDBObject("$addToSet", new BasicDBObject("member", new BasicDBObject("$each", ids)))).bson();
+				Services.get(OBSService.class).update(fu, br.getDomain());
 			}
 		});
 	}

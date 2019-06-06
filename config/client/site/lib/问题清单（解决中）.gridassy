@@ -1,5 +1,5 @@
 {
-  "id": "问题清单（解决中）",
+  "id": "/问题清单（解决中）.gridassy",
   "name": "问题清单（解决中）",
   "layout": [],
   "type": "grid",
@@ -510,7 +510,7 @@
       "name": "编辑",
       "image": "/img/edit_w.svg",
       "style": "normal",
-      "editorAssemblyId": "问题编辑器（编辑）",
+      "editorAssemblyId": "/问题编辑器（编辑）.editorassy",
       "editorAssemblyEditable": true,
       "actionBehavier": false,
       "type": "edit",

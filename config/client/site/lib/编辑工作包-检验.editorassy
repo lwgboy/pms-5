@@ -1,5 +1,5 @@
 {
-  "id": "编辑工作包-检验",
+  "id": "/编辑工作包-检验.editorassy",
   "name": "编辑工作包-检验",
   "title": "工作包交付要求",
   "layout": [],
@@ -46,7 +46,7 @@
       "text": "负责人",
       "type": "对象选择框",
       "formFields": [],
-      "selectorAssemblyId": "用户选择列表"
+      "selectorAssemblyId": "/用户选择列表.gridassy"
     }
   ],
   "smallEditor": true,

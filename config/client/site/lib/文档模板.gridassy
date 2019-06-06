@@ -1,5 +1,5 @@
 {
-  "id": "文档模板",
+  "id": "/文档模板.gridassy",
   "name": "文档模板",
   "layout": [],
   "type": "grid",
@@ -101,7 +101,7 @@
       "bundleId": "",
       "className": "",
       "style": "normal",
-      "editorAssemblyId": "文档模板编辑器",
+      "editorAssemblyId": "/文档模板编辑器.editorassy",
       "type": "insert",
       "createActionNewInstanceBundleId": "com.bizvisionsoft.service",
       "createActionNewInstanceClassName": "com.bizvisionsoft.service.model.DocuTemplate",
@@ -114,7 +114,7 @@
       "name": "打开",
       "image": "/img/edit_w.svg",
       "style": "normal",
-      "editorAssemblyId": "文档模板编辑器",
+      "editorAssemblyId": "/文档模板编辑器.editorassy",
       "editorAssemblyEditable": true,
       "type": "edit",
       "verticalSpan": 0

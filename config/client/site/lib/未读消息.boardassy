@@ -1,12 +1,12 @@
 {
-  "id": "未读消息",
+  "id": "/未读消息.boardassy",
   "name": "未读消息",
   "title": "我的未读消息",
   "description": "查看我的未读消息和设置已读",
   "layout": [],
   "type": "board",
   "stickerTitle": "未读消息",
-  "folderId": "165316c7974",
+  "folderId": "166bdf4dc3f",
   "gridAutoHeight": true,
   "gridDataSetService": "com.bizvisionsoft.service.CommonService",
   "gridPageCount": 8,
@@ -45,7 +45,7 @@
       "image": "/img/right_w.svg",
       "bundleId": "",
       "className": "",
-      "switchContentToAssemblyId": "消息收件箱",
+      "switchContentToAssemblyId": "/消息收件箱.messengerassy",
       "style": "info",
       "type": "switch",
       "verticalSpan": 0

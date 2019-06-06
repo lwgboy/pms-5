@@ -20,7 +20,7 @@ public class EditForecastAmountACT {
 	@Execute
 	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
 		context.selected(t -> {
-			Editor.open("±à¼­ÊÕÒæÔ¤²â", context, new Document(), (r, d) -> {
+			Editor.open("±à¼­ÊÕÒæÔ¤²â.editorassy", context, new Document(), (r, d) -> {
 				try {
 					String _index = r.getString("index");
 					String _amount = r.getString("amount");

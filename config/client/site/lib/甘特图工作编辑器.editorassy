@@ -1,5 +1,5 @@
 {
-  "id": "甘特图工作编辑器",
+  "id": "/甘特图工作编辑器.editorassy",
   "name": "甘特图工作编辑器",
   "title": "创建工作",
   "description": "用于甘特图创建和编辑",
@@ -89,7 +89,7 @@
           "text": "负责人",
           "type": "对象选择框",
           "formFields": [],
-          "selectorAssemblyId": "项目团队"
+          "selectorAssemblyId": "/项目团队.gridassy"
         },
         {
           "id": "16371320d44",
@@ -97,7 +97,7 @@
           "text": "指派者",
           "type": "对象选择框",
           "formFields": [],
-          "selectorAssemblyId": "项目团队"
+          "selectorAssemblyId": "/项目团队.gridassy"
         }
       ]
     }

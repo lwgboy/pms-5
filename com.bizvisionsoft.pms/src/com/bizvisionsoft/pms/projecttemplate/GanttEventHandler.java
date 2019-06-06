@@ -49,7 +49,7 @@ public class GanttEventHandler {
 				.setSource((WorkInTemplate) event.linkSource).setTarget((WorkInTemplate) event.linkTarget)
 				.setType(event.linkType);
 
-		Editor.open("工作搭接关系编辑器（1对1）", context, input, (r, wi) -> {
+		Editor.open("工作搭接关系编辑器（1对1）.editorassy", context, input, (r, wi) -> {
 			GanttPart content = (GanttPart) context.getContent();
 			content.addLink(wi);
 		});
@@ -63,7 +63,7 @@ public class GanttEventHandler {
 						// 编辑Link action
 						new ActionFactory().text("编辑").name("编辑link").normalStyle().img("/img/edit_w.svg")
 								.type("customized").exec((e, c) -> {
-									Editor.open("工作搭接关系编辑器（1对1）", context, ((GanttEvent) event).link,
+									Editor.open("工作搭接关系编辑器（1对1）.editorassy", context, ((GanttEvent) event).link,
 											(r, wi) -> ganttPart.updateLink(wi));
 								}).get(),
 						// 删除Link action
@@ -79,7 +79,7 @@ public class GanttEventHandler {
 
 	@Listener({ "项目模板甘特图/onTaskDblClick" })
 	public void onTaskDblClickBySpace(GanttEvent event) {
-		String editor = "项目模板工作编辑器";
+		String editor = "项目模板工作编辑器.editorassy";
 		Editor.create(editor, context, event.task, false).setTitle(((WorkInTemplate) event.task).toString())
 				.ok((r, wi) -> ganttPart.updateTask(wi));
 	}

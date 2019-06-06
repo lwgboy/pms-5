@@ -1,10 +1,10 @@
 {
-  "id": "项目选择器",
+  "id": "/项目选择器.selectorassy",
   "name": "项目选择器",
   "layout": [],
   "type": "selector",
   "folderId": "16548782113",
-  "selectorGridAssemblyId": "项目选择列表",
+  "selectorGridAssemblyId": "/项目选择列表.gridassy",
   "selectorMultiSelection": true,
   "disableInitLoadData": false
 }

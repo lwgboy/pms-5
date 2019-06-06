@@ -26,7 +26,7 @@ public class EditD2ProblemDesc {
 			@MethodParam(Execute.ROOT_CONTEXT_INPUT_OBJECT) Problem problem) {
 		ProblemService service = Services.get(ProblemService.class);
 		Document d = service.getD2ProblemDesc(problem.get_id(), br.getDomain());
-		Editor.create("D2-5W2HÎÊÌâÃèÊö-±à¼­Æ÷", context, d, true).ok((r, t) -> {
+		Editor.create("D2-5W2HÎÊÌâÃèÊö-±à¼­Æ÷.editorassy", context, d, true).ok((r, t) -> {
 			service.updateD2ProblemDesc(t, RWT.getLocale().getLanguage(), br.getDomain());
 			if(context.getContent().getClass().isInstance(new InfopadPart(null))) {
 				InfopadPart content = (InfopadPart) context.getContent();

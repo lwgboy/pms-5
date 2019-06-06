@@ -28,7 +28,7 @@ public class CreateBaselineACT {
 	@Execute
 	private void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
 		Project project = context.getRootInput(Project.class, false);
-		Editor.open("项目基线编辑器", context, new Baseline().setProject_id(project.get_id()).setCreationDate(new Date()), (r, o) -> {
+		Editor.open("项目基线编辑器.editorassy", context, new Baseline().setProject_id(project.get_id()).setCreationDate(new Date()), (r, o) -> {
 			Baseline baseline = Services.get(ProjectService.class).createBaseline(o, br.getDomain());
 			GridPart grid = (GridPart) context.getContent();
 			grid.insert(baseline);

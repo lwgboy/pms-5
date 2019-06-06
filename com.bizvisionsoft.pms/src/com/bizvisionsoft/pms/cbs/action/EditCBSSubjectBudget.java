@@ -45,7 +45,7 @@ public class EditCBSSubjectBudget {
 
 			Check.instanceThen(context.getRootInput(), ICBSScope.class, r -> period.setRange(r.getCBSRange()));
 
-			Editor.create("期间预算编辑器", context, period, true).setTitle("编辑科目期间预算").ok((r, o) -> {
+			Editor.create("期间预算编辑器.editorassy", context, period, true).setTitle("编辑科目期间预算").ok((r, o) -> {
 				BudgetSubject grid = (BudgetSubject) context.getContent();
 				grid.updateCBSSubjectAmount(o);
 			});

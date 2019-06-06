@@ -1,5 +1,5 @@
 {
-  "id": "行动预案",
+  "id": "/行动预案.gridassy",
   "name": "行动预案",
   "layout": [],
   "type": "grid",
@@ -164,7 +164,7 @@
       "image": "/img/add_16_w.svg",
       "forceText": false,
       "style": "normal",
-      "editorAssemblyId": "行动预案编辑器（创建）",
+      "editorAssemblyId": "/行动预案编辑器（创建）.editorassy",
       "type": "insert",
       "createActionNewInstanceBundleId": "com.bizvisionsoft.service",
       "createActionNewInstanceClassName": "com.bizvisionsoft.service.model.ProblemActionPlan"
@@ -176,7 +176,7 @@
       "name": "编辑",
       "image": "/img/edit_w.svg",
       "style": "normal",
-      "editorAssemblyId": "行动预案编辑器",
+      "editorAssemblyId": "/行动预案编辑器.editorassy",
       "editorAssemblyEditable": true,
       "type": "edit"
     },

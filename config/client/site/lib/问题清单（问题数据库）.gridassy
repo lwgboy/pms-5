@@ -1,5 +1,5 @@
 {
-  "id": "问题清单（问题数据库）",
+  "id": "/问题清单（问题数据库）.gridassy",
   "name": "问题清单（问题数据库）",
   "description": "查看所有状态不为已取消的问题",
   "layout": [],
@@ -434,7 +434,7 @@
       "type": "多个对象选择框（查询）",
       "verticalLabel": true,
       "formFields": [],
-      "selectorAssemblyId": "问题分类选择表格（查询用）",
+      "selectorAssemblyId": "/问题分类选择表格（查询用）.gridassy",
       "grabVertical": true,
       "valueFieldName": "_id"
     }

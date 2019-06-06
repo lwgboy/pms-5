@@ -1,5 +1,5 @@
 {
-  "id": "项目选择列表",
+  "id": "/项目选择列表.gridassy",
   "name": "项目选择列表",
   "layout": [],
   "type": "grid",
@@ -118,7 +118,7 @@
           "text": "EPS",
           "type": "对象选择（查询）",
           "formFields": [],
-          "selectorAssemblyId": "EPS选择",
+          "selectorAssemblyId": "/EPS选择.gridassy",
           "valueFieldName": "_id"
         },
         {
@@ -127,7 +127,7 @@
           "text": "项目集",
           "type": "对象选择（查询）",
           "formFields": [],
-          "selectorAssemblyId": "项目集选择列表",
+          "selectorAssemblyId": "/项目集选择列表.gridassy",
           "valueFieldName": "_id"
         },
         {
@@ -143,7 +143,7 @@
           "text": "项目经理",
           "type": "文本输入框（查询）",
           "formFields": [],
-          "selectorAssemblyId": "用户选择列表"
+          "selectorAssemblyId": "/用户选择列表.gridassy"
         }
       ]
     }

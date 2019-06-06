@@ -23,7 +23,7 @@ public class CreateSubOrg {
 				Organization org = br.newInstance(Organization.class);
 				org.setParentId(((Organization) em).get_id());
 
-				new Editor<Organization>(br.getAssembly("组织编辑器"), context).setTitle("创建组织")
+				new Editor<Organization>(br.getAssembly("组织编辑器.editorassy"), context).setTitle("创建组织")
 
 						.setInput(org)
 

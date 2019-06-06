@@ -21,7 +21,7 @@ public class AddTask {
 		// IWBSScope wbsScope = (IWBSScope) context.getRootInput();
 		// 显示编辑器
 
-		new Editor<WorkInfo>(br.getAssembly("甘特图工作编辑器"), context)
+		new Editor<WorkInfo>(br.getAssembly("甘特图工作编辑器.editorassy"), context)
 				.setInput(WorkInfo.newInstance((WorkInfo) event.task)).ok((r, wi) -> {
 					GanttPart content = (GanttPart) context.getContent();
 					content.addTask(wi);

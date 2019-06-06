@@ -1,5 +1,5 @@
 {
-  "id": "任务定义编辑器",
+  "id": "/任务定义编辑器.editorassy",
   "name": "任务定义编辑器",
   "layout": [],
   "type": "editor",
@@ -68,7 +68,7 @@
           "text": "表单",
           "type": "对象选择框",
           "formFields": [],
-          "selectorAssemblyId": "组件选择器（编辑器）",
+          "selectorAssemblyId": "/组件选择器（编辑器）.gridassy",
           "valueFieldName": "name"
         },
         {
@@ -77,7 +77,7 @@
           "text": "任务属性",
           "type": "表格",
           "formFields": [],
-          "selectorAssemblyId": "name-value多列表格",
+          "selectorAssemblyId": "/name-value多列表格.gridassy",
           "grabVertical": true,
           "enableCreateItem": true
         }
@@ -128,7 +128,7 @@
           "text": "JavaScript",
           "type": "多行文本框",
           "formFields": [],
-          "selectorAssemblyId": "单name列表格",
+          "selectorAssemblyId": "/单name列表格.gridassy",
           "grabVertical": true,
           "hideLabel": true,
           "enableCreateItem": true

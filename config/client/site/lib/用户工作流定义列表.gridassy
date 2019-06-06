@@ -1,5 +1,5 @@
 {
-  "id": "用户工作流定义列表",
+  "id": "/用户工作流定义列表.gridassy",
   "name": "用户工作流定义列表",
   "description": "授权到当前用户可发起的工作流定义",
   "layout": [],
@@ -75,7 +75,7 @@
       "image": "/img/add_16_w.svg",
       "forceText": false,
       "style": "normal",
-      "editorAssemblyId": "工作流定义编辑器",
+      "editorAssemblyId": "/工作流定义编辑器.editorassy",
       "type": "insert",
       "createActionNewInstanceBundleId": "com.bizvisionsoft.service",
       "createActionNewInstanceClassName": "com.bizvisionsoft.service.model.ProcessDefinition"

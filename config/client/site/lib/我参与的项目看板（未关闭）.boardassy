@@ -1,5 +1,5 @@
 {
-  "id": "我参与的项目看板（未关闭）",
+  "id": "/我参与的项目看板（未关闭）.boardassy",
   "name": "我参与的项目看板（未关闭）",
   "description": "当前用户参与的项目",
   "layout": [],
@@ -51,7 +51,7 @@
           "text": "EPS",
           "type": "对象选择（查询）",
           "formFields": [],
-          "selectorAssemblyId": "EPS选择",
+          "selectorAssemblyId": "/EPS选择.gridassy",
           "valueFieldName": "_id"
         },
         {
@@ -60,7 +60,7 @@
           "text": "项目集",
           "type": "对象选择（查询）",
           "formFields": [],
-          "selectorAssemblyId": "项目集选择列表",
+          "selectorAssemblyId": "/项目集选择列表.gridassy",
           "valueFieldName": "_id"
         }
       ]
@@ -148,7 +148,7 @@
       "id": "167153d62ce",
       "name": "切换列表",
       "image": "/img/right_w.svg",
-      "switchContentToAssemblyId": "我的项目",
+      "switchContentToAssemblyId": "/我的项目.gridassy",
       "style": "info",
       "type": "switch",
       "verticalSpan": 0

@@ -1,5 +1,5 @@
 {
-  "id": "采购计划监控",
+  "id": "/采购计划监控.gridassy",
   "name": "采购计划监控",
   "description": "采购计划",
   "layout": [],
@@ -233,7 +233,7 @@
       "image": "/img/right.svg",
       "bundleId": "com.bizvisionsoft.pms",
       "className": "com.bizvisionsoft.pms.work.action.OpenWorkPackage",
-      "switchContentToAssemblyId": "工作包-采购",
+      "switchContentToAssemblyId": "/工作包-采购.gridassy",
       "openContent": true,
       "style": "",
       "objectBehavier": true,

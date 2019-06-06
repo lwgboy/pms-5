@@ -1,5 +1,5 @@
 {
-  "id": "组织结构图（查看）",
+  "id": "/组织结构图（查看）.treeassy",
   "name": "组织结构图（查看）",
   "layout": [],
   "type": "tree",
@@ -17,7 +17,7 @@
       "className": "com.bizvisionsoft.pms.obs.action.SwitchReadonyMember",
       "forceText": true,
       "style": "info",
-      "editorAssemblyId": "团队成员（查看）",
+      "editorAssemblyId": "/团队成员（查看）.gridassy",
       "objectBehavier": true,
       "type": "customized",
       "verticalSpan": 0
