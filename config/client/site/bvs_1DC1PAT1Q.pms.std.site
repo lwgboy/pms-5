@@ -9106,6 +9106,7 @@
         "gridFix": 1,
         "gridPageControl": true,
         "gridDataSetService": "com.bizvisionsoft.service.ProjectService",
+        "gridPageCount": 2,
         "columns": [
           {
             "id": "1632e70d9f6",

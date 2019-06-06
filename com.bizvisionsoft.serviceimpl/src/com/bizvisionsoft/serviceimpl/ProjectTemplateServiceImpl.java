@@ -15,7 +15,6 @@ import org.bson.Document;
 import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 
-import com.bizvisionsoft.annotations.md.mongocodex.Generator;
 import com.bizvisionsoft.service.ProjectTemplateService;
 import com.bizvisionsoft.service.common.Domain;
 import com.bizvisionsoft.service.model.FolderInTemplate;
@@ -372,7 +371,7 @@ public class ProjectTemplateServiceImpl extends BasicServiceImpl implements Proj
 					ObjectId _id = new ObjectId();
 					workIdMap.put(doc.getObjectId("_id"), _id);// 保存 模板工作_id 对应的 新工作_id
 
-					int index = generateCode(Generator.DEFAULT_NAME, "work", domain);
+					int index = generateCode("Id_Gen", "work", domain);
 					String code = String.format("%06d", index);// 生成序号
 
 					ObjectId parent_id = doc.getObjectId("parent_id");
