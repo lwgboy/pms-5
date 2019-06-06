@@ -59,7 +59,7 @@ public class UserServiceImpl extends BasicServiceImpl implements UserService {
 		if (userDoc == null)
 			throw new ServiceException("账户无法通过验证");
 
-//		if (!logger.isDebugEnabled()) {
+		if (!logger.isDebugEnabled()) {
 			try {
 				String _psw = encryPassword(userDoc.getObjectId("_id").toHexString(), password);
 				if (!userDoc.getString("password").equals(_psw)) {
@@ -68,7 +68,7 @@ public class UserServiceImpl extends BasicServiceImpl implements UserService {
 			} catch (Exception e) {
 				throw new ServiceException("账户无法通过验证");
 			}
-//		}
+		}
 
 		String domain = userDoc.getString("domain");
 		if (domain == null)
