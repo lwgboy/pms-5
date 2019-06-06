@@ -16,7 +16,7 @@
       "name": "_id",
       "text": "Id",
       "alignment": 16384,
-      "width": 80,
+      "width": 240,
       "resizeable": true,
       "columns": []
     },
