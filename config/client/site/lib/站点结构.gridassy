@@ -11,8 +11,8 @@
   "gridHasHScroll": true,
   "gridHasVScroll": true,
   "gridDataSetService": "",
-  "gridDataSetBundleId": "com.bizvisionsoft.onlinedesigner",
-  "gridDataSetClassName": "com.bizvisionsoft.onlinedesigner.SiteService",
+  "gridDataSetBundleId": "com.bizvisionsoft.bruiengine",
+  "gridDataSetClassName": "com.bizvisionsoft.bruiengine.onlinedesigner.SiteService",
   "columns": [
     {
       "id": "162c9b54322",
@@ -91,5 +91,6 @@
     }
   ],
   "hasTitlebar": true,
-  "disableInitLoadData": false
+  "disableInitLoadData": false,
+  "sortFields": []
 }

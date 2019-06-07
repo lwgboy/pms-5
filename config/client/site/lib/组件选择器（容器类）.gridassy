@@ -1,6 +1,6 @@
 {
   "id": "/组件选择器（编辑器）.gridassy",
-  "name": "组件选择器（编辑器）",
+  "name": "组件选择器（容器类）",
   "layout": [],
   "type": "grid",
   "stickerTitle": "",
@@ -35,19 +35,19 @@
       "columns": []
     },
     {
-      "name": "id",
-      "text": "id",
-      "alignment": 16384,
-      "width": 120,
-      "resizeable": true,
-      "columns": []
-    },
-    {
       "id": "16a170668ed",
       "name": "description",
       "text": "描述",
       "alignment": 16384,
       "width": 80,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "name": "id",
+      "text": "id",
+      "alignment": 16384,
+      "width": 120,
       "resizeable": true,
       "columns": []
     }

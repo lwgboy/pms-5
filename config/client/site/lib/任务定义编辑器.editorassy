@@ -69,7 +69,7 @@
           "type": "对象选择框",
           "formFields": [],
           "selectorAssemblyId": "/组件选择器（编辑器）.gridassy",
-          "valueFieldName": "name"
+          "valueFieldName": "id"
         },
         {
           "id": "16a057f9832",

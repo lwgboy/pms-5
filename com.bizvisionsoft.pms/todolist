@@ -143,14 +143,14 @@ PMS6-10.10.016 工作包，检查项，文档模板似乎没有从模板导入到项目
 51.ResourceChartASM--------------------------Removed--------------ok
 52.CreateProjectProductACT
 53.CreateDocuOfPackage,
-54.AssemblySelector,
-55.LaneEditor,
+54.AssemblySelector,------------------------OK
+55.LaneEditor,-----------------------------ok
 56.BPMClient
 57.OpenDocuAct
 58.OpenResourceActualACT,
 59.OpenWorkPackageACT
 60.WorkPackagePlan
-10.ResourceChartASM,
+10.ResourceChartASM,--------------------------Removed--------------ok
 11.管理员设置列，保存出错----------------------------OK
 12.全域账号管理---------------------OK
 13.注册请求缺少查询---------------------OK
@@ -175,3 +175,6 @@ PMS6-10.10.016 工作包，检查项，文档模板似乎没有从模板导入到项目
 32.【bug】周报管理.gridassy 125------------------OK
 33.【bug】生产计划监控（项目管理）.gridassy 298------------------OK
 34.【bug】修正部分editorassy的拼写错误---------------editoassy----------------OK
+35.【bug】编辑器组件在线选择器-----------------OK
+36.【bug】工作流定义-----------------OK
+37.【bug】assembly的id动态需要指向路径-----------------OK

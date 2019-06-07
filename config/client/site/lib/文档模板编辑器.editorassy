@@ -25,8 +25,10 @@
       "id": "165c6934c39",
       "name": "editorName",
       "text": "表单名称",
-      "type": "单行文本框",
-      "formFields": []
+      "type": "对象选择框",
+      "formFields": [],
+      "selectorAssemblyId": "/组件选择器（编辑器）.gridassy",
+      "valueFieldName": "id"
     },
     {
       "id": "163ddea1193",
@@ -38,6 +40,7 @@
       "selectorAssemblyId": "/文档类型选择.gridassy"
     }
   ],
+  "actions": [],
   "nullValueAllowedFields": "tag#category",
   "smallEditor": true,
   "disableInitLoadData": false

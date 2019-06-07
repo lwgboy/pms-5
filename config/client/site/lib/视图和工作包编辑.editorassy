@@ -27,25 +27,31 @@
       "id": "1636897ce6d",
       "name": "packageAssembly",
       "text": "清单组件",
-      "type": "单行文本框",
+      "type": "对象选择框",
       "formFields": [],
-      "required": true
+      "required": true,
+      "selectorAssemblyId": "/组件选择器（容器类）.gridassy",
+      "valueFieldName": "id"
     },
     {
       "id": "1636cc9cb46",
       "name": "editAssembly",
       "text": "编辑组件",
-      "type": "单行文本框",
+      "type": "对象选择框",
       "formFields": [],
-      "required": true
+      "required": true,
+      "selectorAssemblyId": "/组件选择器（编辑器）.gridassy",
+      "valueFieldName": "id"
     },
     {
       "id": "163914aa741",
       "name": "viewAssembly",
       "text": "跟踪组件",
-      "type": "单行文本框",
+      "type": "对象选择框",
       "formFields": [],
-      "required": true
+      "required": true,
+      "selectorAssemblyId": "/组件选择器（容器类）.gridassy",
+      "valueFieldName": "id"
     }
   ],
   "actions": [],
