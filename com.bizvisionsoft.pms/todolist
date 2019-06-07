@@ -138,15 +138,22 @@ PMS6-10.10.016 工作包，检查项，文档模板似乎没有从模板导入到项目
 2. 工作流完成任务打开的编辑器
 3. 测试AddWorktimetoCalender-----------------OK
 4. CreateValueRuleSegmentACT------------------OK
-5. createDocumentFromSetting,CreateDocuOfPackage,WorkWidgetASM,ResourceChartASM,CreateProjectProductACT
-6. OpenDocuAct
-7. OpenResourceActualACT,
-8. OpenWorkPackageACT
-9. WorkPackagePlan
-10.ResourceChartASM,AssemblySelector,LaneEditor,BPMClient
-11.管理员设置列，保存出错
-12.全域账号管理
-13.注册请求缺少查询
+5. createDocumentFromSetting
+50.WorkWidgetASM,--------------------------Removed--------------ok
+51.ResourceChartASM--------------------------Removed--------------ok
+52.CreateProjectProductACT
+53.CreateDocuOfPackage,
+54.AssemblySelector,
+55.LaneEditor,
+56.BPMClient
+57.OpenDocuAct
+58.OpenResourceActualACT,
+59.OpenWorkPackageACT
+60.WorkPackagePlan
+10.ResourceChartASM,
+11.管理员设置列，保存出错----------------------------OK
+12.全域账号管理---------------------OK
+13.注册请求缺少查询---------------------OK
 14.企业域注册请求没有title--------------OK
 15.域内编辑用户出错---------------OK
 16.【bug】代管账户登陆后进入su界面---------------------------------------------获取代管账户的代码没有添加site，sitelist等字段-----------------userservice.listConsigned----------OK

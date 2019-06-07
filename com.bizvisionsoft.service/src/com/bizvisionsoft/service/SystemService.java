@@ -80,24 +80,31 @@ public interface SystemService {
 	public String getClientSetting(@PathParam("userId") String userId, @PathParam("clientId") String clientId,
 			@PathParam("name") String name, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
+	@GET
+	@Path("/clientSetting/{clientId}/{name}/{userId}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public String getClientSetting(@PathParam("userId") String userId, @PathParam("clientId") String clientId,
+			@PathParam("name") String name);
+
+	
 	@PUT
 	@Path("/{domain}/clientSetting/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public void updateClientSetting(Document setting, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+	
+	@PUT
+	@Path("/clientSetting/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public void updateClientSetting(Document setting);
 
 	@DELETE
 	@Path("/{domain}/clientSetting/{clientId}/{name}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public void deleteClientSetting(@PathParam("clientId") String clientId, @PathParam("name") String name,
-			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
-
-	@DELETE
-	@Path("/{domain}/clientSetting/{clientId}")
-	@Consumes("application/json; charset=UTF-8")
-	@Produces("application/json; charset=UTF-8")
-	public void deleteClientSetting(@PathParam("clientId") String clientId,
 			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@DELETE

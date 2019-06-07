@@ -28,15 +28,6 @@
       "columns": []
     },
     {
-      "id": "16ae30d890a",
-      "name": "userName",
-      "text": "姓名",
-      "alignment": 16384,
-      "width": 80,
-      "resizeable": true,
-      "columns": []
-    },
-    {
       "id": "161db85fc50",
       "name": "activated",
       "text": "激活",
@@ -63,24 +54,6 @@
       "resizeable": true,
       "detail": true,
       "summary": true,
-      "columns": []
-    },
-    {
-      "id": "16ae30d33c9",
-      "name": "email",
-      "text": "电子邮件",
-      "alignment": 16384,
-      "width": 80,
-      "resizeable": true,
-      "columns": []
-    },
-    {
-      "id": "16ae30d5df2",
-      "name": "tel",
-      "text": "联系电话",
-      "alignment": 16384,
-      "width": 80,
-      "resizeable": true,
       "columns": []
     }
   ],
