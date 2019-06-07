@@ -241,6 +241,8 @@ public class User implements IResourceAssignment {
 	@WriteValue
 	private Boolean trace;
 
+	@ReadValue
+	@WriteValue
 	public String domain;
 
 	@Exclude

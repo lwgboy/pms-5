@@ -22,6 +22,14 @@
       "columns": []
     },
     {
+      "name": "databaseUser",
+      "text": "管理员",
+      "alignment": 16384,
+      "width": 160,
+      "resizeable": true,
+      "columns": []
+    },
+    {
       "id": "16ae363d1f9",
       "name": "activated",
       "text": "启用",
@@ -67,6 +75,12 @@
       "text": "启用",
       "type": "文本输入框（查询）",
       "formFields": []
+    },
+    {
+      "name": "databaseUser",
+      "text": "管理员",
+      "type": "文本输入框（查询）",
+      "formFields": []
     }
   ],
   "actions": [],
@@ -99,6 +113,12 @@
     {
       "name": "activated",
       "text": "启用",
+      "type": "排序字段",
+      "formFields": []
+    },
+    {
+      "name": "databaseUser",
+      "text": "管理员",
       "type": "排序字段",
       "formFields": []
     }
