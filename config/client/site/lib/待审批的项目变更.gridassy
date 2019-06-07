@@ -153,7 +153,6 @@
       "bundleId": "com.bizvisionsoft.pms",
       "className": "com.bizvisionsoft.pms.projectchange.OpenProjectChangeACT",
       "style": "",
-      "editorAssemblyId": "1644503ab8b",
       "type": "customized",
       "verticalSpan": 0
     }

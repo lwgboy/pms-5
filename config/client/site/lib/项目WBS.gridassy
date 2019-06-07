@@ -57,7 +57,6 @@
       "image": "/img/right.svg",
       "bundleId": "com.bizvisionsoft.pms",
       "className": "com.bizvisionsoft.pms.work.action.OpenWorkPackage",
-      "switchContentToAssemblyId": "16385fa5fa3",
       "openContent": true,
       "style": "",
       "objectBehavier": true,

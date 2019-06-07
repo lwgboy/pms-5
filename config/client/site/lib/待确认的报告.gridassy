@@ -143,7 +143,6 @@
       "bundleId": "com.bizvisionsoft.pms",
       "className": "com.bizvisionsoft.pms.workreport.OpenWorkReportACT",
       "style": "",
-      "editorAssemblyId": "163f2d9d844",
       "editorAssemblyEditable": true,
       "type": "customized",
       "verticalSpan": 0
