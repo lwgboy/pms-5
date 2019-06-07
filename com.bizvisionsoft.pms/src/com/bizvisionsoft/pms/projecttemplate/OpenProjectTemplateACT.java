@@ -25,7 +25,7 @@ public class OpenProjectTemplateACT {
 				br.openContent(br.getAssembly("项目模板甘特图.ganttassy"), em);
 			} else if (em instanceof OBSModule) {
 				// 当前选择为组织模板时，打开OBS模板组织结构图进行组织模板的编辑
-				br.openContent(br.getAssembly("OBS模板组织结构图"), em, e -> {
+				br.openContent(br.getAssembly("OBS模板组织结构图.treeassy"), em, e -> {
 					OBSModule obs = ServicesLoader.get(ProjectTemplateService.class)
 							.getOBSModule(((OBSModule) em).get_id(), br.getDomain());
 					GridPart viewer = (GridPart) context.getContent();

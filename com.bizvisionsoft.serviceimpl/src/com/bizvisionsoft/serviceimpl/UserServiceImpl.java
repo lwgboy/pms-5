@@ -32,14 +32,6 @@ public class UserServiceImpl extends BasicServiceImpl implements UserService {
 	}
 
 	@Override
-	public List<User> listConsigned(String userId, String domain) {
-		List<User> ds = createDataSet(new BasicDBObject().append("skip", 0).append("filter", new BasicDBObject("consigner", userId)),
-				domain);
-		ds.forEach(user -> updateUserRole(user, domain));
-		return ds;
-	}
-
-	@Override
 	public long updatePassword(String newPassword, String userId) {
 		MongoCollection<Document> c = c("user");
 		Document d = c.find(new Document("userId", userId)).first();
@@ -50,16 +42,20 @@ public class UserServiceImpl extends BasicServiceImpl implements UserService {
 		return 1;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public User check(String password, String userId) {
+		return get(userId, password, logger.isDebugEnabled());
+	}
+
+	@SuppressWarnings("unchecked")
+	public User get(String userId, String password, boolean skipPasswordCheck) {
 
 		MongoCollection<Document> c = c("user");
 		Document userDoc = c.find(new Document("userId", userId)).first();
 		if (userDoc == null)
 			throw new ServiceException("账户无法通过验证");
 
-		if (!logger.isDebugEnabled()) {
+		if (!skipPasswordCheck) {
 			try {
 				String _psw = encryPassword(userDoc.getObjectId("_id").toHexString(), password);
 				if (!userDoc.getString("password").equals(_psw)) {
@@ -74,11 +70,7 @@ public class UserServiceImpl extends BasicServiceImpl implements UserService {
 		if (domain == null)
 			throw new ServiceException("账户尚未注册应用");
 
-		Document domainData = c("domain").find(new Document("_id", domain)).first();
-		if (domainData == null)
-			throw new ServiceException("账户尚未分配企业域");
-		if (!domainData.getBoolean("activated", false))
-			throw new ServiceException("您的企业账户尚未激活");
+		Document domainData = getDomain(domain);
 
 		User user;
 		if (userDoc.getBoolean("admin", false)) {
@@ -105,6 +97,25 @@ public class UserServiceImpl extends BasicServiceImpl implements UserService {
 		user.setSiteList(siteList);
 		return user;
 
+	}
+
+	private Document getDomain(String domain) {
+		Document domainData = c("domain").find(new Document("_id", domain)).first();
+		if (domainData == null)
+			throw new ServiceException("账户尚未分配企业域");
+		if (!domainData.getBoolean("activated", false))
+			throw new ServiceException("您的企业账户尚未激活");
+		return domainData;
+	}
+
+	@Override
+	public List<User> listConsigned(String userId, String domain) {
+		return c("user", domain).find(new Document("consigner", userId)).map((Document d) -> {
+			String consId = d.getString("userId");
+			User user = get(consId, null, true);
+			updateUserRole(user, domain);
+			return user;
+		}).into(new ArrayList<>());
 	}
 
 	@Override
@@ -366,6 +377,5 @@ public class UserServiceImpl extends BasicServiceImpl implements UserService {
 		});
 
 	}
-
 
 }

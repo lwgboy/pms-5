@@ -28,22 +28,20 @@ public class EditD2ProblemDesc {
 		Document d = service.getD2ProblemDesc(problem.get_id(), br.getDomain());
 		Editor.create("D2-5W2H问题描述-编辑器.editorassy", context, d, true).ok((r, t) -> {
 			service.updateD2ProblemDesc(t, RWT.getLocale().getLanguage(), br.getDomain());
-			if(context.getContent().getClass().isInstance(new InfopadPart(null))) {
+			if (context.getContent().getClass().isInstance(new InfopadPart(null))) {
 				InfopadPart content = (InfopadPart) context.getContent();
 				content.reload();
-			}else {
+			} else {
 				IQueryEnable content = (IQueryEnable) context.getContent();
 				content.doRefresh();
 			}
 		});
 	}
-	
-	@Behavior({"编辑问题描述文本"})
+
+	@Behavior({ "编辑问题描述文本" })
 	private boolean enableEdit(@MethodParam(Execute.ROOT_CONTEXT_INPUT_OBJECT) Problem problem,
 			@MethodParam(Execute.CONTEXT_SELECTION_1ST) Document element) {
-		if(!"解决中".equals(problem.getStatus()))
-			return false;
-		return true;
+		return "解决中".equals(problem.getStatus());
 	}
 
 }

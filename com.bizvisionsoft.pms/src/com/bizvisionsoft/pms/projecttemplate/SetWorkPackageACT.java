@@ -24,7 +24,7 @@ public class SetWorkPackageACT {
 	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context,
 			@MethodParam(Execute.EVENT) GanttEvent event) {
 		WorkInTemplate workinfo = (WorkInTemplate) event.task;
-		String editor = "工作属性编辑器.editoassy";
+		String editor = "工作属性编辑器.editorassy";
 		Editor.create(editor, context, workinfo, false).setTitle(workinfo.toString()).ok((r, wi) -> {
 			Services.get(ProjectTemplateService.class).updateWork(
 					new FilterAndUpdate().filter(new BasicDBObject("_id", workinfo.get_id())).set(r).bson(), br.getDomain());
