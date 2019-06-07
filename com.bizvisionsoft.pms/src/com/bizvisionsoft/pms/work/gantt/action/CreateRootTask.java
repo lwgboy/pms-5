@@ -23,7 +23,7 @@ public class CreateRootTask {
 	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
 		IWBSScope rootInput = (IWBSScope) context.getRootInput();
 		String title;
-		Assembly editor;
+		String editor;
 		WorkInfo workInfo;
 		// if (rootInput instanceof Project) {
 		// workInfo = WorkInfo.newInstance((Project) rootInput);
@@ -35,14 +35,13 @@ public class CreateRootTask {
 		}
 		if ((rootInput instanceof Project) && ((Project) rootInput).isStageEnable()) {
 			title = "创建阶段";
-			editor = br.getAssembly("甘特图阶段工作编辑器.editorassy");
+			editor = "甘特图阶段工作编辑器.editorassy";
 			workInfo.setManageLevel("1").setStage(true).setStatus(ProjectStatus.Created);
 		} else {
 			title = "创建工作";
-			editor = br.getAssembly("甘特图工作编辑器.editorassy");
+			editor = "甘特图工作编辑器.editorassy";
 		}
-
-		new Editor<WorkInfo>(editor, context).setTitle(title).setInput(workInfo).ok((r, wi) -> {
+		Editor.create(editor, context, workInfo, false).setTitle(title).ok((r, wi) -> {
 			GanttPart content = (GanttPart) context.getContent();
 			content.addTask(wi);
 		});

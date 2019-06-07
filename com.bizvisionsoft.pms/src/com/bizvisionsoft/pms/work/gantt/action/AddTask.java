@@ -16,16 +16,13 @@ public class AddTask {
 	private IBruiService br;
 
 	@Execute
-	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context,
-			@MethodParam(Execute.EVENT) GanttEvent event) {
+	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context, @MethodParam(Execute.EVENT) GanttEvent event) {
 		// IWBSScope wbsScope = (IWBSScope) context.getRootInput();
 		// ÏÔÊ¾±à¼­Æ÷
-
-		new Editor<WorkInfo>(br.getAssembly("¸ÊÌØÍ¼¹¤×÷±à¼­Æ÷.editorassy"), context)
-				.setInput(WorkInfo.newInstance((WorkInfo) event.task)).ok((r, wi) -> {
-					GanttPart content = (GanttPart) context.getContent();
-					content.addTask(wi);
-				});
+		Editor.create("¸ÊÌØÍ¼¹¤×÷±à¼­Æ÷.editorassy", context, WorkInfo.newInstance((WorkInfo) event.task), false).ok((r, wi) -> {
+			GanttPart content = (GanttPart) context.getContent();
+			content.addTask(wi);
+		});
 	}
 
 }

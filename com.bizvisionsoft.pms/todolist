@@ -136,8 +136,8 @@ PMS6-10.10.016 工作包，检查项，文档模板似乎没有从模板导入到项目
 
 1. 测试更改用户名密码---------------OK
 2. 工作流完成任务打开的编辑器
-3. 测试Addworktimetocalender
-4. CreateValueRuleSegmentACT
+3. 测试AddWorktimetoCalender-----------------OK
+4. CreateValueRuleSegmentACT------------------OK
 5. createDocumentFromSetting,CreateDocuOfPackage,WorkWidgetASM,ResourceChartASM,CreateProjectProductACT
 6. OpenDocuAct
 7. OpenResourceActualACT,

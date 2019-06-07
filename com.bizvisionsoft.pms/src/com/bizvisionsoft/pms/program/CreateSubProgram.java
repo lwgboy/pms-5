@@ -12,7 +12,7 @@ import com.bizvisionsoft.service.model.Program;
 import com.bizvisionsoft.serviceconsumer.Services;
 
 public class CreateSubProgram {
-	
+
 	@Inject
 	private IBruiService br;
 
@@ -23,14 +23,11 @@ public class CreateSubProgram {
 				Program pjSet = br.newInstance(Program.class);
 				pjSet.setParent_id(((Program) em).get_id());
 				pjSet.setCreationInfo(br.operationInfo());
-				new Editor<Program>(br.getAssembly("项目集编辑器.editorassy"), context)
-						.setInput(pjSet)
-
-						.ok((r, t) -> {
-							Program result = Services.get(ProgramService.class).insert(t, br.getDomain());
-							GridPart grid = (GridPart) context.getContent();
-							grid.add(em, result);
-						});
+				Editor.create("项目集编辑器.editorassy", context, pjSet, false).ok((r, t) -> {
+					Program result = Services.get(ProgramService.class).insert(t, br.getDomain());
+					GridPart grid = (GridPart) context.getContent();
+					grid.add(em, result);
+				});
 			}
 		});
 	}

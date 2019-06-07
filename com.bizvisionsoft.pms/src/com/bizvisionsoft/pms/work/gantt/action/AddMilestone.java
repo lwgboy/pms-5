@@ -16,14 +16,12 @@ public class AddMilestone {
 	private IBruiService br;
 
 	@Execute
-	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context,
-			@MethodParam(Execute.EVENT) GanttEvent event) {
+	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context, @MethodParam(Execute.EVENT) GanttEvent event) {
 		// IWBSScope wbsScope = (IWBSScope) context.getRootInput();
 		// 显示编辑器
 
-		WorkInfo workInfo = WorkInfo.newInstance((WorkInfo) event.task).setMilestone(true)
-				.setManageLevel("1");
-		new Editor<WorkInfo>(br.getAssembly("甘特图里程碑工作编辑器.editorassy"), context).setInput(workInfo).ok((r, wi) -> {
+		WorkInfo workInfo = WorkInfo.newInstance((WorkInfo) event.task).setMilestone(true).setManageLevel("1");
+		Editor.create("甘特图里程碑工作编辑器.editorassy", context, workInfo, false).ok((r, wi) -> {
 			wi.setPlanFinish(wi.getPlanStart());
 			GanttPart content = (GanttPart) context.getContent();
 			content.addTask(wi);

@@ -22,16 +22,11 @@ public class CreateSubOrg {
 			if (em instanceof Organization) {
 				Organization org = br.newInstance(Organization.class);
 				org.setParentId(((Organization) em).get_id());
-
-				new Editor<Organization>(br.getAssembly("组织编辑器.editorassy"), context).setTitle("创建组织")
-
-						.setInput(org)
-
-						.ok((r, t) -> {
-							Organization result = Services.get(OrganizationService.class).insert(t, br.getDomain());
-							GridPart grid = (GridPart) context.getContent();
-							grid.add(em, result);
-						});
+				Editor.create("组织编辑器.editorassy", context, org, false).setTitle("创建组织").ok((r, t) -> {
+					Organization result = Services.get(OrganizationService.class).insert(t, br.getDomain());
+					GridPart grid = (GridPart) context.getContent();
+					grid.add(em, result);
+				});
 			}
 		});
 	}

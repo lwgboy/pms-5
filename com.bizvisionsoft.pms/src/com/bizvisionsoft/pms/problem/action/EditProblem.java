@@ -44,7 +44,7 @@ public class EditProblem {
 	}
 
 	private void edit(IBruiContext context, Problem problem, boolean editable) {
-		new Editor<Problem>(br.getAssembly("问题编辑器（编辑）.editorassy"), context).setTitle("问题初始记录").setEditable(editable).setInput(problem).ok((r, t) -> {
+		Editor.create("问题编辑器（编辑）.editorassy", context, problem, false).setEditable(editable).ok((r, t) -> {
 			r.remove("_id");
 			BasicDBObject fu = new FilterAndUpdate().filter(new BasicDBObject("_id", problem.get_id())).set(r).bson();
 			long l = Services.get(ProblemService.class).updateProblems(fu, br.getDomain());
@@ -56,20 +56,21 @@ public class EditProblem {
 	}
 
 	private void create(IBruiContext context) {
-		new Editor<Problem>(br.getAssembly("问题编辑器（创建）.editorassy"), context).setInput(br.newInstance(Problem.class).setCreationInfo(br.operationInfo())).ok((r, t) -> {
-			ProblemService service = Services.get(ProblemService.class);
-			t = service.insertProblem(t, br.getDomain());
-			if (t != null) {
-				if (MessageDialog.openQuestion(br.getCurrentShell(), "创建问题初始记录", "问题已经创建成功，是否立即开始解决问题？")) {
-					BasicDBObject fu = new FilterAndUpdate().filter(new BasicDBObject("_id", t.get_id()))
-							.set(new BasicDBObject("status", "解决中")).bson();
-					if (service.updateProblems(fu, br.getDomain()) > 0) {
-						Layer.message("问题解决程序已启动");
-						br.switchPage("问题解决-TOPS过程", t.get_id().toHexString());
+		Problem problem = br.newInstance(Problem.class).setCreationInfo(br.operationInfo());
+		Editor.create("问题编辑器（创建）.editorassy", context, problem, false).ok((r, t) -> {
+					ProblemService service = Services.get(ProblemService.class);
+					t = service.insertProblem(t, br.getDomain());
+					if (t != null) {
+						if (MessageDialog.openQuestion(br.getCurrentShell(), "创建问题初始记录", "问题已经创建成功，是否立即开始解决问题？")) {
+							BasicDBObject fu = new FilterAndUpdate().filter(new BasicDBObject("_id", t.get_id()))
+									.set(new BasicDBObject("status", "解决中")).bson();
+							if (service.updateProblems(fu, br.getDomain()) > 0) {
+								Layer.message("问题解决程序已启动");
+								br.switchPage("问题解决-TOPS过程", t.get_id().toHexString());
+							}
+						}
 					}
-				}
-			}
-		});
+				});
 	}
 
 }
