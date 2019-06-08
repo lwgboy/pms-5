@@ -12,6 +12,14 @@
   "gridDataSetService": "com.bizvisionsoft.service.ProjectService",
   "columns": [
     {
+      "name": "type",
+      "text": "类别",
+      "alignment": 16384,
+      "width": 80,
+      "resizeable": true,
+      "columns": []
+    },
+    {
       "id": "1632b6b4aa1",
       "name": "name",
       "text": "名称",
@@ -79,7 +87,13 @@
     {
       "id": "1632bae7eb2",
       "name": "name",
-      "text": "名称",
+      "text": "类型",
+      "type": "文本输入框（查询）",
+      "formFields": []
+    },
+    {
+      "name": "contact",
+      "text": "联系人",
       "type": "文本输入框（查询）",
       "formFields": []
     },
