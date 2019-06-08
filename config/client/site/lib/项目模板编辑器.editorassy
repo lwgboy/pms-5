@@ -32,5 +32,6 @@
   ],
   "actions": [],
   "smallEditor": true,
+  "tinyEditor": true,
   "disableInitLoadData": false
 }

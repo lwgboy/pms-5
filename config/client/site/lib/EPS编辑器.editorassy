@@ -7,38 +7,33 @@
   "folderId": "162bda3464a",
   "fields": [
     {
-      "id": "162702a662c",
-      "name": "信息",
-      "type": "标签页",
-      "formFields": [
-        {
-          "id": "1627013c23b",
-          "name": "id",
-          "text": "编号",
-          "type": "单行文本框",
-          "formFields": [],
-          "required": true
-        },
-        {
-          "id": "1627013c395",
-          "name": "name",
-          "text": "名称",
-          "type": "单行文本框",
-          "formFields": [],
-          "required": true,
-          "textLimit": 24
-        },
-        {
-          "id": "162701400f5",
-          "name": "description",
-          "text": "说明",
-          "type": "单行文本框",
-          "formFields": [],
-          "textLimit": 40
-        }
-      ]
+      "id": "1627013c23b",
+      "name": "id",
+      "text": "编号",
+      "type": "单行文本框",
+      "formFields": [],
+      "required": true
+    },
+    {
+      "id": "1627013c395",
+      "name": "name",
+      "text": "名称",
+      "type": "单行文本框",
+      "formFields": [],
+      "required": true,
+      "textLimit": 24
+    },
+    {
+      "id": "162701400f5",
+      "name": "description",
+      "text": "说明",
+      "type": "单行文本框",
+      "formFields": [],
+      "textLimit": 40
     }
   ],
   "actions": [],
+  "smallEditor": true,
+  "tinyEditor": true,
   "disableInitLoadData": false
 }
