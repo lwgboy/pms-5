@@ -312,12 +312,13 @@ public class OBSServiceImpl extends BasicServiceImpl implements OBSService {
 	/**
 	 * 从项目团队中移除人员检查
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Result> deleteProjectMemberCheck(ObjectId _id, String type, String domain) {
 		List<Result> results = new ArrayList<Result>();
 		OBSItem obsItem = get(_id, domain);
 		ObjectId scope_id = obsItem.getScope_id();
-		Set<String> userIds = new HashSet<String>();
+		Set<String> userIds = new HashSet<>();
 		List<ObjectId> obs_id = new ArrayList<ObjectId>();
 		if (type.startsWith("appointmentobsitem")) {
 			obs_id.add(_id);
