@@ -18,7 +18,7 @@ public class SendMsgACT {
 
 	@Execute
 	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
-		Editor.create("新消息", context, new NewMessage(), false).ok((r, o) -> {
+		Editor.create("新消息.editorassy", context, new NewMessage(), false).ok((r, o) -> {
 			o.sender = br.getCurrentConsignerInfo();
 			br.sendMessage(o.sender,o.receiver,o.subject,o.content);
 			Services.get(CommonService.class).sendMessage(o, br.getDomain());

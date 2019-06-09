@@ -6,7 +6,6 @@ import com.bizvisionsoft.annotations.AUtil;
 import com.bizvisionsoft.annotations.ui.common.Execute;
 import com.bizvisionsoft.annotations.ui.common.Inject;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
-import com.bizvisionsoft.bruicommons.model.Assembly;
 import com.bizvisionsoft.bruiengine.assembly.IStructuredDataPart;
 import com.bizvisionsoft.bruiengine.service.IBruiContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
@@ -20,19 +19,16 @@ public class EditOBSItem extends AbstractChangeOBSItemMember {
 
 	@Execute
 	public void execute(@MethodParam(Execute.CONTEXT_SELECTION_1ST) Object em, @MethodParam(Execute.CONTEXT) IBruiContext context) {
-		Assembly assembly;
+		String editorId;
 		if (((OBSItem) em).isRole()) {
-			assembly = br.getAssembly("OBS节点编辑器（角色）.editorassy");
+			editorId = "OBS节点编辑器（角色）.editorassy";
 		} else if (((OBSItem) em).isScopeRoot()) {
-			assembly = br.getAssembly("OBS节点编辑器（根）.editorassy");
+			editorId = "OBS节点编辑器（根）.editorassy";
 		} else {
-			assembly = br.getAssembly("OBS节点编辑器（团队）.editorassy");
+			editorId = "OBS节点编辑器（团队）.editorassy";
 		}
 		String message = "编辑 " + Optional.ofNullable(AUtil.readLabel(em)).orElse("");
-
-		Editor<Object> editor = new Editor<Object>(assembly, context).setEditable(true).setTitle(message).setInput(false, em);
-
-		editor.ok((r, o) -> {
+		Editor.create(editorId, context, em, false).setTitle(message).ok((r, o) -> {
 			OBSItem obsItem = (OBSItem) em;
 			if (!obsItem.getManagerId().equals(((OBSItem) o).getManagerId())
 					&& checkChange(br, obsItem.get_id(), obsItem.getScope_id(), obsItem.getManagerId(), "editobsitem", message)) {

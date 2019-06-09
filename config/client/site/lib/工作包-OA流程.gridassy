@@ -87,7 +87,6 @@
       "className": "com.awesometech.leoco.action.SelectOA",
       "forceText": true,
       "style": "normal",
-      "editorAssemblyId": "165ae0db67b",
       "type": "customized",
       "verticalSpan": 0
     }

@@ -155,7 +155,7 @@ public interface IWorkAction {
 		}
 
 		// ´ò¿ª¼ì²é±à¼­Æ÷
-		new Editor<Document>(ef.get(), context).setEditable(true).setInput(input).ok((d, t) -> {
+		Editor.create(ef.get(), context, input, false).ok((d, t) -> {
 			BasicDBObject filter = new BasicDBObject("_id", work.get_id());
 
 			Iterator<String> iter = t.keySet().iterator();

@@ -20,17 +20,12 @@ public class AddEPSNode {
 	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
 		context.selected(elem -> {
 			if (elem instanceof EPS) {
-
-				new Editor<EPS>(br.getAssembly("EPS±à¼­Æ÷.editorassy"), context)
-
-						.setInput(br.newInstance(EPS.class).setParent_id(((EPS) elem).get_id()))
-
-						.ok((r, t) -> {
-							EPS item = Services.get(EPSService.class).insert(t, br.getDomain());
-							GridPart grid = (GridPart) context.getContent();
-							grid.add(elem, item);
-						});
-
+				EPS input = br.newInstance(EPS.class).setParent_id(((EPS) elem).get_id());
+				Editor.open("EPS±à¼­Æ÷.editorassy", context, input, false, (r, t) -> {
+					EPS item = Services.get(EPSService.class).insert(t, br.getDomain());
+					GridPart grid = (GridPart) context.getContent();
+					grid.add(elem, item);
+				});
 			}
 		});
 	}

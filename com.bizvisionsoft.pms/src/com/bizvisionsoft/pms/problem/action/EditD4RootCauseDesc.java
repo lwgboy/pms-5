@@ -29,7 +29,7 @@ public class EditD4RootCauseDesc {
 		if (insert) {
 			d = new Document();
 		}
-		Editor.create("D4-根本原因描述-编辑器.editoassy", context, d, true).setEditable(problem.isSolving()).ok((r, t) -> {
+		Editor.create("D4-根本原因描述-编辑器.editorassy", context, d, true).setEditable(problem.isSolving()).ok((r, t) -> {
 			if (insert) {
 				t.append("_id", problem.get_id());
 				service.insertD4RootCauseDesc(t, RWT.getLocale().getLanguage(), br.getDomain());

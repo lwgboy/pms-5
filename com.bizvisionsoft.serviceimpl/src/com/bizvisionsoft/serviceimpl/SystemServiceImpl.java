@@ -23,7 +23,6 @@ import com.bizvisionsoft.service.common.Service;
 import com.bizvisionsoft.service.model.Backup;
 import com.bizvisionsoft.service.model.DomainRequest;
 import com.bizvisionsoft.service.model.ServerInfo;
-import com.bizvisionsoft.service.model.User;
 import com.bizvisionsoft.service.tools.FileTools;
 import com.bizvisionsoft.service.tools.Formatter;
 import com.bizvisionsoft.serviceimpl.commons.EmailClient;
@@ -160,6 +159,10 @@ public class SystemServiceImpl extends BasicServiceImpl implements SystemService
 		}
 	}
 
+	public String getClientSetting(String userId, String clientId, String name) {
+		return getClientSetting(userId, clientId, name, null);
+	}
+
 	@Override
 	public void updateClientSetting(Document setting, String domain) {
 		Document query = new Document();
@@ -175,13 +178,13 @@ public class SystemServiceImpl extends BasicServiceImpl implements SystemService
 	}
 
 	@Override
-	public void deleteClientSetting(String clientId, String name, String domain) {
-		c("clientSetting", domain).deleteMany(new Document("clientId", clientId).append("name", name));
+	public void updateClientSetting(Document setting) {
+		updateClientSetting(setting, null);
 	}
 
 	@Override
-	public void deleteClientSetting(String clientId, String domain) {
-		c("clientSetting", domain).deleteMany(new Document("clientId", clientId));
+	public void deleteClientSetting(String clientId, String name, String domain) {
+		c("clientSetting", domain).deleteMany(new Document("clientId", clientId).append("name", name));
 	}
 
 	@Override
@@ -191,7 +194,7 @@ public class SystemServiceImpl extends BasicServiceImpl implements SystemService
 
 	@Override
 	public void updateSystem(String versionNumber, String packageCode, String domain) {
-		//TODO Check
+		// TODO Check
 	}
 
 	@Override
@@ -560,7 +563,7 @@ public class SystemServiceImpl extends BasicServiceImpl implements SystemService
 		if (result != null) {
 			String userId = result.getString("email");
 			String code = encryPassword(_id.toHexString(), userId);
-			if (!activatCode.equals( code)) {
+			if (!activatCode.equals(code)) {
 				return new Document();
 			}
 

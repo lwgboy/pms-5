@@ -54,7 +54,7 @@
           "text": "类别",
           "type": "多个对象选择框",
           "formFields": [],
-          "required": true,
+          "required": false,
           "selectorAssemblyId": "/文档类型选择.gridassy"
         },
         {
@@ -68,6 +68,7 @@
       ]
     }
   ],
+  "actions": [],
   "nullValueAllowedFields": "tag#category#docuFiles",
   "disableInitLoadData": false
 }

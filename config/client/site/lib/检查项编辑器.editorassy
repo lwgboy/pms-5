@@ -22,6 +22,7 @@
       "grabVertical": true
     }
   ],
-  "smallEditor": false,
+  "actions": [],
+  "smallEditor": true,
   "tinyEditor": false
 }

@@ -19,27 +19,24 @@ public class CreateD7Similar {
 
 	@Inject
 	private IBruiService br;
-	
+
 	@Inject
 	private String render;
 
 	@Execute
 	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context,
 			@MethodParam(Execute.ROOT_CONTEXT_INPUT_OBJECT) Problem problem) {
-		Editor.create("D7-类似问题-编辑器.editoassy", context, new Document("problem_id", problem.get_id()), true).ok((r, t) -> {
-			Services.get(ProblemService.class).insertD7Similar(t, RWT.getLocale().getLanguage(),render, br.getDomain());
+		Editor.create("D7-类似问题-编辑器.editorassy", context, new Document("problem_id", problem.get_id()), true).ok((r, t) -> {
+			Services.get(ProblemService.class).insertD7Similar(t, RWT.getLocale().getLanguage(), render, br.getDomain());
 			IQueryEnable content = (IQueryEnable) context.getContent();
 			content.doRefresh();
 		});
 	}
-	
+
 	@Behavior(ProblemService.ACTION_CREATE)
 	private boolean enableCreate(@MethodParam(Execute.ROOT_CONTEXT_INPUT_OBJECT) Problem problem,
 			@MethodParam(Execute.CONTEXT_SELECTION_1ST) Document element) {
-		if (!"解决中".equals(problem.getStatus()))
-			return false;
-		return true;
-		// TODO
+		return "解决中".equals(problem.getStatus());
 	}
 
 }

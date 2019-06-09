@@ -324,7 +324,7 @@
       "style": "normal",
       "editorAssemblyEditable": true,
       "type": "edit",
-      "editorNameScript": "function getEditorName(){\n if(context_selection_1st.type\u003d\u003d\"常量\")\n   return \"值规则段编辑（常量）\";\n else if(context_selection_1st.type\u003d\u003d\"当前日期时间\")\n   return \"值规则段编辑（系统变量）\";\n else if(context_selection_1st.type\u003d\u003d\"当前时间戳\")\n   return \"值规则段编辑（系统变量）\";\n else if(context_selection_1st.type\u003d\u003d\"JavaScript\")\n   return \"值规则段编辑（JS）\";\n else if(context_selection_1st.type\u003d\u003d\"字段\")\n   return \"值规则段编辑（字段）\";\n else if(context_selection_1st.type\u003d\u003d\"查询\")\n   return \"值规则段编辑（查询）\";\n else if(context_selection_1st.type\u003d\u003d\"流水号\")\n   return \"值规则段编辑（流水号）\";\n}\n\n getEditorName()\n"
+      "editorNameScript": "function getEditorName(){\r\n if(context_selection_1st.type\u003d\u003d\"常量\")\r\n   return \"值规则段编辑（常量）\";\r\n else if(context_selection_1st.type\u003d\u003d\"当前日期时间\")\r\n   return \"值规则段编辑（系统变量）\";\r\n else if(context_selection_1st.type\u003d\u003d\"当前时间戳\")\r\n   return \"值规则段编辑（系统变量）\";\r\n else if(context_selection_1st.type\u003d\u003d\"JavaScript\")\r\n   return \"值规则段编辑（JS）\";\r\n else if(context_selection_1st.type\u003d\u003d\"字段\")\r\n   return \"值规则段编辑（字段）\";\r\n else if(context_selection_1st.type\u003d\u003d\"查询\")\r\n   return \"值规则段编辑（查询）\";\r\n else if(context_selection_1st.type\u003d\u003d\"流水号\")\r\n   return \"值规则段编辑（流水号）\";\r\n}\r\ngetEditorName();"
     },
     {
       "id": "1677df12b15",

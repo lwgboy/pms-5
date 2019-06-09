@@ -10,7 +10,6 @@ import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.service.DocumentService;
 import com.bizvisionsoft.service.common.Domain;
-import com.bizvisionsoft.service.common.JQ;
 import com.bizvisionsoft.service.model.Docu;
 import com.bizvisionsoft.service.model.DocuSetting;
 import com.bizvisionsoft.service.model.DocuTemplate;

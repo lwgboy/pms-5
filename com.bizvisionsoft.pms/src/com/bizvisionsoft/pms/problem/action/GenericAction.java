@@ -89,7 +89,7 @@ public class GenericAction {
 
 	private void editSimilar(Document doc, String render) {
 		Document ivpca = service.getD7Similar(doc.getObjectId("_id"), br.getDomain());
-		Editor.create("D7-类似问题-编辑器.editoassy", context, ivpca, true).ok((r, t) -> {
+		Editor.create("D7-类似问题-编辑器.editorassy", context, ivpca, true).ok((r, t) -> {
 			Document d = service.updateD7Similar(t, lang, render, br.getDomain());
 			viewer.update(AUtil.simpleCopy(d, doc), null);
 		});
@@ -172,15 +172,15 @@ public class GenericAction {
 	}
 
 	protected String getVerfiyEditorName() {
-		return Check.option(verifyEditor).orElse("Dx-行动验证-编辑器.editoassy");
+		return Check.option(verifyEditor).orElse("Dx-行动验证-编辑器.editorassy");
 	}
 
 	protected String getEditorName() {
-		return Check.option(editor).orElse("Dx-行动计划-编辑器.editoassy");
+		return Check.option(editor).orElse("Dx-行动计划-编辑器.editorassy");
 	}
 
 	protected String getEditorNameForRead() {
-		return Check.option(editor).orElse("Dx-行动计划-编辑器（查看）.editoassy");
+		return Check.option(editor).orElse("Dx-行动计划-编辑器（查看）.editorassy");
 	}
 
 	private String getItemTypeName() {

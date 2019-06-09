@@ -20013,7 +20013,7 @@
             "className": "com.bizvisionsoft.pms.workreport.OpenWorkReportACT",
             "openContent": true,
             "style": "",
-            "editorAssemblyId": "163f2d9d844",
+            
             "editorAssemblyEditable": true,
             "type": "customized",
             "verticalSpan": 0
@@ -20715,7 +20715,7 @@
             "className": "com.bizvisionsoft.pms.workreport.OpenWorkReportACT",
             "openContent": true,
             "style": "",
-            "editorAssemblyId": "163f2d9d844",
+            
             "editorAssemblyEditable": true,
             "type": "customized",
             "verticalSpan": 0
@@ -20925,7 +20925,7 @@
             "className": "com.bizvisionsoft.pms.workreport.OpenWorkReportACT",
             "openContent": true,
             "style": "",
-            "editorAssemblyId": "163f2d9d844",
+            
             "editorAssemblyEditable": true,
             "type": "customized",
             "verticalSpan": 0
@@ -21089,7 +21089,7 @@
             "className": "com.bizvisionsoft.pms.workreport.OpenWorkReportACT",
             "openContent": true,
             "style": "",
-            "editorAssemblyId": "163f2d9d844",
+            
             "editorAssemblyEditable": true,
             "type": "customized",
             "verticalSpan": 0
@@ -21195,7 +21195,7 @@
             "className": "com.bizvisionsoft.pms.workreport.OpenWorkReportACT",
             "openContent": true,
             "style": "",
-            "editorAssemblyId": "163f2d9d844",
+            
             "editorAssemblyEditable": true,
             "type": "customized",
             "verticalSpan": 0
@@ -21302,7 +21302,7 @@
             "switchContentToAssemblyId": "163f33b563e",
             "openContent": true,
             "style": "",
-            "editorAssemblyId": "163f2d9d844",
+            
             "editorAssemblyEditable": true,
             "type": "customized",
             "verticalSpan": 0
@@ -27025,7 +27025,7 @@
             "bundleId": "com.bizvisionsoft.pms",
             "className": "com.bizvisionsoft.pms.workreport.OpenWorkReportACT",
             "style": "",
-            "editorAssemblyId": "163f2d9d844",
+            
             "editorAssemblyEditable": true,
             "type": "customized",
             "verticalSpan": 0
@@ -31689,7 +31689,7 @@
             "switchContentToAssemblyId": "163f33b563e",
             "openContent": true,
             "style": "",
-            "editorAssemblyId": "163f2d9d844",
+            
             "editorAssemblyEditable": true,
             "type": "customized",
             "verticalSpan": 0
@@ -31880,7 +31880,7 @@
             "switchContentToAssemblyId": "163f33b563e",
             "openContent": true,
             "style": "",
-            "editorAssemblyId": "163f2d9d844",
+            
             "editorAssemblyEditable": true,
             "type": "customized",
             "verticalSpan": 0
@@ -32071,7 +32071,7 @@
             "switchContentToAssemblyId": "163f33b563e",
             "openContent": true,
             "style": "",
-            "editorAssemblyId": "163f2d9d844",
+            
             "editorAssemblyEditable": true,
             "type": "customized",
             "verticalSpan": 0

@@ -16,13 +16,11 @@ public class AddTaskACT {
 	private IBruiService br;
 
 	@Execute
-	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context,
-			@MethodParam(Execute.EVENT) GanttEvent event) {
-		new Editor<WorkInTemplate>(br.getAssembly("项目模板工作编辑器.editorassy"), context)
-				.setInput(WorkInTemplate.newInstance((WorkInTemplate) event.task)).ok((r, wi) -> {
-					GanttPart content = (GanttPart) context.getContent();
-					content.addTask(wi);
-				});
+	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context, @MethodParam(Execute.EVENT) GanttEvent event) {
+		Editor.create("项目模板工作编辑器.editorassy", context, WorkInTemplate.newInstance((WorkInTemplate) event.task), false).ok((r, wi) -> {
+			GanttPart content = (GanttPart) context.getContent();
+			content.addTask(wi);
+		});
 	}
 
 }

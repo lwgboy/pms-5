@@ -9,6 +9,7 @@
   "gridHeaderVisiable": true,
   "gridHasHScroll": true,
   "gridHasVScroll": true,
+  "gridPageControl": true,
   "gridDataSetService": "com.bizvisionsoft.service.SystemService",
   "columns": [
     {
@@ -16,7 +17,15 @@
       "name": "_id",
       "text": "Id",
       "alignment": 16384,
-      "width": 80,
+      "width": 240,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "name": "databaseUser",
+      "text": "管理员",
+      "alignment": 16384,
+      "width": 160,
       "resizeable": true,
       "columns": []
     },
@@ -50,9 +59,26 @@
   ],
   "fields": [
     {
-      "id": "16ae3651401",
       "name": "_id",
       "text": "Id",
+      "type": "文本输入框（查询）",
+      "formFields": []
+    },
+    {
+      "name": "site",
+      "text": "可用站点",
+      "type": "文本输入框（查询）",
+      "formFields": []
+    },
+    {
+      "name": "activated",
+      "text": "启用",
+      "type": "文本输入框（查询）",
+      "formFields": []
+    },
+    {
+      "name": "databaseUser",
+      "text": "管理员",
       "type": "文本输入框（查询）",
       "formFields": []
     }
@@ -71,5 +97,30 @@
     }
   ],
   "hasTitlebar": true,
-  "sortFields": []
+  "sortFields": [
+    {
+      "name": "_id",
+      "text": "Id",
+      "type": "排序字段",
+      "formFields": []
+    },
+    {
+      "name": "site",
+      "text": "可用站点",
+      "type": "排序字段",
+      "formFields": []
+    },
+    {
+      "name": "activated",
+      "text": "启用",
+      "type": "排序字段",
+      "formFields": []
+    },
+    {
+      "name": "databaseUser",
+      "text": "管理员",
+      "type": "排序字段",
+      "formFields": []
+    }
+  ]
 }

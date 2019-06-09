@@ -11,8 +11,8 @@
   "gridHasHScroll": true,
   "gridHasVScroll": true,
   "gridDataSetService": "",
-  "gridDataSetBundleId": "com.awesometech.leoco",
-  "gridDataSetClassName": "com.awesometech.leoco.ds.PRDataset",
+  "gridDataSetBundleId": "com.bizvisionsoft.pms",
+  "gridDataSetClassName": "com.bizvisionsoft.pms.workpackage.dataset.WorkPackageDataset",
   "columns": [
     {
       "id": "16595933969",
@@ -168,5 +168,6 @@
       "verticalSpan": 0
     }
   ],
-  "disableInitLoadData": false
+  "disableInitLoadData": false,
+  "sortFields": []
 }

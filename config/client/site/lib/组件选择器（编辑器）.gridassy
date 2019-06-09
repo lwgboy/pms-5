@@ -12,8 +12,8 @@
   "gridHasVScroll": true,
   "gridPageControl": true,
   "gridDataSetService": "",
-  "gridDataSetBundleId": "com.bizvisionsoft.onlinedesigner",
-  "gridDataSetClassName": "com.bizvisionsoft.onlinedesigner.SiteService",
+  "gridDataSetBundleId": "com.bizvisionsoft.bruiengine",
+  "gridDataSetClassName": "com.bizvisionsoft.bruiengine.onlinedesigner.SiteService",
   "gridPageCount": 0,
   "columns": [
     {
@@ -31,6 +31,14 @@
       "text": "БъЬт",
       "alignment": 16384,
       "width": 240,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "name": "id",
+      "text": "id",
+      "alignment": 16384,
+      "width": 120,
       "resizeable": true,
       "columns": []
     },

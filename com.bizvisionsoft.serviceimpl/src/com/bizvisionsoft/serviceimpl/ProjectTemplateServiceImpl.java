@@ -464,7 +464,7 @@ public class ProjectTemplateServiceImpl extends BasicServiceImpl implements Proj
 							.append("planBasicQty", works)//
 							.append("_id", new ObjectId()));
 				}
-				calendar[0].add(Calendar.DAY_OF_MONTH, 1);
+				calendar[0].add(Calendar.DATE, 1);
 			}
 
 		});

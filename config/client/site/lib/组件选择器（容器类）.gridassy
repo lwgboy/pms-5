@@ -1,0 +1,84 @@
+{
+  "id": "/组件选择器（编辑器）.gridassy",
+  "name": "组件选择器（容器类）",
+  "layout": [],
+  "type": "grid",
+  "stickerTitle": "",
+  "folderId": "162c97e7531",
+  "gridAutoExpandLevel": -1,
+  "gridLineVisiable": true,
+  "gridHeaderVisiable": true,
+  "gridHasHScroll": true,
+  "gridHasVScroll": true,
+  "gridPageControl": true,
+  "gridDataSetService": "",
+  "gridDataSetBundleId": "com.bizvisionsoft.bruiengine",
+  "gridDataSetClassName": "com.bizvisionsoft.bruiengine.onlinedesigner.SiteService",
+  "gridPageCount": 0,
+  "columns": [
+    {
+      "id": "162c9ac6685",
+      "name": "name",
+      "text": "名称",
+      "alignment": 16384,
+      "width": 160,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "162c9ac67a0",
+      "name": "title",
+      "text": "标题",
+      "alignment": 16384,
+      "width": 240,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "16a170668ed",
+      "name": "description",
+      "text": "描述",
+      "alignment": 16384,
+      "width": 80,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "name": "id",
+      "text": "id",
+      "alignment": 16384,
+      "width": 120,
+      "resizeable": true,
+      "columns": []
+    }
+  ],
+  "fields": [
+    {
+      "id": "16a1701c7fd",
+      "name": "name",
+      "text": "名称",
+      "type": "文本输入框（查询）",
+      "formFields": [],
+      "textQueryType": "字符串"
+    },
+    {
+      "id": "16a17060ebd",
+      "name": "title",
+      "text": "标题",
+      "type": "文本输入框（查询）",
+      "formFields": []
+    },
+    {
+      "id": "16a17061f2d",
+      "name": "description",
+      "text": "描述",
+      "type": "文本输入框（查询）",
+      "formFields": []
+    }
+  ],
+  "gridAutoColumnWidth": true,
+  "actions": [],
+  "rowActions": [],
+  "disableInitLoadData": false,
+  "sortFields": []
+}

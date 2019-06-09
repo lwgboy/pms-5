@@ -18,7 +18,7 @@
     {
       "id": "1636bd98aa7",
       "name": "description",
-      "text": "ÃèÊö",
+      "text": "½»¸¶ÒªÇóÃèÊö",
       "alignment": 16384,
       "width": 360,
       "resizeable": true,
@@ -174,5 +174,6 @@
       "verticalSpan": 0
     }
   ],
-  "disableInitLoadData": false
+  "disableInitLoadData": false,
+  "sortFields": []
 }

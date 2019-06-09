@@ -34,7 +34,7 @@ import com.bizvisionsoft.serviceconsumer.Services;
 public class BPMClient {
 
 	private String domain;
-	
+
 	private BPMService service;
 
 	// private static Logger logger = LoggerFactory.getLogger(BPMClient.class);
@@ -58,7 +58,7 @@ public class BPMClient {
 		// 2.是否有表单，如有，打开
 		String editor = pd.getEditor();
 		if (Check.isAssigned(editor)) {
-			Assembly assembly = Model.getAssembly(editor);
+			Assembly assembly = Model.getEditor(editor);
 			if (assembly == null)
 				throw new RuntimeException("无法获得表单：" + editor);
 			assembly.getFields().forEach(f -> {
@@ -75,7 +75,7 @@ public class BPMClient {
 
 		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		// 3.如有脚本，运行脚本
-		executeJS(input, context.getContextParameterData(), pd.getScript(),domain);
+		executeJS(input, context.getContextParameterData(), pd.getScript(), domain);
 
 		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		// 4.构造启动参数
@@ -118,13 +118,13 @@ public class BPMClient {
 		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		// 3. 前处理
 		if (td != null)
-			executeJS(input, context.getContextParameterData(), td.getiScript(),domain);
+			executeJS(input, context.getContextParameterData(), td.getiScript(), domain);
 
 		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		// 4. 打开编辑器表单
 		String editor = td == null ? null : td.getEditor();
 		if (Check.isAssigned(editor)) {// 如果定义了编辑器
-			Assembly assembly = Model.getAssembly(editor);
+			Assembly assembly = Model.getEditor(editor);
 			if (assembly == null)
 				return Result.error("无法获得表单：" + editor);
 			if (!editInput(context, assembly, td.getName(), input))
@@ -148,13 +148,13 @@ public class BPMClient {
 		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		// 5. 后处理
 		if (td != null)
-			executeJS(input, context.getContextParameterData(), td.getoScript(),domain);
+			executeJS(input, context.getContextParameterData(), td.getoScript(), domain);
 
 		return service.completeTask(taskId, userId, input, domain);
 	}
 
 	public Result delegateTask(IBruiContext context, long taskId, String userId) {
-		Assembly config = Model.getAssembly("任务委托人选择器.selectorassy");
+		Assembly config = Model.getSelector("任务委托人选择器.selectorassy");
 		Selector selector = new Selector(config, context).setTitle("请选择委托本任务的执行人");
 		if (Window.OK != selector.open()) {
 			return Result.terminated();
@@ -172,21 +172,21 @@ public class BPMClient {
 			}
 		}
 	}
-	
+
 	public Result resumeTask(BruiAssemblyContext context, long taskId, String userId) {
-		 return service.resumeTask(taskId, userId, domain);
+		return service.resumeTask(taskId, userId, domain);
 	}
 
 	public Result suspendTask(BruiAssemblyContext context, long taskId, String userId) {
 		return service.suspendTask(taskId, userId, domain);
 	}
-	
+
 	public Result stopTask(BruiAssemblyContext context, long taskId, String userId) {
 		return service.stopTask(taskId, userId, domain);
 	}
 
 	public Result forwardTask(BruiAssemblyContext context, long taskId, String userId) {
-		return service.forwardTask(taskId, userId,"", domain);//TODO
+		return service.forwardTask(taskId, userId, "", domain);// TODO
 	}
 
 	public Result skipTask(BruiAssemblyContext context, long taskId, String userId) {
@@ -195,7 +195,7 @@ public class BPMClient {
 
 	public Result nominateTask(BruiAssemblyContext context, long taskId, String userId) {
 		throw new RuntimeException("不支持的操作：nominateTask");
-//		return service.nominateTask(taskId, userId, null,domain);//TODO
+		// return service.nominateTask(taskId, userId, null,domain);//TODO
 	}
 
 	public Result exitTask(BruiAssemblyContext context, long taskId, String userId) {
@@ -229,7 +229,7 @@ public class BPMClient {
 		return field;
 	}
 
-	private static void executeJS(Document input, Document contextParameterData, String script,String domain) {
+	private static void executeJS(Document input, Document contextParameterData, String script, String domain) {
 		if (Check.isAssigned(script)) {
 			Document binding = new Document("input", input).append("context", contextParameterData).append("ServiceHelper",
 					new ServiceHelper(domain));
@@ -241,7 +241,7 @@ public class BPMClient {
 		Set<String> editorFields = new HashSet<>();
 		editorFields.addAll(input.keySet());
 		editorFields.addAll(assembly.getFields().stream().map(fi -> fi.getName()).collect(Collectors.toSet()));
-		Editor<Document> editor = new Editor<Document>(assembly, context).setInput(true, input).setTitle(title).setEditable(true);
+		Editor<Document> editor = Editor.create(assembly, context, input, true).setTitle(title).setEditable(true);
 		if (Window.OK != editor.open()) {
 			return false;
 		} else {

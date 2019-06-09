@@ -3,7 +3,6 @@ package com.bizvisionsoft.pms.projecttemplate;
 import com.bizvisionsoft.annotations.ui.common.Execute;
 import com.bizvisionsoft.annotations.ui.common.Inject;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
-import com.bizvisionsoft.bruicommons.model.Assembly;
 import com.bizvisionsoft.bruiengine.assembly.GanttPart;
 import com.bizvisionsoft.bruiengine.service.IBruiContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
@@ -19,11 +18,9 @@ public class CreateRootTaskACT {
 
 	@Execute
 	public void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
-		Assembly editor = br.getAssembly("项目模板工作编辑器.editorassy");
-
 		WorkInTemplate workInT = createWork(context);
 
-		new Editor<WorkInTemplate>(editor, context).setTitle("创建工作").setInput(workInT).ok((r, wi) -> {
+		Editor.create("项目模板工作编辑器.editorassy", context,workInT,false).setTitle("创建工作").ok((r, wi) -> {
 			GanttPart content = (GanttPart) context.getContent();
 			content.addTask(wi);
 		});

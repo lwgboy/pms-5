@@ -24,15 +24,11 @@ public class CreateRole {
 		ObjectId org_id = ((Organization) context.getInput()).get_id();
 		Role role = br.newInstance(Role.class).setOrg_id(org_id);
 
-		new Editor<Role>(br.getAssembly("½ÇÉ«±à¼­Æ÷.editorassy"), context).setTitle("´´½¨½ÇÉ«")
-
-				.setInput(role)
-
-				.ok((r, t) -> {
-					Role newRole = Services.get(OrganizationService.class).insertRole(t, br.getDomain());
-					GridPart grid = (GridPart) context.getContent();
-					grid.insert(newRole);
-				});
+		Editor.create("½ÇÉ«±à¼­Æ÷.editorassy", context, role, false).ok((r, t) -> {
+			Role newRole = Services.get(OrganizationService.class).insertRole(t, br.getDomain());
+			GridPart grid = (GridPart) context.getContent();
+			grid.insert(newRole);
+		});
 	}
 
 }

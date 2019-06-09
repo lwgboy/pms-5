@@ -86,15 +86,6 @@
       "columns": []
     },
     {
-      "id": "16524c7a12c",
-      "name": "assemblyName",
-      "text": "界面组件",
-      "alignment": 16384,
-      "width": 180,
-      "resizeable": true,
-      "columns": []
-    },
-    {
       "id": "16524c79fde",
       "name": "assemblyId",
       "text": "组件Id",
@@ -219,5 +210,6 @@
   "actions": [],
   "rowActions": [],
   "hasTitlebar": true,
-  "disableInitLoadData": false
+  "disableInitLoadData": false,
+  "sortFields": []
 }
