@@ -1,7 +1,7 @@
 [
 		{
 			"$match" : {
-				"problem_id" : "<id>"
+				"problem_id" :"<id>"
 			}
 		},
 		{
@@ -13,10 +13,9 @@
 		{
 			"$addFields" : {
 				"img" : {
-					"$concat" : [ "<img alt='' src='/bvs/fs?domain=",
-							"<domain>", "&id=", {
-								"$toString" : "$problemImg._id"
-							}, "&namespace=", "$problemImg.namepace", "&name=",
+					"$concat" : [ "<img alt='' src='/bvs/fs?domain=","<domain>", "&id=", {
+						"$toString" : "$problemImg._id"
+					}, "&namespace=", "$problemImg.namepace", "&name=",
 							"$problemImg.name",
 							"&sid=rwt' style='width:200px' />" ]
 				}

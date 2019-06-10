@@ -1,8 +1,7 @@
 [
 		{
 			"$match" : {
-				"stage" : "pca",
-				"actionType" : "out",
+				"stage" : "era",
 				"problem_id" : "<id>"
 			}
 		},
@@ -26,9 +25,7 @@
 												"as" : "attarchments",
 												"in" : {
 													"$concat" : [
-															"<a href=\"/bvs/fs?domain=",
-															"<domain>",
-															"&id=",
+															"<a href=\"/bvs/fs?domain=","<domain>", "&id=",
 															{
 																"$toString" : "$$attarchments._id"
 															},
@@ -51,9 +48,7 @@
 												"as" : "attarchments",
 												"in" : {
 													"$concat" : [
-															"<a href=\"/bvs/fs?domain=",
-															"<domain>",
-															"&id=",
+															"<a href=\"/bvs/fs?domain=","<domain>", "&id=",
 															{
 																"$toString" : "$$attarchments._id"
 															},

@@ -620,51 +620,6 @@
             <property name="id">2001</property>
             <expression name="value" type="javascript">params["pipeline-problem"].value</expression>
         </structure>
-        <structure>
-            <property name="name">mongoURI</property>
-            <property name="id">4</property>
-            <expression name="value" type="javascript">params["dbConnect"].value</expression>
-        </structure>
-        <structure>
-            <property name="name">ignoreURI</property>
-            <property name="id">4</property>
-        </structure>
-        <structure>
-            <property name="name">serverHost</property>
-            <property name="id">4</property>
-        </structure>
-        <structure>
-            <property name="name">serverPort</property>
-            <property name="id">4</property>
-        </structure>
-        <structure>
-            <property name="name">databaseName</property>
-            <property name="id">4</property>
-        </structure>
-        <structure>
-            <property name="name">userName</property>
-            <property name="id">4</property>
-        </structure>
-        <structure>
-            <property name="name">password</property>
-            <property name="id">4</property>
-        </structure>
-        <structure>
-            <property name="name">socketKeepAlive</property>
-            <property name="id">4</property>
-        </structure>
-        <structure>
-            <property name="name">useRequestSession</property>
-            <property name="id">4</property>
-        </structure>
-        <structure>
-            <property name="name">OdaConnProfileName</property>
-            <property name="id">4</property>
-        </structure>
-        <structure>
-            <property name="name">OdaConnProfileStorePath</property>
-            <property name="id">4</property>
-        </structure>
     </list-property>
     <property name="units">in</property>
     <property name="iconFile">/templates/blank_report.gif</property>
@@ -783,17 +738,6 @@
         <scalar-parameter name="pipeline-problem" id="5980">
             <property name="valueType">static</property>
             <property name="isRequired">true</property>
-            <property name="dataType">string</property>
-            <property name="distinct">true</property>
-            <list-property name="selectionList"/>
-            <property name="paramType">simple</property>
-            <property name="controlType">text-box</property>
-            <structure name="format">
-                <property name="category">Unformatted</property>
-            </structure>
-        </scalar-parameter>
-        <scalar-parameter name="dbConnect" id="7804">
-            <property name="valueType">static</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
             <list-property name="selectionList"/>
@@ -9263,7 +9207,7 @@
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
                         <label id="6100">
-                            <text-property name="text">状态</text-property>
+                            <text-property name="text">Status</text-property>
                         </label>
                     </cell>
                     <cell id="6018">
@@ -9293,7 +9237,7 @@
                         <label id="6101">
                             <property name="fontWeight">bold</property>
                             <property name="textAlign">center</property>
-                            <text-property name="text">问题解决报告</text-property>
+                            <text-property name="text">Problem Solving Report</text-property>
                         </label>
                     </cell>
                     <cell id="6034">
@@ -9308,7 +9252,7 @@
                         <property name="borderTopWidth">thin</property>
                         <label id="6102">
                             <property name="textAlign">right</property>
-                            <text-property name="text">编号</text-property>
+                            <text-property name="text">No.</text-property>
                         </label>
                     </cell>
                     <cell id="6031">
@@ -9338,7 +9282,7 @@
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
                         <label id="6105">
-                            <text-property name="text">问题描述</text-property>
+                            <text-property name="text">Resume</text-property>
                         </label>
                     </cell>
                     <cell id="6029">
@@ -9369,7 +9313,7 @@
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
                         <label id="6107">
-                            <text-property name="text">最初来源</text-property>
+                            <text-property name="text">Initiated From</text-property>
                         </label>
                     </cell>
                     <cell id="6048">
@@ -9396,7 +9340,7 @@
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
                         <label id="6132">
-                            <text-property name="text">客户编号</text-property>
+                            <text-property name="text">Customer No.</text-property>
                         </label>
                     </cell>
                     <cell id="6050">
@@ -9423,7 +9367,7 @@
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
                         <label id="6133">
-                            <text-property name="text">名称</text-property>
+                            <text-property name="text">Name</text-property>
                         </label>
                     </cell>
                     <cell id="6052">
@@ -9454,7 +9398,7 @@
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
                         <label id="6108">
-                            <text-property name="text">物料编号</text-property>
+                            <text-property name="text">Part No.</text-property>
                         </label>
                     </cell>
                     <cell id="6093">
@@ -9481,7 +9425,7 @@
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
                         <label id="6135">
-                            <text-property name="text">版本</text-property>
+                            <text-property name="text">Rev.</text-property>
                         </label>
                     </cell>
                     <cell id="6095">
@@ -9508,7 +9452,7 @@
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
                         <label id="6136">
-                            <text-property name="text">名称</text-property>
+                            <text-property name="text">Name</text-property>
                         </label>
                     </cell>
                     <cell id="6097">
@@ -9539,7 +9483,7 @@
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
                         <label id="6109">
-                            <text-property name="text">发料数量</text-property>
+                            <text-property name="text">Dist Qty</text-property>
                         </label>
                     </cell>
                     <cell id="6084">
@@ -9566,7 +9510,7 @@
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
                         <label id="6138">
-                            <text-property name="text">日期</text-property>
+                            <text-property name="text">Date</text-property>
                         </label>
                     </cell>
                     <cell id="6086">
@@ -9597,7 +9541,7 @@
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
                         <label id="6139">
-                            <text-property name="text">批次</text-property>
+                            <text-property name="text">Lot No.</text-property>
                         </label>
                     </cell>
                     <cell id="6088">
@@ -9628,7 +9572,7 @@
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
                         <label id="6110">
-                            <text-property name="text">责任部门</text-property>
+                            <text-property name="text">Dept</text-property>
                         </label>
                     </cell>
                     <cell id="6075">
@@ -9655,7 +9599,7 @@
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
                         <label id="6141">
-                            <text-property name="text">发起人</text-property>
+                            <text-property name="text">Issued By</text-property>
                         </label>
                     </cell>
                     <cell id="6077">
@@ -9682,7 +9626,7 @@
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
                         <label id="6142">
-                            <text-property name="text">日期</text-property>
+                            <text-property name="text">Date</text-property>
                         </label>
                     </cell>
                     <cell id="6079">
@@ -9717,7 +9661,7 @@
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
                         <label id="6111">
-                            <text-property name="text">ICA确认</text-property>
+                            <text-property name="text">ICA Confirmed</text-property>
                         </label>
                     </cell>
                     <cell id="6066">
@@ -9753,7 +9697,7 @@
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
                         <label id="6144">
-                            <text-property name="text">PCA批准</text-property>
+                            <text-property name="text">PCA Approved</text-property>
                         </label>
                     </cell>
                     <cell id="6068">
@@ -9789,7 +9733,7 @@
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
                         <label id="6145">
-                            <text-property name="text">PCA验证</text-property>
+                            <text-property name="text">PCA Validated</text-property>
                         </label>
                     </cell>
                     <cell id="6070">
@@ -9825,7 +9769,7 @@
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
                         <label id="6146">
-                            <text-property name="text">PCA确认</text-property>
+                            <text-property name="text">PCA Confirmed</text-property>
                         </label>
                     </cell>
                     <cell id="6072">
@@ -9863,7 +9807,7 @@
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
                         <label id="6130">
-                            <text-property name="text">异常报告</text-property>
+                            <text-property name="text">IDR Reports</text-property>
                         </label>
                     </cell>
                     <cell id="6123">
@@ -9894,7 +9838,7 @@
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
                         <label id="6131">
-                            <text-property name="text">附件文件</text-property>
+                            <text-property name="text">Attachments</text-property>
                         </label>
                     </cell>
                     <cell id="6114">
@@ -9995,7 +9939,7 @@
                             <property name="fontWeight">bold</property>
                             <property name="color">white</property>
                             <property name="textAlign">left</property>
-                            <text-property name="text">STEP 1:  成立团队</text-property>
+                            <text-property name="text">STEP 1: Team Assembled </text-property>
                         </label>
                     </cell>
                 </row>
@@ -10011,7 +9955,7 @@
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
                         <label id="6459">
-                            <text-property name="text">姓名</text-property>
+                            <text-property name="text">Name</text-property>
                         </label>
                     </cell>
                     <cell id="6409">
@@ -10025,7 +9969,7 @@
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
                         <label id="6454">
-                            <text-property name="text">部门</text-property>
+                            <text-property name="text">Dept</text-property>
                         </label>
                     </cell>
                     <cell id="6411">
@@ -10039,7 +9983,7 @@
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
                         <label id="6455">
-                            <text-property name="text">职位</text-property>
+                            <text-property name="text">Title</text-property>
                         </label>
                     </cell>
                     <cell id="6413">
@@ -10053,7 +9997,7 @@
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
                         <label id="6456">
-                            <text-property name="text">角色</text-property>
+                            <text-property name="text">Role</text-property>
                         </label>
                     </cell>
                     <cell id="6415">
@@ -10067,7 +10011,7 @@
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
                         <label id="6457">
-                            <text-property name="text">电话</text-property>
+                            <text-property name="text">Tel</text-property>
                         </label>
                     </cell>
                     <cell id="6417">
@@ -10081,7 +10025,7 @@
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
                         <label id="6458">
-                            <text-property name="text">邮箱</text-property>
+                            <text-property name="text">E-Mail</text-property>
                         </label>
                     </cell>
                 </row>
@@ -10223,7 +10167,7 @@
                 </structure>
             </list-property>
             <column id="6475">
-                <property name="width">4cm</property>
+                <property name="width">3.7cm</property>
             </column>
             <column id="6476"/>
             <header>
@@ -10244,7 +10188,7 @@
                             <property name="fontWeight">bold</property>
                             <property name="color">white</property>
                             <property name="textAlign">left</property>
-                            <text-property name="text">STEP 2:  问题描述</text-property>
+                            <text-property name="text">STEP 2: Problem Description </text-property>
                         </label>
                     </cell>
                 </row>
@@ -10262,7 +10206,7 @@
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
                         <label id="6487">
-                            <text-property name="text">What 什么问题?</text-property>
+                            <text-property name="text">What?</text-property>
                         </label>
                     </cell>
                     <cell id="6480">
@@ -10291,7 +10235,7 @@
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
                         <label id="6494">
-                            <text-property name="text">When 何时发生?</text-property>
+                            <text-property name="text">When?</text-property>
                         </label>
                     </cell>
                     <cell id="6469">
@@ -10320,7 +10264,7 @@
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
                         <label id="6495">
-                            <text-property name="text">Where 何处发生?</text-property>
+                            <text-property name="text">Where?</text-property>
                         </label>
                     </cell>
                     <cell id="6493">
@@ -10349,7 +10293,7 @@
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
                         <label id="6496">
-                            <text-property name="text">Who 和哪些人有关?</text-property>
+                            <text-property name="text">Who?</text-property>
                         </label>
                     </cell>
                     <cell id="6490">
@@ -10378,7 +10322,7 @@
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
                         <label id="6506">
-                            <text-property name="text">Why 对原因的推测?</text-property>
+                            <text-property name="text">Why?</text-property>
                         </label>
                     </cell>
                     <cell id="6502">
@@ -10407,7 +10351,7 @@
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
                         <label id="6507">
-                            <text-property name="text">How 怎样发现问题</text-property>
+                            <text-property name="text">How?</text-property>
                         </label>
                     </cell>
                     <cell id="6505">
@@ -10436,7 +10380,7 @@
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
                         <label id="6511">
-                            <text-property name="text">How Many 频度</text-property>
+                            <text-property name="text">How Many?</text-property>
                         </label>
                     </cell>
                     <cell id="6510">
@@ -10531,7 +10475,7 @@
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
                         <label id="6569">
-                            <text-property name="text">描述</text-property>
+                            <text-property name="text">Description</text-property>
                         </label>
                     </cell>
                     <cell id="6536">
@@ -10560,7 +10504,7 @@
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
                         <label id="6570">
-                            <text-property name="text">位置</text-property>
+                            <text-property name="text">Location</text-property>
                         </label>
                     </cell>
                     <cell id="6562">
@@ -10589,7 +10533,7 @@
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
                         <label id="6571">
-                            <text-property name="text">接收人</text-property>
+                            <text-property name="text">Receiver</text-property>
                         </label>
                     </cell>
                     <cell id="6568">
@@ -10618,7 +10562,7 @@
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
                         <label id="6572">
-                            <text-property name="text">接收时间</text-property>
+                            <text-property name="text">Receive Date</text-property>
                         </label>
                     </cell>
                     <cell id="6556">
@@ -10735,15 +10679,15 @@
                 </structure>
             </list-property>
             <column id="6648">
-                <property name="width">2.7cm</property>
+                <property name="width">2.5cm</property>
             </column>
             <column id="6649"/>
             <column id="6650">
-                <property name="width">2.7cm</property>
+                <property name="width">2.5cm</property>
             </column>
             <column id="6651"/>
             <column id="6652">
-                <property name="width">2.7cm</property>
+                <property name="width">2.5cm</property>
             </column>
             <column id="6653"/>
             <header>
@@ -10764,7 +10708,7 @@
                             <property name="fontWeight">bold</property>
                             <property name="color">white</property>
                             <property name="textAlign">left</property>
-                            <text-property name="text">STEP 3:  临时抑制措施</text-property>
+                            <text-property name="text">STEP 3: Interim Containment Actions</text-property>
                         </label>
                     </cell>
                 </row>
@@ -10783,7 +10727,7 @@
                         <property name="borderTopStyle">double</property>
                         <property name="borderTopWidth">medium</property>
                         <label id="6784">
-                            <text-property name="text">行动描述：</text-property>
+                            <text-property name="text">Action:</text-property>
                         </label>
                         <data id="6606">
                             <property name="resultSetColumn">action</property>
@@ -10803,7 +10747,7 @@
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
                         <label id="6785">
-                            <text-property name="text">预期结果：</text-property>
+                            <text-property name="text">Objective:</text-property>
                         </label>
                         <data id="6610">
                             <property name="resultSetColumn">objective</property>
@@ -10824,7 +10768,7 @@
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
                         <label id="7798">
-                            <text-property name="text">负责人</text-property>
+                            <text-property name="text">Responsible</text-property>
                         </label>
                     </cell>
                     <cell id="7793">
@@ -10851,7 +10795,7 @@
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
                         <label id="7799">
-                            <text-property name="text">计划开始</text-property>
+                            <text-property name="text">Start</text-property>
                         </label>
                     </cell>
                     <cell id="7795">
@@ -10878,7 +10822,7 @@
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
                         <label id="7800">
-                            <text-property name="text">计划完成</text-property>
+                            <text-property name="text">Finish</text-property>
                         </label>
                     </cell>
                     <cell id="7797">
@@ -10908,7 +10852,7 @@
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
                         <label id="7723">
-                            <text-property name="text">描述：</text-property>
+                            <text-property name="text">Description:</text-property>
                         </label>
                         <data id="6608">
                             <property name="resultSetColumn">detail</property>
@@ -10928,7 +10872,7 @@
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
                         <label id="6804">
-                            <text-property name="text">验证：</text-property>
+                            <text-property name="text">Verification:</text-property>
                         </label>
                         <data id="6624">
                             <property name="resultSetColumn">comment</property>
@@ -10947,7 +10891,7 @@
                         <property name="borderTopWidth">thin</property>
                         <label id="7721">
                             <property name="display">inline</property>
-                            <text-property name="text">已验证</text-property>
+                            <text-property name="text">Validated</text-property>
                         </label>
                         <data id="6622">
                             <property name="display">inline</property>
@@ -10961,7 +10905,7 @@
                         <property name="borderTopWidth">thin</property>
                         <label id="6805">
                             <property name="display">inline</property>
-                            <text-property name="text">已关闭</text-property>
+                            <text-property name="text">Closed</text-property>
                         </label>
                         <data id="6618">
                             <property name="display">inline</property>
@@ -11025,7 +10969,7 @@
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
                         <label id="6806">
-                            <text-property name="text">附件</text-property>
+                            <text-property name="text">Attachments</text-property>
                         </label>
                     </cell>
                     <cell id="6791">
@@ -11116,7 +11060,7 @@
                             <property name="fontWeight">bold</property>
                             <property name="color">white</property>
                             <property name="textAlign">left</property>
-                            <text-property name="text">STEP 4:  诊断根本原因</text-property>
+                            <text-property name="text">STEP 4: Diagnose Root Cause</text-property>
                         </label>
                     </cell>
                 </row>
@@ -11136,7 +11080,7 @@
                         <label id="6872">
                             <property name="fontWeight">bold</property>
                             <property name="textAlign">left</property>
-                            <text-property name="text">问题产生原因分析</text-property>
+                            <text-property name="text">Analysis of the causes of the problems</text-property>
                         </label>
                     </cell>
                 </row>
@@ -11152,7 +11096,7 @@
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
                         <label id="6875">
-                            <text-property name="text">因素</text-property>
+                            <text-property name="text">Cause</text-property>
                         </label>
                     </cell>
                     <cell id="6854">
@@ -11166,7 +11110,7 @@
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
                         <label id="6876">
-                            <text-property name="text">描述</text-property>
+                            <text-property name="text">Description</text-property>
                         </label>
                     </cell>
                 </row>
@@ -11268,7 +11212,7 @@
                         <label id="6933">
                             <property name="fontWeight">bold</property>
                             <property name="textAlign">left</property>
-                            <text-property name="text">问题流出原因分析</text-property>
+                            <text-property name="text">Analysis of the Reasons for Problem shipped out</text-property>
                         </label>
                     </cell>
                 </row>
@@ -11284,7 +11228,7 @@
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
                         <label id="6922">
-                            <text-property name="text">因素</text-property>
+                            <text-property name="text">Cause</text-property>
                         </label>
                     </cell>
                     <cell id="6887">
@@ -11298,7 +11242,7 @@
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
                         <label id="6923">
-                            <text-property name="text">描述</text-property>
+                            <text-property name="text">Description</text-property>
                         </label>
                     </cell>
                 </row>
@@ -11372,7 +11316,7 @@
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
                         <label id="6960">
-                            <text-property name="text">根本原因：</text-property>
+                            <text-property name="text">Root Cause:</text-property>
                         </label>
                     </cell>
                 </row>
@@ -11398,7 +11342,7 @@
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
                         <label id="6961">
-                            <text-property name="text">问题逃出点：</text-property>
+                            <text-property name="text">Escape Point:</text-property>
                         </label>
                     </cell>
                 </row>
@@ -11424,7 +11368,7 @@
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
                         <label id="6962">
-                            <text-property name="text">验证记录：</text-property>
+                            <text-property name="text">Evidence Data:</text-property>
                         </label>
                     </cell>
                 </row>
@@ -11534,7 +11478,7 @@
                             <property name="fontWeight">bold</property>
                             <property name="color">white</property>
                             <property name="textAlign">left</property>
-                            <text-property name="text">STEP 5:  确定永久纠正措施</text-property>
+                            <text-property name="text">STEP 5: Identify Permanent Corrective Action</text-property>
                         </label>
                     </cell>
                 </row>
@@ -11552,7 +11496,7 @@
                         <label id="7180">
                             <property name="fontWeight">bold</property>
                             <property name="textAlign">left</property>
-                            <text-property name="text">针对流出原因的纠正措施</text-property>
+                            <text-property name="text">Corrective action of cause of occurrence</text-property>
                         </label>
                     </cell>
                 </row>
@@ -11585,7 +11529,7 @@
                         <label id="7181">
                             <property name="fontWeight">bold</property>
                             <property name="textAlign">left</property>
-                            <text-property name="text">针对发生原因的纠正措施</text-property>
+                            <text-property name="text">Corrective action of cause why shipped out</text-property>
                         </label>
                     </cell>
                 </row>
@@ -11698,15 +11642,15 @@
                 </structure>
             </list-property>
             <column id="7266">
-                <property name="width">2.7cm</property>
+                <property name="width">2.5cm</property>
             </column>
             <column id="7267"/>
             <column id="7268">
-                <property name="width">2.7cm</property>
+                <property name="width">2.5cm</property>
             </column>
             <column id="7269"/>
             <column id="7270">
-                <property name="width">2.7cm</property>
+                <property name="width">2.5cm</property>
             </column>
             <column id="7271"/>
             <header>
@@ -11727,7 +11671,7 @@
                             <property name="fontWeight">bold</property>
                             <property name="color">white</property>
                             <property name="textAlign">left</property>
-                            <text-property name="text">STEP 6:  验证并执行方案</text-property>
+                            <text-property name="text">STEP 6: Validation And Action Solutions</text-property>
                         </label>
                     </cell>
                 </row>
@@ -11747,7 +11691,7 @@
                         <label id="7294">
                             <property name="fontWeight">bold</property>
                             <property name="textAlign">left</property>
-                            <text-property name="text">发生原因纠正措施的验证</text-property>
+                            <text-property name="text">Validation of corrective action for cause of occurrence</text-property>
                         </label>
                     </cell>
                 </row>
@@ -11766,7 +11710,7 @@
                         <property name="borderTopStyle">double</property>
                         <property name="borderTopWidth">medium</property>
                         <label id="7464">
-                            <text-property name="text">行动描述：</text-property>
+                            <text-property name="text">Action:</text-property>
                         </label>
                         <data id="7227">
                             <property name="resultSetColumn">action</property>
@@ -11786,7 +11730,7 @@
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
                         <label id="7465">
-                            <text-property name="text">预期结果：</text-property>
+                            <text-property name="text">Objective:</text-property>
                         </label>
                         <data id="7229">
                             <property name="resultSetColumn">objective</property>
@@ -11807,7 +11751,7 @@
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
                         <label id="7787">
-                            <text-property name="text">负责人</text-property>
+                            <text-property name="text">Responsible</text-property>
                         </label>
                     </cell>
                     <cell id="7782">
@@ -11834,7 +11778,7 @@
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
                         <label id="7788">
-                            <text-property name="text">计划开始</text-property>
+                            <text-property name="text">Start</text-property>
                         </label>
                     </cell>
                     <cell id="7784">
@@ -11861,7 +11805,7 @@
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
                         <label id="7789">
-                            <text-property name="text">计划完成</text-property>
+                            <text-property name="text">Finish</text-property>
                         </label>
                     </cell>
                     <cell id="7786">
@@ -11891,7 +11835,7 @@
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
                         <label id="7468">
-                            <text-property name="text">描述 ：</text-property>
+                            <text-property name="text">Description:</text-property>
                         </label>
                         <data id="7235">
                             <property name="resultSetColumn">detail</property>
@@ -11911,7 +11855,7 @@
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
                         <label id="7472">
-                            <text-property name="text">验证：</text-property>
+                            <text-property name="text">Verification:</text-property>
                         </label>
                         <data id="7243">
                             <property name="resultSetColumn">comment</property>
@@ -11928,7 +11872,7 @@
                         <property name="borderTopWidth">thin</property>
                         <label id="7470">
                             <property name="display">inline</property>
-                            <text-property name="text">已验证</text-property>
+                            <text-property name="text">Validated</text-property>
                         </label>
                         <data id="7241">
                             <property name="display">inline</property>
@@ -11944,7 +11888,7 @@
                         <property name="borderTopWidth">thin</property>
                         <label id="7473">
                             <property name="display">inline</property>
-                            <text-property name="text">已关闭</text-property>
+                            <text-property name="text">Closed</text-property>
                         </label>
                         <data id="7237">
                             <property name="display">inline</property>
@@ -12008,7 +11952,7 @@
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
                         <label id="7474">
-                            <text-property name="text">附件</text-property>
+                            <text-property name="text">Attachments</text-property>
                         </label>
                     </cell>
                     <cell id="7381">
@@ -12120,15 +12064,15 @@
                 </structure>
             </list-property>
             <column id="7476">
-                <property name="width">2.7cm</property>
+                <property name="width">2.5cm</property>
             </column>
             <column id="7477"/>
             <column id="7478">
-                <property name="width">2.7cm</property>
+                <property name="width">2.5cm</property>
             </column>
             <column id="7479"/>
             <column id="7480">
-                <property name="width">2.7cm</property>
+                <property name="width">2.5cm</property>
             </column>
             <column id="7481"/>
             <header>
@@ -12148,7 +12092,7 @@
                         <label id="7487">
                             <property name="fontWeight">bold</property>
                             <property name="textAlign">left</property>
-                            <text-property name="text">流出原因纠正措施的验证</text-property>
+                            <text-property name="text">Validation of corrective action for cause why shipped out</text-property>
                         </label>
                     </cell>
                 </row>
@@ -12167,7 +12111,7 @@
                         <property name="borderTopStyle">double</property>
                         <property name="borderTopWidth">medium</property>
                         <label id="7490">
-                            <text-property name="text">行动描述：</text-property>
+                            <text-property name="text">Action:</text-property>
                         </label>
                         <data id="7497">
                             <property name="resultSetColumn">action</property>
@@ -12187,7 +12131,7 @@
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
                         <label id="7500">
-                            <text-property name="text">预期结果：</text-property>
+                            <text-property name="text">Objective:</text-property>
                         </label>
                         <data id="7503">
                             <property name="resultSetColumn">objective</property>
@@ -12206,7 +12150,7 @@
                         <property name="borderRightStyle">solid</property>
                         <property name="borderRightWidth">thin</property>
                         <label id="7776">
-                            <text-property name="text">负责人</text-property>
+                            <text-property name="text">Responsible</text-property>
                         </label>
                     </cell>
                     <cell id="7771">
@@ -12229,7 +12173,7 @@
                         <property name="borderRightStyle">solid</property>
                         <property name="borderRightWidth">thin</property>
                         <label id="7777">
-                            <text-property name="text">计划开始</text-property>
+                            <text-property name="text">Start</text-property>
                         </label>
                     </cell>
                     <cell id="7773">
@@ -12252,7 +12196,7 @@
                         <property name="borderRightStyle">solid</property>
                         <property name="borderRightWidth">thin</property>
                         <label id="7778">
-                            <text-property name="text">计划完成</text-property>
+                            <text-property name="text">Finish</text-property>
                         </label>
                     </cell>
                     <cell id="7775">
@@ -12280,7 +12224,7 @@
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
                         <label id="7514">
-                            <text-property name="text">描述 ：</text-property>
+                            <text-property name="text">Description:</text-property>
                         </label>
                         <data id="7519">
                             <property name="resultSetColumn">detail</property>
@@ -12300,7 +12244,7 @@
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
                         <label id="7535">
-                            <text-property name="text">验证：</text-property>
+                            <text-property name="text">Verification:</text-property>
                         </label>
                         <data id="7537">
                             <property name="resultSetColumn">comment</property>
@@ -12317,7 +12261,7 @@
                         <property name="borderTopWidth">thin</property>
                         <label id="7526">
                             <property name="display">inline</property>
-                            <text-property name="text">已验证</text-property>
+                            <text-property name="text">Validated</text-property>
                         </label>
                         <data id="7528">
                             <property name="display">inline</property>
@@ -12333,7 +12277,7 @@
                         <property name="borderTopWidth">thin</property>
                         <label id="7540">
                             <property name="display">inline</property>
-                            <text-property name="text">已关闭</text-property>
+                            <text-property name="text">Closed</text-property>
                         </label>
                         <data id="7542">
                             <property name="display">inline</property>
@@ -12397,7 +12341,7 @@
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
                         <label id="7545">
-                            <text-property name="text">附件</text-property>
+                            <text-property name="text">Attachments</text-property>
                         </label>
                     </cell>
                     <cell id="7546">
@@ -12483,7 +12427,7 @@
                             <property name="fontWeight">bold</property>
                             <property name="color">white</property>
                             <property name="textAlign">left</property>
-                            <text-property name="text">STEP 7: 系统预防</text-property>
+                            <text-property name="text">STEP 7: System Prevent</text-property>
                         </label>
                     </cell>
                 </row>
@@ -12503,7 +12447,7 @@
                         <label id="7665">
                             <property name="fontWeight">bold</property>
                             <property name="textAlign">left</property>
-                            <text-property name="text">类似系统</text-property>
+                            <text-property name="text">Similar Systems </text-property>
                         </label>
                     </cell>
                 </row>
@@ -12519,7 +12463,7 @@
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
                         <label id="7655">
-                            <text-property name="text">类型</text-property>
+                            <text-property name="text">Similar</text-property>
                         </label>
                     </cell>
                     <cell id="7623">
@@ -12533,7 +12477,7 @@
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
                         <label id="7656">
-                            <text-property name="text">相似度</text-property>
+                            <text-property name="text">Degree</text-property>
                         </label>
                     </cell>
                     <cell id="7625">
@@ -12547,7 +12491,7 @@
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
                         <label id="7657">
-                            <text-property name="text">问题描述</text-property>
+                            <text-property name="text">Description</text-property>
                         </label>
                     </cell>
                     <cell id="7627">
@@ -12561,7 +12505,7 @@
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
                         <label id="7659">
-                            <text-property name="text">可能性</text-property>
+                            <text-property name="text">Probably</text-property>
                         </label>
                     </cell>
                 </row>
@@ -12718,15 +12662,15 @@
                 </structure>
             </list-property>
             <column id="7550">
-                <property name="width">2.7cm</property>
+                <property name="width">2.5cm</property>
             </column>
             <column id="7551"/>
             <column id="7552">
-                <property name="width">2.7cm</property>
+                <property name="width">2.5cm</property>
             </column>
             <column id="7553"/>
             <column id="7554">
-                <property name="width">2.7cm</property>
+                <property name="width">2.5cm</property>
             </column>
             <column id="7555"/>
             <header>
@@ -12746,7 +12690,7 @@
                         <label id="7558">
                             <property name="fontWeight">bold</property>
                             <property name="textAlign">left</property>
-                            <text-property name="text">系统性预防措施</text-property>
+                            <text-property name="text">System Preventive Action(SPA)</text-property>
                         </label>
                     </cell>
                 </row>
@@ -12763,7 +12707,7 @@
                         <property name="borderRightStyle">solid</property>
                         <property name="borderRightWidth">thin</property>
                         <label id="7561">
-                            <text-property name="text">行动描述：</text-property>
+                            <text-property name="text">Action:</text-property>
                         </label>
                         <data id="7568">
                             <property name="resultSetColumn">action</property>
@@ -12781,7 +12725,7 @@
                         <property name="borderRightStyle">solid</property>
                         <property name="borderRightWidth">thin</property>
                         <label id="7571">
-                            <text-property name="text">预期结果：</text-property>
+                            <text-property name="text">Objective:</text-property>
                         </label>
                         <data id="7574">
                             <property name="resultSetColumn">objective</property>
@@ -12800,7 +12744,7 @@
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
                         <label id="7577">
-                            <text-property name="text">负责人</text-property>
+                            <text-property name="text">Responsible</text-property>
                         </label>
                     </cell>
                     <cell id="7578">
@@ -12827,7 +12771,7 @@
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
                         <label id="7581">
-                            <text-property name="text">计划开始</text-property>
+                            <text-property name="text">Start</text-property>
                         </label>
                     </cell>
                     <cell id="7582">
@@ -12858,7 +12802,7 @@
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
                         <label id="7585">
-                            <text-property name="text">计划完成</text-property>
+                            <text-property name="text">Finish</text-property>
                         </label>
                     </cell>
                     <cell id="7586">
@@ -12892,7 +12836,7 @@
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
                         <label id="7761">
-                            <text-property name="text">描述：</text-property>
+                            <text-property name="text">Description:</text-property>
                         </label>
                         <data id="7590">
                             <property name="resultSetColumn">detail</property>
@@ -12912,7 +12856,7 @@
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
                         <label id="7769">
-                            <text-property name="text">验证：</text-property>
+                            <text-property name="text">Verification:</text-property>
                         </label>
                         <data id="7770">
                             <property name="resultSetColumn">comment</property>
@@ -12929,7 +12873,7 @@
                         <property name="borderTopWidth">thin</property>
                         <label id="7597">
                             <property name="display">inline</property>
-                            <text-property name="text">已验证</text-property>
+                            <text-property name="text">Validated</text-property>
                         </label>
                         <data id="7599">
                             <property name="display">inline</property>
@@ -12943,7 +12887,7 @@
                         <property name="borderTopWidth">thin</property>
                         <label id="7611">
                             <property name="display">inline</property>
-                            <text-property name="text">已关闭</text-property>
+                            <text-property name="text">Closed</text-property>
                         </label>
                         <data id="7613">
                             <property name="display">inline</property>
@@ -13007,7 +12951,7 @@
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
                         <label id="7616">
-                            <text-property name="text">附件</text-property>
+                            <text-property name="text">Attachments</text-property>
                         </label>
                     </cell>
                     <cell id="7617">
@@ -13077,7 +13021,7 @@
                             <property name="fontWeight">bold</property>
                             <property name="color">white</property>
                             <property name="textAlign">left</property>
-                            <text-property name="text">STEP 8: 结案</text-property>
+                            <text-property name="text">STEP 8: Closed the case </text-property>
                         </label>
                     </cell>
                 </row>
@@ -13095,7 +13039,7 @@
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
                         <label id="7692">
-                            <text-property name="text">关闭人</text-property>
+                            <text-property name="text">Close By</text-property>
                         </label>
                     </cell>
                     <cell id="7675">
@@ -13122,7 +13066,7 @@
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
                         <label id="7693">
-                            <text-property name="text">关闭时间</text-property>
+                            <text-property name="text">Close On</text-property>
                         </label>
                     </cell>
                     <cell id="7677">

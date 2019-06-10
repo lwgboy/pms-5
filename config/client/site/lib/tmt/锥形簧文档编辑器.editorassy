@@ -1,0 +1,263 @@
+{
+  "id": "/编辑工作包-采购.editorassy",
+  "name": "锥形簧文档编辑器",
+  "title": "用于编辑锥形簧文档",
+  "layout": [],
+  "type": "editor",
+  "folderId": "1638c40accd",
+  "fields": [
+    {
+      "name": "项目基本信息",
+      "type": "标签页",
+      "formFields": [
+        {
+          "name": "项目基本信息",
+          "description": "",
+          "text": "项目基本信息",
+          "type": "横幅",
+          "formFields": [],
+          "staticContent": true,
+          "bannerStyle": "normal"
+        },
+        {
+          "name": "新字段",
+          "type": "行",
+          "formFields": [
+            {
+              "name": "productName",
+              "text": "产品名称",
+              "type": "单行文本框",
+              "formFields": []
+            },
+            {
+              "name": "productNo",
+              "text": "物资编码",
+              "type": "单行文本框",
+              "formFields": []
+            },
+            {
+              "name": "productType",
+              "text": "产品类别",
+              "type": "单选框",
+              "formFields": [],
+              "optionText": "A类#B类#C类",
+              "radioStyle": "横向分段（默认）"
+            }
+          ]
+        },
+        {
+          "name": "新字段",
+          "type": "行",
+          "formFields": [
+            {
+              "name": "projectName",
+              "description": "",
+              "text": "项目名称",
+              "type": "单行文本框",
+              "formFields": []
+            },
+            {
+              "name": "pm",
+              "text": "项目负责人",
+              "type": "单行文本框",
+              "formFields": []
+            },
+            {
+              "name": "workOrder",
+              "text": "工作令号",
+              "type": "单行文本框",
+              "formFields": []
+            }
+          ]
+        },
+        {
+          "name": "customerName",
+          "text": "客户名称",
+          "type": "对象选择框",
+          "formFields": [],
+          "staticContent": true
+        },
+        {
+          "name": "应用场合",
+          "text": "应用场合",
+          "type": "横幅",
+          "formFields": [],
+          "staticContent": true
+        },
+        {
+          "name": "新字段",
+          "type": "行",
+          "formFields": [
+            {
+              "name": "bogieType",
+              "text": "转向架",
+              "type": "单行文本框",
+              "formFields": []
+            },
+            {
+              "name": "install",
+              "text": "安装在",
+              "type": "下拉选择框",
+              "formFields": []
+            }
+          ]
+        },
+        {
+          "name": "usedProject",
+          "text": "项目",
+          "type": "单行文本框",
+          "formFields": []
+        },
+        {
+          "name": "产品结构信息",
+          "text": "产品结构信息",
+          "type": "横幅",
+          "formFields": [],
+          "staticContent": true,
+          "bannerStyle": "normal"
+        },
+        {
+          "name": "layer",
+          "text": "层数",
+          "type": "单选框",
+          "formFields": [],
+          "optionText": "1层#2层#3层#4层#5层#其他",
+          "radioStyle": "横向分段（默认）"
+        },
+        {
+          "name": "layerImage",
+          "text": "结构图片",
+          "type": "文件选择框",
+          "formFields": [],
+          "fileNamespace": "docAtt",
+          "fileFilerExts": "png"
+        },
+        {
+          "name": "empty",
+          "text": "空实向",
+          "type": "单选框",
+          "formFields": [],
+          "optionText": "无#有",
+          "radioStyle": "横向分段（默认）"
+        },
+        {
+          "name": "leftOrRight",
+          "text": "左右件",
+          "type": "单选框",
+          "formFields": [],
+          "optionText": "无#左件#右件",
+          "radioStyle": "横向分段（默认）"
+        },
+        {
+          "name": "零部件信息",
+          "text": "零部件信息",
+          "type": "横幅",
+          "formFields": [],
+          "staticContent": true,
+          "bannerStyle": "normal"
+        },
+        {
+          "name": "part",
+          "text": "零部件信息",
+          "type": "表格",
+          "formFields": [],
+          "selectorAssemblyId": "/tmt/零部件信息.gridassy",
+          "hideLabel": true,
+          "enableCreateItem": true
+        },
+        {
+          "name": "采购规范选用",
+          "text": "采购规范选用",
+          "type": "横幅",
+          "formFields": [],
+          "staticContent": true
+        },
+        {
+          "name": "applyPurchase1",
+          "text": "采购规范选用",
+          "type": "多项勾选框",
+          "formFields": [],
+          "optionText": "焊接件#球墨铸铁#紧固件#金属型材#锻件#非金属件",
+          "radioStyle": "横向分段（默认）",
+          "hideLabel": true
+        },
+        {
+          "name": "applyPurchase2",
+          "text": "采购规范选用",
+          "type": "单选框",
+          "formFields": [],
+          "optionText": "通用#非通用",
+          "radioStyle": "横向分段（默认）",
+          "hideLabel": true
+        },
+        {
+          "name": "新字段",
+          "type": "横幅",
+          "formFields": []
+        },
+        {
+          "name": "新字段",
+          "type": "行",
+          "formFields": [
+            {
+              "name": "sd",
+              "text": "结构设计师",
+              "type": "对象选择框",
+              "formFields": [],
+              "selectorAssemblyId": "/项目团队.gridassy"
+            },
+            {
+              "name": "qc",
+              "text": "质量工程师",
+              "type": "对象选择框",
+              "formFields": [],
+              "selectorAssemblyId": "/项目团队.gridassy"
+            },
+            {
+              "name": "pd",
+              "text": "包装设计师",
+              "type": "对象选择框",
+              "formFields": [],
+              "selectorAssemblyId": "/项目团队.gridassy"
+            }
+          ]
+        },
+        {
+          "name": "新字段",
+          "type": "行",
+          "formFields": [
+            {
+              "name": "cd",
+              "text": "工艺设计师",
+              "type": "对象选择框",
+              "formFields": [],
+              "selectorAssemblyId": "/项目团队.gridassy"
+            },
+            {
+              "name": "ppm",
+              "text": "项目管理员",
+              "type": "对象选择框",
+              "formFields": [],
+              "selectorAssemblyId": "/项目团队.gridassy"
+            },
+            {
+              "name": "新字段",
+              "type": "行",
+              "formFields": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "设计阶段",
+      "type": "标签页",
+      "formFields": []
+    }
+  ],
+  "actions": [],
+  "smallEditor": false,
+  "tinyEditor": false,
+  "disableInitLoadData": false,
+  "fullscreen": false
+}
