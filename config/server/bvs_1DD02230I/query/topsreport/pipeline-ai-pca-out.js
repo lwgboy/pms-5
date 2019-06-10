@@ -2,8 +2,8 @@
 		{
 			"$match" : {
 				"stage" : "pca",
-				"actionType" : "make",
-				"problem_id" : "<id>"
+				"actionType":"out",
+				"problem_id" :"<id>"
 			}
 		},
 		{
@@ -26,9 +26,7 @@
 												"as" : "attarchments",
 												"in" : {
 													"$concat" : [
-															"<a href=\"/bvs/fs?domain=",
-															"<domain>",
-															"&id=",
+															"<a href=\"/bvs/fs?domain=","<domain>", "&id=",
 															{
 																"$toString" : "$$attarchments._id"
 															},
@@ -51,9 +49,7 @@
 												"as" : "attarchments",
 												"in" : {
 													"$concat" : [
-															"<a href=\"/bvs/fs?domain=",
-															"<domain>",
-															"&id=",
+															"<a href=\"/bvs/fs?domain=","<domain>", "&id=",
 															{
 																"$toString" : "$$attarchments._id"
 															},
