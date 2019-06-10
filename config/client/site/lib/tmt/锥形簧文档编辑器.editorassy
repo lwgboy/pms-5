@@ -252,7 +252,15 @@
     {
       "name": "设计阶段",
       "type": "标签页",
-      "formFields": []
+      "formFields": [
+        {
+          "name": "输出文件基本信息",
+          "text": "输出文件基本信息",
+          "type": "横幅",
+          "formFields": [],
+          "staticContent": true
+        }
+      ]
     }
   ],
   "actions": [],
