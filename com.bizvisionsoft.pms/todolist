@@ -213,6 +213,11 @@ PMS6-10.10.016 工作包，检查项，文档模板似乎没有从模板导入到项目
 22.项目经理默认为当前用户
 23.资源需求未能和模板复制到项目计划----------------由于日历条目被删除-----------------------OK
 24.干系人字段缺少类型-------------------------------OK
+弃用方法：
+BruiToolkit.downloadServerFile, newStyledControl,newContentPanel-----------------------OK
+弃用旧版的编号规则
+import com.bizvisionsoft.annotations.md.mongocodex.Generator;
+import com.bizvisionsoft.annotations.md.mongocodex.IAutoGenerator;
 
 
 一、新材文档结构化项目准备工作（周一~周二完成，周三演示）

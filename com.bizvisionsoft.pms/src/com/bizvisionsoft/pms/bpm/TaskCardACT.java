@@ -82,12 +82,12 @@ public class TaskCardACT {
 		if (result.type == Result.TYPE_ERROR) {// 例如，不允许的操作，需要刷新
 			Layer.message(result.message);
 			logger.error(result.message);
-			context.refresh(true);
 		} else if (result.type == Result.TYPE_INFO) {
 			logger.info(result.message);
 		} else if (result.type == Result.TYPE_WARNING) {
 			logger.warn(result.message);
 		}
+		context.refresh(true);
 	}
 
 	private String getTaskDetailMsg(Document doc) {

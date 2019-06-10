@@ -15,7 +15,6 @@ import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.service.EPSService;
 import com.bizvisionsoft.service.common.Domain;
-import com.bizvisionsoft.service.common.JQ;
 import com.bizvisionsoft.service.model.EPS;
 import com.bizvisionsoft.service.model.EPSInfo;
 import com.bizvisionsoft.service.model.EPSInvestmentAnalysis;
