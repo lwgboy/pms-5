@@ -239,11 +239,6 @@
               "type": "对象选择框",
               "formFields": [],
               "selectorAssemblyId": "/项目团队.gridassy"
-            },
-            {
-              "name": "新字段",
-              "type": "行",
-              "formFields": []
             }
           ]
         }
@@ -259,11 +254,37 @@
           "type": "横幅",
           "formFields": [],
           "staticContent": true
+        },
+        {
+          "name": "设计要求",
+          "type": "多行文本框",
+          "formFields": [],
+          "grabVertical": true,
+          "hideLabel": true
         }
       ]
+    },
+    {
+      "name": "processReq",
+      "text": "工艺要求",
+      "type": "标签页（文本编辑）",
+      "formFields": []
+    },
+    {
+      "name": "htmldemo",
+      "text": "超文本页面",
+      "type": "标签页（HTML编辑）",
+      "formFields": []
     }
   ],
-  "actions": [],
+  "actions": [
+    {
+      "name": "导出",
+      "text": "导出",
+      "style": "info",
+      "type": "export"
+    }
+  ],
   "smallEditor": false,
   "tinyEditor": false,
   "disableInitLoadData": false,
