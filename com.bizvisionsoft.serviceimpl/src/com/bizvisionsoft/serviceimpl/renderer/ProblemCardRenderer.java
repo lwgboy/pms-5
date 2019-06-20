@@ -100,8 +100,20 @@ public class ProblemCardRenderer extends BasicServiceImpl {
 		// json});});'" + "/>");
 		// }
 
-		RenderTools.appendLabelAndTextLine(sb, "类别：",
-				Optional.ofNullable((Document) doc.get("classifyProblem")).map(d -> d.getString("path")).orElse(""));
+		Object classifyProblems = doc.get("classifyProblem");
+		if (classifyProblems instanceof Document) {
+			RenderTools.appendLabelAndTextLine(sb, "类别：",
+					Optional.ofNullable((Document) classifyProblems).map(d -> d.getString("path")).orElse(""));
+		} else if (classifyProblems instanceof List) {
+			List<Document> classifyProblem = (List<Document>) classifyProblems;
+			StringBuffer sbc = new StringBuffer();
+			classifyProblem.forEach(c -> {
+				if (sbc.length() > 0)
+					sbc.append(",");
+				sbc.append(c.getString("path"));
+			});
+			RenderTools.appendLabelAndTextLine(sb, "类别：", sbc.toString());
+		}
 
 		Check.isAssigned(doc.getString("custInfo"), s -> RenderTools.appendLabelAndTextLine(sb, "客户：", s));
 		Check.isAssigned(doc.getString("partName"), s -> RenderTools.appendLabelAndTextLine(sb, "零件：", s));

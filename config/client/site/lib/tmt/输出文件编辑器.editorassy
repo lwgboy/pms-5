@@ -1,0 +1,47 @@
+{
+  "id": "/编辑工作包-采购.editorassy",
+  "name": "输出文件编辑器",
+  "title": "输出文件",
+  "layout": [],
+  "type": "editor",
+  "folderId": "1638c40accd",
+  "fields": [
+    {
+      "name": "新字段",
+      "text": "输出文件名称",
+      "type": "单行文本框",
+      "formFields": []
+    },
+    {
+      "name": "新字段",
+      "text": "版本号",
+      "type": "单行文本框",
+      "formFields": []
+    },
+    {
+      "name": "新字段",
+      "text": "更改人",
+      "type": "对象选择框",
+      "formFields": [],
+      "selectorAssemblyId": "/项目团队.gridassy",
+      "valueFieldName": "userId"
+    },
+    {
+      "name": "新字段",
+      "text": "更改说明",
+      "type": "多行文本框",
+      "formFields": []
+    },
+    {
+      "name": "新字段",
+      "text": "变更编号",
+      "type": "单行文本框",
+      "formFields": []
+    }
+  ],
+  "actions": [],
+  "smallEditor": true,
+  "tinyEditor": true,
+  "addToParentContext": true,
+  "disableInitLoadData": false
+}

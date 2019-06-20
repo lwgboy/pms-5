@@ -78,7 +78,8 @@ public interface ProblemService {
 
 	public static final String[] actionName = new String[] { "紧急反应行动", "临时控制行动", "永久纠正措施", "系统性预防措施", "挽回损失和善后措施" };
 
-	public static final String[] cftRoleText = new String[] { "组长", "设计", "工艺", "生产", "质量", "顾客代表", "ERA", "ICA", "PCA", "SPA", "LRA" };
+	public static final String[] cftRoleText = new String[] { "组长", "设计", "工艺", "生产", "质量", "顾客代表", "ERA", "ICA", "PCA",
+			"SPA", "LRA" };
 
 	public static final String[] similarDegreeText = new String[] { "相同", "近似", "类似", "不同" };
 
@@ -94,7 +95,8 @@ public interface ProblemService {
 	@Path("/{domain}/_id/{_id}/cost/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public Document getSummaryCost(@PathParam("_id") ObjectId _id, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+	public Document getSummaryCost(@PathParam("_id") ObjectId _id,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@DELETE
 	@Path("/{domain}/item/_id/{_id}")
@@ -127,8 +129,8 @@ public interface ProblemService {
 	@Path("/{domain}/item/{msgCode}/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public long updateProblemsLifecycle(@MethodParam(MethodParam.FILTER_N_UPDATE) BasicDBObject fu, @PathParam("msgCode") String msgCode,
-			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+	public long updateProblemsLifecycle(@MethodParam(MethodParam.FILTER_N_UPDATE) BasicDBObject fu,
+			@PathParam("msgCode") String msgCode, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
 	@Path("/{domain}/item/")
@@ -154,7 +156,8 @@ public interface ProblemService {
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "问题清单（已创建-all）/list", "问题清单（解决中-all）/list", "问题清单（已关闭-all）/list", "问题清单（已取消-all）/list" })
 	public List<Problem> listAllProblems(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
-			@MethodParam("status") @PathParam("status") String status, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+			@MethodParam("status") @PathParam("status") String status,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
 	@Path("/{domain}/allitem/{status}/count")
@@ -163,7 +166,8 @@ public interface ProblemService {
 	@DataSet({ "问题清单（已创建-all）/" + DataSet.COUNT, "问题清单（解决中-all）/" + DataSet.COUNT, "问题清单（已关闭-all）/" + DataSet.COUNT,
 			"问题清单（已取消-all）/" + DataSet.COUNT })
 	public long countAllProblems(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
-			@MethodParam("status") @PathParam("status") String status, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+			@MethodParam("status") @PathParam("status") String status,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
 	@Path("/{domain}/uncancelitem/ds")
@@ -185,44 +189,51 @@ public interface ProblemService {
 	@Path("/{domain}/cc/count/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public long countCauseConsequences(BasicDBObject filter, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+	public long countCauseConsequences(BasicDBObject filter,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@DELETE
 	@Path("/{domain}/cc/_id/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public long deleteCauseConsequence(@PathParam("_id") ObjectId _id, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+	public long deleteCauseConsequence(@PathParam("_id") ObjectId _id,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@DELETE
 	@Path("/{domain}/d1/item/_id/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public long deleteD1CFT(@PathParam("_id") ObjectId _id, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+	public long deleteD1CFT(@PathParam("_id") ObjectId _id,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@DELETE
 	@Path("/{domain}/d2/item/_id/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public long deleteD2ProblemPhotos(@PathParam("_id") ObjectId _id, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+	public long deleteD2ProblemPhotos(@PathParam("_id") ObjectId _id,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@DELETE
 	@Path("/{domain}/d5/pca/_id/{_id}/{lang}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public long deleteD5PCA(@PathParam("_id") ObjectId _id, @MethodParam(MethodParam.LANG) @PathParam("lang") String lang,
+	public long deleteD5PCA(@PathParam("_id") ObjectId _id,
+			@MethodParam(MethodParam.LANG) @PathParam("lang") String lang,
 			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@DELETE
 	@Path("/{domain}/d7/simi/_id/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public long deleteD7Similar(@PathParam("_id") ObjectId _id, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+	public long deleteD7Similar(@PathParam("_id") ObjectId _id,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@DELETE
 	@Path("/{domain}/d8/exp/_id/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public long deleteD8Exp(@PathParam("_id") ObjectId _id, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+	public long deleteD8Exp(@PathParam("_id") ObjectId _id,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@GET
 	@Path("/{domain}/_id/{_id}/{lang}")
@@ -245,7 +256,8 @@ public interface ProblemService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("D2问题描述5W2H信息面板/list")
-	public Document getD2ProblemDesc(@PathParam("_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId problem_id,
+	public Document getD2ProblemDesc(
+			@PathParam("_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId problem_id,
 			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
@@ -253,14 +265,16 @@ public interface ProblemService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("D2现场照片表格/list")
-	public List<Document> listD2ProblemPhotos(@PathParam("_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId problem_id,
+	public List<Document> listD2ProblemPhotos(
+			@PathParam("_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId problem_id,
 			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@GET
 	@Path("/{domain}/_id/{_id}/d4/rootCauseDesc")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public Document getD4RootCauseDesc(@PathParam("_id") ObjectId _id, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+	public Document getD4RootCauseDesc(@PathParam("_id") ObjectId _id,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@GET
 	@Path("/{domain}/_id/{_id}/d5/criteria")
@@ -273,25 +287,35 @@ public interface ProblemService {
 	@Path("/{domain}/_id/{_id}/d7/simi")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public Document getD7Similar(@PathParam("_id") ObjectId _id, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+	public Document getD7Similar(@PathParam("_id") ObjectId _id,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@GET
 	@Path("/{domain}/_id/{_id}/d8/exp")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public Document getD8Exp(@PathParam("_id") ObjectId _id, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+	public Document getD8Exp(@PathParam("_id") ObjectId _id,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
 	@Path("/{domain}/_id/{_id}/d3/confirm/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public List<Result> icaConfirm(@PathParam("_id") ObjectId _id, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+	public List<Result> icaConfirm(@PathParam("_id") ObjectId _id,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
 	@Path("/{domain}/cc/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public CauseConsequence insertCauseConsequence(CauseConsequence cc,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+
+	@POST
+	@Path("/{domain}/ccs/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public void insertCauseConsequences(List<CauseConsequence> cc,
 			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
@@ -302,10 +326,23 @@ public interface ProblemService {
 			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
+	@Path("/{domain}/d1/items")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public void insertD1Items(List<Document> d1, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+
+	@POST
 	@Path("/{domain}/d2/photo/{render}/{lang}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public Document insertD2ProblemPhoto(Document t, @PathParam("lang") String lang, @PathParam("render") String render,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+
+	@POST
+	@Path("/{domain}/d2/photos")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public void insertD2ProblemPhotos(List<Document> t,
 			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
@@ -335,6 +372,12 @@ public interface ProblemService {
 	@Produces("application/json; charset=UTF-8")
 	public Document insertD7Similar(Document t, @PathParam("lang") String lang, @PathParam("render") String render,
 			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+
+	@POST
+	@Path("/{domain}/d7/sss")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public void insertD7Similars(List<Document> t, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
 	@Path("/{domain}/d8/exp/{render}/{lang}")
@@ -370,7 +413,8 @@ public interface ProblemService {
 	@DataSet({ "D0问题初始记录/list" })
 	public List<Document> listD0Init(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
 			@PathParam("_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId problem_id,
-			@MethodParam(MethodParam.LANG) @PathParam("lang") String lang, @MethodParam("render") @PathParam("render") String render,
+			@MethodParam(MethodParam.LANG) @PathParam("lang") String lang,
+			@MethodParam("render") @PathParam("render") String render,
 			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
@@ -381,7 +425,8 @@ public interface ProblemService {
 	public List<Document> listD1(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
 			@PathParam("_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId problem_id,
 			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userid") String userid,
-			@MethodParam(MethodParam.LANG) @PathParam("lang") String lang, @MethodParam("render") @PathParam("render") String render,
+			@MethodParam(MethodParam.LANG) @PathParam("lang") String lang,
+			@MethodParam("render") @PathParam("render") String render,
 			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
@@ -418,7 +463,8 @@ public interface ProblemService {
 	@Path("/{domain}/_id/{_id}/d5/pca/ds/{lang}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public List<Document> listD5PCA(@PathParam("_id") ObjectId problem_id, @MethodParam(MethodParam.LANG) @PathParam("lang") String lang,
+	public List<Document> listD5PCA(@PathParam("_id") ObjectId problem_id,
+			@MethodParam(MethodParam.LANG) @PathParam("lang") String lang,
 			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
@@ -428,7 +474,8 @@ public interface ProblemService {
 	@DataSet("D7类似系统表格/list")
 	public List<Document> listD7Similar(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
 			@PathParam("_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId problem_id,
-			@MethodParam(MethodParam.LANG) @PathParam("lang") String lang, @MethodParam("render") @PathParam("render") String render,
+			@MethodParam(MethodParam.LANG) @PathParam("lang") String lang,
+			@MethodParam("render") @PathParam("render") String render,
 			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
@@ -438,7 +485,8 @@ public interface ProblemService {
 	@DataSet("D7系统预防/list")
 	public List<Document> listD7(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
 			@PathParam("_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId problem_id,
-			@MethodParam(MethodParam.LANG) @PathParam("lang") String lang, @MethodParam("render") @PathParam("render") String render,
+			@MethodParam(MethodParam.LANG) @PathParam("lang") String lang,
+			@MethodParam("render") @PathParam("render") String render,
 			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
@@ -448,7 +496,8 @@ public interface ProblemService {
 	@DataSet({ "D8关闭结案/list", "D8经验教训表格/list" })
 	public List<Document> listD8(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
 			@PathParam("_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId problem_id,
-			@MethodParam(MethodParam.LANG) @PathParam("lang") String lang, @MethodParam("render") @PathParam("render") String render,
+			@MethodParam(MethodParam.LANG) @PathParam("lang") String lang,
+			@MethodParam("render") @PathParam("render") String render,
 			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
@@ -482,7 +531,8 @@ public interface ProblemService {
 	@Path("/{domain}/cc/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public long updateCauseConsequence(BasicDBObject fu, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+	public long updateCauseConsequence(BasicDBObject fu,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
 	@Path("/{domain}/d2/pd/{lang}")
@@ -502,7 +552,8 @@ public interface ProblemService {
 	@Path("/{domain}/d5/criteria/{lang}/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public void updateD5DecisionCriteria(BasicDBObject fu, @MethodParam(MethodParam.LANG) @PathParam("lang") String lang,
+	public void updateD5DecisionCriteria(BasicDBObject fu,
+			@MethodParam(MethodParam.LANG) @PathParam("lang") String lang,
 			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@PUT
@@ -665,7 +716,8 @@ public interface ProblemService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "问题成本分类/" + DataSet.LIST })
-	public List<ClassifyProblemLost> rootClassifyProblemLost(@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+	public List<ClassifyProblemLost> rootClassifyProblemLost(
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
 	@Path("/{domain}/classifyProblemLost/ds/")
@@ -709,8 +761,9 @@ public interface ProblemService {
 	@Path("/{domain}/classifyProblem/root/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet({ "问题分类/" + DataSet.LIST, "问题分类选择表格（查询用）/list" })
-	public List<ClassifyProblem> rootClassifyProblem(@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+	@DataSet({ "问题分类/" + DataSet.LIST, "问题分类（多选显示）/" + DataSet.LIST, "问题分类选择表格（查询用）/list" })
+	public List<ClassifyProblem> rootClassifyProblem(
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
 	@Path("/{domain}/classifyProblem/ds/")
@@ -762,14 +815,24 @@ public interface ProblemService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "原因分类（选择器用）/" + DataSet.LIST })
-	public List<ClassifyCause> rootClassifyCauseSelector(@MethodParam(MethodParam.CONTEXT_INPUT_OBJECT) CauseConsequence cc,
+	public List<ClassifyCause> rootClassifyCauseSelector(
+			@MethodParam(MethodParam.CONTEXT_INPUT_OBJECT) CauseConsequence cc,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+
+	@POST
+	@Path("/{domain}/classifyCause/document/root/selector/ds")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "原因分类（整体创建选择器用）/" + DataSet.LIST })
+	public List<ClassifyCause> rootClassifyCauseSelector(@MethodParam(MethodParam.CONTEXT_INPUT_OBJECT) Document doc,
 			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
 	@Path("/{domain}/classifyCause/ds/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public List<ClassifyCause> listClassifyCause(BasicDBObject filter, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+	public List<ClassifyCause> listClassifyCause(BasicDBObject filter,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
 	@Path("/{domain}/classifyCause/parent/{parent_id}/count")
@@ -853,7 +916,8 @@ public interface ProblemService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("D8问题成本期间分类汇总/list")
-	public Document periodCostChart(@PathParam("_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId problem_id,
+	public Document periodCostChart(
+			@PathParam("_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId problem_id,
 			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -862,27 +926,31 @@ public interface ProblemService {
 	@Path("/{domain}/_id/{_id}/{stage}/action/{render}/{lang}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public Document insertAction(Document t, @PathParam("_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId problem_id,
-			@MethodParam("stage") @PathParam("stage") String stage, @PathParam("lang") String lang, @PathParam("render") String render,
-			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+	public Document insertAction(Document t,
+			@PathParam("_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId problem_id,
+			@MethodParam("stage") @PathParam("stage") String stage, @PathParam("lang") String lang,
+			@PathParam("render") String render, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
 	@Path("/{domain}/actions/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public void insertActions(List<Document> actions, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+	public void insertActions(List<Document> actions,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@DELETE
 	@Path("/{domain}/action/_id/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public long deleteAction(@PathParam("_id") ObjectId _id, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+	public long deleteAction(@PathParam("_id") ObjectId _id,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@GET
 	@Path("/{domain}/action/_id/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public Document getAction(@PathParam("_id") ObjectId _id, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+	public Document getAction(@PathParam("_id") ObjectId _id,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
 	@Path("/{domain}/_id/{_id}/{stage}/actions/{render}/{lang}")
@@ -895,8 +963,10 @@ public interface ProblemService {
 			"D8损失挽回措施表格/list" })
 	public List<Document> listActions(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
 			@PathParam("_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId problem_id,
-			@MethodParam("stage") @PathParam("stage") String stage, @MethodParam(MethodParam.LANG) @PathParam("lang") String lang,
-			@MethodParam("render") @PathParam("render") String render, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+			@MethodParam("stage") @PathParam("stage") String stage,
+			@MethodParam(MethodParam.LANG) @PathParam("lang") String lang,
+			@MethodParam("render") @PathParam("render") String render,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@PUT
 	@Path("/{domain}/action/{msgType}/{render}/{lang}")
@@ -914,7 +984,8 @@ public interface ProblemService {
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("行动预案选择列表/list")
 	public List<Document> listAdvisablePlan(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
-			@MethodParam("problem_id") @PathParam("_id") ObjectId problem_id, @MethodParam("stage") @PathParam("stage") String stage,
+			@MethodParam("problem_id") @PathParam("_id") ObjectId problem_id,
+			@MethodParam("stage") @PathParam("stage") String stage,
 			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
@@ -923,7 +994,8 @@ public interface ProblemService {
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("行动预案选择列表/count")
 	public long countAdvisablePlan(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
-			@MethodParam("problem_id") @PathParam("_id") ObjectId problem_id, @MethodParam("stage") @PathParam("stage") String stage,
+			@MethodParam("problem_id") @PathParam("_id") ObjectId problem_id,
+			@MethodParam("stage") @PathParam("stage") String stage,
 			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1109,14 +1181,16 @@ public interface ProblemService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "问题损失按问题分类条形图/list" })
-	public Document createCostClassifyByProblemChart(@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+	public Document createCostClassifyByProblemChart(
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
 	@Path("/{domain}/count/classifyproblem/bar")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "问题数量按问题分类条形图/list" })
-	public Document createCountClassifyByProblemChart(@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+	public Document createCountClassifyByProblemChart(
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
 	@Path("/{domain}/cost/classifyCause/pie")
@@ -1145,14 +1219,16 @@ public interface ProblemService {
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("系统性预防措施表格/list")
 	public List<Document> listActions(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
-			@MethodParam("stage") @PathParam("stage") String stage, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+			@MethodParam("stage") @PathParam("stage") String stage,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
 	@Path("/{domain}/actions/{stage}/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("系统性预防措施表格/count")
-	public long countActions(@MethodParam(MethodParam.FILTER) BasicDBObject filter, @MethodParam("stage") @PathParam("stage") String stage,
+	public long countActions(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
+			@MethodParam("stage") @PathParam("stage") String stage,
 			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
@@ -1184,21 +1260,23 @@ public interface ProblemService {
 	@Path("/{domain}/_id/{_id}/action/{action}/userId/{userId}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public boolean hasPrivate(@PathParam("_id") ObjectId _id, @PathParam("action") String action, @PathParam("userId") String userId,
-			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+	public boolean hasPrivate(@PathParam("_id") ObjectId _id, @PathParam("action") String action,
+			@PathParam("userId") String userId, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
 	@Path("/{domain}/_id/{_id}/loadcauseanalysis")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public Document loadCauseAnalysis(@PathParam("_id") ObjectId _id, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+	public Document loadCauseAnalysis(@PathParam("_id") ObjectId _id,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
 	@Path("/{domain}/_id/{_id}/createreport/{template}/{fileName}/{serverName}/{serverPath}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public InputStream createReportAndGetDownloadPath(Document rptParam, @PathParam("_id") ObjectId _id,
-			@PathParam("template") String template, @PathParam("fileName") String fileName, @PathParam("serverName") String serverName,
-			@PathParam("serverPath") int serverPath, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+			@PathParam("template") String template, @PathParam("fileName") String fileName,
+			@PathParam("serverName") String serverName, @PathParam("serverPath") int serverPath,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 }

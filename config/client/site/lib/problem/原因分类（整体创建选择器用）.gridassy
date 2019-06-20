@@ -1,0 +1,48 @@
+{
+  "id": "/原因分类（选择器用）.gridassy",
+  "name": "原因分类（整体创建选择器用）",
+  "layout": [],
+  "type": "grid",
+  "stickerTitle": "问题原因分类",
+  "folderId": "168987a1e5c",
+  "gridAutoExpandLevel": -1,
+  "gridLineVisiable": true,
+  "gridHeaderVisiable": true,
+  "gridHasHScroll": true,
+  "gridHasVScroll": true,
+  "gridDataSetService": "com.bizvisionsoft.service.ProblemService",
+  "columns": [
+    {
+      "id": "1684568e719",
+      "name": "id",
+      "text": "编号",
+      "alignment": 16384,
+      "width": 120,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "16845076b11",
+      "name": "name",
+      "text": "类别名称",
+      "alignment": 16384,
+      "width": 160,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "1684507b767",
+      "name": "description",
+      "text": "描述",
+      "alignment": 16384,
+      "width": 480,
+      "resizeable": true,
+      "columns": []
+    }
+  ],
+  "fields": [],
+  "actions": [],
+  "rowActions": [],
+  "hasTitlebar": true,
+  "sortFields": []
+}

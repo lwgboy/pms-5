@@ -165,7 +165,7 @@ public class OBSInTemplate {
 		}
 	}
 
-	@ReadValue({ "项目模板组织结构图/text", "roleName" })
+	@ReadValue({ "roleName" })
 	@WriteValue
 	@SetValue
 	private String roleName;
@@ -180,24 +180,24 @@ public class OBSInTemplate {
 
 	}
 
-	@ReadValue({ "OBS模板组织结构图/text" })
+	@ReadValue({ "OBS模板组织结构图/text", "项目模板组织结构图/text" })
 	private String getDiagramText() {
 		if (isRole()) {
 			if (Check.isNotAssigned(managerInfo)) {
-				return "[待定]";
+				return roleName;
 			} else {
 				return managerInfo;// .substring(0, managerInfo.indexOf("["));
 			}
 		} else {
 			if (Check.isNotAssigned(roleName)) {
 				if (Check.isNotAssigned(managerInfo)) {
-					return "团队";
+					return " ";
 				} else {
 					return managerInfo;// .substring(0, managerInfo.indexOf("["));
 				}
 			} else {
 				if (Check.isNotAssigned(managerInfo)) {
-					return roleName + " [待定]";
+					return roleName ;
 				} else {
 					return roleName + " " + managerInfo;// .substring(0, managerInfo.indexOf("["));
 				}
@@ -373,11 +373,10 @@ public class OBSInTemplate {
 	 *            是否根节点
 	 * @return
 	 */
-	public static OBSInTemplate getInstanceTeam(ObjectId scope_id, ObjectId parent_id, String name, String roleId, String roleName,
-			boolean scopeRoot,String domain) {
+	public static OBSInTemplate getInstanceTeam(ObjectId scope_id, ObjectId parent_id, String name, String roleId,
+			String roleName, boolean scopeRoot, String domain) {
 		return new OBSInTemplate()// 创建本项目的OBS根节点
-				.setDomain(domain)
-				.set_id(new ObjectId()).setScope_id(scope_id)// 设置scope_id表明该组织节点的范围
+				.setDomain(domain).set_id(new ObjectId()).setScope_id(scope_id)// 设置scope_id表明该组织节点的范围
 				.setParent_id(parent_id)// 设置上级的id
 				.setName(name)// 设置该组织节点的默认名称
 				.setRoleId(roleId)// 设置该组织节点的角色id

@@ -1,0 +1,170 @@
+{
+  "id": "/Dx-行动计划-编辑器.editorassy",
+  "name": "Dx-行动计划-编辑器（整体创建）",
+  "title": "行动",
+  "layout": [],
+  "type": "editor",
+  "folderId": "1689872b96f",
+  "fields": [
+    {
+      "name": "行动计划",
+      "type": "标签页",
+      "formFields": [
+        {
+          "id": "167ee57b5c3",
+          "name": "action",
+          "text": "行动描述",
+          "type": "单行文本框",
+          "formFields": [],
+          "required": true
+        },
+        {
+          "id": "167f3a15f22",
+          "name": "objective",
+          "text": "预期结果",
+          "type": "单行文本框",
+          "formFields": [],
+          "required": true
+        },
+        {
+          "id": "167f3db3e0d",
+          "name": "新字段22",
+          "type": "行",
+          "formFields": [
+            {
+              "id": "168730a578a",
+              "name": "index",
+              "text": "行动序号",
+              "type": "数字输入框",
+              "formFields": [],
+              "spinnerMax": 99,
+              "spinnerMin": 0,
+              "spinnerInc": 1,
+              "spinnerPageInc": 10
+            },
+            {
+              "id": "167f2a0d85f",
+              "name": "charger",
+              "text": "行动负责",
+              "type": "对象选择框",
+              "formFields": [],
+              "required": false,
+              "selectorAssemblyId": "/用户选择列表.gridassy",
+              "valueFieldName": "userId"
+            },
+            {
+              "id": "167f2a01f57",
+              "name": "planStart",
+              "text": "计划开始",
+              "type": "日期时间选择",
+              "formFields": [],
+              "required": true,
+              "dateType": "datetime"
+            },
+            {
+              "id": "167ee4f0821",
+              "name": "planFinish",
+              "text": "计划完成",
+              "type": "日期时间选择",
+              "formFields": [],
+              "required": true,
+              "dateType": "datetime"
+            }
+          ]
+        },
+        {
+          "id": "16a96880662",
+          "name": "attachments",
+          "text": "附件",
+          "type": "多个文件选择框",
+          "formFields": [],
+          "fileNamespace": "prmAtt"
+        },
+        {
+          "id": "167f2b37774",
+          "name": "detail",
+          "text": "详细计划",
+          "type": "HTML文本框",
+          "formFields": [],
+          "grabVertical": true
+        }
+      ]
+    },
+    {
+      "name": "行动验证",
+      "type": "标签页",
+      "formFields": [
+        {
+          "id": "167f76d339c",
+          "name": "verificationTitle",
+          "text": "验证结论",
+          "type": "单选框",
+          "formFields": [],
+          "required": false,
+          "optionText": "已验证#未通过验证",
+          "radioStyle": "横向分段（默认）"
+        },
+        {
+          "id": "167f76d2235",
+          "name": "verificationComment",
+          "text": "说明",
+          "type": "单行文本框",
+          "verticalLabel": false,
+          "formFields": [],
+          "grabVertical": false
+        },
+        {
+          "id": "168525c73ab",
+          "name": "verificationAttachment",
+          "text": "验证资料\u003cbr\u003e检验报告\u003cbr\u003e测试结果\u003cbr\u003e其他附件",
+          "type": "多个文件选择框",
+          "verticalLabel": false,
+          "formFields": [],
+          "fileNamespace": "prmAtt",
+          "grabVertical": false
+        },
+        {
+          "id": "16832ce6f2c",
+          "name": "新字段1",
+          "type": "行",
+          "formFields": [
+            {
+              "id": "167f9230a89",
+              "name": "verificationUser",
+              "text": "验证人",
+              "type": "对象选择框",
+              "formFields": [],
+              "required": false,
+              "selectorAssemblyId": "/用户选择列表.gridassy",
+              "valueFieldName": "userId"
+            },
+            {
+              "id": "167f76d350c",
+              "name": "verificationDate",
+              "text": "验证日期",
+              "type": "日期时间选择",
+              "formFields": [],
+              "required": false,
+              "dateType": "datetime"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "actions": [
+    {
+      "id": "167f2c77d76",
+      "name": "选择预案",
+      "text": "选择预案",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.problem.action.SelectPlan",
+      "style": "info",
+      "type": "customized"
+    }
+  ],
+  "smallEditor": false,
+  "tinyEditor": false,
+  "addToParentContext": true,
+  "labelWidth": 80
+}

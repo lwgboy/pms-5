@@ -21,7 +21,7 @@ public class ClassifyProblem {
 	@ReadValue
 	@WriteValue
 	public ObjectId _id;
-	
+
 	@ReadValue
 	@WriteValue
 	public String id;
@@ -37,7 +37,7 @@ public class ClassifyProblem {
 	@ReadValue
 	@WriteValue
 	public ObjectId parent_id;
-	
+
 	@Structure("new")
 	public ClassifyProblem newSubItem() {
 		ClassifyProblem ci = new ClassifyProblem();
@@ -45,37 +45,36 @@ public class ClassifyProblem {
 		ci.parent_id = _id;
 		return ci;
 	}
-	
+
 	public String domain;
 
-	@Structure("list")
+	@Structure({ "问题分类/list","问题分类选择表格（查询用）/list" })
 	public List<ClassifyProblem> listSubItems() {
-		return ServicesLoader.get(ProblemService.class).listClassifyProblem(new BasicDBObject("parent_id", _id), domain);
+		return ServicesLoader.get(ProblemService.class).listClassifyProblem(new BasicDBObject("parent_id", _id),
+				domain);
 	}
 
-	@Structure("count")
+	@Structure({ "问题分类/count","问题分类选择表格（查询用）/count" })
 	public long countSubItems() {
 		return ServicesLoader.get(ProblemService.class).countClassifyProblem(_id, domain);
 	}
 
-
 	@ReadValue
 	public String path;
-	
+
 	@ReadValue
 	@SetValue
 	public boolean isLeaf;
 
 	@ReadValue
 	public List<ObjectId> _ids;
-	
-	
+
 	@Override
 	@Label
 	public String toString() {
-		return ""+path;
+		return "" + path;
 	}
-	
+
 	@ReadValue(ReadValue.TYPE)
 	@Exclude
 	public static final String typeName = "问题类别";

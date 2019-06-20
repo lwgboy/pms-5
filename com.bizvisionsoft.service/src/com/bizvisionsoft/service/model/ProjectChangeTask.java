@@ -16,12 +16,13 @@ public class ProjectChangeTask {
 
 	@Persistence
 	public String user;
-	
+
 	public String domain;
 
 	@ReadValue("userInfo")
 	public String getUser() {
-		return Optional.ofNullable(user).map(id -> ServicesLoader.get(UserService.class).get(id, domain).toString()).orElse("");
+		return Optional.ofNullable(user).map(id -> ServicesLoader.get(UserService.class).get(id, domain).toString())
+				.orElse("");
 	}
 
 	@ReadValue
@@ -41,10 +42,15 @@ public class ProjectChangeTask {
 	@Persistence
 	public String name;
 
+	@ReadValue
+	@Persistence
+	public Integer index;
+
 	@Exclude
 	public ObjectId projectChange_id;
 
-	public static ProjectChangeTask getCancelInstance(String userid, ObjectId projectChange_id, String name, String comment,String domain) {
+	public static ProjectChangeTask getCancelInstance(String userid, ObjectId projectChange_id, String name,
+			String comment, String domain) {
 		ProjectChangeTask task = new ProjectChangeTask();
 		task.domain = domain;
 		task.user = userid;
@@ -56,7 +62,8 @@ public class ProjectChangeTask {
 		return task;
 	}
 
-	public static ProjectChangeTask getPassInstance(String userid, ObjectId projectChange_id, String name, String comment,String domain) {
+	public static ProjectChangeTask getPassInstance(String userid, ObjectId projectChange_id, String name,
+			String comment, String domain) {
 		ProjectChangeTask task = new ProjectChangeTask();
 		task.domain = domain;
 		task.user = userid;

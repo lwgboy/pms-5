@@ -1,0 +1,98 @@
+{
+  "id": "/D8经验教训表格.gridassy",
+  "name": "D8经验教训表格（整体创建）",
+  "layout": [],
+  "type": "grid",
+  "stickerTitle": "经验教训总结",
+  "folderId": "168987437fd",
+  "gridLineVisiable": true,
+  "gridHeaderVisiable": true,
+  "gridHasHScroll": true,
+  "gridHasVScroll": true,
+  "gridDataSetService": "com.bizvisionsoft.service.ProblemService",
+  "columns": [
+    {
+      "id": "1682d6d9e8d",
+      "name": "name",
+      "text": "标题",
+      "alignment": 16384,
+      "width": 240,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "1682d6da04e",
+      "name": "catalog",
+      "text": "分类",
+      "alignment": 16384,
+      "width": 96,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "1682d6da157",
+      "name": "abstract",
+      "text": "摘要",
+      "alignment": 16384,
+      "width": 240,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "1682d6d9f62",
+      "name": "charger_meta.name",
+      "text": "总结人",
+      "alignment": 16384,
+      "width": 80,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "1682d793245",
+      "name": "date",
+      "text": "日期",
+      "alignment": 16777216,
+      "width": 96,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "1682d79b0a3",
+      "name": "video",
+      "text": "过程视频",
+      "alignment": 16384,
+      "width": 80,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "1682d79f1d6",
+      "name": "material",
+      "text": "学习资料",
+      "alignment": 16384,
+      "width": 420,
+      "resizeable": true,
+      "columns": []
+    }
+  ],
+  "fields": [],
+  "actions": [
+    {
+      "id": "16828d58dbb",
+      "name": "创建",
+      "image": "/img/add_16_w.svg",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.problem.action.CreateD8Exp",
+      "style": "normal",
+      "editorAssemblyId": "/D8-经验总结-编辑器.editorassy",
+      "type": "insert",
+      "createActionNewInstanceBundleId": "org.mongodb.mongo-java-driver",
+      "createActionNewInstanceClassName": "org.bson.Document",
+      "parameters": "{\"render\":\"gridrow\"}"
+    }
+  ],
+  "rowActions": [],
+  "hasTitlebar": true,
+  "parameters": "{\"render\":\"gridrow\"}",
+  "sortFields": []
+}

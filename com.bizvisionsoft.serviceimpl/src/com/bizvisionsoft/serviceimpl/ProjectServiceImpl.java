@@ -153,8 +153,8 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		return c(Project.class, domain).aggregate(pipeline).into(new ArrayList<Project>());
 	}
 
-	private List<Bson> appendQueryPipeline(Integer skip, Integer limit, BasicDBObject filter, BasicDBObject sort, List<Bson> pipeline,
-			String domain) {
+	private List<Bson> appendQueryPipeline(Integer skip, Integer limit, BasicDBObject filter, BasicDBObject sort,
+			List<Bson> pipeline, String domain) {
 		// 1. 承担组织
 		appendOrgFullName(pipeline, "impUnit_id", "impUnitOrgFullName");
 
@@ -221,7 +221,8 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 
 		try {
 			String workOrder = generateWorkOrder(_id, domain);
-			c("project", domain).updateOne(cond, new Document("$set", new Document("id", id).append("workOrder", workOrder)));
+			c("project", domain).updateOne(cond,
+					new Document("$set", new Document("id", id).append("workOrder", workOrder)));
 		} catch (Exception e) {
 			throw handleMongoException(e, "项目编号" + id);
 		}
@@ -240,7 +241,8 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 			throw new ServiceException("已批准的项目无需再次批准");
 		}
 
-		c("project", domain).updateOne(cond, new Document("$set", new Document("startApproved", true).append("approveInfo", com.info())));
+		c("project", domain).updateOne(cond,
+				new Document("$set", new Document("startApproved", true).append("approveInfo", com.info())));
 	}
 
 	@Override
@@ -285,8 +287,8 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		/////////////////////////////////////////////////////////////////////////////
 		// 通知项目团队成员，项目已经启动
 		List<String> memberIds = getProjectMembers(com._id, domain);
-		sendMessage("项目启动通知", "项目：" + getName("project", com._id, domain) + " 已于 " + Message.format(com.date) + " 启动。", com.userId,
-				memberIds, null, domain);
+		sendMessage("项目启动通知", "项目：" + getName("project", com._id, domain) + " 已于 " + Message.format(com.date) + " 启动。",
+				com.userId, memberIds, null, domain);
 		return new ArrayList<>();
 	}
 
@@ -294,8 +296,9 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		List<ObjectId> parentIds = c("obs", domain).distinct("_id", new BasicDBObject("scope_id", _id), ObjectId.class)
 				.into(new ArrayList<>());
 		List<ObjectId> ids = getDesentItems(parentIds, "obs", "parent_id", domain);
-		ArrayList<String> memberIds = c("obs", domain).distinct("managerId",
-				new BasicDBObject("_id", new BasicDBObject("$in", ids)).append("managerId", new BasicDBObject("$ne", null)), String.class)
+		ArrayList<String> memberIds = c("obs", domain)
+				.distinct("managerId", new BasicDBObject("_id", new BasicDBObject("$in", ids)).append("managerId",
+						new BasicDBObject("$ne", null)), String.class)
 				.into(new ArrayList<>());
 		return memberIds;
 	}
@@ -366,9 +369,10 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		if (!"忽略".equals(setting)) {
 			// 根据项目的cbs_id获取当前项目的所有CBS节点Id。
 			List<ObjectId> cbsIds = new ArrayList<>();
-			lookupDesentItems(Arrays.asList(project.getCBS_id()), "cbs", domain, "parent_id", true).forEach((Document d) -> {
-				cbsIds.add(d.getObjectId("_id"));
-			});
+			lookupDesentItems(Arrays.asList(project.getCBS_id()), "cbs", domain, "parent_id", true)
+					.forEach((Document d) -> {
+						cbsIds.add(d.getObjectId("_id"));
+					});
 			// 如果没有编制cbsItem的预算和科目预算，则进行提示
 			long l = c("cbsPeriod", domain).countDocuments(new Document("cbsItem_id", new Document("$in", cbsIds)));
 			if (l == 0) {
@@ -389,8 +393,8 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		// 设置为忽略时，不进行检查，
 		if (!"忽略".equals(setting)) {
 			// 获取项目团队中非根节点，并且该节点没有担任者和成员的记录数，记录数为0时，则添加返回信息。
-			long l = c("obs", domain).countDocuments(
-					new Document("scope_id", _id).append("scopeRoot", false).append("managerId", null).append("member", null));
+			long l = c("obs", domain).countDocuments(new Document("scope_id", _id).append("scopeRoot", false)
+					.append("managerId", null).append("member", null));
 			if (l > 0)
 				// 如果设置为警告，则返回警告；如果设置为要求，则返回错误。
 				if ("警告".equals(setting))
@@ -420,23 +424,24 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		// 设置为忽略时，不进行检查，
 		if (!"忽略".equals(setting)) {
 			// 获得所有非里程碑的叶子节点的id
-			List<ObjectId> workIds = c("work", domain)
-					.distinct("_id", new Document("project_id", _id).append("milestone", false).append("summary", false), ObjectId.class)
+			List<ObjectId> workIds = c("work", domain).distinct("_id",
+					new Document("project_id", _id).append("milestone", false).append("summary", false), ObjectId.class)
 					.into(new ArrayList<>());
 			// 如果没有进度计划，不进行资源检查
 			if (workIds.size() > 0) {
 				// 获取填写了资源计划的工作id
 				List<ObjectId> resourceWorkIds = c("resourcePlan", domain)
-						.distinct("work_id", new Document("work_id", new Document("$in", workIds)), ObjectId.class).into(new ArrayList<>());
+						.distinct("work_id", new Document("work_id", new Document("$in", workIds)), ObjectId.class)
+						.into(new ArrayList<>());
 				String message = "";
 				if (resourceWorkIds.size() == 0) {
 					message = "项目尚未编制资源计划";
 				} else {
 					workIds.removeAll(resourceWorkIds);
 					if (workIds.size() > 0) {
-						message = "部分工作未指定资源：<br>" + Formatter.getString(
-								c("work", domain).distinct("fullName", new Document("_id", new Document("$in", workIds)), String.class)
-										.into(new ArrayList<>()));
+						message = "部分工作未指定资源：<br>" + Formatter.getString(c("work", domain)
+								.distinct("fullName", new Document("_id", new Document("$in", workIds)), String.class)
+								.into(new ArrayList<>()));
 					}
 				}
 				if (!message.isEmpty() && "警告".equals(setting))
@@ -463,14 +468,15 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 			setting = getSettingValue(systemSetting, START_SETTING_FIELD_CHARGER_ALL, "警告");
 
 			// 获取未设置负责人和参与者的节点名称
-			List<Document> work = c("work", domain)
-					.find(new Document("project_id", _id).append("milestone", false).append("assignerId", null).append("chargerId", null))
-					.into(new ArrayList<>());
+			List<Document> work = c("work", domain).find(new Document("project_id", _id).append("milestone", false)
+					.append("assignerId", null).append("chargerId", null)).into(new ArrayList<>());
 			if ("警告".equals(setting) && work.size() > 0) {
-				results.add(Result.warning(Formatter.getString(work.stream().map(d -> d.getString("fullName")).collect(Collectors.toList()))
+				results.add(Result.warning(Formatter
+						.getString(work.stream().map(d -> d.getString("fullName")).collect(Collectors.toList()))
 						+ " 没有指定负责人和指派者."));
 			} else if ("要求".equals(setting) && work.size() > 0) {
-				results.add(Result.error(Formatter.getString(work.stream().map(d -> d.getString("fullName")).collect(Collectors.toList()))
+				results.add(Result.error(Formatter
+						.getString(work.stream().map(d -> d.getString("fullName")).collect(Collectors.toList()))
 						+ " 没有指定负责人和指派者."));
 			} else if ("忽略".equals(setting) && work.size() > 0) {
 				Map<String, String> manageLevels = new HashMap<String, String>();
@@ -546,14 +552,13 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 					});
 			/////////////////////////////////////////////////////////////////////////////////////////////////////////////
 			// 下达工作计划，阶段是进行中的，不是总成型工作的，没有下达计划的工作
-			c("work", domain)
-					.aggregate(Domain.getJQ(domain, "查询-工作-阶段需下达的工作计划").set("project_id", com._id).set("match", new Document()).array())
-					.forEach((Document w) -> {
+			c("work", domain).aggregate(Domain.getJQ(domain, "查询-工作-阶段需下达的工作计划").set("project_id", com._id)
+					.set("match", new Document()).array()).forEach((Document w) -> {
 						ids.add(w.getObjectId("_id"));
-						Check.isAssigned(w.getString("chargerId"),
-								c -> msg.add(Message.distributeWorkMsg("工作计划下达通知", projectName, w, true, com.userId, c)));
-						Check.isAssigned(w.getString("assignerId"),
-								c -> msg.add(Message.distributeWorkMsg("工作计划下达通知", projectName, w, false, com.userId, c)));
+						Check.isAssigned(w.getString("chargerId"), c -> msg
+								.add(Message.distributeWorkMsg("工作计划下达通知", projectName, w, true, com.userId, c)));
+						Check.isAssigned(w.getString("assignerId"), c -> msg
+								.add(Message.distributeWorkMsg("工作计划下达通知", projectName, w, false, com.userId, c)));
 					});
 		} else {
 			/////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -599,17 +604,21 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 
 	@Override
 	public List<Work> listMyStage(String userId, String domain) {
-		return new WorkServiceImpl().createTaskDataSet(
-				new BasicDBObject("$or", Arrays.asList(new BasicDBObject("chargerId", userId), new BasicDBObject("assignerId", userId)))
-						.append("stage", true).append("status", new BasicDBObject("$in",
-								Arrays.asList(ProjectStatus.Created, ProjectStatus.Processing, ProjectStatus.Closing))),
-				domain);
+		return new WorkServiceImpl()
+				.createTaskDataSet(
+						new BasicDBObject("$or",
+								Arrays.asList(new BasicDBObject("chargerId", userId),
+										new BasicDBObject("assignerId", userId))).append("stage", true)
+												.append("status",
+														new BasicDBObject("$in", Arrays.asList(ProjectStatus.Created,
+																ProjectStatus.Processing, ProjectStatus.Closing))),
+						domain);
 	}
 
 	@Override
 	public long countMyStage(String userId, String domain) {
-		return count(
-				new BasicDBObject("$or", Arrays.asList(new BasicDBObject("chargerId", userId), new BasicDBObject("assignerId", userId)))
+		return count(new BasicDBObject("$or",
+				Arrays.asList(new BasicDBObject("chargerId", userId), new BasicDBObject("assignerId", userId)))
 						.append("stage", true),
 				"work");
 	}
@@ -677,10 +686,12 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 
 	@Override
 	public List<Document> listParticipatedProjectsCard(BasicDBObject condition, String userId, String domain) {
-		return iterateParticipatedProject(condition, userId, domain).map(d -> ProjectRenderer.render(d, domain)).into(new ArrayList<>());
+		return iterateParticipatedProject(condition, userId, domain).map(d -> ProjectRenderer.render(d, domain))
+				.into(new ArrayList<>());
 	}
 
-	private AggregateIterable<Project> iterateParticipatedProject(BasicDBObject condition, String userId, String domain) {
+	private AggregateIterable<Project> iterateParticipatedProject(BasicDBObject condition, String userId,
+			String domain) {
 		Integer skip = (Integer) condition.get("skip");
 		Integer limit = (Integer) condition.get("limit");
 		BasicDBObject filter = (BasicDBObject) condition.get("filter");
@@ -773,24 +784,28 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		return countParticipatedProjects(filter, userId, cal.getTime(), domain);
 	}
 
-	private List<Project> listParticipatedProjects(BasicDBObject condition, String userId, Date startWorkFinish, String domain) {
+	private List<Project> listParticipatedProjects(BasicDBObject condition, String userId, Date startWorkFinish,
+			String domain) {
 		Integer skip = (Integer) condition.get("skip");
 		Integer limit = (Integer) condition.get("limit");
 		BasicDBObject filter = (BasicDBObject) condition.get("filter");
 
-		List<ObjectId> project_ids = c("work", domain)
-				.distinct("project_id",
-						new Document("summary", false)
-								.append("actualStart",
-										new Document("$ne", null))
-								.append("$and", Arrays.asList(
-										new Document("$or",
-												Arrays.asList(new Document("actualFinish", null),
-														new Document("actualFinish", new Document("$gte", startWorkFinish)))),
-										new Document("$or",
-												Arrays.asList(new Document("chargerId", userId), new Document("assignerId", userId))))),
-						ObjectId.class)
-				.into(new ArrayList<ObjectId>());
+		List<ObjectId> project_ids = c(
+				"work", domain)
+						.distinct("project_id",
+								new Document("summary", false).append("actualStart", new Document("$ne", null))
+										.append("$and",
+												Arrays.asList(
+														new Document("$or",
+																Arrays.asList(new Document("actualFinish", null),
+																		new Document("actualFinish",
+																				new Document("$gte",
+																						startWorkFinish)))),
+														new Document("$or",
+																Arrays.asList(new Document("chargerId", userId),
+																		new Document("assignerId", userId))))),
+								ObjectId.class)
+						.into(new ArrayList<ObjectId>());
 
 		List<Bson> pipeline = new ArrayList<Bson>();
 		pipeline.add(Aggregates.match(new Document("_id", new Document("$in", project_ids)).append("status",
@@ -809,25 +824,29 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 
 		appendUserInfo(pipeline, "pmId", "pmInfo", domain);
 
-		ArrayList<Project> into = c("project", domain).aggregate(pipeline, Project.class).into(new ArrayList<Project>());
+		ArrayList<Project> into = c("project", domain).aggregate(pipeline, Project.class)
+				.into(new ArrayList<Project>());
 		return into;
 	}
 
 	private long countParticipatedProjects(BasicDBObject filter, String userId, Date startWorkFinish, String domain) {
 		List<Bson> pipeline = new ArrayList<Bson>();
-		List<ObjectId> project_ids = c("work", domain)
-				.distinct("project_id",
-						new Document("summary", false)
-								.append("actualStart",
-										new Document("$ne", null))
-								.append("$and", Arrays.asList(
-										new Document("$or",
-												Arrays.asList(new Document("actualFinish", null),
-														new Document("actualFinish", new Document("$gte", startWorkFinish)))),
-										new Document("$or",
-												Arrays.asList(new Document("chargerId", userId), new Document("assignerId", userId))))),
-						ObjectId.class)
-				.into(new ArrayList<ObjectId>());
+		List<ObjectId> project_ids = c(
+				"work", domain)
+						.distinct("project_id",
+								new Document("summary", false).append("actualStart", new Document("$ne", null))
+										.append("$and",
+												Arrays.asList(
+														new Document("$or",
+																Arrays.asList(new Document("actualFinish", null),
+																		new Document("actualFinish",
+																				new Document("$gte",
+																						startWorkFinish)))),
+														new Document("$or",
+																Arrays.asList(new Document("chargerId", userId),
+																		new Document("assignerId", userId))))),
+								ObjectId.class)
+						.into(new ArrayList<ObjectId>());
 
 		pipeline.add(Aggregates.match(new Document("_id", new Document("$in", project_ids))));
 		if (filter != null)
@@ -843,7 +862,8 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 			throw new ServiceException("当前项目不允许删除，只能删除已创建状态的项目。");
 		}
 		// 获得所有的work
-		List<ObjectId> workIds = c("work", domain).distinct("_id", new Document("project_id", _id), ObjectId.class).into(new ArrayList<>());
+		List<ObjectId> workIds = c("work", domain).distinct("_id", new Document("project_id", _id), ObjectId.class)
+				.into(new ArrayList<>());
 		// 清除关联的resourcePlan
 		c("resourcePlan", domain).deleteMany(new Document("work_id", new Document("$in", workIds)));
 		// 清除关联的resourceActual
@@ -861,18 +881,17 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		c("worklinksspace", domain).deleteMany(new Document("project_id", _id));
 
 		// 清除obs
-		c("obs", domain).deleteMany(
-				new Document("$or", Arrays.asList(new Document("scope_id", new Document("$in", workIds)), new Document("scope_id", _id))));
+		c("obs", domain).deleteMany(new Document("$or",
+				Arrays.asList(new Document("scope_id", new Document("$in", workIds)), new Document("scope_id", _id))));
 
 		// 清除cbs
-		List<ObjectId> cbsIds = c(
-				"cbs", domain)
-						.distinct("_id",
-								new Document("$or",
-										Arrays.asList(new Document("scope_id", new Document("$in", workIds)),
-												new Document("scopeRoot", false).append("scope_id", _id))),
-								ObjectId.class)
-						.into(new ArrayList<>());
+		List<ObjectId> cbsIds = c("cbs", domain)
+				.distinct("_id",
+						new Document("$or",
+								Arrays.asList(new Document("scope_id", new Document("$in", workIds)),
+										new Document("scopeRoot", false).append("scope_id", _id))),
+						ObjectId.class)
+				.into(new ArrayList<>());
 		c("cbs", domain).deleteMany(new Document("_id", new Document("$in", cbsIds)));
 		c("cbsPeriod", domain).deleteMany(new Document("cbsItem_id", new Document("$in", cbsIds)));
 		c("cbsSubject", domain).deleteMany(new Document("cbsItem_id", new Document("$in", cbsIds)));
@@ -907,7 +926,8 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		c("workReportResourceActual", domain).deleteMany(new Document("work_id", new Document("$in", workIds)));
 
 		// 清除项目设置
-		c("setting", domain).deleteMany(new Document("name", Pattern.compile("@" + _id.toString(), Pattern.CASE_INSENSITIVE)));
+		c("setting", domain)
+				.deleteMany(new Document("name", Pattern.compile("@" + _id.toString(), Pattern.CASE_INSENSITIVE)));
 
 		return delete(_id, Project.class, domain);
 	}
@@ -930,7 +950,8 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		//////////////////////////////////////////////////////////////////////////////////////////////////
 		// 如果存在未完成的工作，警告
 		if (ICommand.Finish_Project.equals(com.name)) {
-			long count = c("work", domain).countDocuments(new BasicDBObject("project_id", com._id).append("actualFinish", null));
+			long count = c("work", domain)
+					.countDocuments(new BasicDBObject("project_id", com._id).append("actualFinish", null));
 			if (count > 0) {
 				return Arrays.asList(Result.warning("项目存在一些尚未完成的工作。"));
 			}
@@ -939,19 +960,21 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		//////////////////////////////////////////////////////////////////////////////////////////////////
 		// 获得时间
 		// yangjun 2018/10/31
-		Document latest = c("work", domain).find(new Document("parent_id", com._id)).projection(new Document("actualFinish", true))
-				.sort(new Document("actualFinish", -1).append("_id", -1)).first();
+		Document latest = c("work", domain).find(new Document("parent_id", com._id))
+				.projection(new Document("actualFinish", true)).sort(new Document("actualFinish", -1).append("_id", -1))
+				.first();
 		Date actualFinish = Optional.ofNullable(latest).map(l -> l.getDate("actualFinish")).orElse(new Date());
 
 		//////////////////////////////////////////////////////////////////////////////////////////////////
 		// 修改项目状态
-		c("project", domain).updateOne(new Document("_id", com._id), new Document("$set", new Document("status", ProjectStatus.Closing)
-				.append("progress", 1d).append("finishInfo", com.info()).append("actualFinish", actualFinish)));
+		c("project", domain).updateOne(new Document("_id", com._id),
+				new Document("$set", new Document("status", ProjectStatus.Closing).append("progress", 1d)
+						.append("finishInfo", com.info()).append("actualFinish", actualFinish)));
 
 		// 通知项目团队成员，项目收尾
 		List<String> memberIds = getProjectMembers(com._id, domain);
-		sendMessage("项目收尾通知", "项目：" + project.getString("name") + " 已于 " + Formatter.getString(com.date) + " 进入收尾。", com.userId, memberIds,
-				null, domain);
+		sendMessage("项目收尾通知", "项目：" + project.getString("name") + " 已于 " + Formatter.getString(com.date) + " 进入收尾。",
+				com.userId, memberIds, null, domain);
 
 		return new ArrayList<>();
 	}
@@ -977,7 +1000,8 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		//////////////////////////////////////////////////////////////////////////////////////////////////
 		// 如果存在未完成的工作，警告
 		if (ICommand.Finish_Project.equals(com.name)) {
-			long count = c("work", domain).countDocuments(new BasicDBObject("project_id", com._id).append("actualFinish", null));
+			long count = c("work", domain)
+					.countDocuments(new BasicDBObject("project_id", com._id).append("actualFinish", null));
 			if (count > 0) {
 				return Arrays.asList(Result.warning("项目存在一些尚未完成的工作，这些工作也将同时关闭。"));
 			}
@@ -991,7 +1015,8 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		// 删除未开始的工作，skipStart
 		// 获取要删除的工作
 		List<ObjectId> delete = new ArrayList<ObjectId>();
-		c("work", domain).find(new Document("project_id", com._id).append("actualStart", null).append("milestone", false))
+		c("work", domain)
+				.find(new Document("project_id", com._id).append("actualStart", null).append("milestone", false))
 				.sort(new Document("wbsCode", 1)).forEach((Document d) -> {
 					// 如果工作不在需要删除的工作中，获取其及其下级工作的id添加到删除集合中
 					if (!delete.contains(d.getObjectId("_id"))) {
@@ -1007,9 +1032,8 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 			c("work", domain).deleteMany(new Document("_id", new Document("$in", delete)));
 		// 完工为完工的工作
 		List<ObjectId> close = new ArrayList<ObjectId>();
-		c("work", domain)
-				.find(new Document("project_id", com._id).append("actualFinish", null).append("actualStart", new Document("$ne", null)))
-				.sort(new Document("wbsCode", 1)).forEach((Document d) -> {
+		c("work", domain).find(new Document("project_id", com._id).append("actualFinish", null).append("actualStart",
+				new Document("$ne", null))).sort(new Document("wbsCode", 1)).forEach((Document d) -> {
 					// 如果工作不在完成工作中，添加到关闭集合中
 					if (!close.contains(d.getObjectId("_id"))) {
 						List<ObjectId> workIds = new ArrayList<>();
@@ -1022,20 +1046,23 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 				});
 		if (close.size() > 0) {
 			// 更新里程碑
-			c("work", domain).updateMany(new Document("_id", new Document("$in", close)).append("milestone", true), new Document("$set",
-					new Document("skipFinish", true).append("actualFinish", com.date).append("actualStart", com.date)));
+			c("work", domain).updateMany(new Document("_id", new Document("$in", close)).append("milestone", true),
+					new Document("$set", new Document("skipFinish", true).append("actualFinish", com.date)
+							.append("actualStart", com.date)));
 			// 更新阶段
-			c("work", domain).updateMany(new Document("_id", new Document("$in", close)).append("stage", true), new Document("$set",
-					new Document("skipFinish", true).append("actualFinish", com.date).append("status", ProjectStatus.Closed)));
+			c("work", domain).updateMany(new Document("_id", new Document("$in", close)).append("stage", true),
+					new Document("$set", new Document("skipFinish", true).append("actualFinish", com.date)
+							.append("status", ProjectStatus.Closed)));
 			// 更新其它工作
-			c("work", domain).updateMany(new Document("_id", new Document("$in", close)).append("milestone", false).append("stage", false),
+			c("work", domain).updateMany(
+					new Document("_id", new Document("$in", close)).append("milestone", false).append("stage", false),
 					new Document("$set", new Document("skipFinish", true).append("actualFinish", com.date)));
 		}
 		// 关闭项目变更
 		c("projectChange", domain).updateMany(
 				new Document("project_id", com._id).append("status", new Document("$ne", ProjectChange.STATUS_CONFIRM)),
-				new Document("$set", new Document("skipFinish", true).append("verifyDate", com.date).append("verify", com.userId)
-						.append("status", ProjectChange.STATUS_CONFIRM)));
+				new Document("$set", new Document("skipFinish", true).append("verifyDate", com.date)
+						.append("verify", com.userId).append("status", ProjectChange.STATUS_CONFIRM)));
 
 		// 确认项目报告
 		c("workReport", domain).updateMany(
@@ -1046,7 +1073,8 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		// 通知项目团队成员，项目已经关闭
 		List<String> memberIds = getProjectMembers(com._id, domain);
 		sendMessage("项目关闭通知",
-				"项目：" + project.getString("name") + " 已于 " + new SimpleDateFormat(Formatter.DATE_FORMAT_DATE).format(com.date) + " 关闭。",
+				"项目：" + project.getString("name") + " 已于 "
+						+ new SimpleDateFormat(Formatter.DATE_FORMAT_DATE).format(com.date) + " 关闭。",
 				com.userId, memberIds, null, domain);
 		return new ArrayList<>();
 	}
@@ -1139,12 +1167,16 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 				.sort(new Document("wbsCode", 1)).into(new ArrayList<>());
 		if (CLOSE_SETTING_VALUE_REQUIREMENT.equals(setting) && start.size() > 0) {// 设置成不允许时，添加错误提示
 			results.add(Result.error("工作:"
-					+ Formatter.getString(start.stream().map(d -> d.getString("fullName")).collect(Collectors.toList())) + " 未开始，不允许完工项目"));
+					+ Formatter.getString(start.stream().map(d -> d.getString("fullName")).collect(Collectors.toList()))
+					+ " 未开始，不允许完工项目"));
 		} else if (start.size() > 0) {// 所有工作设置成询问时，根据各级工作的设置进行操作
 			Map<String, String> manageLevels = new HashMap<String, String>();
-			manageLevels.put("1", getSettingValue(systemSetting, CLOSE_SETTING_FIELD_START_L1, CLOSE_SETTING_VALUE_IGNORE));
-			manageLevels.put("2", getSettingValue(systemSetting, CLOSE_SETTING_FIELD_START_L2, CLOSE_SETTING_VALUE_IGNORE));
-			manageLevels.put("3", getSettingValue(systemSetting, CLOSE_SETTING_FIELD_START_L3, CLOSE_SETTING_VALUE_IGNORE));
+			manageLevels.put("1",
+					getSettingValue(systemSetting, CLOSE_SETTING_FIELD_START_L1, CLOSE_SETTING_VALUE_IGNORE));
+			manageLevels.put("2",
+					getSettingValue(systemSetting, CLOSE_SETTING_FIELD_START_L2, CLOSE_SETTING_VALUE_IGNORE));
+			manageLevels.put("3",
+					getSettingValue(systemSetting, CLOSE_SETTING_FIELD_START_L3, CLOSE_SETTING_VALUE_IGNORE));
 
 			List<ObjectId> delete = new ArrayList<ObjectId>();
 			List<String> notallow = new ArrayList<String>();
@@ -1170,20 +1202,24 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		setting = getSettingValue(systemSetting, CLOSE_SETTING_FIELD_FINISH_ALL, CLOSE_SETTING_VALUE_IGNORE);
 
 		// 获取未完工工作数
-		List<Document> finish = c("work", domain)
-				.find(new Document("project_id", _id).append("actualFinish", null).append("actualStart", new Document("$ne", null)))
-				.sort(new Document("wbsCode", 1)).into(new ArrayList<>());
+		List<Document> finish = c("work", domain).find(new Document("project_id", _id).append("actualFinish", null)
+				.append("actualStart", new Document("$ne", null))).sort(new Document("wbsCode", 1))
+				.into(new ArrayList<>());
 		if (CLOSE_SETTING_VALUE_REQUIREMENT.equals(setting) && finish.size() > 0) {// 设置成不允许时，添加错误提示
 			results.add(Result.error("工作:"
-					+ Formatter
-							.getString(Formatter.getString(finish.stream().map(d -> d.getString("fullName")).collect(Collectors.toList())))
+					+ Formatter.getString(Formatter
+							.getString(finish.stream().map(d -> d.getString("fullName")).collect(Collectors.toList())))
 					+ " 未完工，不允许完工项目"));
 		} else if (finish.size() > 0) {// 所有工作设置成询问时，根据各级工作的设置进行操作
 			Map<String, Object> manageLevels = new HashMap<String, Object>();
-			manageLevels.put("1", getSettingValue(systemSetting, CLOSE_SETTING_FIELD_FINISH_L1, CLOSE_SETTING_VALUE_IGNORE));
-			manageLevels.put("2", getSettingValue(systemSetting, CLOSE_SETTING_FIELD_FINISH_L2, CLOSE_SETTING_VALUE_IGNORE));
-			manageLevels.put("3", getSettingValue(systemSetting, CLOSE_SETTING_FIELD_FINISH_L3, CLOSE_SETTING_VALUE_IGNORE));
-			manageLevels.put("milestone", getSettingValue(systemSetting, CLOSE_SETTING_FIELD_FINISH_MILESTONE, CLOSE_SETTING_VALUE_IGNORE));
+			manageLevels.put("1",
+					getSettingValue(systemSetting, CLOSE_SETTING_FIELD_FINISH_L1, CLOSE_SETTING_VALUE_IGNORE));
+			manageLevels.put("2",
+					getSettingValue(systemSetting, CLOSE_SETTING_FIELD_FINISH_L2, CLOSE_SETTING_VALUE_IGNORE));
+			manageLevels.put("3",
+					getSettingValue(systemSetting, CLOSE_SETTING_FIELD_FINISH_L3, CLOSE_SETTING_VALUE_IGNORE));
+			manageLevels.put("milestone",
+					getSettingValue(systemSetting, CLOSE_SETTING_FIELD_FINISH_MILESTONE, CLOSE_SETTING_VALUE_IGNORE));
 
 			List<ObjectId> close = new ArrayList<ObjectId>();
 			List<String> notallow = new ArrayList<String>();
@@ -1216,8 +1252,8 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		setting = getSettingValue(systemSetting, CLOSE_SETTING_FIELD_CHANGE, CLOSE_SETTING_VALUE_IGNORE);
 
 		// 获取未关闭项目变更数
-		long l = c("projectChange", domain)
-				.countDocuments(new Document("project_id", _id).append("status", new Document("$ne", ProjectChange.STATUS_CONFIRM)));
+		long l = c("projectChange", domain).countDocuments(
+				new Document("project_id", _id).append("status", new Document("$ne", ProjectChange.STATUS_CONFIRM)));
 		if (CLOSE_SETTING_VALUE_REQUIREMENT.equals(setting) && l > 0) {// 设置成要求时，添加错误提示
 			results.add(Result.error("存在未关闭的项目变更，不允许完工项目"));
 		} else if (CLOSE_SETTING_VALUE_QUESTION.equals(setting) && l > 0) {// 设置成询问时，添加询问提示
@@ -1227,8 +1263,8 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		// 项目报告，默认为关闭
 		setting = getSettingValue(systemSetting, CLOSE_SETTING_FIELD_REPORT, CLOSE_SETTING_VALUE_IGNORE);
 		// 获取未确认的项目报告数
-		l = c("workReport", domain)
-				.countDocuments(new Document("project_id", _id).append("status", new Document("$ne", WorkReport.STATUS_CONFIRM)));
+		l = c("workReport", domain).countDocuments(
+				new Document("project_id", _id).append("status", new Document("$ne", WorkReport.STATUS_CONFIRM)));
 		if (CLOSE_SETTING_VALUE_REQUIREMENT.equals(setting) && l > 0) {// 设置成要求时，添加错误提示
 			results.add(Result.error("存在未确认的项目报告，不允许完工项目"));
 		} else if (CLOSE_SETTING_VALUE_QUESTION.equals(setting) && l > 0) {// 设置成询问时，添加询问提示
@@ -1240,12 +1276,13 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		if (!CLOSE_SETTING_VALUE_IGNORE.equals(setting)) {
 			// 获取成本项id
 			List<ObjectId> cbsIds = new ArrayList<>();
-			lookupDesentItems(Arrays.asList(project.getCBS_id()), "cbs", domain, "parent_id", true).forEach((Document d) -> {
-				cbsIds.add(d.getObjectId("_id"));
-			});
+			lookupDesentItems(Arrays.asList(project.getCBS_id()), "cbs", domain, "parent_id", true)
+					.forEach((Document d) -> {
+						cbsIds.add(d.getObjectId("_id"));
+					});
 			// 如果没有cbsSubject没有成本，则进行提示
-			l = c("cbsSubject", domain)
-					.countDocuments(new Document("cbsItem_id", new Document("$in", cbsIds)).append("cost", new Document("$ne", null)));
+			l = c("cbsSubject", domain).countDocuments(
+					new Document("cbsItem_id", new Document("$in", cbsIds)).append("cost", new Document("$ne", null)));
 			if (l == 0)
 				// 如果设置为警告，则返回警告；如果设置为要求，则返回错误。
 				if (CLOSE_SETTING_VALUE_QUESTION.equals(setting))
@@ -1259,23 +1296,24 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		setting = getSettingValue(systemSetting, CLOSE_SETTING_FIELD_RESOURCE, CLOSE_SETTING_VALUE_IGNORE);
 		if (!CLOSE_SETTING_VALUE_IGNORE.equals(setting)) {
 			// 获得所有非里程碑的叶子节点的id
-			List<ObjectId> workIds = c("work", domain)
-					.distinct("_id", new Document("project_id", _id).append("milestone", false).append("summary", false), ObjectId.class)
+			List<ObjectId> workIds = c("work", domain).distinct("_id",
+					new Document("project_id", _id).append("milestone", false).append("summary", false), ObjectId.class)
 					.into(new ArrayList<>());
 			// 如果没有进度计划，不进行资源检查
 			if (workIds.size() > 0) {
 				// 获取填写了资源计划的工作id
 				List<ObjectId> resourceWorkIds = c("resourceActual", domain)
-						.distinct("work_id", new Document("work_id", new Document("$in", workIds)), ObjectId.class).into(new ArrayList<>());
+						.distinct("work_id", new Document("work_id", new Document("$in", workIds)), ObjectId.class)
+						.into(new ArrayList<>());
 				String message = "";
 				if (resourceWorkIds.size() == 0) {
 					message = "项目尚未编制资源用量";
 				} else {
 					workIds.removeAll(resourceWorkIds);
 					if (workIds.size() > 0) {
-						message = Formatter.getString(
-								c("work", domain).distinct("fullName", new Document("_id", new Document("$in", workIds)), String.class)
-										.into(new ArrayList<>()));
+						message = Formatter.getString(c("work", domain)
+								.distinct("fullName", new Document("_id", new Document("$in", workIds)), String.class)
+								.into(new ArrayList<>()));
 						message = "工作：" + message + " 未编制资源用量";
 					}
 				}
@@ -1340,15 +1378,16 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		workOrder += orgNo;
 
 		if (parentproject_id != null) {
-			String parentWorkOrder = c("project", domain).distinct("workOrder", new Document("_id", parentproject_id), String.class)
-					.first();
+			String parentWorkOrder = c("project", domain)
+					.distinct("workOrder", new Document("_id", parentproject_id), String.class).first();
 			String[] workorders = parentWorkOrder.split("-");
 			workOrder += "-" + workorders[1];
 			int index = generateCode(Generator.DEFAULT_NAME, "projectno" + parentWorkOrder, domain);
 			workOrder += "-" + String.format("%02d", index);
 
 		} else if (program_id != null) {
-			String programWorkOrder = c("program", domain).distinct("workOrder", new Document("_id", program_id), String.class).first();
+			String programWorkOrder = c("program", domain)
+					.distinct("workOrder", new Document("_id", program_id), String.class).first();
 			String[] workorders = programWorkOrder.split("-");
 			workOrder += "-" + workorders[1];
 			int index = generateCode(Generator.DEFAULT_NAME, "projectno" + programWorkOrder, domain);
@@ -1366,8 +1405,8 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 	@Override
 	public List<News> getRecentNews(ObjectId _id, int count, String domain) {
 		ArrayList<News> result = new ArrayList<News>();
-		List<Bson> pipeline = Domain.getJQ(domain, "查询-时间线")
-				.set("match", new Document("manageLevel", new Document("$in", Arrays.asList("1", "2"))).append("project_id", _id))
+		List<Bson> pipeline = Domain.getJQ(domain, "查询-时间线").set("match",
+				new Document("manageLevel", new Document("$in", Arrays.asList("1", "2"))).append("project_id", _id))
 				.set("limit", count).array();
 		c("work", domain).aggregate(pipeline).forEach((Document doc) -> {
 			Object user = Optional.ofNullable(doc.get("userInfo")).orElse("");
@@ -1434,26 +1473,27 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		// 获取要存储到基线的工作
 		Map<ObjectId, ObjectId> workIds = new HashMap<ObjectId, ObjectId>();
 		List<Document> workDocs = new ArrayList<Document>();
-		c("work", domain).find(new Document("project_id", project_id)).sort(new Document("parent_id", 1)).forEach((Document doc) -> {
-			ObjectId work_id = doc.getObjectId("_id");
-			ObjectId newWork_id = new ObjectId();
-			workIds.put(work_id, newWork_id);
-			doc.append("old_id", work_id);
-			doc.append("_id", newWork_id);
+		c("work", domain).find(new Document("project_id", project_id)).sort(new Document("parent_id", 1))
+				.forEach((Document doc) -> {
+					ObjectId work_id = doc.getObjectId("_id");
+					ObjectId newWork_id = new ObjectId();
+					workIds.put(work_id, newWork_id);
+					doc.append("old_id", work_id);
+					doc.append("_id", newWork_id);
 
-			ObjectId parent_id = doc.getObjectId("parent_id");
-			if (parent_id != null) {
-				ObjectId newParent_id = workIds.get(parent_id);
-				doc.append("parent_id", newParent_id);
-			}
+					ObjectId parent_id = doc.getObjectId("parent_id");
+					if (parent_id != null) {
+						ObjectId newParent_id = workIds.get(parent_id);
+						doc.append("parent_id", newParent_id);
+					}
 
-			doc.append("baseline_id", newBaseline_id);
+					doc.append("baseline_id", newBaseline_id);
 
-			doc.remove("checkoutBy");
-			doc.remove("space_id");
+					doc.remove("checkoutBy");
+					doc.remove("space_id");
 
-			workDocs.add(doc);
-		});
+					workDocs.add(doc);
+				});
 
 		// 获取要存储到基线的工作关联关系
 		List<Document> worklinkDocs = new ArrayList<Document>();
@@ -1504,8 +1544,8 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		pipeline.add(Aggregates.sort(new Document("project_id", 1).append("index", 1)));
 		pipeline.add(Aggregates.lookup("project", "project_id", "_id", "project"));
 		pipeline.add(Aggregates.unwind("$project"));
-		pipeline.add(Aggregates.addFields(
-				Arrays.asList(new Field<String>("projectName", "$project.name"), new Field<String>("projectNumber", "$project.id"))));
+		pipeline.add(Aggregates.addFields(Arrays.asList(new Field<String>("projectName", "$project.name"),
+				new Field<String>("projectNumber", "$project.id"))));
 		pipeline.add(Aggregates.project(new BasicDBObject("project", false)));
 		appendUserInfo(pipeline, "chargerId", "chargerInfo", domain);
 		appendUserInfo(pipeline, "assignerId", "assignerInfo", domain);
@@ -1516,12 +1556,13 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		pipeline.add(Aggregates.sort(new Document("baseline_id", 1).append("index", 1)));
 		pipeline.add(Aggregates.lookup("project", "project_id", "_id", "project"));
 		pipeline.add(Aggregates.unwind("$project"));
-		pipeline.add(Aggregates.addFields(
-				Arrays.asList(new Field<String>("projectName", "$project.name"), new Field<String>("projectNumber", "$project.id"))));
+		pipeline.add(Aggregates.addFields(Arrays.asList(new Field<String>("projectName", "$project.name"),
+				new Field<String>("projectNumber", "$project.id"))));
 		pipeline.add(Aggregates.project(new BasicDBObject("project", false)));
 		appendUserInfo(pipeline, "chargerId", "chargerInfo", domain);
 		appendUserInfo(pipeline, "assignerId", "assignerInfo", domain);
-		List<Work> baselineWorks = c("baselineWork", Work.class, domain).aggregate(pipeline).into(new ArrayList<Work>());
+		List<Work> baselineWorks = c("baselineWork", Work.class, domain).aggregate(pipeline)
+				.into(new ArrayList<Work>());
 
 		List<BaselineComparable> result = new ArrayList<BaselineComparable>();
 		ObjectId p = null;
@@ -1640,12 +1681,14 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 						pct.domain = domain;
 						pct.user = obsItem.getManagerId();
 						pct.name = changeProcess.getTaskName();
+						pct.index = changeProcess.getIndex();
 						reviewer.add(pct);
 					}
 				}
 			} else {
 				ProjectChangeTask pct = new ProjectChangeTask();
 				pct.name = changeProcess.getTaskName();
+				pct.index = changeProcess.getIndex();
 				reviewer.add(pct);
 			}
 		}
@@ -1698,8 +1741,9 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 			return result;
 		}
 
-		UpdateResult ur = c(ProjectChange.class, domain).updateMany(new Document("_id", new Document("$in", projectChangeIds)),
-				new Document("$set", new Document("submitDate", new Date()).append("status", ProjectChange.STATUS_SUBMIT)));
+		UpdateResult ur = c(ProjectChange.class, domain)
+				.updateMany(new Document("_id", new Document("$in", projectChangeIds)), new Document("$set",
+						new Document("submitDate", new Date()).append("status", ProjectChange.STATUS_SUBMIT)));
 		if (ur.getModifiedCount() == 0) {
 			result.add(Result.updateFailure("没有满足提交条件的变更申请。"));
 			return result;
@@ -1718,12 +1762,14 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 			projectChange.getReviewer().forEach((ProjectChangeTask receiver) -> {
 				receivers.add(receiver.user);
 			});
-			sendMessage("项目变更申请", "" + projectChange.getApplicantInfo() + " 发起了项目：" + projectChange.getProjectName() + " 的变更申请，请您进行审核。",
-					projectChange.getApplicantId(), receivers, null, domain);
+			sendMessage("项目变更申请", "" + projectChange.getApplicantInfo() + " 发起了项目：" + projectChange.getProjectName()
+					+ " 的变更申请，请您进行审核。", projectChange.getApplicantId(), receivers, null, domain);
 
-			String pmId = c("project", domain).distinct("pmId", new Document("_id", projectChange.getProject_id()), String.class).first();
+			String pmId = c("project", domain)
+					.distinct("pmId", new Document("_id", projectChange.getProject_id()), String.class).first();
 			if (!receivers.contains(pmId))
-				sendMessage("项目变更申请", "" + projectChange.getApplicantInfo() + " 发起了项目：" + projectChange.getProjectName() + " 的变更申请，",
+				sendMessage("项目变更申请",
+						"" + projectChange.getApplicantInfo() + " 发起了项目：" + projectChange.getProjectName() + " 的变更申请，",
 						projectChange.getApplicantId(), receivers, null, domain);
 
 		});
@@ -1733,8 +1779,8 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 
 	private List<Result> submitProjectChangeCheck(List<ObjectId> projectChangeIds, String domain) {
 		List<Result> result = new ArrayList<Result>();
-		long count = c(ProjectChange.class, domain)
-				.countDocuments(new Document("_id", new Document("$in", projectChangeIds)).append("reviewer.user", null));
+		long count = c(ProjectChange.class, domain).countDocuments(
+				new Document("_id", new Document("$in", projectChangeIds)).append("reviewer.user", null));
 		if (count > 0) {
 			result.add(Result.submitProjectChangeError("缺少审核人员"));
 		}
@@ -1764,7 +1810,8 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 			reviewer.add(getBson(re));
 		}
 
-		UpdateResult ur = c(ProjectChange.class, domain).updateOne(new BasicDBObject("_id", projectChangeTask.projectChange_id),
+		UpdateResult ur = c(ProjectChange.class, domain).updateOne(
+				new BasicDBObject("_id", projectChangeTask.projectChange_id),
 				new BasicDBObject("$set", new BasicDBObject("reviewer", reviewer).append("status", status)));
 		if (ur.getModifiedCount() == 0) {
 			result.add(Result.updateFailure("没有满足确认条件的变更申请。"));
@@ -1772,11 +1819,13 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		}
 
 		// 发送变更批准通知
-		sendMessage("项目变更申请已批准", "" + projectChangeTask.getUser() + " 批准了项目：" + pc.getProjectName() + " 的变更申请，", projectChangeTask.user,
-				pc.getApplicantId(), null, domain);
+		sendMessage("项目变更申请已批准", "" + projectChangeTask.getUser() + " 批准了项目：" + pc.getProjectName() + " 的变更申请，",
+				projectChangeTask.user, pc.getApplicantId(), null, domain);
 		if (ProjectChange.STATUS_PASS.equals(status)) {
-			String pmId = c("project", domain).distinct("pmId", new Document("_id", pc.getProject_id()), String.class).first();
-			sendMessage("项目变更申请已通过", "项目：" + pc.getProjectName() + " 的变更申请已审核通过，", pc.getApplicantId(), pmId, null, domain);
+			String pmId = c("project", domain).distinct("pmId", new Document("_id", pc.getProject_id()), String.class)
+					.first();
+			sendMessage("项目变更申请已通过", "项目：" + pc.getProjectName() + " 的变更申请已审核通过，", pc.getApplicantId(), pmId, null,
+					domain);
 		}
 
 		return result;
@@ -1793,9 +1842,10 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 			return result;
 		}
 
-		UpdateResult ur = c(ProjectChange.class, domain).updateMany(new Document("_id", new Document("$in", projectChangeIds)),
-				new Document("$set",
-						new Document("verifyDate", new Date()).append("verify", userId).append("status", ProjectChange.STATUS_CONFIRM)));
+		UpdateResult ur = c(ProjectChange.class, domain).updateMany(
+				new Document("_id", new Document("$in", projectChangeIds)),
+				new Document("$set", new Document("verifyDate", new Date()).append("verify", userId).append("status",
+						ProjectChange.STATUS_CONFIRM)));
 		if (ur.getModifiedCount() == 0) {
 			result.add(Result.updateFailure("没有满足确认条件的变更申请。"));
 			return result;
@@ -1809,7 +1859,8 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		appendOrgFullName(pipeline, "applicantUnitId", "applicantUnit");
 
 		c(ProjectChange.class, domain).aggregate(pipeline).forEach((ProjectChange pc) -> {
-			sendMessage("项目变更申请已关闭", "项目：" + pc.getProjectName() + " 的变更已关闭，", userId, pc.getApplicantId(), null, domain);
+			sendMessage("项目变更申请已关闭", "项目：" + pc.getProjectName() + " 的变更已关闭，", userId, pc.getApplicantId(), null,
+					domain);
 		});
 		return result;
 	}
@@ -1836,15 +1887,17 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 			reviewer.add(getBson(re));
 		}
 
-		UpdateResult ur = c(ProjectChange.class, domain).updateOne(new BasicDBObject("_id", projectChangeTask.projectChange_id),
-				new BasicDBObject("$set", new BasicDBObject("reviewer", reviewer).append("status", ProjectChange.STATUS_CANCEL)));
+		UpdateResult ur = c(ProjectChange.class, domain)
+				.updateOne(new BasicDBObject("_id", projectChangeTask.projectChange_id), new BasicDBObject("$set",
+						new BasicDBObject("reviewer", reviewer).append("status", ProjectChange.STATUS_CANCEL)));
 		if (ur.getModifiedCount() == 0) {
 			result.add(Result.updateFailure("没有满足取消条件的变更申请。"));
 			return result;
 		}
-		String pmId = c("project", domain).distinct("pmId", new Document("_id", pc.getProject_id()), String.class).first();
-		sendMessage("项目变更申请已否决", "" + projectChangeTask.getUser() + " 否决了项目：" + pc.getProjectName() + " 的变更申请，", projectChangeTask.user,
-				Arrays.asList(pmId, pc.getApplicantId()), null, domain);
+		String pmId = c("project", domain).distinct("pmId", new Document("_id", pc.getProject_id()), String.class)
+				.first();
+		sendMessage("项目变更申请已否决", "" + projectChangeTask.getUser() + " 否决了项目：" + pc.getProjectName() + " 的变更申请，",
+				projectChangeTask.user, Arrays.asList(pmId, pc.getApplicantId()), null, domain);
 
 		return result;
 	}
@@ -1954,7 +2007,8 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		BasicDBObject sort = (BasicDBObject) condition.get("sort");
 
 		List<Bson> pipeline = appendQueryPipeline(skip, limit, filter, sort, new ArrayList<>(), domain);
-		return c(Project.class, domain).aggregate(pipeline).map(d -> ProjectRenderer.render(d, domain)).into(new ArrayList<>());
+		return c(Project.class, domain).aggregate(pipeline).map(d -> ProjectRenderer.render(d, domain))
+				.into(new ArrayList<>());
 	}
 
 	@Override
@@ -2014,9 +2068,10 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 	}
 
 	@Override
-	public List<ProjectScheduleInfo> listManagedProjectSchedules(BasicDBObject condition, String userid, String domain) {
-		return listAllProjects(condition, userid, domain).stream().map(project -> new ProjectScheduleInfo().setProject(project))
-				.collect(Collectors.toList());
+	public List<ProjectScheduleInfo> listManagedProjectSchedules(BasicDBObject condition, String userid,
+			String domain) {
+		return listAllProjects(condition, userid, domain).stream()
+				.map(project -> new ProjectScheduleInfo().setProject(project)).collect(Collectors.toList());
 	}
 
 	@Override
@@ -2028,11 +2083,11 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 	public List<ProjectScheduleInfo> listSubManagedProjectSchedules(ProjectScheduleInfo parent, String domain) {
 		WorkServiceImpl workService = new WorkServiceImpl();
 		if (parent.typeEquals(Project.class)) {
-			return workService.listProjectRootTask(parent.get_id(), domain).stream().map(work -> new ProjectScheduleInfo().setWork(work))
-					.collect(Collectors.toList());
+			return workService.listProjectRootTask(parent.get_id(), domain).stream()
+					.map(work -> new ProjectScheduleInfo().setWork(work)).collect(Collectors.toList());
 		} else if (parent.typeEquals(Work.class)) {
-			return workService.listChildren(parent.get_id(), domain).stream().map(work -> new ProjectScheduleInfo().setWork(work))
-					.collect(Collectors.toList());
+			return workService.listChildren(parent.get_id(), domain).stream()
+					.map(work -> new ProjectScheduleInfo().setWork(work)).collect(Collectors.toList());
 		} else {
 			// TODO 其他类型
 			return new ArrayList<ProjectScheduleInfo>();
@@ -2077,26 +2132,33 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		List<String> legendData = new ArrayList<String>();
 		List<Document> series = new ArrayList<Document>();
 
-		c("organization", domain).aggregate(Domain.getJQ(domain, "查询-承担部门计划完成率").set("workmatch", new Document("$expr",
-				new Document("$eq",
-						Arrays.asList(year, new Document("$dateToString", new Document("format", "%Y").append("date", "$actualFinish"))))))
-				.set("orgmatch", new Document()).set("projectmatch", new Document())// "_id", new Document("$in",
-																					// getAdministratedProjects(userId))))
-				.array()).forEach((Document d) -> {
+		c("organization", domain)
+				.aggregate(
+						Domain.getJQ(domain, "查询-承担部门计划完成率")
+								.set("workmatch", new Document("$expr", new Document("$eq", Arrays.asList(year,
+										new Document("$dateToString",
+												new Document("format", "%Y").append("date", "$actualFinish"))))))
+								.set("orgmatch", new Document()).set("projectmatch", new Document())// "_id", new
+																									// Document("$in",
+																									// getAdministratedProjects(userId))))
+								.array())
+				.forEach((Document d) -> {
 					List<Document> project = (List<Document>) d.get("project");
 					if (Check.isAssigned(project)) {
 						String name = d.getString("name");
 						double[] sard = new double[12];
 						for (Document p : project) {
 							int i = Integer.parseInt(p.getString("month").split("-")[1]) - 1;
-							sard[i] = new BigDecimal(p.getDouble(sarName)).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+							sard[i] = new BigDecimal(p.getDouble(sarName)).setScale(2, BigDecimal.ROUND_HALF_UP)
+									.doubleValue();
 						}
-						series.add(new Document("name", name).append("type", "bar").append("data", Formatter.toList(sard)));
+						series.add(new Document("name", name).append("type", "bar").append("data",
+								Formatter.toList(sard)));
 						legendData.add(name);
 					}
 				});
-		Document doc = Domain.getJQ(domain, "图表-计划完成率").set("xAxisData", xAxisData).set("legendData", legendData).set("series", series)
-				.set("title", title).doc();
+		Document doc = Domain.getJQ(domain, "图表-计划完成率").set("xAxisData", xAxisData).set("legendData", legendData)
+				.set("series", series).set("title", title).doc();
 		return doc;
 	}
 
@@ -2106,7 +2168,8 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 		Project project = c(Project.class, domain).find(new Document("_id", _id)).first();
 		String userId = project.getPmId();
 		new WorkServiceImpl().removeUnStartWorkUser(Arrays.asList(userId), _id, currentUserId, domain);
-		c("project", domain).updateOne(new BasicDBObject("_id", _id), new BasicDBObject("$set", new BasicDBObject("pmId", newPMId)));
+		c("project", domain).updateOne(new BasicDBObject("_id", _id),
+				new BasicDBObject("$set", new BasicDBObject("pmId", newPMId)));
 		c("obs", domain).updateOne(new BasicDBObject("_id", project.getOBS_id()),
 				new BasicDBObject("$set", new BasicDBObject("managerId", newPMId)));
 

@@ -1,5 +1,6 @@
 package com.bizvisionsoft.service.model;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -16,7 +17,10 @@ import com.bizvisionsoft.annotations.md.service.WriteValue;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.service.OrganizationService;
 import com.bizvisionsoft.service.ServicesLoader;
+import com.bizvisionsoft.service.datatools.Query;
+import com.bizvisionsoft.service.tools.Check;
 import com.bizvisionsoft.service.tools.MetaInfoWarpper;
+import com.mongodb.BasicDBObject;
 
 @PersistenceCollection("problem")
 public class Problem {
@@ -110,30 +114,68 @@ public class Problem {
 	@ReadValue
 	@WriteValue
 	private List<RemoteFile> attarchments;
-	
+
 	public String domain;
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	/**
 	 * 责任部门
 	 */
-	private ObjectId dept_id;
+	private List<ObjectId> depts_id;
 
 	@SetValue // 查询服务设置
 	@ReadValue // 表格用
-	private String deptName;
+	private List<String> deptNames;
+
+	@ReadValue // 表格用
+	public String getDeptName() {
+		if (Check.isAssigned(deptNames)) {
+			return deptNames.get(0);
+		}
+		return null;
+	}
+
+	@SetValue // 查询服务设置
+	public void setDeptName(String deptName) {
+		if (this.deptNames == null)
+			this.deptNames = new ArrayList<String>();
+		if (deptName != null)
+			this.deptNames.add(deptName);
+	}
 
 	@WriteValue("dept") // 编辑器用
 	public void setOrganization(Organization org) {
-		this.dept_id = Optional.ofNullable(org).map(o -> o.get_id()).orElse(null);
+		if (this.depts_id == null)
+			this.depts_id = new ArrayList<ObjectId>();
+		if (org != null)
+			this.depts_id.add(org.get_id());
 	}
 
 	@ReadValue("dept") // 编辑器用
 	public Organization getOrganization() {
-		return Optional.ofNullable(dept_id).map(_id -> ServicesLoader.get(OrganizationService.class).get(_id, domain)).orElse(null);
+		if (Check.isAssigned(depts_id)) {
+			return ServicesLoader.get(OrganizationService.class).get(depts_id.get(0), domain);
+		}
+		return null;
+	}
+
+	@WriteValue("depts") // 编辑器用
+	public void setOrganizations(List<Organization> org) {
+		if (org != null && org.size() > 0) {
+			this.depts_id = new ArrayList<ObjectId>();
+			org.forEach(o -> this.depts_id.add(o.get_id()));
+		}
+	}
+
+	@ReadValue("depts") // 编辑器用
+	public List<Organization> getOrganizations() {
+		return Optional.ofNullable(depts_id)
+				.map(_id -> ServicesLoader.get(OrganizationService.class).createDataSet(
+						new Query().filter(new BasicDBObject("_id", new BasicDBObject("$in", depts_id))).bson(),
+						domain))
+				.orElse(null);
 	}
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 
 	@Override
 	@Label
@@ -180,24 +222,42 @@ public class Problem {
 
 	@ReadValue
 	@WriteValue
-	private ClassifyProblem classifyProblem;
+	private List<ClassifyProblem> classifyProblems;
+
+	@ReadValue("classifyProblem")
+	private ClassifyProblem getClassifyProblem() {
+		if (Check.isAssigned(classifyProblems)) {
+			return classifyProblems.get(0);
+		}
+		return null;
+	}
+
+	@WriteValue("classifyProblem")
+	private void setClassifyProblems(ClassifyProblem cp) {
+		if (this.classifyProblems == null)
+			this.classifyProblems = new ArrayList<ClassifyProblem>();
+
+		if (cp != null)
+			this.classifyProblems.add(cp);
+	}
 
 	@ReadValue
 	@WriteValue
 	private RiskUrgencyInd urgencyInd;
-	
+
 	@ReadValue
 	@SetValue
 	private CostItem cost;
 
 	@ReadValue("cost.summary")
 	private double getCostSummary() {
-		return Optional.ofNullable(cost).map(c->c.summary).orElse(0d);
+		return Optional.ofNullable(cost).map(c -> c.summary).orElse(0d);
 	}
-	
+
 	@ReadValue("severityIndInfo")
 	private String getSeverityIndInfo() {
-		return Optional.ofNullable(severityInd).map(s -> MetaInfoWarpper.warpper(getIndIndex(s.index), s.toString())).orElse("");
+		return Optional.ofNullable(severityInd).map(s -> MetaInfoWarpper.warpper(getIndIndex(s.index), s.toString()))
+				.orElse("");
 	}
 
 	private String getIndIndex(int index) {
@@ -210,39 +270,43 @@ public class Problem {
 
 	@ReadValue("urgencyIndInfo")
 	private String getUrgencyIndInfo() {
-		return Optional.ofNullable(urgencyInd).map(s -> MetaInfoWarpper.warpper(getIndIndex(s.index), s.toString())).orElse("");
+		return Optional.ofNullable(urgencyInd).map(s -> MetaInfoWarpper.warpper(getIndIndex(s.index), s.toString()))
+				.orElse("");
 	}
 
 	@ReadValue("incidenceIndInfo")
 	private String getIncidenceIndInfo() {
-		return Optional.ofNullable(incidenceInd).map(s -> MetaInfoWarpper.warpper(getIndIndex(s.index), s.toString())).orElse("");
+		return Optional.ofNullable(incidenceInd).map(s -> MetaInfoWarpper.warpper(getIndIndex(s.index), s.toString()))
+				.orElse("");
 	}
 
 	@ReadValue("lostIndInfo")
 	private String getLostIndIndInfo() {
-		return Optional.ofNullable(lostInd).map(s -> MetaInfoWarpper.warpper(getIndIndex(s.index), s.toString())).orElse("");
+		return Optional.ofNullable(lostInd).map(s -> MetaInfoWarpper.warpper(getIndIndex(s.index), s.toString()))
+				.orElse("");
 	}
 
 	@ReadValue("freqIndInfo")
 	private String getFreqIndInfo() {
-		return Optional.ofNullable(freqInd).map(s -> MetaInfoWarpper.warpper(getIndIndex(s.index), s.toString())).orElse("");
+		return Optional.ofNullable(freqInd).map(s -> MetaInfoWarpper.warpper(getIndIndex(s.index), s.toString()))
+				.orElse("");
 	}
 
 	@ReadValue("detectionIndInfo")
 	private String getDetectionIndInfo() {
-		return Optional.ofNullable(detectionInd).map(s -> MetaInfoWarpper.warpper(getIndIndex(s.index), s.toString())).orElse("");
+		return Optional.ofNullable(detectionInd).map(s -> MetaInfoWarpper.warpper(getIndIndex(s.index), s.toString()))
+				.orElse("");
 	}
 
 	@SelectionValidation("classifyProblem")
 	private boolean selectable(@MethodParam(MethodParam.OBJECT) ClassifyProblem elem) {
 		return elem.isLeaf;
 	}
-	
+
 	public String getStatus() {
 		return status;
 	}
-	
-	
+
 	@ReadValue
 	@WriteValue
 	private OperationInfo creationInfo;
@@ -283,7 +347,7 @@ public class Problem {
 	public OperationInfo getIcaConfirmed() {
 		return icaConfirmed;
 	}
-	
+
 	@ReadValue({ "icaConfirmedOn" })
 	private Date icaConfirmedOn() {
 		return Optional.ofNullable(icaConfirmed).map(c -> c.date).orElse(null);
@@ -297,11 +361,11 @@ public class Problem {
 	@ReadValue
 	@WriteValue
 	private OperationInfo pcaApproved;
-	
+
 	public OperationInfo getPcaApproved() {
 		return pcaApproved;
 	}
-	
+
 	@ReadValue({ "pcaApprovedOn" })
 	private Date pcaApprovedOn() {
 		return Optional.ofNullable(pcaApproved).map(c -> c.date).orElse(null);
@@ -311,15 +375,15 @@ public class Problem {
 	private String pcaApprovedBy() {
 		return Optional.ofNullable(pcaApproved).map(c -> c.userName).orElse(null);
 	}
-	
+
 	@ReadValue
 	@WriteValue
 	private OperationInfo pcaValidated;
-	
+
 	public OperationInfo getPcaValidated() {
 		return pcaValidated;
 	}
-	
+
 	@ReadValue({ "pcaValidatedOn" })
 	private Date pcaValidatedOn() {
 		return Optional.ofNullable(pcaValidated).map(c -> c.date).orElse(null);
@@ -330,15 +394,14 @@ public class Problem {
 		return Optional.ofNullable(pcaValidated).map(c -> c.userName).orElse(null);
 	}
 
-	
 	@ReadValue
 	@WriteValue
 	private OperationInfo pcaConfirmed;
-	
+
 	public OperationInfo getPcaConfirmed() {
 		return pcaConfirmed;
 	}
-	
+
 	@ReadValue({ "pcaConfirmedOn" })
 	private Date pcaConfirmedOn() {
 		return Optional.ofNullable(pcaConfirmed).map(c -> c.date).orElse(null);
@@ -348,7 +411,6 @@ public class Problem {
 	private String pcaConfirmedBy() {
 		return Optional.ofNullable(pcaConfirmed).map(c -> c.userName).orElse(null);
 	}
-
 
 	/**
 	 * 关闭
@@ -367,7 +429,6 @@ public class Problem {
 		return Optional.ofNullable(closeInfo).map(c -> c.userName).orElse(null);
 	}
 
-	
 	/**
 	 * 取消
 	 */
@@ -384,12 +445,11 @@ public class Problem {
 	private String readCancelBy() {
 		return Optional.ofNullable(cancelInfo).map(c -> c.userName).orElse(null);
 	}
-	
+
 	public OperationInfo getCreationInfo() {
 		return creationInfo;
 	}
 
-	
 	public boolean isSolving() {
 		return Problem.StatusSolving.equals(status);
 	}

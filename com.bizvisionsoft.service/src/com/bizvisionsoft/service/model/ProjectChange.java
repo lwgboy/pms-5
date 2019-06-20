@@ -95,11 +95,11 @@ public class ProjectChange {
 	public String getApplicantId() {
 		return applicant;
 	}
-	
+
 	public String domain;
 
 	public User getApplicant() {
-		return ServicesLoader.get(UserService.class).get(applicant,domain);
+		return ServicesLoader.get(UserService.class).get(applicant, domain);
 	}
 
 	public ProjectChange setApplicant(User user) {
@@ -207,6 +207,17 @@ public class ProjectChange {
 	private Date submitDate;
 
 	private List<ProjectChangeTask> reviewer = new ArrayList<ProjectChangeTask>();
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	@WriteValue
+	@ReadValue
+	private Integer index;
+
+	public void setIndex(int index) {
+		this.index = index;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public List<ProjectChangeTask> getReviewer() {
 		return reviewer;

@@ -79,12 +79,12 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 	public long deleteResourceType(ObjectId _id, String domain) {
 		// TODO 考虑资源类型被使用的状况
 		if (count(new BasicDBObject("_id", _id), "equipment", domain) > 0) {
-			BasicDBObject fu = new FilterAndUpdate().filter(new BasicDBObject("_id", _id)).set(new BasicDBObject("resourceType_id", null))
-					.bson();
+			BasicDBObject fu = new FilterAndUpdate().filter(new BasicDBObject("_id", _id))
+					.set(new BasicDBObject("resourceType_id", null)).bson();
 			return updateEquipment(fu, domain);
 		} else if (count(new BasicDBObject("_id", _id), "user", domain) > 0) {
-			BasicDBObject fu = new FilterAndUpdate().filter(new BasicDBObject("_id", _id)).set(new BasicDBObject("resourceType_id", null))
-					.bson();
+			BasicDBObject fu = new FilterAndUpdate().filter(new BasicDBObject("_id", _id))
+					.set(new BasicDBObject("resourceType_id", null)).bson();
 			return new UserServiceImpl().update(fu, domain);
 		} else {
 			String id = c("resourceType", domain).distinct("id", new BasicDBObject("_id", _id), String.class).first();
@@ -268,7 +268,8 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 	public Map<String, String> getDictionary(String type, String domain) {
 		Map<String, String> result = new HashMap<String, String>();
 		Iterable<Document> itr = c("dictionary", domain).find(new BasicDBObject("type", type));
-		itr.forEach(d -> result.put(d.getString("name") + " [" + d.getString("id") + "]", d.getString("id") + "#" + d.getString("name")));
+		itr.forEach(d -> result.put(d.getString("name") + " [" + d.getString("id") + "]",
+				d.getString("id") + "#" + d.getString("name")));
 		return result;
 	}
 
@@ -282,7 +283,8 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 
 	@Override
 	public List<String> listDictionary(String type, String valueField, String domain) {
-		return c("dictionary", domain).distinct(valueField, (new BasicDBObject("type", type)), String.class).into(new ArrayList<>());
+		return c("dictionary", domain).distinct(valueField, (new BasicDBObject("type", type)), String.class)
+				.into(new ArrayList<>());
 	}
 
 	@Override
@@ -330,7 +332,8 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 		String parentId = ai.getParentId();
 		if (parentId != null) {
 			c("accountItem", domain).updateMany(
-					new Document("$or", Arrays.asList(new Document("id", parentId), new Document("subAccounts", parentId))),
+					new Document("$or",
+							Arrays.asList(new Document("id", parentId), new Document("subAccounts", parentId))),
 					new Document("$push", new Document("subAccounts", ai.getId())));
 		}
 		return ai;
@@ -342,7 +345,8 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 		String parentId = ai.getParentId();
 		if (parentId != null) {
 			c("accountIncome", domain).updateMany(
-					new Document("$or", Arrays.asList(new Document("id", parentId), new Document("subAccounts", parentId))),
+					new Document("$or",
+							Arrays.asList(new Document("id", parentId), new Document("subAccounts", parentId))),
 					new Document("$push", new Document("subAccounts", ai.getId())));
 		}
 		return ai;
@@ -361,7 +365,8 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 			}
 
 			// 引用的
-			long refCnt = c("cbsSubject", domain).countDocuments(new Document("subjectNumber", new Document("$in", toDelete)));
+			long refCnt = c("cbsSubject", domain)
+					.countDocuments(new Document("subjectNumber", new Document("$in", toDelete)));
 			if (refCnt > 0) {
 				throw new ServiceException("不能删除项目预算和成本正在使用的科目。");
 			}
@@ -389,12 +394,14 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 			}
 
 			// 引用的
-			long refCnt = c("revenueForecastItem", domain).countDocuments(new Document("subject", new Document("$in", toDelete)));
+			long refCnt = c("revenueForecastItem", domain)
+					.countDocuments(new Document("subject", new Document("$in", toDelete)));
 			if (refCnt > 0) {
 				throw new ServiceException("不能删除项目收益预测正在使用的科目。");
 			}
 
-			refCnt = c("revenueRealizeItem", domain).countDocuments(new Document("subject", new Document("$in", toDelete)));
+			refCnt = c("revenueRealizeItem", domain)
+					.countDocuments(new Document("subject", new Document("$in", toDelete)));
 			if (refCnt > 0) {
 				throw new ServiceException("不能删除项目收益实现正在使用的科目。");
 			}
@@ -555,7 +562,8 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 	@Override
 	public Date getCurrentCBSPeriod(String domain) {
 		Document doc = c("project", domain)
-				.find(new Document("status", new Document("$nin", Arrays.asList(ProjectStatus.Created, ProjectStatus.Closed))))
+				.find(new Document("status",
+						new Document("$nin", Arrays.asList(ProjectStatus.Created, ProjectStatus.Closed))))
 				.sort(new Document("settlementDate", -1)).projection(new Document("settlementDate", 1)).first();
 		java.util.Calendar cal = java.util.Calendar.getInstance();
 		cal.add(java.util.Calendar.MONTH, -1);
@@ -575,7 +583,8 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 
 	@Override
 	public List<ChangeProcess> createChangeProcessDataSet(String domain) {
-		return c(ChangeProcess.class, domain).find().into(new ArrayList<ChangeProcess>());
+		return c(ChangeProcess.class, domain).find().sort(new Document("index", 1))
+				.into(new ArrayList<ChangeProcess>());
 	}
 
 	@Override
@@ -585,6 +594,13 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 
 	@Override
 	public ChangeProcess insertChangeProcess(ChangeProcess changeProcess, String domain) {
+
+		Document doc = c("changeProcess", domain).find().sort(new Document("index", -1))
+				.projection(new Document("index", 1)).first();
+		if (doc != null)
+			changeProcess.setIndex(doc.getInteger("index", 0) + 1);
+		else
+			changeProcess.setIndex(0);
 		return insert(changeProcess, ChangeProcess.class, domain);
 	}
 
@@ -759,8 +775,8 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 
 	@Override
 	public List<Dictionary> listFunctionRoles(BasicDBObject condition, String domain) {
-		BasicDBObject filter = Optional.ofNullable((BasicDBObject) condition.get("filter")).orElse(new BasicDBObject()).append("type",
-				"功能角色");
+		BasicDBObject filter = Optional.ofNullable((BasicDBObject) condition.get("filter")).orElse(new BasicDBObject())
+				.append("type", "功能角色");
 		condition.append("filter", filter);
 		return createDataSet(condition, Dictionary.class, domain);
 	}

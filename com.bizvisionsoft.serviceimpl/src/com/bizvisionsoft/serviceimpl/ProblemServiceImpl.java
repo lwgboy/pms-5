@@ -86,6 +86,9 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 
 	private List<Bson> appendBasicQueryPipeline(BasicDBObject condition, List<Bson> pipeline, String domain) {
 		appendOrgFullName(pipeline, "dept_id", "deptName");
+		pipeline.add(Aggregates.lookup("organization", "dept_id", "_id", "orgs"));
+		pipeline.add(Aggregates.addFields(Arrays.asList(new Field<>("deptName", "$orgs.fullName"))));
+		pipeline.add(Aggregates.project(new Document("orgs", false)));
 		appendConditionToPipeline(pipeline, condition);
 		pipeline.add(Aggregates.lookup("d2ProblemPhoto", "_id", "problem_id", "d2ProblemPhoto"));
 		pipeline.addAll(Domain.getJQ(domain, "追加-目标时间的临近性").set("dateField", "$latestTimeReq")
@@ -436,6 +439,47 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 	}
 
 	@Override
+	public void insertD1Items(List<Document> d1s, String domain) {
+		List<Document> inserts = new ArrayList<Document>();
+		d1s.forEach(d1 -> {
+			Document user = (Document) d1.get("member_meta");
+			ObjectId org_id = user.getObjectId("org_id");
+			String userId = d1.getString("member");
+			String role = d1.getString("role");
+			ObjectId problem_id = d1.getObjectId("problem_id");
+
+			if ("0".equals(role) && c("d1CFT", domain)
+					.countDocuments(new Document("problem_id", problem_id).append("role", "0")) > 0)
+				throw new ServiceException("违反唯一性规则：一个CFT多功能小组只允许存在一位组长。");
+
+			Document doc = new Document("_id", new ObjectId()).append("problem_id", problem_id).append("member", userId)
+					.append("role", role).append("name", user.get("name")).append("mobile", user.get("mobile"))
+					.append("position", user.get("position")).append("email", user.get("email"))
+					.append("headPics", user.get("headPics"));
+
+			List<Bson> pipe = Domain.getJQ(domain, "查询-用户所在组织-根据组织类型").set("match", new Document("userId", userId))
+					.set("orgType", "部门").array();
+			pipe.add(Aggregates.sort(new Document("idx", -1)));
+			user = c("user", domain).aggregate(pipe).first();
+
+			String dept;
+			if (user != null) {
+				dept = ((Document) user.get("org")).getString("fullName");
+			} else if (org_id != null) {
+				dept = getString("organization", "fullName", org_id, domain);
+			} else {
+				dept = "";
+			}
+			doc.append("dept", dept);
+			inserts.add(doc);
+		});
+		c("d1CFT", domain).insertMany(inserts);
+		inserts.forEach(doc -> {
+			sendMessageOfProblemTeamUpdate(doc, "created", domain);
+		});
+	}
+
+	@Override
 	public List<Document> listD1(BasicDBObject condition, ObjectId problem_id, String userId, String lang,
 			String render, String domain) {
 		ensureGet(condition, "sort").append("role", 1).append("_id", -1);
@@ -490,6 +534,11 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 		if ("card".equals(render))
 			return new ProblemCardRenderer(lang, domain).renderD2PhotoCard(t);
 		return t;
+	}
+
+	@Override
+	public void insertD2ProblemPhotos(List<Document> t, String domain) {
+		c("d2ProblemPhoto", domain).insertMany(t);
 	}
 
 	public List<Document> listD2ProblemPhotos(ObjectId problem_id, String domain) {
@@ -548,6 +597,11 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 	@Override
 	public CauseConsequence insertCauseConsequence(CauseConsequence cc, String domain) {
 		return insert(cc, domain);
+	}
+
+	@Override
+	public void insertCauseConsequences(List<CauseConsequence> cc, String domain) {
+		c(CauseConsequence.class, domain).insertMany(cc);
 	}
 
 	@Override
@@ -737,6 +791,11 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 			return new ProblemCardRenderer(lang, domain).renderD7Similar(t);
 		else
 			return appendDegreeText(t, lang);
+	}
+
+	@Override
+	public void insertD7Similars(List<Document> t, String domain) {
+		c("d7Similar", domain).insertMany(t);
 	}
 
 	@Override
@@ -1002,6 +1061,22 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 			return new ArrayList<>();
 		List<Bson> pipeline = new ArrayList<Bson>();
 		pipeline.add(Aggregates.match(new Document("name", cc.getSubject())));
+		pipeline.add(Aggregates.lookup("classifyCause", "_id", "parent_id", "children1"));
+		pipeline.add(Aggregates.unwind("$children1"));
+		pipeline.add(Aggregates.replaceRoot("$children1"));
+		pipeline.add(Aggregates.sort(new BasicDBObject("id", 1)));
+		pipeline.addAll(Domain.getJQ(domain, "查询-通用-层次结构-增加isLeaf和Path").set("from", "classifyCause").array());
+		debugPipeline(pipeline);
+		return c(ClassifyCause.class, domain).aggregate(pipeline).into(new ArrayList<>());
+
+	}
+
+	@Override
+	public List<ClassifyCause> rootClassifyCauseSelector(Document doc, String domain) {
+		if (doc == null)
+			return new ArrayList<>();
+		List<Bson> pipeline = new ArrayList<Bson>();
+		pipeline.add(Aggregates.match(new Document("name", doc.get("subject"))));
 		pipeline.add(Aggregates.lookup("classifyCause", "_id", "parent_id", "children1"));
 		pipeline.add(Aggregates.unwind("$children1"));
 		pipeline.add(Aggregates.replaceRoot("$children1"));

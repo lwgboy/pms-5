@@ -527,6 +527,14 @@
                 "parameters": "{\"actionType\":\"create\"}"
               },
               {
+                "name": "注册问题",
+                "text": "注册问题",
+                "bundleId": "com.bizvisionsoft.pms",
+                "className": "com.bizvisionsoft.pms.problem.action.EditProblem",
+                "type": "customized",
+                "parameters": "{\"actionType\":\"creates\"}"
+              },
+              {
                 "id": "167fce928ca",
                 "name": "已创建的问题",
                 "switchContentToAssemblyId": "/问题清单（已创建）.gridassy",

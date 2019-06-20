@@ -4,7 +4,6 @@ import java.util.Map;
 
 import org.bson.types.ObjectId;
 
-import com.bizvisionsoft.annotations.md.mongocodex.Exclude;
 import com.bizvisionsoft.annotations.md.mongocodex.Persistence;
 import com.bizvisionsoft.annotations.md.mongocodex.PersistenceCollection;
 import com.bizvisionsoft.annotations.md.service.Label;
@@ -37,7 +36,22 @@ public class ChangeProcess {
 	private String projectOBSName;
 
 	public String domain;
-	
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	@WriteValue
+	@ReadValue
+	private Integer index;
+
+	public void setIndex(int index) {
+		this.index = index;
+	}
+
+	public Integer getIndex() {
+		return index;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+
 	@ReadOptions("projectOBS")
 	public Map<String, String> getSystemOBSRole() {
 		return ServicesLoader.get(CommonService.class).getDictionary("½ÇÉ«Ãû³Æ", domain);

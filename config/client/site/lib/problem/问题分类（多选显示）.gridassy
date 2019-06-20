@@ -1,0 +1,86 @@
+{
+  "id": "/问题分类.gridassy",
+  "name": "问题分类（多选显示）",
+  "layout": [],
+  "type": "grid",
+  "stickerTitle": "问题分类",
+  "folderId": "168987a1e5c",
+  "gridAutoExpandLevel": -1,
+  "gridLineVisiable": true,
+  "gridHeaderVisiable": true,
+  "gridHasHScroll": true,
+  "gridHasVScroll": true,
+  "gridDataSetService": "com.bizvisionsoft.service.ProblemService",
+  "columns": [
+    {
+      "id": "16845685b87",
+      "name": "id",
+      "text": "编号",
+      "alignment": 16384,
+      "width": 160,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "16845076b11",
+      "name": "name",
+      "text": "类别名称",
+      "alignment": 16384,
+      "width": 160,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "1684507b767",
+      "name": "description",
+      "text": "描述",
+      "alignment": 16384,
+      "width": 480,
+      "resizeable": true,
+      "columns": []
+    }
+  ],
+  "fields": [],
+  "actions": [
+    {
+      "id": "168450843ac",
+      "name": "创建",
+      "image": "/img/add_16_w.svg",
+      "style": "normal",
+      "editorAssemblyId": "/分类项编辑器.editorassy",
+      "type": "insert",
+      "createActionNewInstanceBundleId": "com.bizvisionsoft.service",
+      "createActionNewInstanceClassName": "com.bizvisionsoft.service.model.ClassifyProblem"
+    }
+  ],
+  "rowActions": [
+    {
+      "id": "168450c7095",
+      "name": "创建下级",
+      "image": "/img/add_16_w.svg",
+      "style": "normal",
+      "editorAssemblyId": "/分类项编辑器.editorassy",
+      "type": "insertsub",
+      "createActionNewInstanceBundleId": "com.bizvisionsoft.service",
+      "createActionNewInstanceClassName": "com.bizvisionsoft.service.model.ClassifyProblem"
+    },
+    {
+      "id": "168450d5c7b",
+      "name": "编辑",
+      "image": "/img/edit_w.svg",
+      "style": "normal",
+      "editorAssemblyId": "/分类项编辑器.editorassy",
+      "editorAssemblyEditable": true,
+      "type": "edit"
+    },
+    {
+      "id": "168450d1afb",
+      "name": "删除",
+      "image": "/img/minus_16_w.svg",
+      "style": "warning",
+      "type": "delete"
+    }
+  ],
+  "hasTitlebar": true,
+  "sortFields": []
+}

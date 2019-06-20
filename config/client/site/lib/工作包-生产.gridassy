@@ -134,7 +134,17 @@
   ],
   "fields": [],
   "gridAutoColumnWidth": true,
-  "actions": [],
+  "actions": [
+    {
+      "name": "创建工作包交付要求",
+      "text": "交付要求",
+      "image": "/img/add_16_w.svg",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.workpackage.action.CreatePlan",
+      "style": "info",
+      "type": "customized"
+    }
+  ],
   "rowActions": [
     {
       "id": "1636c6c5781",
@@ -180,5 +190,6 @@
       "verticalSpan": 0
     }
   ],
-  "disableInitLoadData": false
+  "disableInitLoadData": false,
+  "sortFields": []
 }
