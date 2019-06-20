@@ -439,11 +439,23 @@
       "valueFieldName": "_id"
     }
   ],
-  "actions": [],
+  "actions": [
+    {
+      "name": "注册新问题",
+      "text": "注册新问题",
+      "image": "/img/add_16_w.svg",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.problem.action.EditProblem",
+      "style": "normal",
+      "type": "customized",
+      "parameters": "{\"actionType\":\"creates\"}"
+    }
+  ],
   "rowActions": [
     {
       "id": "167e9e6c197",
       "name": "打开",
+      "text": "打开",
       "image": "/img/right_w.svg",
       "bundleId": "com.bizvisionsoft.pms",
       "className": "com.bizvisionsoft.pms.problem.action.OpenProblem",

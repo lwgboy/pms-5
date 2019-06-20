@@ -52,6 +52,9 @@ public class EditProblem {
 			create(context);
 		} else if ("creates".equals(actionType)) {
 			creates(context);
+		} else if ("edits".equals(actionType) || "edits".equals(e.text)) {
+			Problem problem = (Problem) context.getRootInput();
+			edits(context, problem);
 		} else if ("edit".equals(actionType) || "edit".equals(e.text)) {
 			Problem problem = (Problem) context.getRootInput();
 			edit(context, problem, true);
@@ -73,19 +76,30 @@ public class EditProblem {
 		});
 	}
 
-	private void creates(IBruiContext context) {
+	private void edits(IBruiContext context, Problem problem) {
+
 		Editor.create("problem/问题编辑器（整体创建）.editorassy", context, new Document(), false).ok((r, t) -> {
-			saveDocument(t);
+			saveDocument(t, problem.get_id());
 		});
 	}
 
-	private void saveDocument(Document t) {
+	private void creates(IBruiContext context) {
+		Editor.create("problem/问题编辑器（整体创建）.editorassy", context, new Document(), false).ok((r, t) -> {
+			saveDocument(t, null);
+		});
+	}
 
+	private void saveDocument(Document t, ObjectId problem_id) {
 		ProblemService service = Services.get(ProblemService.class);
 		String domain = br.getDomain();
 		String lang = RWT.getLocale().getLanguage();
 
-		ObjectId problem_id = new ObjectId();
+		boolean inserted = false;
+		if (problem_id == null) {
+			problem_id = new ObjectId();
+			inserted = true;
+		}
+
 		Problem problem = makeProblem(t, problem_id);
 		List<Document> d1CFT = makeD1CFT(t, problem_id);
 		Document d2Desc = makeD2ProblemDesc(problem_id, t);
@@ -97,14 +111,30 @@ public class EditProblem {
 
 		// TODO 缺少判断是否为空
 		// TODO 缺少更新
-		service.insertProblem(problem, domain);
-		Check.isAssigned(d1CFT, l -> service.insertD1Items(l, domain));
-		Check.isAssigned(d2Desc, l -> service.updateD2ProblemDesc((Document) l, lang, domain));
-		Check.isAssigned(d2ProblemPhotos, l -> service.insertD2ProblemPhotos(l, domain));
-		Check.isAssigned(problemActions, l -> service.insertActions(l, domain));
-		Check.isAssigned(causeConsequences, l -> service.insertCauseConsequences(l, domain));
-		Check.isAssigned(d4Root, l -> service.insertD4RootCauseDesc((Document) l, lang, domain));
-		Check.isAssigned(d7Similars, l -> service.insertD7Similars(l, domain));
+		if (inserted) {
+			service.insertProblem(problem, domain);
+			Check.isAssigned(d1CFT, l -> service.insertD1Items(l, domain));
+			Check.isAssigned(d2Desc, l -> service.updateD2ProblemDesc((Document) l, lang, domain));
+			Check.isAssigned(d2ProblemPhotos, l -> service.insertD2ProblemPhotos(l, domain));
+			Check.isAssigned(problemActions, l -> service.insertActions(l, domain));
+			Check.isAssigned(causeConsequences, l -> service.insertCauseConsequences(l, domain));
+			Check.isAssigned(d4Root, l -> service.insertD4RootCauseDesc((Document) l, lang, domain));
+			Check.isAssigned(d7Similars, l -> service.insertD7Similars(l, domain));
+		} else {
+			service.updateProblems(new FilterAndUpdate().filter(new BasicDBObject("_id", problem_id))
+					.set(BsonTools.getBasicDBObject(problem, "_id")).bson(), domain);
+			Check.isAssigned(d1CFT, l -> service.updateD1Items(l, domain));
+			Check.isAssigned(d2Desc, l -> service.updateD2ProblemDesc((Document) l, lang, domain));
+			Check.isAssigned(d2ProblemPhotos, l -> service.updateD2ProblemPhotos(l, domain));
+			Check.isAssigned(problemActions, l -> service.updateActions(l, domain));
+			Check.isAssigned(causeConsequences, l -> service.updateCauseConsequences(l, domain));
+			Check.isAssigned(d4Root,
+					l -> service.updateD4RootCauseDesc(
+							new FilterAndUpdate().filter(new BasicDBObject("_id", ((Document) l).getObjectId("_id")))
+									.set(BsonTools.getBasicDBObject((Document) l, "_id")).bson(),
+							lang, domain));
+			Check.isAssigned(d7Similars, l -> service.updateD7Similars(l, domain));
+		}
 	}
 
 	@SuppressWarnings("unchecked")

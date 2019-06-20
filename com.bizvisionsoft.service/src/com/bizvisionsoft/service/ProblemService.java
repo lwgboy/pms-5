@@ -318,6 +318,13 @@ public interface ProblemService {
 	public void insertCauseConsequences(List<CauseConsequence> cc,
 			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
+	@PUT
+	@Path("/{domain}/ccs/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public void updateCauseConsequences(List<CauseConsequence> cc,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+
 	@POST
 	@Path("/{domain}/d1/item/{render}/{lang}")
 	@Consumes("application/json; charset=UTF-8")
@@ -331,6 +338,12 @@ public interface ProblemService {
 	@Produces("application/json; charset=UTF-8")
 	public void insertD1Items(List<Document> d1, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
+	@PUT
+	@Path("/{domain}/d1/items")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public void updateD1Items(List<Document> d1, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+
 	@POST
 	@Path("/{domain}/d2/photo/{render}/{lang}")
 	@Consumes("application/json; charset=UTF-8")
@@ -343,6 +356,13 @@ public interface ProblemService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public void insertD2ProblemPhotos(List<Document> t,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+
+	@PUT
+	@Path("/{domain}/d2/photos")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public void updateD2ProblemPhotos(List<Document> t,
 			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
@@ -378,6 +398,12 @@ public interface ProblemService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public void insertD7Similars(List<Document> t, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+
+	@PUT
+	@Path("/{domain}/d7/sss")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public void updateD7Similars(List<Document> t, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
 	@Path("/{domain}/d8/exp/{render}/{lang}")
@@ -936,6 +962,13 @@ public interface ProblemService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public void insertActions(List<Document> actions,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+
+	@PUT
+	@Path("/{domain}/actions/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public void updateActions(List<Document> actions,
 			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@DELETE

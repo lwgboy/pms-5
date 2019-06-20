@@ -21,12 +21,26 @@
           "radioStyle": "横向分段（默认）"
         },
         {
-          "id": "167eaec3e90",
-          "name": "name",
-          "text": "问题简述",
-          "type": "单行文本框",
-          "formFields": [],
-          "required": true
+          "name": "新字段",
+          "type": "行",
+          "formFields": [
+            {
+              "id": "167eaec3e90",
+              "name": "name",
+              "text": "问题简述",
+              "type": "单行文本框",
+              "formFields": [],
+              "required": true
+            },
+            {
+              "name": "status",
+              "text": "状态",
+              "type": "单选框",
+              "formFields": [],
+              "optionText": "已创建#解决中#已关闭#已取消",
+              "radioStyle": "横向分段（默认）"
+            }
+          ]
         },
         {
           "id": "167e84540b3",

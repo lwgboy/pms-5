@@ -1656,4 +1656,29 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 		return null;
 	}
 
+	@Override
+	public void updateCauseConsequences(List<CauseConsequence> cc, String domain) {
+		// TODO 批量编辑编辑
+	}
+
+	@Override
+	public void updateD1Items(List<Document> d1, String domain) {
+		// TODO 批量编辑编辑
+	}
+
+	@Override
+	public void updateD2ProblemPhotos(List<Document> t, String domain) {
+		// TODO 批量编辑编辑
+	}
+
+	@Override
+	public void updateD7Similars(List<Document> t, String domain) {
+		// TODO 批量编辑编辑
+	}
+
+	@Override
+	public void updateActions(List<Document> actions, String domain) {
+		// TODO 批量编辑编辑
+	}
+
 }
