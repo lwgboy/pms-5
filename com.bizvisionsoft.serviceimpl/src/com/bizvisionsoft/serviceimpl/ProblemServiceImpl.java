@@ -576,7 +576,7 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 
 	@Override
 	public long deleteCauseConsequence(ObjectId _id, String domain) {
-		return deleteOne(_id, "causeRelation", domain);
+		return delete(_id, "causeRelation", domain);
 	}
 
 	@Override
@@ -716,7 +716,7 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 	//
 	@Override
 	public long deleteD5PCA(ObjectId _id, String lang, String domain) {
-		return deleteOne(_id, "d5PCA", domain);
+		return delete(_id, "d5PCA", domain);
 	}
 
 	@Override
@@ -775,7 +775,7 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 	//
 	@Override
 	public long deleteD7Similar(ObjectId _id, String domain) {
-		return deleteOne(_id, "d7Similar", domain);
+		return delete(_id, "d7Similar", domain);
 	}
 
 	@Override
@@ -868,7 +868,7 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 
 	@Override
 	public long deleteD8Exp(ObjectId _id, String domain) {
-		return deleteOne(_id, "d8Exp", domain);
+		return delete(_id, "d8Exp", domain);
 	}
 
 	@Override
@@ -1007,7 +1007,7 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 
 	@Override
 	public long deleteClassifyProblemLost(ObjectId _id, String domain) {
-		return deleteOne(_id, "classifyProblemLost", domain);
+		return delete(_id, "classifyProblemLost", domain);
 	}
 
 	@Override
@@ -1037,7 +1037,7 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 
 	@Override
 	public long deleteClassifyProblem(ObjectId _id, String domain) {
-		return deleteOne(_id, "classifyProblem", domain);
+		return delete(_id, "classifyProblem", domain);
 	}
 
 	@Override
@@ -1099,7 +1099,7 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 
 	@Override
 	public long deleteClassifyCause(ObjectId _id, String domain) {
-		return deleteOne(_id, "classifyCause", domain);
+		return delete(_id, "classifyCause", domain);
 	}
 
 	@Override
@@ -1109,7 +1109,7 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 
 	@Override
 	public long deleteCostItem(ObjectId _id, String domain) {
-		return deleteOne(_id, "problemCostItem", domain);
+		return delete(_id, "problemCostItem", domain);
 	}
 
 	@Override

@@ -724,6 +724,18 @@
           "radioStyle": "纵向"
         }
       ]
+    },
+    {
+      "name": "processReq",
+      "text": "工艺要求",
+      "type": "标签页（文本编辑）",
+      "formFields": []
+    },
+    {
+      "name": "htmldemo",
+      "text": "超文本页面",
+      "type": "标签页（HTML编辑）",
+      "formFields": []
     }
   ],
   "actions": [

@@ -69,7 +69,7 @@ public class EPSServiceImpl extends BasicServiceImpl implements EPSService {
 		}
 
 		// TODO 即便下面没有节点同样也需要考虑是否有其他数据（比如，绩效等等）
-		return delete(_id, EPS.class,domain);
+		return delete(_id, "eps",domain);
 	}
 
 	@Override
