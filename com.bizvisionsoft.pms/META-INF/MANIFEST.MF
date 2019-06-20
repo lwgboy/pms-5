@@ -20,4 +20,5 @@ Require-Bundle: org.eclipse.core.runtime,
  net.sf.mpxj,
  javax.servlet,
  com.bizvisionsoft.mongocodex,
- slf4j.api;bundle-version="1.7.25"
+ slf4j.api;bundle-version="1.7.25",
+ com.google.gson

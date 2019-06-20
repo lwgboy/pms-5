@@ -92,7 +92,7 @@ public class OrganizationServiceImpl extends BasicServiceImpl implements Organiz
 			throw new ServiceException("不允许删除有成员的组织");
 
 		// TODO 完整性问题
-		return delete(_id, Organization.class,domain);
+		return delete(_id, "organization",domain);
 	}
 
 	@Override

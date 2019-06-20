@@ -523,11 +523,6 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 	}
 
 	@Override
-	public int generateCode(String name, String key, String domain) {
-		return super.generateCode(name, key, domain);
-	}
-
-	@Override
 	public List<TrackView> listTrackView(BasicDBObject condition, String domain) {
 		return createDataSet(condition, TrackView.class, domain);
 	}

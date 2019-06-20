@@ -1,41 +1,31 @@
 package com.bizvisionsoft.serviceimpl;
 
-import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.BiFunction;
-import java.util.function.Consumer;
 
 import org.bson.Document;
-import org.bson.codecs.Codec;
-import org.bson.codecs.EncoderContext;
 import org.bson.conversions.Bson;
-import org.bson.json.JsonWriter;
 import org.bson.types.ObjectId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.bizvisionsoft.mongocodex.codec.CodexProvider;
 import com.bizvisionsoft.service.common.Domain;
 import com.bizvisionsoft.service.common.Service;
 import com.bizvisionsoft.service.dps.EmailSender;
 import com.bizvisionsoft.service.model.Message;
 import com.bizvisionsoft.service.model.ProjectStatus;
 import com.bizvisionsoft.service.model.Role;
-import com.bizvisionsoft.service.provider.BsonProvider;
 import com.bizvisionsoft.service.tools.Check;
 import com.bizvisionsoft.service.tools.Formatter;
 import com.bizvisionsoft.service.tools.RSACoder;
 import com.bizvisionsoft.serviceimpl.commons.EmailClient;
 import com.bizvisionsoft.serviceimpl.commons.EmailClientBuilder;
 import com.bizvisionsoft.serviceimpl.commons.NamedAccount;
-import com.bizvisionsoft.serviceimpl.exception.ServiceException;
 import com.bizvisionsoft.serviceimpl.scheduling.Consequence;
 import com.bizvisionsoft.serviceimpl.scheduling.Graphic;
 import com.bizvisionsoft.serviceimpl.scheduling.Relation;
@@ -44,20 +34,11 @@ import com.bizvisionsoft.serviceimpl.scheduling.Route;
 import com.bizvisionsoft.serviceimpl.scheduling.Task;
 import com.hankcs.hanlp.RestrictTextRankKeyword;
 import com.mongodb.BasicDBObject;
-import com.mongodb.MongoException;
-import com.mongodb.client.MongoCollection;
-import com.mongodb.client.gridfs.GridFSBuckets;
 import com.mongodb.client.model.Aggregates;
 import com.mongodb.client.model.Field;
-import com.mongodb.client.model.Filters;
-import com.mongodb.client.model.FindOneAndUpdateOptions;
-import com.mongodb.client.model.ReturnDocument;
 import com.mongodb.client.model.UnwindOptions;
-import com.mongodb.client.model.UpdateOptions;
-import com.mongodb.client.model.Updates;
-import com.mongodb.client.result.UpdateResult;
 
-public class BasicServiceImpl {
+public class BasicServiceImpl extends DataServiceImpl{
 
 	public static String CHECKIN_SETTING_NAME = "项目计划提交设置";
 
@@ -69,262 +50,6 @@ public class BasicServiceImpl {
 			CLOSE_SETTING_NAME);
 
 	public Logger logger = LoggerFactory.getLogger(getClass());
-
-	protected Document findAndUpdate(BasicDBObject fu, String col, String domain) {
-		BasicDBObject filter = (BasicDBObject) fu.get("filter");
-		BasicDBObject update = (BasicDBObject) fu.get("update");
-		update.remove("_id");
-		try {
-			return c(col, domain).findOneAndUpdate(filter, update);
-		} catch (Exception e) {
-			throw handleMongoException(e);
-		}
-	}
-
-	protected <T> long update(BasicDBObject fu, Class<T> clazz, String domain) {
-		BasicDBObject filter = (BasicDBObject) fu.get("filter");
-		BasicDBObject update = (BasicDBObject) fu.get("update");
-		update.remove("_id");
-		UpdateOptions option = new UpdateOptions();
-		option.upsert(false);
-		try {
-			UpdateResult updateMany = c(clazz, domain).updateMany(filter, update, option);
-			long cnt = updateMany.getModifiedCount();
-			return cnt;
-		} catch (Exception e) {
-			throw handleMongoException(e);
-		}
-
-	}
-
-	protected <T> long update(BasicDBObject fu, String cname, Class<T> clazz, String domain) {
-		BasicDBObject filter = (BasicDBObject) fu.get("filter");
-		BasicDBObject update = (BasicDBObject) fu.get("update");
-		update.remove("_id");
-		UpdateOptions option = new UpdateOptions();
-		option.upsert(false);
-		try {
-			UpdateResult updateMany = c(cname, clazz, domain).updateMany(filter, update, option);
-			long cnt = updateMany.getModifiedCount();
-			return cnt;
-		} catch (Exception e) {
-			throw handleMongoException(e);
-		}
-	}
-
-	protected <T> long update(BasicDBObject fu, String cname, String domain) {
-		BasicDBObject filter = (BasicDBObject) fu.get("filter");
-		BasicDBObject update = (BasicDBObject) fu.get("update");
-		update.remove("_id");
-		UpdateOptions option = new UpdateOptions();
-		option.upsert(false);
-		try {
-			UpdateResult updateMany = c(cname, domain).updateMany(filter, update, option);
-			long cnt = updateMany.getModifiedCount();
-			return cnt;
-		} catch (Exception e) {
-			throw handleMongoException(e);
-		}
-	}
-
-	@SuppressWarnings("unchecked")
-	protected <T> T insert(T obj, String domain) {
-		try {
-			c((Class<T>) obj.getClass(), domain).insertOne(obj);
-			return obj;
-		} catch (Exception e) {
-			throw handleMongoException(e, obj.toString());
-		}
-	}
-
-	protected <T> T insert(T obj, Class<T> clazz, String domain) {
-		try {
-			c(clazz, domain).insertOne(obj);
-			return obj;
-		} catch (Exception e) {
-			throw handleMongoException(e, obj.toString());
-		}
-	}
-
-	protected <T> T insert(T obj, String cname, Class<T> clazz, String domain) {
-		try {
-			c(cname, clazz, domain).insertOne(obj);
-			return obj;
-		} catch (Exception e) {
-			throw handleMongoException(e, obj.toString());
-		}
-	}
-
-	protected <T> T get(ObjectId _id, Class<T> clazz, String domain) {
-		return c(clazz, domain).find(new BasicDBObject("_id", _id)).first();
-	}
-
-	protected Document getDocument(ObjectId _id, String col, String domain) {
-		return c(col, domain).find(new BasicDBObject("_id", _id)).first();
-	}
-
-	protected <T> long delete(ObjectId _id, Class<T> clazz, String domain) {
-		return c(clazz, domain).deleteOne(new BasicDBObject("_id", _id)).getDeletedCount();
-	}
-
-	protected <T> long delete(ObjectId _id, String cname, Class<T> clazz, String domain) {
-		return c(cname, clazz, domain).deleteOne(new BasicDBObject("_id", _id)).getDeletedCount();
-	}
-
-	protected <T> long deleteMany(Bson filter, String cname, String domain) {
-		return c(cname, domain).deleteMany(filter).getDeletedCount();
-	}
-
-	protected long deleteOne(ObjectId _id, String cname, String domain) {
-		return c(cname, domain).deleteOne(new Document("_id", _id)).getDeletedCount();
-	}
-
-	protected Document findAndDeleteOne(ObjectId _id, String cname, String domain) {
-		return c(cname, domain).findOneAndDelete(new Document("_id", _id));
-	}
-
-	protected <T> long count(BasicDBObject filter, Class<T> clazz, String domain) {
-		if (filter != null)
-			return c(clazz, domain).countDocuments(filter);
-		return c(clazz, domain).countDocuments();
-	}
-
-	protected <T> long count(BasicDBObject filter, String colName, String domain) {
-		if (filter != null)
-			return c(colName, domain).countDocuments(filter);
-		return c(colName, domain).countDocuments();
-	}
-
-	final protected <T> List<T> list(Class<T> clazz, String domain, BasicDBObject condition, Bson... appendPipelines) {
-		List<Bson> pipeline = null;
-		if (appendPipelines != null)
-			pipeline = Arrays.asList(appendPipelines);
-		return list(clazz, domain, condition, pipeline);
-	}
-
-	final protected List<Document> list(String col, String domain, BasicDBObject condition, Bson... appendPipelines) {
-		List<Bson> pipeline = null;
-		if (appendPipelines != null)
-			pipeline = Arrays.asList(appendPipelines);
-		return list(col, domain, condition, pipeline);
-	}
-
-	/**
-	 * 增加传入pipeline的list类型的实现
-	 * 
-	 * @param clazz
-	 * @param condition
-	 * @param appendPipelines
-	 * @param domain
-	 * @return
-	 */
-	final protected <T> List<T> list(Class<T> clazz, String domain, BasicDBObject condition,
-			List<Bson> appendPipelines) {
-		ArrayList<Bson> pipeline = combinateQueryPipeline(condition, appendPipelines);
-		return c(clazz, domain).aggregate(pipeline).into(new ArrayList<T>());
-	}
-
-	final protected List<Document> list(String col, String domain, BasicDBObject condition,
-			List<Bson> appendPipelines) {
-		ArrayList<Bson> pipeline = combinateQueryPipeline(condition, appendPipelines);
-		return c(col, domain).aggregate(pipeline).into(new ArrayList<>());
-	}
-
-	final protected long count(String col, String domain, BasicDBObject filter, Bson... prefixPipeline) {
-		List<Bson> pipeline = null;
-		if (prefixPipeline != null)
-			pipeline = Arrays.asList(prefixPipeline);
-		return count(col, domain, filter, pipeline);
-	}
-
-	final protected long count(String col, String domain, BasicDBObject filter, List<Bson> prefixPipelines) {
-		ArrayList<Bson> pipeline = combinateCountPipeline(prefixPipelines, filter);
-		return Optional.ofNullable(c(col, domain).aggregate(pipeline).first()).map(d -> (Number) d.get("count"))
-				.map(d -> d.longValue()).orElse(0l);
-	}
-
-	protected List<Bson> appendConditionToPipeline(List<Bson> pipeline, BasicDBObject condition) {
-		Optional.ofNullable((BasicDBObject) condition.get("filter")).map(Aggregates::match).ifPresent(pipeline::add);
-		Optional.ofNullable((BasicDBObject) condition.get("sort")).map(Aggregates::sort).ifPresent(pipeline::add);
-		Optional.ofNullable((Integer) condition.get("skip")).map(Aggregates::skip).ifPresent(pipeline::add);
-		Optional.ofNullable((Integer) condition.get("limit")).map(Aggregates::limit).ifPresent(pipeline::add);
-		return pipeline;
-	}
-
-	protected ArrayList<Bson> combinateQueryPipeline(BasicDBObject condition, List<Bson> appendPipelines) {
-		ArrayList<Bson> pipeline = new ArrayList<Bson>();
-		appendConditionToPipeline(pipeline, condition);
-		if (appendPipelines != null) {
-			pipeline.addAll(appendPipelines);
-		}
-		return pipeline;
-	}
-
-	protected ArrayList<Bson> combinateCountPipeline(List<Bson> prefixPipeline, BasicDBObject filter) {
-		ArrayList<Bson> pipeline = new ArrayList<Bson>();
-		if (prefixPipeline != null)
-			pipeline.addAll(prefixPipeline);
-		if (filter != null)
-			pipeline.add(Aggregates.match(filter));
-		pipeline.add(Aggregates.count());
-		return pipeline;
-	}
-
-	protected <T> List<T> createDataSet(BasicDBObject condition, Class<T> clazz, String domain) {
-		Integer skip = (Integer) condition.get("skip");
-		Integer limit = (Integer) condition.get("limit");
-		BasicDBObject filter = (BasicDBObject) condition.get("filter");
-		BasicDBObject sort = (BasicDBObject) condition.get("sort");
-		return query(skip, limit, filter, sort, clazz, domain);
-	}
-
-	<T> List<T> query(Integer skip, Integer limit, BasicDBObject filter, Class<T> clazz, String domain) {
-		return query(skip, limit, filter, null, clazz, domain);
-	}
-
-	<T> List<T> query(Integer skip, Integer limit, BasicDBObject filter, BasicDBObject sort, Class<T> clazz,
-			String domain) {
-		return query(null, skip, limit, filter, sort, null, clazz, domain);
-	}
-
-	<T> List<T> query(Consumer<List<Bson>> input, Integer skip, Integer limit, BasicDBObject filter, BasicDBObject sort,
-			Consumer<List<Bson>> output, Class<T> clazz, String domain) {
-
-		ArrayList<Bson> pipeline = new ArrayList<Bson>();
-
-		Optional.ofNullable(input).ifPresent(c -> c.accept(pipeline));
-
-		if (filter != null)
-			pipeline.add(Aggregates.match(filter));
-
-		if (sort != null)
-			pipeline.add(Aggregates.sort(sort));
-
-		if (skip != null)
-			pipeline.add(Aggregates.skip(skip));
-
-		if (limit != null)
-			pipeline.add(Aggregates.limit(limit));
-
-		Optional.ofNullable(output).ifPresent(c -> c.accept(pipeline));
-
-		debugPipeline(pipeline);
-
-		return c(clazz, domain).aggregate(pipeline).into(new ArrayList<T>());
-	}
-
-	protected void appendLookupAndUnwind(List<Bson> pipeline, String from, String field, String newField) {
-		appendLookupAndUnwind(pipeline, from, field, newField, true);
-	}
-
-	protected void appendLookupAndUnwind(List<Bson> pipeline, String from, String field, String newField,
-			boolean preserveNullAndEmptyArrays) {
-		pipeline.add(new Document("$lookup", new Document("from", from).append("localField", field)
-				.append("foreignField", "_id").append("as", newField)));
-
-		pipeline.add(new Document("$unwind",
-				new Document("path", "$" + newField).append("preserveNullAndEmptyArrays", preserveNullAndEmptyArrays)));
-	}
 
 	protected void appendOrgFullName(List<Bson> pipeline, String inputField, String outputField) {
 		String tempField = "_org_" + inputField;
@@ -396,10 +121,6 @@ public class BasicServiceImpl {
 		pipeline.add(Aggregates.project(new BasicDBObject("project", false)));
 	}
 
-	protected void appendSortBy(List<Bson> pipeline, String fieldName, int i) {
-		pipeline.add(Aggregates.sort(new BasicDBObject(fieldName, i)));
-	}
-
 	@Deprecated
 	protected List<Bson> getOBSRootPipline(ObjectId project_id) {
 		List<Bson> pipeline = new ArrayList<Bson>();
@@ -413,82 +134,6 @@ public class BasicServiceImpl {
 		pipeline.add(Aggregates.project(new BasicDBObject(tempField, false)));
 
 		return pipeline;
-	}
-
-	protected <T> MongoCollection<T> c(Class<T> clazz, String domain) {
-		return Domain.getCollection(domain, clazz);
-	}
-
-	protected <T> MongoCollection<T> c(String col, Class<T> clazz, String domain) {
-		return Domain.getDatabase(domain).getCollection(col, clazz);
-	}
-
-	protected MongoCollection<Document> c(String name, String domain) {
-		return Domain.getCollection(domain, name);
-	}
-
-	protected MongoCollection<Document> c(String name) {
-		return Domain.getCollection(null, name);
-	}
-
-	/**
-	 * 使用lookupDesentItems替代
-	 * 
-	 * @param inputIds
-	 *            输入的_id列表
-	 * @param cName
-	 *            集合名称
-	 * @param key
-	 *            关键字
-	 * @return
-	 */
-	protected List<ObjectId> getDesentItems(List<ObjectId> inputIds, String cName, String key, String domain) {
-		List<ObjectId> result = new ArrayList<ObjectId>();
-		lookupDesentItems(inputIds, cName, domain, key, true).forEach(d -> {
-			result.add(d.getObjectId("_id"));
-		});
-		return result;
-	}
-
-	/**
-	 * 
-	 * @param inputIds
-	 *            输入的_id列表
-	 * @param cName
-	 *            集合名称
-	 * @param key
-	 *            关键字
-	 * @param includeCurrentLevel
-	 *            是否包含本级
-	 * @return
-	 */
-	protected Iterable<Document> lookupDesentItems(List<ObjectId> inputIds, String cName, String domain, String key,
-			boolean includeCurrentLevel) {
-		String jq = includeCurrentLevel ? "查询-通用-下级迭代取出-含本级" : "查询-通用-下级迭代取出";
-		ArrayList<Bson> pipe = new ArrayList<>();
-		if (inputIds.size() > 1) {
-			pipe.add(Aggregates.match(new Document("_id", new Document("$in", inputIds))));
-		} else if (inputIds.size() == 1) {
-			pipe.add(Aggregates.match(new Document("_id", inputIds.get(0))));
-		} else {
-			return new ArrayList<>();
-		}
-		pipe.addAll(Domain.getJQ(domain, jq).set("from", cName).set("startWith", "$_id").set("connectFromField", "_id")
-				.set("connectToField", key).array());
-		return c(cName, domain).aggregate(pipe);
-	}
-
-	protected int generateCode(String name, String key, String domain) {
-		Document doc = c(name, domain).findOneAndUpdate(Filters.eq("_id", key), Updates.inc("next_val", 1),
-				new FindOneAndUpdateOptions().upsert(true).returnDocument(ReturnDocument.AFTER));
-		return doc.getInteger("next_val");
-	}
-
-	protected int generateCode(String name, String key) {
-		Document doc = Service.database.getCollection(name).findOneAndUpdate(Filters.eq("_id", key),
-				Updates.inc("next_val", 1),
-				new FindOneAndUpdateOptions().upsert(true).returnDocument(ReturnDocument.AFTER));
-		return doc.getInteger("next_val");
 	}
 
 	public double getWorkingHoursPerDay(ObjectId resTypeId, String domain) {
@@ -545,7 +190,7 @@ public class BasicServiceImpl {
 		// -1)));
 
 		List<? extends Bson> pipeline = Domain.getJQ(domain, "查询-日历-资源类-工作日").set("resTypeId", resTypeId)
-				.set("week", getDateWeek(cal)).set("date", cal.getTime()).array();
+				.set("week", Formatter.getDateWeek(cal)).set("date", cal.getTime()).array();
 
 		Document doc = c("calendar", domain).aggregate(pipeline).first();
 		if (doc != null) {
@@ -560,26 +205,7 @@ public class BasicServiceImpl {
 		}
 		return false;
 	}
-
-	public String getDateWeek(Calendar cal) {
-		switch (cal.get(Calendar.DAY_OF_WEEK)) {
-		case 1:
-			return "周日";
-		case 2:
-			return "周一";
-		case 3:
-			return "周二";
-		case 4:
-			return "周三";
-		case 5:
-			return "周四";
-		case 6:
-			return "周五";
-		default:
-			return "周六";
-		}
-	}
-
+	
 	protected boolean sendMessage(String subject, String content, String sender, String receiver, String url,
 			String domain) {
 		sendMessage(Message.newInstance(subject, content, sender, receiver, url), domain);
@@ -612,18 +238,6 @@ public class BasicServiceImpl {
 			sendEmail(message, "系统", setting, domain);
 		}
 		return true;
-	}
-
-	protected String getName(String cName, ObjectId _id, String domain) {
-		return c(cName, domain).distinct("name", new BasicDBObject("_id", _id), String.class).first();
-	}
-
-	protected String getString(String cName, String fName, ObjectId _id, String domain) {
-		return c(cName, domain).distinct(fName, new BasicDBObject("_id", _id), String.class).first();
-	}
-
-	protected <T> T getValue(String cName, String fName, Object _id, Class<T> c, String domain) {
-		return c(cName, domain).distinct(fName, new BasicDBObject("_id", _id), c).first();
 	}
 
 	protected void convertGraphic(ArrayList<Document> works, ArrayList<Document> links, final ArrayList<Task> tasks,
@@ -754,46 +368,6 @@ public class BasicServiceImpl {
 	}
 
 	/**
-	 * 使用BsonTools替代
-	 * 
-	 * @param input
-	 * @return
-	 */
-	@Deprecated
-	protected static BasicDBObject getBson(Object input) {
-		return getBson(input, true);
-	}
-
-	/**
-	 * 使用BsonTools替代
-	 * 
-	 * @param input
-	 * @param ignoreNull
-	 * @return
-	 */
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	@Deprecated
-	private static BasicDBObject getBson(Object input, boolean ignoreNull) {
-		Codec codec = CodexProvider.getRegistry().get(input.getClass());
-		StringWriter sw = new StringWriter();
-		codec.encode(new JsonWriter(sw), input, EncoderContext.builder().build());
-		String json = sw.toString();
-		BasicDBObject result = BasicDBObject.parse(json);
-
-		BasicDBObject _result = new BasicDBObject();
-		Iterator<String> iter = result.keySet().iterator();
-		while (iter.hasNext()) {
-			String k = iter.next();
-			Object v = result.get(k);
-			if (v == null && ignoreNull) {
-				continue;
-			}
-			_result.append(k, v);
-		}
-		return _result;
-	}
-
-	/**
 	 * 获得userId 管理的项目
 	 * 
 	 * @param condition
@@ -826,34 +400,6 @@ public class BasicServiceImpl {
 	protected void appendQueryUserInProjectPMO(List<Bson> pipeline, String userid, String scopeIdName, String domain) {
 		pipeline.addAll(
 				Domain.getJQ(domain, "查询-项目PMO成员").set("scopeIdName", scopeIdName).set("userId", userid).array());
-	}
-
-	/**
-	 * 处理错误
-	 * 
-	 * @param e
-	 * @param message
-	 * @return
-	 */
-	final protected ServiceException handleMongoException(Exception e, String message) {
-		if (e instanceof MongoException && ((MongoException) e).getCode() == 11000) {// 11000为唯一索引提示
-			if (Check.isAssigned(message))
-				return new ServiceException("违反唯一性规则：" + message);
-			else
-				return new ServiceException("违反唯一性规则");
-		} // TODO 其他代码的提示可增加到下方
-		return new ServiceException(e.getMessage());
-	}
-
-	/**
-	 * 处理错误
-	 * 
-	 * @param e
-	 * @param message
-	 * @return
-	 */
-	final protected ServiceException handleMongoException(Exception e) {
-		return handleMongoException(e, null);
 	}
 
 	public Integer schedule(ObjectId _id, String domain) {
@@ -1039,20 +585,6 @@ public class BasicServiceImpl {
 		return true;
 	}
 
-	protected void debugPipeline(List<? extends Bson> pipeline) {
-		if (logger.isDebugEnabled()) {
-			String json = new BsonProvider<>().getGson().toJson(pipeline);
-			logger.debug("Aggregation Pipeline: \n" + json);
-		}
-	}
-
-	protected void debugDocument(Document doc) {
-		if (logger.isDebugEnabled()) {
-			String json = new BsonProvider<>().getGson().toJson(doc);
-			logger.debug("Document: \n" + json);
-		}
-	}
-
 	/**
 	 * 检查当前用户是否具有某些角色
 	 * 
@@ -1092,56 +624,6 @@ public class BasicServiceImpl {
 	 */
 	protected String getUserName(String userId, String domain) {
 		return c("user", domain).distinct("name", new Document("userId", userId), String.class).first();
-	}
-
-	protected void deleteFile(Document remoteFile, String domain) {
-		ObjectId _id = remoteFile.getObjectId("_id");
-		String namespace = remoteFile.getString("namepace");
-		GridFSBuckets.create(Domain.getDatabase(domain), namespace).delete(_id);
-	}
-
-	protected void deleteFileInField(Document delete, String field, String domain) {
-		List<?> list = (List<?>) delete.get(field);
-		if (list != null)
-			list.forEach(itm -> deleteFile((Document) itm, domain));
-	}
-
-	protected Document updateThen(Document d, String lang, String col, String domain,
-			BiFunction<Document, String, Document> func) {
-		Document doc = update(d, col, domain);
-		return Optional.ofNullable(func).map(f -> f.apply(doc, lang)).orElse(doc);
-	}
-
-	protected Document update(Document d, String col, String domain) {
-		Document filter = new Document("_id", d.get("_id"));
-		d.remove("_id");
-		Document set = new Document("$set", d);
-		FindOneAndUpdateOptions options = new FindOneAndUpdateOptions().upsert(true)
-				.returnDocument(ReturnDocument.AFTER);
-		Document doc = c(col, domain).findOneAndUpdate(filter, set, options);
-		return doc;
-	}
-
-	protected BasicDBObject ensureGet(BasicDBObject condition, String field) {
-		BasicDBObject doc = (BasicDBObject) condition.get(field);
-		if (doc == null) {
-			doc = new BasicDBObject();
-			condition.put(field, doc);
-		}
-		return doc;
-	}
-
-	protected Document ensureGet(Document condition, String field) {
-		Document doc = (Document) condition.get(field);
-		if (doc == null) {
-			doc = new Document();
-			condition.put(field, doc);
-		}
-		return doc;
-	}
-
-	public Document blankChart(String domain) {
-		return Domain.getJQ(domain, "图表-无数据").doc();
 	}
 
 	/**

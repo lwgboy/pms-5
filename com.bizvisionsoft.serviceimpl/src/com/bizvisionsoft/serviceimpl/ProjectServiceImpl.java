@@ -19,7 +19,7 @@ import org.bson.Document;
 import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 
-import com.bizvisionsoft.annotations.md.mongocodex.Generator;
+import com.bizvisionsoft.mongocodex.tools.BsonTools;
 import com.bizvisionsoft.service.ProjectService;
 import com.bizvisionsoft.service.common.Domain;
 import com.bizvisionsoft.service.model.Baseline;
@@ -1344,17 +1344,17 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 					.first();
 			String[] workorders = parentWorkOrder.split("-");
 			workOrder += "-" + workorders[1];
-			int index = generateCode(Generator.DEFAULT_NAME, "projectno" + parentWorkOrder, domain);
+			int index = generateCode("Id_Gen", "projectno" + parentWorkOrder, domain);
 			workOrder += "-" + String.format("%02d", index);
 
 		} else if (program_id != null) {
 			String programWorkOrder = c("program", domain).distinct("workOrder", new Document("_id", program_id), String.class).first();
 			String[] workorders = programWorkOrder.split("-");
 			workOrder += "-" + workorders[1];
-			int index = generateCode(Generator.DEFAULT_NAME, "projectno" + programWorkOrder, domain);
+			int index = generateCode("Id_Gen", "projectno" + programWorkOrder, domain);
 			workOrder += "-" + String.format("%02d", index);
 		} else {
-			int index = generateCode(Generator.DEFAULT_NAME, "projectno" + year, domain);
+			int index = generateCode("Id_Gen", "projectno" + year, domain);
 			workOrder += "-" + String.format("%02d", index);
 		}
 
@@ -1761,7 +1761,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 				re.date = projectChangeTask.date;
 				re.comment = projectChangeTask.comment;
 			}
-			reviewer.add(getBson(re));
+			reviewer.add(BsonTools.getBasicDBObject(re));
 		}
 
 		UpdateResult ur = c(ProjectChange.class, domain).updateOne(new BasicDBObject("_id", projectChangeTask.projectChange_id),
@@ -1833,7 +1833,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 				re.date = projectChangeTask.date;
 				re.comment = projectChangeTask.comment;
 			}
-			reviewer.add(getBson(re));
+			reviewer.add(BsonTools.getBasicDBObject(re));
 		}
 
 		UpdateResult ur = c(ProjectChange.class, domain).updateOne(new BasicDBObject("_id", projectChangeTask.projectChange_id),
@@ -1862,7 +1862,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 			if (re.name.equals(projectChangeTask.name)) {
 				re.user = projectChangeTask.user;
 			}
-			reviewer.add(getBson(re));
+			reviewer.add(BsonTools.getBasicDBObject(re));
 		}
 
 		UpdateResult ur = c(ProjectChange.class, domain).updateOne(new BasicDBObject("_id", projectChange_id),
