@@ -1,4 +1,4 @@
-package com.bizvisionsoft.bruicommons;
+package com.bizvisionsoft.pms.update;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -14,6 +14,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Optional;
 
+import com.bizvisionsoft.bruicommons.ModelLoader;
 import com.bizvisionsoft.bruicommons.model.Assembly;
 import com.bizvisionsoft.bruicommons.model.Site;
 import com.google.gson.GsonBuilder;
