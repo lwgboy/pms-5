@@ -13,6 +13,11 @@ public class ImageTools {
 		return new int[] { it.width, it.height };
 	}
 
+	public static float getAspectRatio(InputStream is) throws IOException {
+		ImageTools it = new ImageTools(is);
+		return 1f * it.height / it.width;
+	}
+
 	private int height;
 	private int width;
 	private String mimeType;
