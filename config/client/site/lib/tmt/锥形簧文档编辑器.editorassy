@@ -179,11 +179,6 @@
               "formFields": [],
               "selectorAssemblyId": "/项目团队.gridassy",
               "valueFieldName": "userId"
-            },
-            {
-              "name": "新字段",
-              "type": "行",
-              "formFields": []
             }
           ]
         }
@@ -455,26 +450,16 @@
           "type": "行",
           "formFields": [
             {
-              "name": "新字段",
+              "name": "releaseDate",
               "text": "发布时间",
               "type": "日期时间选择",
               "formFields": [],
               "dateType": "date"
-            },
-            {
-              "name": "新字段",
-              "type": "行",
-              "formFields": []
-            },
-            {
-              "name": "新字段",
-              "type": "行",
-              "formFields": []
             }
           ]
         },
         {
-          "name": "新字段",
+          "name": "attachment",
           "text": "附件",
           "type": "多个文件选择框",
           "formFields": []
@@ -707,13 +692,15 @@
           "name": "tdd",
           "text": "工装尺寸示意图",
           "type": "文件选择框",
-          "formFields": []
+          "formFields": [],
+          "fileNamespace": "docAtt"
         },
         {
           "name": "tsd",
           "text": "试验示意图",
           "type": "文件选择框",
-          "formFields": []
+          "formFields": [],
+          "fileNamespace": "docAtt"
         },
         {
           "name": "ddl",
@@ -743,12 +730,12 @@
       "name": "导出",
       "text": "提交",
       "style": "info",
-      "type": "customized"
+      "type": "export"
     }
   ],
   "smallEditor": false,
   "tinyEditor": false,
   "addToParentContext": true,
   "disableInitLoadData": false,
-  "fullscreen": true
+  "fullscreen": false
 }
