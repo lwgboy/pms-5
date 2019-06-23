@@ -184,6 +184,29 @@ public class EditProblem {
 		Object d1CFTs = doc.get("d1CFT");
 		if (d1CFTs != null)
 			((List<Document>) d1CFTs).forEach(d1CFT -> {
+				String role = d1CFT.getString("role");
+				if ("组长".equals(role))
+					d1CFT.append("role", "0");
+				else if ("设计".equals(role))
+					d1CFT.append("role", "1");
+				else if ("工艺".equals(role))
+					d1CFT.append("role", "2");
+				else if ("生产".equals(role))
+					d1CFT.append("role", "3");
+				else if ("质量".equals(role))
+					d1CFT.append("role", "4");
+				else if ("顾客代表".equals(role))
+					d1CFT.append("role", "5");
+				else if ("ERA".equals(role))
+					d1CFT.append("role", "6");
+				else if ("ICA".equals(role))
+					d1CFT.append("role", "7");
+				else if ("PCA".equals(role))
+					d1CFT.append("role", "8");
+				else if ("SPA".equals(role))
+					d1CFT.append("role", "9");
+				else if ("LRA".equals(role))
+					d1CFT.append("role", "10");
 				d1CFT.append("problem_id", problem_id);
 				result.add(d1CFT);
 			});

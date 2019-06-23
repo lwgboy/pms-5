@@ -70,6 +70,14 @@
       "width": 320,
       "resizeable": true,
       "columns": []
+    },
+    {
+      "name": "checkerRole",
+      "text": "¼ì²éÈË½ÇÉ«",
+      "alignment": 16384,
+      "width": 320,
+      "resizeable": true,
+      "columns": []
     }
   ],
   "fields": [],

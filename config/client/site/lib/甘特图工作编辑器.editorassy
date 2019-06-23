@@ -90,11 +90,24 @@
           "type": "对象选择框",
           "formFields": [],
           "selectorAssemblyId": "/项目团队.gridassy"
-        },
+        }
+      ]
+    },
+    {
+      "name": "新字段",
+      "type": "行",
+      "formFields": [
         {
           "id": "16371320d44",
           "name": "assigner",
           "text": "指派者",
+          "type": "对象选择框",
+          "formFields": [],
+          "selectorAssemblyId": "/项目团队.gridassy"
+        },
+        {
+          "name": "checker",
+          "text": "检查人",
           "type": "对象选择框",
           "formFields": [],
           "selectorAssemblyId": "/项目团队.gridassy"

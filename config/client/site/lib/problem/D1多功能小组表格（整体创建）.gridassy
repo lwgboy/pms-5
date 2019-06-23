@@ -13,7 +13,7 @@
   "columns": [
     {
       "id": "16828c482ef",
-      "name": "roleName",
+      "name": "role",
       "text": "角色",
       "alignment": 16384,
       "width": 80,
@@ -22,46 +22,10 @@
     },
     {
       "id": "16828c48225",
-      "name": "name",
-      "text": "姓名",
+      "name": "member_meta.name",
+      "text": "成员",
       "alignment": 16384,
       "width": 80,
-      "resizeable": true,
-      "columns": []
-    },
-    {
-      "id": "16828c483d6",
-      "name": "dept",
-      "text": "部门",
-      "alignment": 16384,
-      "width": 320,
-      "resizeable": true,
-      "columns": []
-    },
-    {
-      "id": "16828c48494",
-      "name": "position",
-      "text": "职位",
-      "alignment": 16384,
-      "width": 120,
-      "resizeable": true,
-      "columns": []
-    },
-    {
-      "id": "16828c485ce",
-      "name": "mobile",
-      "text": "电话",
-      "alignment": 16384,
-      "width": 140,
-      "resizeable": true,
-      "columns": []
-    },
-    {
-      "id": "16828c48729",
-      "name": "email",
-      "text": "邮箱",
-      "alignment": 16384,
-      "width": 320,
       "resizeable": true,
       "columns": []
     }
@@ -75,7 +39,7 @@
       "bundleId": "com.bizvisionsoft.pms",
       "className": "com.bizvisionsoft.pms.problem.action.D1Action",
       "style": "serious",
-      "editorAssemblyId": "/D1-CTF成员-编辑器.editorassy",
+      "editorAssemblyId": "/problem/D1-CTF成员-整体创建编辑器.editorassy",
       "actionBehavier": true,
       "type": "insert",
       "createActionNewInstanceBundleId": "org.mongodb.mongo-java-driver",

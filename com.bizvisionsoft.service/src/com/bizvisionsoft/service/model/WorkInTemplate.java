@@ -24,7 +24,7 @@ import com.bizvisionsoft.service.tools.Formatter;
 @PersistenceCollection("workInTemplate")
 @Strict
 public class WorkInTemplate implements IWorkPackageMaster {
-	
+
 	public String domain;
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -214,7 +214,7 @@ public class WorkInTemplate implements IWorkPackageMaster {
 	@Persistence
 	private String workType;
 	////////////////////////////////////////////////////////////////////////////////////////////////////
-	
+
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	// 工期, 需要保存，但无需传递到gantt和编辑器
 	@SetValue
@@ -438,6 +438,25 @@ public class WorkInTemplate implements IWorkPackageMaster {
 	}
 
 	@ReadValue
+	@SetValue
+	private OBSInTemplate checkerRole;
+
+	@ReadValue
+	@WriteValue
+	@Persistence
+	private String checkerRoleId;
+
+	@WriteValue("checkerRole")
+	public void setCheckerRole(OBSInTemplate obsItem) {
+		checkerRole = obsItem;
+		if (obsItem == null) {
+			checkerRoleId = null;
+		} else {
+			checkerRoleId = obsItem.getId();
+		}
+	}
+
+	@ReadValue
 	@WriteValue
 	@Persistence
 	private List<CheckItem> checklist;
@@ -469,18 +488,20 @@ public class WorkInTemplate implements IWorkPackageMaster {
 		this.domain = domain;
 		return this;
 	}
-	
+
 	public static WorkInTemplate newInstance(ProjectTemplate template) {
-		return new WorkInTemplate().setDomain(template.domain).set_id(new ObjectId()).setTemplate_id(template.get_id()).setManageLevel("3");
+		return new WorkInTemplate().setDomain(template.domain).set_id(new ObjectId()).setTemplate_id(template.get_id())
+				.setManageLevel("3");
 	}
 
 	public static WorkInTemplate newInstance(WBSModule template) {
-		return new WorkInTemplate().setDomain(template.domain).set_id(new ObjectId()).setTemplate_id(template.get_id()).setManageLevel("3");
+		return new WorkInTemplate().setDomain(template.domain).set_id(new ObjectId()).setTemplate_id(template.get_id())
+				.setManageLevel("3");
 	}
 
 	public static WorkInTemplate newInstance(WorkInTemplate parentTask) {
-		return new WorkInTemplate().setDomain(parentTask.domain).set_id(new ObjectId()).setTemplate_id(parentTask.template_id).setParent_id(parentTask._id)
-				.setManageLevel("3");
+		return new WorkInTemplate().setDomain(parentTask.domain).set_id(new ObjectId())
+				.setTemplate_id(parentTask.template_id).setParent_id(parentTask._id).setManageLevel("3");
 	}
 
 	public void setWorkPackageSetting(List<TrackView> workPackageSetting) {

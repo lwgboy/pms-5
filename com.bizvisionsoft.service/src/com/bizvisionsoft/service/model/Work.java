@@ -222,7 +222,8 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 	@ReadValue({ "进度计划和监控（查看）/name", "进度计划和监控/name" })
 	private String readWorkNameHTML() {
 		if (stage) {
-			String html = "<div class='brui_ly_hline' style='padding-right:8px;'><div style='font-weight:bold;'>" + text + "</div>";
+			String html = "<div class='brui_ly_hline' style='padding-right:8px;'><div style='font-weight:bold;'>" + text
+					+ "</div>";
 			if (ProjectStatus.Created.equals(status))
 				html += "<a class='layui-btn layui-btn-xs layui-btn-primary' style='display:block; width:50px;cursor: pointer;' href='"
 						+ "start/" + "' target='_rwt'>" + "启动" + "</a>";
@@ -344,8 +345,8 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 		return false;
 	}
 
-	@ReadValue({ "项目甘特图（无表格查看）/end_date", "项目甘特图（查看）/end_date", "项目甘特图（资源实际分配）/end_date", "项目进展甘特图/end_date", "项目基线甘特图/end_date",
-			"部门工作日程表/end_date" })
+	@ReadValue({ "项目甘特图（无表格查看）/end_date", "项目甘特图（查看）/end_date", "项目甘特图（资源实际分配）/end_date", "项目进展甘特图/end_date",
+			"项目基线甘特图/end_date", "部门工作日程表/end_date" })
 	public Date getEnd_date() {
 		if (actualFinish != null) {
 			return actualFinish;
@@ -465,7 +466,8 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 			}
 		} else {
 			if (estimatedFinish != null && planStart != null) {
-				d = 1d * getActualDuration() / ((int) ((estimatedFinish.getTime() - planStart.getTime()) / (1000 * 3600 * 24)));
+				d = 1d * getActualDuration()
+						/ ((int) ((estimatedFinish.getTime() - planStart.getTime()) / (1000 * 3600 * 24)));
 			} else {
 				if (getPlanDuration() != 0) {
 					d = 1d * getActualDuration() / getPlanDuration();
@@ -489,7 +491,8 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 	@ReadValue("sar")
 	public Double getSAR() {
 		if (stage && actualStart != null && actualFinish != null && !milestone) {
-			double d = 1d * (planFinish.getTime() - planStart.getTime()) / (actualFinish.getTime() - actualStart.getTime());
+			double d = 1d * (planFinish.getTime() - planStart.getTime())
+					/ (actualFinish.getTime() - actualStart.getTime());
 			return d > 1d ? 1d : d;
 		}
 		return null;
@@ -656,11 +659,12 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 
 	@ReadValue("charger")
 	private User getCharger() {
-		return Optional.ofNullable(chargerId).map(id -> ServicesLoader.get(UserService.class).get(id, domain)).orElse(null);
+		return Optional.ofNullable(chargerId).map(id -> ServicesLoader.get(UserService.class).get(id, domain))
+				.orElse(null);
 	}
 
-	@ReadValue({ "进度计划和监控/chargerInfoWithDistributeIcon", "进度计划和监控（查看）/chargerInfoWithDistributeIcon", "进度计划/chargerInfoWithDistributeIcon",
-			"进度计划（查看）/chargerInfoWithDistributeIcon" })
+	@ReadValue({ "进度计划和监控/chargerInfoWithDistributeIcon", "进度计划和监控（查看）/chargerInfoWithDistributeIcon",
+			"进度计划/chargerInfoWithDistributeIcon", "进度计划（查看）/chargerInfoWithDistributeIcon" })
 	private String getChargerInfoWithIcon() {
 		if (chargerId == null) {
 			return "";
@@ -711,7 +715,8 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 
 	@ReadValue("assigner")
 	private User getAssigner() {
-		return Optional.ofNullable(assignerId).map(id -> ServicesLoader.get(UserService.class).get(id, domain)).orElse(null);
+		return Optional.ofNullable(assignerId).map(id -> ServicesLoader.get(UserService.class).get(id, domain))
+				.orElse(null);
 	}
 
 	@ReadValue("assignerInfoHtml")
@@ -724,6 +729,48 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 
 	public String warpperAssignerInfo() {
 		return MetaInfoWarpper.userInfo(assignerInfo_meta, assignerInfo);
+	}
+
+	public String getCheckerInfo() {
+		if (checkerId == null) {
+			return "";
+		}
+		return checkerInfo;
+	}
+
+	@ReadValue
+	@WriteValue
+	@Persistence
+	private String checkerId;
+
+	@SetValue
+	@ReadValue
+	private String checkerInfo;
+
+	@SetValue
+	private UserMeta checkerInfo_meta;
+
+	@WriteValue("checker")
+	private void setChecker(User checker) {
+		this.checkerId = Optional.ofNullable(checker).map(o -> o.getUserId()).orElse(null);
+	}
+
+	@ReadValue("checker")
+	private User getChecker() {
+		return Optional.ofNullable(checkerId).map(id -> ServicesLoader.get(UserService.class).get(id, domain))
+				.orElse(null);
+	}
+
+	@ReadValue("checkerInfoHtml")
+	public String getCheckerInfoHtml() {
+		if (checkerInfo == null) {
+			return "";
+		}
+		return "<div class='brui_ly_hline'>" + warpperCheckerInfo() + "</div>";
+	}
+
+	public String warpperCheckerInfo() {
+		return MetaInfoWarpper.userInfo(checkerInfo_meta, checkerInfo);
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -893,7 +940,8 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 	}
 
 	public Project getProject() {
-		return Optional.ofNullable(project_id).map(_id -> ServicesLoader.get(ProjectService.class).get(_id, domain)).orElse(null);
+		return Optional.ofNullable(project_id).map(_id -> ServicesLoader.get(ProjectService.class).get(_id, domain))
+				.orElse(null);
 	}
 
 	@Override
@@ -926,8 +974,7 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 		ObjectId obsParent_id = Optional.ofNullable(getProject()).map(ps -> ps.getOBS_id()).orElse(null);
 
 		OBSItem obsRoot = new OBSItem()// 创建本项目的OBS根节点
-				.setDomain(domain)
-			.set_id(new ObjectId())// 设置_id与项目关联
+				.setDomain(domain).set_id(new ObjectId())// 设置_id与项目关联
 				.setScope_id(_id)// 设置scope_id表明该组织节点是该项目的组织
 				.setParent_id(obsParent_id)// 设置上级的id
 				.setName(text + "团队")// 设置该组织节点的默认名称
@@ -941,8 +988,8 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 
 	@Override
 	public void updateOBSRootId(ObjectId obs_id) {
-		ServicesLoader.get(WorkService.class).updateWork(
-				new FilterAndUpdate().filter(new BasicDBObject("_id", _id)).set(new BasicDBObject("obs_id", obs_id)).bson(), domain);
+		ServicesLoader.get(WorkService.class).updateWork(new FilterAndUpdate().filter(new BasicDBObject("_id", _id))
+				.set(new BasicDBObject("obs_id", obs_id)).bson(), domain);
 		this.obs_id = obs_id;
 	}
 
@@ -1053,10 +1100,12 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 					if (tf != null && tf == 0) {
 						message += "<br>本工作处于计划的关键路径（总时差为0），如果超期将导致项目超期。考虑赶工以确保工期。";
 					}
-					return MetaInfoWarpper.warpper("<span class='layui-badge layui-bg-orange' style='cursor:pointer;'>滞后</span>", message,
+					return MetaInfoWarpper.warpper(
+							"<span class='layui-badge layui-bg-orange' style='cursor:pointer;'>滞后</span>", message,
 							3000);
 				} else if (getWAR() > dar) {
-					return MetaInfoWarpper.warpper("<span class='layui-badge layui-bg-blue' style='cursor:pointer;'>提前</span>",
+					return MetaInfoWarpper.warpper(
+							"<span class='layui-badge layui-bg-blue' style='cursor:pointer;'>提前</span>",
 							"工作量完成率超过工期完成率，表示工作进度可能滞后。", 3000);
 				}
 			}
@@ -1094,13 +1143,14 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 
 	@Behavior("完成工作")
 	private boolean behaviourFinish() {
-		return actualStart != null
-				&& Optional.ofNullable(checklist).map(cl -> cl.stream().filter(c -> !"通过".equals(c.getChoise())).count()).orElse(0l) == 0;
+		return actualStart != null && Optional.ofNullable(checklist)
+				.map(cl -> cl.stream().filter(c -> !"通过".equals(c.getChoise())).count()).orElse(0l) == 0;
 	}
 
 	@Behavior("检查工作")
 	public boolean behaviourCheck() {
-		return Optional.ofNullable(checklist).map(cl -> cl.stream().filter(c -> !"通过".equals(c.getChoise())).count()).orElse(0l) > 0;
+		return Optional.ofNullable(checklist).map(cl -> cl.stream().filter(c -> !"通过".equals(c.getChoise())).count())
+				.orElse(0l) > 0;
 	}
 
 	@Behavior({ "打开工作包" })
@@ -1138,6 +1188,10 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 
 	public String getAssignerId() {
 		return assignerId;
+	}
+
+	public String getCheckerId() {
+		return checkerId;
 	}
 
 	public boolean getOverdue() {
@@ -1193,16 +1247,16 @@ public class Work implements ICBSScope, IOBSScope, IWBSScope, IWorkPackageMaster
 		List<TrackView> wps = getWorkPackageSetting();
 		sb.append("<div style='display: inline-flex;" + "    justify-content: space-between;" + "    width: 100%;'>");
 		if (Check.isNotAssigned(wps)) {
-			sb.append("<a class='layui-btn layui-btn-xs layui-btn-primary' style='flex:auto;' href='" + "openWorkPackage/default"
-					+ "' target='_rwt'>" + "工作包" + "</a>");
+			sb.append("<a class='layui-btn layui-btn-xs layui-btn-primary' style='flex:auto;' href='"
+					+ "openWorkPackage/default" + "' target='_rwt'>" + "工作包" + "</a>");
 		} else if (wps.size() == 1) {
-			sb.append("<a class='layui-btn layui-btn-xs layui-btn-primary' style='flex:auto;' href='" + "openWorkPackage/0"
-					+ "' target='_rwt'>" + wps.get(0).getName() + "</a>");
+			sb.append("<a class='layui-btn layui-btn-xs layui-btn-primary' style='flex:auto;' href='"
+					+ "openWorkPackage/0" + "' target='_rwt'>" + wps.get(0).getName() + "</a>");
 
 		} else {
 			for (int i = 0; i < wps.size(); i++) {
-				sb.append("<a class='layui-btn layui-btn-xs layui-btn-primary' style='flex:auto;' href='" + "openWorkPackage/" + i
-						+ "' target='_rwt'>" + wps.get(i).getName() + "</a>");
+				sb.append("<a class='layui-btn layui-btn-xs layui-btn-primary' style='flex:auto;' href='"
+						+ "openWorkPackage/" + i + "' target='_rwt'>" + wps.get(i).getName() + "</a>");
 			}
 		}
 		sb.append("</div>");

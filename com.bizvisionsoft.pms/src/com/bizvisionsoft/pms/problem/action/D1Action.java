@@ -21,6 +21,7 @@ import com.bizvisionsoft.serviceconsumer.Services;
 public class D1Action {
 	@Inject
 	private IBruiService br;
+	
 	private ProblemService service;
 	
 	@Inject
@@ -64,7 +65,7 @@ public class D1Action {
 			@MethodParam(Execute.CURRENT_USER_ID) String userId) {
 		if(!"½â¾öÖÐ".equals(problem.getStatus()))
 			return false;
-		if(!service.hasPrivate(problem.get_id(),ProblemService.ACTION_EDIT_TEAM,userId, br.getDomain()))
+		if(br!= null && !service.hasPrivate(problem.get_id(),ProblemService.ACTION_EDIT_TEAM,userId, br.getDomain()))
 			return false;
 		return true;
 	}

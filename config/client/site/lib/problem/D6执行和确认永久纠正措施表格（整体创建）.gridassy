@@ -98,7 +98,7 @@
       "columns": [
         {
           "id": "1682c83c7a1",
-          "name": "verification.title",
+          "name": "verificationTitle",
           "text": "验证",
           "alignment": 16384,
           "width": 80,
@@ -109,7 +109,7 @@
         },
         {
           "id": "1682c83c90d",
-          "name": "verification.date",
+          "name": "verificationDate",
           "text": "日期",
           "alignment": 16777216,
           "width": 96,
@@ -120,7 +120,7 @@
         },
         {
           "id": "1682c83c9a5",
-          "name": "verification.user_meta.name",
+          "name": "verificationUser_meta.name",
           "text": "验证人",
           "alignment": 16777216,
           "width": 80,
@@ -130,7 +130,7 @@
         },
         {
           "id": "1682c83ca59",
-          "name": "verification.comment",
+          "name": "verificationComment",
           "text": "说明",
           "alignment": 16384,
           "width": 240,

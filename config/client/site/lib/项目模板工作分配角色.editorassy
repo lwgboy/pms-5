@@ -21,6 +21,13 @@
       "type": "对象选择框",
       "formFields": [],
       "selectorAssemblyId": "/OBS模板节点选择器.gridassy"
+    },
+    {
+      "name": "checkerRole",
+      "text": "检查人角色",
+      "type": "对象选择框",
+      "formFields": [],
+      "selectorAssemblyId": "/OBS模板节点选择器.gridassy"
     }
   ],
   "actions": [],
