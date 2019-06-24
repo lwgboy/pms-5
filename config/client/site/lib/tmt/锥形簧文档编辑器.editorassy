@@ -489,7 +489,7 @@
         {
           "name": "layerImage",
           "text": "结构图片",
-          "type": "文件选择框",
+          "type": "图片选择框",
           "formFields": [],
           "fileNamespace": "docAtt",
           "fileFilerExts": "png"
