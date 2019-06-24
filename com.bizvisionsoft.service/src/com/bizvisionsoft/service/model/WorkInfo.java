@@ -481,6 +481,37 @@ public class WorkInfo {
 		return Optional.ofNullable(assignerId)
 				.map(id -> new OBSItemWarpper().setUser(ServicesLoader.get(UserService.class).get(id, domain))).orElse(null);
 	}
+	
+
+
+	@ReadValue
+	@WriteValue
+	@Persistence
+	private String checkerId;
+
+	@SetValue
+	@ReadValue
+	private String checkerInfo;
+
+	@WriteValue("checker")
+	private void writeChecker(OBSItemWarpper checker) throws Exception {
+		if (actualFinish == null)
+			if (checker != null) {
+				this.checkerId = checker.getUserId();
+				this.checkerInfo = checker.getUserName();
+			} else {
+				this.checkerId = null;
+				this.checkerInfo = null;
+			}
+		else
+			throw new InvalidInputException("工作已完成，不允许编辑指派者");
+	}
+
+	@ReadValue("checker")
+	private OBSItemWarpper readChecker() {
+		return Optional.ofNullable(checkerId)
+				.map(id -> new OBSItemWarpper().setUser(ServicesLoader.get(UserService.class).get(id, domain))).orElse(null);
+	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -746,6 +777,11 @@ public class WorkInfo {
 	@WriteValue
 	@Persistence
 	private String assignerRoleId;
+
+	@ReadValue
+	@WriteValue
+	@Persistence
+	private String checkerRoleId;
 
 	@ReadValue
 	@WriteValue
