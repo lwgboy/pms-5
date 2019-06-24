@@ -102,8 +102,13 @@ public class Organization {
 	@Persistence
 	private boolean qualifiedContractor;
 
+	@Persistence
+	@ReadValue
+	@WriteValue
+	private List<RemoteFile> logo;
+
 	public String domain;
-	
+
 	@WriteValue("manager")
 	private void setManager(User manager) {
 		if (manager == null) {
@@ -212,6 +217,10 @@ public class Organization {
 
 	public boolean isQualifiedContractor() {
 		return qualifiedContractor;
+	}
+
+	public RemoteFile getLogo() {
+		return Optional.ofNullable(logo).map(l -> l.get(0)).orElse(null);
 	}
 
 }
