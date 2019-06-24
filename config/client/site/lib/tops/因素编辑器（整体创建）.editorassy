@@ -31,7 +31,7 @@
       "type": "对象选择框",
       "formFields": [],
       "required": true,
-      "selectorAssemblyId": "/problem/原因分类（整体创建选择器用）.gridassy",
+      "selectorAssemblyId": "/tops/原因分类（整体创建选择器用）.gridassy",
       "valueFieldName": "_id"
     },
     {

@@ -39,7 +39,7 @@
       "bundleId": "com.bizvisionsoft.pms",
       "className": "com.bizvisionsoft.pms.problem.action.D1Action",
       "style": "serious",
-      "editorAssemblyId": "/problem/D1-CTF成员-整体创建编辑器.editorassy",
+      "editorAssemblyId": "/tops/D1-CTF成员-整体创建编辑器.editorassy",
       "actionBehavier": true,
       "type": "insert",
       "createActionNewInstanceBundleId": "org.mongodb.mongo-java-driver",

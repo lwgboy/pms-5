@@ -1,9 +1,9 @@
 {
-  "id": "/D7系统性预防措施表格.gridassy",
-  "name": "D7系统性预防措施表格（整体创建）",
+  "id": "/D6执行和确认永久纠正措施表格.gridassy",
+  "name": "D6执行和确认永久纠正措施表格（整体创建）",
   "layout": [],
   "type": "grid",
-  "stickerTitle": "系统性预防措施",
+  "stickerTitle": "执行和确认永久纠正措施表格",
   "folderId": "168987437fd",
   "gridLineVisiable": true,
   "gridHeaderVisiable": true,
@@ -21,6 +21,16 @@
       "columns": [],
       "markupEnabled": true,
       "forceDisplayZero": true
+    },
+    {
+      "id": "16828c482ef",
+      "name": "actionTypeText",
+      "text": "类型",
+      "alignment": 16777216,
+      "width": 160,
+      "resizeable": true,
+      "columns": [],
+      "markupEnabled": false
     },
     {
       "id": "16828c48494",
@@ -69,7 +79,7 @@
       "columns": []
     },
     {
-      "id": "168519cf905",
+      "id": "168519cb4a4",
       "name": "finish",
       "text": "完成",
       "alignment": 16777216,
@@ -136,21 +146,21 @@
     {
       "id": "16828d58dbb",
       "name": "create",
-      "tooltips": "创建系统性预防措施",
+      "tooltips": "创建永久纠正措施",
       "image": "/img/add_16_w.svg",
       "bundleId": "com.bizvisionsoft.pms",
       "className": "com.bizvisionsoft.pms.problem.action.GenericAction",
       "style": "normal",
-      "editorAssemblyId": "/problem/Dx-行动计划-编辑器（整体创建）.editorassy",
+      "editorAssemblyId": "/tops/Dx-行动计划-编辑器（整体创建）.editorassy",
       "actionBehavier": true,
       "type": "insert",
       "createActionNewInstanceBundleId": "org.mongodb.mongo-java-driver",
       "createActionNewInstanceClassName": "org.bson.Document",
-      "parameters": "{\"render\":\"gridrow\",\"stage\":\"spa\"}"
+      "parameters": "{\n\"render\":\"gridrow\",\n\"stage\":\"pca\",\n\"editor\":\"Dx-分类行动计划-编辑器\"\n}"
     }
   ],
   "rowActions": [],
   "hasTitlebar": true,
-  "parameters": "{\"render\":\"gridrow\",\"stage\":\"spa\"}",
+  "parameters": "{\"render\":\"gridrow\",\"stage\":\"pca\"}",
   "sortFields": []
 }

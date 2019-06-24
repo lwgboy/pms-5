@@ -281,7 +281,7 @@
           "text": "问题解决团队",
           "type": "多个对象选择框",
           "formFields": [],
-          "selectorAssemblyId": "/problem/D1多功能小组表格（整体创建）.gridassy",
+          "selectorAssemblyId": "/tops/D1多功能小组表格（整体创建）.gridassy",
           "height": 360,
           "hideLabel": true,
           "enableCreateItem": true
@@ -305,7 +305,7 @@
           "text": "现场照片",
           "type": "多个对象选择框",
           "formFields": [],
-          "selectorAssemblyId": "/problem/D2现场照片表格（整体创建）.gridassy",
+          "selectorAssemblyId": "/tops/D2现场照片表格（整体创建）.gridassy",
           "height": 360,
           "hideLabel": true,
           "enableCreateItem": true
@@ -393,7 +393,7 @@
           "text": "临时控制行动",
           "type": "多个对象选择框",
           "formFields": [],
-          "selectorAssemblyId": "/problem/D3临时控制行动表格（整体创建）.gridassy",
+          "selectorAssemblyId": "/tops/D3临时控制行动表格（整体创建）.gridassy",
           "height": 360,
           "hideLabel": true,
           "enableCreateItem": true
@@ -416,7 +416,7 @@
           "name": "causeRelation",
           "type": "多个对象选择框",
           "formFields": [],
-          "selectorAssemblyId": "/problem/D4问题原因分析表格（整体创建）.gridassy",
+          "selectorAssemblyId": "/tops/D4问题原因分析表格（整体创建）.gridassy",
           "hideLabel": true,
           "enableCreateItem": true
         },
@@ -511,7 +511,7 @@
           "name": "pca",
           "type": "多个对象选择框",
           "formFields": [],
-          "selectorAssemblyId": "/problem/D6执行和确认永久纠正措施表格（整体创建）.gridassy",
+          "selectorAssemblyId": "/tops/D6执行和确认永久纠正措施表格（整体创建）.gridassy",
           "height": 360,
           "hideLabel": true,
           "enableCreateItem": true
@@ -534,7 +534,7 @@
           "name": "d7Similar",
           "type": "多个对象选择框",
           "formFields": [],
-          "selectorAssemblyId": "/problem/D7类似系统表格（整体创建）.gridassy",
+          "selectorAssemblyId": "/tops/D7类似系统表格（整体创建）.gridassy",
           "height": 360,
           "hideLabel": true,
           "enableCreateItem": true
@@ -551,7 +551,7 @@
           "name": "spa",
           "type": "多个对象选择框",
           "formFields": [],
-          "selectorAssemblyId": "/problem/D7系统性预防措施表格（整体创建）.gridassy",
+          "selectorAssemblyId": "/tops/D7系统性预防措施表格（整体创建）.gridassy",
           "height": 360,
           "hideLabel": true,
           "enableCreateItem": true
@@ -567,7 +567,7 @@
           "text": "经验教训",
           "type": "多个对象选择框",
           "formFields": [],
-          "selectorAssemblyId": "/problem/D8经验教训表格（整体创建）.gridassy",
+          "selectorAssemblyId": "/tops/D8经验教训表格（整体创建）.gridassy",
           "hideLabel": true,
           "enableCreateItem": true
         }

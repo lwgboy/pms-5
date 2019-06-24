@@ -78,13 +78,13 @@ public class EditProblem {
 
 	private void edits(IBruiContext context, Problem problem) {
 
-		Editor.create("problem/问题编辑器（整体创建）.editorassy", context, new Document(), false).ok((r, t) -> {
+		Editor.create("tops/问题编辑器（整体创建）.editorassy", context, new Document(), false).ok((r, t) -> {
 			saveDocument(t, problem.get_id());
 		});
 	}
 
 	private void creates(IBruiContext context) {
-		Editor.create("problem/问题编辑器（整体创建）.editorassy", context, new Document(), false).ok((r, t) -> {
+		Editor.create("tops/问题编辑器（整体创建）.editorassy", context, new Document(), false).ok((r, t) -> {
 			saveDocument(t, null);
 		});
 	}

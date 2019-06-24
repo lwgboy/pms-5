@@ -78,7 +78,7 @@
       "bundleId": "com.bizvisionsoft.pms",
       "className": "com.bizvisionsoft.pms.problem.action.GenericAction",
       "style": "normal",
-      "editorAssemblyId": "/problem/因素编辑器（整体创建）.editorassy",
+      "editorAssemblyId": "/tops/因素编辑器（整体创建）.editorassy",
       "actionBehavier": true,
       "type": "insert",
       "createActionNewInstanceBundleId": "org.mongodb.mongo-java-driver",

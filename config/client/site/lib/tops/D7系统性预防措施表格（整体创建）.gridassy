@@ -1,9 +1,9 @@
 {
-  "id": "/D0紧急反应行动表格.gridassy",
-  "name": "D0紧急反应行动表格（整体创建）",
+  "id": "/D7系统性预防措施表格.gridassy",
+  "name": "D7系统性预防措施表格（整体创建）",
   "layout": [],
   "type": "grid",
-  "stickerTitle": "紧急反应行动",
+  "stickerTitle": "系统性预防措施",
   "folderId": "168987437fd",
   "gridLineVisiable": true,
   "gridHeaderVisiable": true,
@@ -69,7 +69,7 @@
       "columns": []
     },
     {
-      "id": "168519bf1df",
+      "id": "168519cf905",
       "name": "finish",
       "text": "完成",
       "alignment": 16777216,
@@ -134,16 +134,23 @@
   "fields": [],
   "actions": [
     {
-      "name": "创建",
-      "text": "创建",
-      "editorAssemblyId": "/problem/Dx-行动计划-编辑器（整体创建）.editorassy",
+      "id": "16828d58dbb",
+      "name": "create",
+      "tooltips": "创建系统性预防措施",
+      "image": "/img/add_16_w.svg",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.problem.action.GenericAction",
+      "style": "normal",
+      "editorAssemblyId": "/tops/Dx-行动计划-编辑器（整体创建）.editorassy",
+      "actionBehavier": true,
       "type": "insert",
       "createActionNewInstanceBundleId": "org.mongodb.mongo-java-driver",
-      "createActionNewInstanceClassName": "org.bson.Document"
+      "createActionNewInstanceClassName": "org.bson.Document",
+      "parameters": "{\"render\":\"gridrow\",\"stage\":\"spa\"}"
     }
   ],
   "rowActions": [],
   "hasTitlebar": true,
-  "parameters": "{\"render\":\"gridrow\",\"stage\":\"era\"}",
+  "parameters": "{\"render\":\"gridrow\",\"stage\":\"spa\"}",
   "sortFields": []
 }
