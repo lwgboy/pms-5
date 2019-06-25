@@ -17,7 +17,11 @@
           "type": "横幅",
           "formFields": [],
           "staticContent": true,
-          "bannerStyle": "normal"
+          "bannerStyle": "normal",
+          "stdReportLabelForegound": "ffffff",
+          "stdReportFieldForegound": "ffffff",
+          "stdReportLabelBackgound": "000000",
+          "stdReportFieldBackgound": "e94040"
         },
         {
           "name": "新字段",
@@ -28,14 +32,20 @@
               "text": "产品名称",
               "type": "单行文本框",
               "formFields": [],
-              "readOnly": false
+              "readOnly": false,
+              "stdReportLabelForegound": "ffffff",
+              "stdReportLabelFontFamily": "楷体",
+              "stdReportLabelBackgound": "000000",
+              "stdReportLabelWidth": 48
             },
             {
               "name": "productNo",
               "text": "物资编码",
               "type": "单行文本框",
               "formFields": [],
-              "readOnly": false
+              "readOnly": false,
+              "stdReportFieldFontFamily": "Consolas",
+              "stdReportFieldFontSize": 16
             },
             {
               "name": "productType",
@@ -44,7 +54,8 @@
               "formFields": [],
               "readOnly": false,
               "optionText": "A类#B类#C类",
-              "radioStyle": "横向分段（默认）"
+              "radioStyle": "横向分段（默认）",
+              "stdReportFieldBold": true
             }
           ]
         },
@@ -737,5 +748,10 @@
   "tinyEditor": false,
   "addToParentContext": true,
   "disableInitLoadData": false,
-  "fullscreen": false
+  "fullscreen": false,
+  "stdReportEditable": true,
+  "stdReportPaperType": "A4",
+  "stdReportPaperOrientation": "纵向",
+  "stdReportExportTabPageTitle": false,
+  "stdReportBreakByTabPage": false
 }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
-   <feature url="features/com.bizivisionsoft.ide.feature_6.1.8.jar" id="com.bizivisionsoft.ide.feature" version="6.1.8">
+   <feature url="features/com.bizivisionsoft.ide.feature_6.1.9.jar" id="com.bizivisionsoft.ide.feature" version="6.1.9">
       <category name="BrUI Designer"/>
    </feature>
    <category-def name="BrUI Designer" label="BrUI 设计器"/>
