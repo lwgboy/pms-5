@@ -69,14 +69,16 @@
               "text": "项目名称",
               "type": "单行文本框",
               "formFields": [],
-              "readOnly": false
+              "readOnly": false,
+              "stdReportFieldCellMargin": "8 4 4 12"
             },
             {
               "name": "pm",
               "text": "项目负责人",
               "type": "单行文本框",
               "formFields": [],
-              "readOnly": false
+              "readOnly": false,
+              "stdReportFieldCellMargin": ""
             },
             {
               "name": "workOrder",
