@@ -7,32 +7,6 @@
   "folderId": "168403f8c15",
   "fields": [
     {
-      "id": "168460180ed",
-      "name": "新字段6",
-      "type": "行",
-      "formFields": [
-        {
-          "id": "1684601bb79",
-          "name": "classifyProblem",
-          "text": "问题分类",
-          "type": "对象选择框",
-          "formFields": [],
-          "required": false,
-          "selectorAssemblyId": "/问题分类.gridassy"
-        },
-        {
-          "id": "167eac3493e",
-          "name": "initiatedFrom",
-          "text": "问题最初来源",
-          "type": "下拉选择框",
-          "formFields": [],
-          "required": true,
-          "optionText": "客户#供应商#设计#生产#工程#售后服务#监理单位#监管部门#合作伙伴",
-          "radioStyle": "横向分段（默认）"
-        }
-      ]
-    },
-    {
       "id": "167eb0057fa",
       "name": "新字段25",
       "type": "行",
@@ -54,6 +28,16 @@
           "required": true
         }
       ]
+    },
+    {
+      "id": "167eac3493e",
+      "name": "initiatedFrom",
+      "text": "问题最初来源",
+      "type": "下拉选择框",
+      "formFields": [],
+      "required": true,
+      "optionText": "客户#供应商#设计#生产#工程#售后服务#监理单位#监管部门#合作伙伴",
+      "radioStyle": "横向分段（默认）"
     },
     {
       "id": "167e84540b3",
@@ -153,13 +137,31 @@
       ]
     },
     {
-      "id": "167e845b11f",
-      "name": "dept",
-      "text": "责任部门",
-      "type": "对象选择框",
-      "formFields": [],
-      "required": true,
-      "selectorAssemblyId": "/组织选择器.gridassy"
+      "id": "168460180ed",
+      "name": "新字段6",
+      "type": "行",
+      "formFields": [
+        {
+          "id": "1684601bb79",
+          "name": "classifyProblems",
+          "text": "问题分类",
+          "type": "多个对象选择框",
+          "formFields": [],
+          "required": false,
+          "selectorAssemblyId": "/问题分类.gridassy",
+          "valueFieldName": ""
+        },
+        {
+          "id": "167e845b11f",
+          "name": "depts",
+          "text": "责任部门",
+          "type": "多个对象选择框",
+          "formFields": [],
+          "required": true,
+          "selectorAssemblyId": "/组织选择器.gridassy",
+          "valueFieldName": ""
+        }
+      ]
     },
     {
       "id": "168402d9718",
@@ -264,5 +266,7 @@
   "actions": [],
   "smallEditor": false,
   "tinyEditor": false,
-  "labelWidth": 100
+  "fullscreen": true,
+  "labelWidth": 100,
+  "labelAlign": 16384
 }

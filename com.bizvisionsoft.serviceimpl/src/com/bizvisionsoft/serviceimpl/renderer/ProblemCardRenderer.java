@@ -388,7 +388,7 @@ public class ProblemCardRenderer extends BasicServiceImpl {
 			String comment = verification.getString("comment");
 			String _date = Formatter.getString(verification.getDate("date"));
 			Document user_meta = (Document) verification.get("user_meta");
-			String name = user_meta.getString("name");
+			String name = null == user_meta ? "" : user_meta.getString("name");
 			String verifyInfo = comment + "<br>" + name + " " + _date;
 
 			status = "<span class='" + style + "' style='cursor:pointer;' onclick='layer.alert(\"" + verifyInfo
