@@ -25,6 +25,12 @@ import io.swagger.annotations.Api;
 @Path("/org")
 @Api("/org")
 public interface OrganizationService {
+	
+	@GET
+	@Path("/{domain}/root")
+	@Consumes("application/json")
+	@Produces("application/json; charset=UTF-8")
+	public Organization getDomainRoot(@PathParam("domain") String domain);
 
 	@POST
 	@Path("/{domain}/")

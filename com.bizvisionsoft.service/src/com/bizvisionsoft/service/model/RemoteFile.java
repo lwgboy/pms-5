@@ -1,6 +1,11 @@
 package com.bizvisionsoft.service.model;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.net.URLEncoder;
 
 import org.bson.Document;
@@ -31,6 +36,14 @@ public class RemoteFile implements JsonExternalizable {
 		} catch (UnsupportedEncodingException e) {
 			return null;
 		}
+	}
+
+	public InputStream getInputStreamFromClient(String request) throws MalformedURLException, IOException {
+		String url = getClientSideURL("rwt");
+		url = request + url.substring(1);
+		URLConnection connection = new URL(url).openConnection();
+		connection.setDoOutput(true);
+		return connection.getInputStream();
 	}
 
 	public String getClientSideURL(String sid) {
