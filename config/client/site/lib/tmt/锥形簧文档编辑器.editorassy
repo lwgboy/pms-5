@@ -36,15 +36,6 @@
               "type": "单行文本框",
               "formFields": [],
               "readOnly": false
-            },
-            {
-              "name": "productType",
-              "text": "产品类别",
-              "type": "单行文本框",
-              "formFields": [],
-              "readOnly": false,
-              "optionText": "A类#B类#C类",
-              "radioStyle": "横向分段（默认）"
             }
           ]
         },
@@ -53,13 +44,28 @@
           "type": "行",
           "formFields": [
             {
+              "name": "productType",
+              "text": "产品类别",
+              "type": "单行文本框",
+              "formFields": [],
+              "readOnly": false,
+              "optionText": "A类#B类#C类",
+              "radioStyle": "横向分段（默认）"
+            },
+            {
               "name": "projectName",
               "description": "",
               "text": "项目名称",
               "type": "单行文本框",
               "formFields": [],
               "readOnly": false
-            },
+            }
+          ]
+        },
+        {
+          "name": "新字段",
+          "type": "行",
+          "formFields": [
             {
               "name": "pm",
               "text": "项目负责人",
@@ -149,7 +155,13 @@
               "formFields": [],
               "selectorAssemblyId": "/项目团队.gridassy",
               "valueFieldName": "userId"
-            },
+            }
+          ]
+        },
+        {
+          "name": "新字段",
+          "type": "行",
+          "formFields": [
             {
               "name": "pd",
               "text": "包装设计师",
@@ -157,13 +169,7 @@
               "formFields": [],
               "selectorAssemblyId": "/项目团队.gridassy",
               "valueFieldName": "userId"
-            }
-          ]
-        },
-        {
-          "name": "新字段",
-          "type": "行",
-          "formFields": [
+            },
             {
               "name": "cd",
               "text": "工艺设计师",
@@ -171,298 +177,16 @@
               "formFields": [],
               "selectorAssemblyId": "/项目团队.gridassy",
               "valueFieldName": "userId"
-            },
-            {
-              "name": "ppm",
-              "text": "项目管理员",
-              "type": "对象选择框",
-              "formFields": [],
-              "selectorAssemblyId": "/项目团队.gridassy",
-              "valueFieldName": "userId"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "应用条件综述",
-      "type": "标签页",
-      "formFields": [
-        {
-          "name": "runtimes",
-          "text": "产品运行环境(°C)",
-          "type": "数值范围输入",
-          "formFields": []
-        },
-        {
-          "name": "temperature",
-          "text": "温度",
-          "type": "数值范围输入",
-          "formFields": []
-        },
-        {
-          "name": "maxSpeed",
-          "text": "最高时速(km/h)",
-          "type": "数值范围输入",
-          "formFields": []
-        },
-        {
-          "name": "humidity",
-          "text": "相对湿度",
-          "type": "下拉选择框",
-          "formFields": [],
-          "optionValue": "1#2",
-          "optionText": "≤90%#＞90%"
-        },
-        {
-          "name": "environment",
-          "text": "环境",
-          "type": "单行文本框",
-          "formFields": [],
-          "hideLabel": true
-        },
-        {
-          "name": "addRequest",
-          "text": "额外要求",
-          "type": "表格",
-          "formFields": [],
-          "selectorAssemblyId": "/tmt/额外要求.gridassy",
-          "hideLabel": true,
-          "enableCreateItem": true
-        },
-        {
-          "name": "productFunction",
-          "text": "产品作用",
-          "type": "表格",
-          "formFields": [],
-          "selectorAssemblyId": "/tmt/产品作用.gridassy",
-          "enableCreateItem": true
-        },
-        {
-          "name": "keyTechnologies",
-          "text": "关键技术项点",
-          "type": "多行文本框",
-          "formFields": []
-        }
-      ]
-    },
-    {
-      "name": "性能要求",
-      "text": "",
-      "type": "标签页",
-      "formFields": [
-        {
-          "name": "referenceDocument",
-          "text": "参考文件",
-          "type": "表格",
-          "formFields": [],
-          "selectorAssemblyId": "/tmt/参考文件.gridassy",
-          "enableCreateItem": true
-        },
-        {
-          "name": "authorityDocument",
-          "text": "规范性引用文件",
-          "type": "表格",
-          "formFields": [],
-          "selectorAssemblyId": "/tmt/规范性引用文件.gridassy"
-        },
-        {
-          "name": "橡胶材料性能",
-          "text": "橡胶材料性能",
-          "type": "横幅",
-          "formFields": [],
-          "staticContent": true,
-          "bannerStyle": "normal"
-        },
-        {
-          "name": "standards",
-          "text": "适用标准",
-          "type": "多项勾选框",
-          "formFields": [],
-          "optionText": "国标#ISO#ASTMD#EN",
-          "radioStyle": "横向分段（默认）"
-        },
-        {
-          "name": "试验项点",
-          "text": "试验项点",
-          "type": "横幅",
-          "formFields": [],
-          "staticContent": true
-        },
-        {
-          "name": "新字段",
-          "type": "行",
-          "formFields": [
-            {
-              "name": "hardness",
-              "text": "硬度",
-              "type": "复选框",
-              "formFields": [],
-              "checkStyle": "传统"
-            },
-            {
-              "name": "hardnessInfo",
-              "text": "",
-              "type": "单行文本框",
-              "formFields": [],
-              "hideLabel": true
-            },
-            {
-              "name": "UTS",
-              "text": "拉伸强度",
-              "type": "复选框",
-              "formFields": [],
-              "checkStyle": "传统"
-            },
-            {
-              "name": "UTSinfo",
-              "type": "单行文本框",
-              "formFields": [],
-              "hideLabel": true
             }
           ]
         },
         {
-          "name": "新字段",
-          "type": "行",
-          "formFields": [
-            {
-              "name": "EAB",
-              "text": "拉断伸长率",
-              "type": "复选框",
-              "formFields": [],
-              "checkStyle": "传统"
-            },
-            {
-              "name": "EABInfo",
-              "type": "单行文本框",
-              "formFields": [],
-              "hideLabel": true
-            },
-            {
-              "name": "compressionSet",
-              "text": "压缩永久变形",
-              "type": "复选框",
-              "formFields": [],
-              "checkStyle": "传统"
-            },
-            {
-              "name": "compressionSetInfo",
-              "type": "单行文本框",
-              "formFields": [],
-              "hideLabel": true
-            }
-          ]
-        }
-      ],
-      "staticContent": true,
-      "bannerStyle": "normal"
-    },
-    {
-      "name": "其他要求",
-      "text": "其他要求",
-      "type": "标签页",
-      "formFields": [
-        {
-          "name": "surfaceQuality",
-          "text": "外观要求",
-          "type": "单选框",
+          "name": "ppm",
+          "text": "项目管理员",
+          "type": "对象选择框",
           "formFields": [],
-          "optionText": "通用#非通用",
-          "radioStyle": "横向分段（默认）"
-        },
-        {
-          "name": "packing",
-          "text": "包装、储存、运输",
-          "type": "单选框",
-          "formFields": [],
-          "optionText": "通用#非通用",
-          "radioStyle": "横向分段（默认）"
-        }
-      ],
-      "staticContent": true,
-      "bannerStyle": "normal"
-    },
-    {
-      "name": "输出文件基本信息",
-      "type": "标签页",
-      "formFields": [
-        {
-          "name": "fileInfo",
-          "text": "文档修改信息",
-          "type": "多个对象选择框",
-          "formFields": [],
-          "selectorAssemblyId": "/tmt/文档修改信息.gridassy",
-          "hideLabel": true,
-          "enableCreateItem": true
-        },
-        {
-          "name": "新字段",
-          "type": "行",
-          "formFields": [
-            {
-              "name": "editor",
-              "text": "编制",
-              "type": "对象选择框",
-              "formFields": []
-            },
-            {
-              "name": "pe",
-              "text": "工艺",
-              "type": "对象选择框",
-              "formFields": []
-            },
-            {
-              "name": "auditor",
-              "text": "审核",
-              "type": "对象选择框",
-              "formFields": []
-            }
-          ]
-        },
-        {
-          "name": "新字段",
-          "type": "行",
-          "formFields": [
-            {
-              "name": "checker",
-              "text": "校核",
-              "type": "对象选择框",
-              "formFields": []
-            },
-            {
-              "name": "standardization",
-              "text": "标准化",
-              "type": "对象选择框",
-              "formFields": []
-            },
-            {
-              "name": "approve",
-              "text": "批准",
-              "type": "对象选择框",
-              "formFields": [],
-              "selectorAssemblyId": "/用户选择列表.gridassy"
-            }
-          ]
-        },
-        {
-          "name": "新字段",
-          "type": "行",
-          "formFields": [
-            {
-              "name": "releaseDate",
-              "text": "发布时间",
-              "type": "日期时间选择",
-              "formFields": [],
-              "dateType": "date"
-            }
-          ]
-        },
-        {
-          "name": "attachment",
-          "text": "附件",
-          "type": "多个文件选择框",
-          "formFields": []
+          "selectorAssemblyId": "/项目团队.gridassy",
+          "valueFieldName": "userId"
         }
       ]
     },
@@ -616,35 +340,23 @@
           "type": "行",
           "formFields": [
             {
-              "name": "adhesionTest",
-              "text": "粘接试验",
-              "type": "复选框",
-              "formFields": [],
-              "checkStyle": "传统"
-            },
-            {
               "name": "adhesionTestNo",
-              "type": "单选框",
+              "text": "粘接试验",
+              "type": "多项勾选框",
               "formFields": [],
               "optionText": "P1#P2#P3",
               "radioStyle": "横向分段（默认）",
               "checkStyle": "开关（默认）",
-              "hideLabel": true
-            },
-            {
-              "name": "svs",
-              "text": "静态垂向刚度",
-              "type": "复选框",
-              "formFields": [],
-              "checkStyle": "传统"
+              "hideLabel": false
             },
             {
               "name": "svsNo",
-              "type": "单选框",
+              "text": "静态垂向刚度",
+              "type": "多项勾选框",
               "formFields": [],
               "optionText": "P1#P2#P3",
               "radioStyle": "横向分段（默认）",
-              "hideLabel": true
+              "hideLabel": false
             }
           ]
         },
@@ -662,19 +374,19 @@
           "formFields": [
             {
               "name": "vtSpeed",
-              "text": "垂向拉伸速度",
+              "text": "垂向拉伸速度(mm/min)",
               "type": "单行文本框",
               "formFields": []
             },
             {
               "name": "tLength",
-              "text": "拉伸长度",
+              "text": "拉伸长度(mm)",
               "type": "单行文本框",
               "formFields": []
             },
             {
               "name": "lrTime",
-              "text": "保持荷载时间",
+              "text": "保持荷载时间(min)",
               "type": "单行文本框",
               "formFields": []
             }
@@ -713,16 +425,243 @@
       ]
     },
     {
-      "name": "processReq",
-      "text": "工艺要求",
-      "type": "标签页（文本编辑）",
-      "formFields": []
+      "name": "应用条件综述",
+      "type": "标签页",
+      "formFields": [
+        {
+          "name": "runtimes",
+          "text": "产品运行环境(°C)",
+          "type": "数值范围输入",
+          "formFields": []
+        },
+        {
+          "name": "temperature",
+          "text": "温度",
+          "type": "数值范围输入",
+          "formFields": []
+        },
+        {
+          "name": "maxSpeed",
+          "text": "最高时速(km/h)",
+          "type": "数值范围输入",
+          "formFields": []
+        },
+        {
+          "name": "humidity",
+          "text": "相对湿度",
+          "type": "下拉选择框",
+          "formFields": [],
+          "optionValue": "1#2",
+          "optionText": "≤90%#＞90%"
+        },
+        {
+          "name": "environment",
+          "text": "环境要求",
+          "type": "单行文本框",
+          "formFields": [],
+          "hideLabel": false
+        },
+        {
+          "name": "addRequest",
+          "text": "额外要求",
+          "type": "表格",
+          "formFields": [],
+          "selectorAssemblyId": "/tmt/额外要求.gridassy",
+          "hideLabel": true,
+          "enableCreateItem": true
+        },
+        {
+          "name": "productFunction",
+          "text": "产品作用",
+          "type": "表格",
+          "formFields": [],
+          "selectorAssemblyId": "/tmt/产品作用.gridassy",
+          "enableCreateItem": true
+        },
+        {
+          "name": "keyTechnologies",
+          "text": "关键技术项点",
+          "type": "多行文本框",
+          "formFields": []
+        }
+      ]
     },
     {
-      "name": "htmldemo",
-      "text": "超文本页面",
-      "type": "标签页（HTML编辑）",
-      "formFields": []
+      "name": "性能要求",
+      "text": "",
+      "type": "标签页",
+      "formFields": [
+        {
+          "name": "referenceDocument",
+          "text": "参考文件",
+          "type": "表格",
+          "formFields": [],
+          "selectorAssemblyId": "/tmt/参考文件.gridassy",
+          "enableCreateItem": true
+        },
+        {
+          "name": "authorityDocument",
+          "text": "规范性引用文件",
+          "type": "表格",
+          "formFields": [],
+          "selectorAssemblyId": "/tmt/规范性引用文件.gridassy",
+          "enableCreateItem": true
+        },
+        {
+          "name": "橡胶材料性能",
+          "text": "橡胶材料性能",
+          "type": "横幅",
+          "formFields": [],
+          "staticContent": true,
+          "bannerStyle": "normal"
+        },
+        {
+          "name": "standards",
+          "text": "适用标准",
+          "type": "多项勾选框",
+          "formFields": [],
+          "optionText": "国标#ISO#ASTMD#EN",
+          "radioStyle": "横向分段（默认）"
+        },
+        {
+          "name": "试验项点",
+          "text": "试验项点",
+          "type": "横幅",
+          "formFields": [],
+          "staticContent": true
+        },
+        {
+          "name": "新字段",
+          "type": "行",
+          "formFields": [
+            {
+              "name": "hardness",
+              "text": "硬度",
+              "type": "单行文本框",
+              "formFields": [],
+              "checkStyle": "传统"
+            },
+            {
+              "name": "UTS",
+              "text": "拉伸强度",
+              "type": "单行文本框",
+              "formFields": [],
+              "checkStyle": "传统"
+            }
+          ]
+        },
+        {
+          "name": "新字段",
+          "type": "行",
+          "formFields": [
+            {
+              "name": "EAB",
+              "text": "拉断伸长率",
+              "type": "单行文本框",
+              "formFields": [],
+              "checkStyle": "传统"
+            },
+            {
+              "name": "compressionSet",
+              "text": "压缩永久变形",
+              "type": "单行文本框",
+              "formFields": [],
+              "checkStyle": "传统"
+            }
+          ]
+        }
+      ],
+      "staticContent": true,
+      "bannerStyle": "normal"
+    },
+    {
+      "name": "其他要求",
+      "text": "其他要求",
+      "type": "标签页",
+      "formFields": [
+        {
+          "name": "surfaceQuality",
+          "text": "外观要求",
+          "type": "单选框",
+          "formFields": [],
+          "optionText": "通用#非通用",
+          "radioStyle": "横向分段（默认）"
+        },
+        {
+          "name": "packing",
+          "text": "包装、储存、运输",
+          "type": "单选框",
+          "formFields": [],
+          "optionText": "通用#非通用",
+          "radioStyle": "横向分段（默认）"
+        }
+      ],
+      "staticContent": true,
+      "bannerStyle": "normal"
+    },
+    {
+      "name": "输出文件基本信息",
+      "type": "标签页",
+      "formFields": [
+        {
+          "name": "fileInfo",
+          "text": "文档修改信息",
+          "type": "多个对象选择框",
+          "formFields": [],
+          "selectorAssemblyId": "/tmt/文档修改信息.gridassy",
+          "hideLabel": true,
+          "enableCreateItem": true
+        },
+        {
+          "name": "新字段",
+          "type": "行",
+          "formFields": [
+            {
+              "name": "editor",
+              "text": "编制",
+              "type": "对象选择框",
+              "formFields": []
+            },
+            {
+              "name": "pe",
+              "text": "工艺",
+              "type": "对象选择框",
+              "formFields": []
+            },
+            {
+              "name": "auditor",
+              "text": "审核",
+              "type": "对象选择框",
+              "formFields": []
+            }
+          ]
+        },
+        {
+          "name": "新字段",
+          "type": "行",
+          "formFields": [
+            {
+              "name": "checker",
+              "text": "校核",
+              "type": "对象选择框",
+              "formFields": []
+            },
+            {
+              "name": "standardization",
+              "text": "标准化",
+              "type": "对象选择框",
+              "formFields": []
+            },
+            {
+              "name": "approve",
+              "text": "批准",
+              "type": "对象选择框",
+              "formFields": [],
+              "selectorAssemblyId": "/用户选择列表.gridassy"
+            }
+          ]
+        }
+      ]
     }
   ],
   "actions": [

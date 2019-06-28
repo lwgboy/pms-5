@@ -20,7 +20,7 @@
       "name": "number",
       "text": "±‡∫≈",
       "alignment": 16384,
-      "width": 80,
+      "width": 60,
       "resizeable": true,
       "columns": []
     },
@@ -28,7 +28,7 @@
       "name": "desc",
       "text": "√Ë ˆ",
       "alignment": 16384,
-      "width": 80,
+      "width": 320,
       "resizeable": true,
       "columns": []
     }

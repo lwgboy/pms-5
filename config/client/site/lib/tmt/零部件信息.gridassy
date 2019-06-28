@@ -17,20 +17,20 @@
   "gridDataSetClassName": "",
   "columns": [
     {
-      "id": "16362575571",
-      "name": "partName",
-      "text": "零部件名称",
+      "id": "163fa5bbd25",
+      "name": "number",
+      "text": "物料编码",
       "alignment": 16384,
-      "width": 160,
+      "width": 80,
       "resizeable": true,
       "columns": []
     },
     {
-      "id": "163fa5bbd25",
-      "name": "sapNo",
-      "text": "SAP编码",
+      "id": "16362575571",
+      "name": "name",
+      "text": "名称",
       "alignment": 16384,
-      "width": 80,
+      "width": 160,
       "resizeable": true,
       "columns": []
     },
