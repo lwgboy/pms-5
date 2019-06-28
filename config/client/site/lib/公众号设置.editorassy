@@ -1,0 +1,42 @@
+{
+  "id": "/公众号设置.editorassy",
+  "name": "公众号设置",
+  "layout": [],
+  "type": "editor",
+  "folderId": "165d57b9f4a",
+  "fields": [
+    {
+      "id": "169dcf791b1",
+      "name": "isEnable",
+      "text": "是否启用",
+      "type": "复选框",
+      "formFields": [],
+      "checkStyle": "开关（默认）"
+    },
+    {
+      "id": "169dcf799f9",
+      "name": "token",
+      "text": "token",
+      "type": "单行文本框",
+      "formFields": [],
+      "textPasswordStyle": false
+    },
+    {
+      "id": "169dcf79357",
+      "name": "appid",
+      "text": "appid",
+      "type": "单行文本框",
+      "formFields": []
+    },
+    {
+      "id": "169dcf79537",
+      "name": "appSecret",
+      "text": "appSecret",
+      "type": "单行文本框",
+      "formFields": [],
+      "textPasswordStyle": true
+    }
+  ],
+  "actions": [],
+  "smallEditor": true
+}

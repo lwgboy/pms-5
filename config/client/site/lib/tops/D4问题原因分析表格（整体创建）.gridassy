@@ -1,0 +1,93 @@
+{
+  "id": "/D3临时控制行动表格.gridassy",
+  "name": "D4问题原因分析表格（整体创建）",
+  "layout": [],
+  "type": "grid",
+  "stickerTitle": "问题原因分析",
+  "folderId": "168987437fd",
+  "gridLineVisiable": true,
+  "gridHeaderVisiable": true,
+  "gridHasHScroll": true,
+  "gridHasVScroll": true,
+  "gridDataSetService": "com.bizvisionsoft.service.ProblemService",
+  "columns": [
+    {
+      "name": "type",
+      "text": "分类",
+      "alignment": 16384,
+      "width": 100,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "name": "subject",
+      "text": "科目",
+      "alignment": 16777216,
+      "width": 60,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "name": "classifyCause",
+      "text": "原因分类",
+      "alignment": 16384,
+      "width": 160,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "name": "name",
+      "text": "因素",
+      "alignment": 16384,
+      "width": 300,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "name": "description",
+      "text": "描述",
+      "alignment": 16384,
+      "width": 320,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "name": "weight",
+      "text": "权重",
+      "alignment": 131072,
+      "width": 60,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "name": "probability",
+      "text": "可能性（%）",
+      "alignment": 131072,
+      "width": 100,
+      "resizeable": true,
+      "columns": []
+    }
+  ],
+  "fields": [],
+  "actions": [
+    {
+      "id": "16828d58dbb",
+      "name": "create",
+      "tooltips": "创建临时控制措施",
+      "image": "/img/add_16_w.svg",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.problem.action.GenericAction",
+      "style": "normal",
+      "editorAssemblyId": "/tops/因素编辑器（整体创建）.editorassy",
+      "actionBehavier": true,
+      "type": "insert",
+      "createActionNewInstanceBundleId": "org.mongodb.mongo-java-driver",
+      "createActionNewInstanceClassName": "org.bson.Document",
+      "parameters": "{\"render\":\"gridrow\",\"stage\":\"ica\"}"
+    }
+  ],
+  "rowActions": [],
+  "hasTitlebar": true,
+  "parameters": "{\"render\":\"gridrow\",\"stage\":\"ica\"}",
+  "sortFields": []
+}

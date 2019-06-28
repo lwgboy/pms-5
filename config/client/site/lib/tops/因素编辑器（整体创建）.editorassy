@@ -1,0 +1,89 @@
+{
+  "id": "/因素编辑器.editorassy",
+  "name": "因素编辑器（整体创建）",
+  "title": "因素",
+  "layout": [],
+  "type": "editor",
+  "folderId": "1689872b96f",
+  "fields": [
+    {
+      "name": "type",
+      "text": "分类",
+      "type": "单选框",
+      "formFields": [],
+      "required": true,
+      "optionText": "因果分析-制造#因果分析-流出",
+      "radioStyle": "横向分段（默认）"
+    },
+    {
+      "name": "subject",
+      "text": "科目",
+      "type": "单选框",
+      "formFields": [],
+      "required": true,
+      "optionText": "人#设备#材料#环境#方法#测量",
+      "radioStyle": "横向分段（默认）"
+    },
+    {
+      "id": "1684638a2b3",
+      "name": "classifyCause",
+      "text": "原因分类",
+      "type": "对象选择框",
+      "formFields": [],
+      "required": true,
+      "selectorAssemblyId": "/tops/原因分类（整体创建选择器用）.gridassy",
+      "valueFieldName": "_id"
+    },
+    {
+      "id": "16803e61d16",
+      "name": "name",
+      "text": "因素",
+      "type": "单行文本框",
+      "formFields": [],
+      "required": true,
+      "textLimit": 20
+    },
+    {
+      "id": "16803e641b9",
+      "name": "description",
+      "text": "描述",
+      "type": "多行文本框",
+      "formFields": []
+    },
+    {
+      "id": "16803e36e06",
+      "name": "新字段5",
+      "type": "行",
+      "formFields": [
+        {
+          "id": "16803e2a736",
+          "name": "weight",
+          "text": "权重",
+          "type": "数字输入框",
+          "formFields": [],
+          "required": true,
+          "textRestrict": "整数",
+          "spinnerMax": 10,
+          "spinnerInc": 1,
+          "spinnerPageInc": 2
+        },
+        {
+          "id": "16803e2e79d",
+          "name": "probability",
+          "text": "可能性（%）",
+          "type": "数字输入框",
+          "formFields": [],
+          "required": true,
+          "textRestrict": "无限定",
+          "spinnerMax": 100,
+          "spinnerInc": 1,
+          "spinnerDigits": 0,
+          "spinnerPageInc": 10
+        }
+      ]
+    }
+  ],
+  "actions": [],
+  "smallEditor": true,
+  "tinyEditor": true
+}

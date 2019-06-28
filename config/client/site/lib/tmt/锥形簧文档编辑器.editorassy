@@ -1,7 +1,7 @@
 {
   "id": "/编辑工作包-采购.editorassy",
   "name": "锥形簧文档编辑器",
-  "title": "查询 - 项目档案库文件列表",
+  "title": "锥形簧结构设计",
   "layout": [],
   "type": "editor",
   "folderId": "1638c40accd",
@@ -17,7 +17,11 @@
           "type": "横幅",
           "formFields": [],
           "staticContent": true,
-          "bannerStyle": "normal"
+          "bannerStyle": "normal",
+          "stdReportLabelForegound": "ffffff",
+          "stdReportFieldForegound": "ffffff",
+          "stdReportLabelBackgound": "000000",
+          "stdReportFieldBackgound": "e94040"
         },
         {
           "name": "新字段",
@@ -28,7 +32,11 @@
               "text": "产品名称",
               "type": "单行文本框",
               "formFields": [],
-              "readOnly": false
+              "readOnly": false,
+              "stdReportLabelForegound": "ffffff",
+              "stdReportLabelFontFamily": "楷体",
+              "stdReportLabelBackgound": "000000",
+              "stdReportLabelWidth": 48
             },
             {
               "name": "productNo",
@@ -71,7 +79,8 @@
               "text": "项目负责人",
               "type": "单行文本框",
               "formFields": [],
-              "readOnly": false
+              "readOnly": false,
+              "stdReportFieldCellMargin": ""
             },
             {
               "name": "workOrder",
@@ -676,5 +685,10 @@
   "tinyEditor": false,
   "addToParentContext": true,
   "disableInitLoadData": false,
-  "fullscreen": false
+  "fullscreen": false,
+  "stdReportEditable": true,
+  "stdReportPaperType": "A4",
+  "stdReportPaperOrientation": "纵向",
+  "stdReportExportTabPageTitle": false,
+  "stdReportBreakByTabPage": false
 }

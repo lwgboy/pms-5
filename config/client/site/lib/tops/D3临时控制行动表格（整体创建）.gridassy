@@ -1,0 +1,156 @@
+{
+  "id": "/D3临时控制行动表格.gridassy",
+  "name": "D3临时控制行动表格（整体创建）",
+  "layout": [],
+  "type": "grid",
+  "stickerTitle": "临时控制行动",
+  "folderId": "168987437fd",
+  "gridLineVisiable": true,
+  "gridHeaderVisiable": true,
+  "gridHasHScroll": true,
+  "gridHasVScroll": true,
+  "gridDataSetService": "com.bizvisionsoft.service.ProblemService",
+  "columns": [
+    {
+      "id": "16828c482ef",
+      "name": "index",
+      "text": "序号",
+      "alignment": 16777216,
+      "width": 48,
+      "resizeable": true,
+      "columns": [],
+      "markupEnabled": true,
+      "forceDisplayZero": true
+    },
+    {
+      "id": "16828c48494",
+      "name": "action",
+      "text": "行动描述",
+      "alignment": 16384,
+      "width": 320,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "1682c66c120",
+      "name": "objective",
+      "text": "预期结果",
+      "alignment": 16384,
+      "width": 320,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "16828c48225",
+      "name": "charger_meta.name",
+      "text": "负责人",
+      "alignment": 16777216,
+      "width": 96,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "16828c483d6",
+      "name": "planStart",
+      "text": "计划开始",
+      "alignment": 16777216,
+      "width": 96,
+      "resizeable": true,
+      "columns": [],
+      "format": ""
+    },
+    {
+      "id": "1682c65c837",
+      "name": "planFinish",
+      "text": "计划完成",
+      "alignment": 16777216,
+      "width": 96,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "168519c55a7",
+      "name": "finish",
+      "text": "完成",
+      "alignment": 16777216,
+      "width": 48,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "1682c837cbc",
+      "name": "验证",
+      "text": "验证",
+      "alignment": 16384,
+      "width": 80,
+      "resizeable": true,
+      "expanded": false,
+      "columns": [
+        {
+          "id": "1682c83c7a1",
+          "name": "verificationTitle",
+          "text": "验证",
+          "alignment": 16384,
+          "width": 80,
+          "resizeable": true,
+          "detail": true,
+          "summary": true,
+          "columns": []
+        },
+        {
+          "id": "1682c83c90d",
+          "name": "verificationDate",
+          "text": "日期",
+          "alignment": 16777216,
+          "width": 96,
+          "resizeable": true,
+          "detail": true,
+          "summary": true,
+          "columns": []
+        },
+        {
+          "id": "1682c83c9a5",
+          "name": "verificationUser_meta.name",
+          "text": "验证人",
+          "alignment": 16777216,
+          "width": 80,
+          "resizeable": true,
+          "detail": true,
+          "columns": []
+        },
+        {
+          "id": "1682c83ca59",
+          "name": "verificationComment",
+          "text": "说明",
+          "alignment": 16384,
+          "width": 240,
+          "resizeable": true,
+          "detail": true,
+          "columns": []
+        }
+      ]
+    }
+  ],
+  "fields": [],
+  "actions": [
+    {
+      "id": "16828d58dbb",
+      "name": "create",
+      "tooltips": "创建临时控制措施",
+      "image": "/img/add_16_w.svg",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.problem.action.GenericAction",
+      "style": "normal",
+      "editorAssemblyId": "/tops/Dx-行动计划-编辑器（整体创建）.editorassy",
+      "actionBehavier": true,
+      "type": "insert",
+      "createActionNewInstanceBundleId": "org.mongodb.mongo-java-driver",
+      "createActionNewInstanceClassName": "org.bson.Document",
+      "parameters": "{\"render\":\"gridrow\",\"stage\":\"ica\"}"
+    }
+  ],
+  "rowActions": [],
+  "hasTitlebar": true,
+  "parameters": "{\"render\":\"gridrow\",\"stage\":\"ica\"}",
+  "sortFields": []
+}

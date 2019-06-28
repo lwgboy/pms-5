@@ -1,0 +1,54 @@
+{
+  "id": "/D1多功能小组表格.gridassy",
+  "name": "D1多功能小组表格（整体创建）",
+  "layout": [],
+  "type": "grid",
+  "stickerTitle": "问题解决团队",
+  "folderId": "168987437fd",
+  "gridLineVisiable": true,
+  "gridHeaderVisiable": true,
+  "gridHasHScroll": true,
+  "gridHasVScroll": true,
+  "gridDataSetService": "com.bizvisionsoft.service.ProblemService",
+  "columns": [
+    {
+      "id": "16828c482ef",
+      "name": "role",
+      "text": "角色",
+      "alignment": 16384,
+      "width": 80,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "16828c48225",
+      "name": "member_meta.name",
+      "text": "成员",
+      "alignment": 16384,
+      "width": 80,
+      "resizeable": true,
+      "columns": []
+    }
+  ],
+  "fields": [],
+  "actions": [
+    {
+      "id": "16828d58dbb",
+      "name": "create",
+      "image": "/img/add_16_w.svg",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.problem.action.D1Action",
+      "style": "serious",
+      "editorAssemblyId": "/tops/D1-CTF成员-整体创建编辑器.editorassy",
+      "actionBehavier": true,
+      "type": "insert",
+      "createActionNewInstanceBundleId": "org.mongodb.mongo-java-driver",
+      "createActionNewInstanceClassName": "org.bson.Document",
+      "parameters": "{\"render\":\"gridrow\"}"
+    }
+  ],
+  "rowActions": [],
+  "hasTitlebar": true,
+  "parameters": "{\"render\":\"gridrow\"}",
+  "sortFields": []
+}
