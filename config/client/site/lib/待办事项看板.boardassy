@@ -1,0 +1,51 @@
+{
+  "id": "/待办事项看板.boardassy",
+  "name": "待办事项看板",
+  "title": "待办事项看板",
+  "layout": [],
+  "type": "board",
+  "stickerTitle": "待办事项",
+  "folderId": "167fcdcde82",
+  "gridAutoHeight": true,
+  "gridDataSetService": "com.bizvisionsoft.service.ProblemService",
+  "fields": [
+    {
+      "id": "16a2fcbc4c6",
+      "name": "_problem.name",
+      "text": "问题简述",
+      "type": "文本输入框（查询）",
+      "formFields": []
+    },
+    {
+      "id": "16a2f5648dd",
+      "name": "stage",
+      "text": "阶段",
+      "type": "文本输入框（查询）",
+      "formFields": []
+    },
+    {
+      "id": "16a2f556724",
+      "name": "action",
+      "text": "行动",
+      "type": "文本输入框（查询）",
+      "formFields": []
+    }
+  ],
+  "actions": [],
+  "rowActions": [
+    {
+      "id": "16a2f9f7f1b",
+      "name": "操作",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.problem.action.GenericAction",
+      "type": "customized",
+      "parameters": "{\"render\":\"card\",\"stage\":\"all\"}"
+    }
+  ],
+  "hasTitlebar": true,
+  "disableStdQuery": false,
+  "parameters": "{\"status\":\"all\",\"render\":\"card\"}",
+  "scrollLoadData": false,
+  "compactTitleBar": true,
+  "sortFields": []
+}

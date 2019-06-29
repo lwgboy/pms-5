@@ -116,28 +116,37 @@
       ]
     },
     {
+      "id": "167eac3493e",
+      "name": "initiatedFrom",
+      "text": "问题最初来源",
+      "type": "文本标签",
+      "formFields": [],
+      "required": true,
+      "optionText": "",
+      "radioStyle": "横向分段（默认）"
+    },
+    {
       "id": "16827b564d5",
       "name": "新字段7",
       "type": "行",
       "formFields": [
         {
+           "id": "16845d4c4fb",
+          "name": "classifyProblems",
+          "text": "问题分类",
+          "type": "多个对象选择框",
+          "formFields": [],
+          "required": false,
+          "selectorAssemblyId": "/问题分类.gridassy"
+        },
+        {
           "id": "167e845b11f",
-          "name": "dept",
+          "name": "depts",
           "text": "责任部门",
-          "type": "对象选择框",
+          "type": "多个对象选择框",
           "formFields": [],
           "required": true,
           "selectorAssemblyId": "/组织选择器.gridassy"
-        },
-        {
-          "id": "167eac3493e",
-          "name": "initiatedFrom",
-          "text": "问题最初来源",
-          "type": "文本标签",
-          "formFields": [],
-          "required": true,
-          "optionText": "",
-          "radioStyle": "横向分段（默认）"
         }
       ]
     },

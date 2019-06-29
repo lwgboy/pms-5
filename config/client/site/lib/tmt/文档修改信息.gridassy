@@ -17,16 +17,24 @@
   "gridDataSetClassName": "",
   "columns": [
     {
-      "name": "fileName",
-      "text": "输出文件名称",
+      "name": "number",
+      "text": "文件编号",
       "alignment": 16384,
       "width": 80,
       "resizeable": true,
       "columns": []
     },
     {
-      "name": "majorId",
-      "text": "版本号",
+      "name": "name",
+      "text": "名称",
+      "alignment": 16384,
+      "width": 80,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "name": "major",
+      "text": "版本",
       "alignment": 16384,
       "width": 80,
       "resizeable": true,

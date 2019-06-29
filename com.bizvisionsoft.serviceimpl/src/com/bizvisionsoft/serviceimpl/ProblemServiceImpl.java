@@ -1580,8 +1580,10 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 						.create().toJson(Domain.getJQ(domain, queryName).set("id", _id).set("domain", domain).list());
 				param.put(key, json);
 			}
-			Domain dom = Domain.get(domain);
-			param.put("dbConnect", dom.getDatabaseUrl());
+			if (param.get("dbConnect") == null) {
+				Domain dom = Domain.get(domain);
+				param.put("dbConnect", dom.getDatabaseUrl());
+			}
 			List<Map<String, Object>> processors = new ArrayList<Map<String, Object>>();
 
 			// 构建第一个处理器及其参数

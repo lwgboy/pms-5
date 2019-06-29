@@ -1,0 +1,750 @@
+{
+  "typeName": "站点",
+  "id": "1618092b217",
+  "name": "TOPS",
+  "version": "2.0",
+  "timestamp": "201905251554",
+  "title": "TOPS",
+  "path": "/",
+  "headHtml": "\u003cmeta name\u003d\"viewport\" content\u003d\"width\u003ddevice-width,initial-scale\u003d1.0,maximum-scale\u003d1.0,minimum-scale\u003d1.0,user-scalable\u003dno\"/\u003e\n\u003cmeta name\u003d\"format-detection\" content\u003d\"telephone\u003dno\"/\u003e\n\u003cmeta name\u003d\"referrer\" content\u003d\"always\"/\u003e\n\u003cmeta name\u003d\"renderer\" content\u003d\"webkit\"/\u003e \n\n\u003cmeta name\u003d\"apple-touch-fullscreen\" content\u003d\"yes\"/\u003e\n\u003cmeta name\u003d\"apple-mobile-web-app-capable\" content\u003d\"yes\"/\u003e\n\u003cmeta name\u003d\"apple-mobile-web-app-status-bar-style\" content\u003d\"black\"/\u003e\n\n\u003c!--link rel\u003d\"apple-touch-icon-precomposed\" href\u003d\"/apps/images/crrc_logo_144.png\"--\u003e\n\u003c!--link rel\u003d\"apple-touch-icon\" href\u003d\"/apps/images/crrc_logo_144.png\"--\u003e\n\n\u003c!-- Common JSLib --\u003e\n\u003cscript src\u003d\"/resource/js/jquery-1.10.2.min.js\"\u003e\u003c/script\u003e\n\u003cscript src\u003d\"/resource/js/jgestures.min.js\"\u003e\u003c/script\u003e\n\u003cscript src\u003d\"/resource/js/layui.all.js\"\u003e\u003c/script\u003e\n\u003cscript src\u003d\"/resource/js/echarts.min.js\"\u003e\u003c/script\u003e\n\u003c!-- APPS CSS --\u003e\n\u003clink rel\u003d\"stylesheet\" href\u003d\"/resource/css/brui.css\" type\u003d\"text/css\" media\u003d\"screen\" /\u003e\n\u003clink rel\u003d\"stylesheet\" href\u003d\"/resource/css/animations.css\" type\u003d\"text/css\" media\u003d\"screen\" /\u003e\n\u003clink rel\u003d\"stylesheet\" href\u003d\"/resource/js/css/layui.css\" type\u003d\"text/css\" media\u003d\"screen\" /\u003e\n",
+  "pageOverflow": "scrollY",
+  "aliasOfResFolder": "extres",
+  "favIcon": "/img/favicon.png",
+  "description": "问题管理系统",
+  "login": "/用户登录组件.assy",
+  "changePSW": "/用户更改密码页面.assy",
+  "rootFolder": {
+    "children": [],
+    "name": "站点",
+    "id": "1626b905a63"
+  },
+  "pages": [
+    {
+      "typeName": "页面",
+      "id": "164067d4250",
+      "name": "系统管理",
+      "title": "系统管理",
+      "headbar": {},
+      "sidebar": {
+        "enabled": true,
+        "width": 240,
+        "header": "/标题栏（带有用户头像和产品名称）.assy",
+        "toolbarItems": [],
+        "sidebarItems": [
+          {
+            "id": "164071f3044",
+            "name": "重要提示",
+            "switchContentToAssemblyId": "/系统管理首页面板.assy",
+            "type": "switch",
+            "verticalSpan": 0
+          },
+          {
+            "id": "1640e8bb1bd",
+            "name": "账户",
+            "children": [
+              {
+                "id": "161d7d6b3a5",
+                "name": "组织管理",
+                "text": "组织管理",
+                "bundleId": "",
+                "className": "",
+                "switchContentToAssemblyId": "/组织管理.gridassy",
+                "type": "switch",
+                "verticalSpan": 0
+              },
+              {
+                "id": "162bc7b536f",
+                "name": "用户管理",
+                "switchContentToAssemblyId": "/账户管理.gridassy",
+                "type": "switch",
+                "verticalSpan": 0
+              },
+              {
+                "id": "1640e3fa0d1",
+                "name": "权限管理",
+                "bundleId": "",
+                "className": "",
+                "switchContentToAssemblyId": "/功能权限设置.gridassy",
+                "type": "switch",
+                "verticalSpan": 0
+              },
+              {
+                "id": "16524c60c3c",
+                "name": "用户审计",
+                "switchContentToAssemblyId": "/用户操作审计.gridassy",
+                "type": "switch",
+                "verticalSpan": 0
+              }
+            ],
+            "type": "customized",
+            "verticalSpan": 0
+          },
+          {
+            "id": "1686425ee6a",
+            "name": "问题管理",
+            "children": [
+              {
+                "id": "168642614dc",
+                "name": "成本分类",
+                "switchContentToAssemblyId": "/问题成本分类.gridassy",
+                "type": "switch"
+              },
+              {
+                "id": "168642683a7",
+                "name": "问题分类",
+                "switchContentToAssemblyId": "/问题分类.gridassy",
+                "type": "switch"
+              },
+              {
+                "id": "1686426fa8a",
+                "name": "原因分类",
+                "switchContentToAssemblyId": "/原因分类.gridassy",
+                "type": "switch"
+              }
+            ],
+            "type": "customized"
+          },
+          {
+            "id": "1683cd2d3c9",
+            "name": "指标",
+            "children": [
+              {
+                "id": "1642fb9b626",
+                "name": "质量影响等级",
+                "text": "质量影响等级",
+                "switchContentToAssemblyId": "/质量影响级别.gridassy",
+                "type": "switch",
+                "verticalSpan": 0
+              },
+              {
+                "id": "1683ceda283",
+                "name": "严重性等级",
+                "switchContentToAssemblyId": "/严重性等级.gridassy",
+                "type": "switch"
+              },
+              {
+                "id": "1642fba3602",
+                "name": "可探测性级别",
+                "text": "可探测性级别",
+                "switchContentToAssemblyId": "/可探测性级别.gridassy",
+                "type": "switch",
+                "verticalSpan": 0
+              },
+              {
+                "id": "1683dd95dde",
+                "name": "损失等级",
+                "switchContentToAssemblyId": "/损失等级.gridassy",
+                "type": "switch"
+              },
+              {
+                "id": "16842d89cc9",
+                "name": "频度等级",
+                "switchContentToAssemblyId": "/频度等级.gridassy",
+                "type": "switch"
+              },
+              {
+                "id": "16842d93f0d",
+                "name": "影响范围等级",
+                "switchContentToAssemblyId": "/影响范围等级.gridassy",
+                "type": "switch"
+              },
+              {
+                "id": "1642fb940b8",
+                "name": "临近性指标设置",
+                "switchContentToAssemblyId": "/临近性指标设置.gridassy",
+                "type": "switch",
+                "verticalSpan": 0
+              }
+            ],
+            "type": "customized"
+          },
+          {
+            "id": "165d57032c6",
+            "name": "系统设置",
+            "children": [
+              {
+                "id": "1667dc1acb6",
+                "name": "工作时间设置",
+                "bundleId": "",
+                "className": "",
+                "type": "system_setting",
+                "verticalSpan": 0
+              },
+              {
+                "id": "166b313d86e",
+                "name": "测试邮件接收账户",
+                "bundleId": "",
+                "className": "",
+                "type": "system_setting",
+                "verticalSpan": 0
+              },
+              {
+                "id": "162dc3d1622",
+                "name": "名称字典",
+                "switchContentToAssemblyId": "/名称字典.gridassy",
+                "type": "switch",
+                "verticalSpan": 0
+              },
+              {
+                "id": "16527b11f80",
+                "name": "管理备份",
+                "switchContentToAssemblyId": "/管理备份.gridassy",
+                "type": "switch",
+                "verticalSpan": 0
+              },
+              {
+                "id": "1677a1661b2",
+                "name": "值生成规则",
+                "bundleId": "",
+                "switchContentToAssemblyId": "/值生成规则.gridassy",
+                "type": "switch",
+                "verticalSpan": 0
+              },
+              {
+                "id": "1640b0ecf2a",
+                "name": "查看许可证",
+                "switchContentToAssemblyId": "/许可证.gridassy",
+                "type": "switch",
+                "verticalSpan": 0
+              }
+            ],
+            "type": "customized",
+            "verticalSpan": 0
+          }
+        ]
+      },
+      "footbar": {},
+      "contentArea": {
+        "typeName": "内容区",
+        "assemblyLinks": [
+          {
+            "typeName": "组件链接",
+            "id": "/系统管理首页面板.assy",
+            "defaultAssembly": true
+          }
+        ]
+      },
+      "home": true,
+      "role": "系统管理员"
+    },
+    {
+      "typeName": "页面",
+      "id": "167f7e0a80e",
+      "name": "问题解决-TOPS过程",
+      "title": "TOPS",
+      "headbar": {},
+      "sidebar": {
+        "enabled": true,
+        "width": 240,
+        "header": "/标题栏（当前对象和返回）.assy",
+        "toolbarItems": [
+          {
+            "id": "1682de11fd8",
+            "name": "查看工作进度",
+            "switchContentToAssemblyId": "/问题解决进度甘特图.ganttassy",
+            "type": "switch"
+          },
+          {
+            "id": "168b9925766",
+            "name": "检索知识库",
+            "image": "/img/robot_w.svg",
+            "switchContentToAssemblyId": "/问题智能分析.drillchartassy",
+            "type": "switch"
+          },
+          {
+            "id": "16ab30824bd",
+            "name": "输出8D报告",
+            "text": "问题报告",
+            "image": "/img/daily-report_w.svg",
+            "bundleId": "com.bizvisionsoft.pms",
+            "className": "com.bizvisionsoft.pms.problem.action.ExportProblemReport",
+            "type": "customized",
+            "parameters": "{\n\"template\":\"8DReport_cn.rptdesign\",\n\"fileName\":\"问题报告\",\n\"rptParam\":\n{\n\"pipeline-problem\":\"topsreport/pipeline-problem\",\n\"pipeline-d1cft\":\"topsreport/pipeline-d1cft\",\n\"pipeline-d2ProblemPhoto\":\"topsreport/pipeline-d2ProblemPhoto\",\n\"pipeline-d7Similar\":\"topsreport/pipeline-d7Similar\",\n\"pipeline-ai-era\":\"topsreport/pipeline-ai-era\",\n\"pipeline-ai-ica\":\"topsreport/pipeline-ai-ica\",\n\"pipeline-ai-pca-make\":\"topsreport/pipeline-ai-pca-make\",\n\"pipeline-ai-pca-out\":\"topsreport/pipeline-ai-pca-out\",\n\"pipeline-ai-spa\":\"topsreport/pipeline-ai-spa\",\n\"pipeline-causeRelation-make\":\"topsreport/pipeline-causeRelation-make\",\n\"pipeline-causeRelation-out\":\"topsreport/pipeline-causeRelation-out\"\n}\n}"
+          }
+        ],
+        "sidebarItems": [
+          {
+            "id": "1683b4e57cf",
+            "name": "准备和启动",
+            "children": [
+              {
+                "id": "1683ba1f2d2",
+                "name": "问题初始记录",
+                "switchContentToAssemblyId": "/D0问题初始记录信息面板.infopadassy",
+                "type": "switch"
+              },
+              {
+                "id": "167f814aa09",
+                "name": "紧急反应行动",
+                "image": "/img/emergency_w.svg",
+                "switchContentToAssemblyId": "/D0紧急反应行动表格.gridassy",
+                "type": "switch"
+              }
+            ],
+            "type": "customized"
+          },
+          {
+            "id": "167f80d9b31",
+            "name": "问题解决团队",
+            "image": "/img/team_w.svg",
+            "switchContentToAssemblyId": "/D1多功能小组表格.gridassy",
+            "type": "switch"
+          },
+          {
+            "id": "167f80ea6ad",
+            "name": "问题描述",
+            "children": [
+              {
+                "id": "1682959eb4b",
+                "name": "现场照片",
+                "bundleId": "",
+                "className": "",
+                "switchContentToAssemblyId": "/D2现场照片表格.gridassy",
+                "type": "switch"
+              },
+              {
+                "id": "167f8146569",
+                "name": "5W2H问题描述",
+                "bundleId": "",
+                "className": "",
+                "switchContentToAssemblyId": "/D2问题描述5W2H信息面板.infopadassy",
+                "type": "switch",
+                "parameters": ""
+              }
+            ],
+            "type": "customized"
+          },
+          {
+            "id": "168338cbf25",
+            "name": "临时控制行动",
+            "children": [
+              {
+                "id": "167f80fe0e8",
+                "name": "制定临时控制行动",
+                "switchContentToAssemblyId": "/D3临时控制行动表格.gridassy",
+                "type": "switch"
+              },
+              {
+                "id": "168338d023e",
+                "name": "临时控制行动确认有效",
+                "bundleId": "com.bizvisionsoft.pms",
+                "className": "com.bizvisionsoft.pms.problem.action.LifecycleChage",
+                "type": "customized",
+                "parameters": "{\"stage\":\"icaConfirmed\"}"
+              }
+            ],
+            "type": "customized"
+          },
+          {
+            "id": "167f8109d89",
+            "name": "根本原因分析",
+            "image": "/img/path_w.svg",
+            "children": [
+              {
+                "id": "167f8113c45",
+                "name": "问题产生原因",
+                "switchContentToAssemblyId": "/D4关系图.assy",
+                "type": "switch",
+                "passParametersToAssembly": "{\"type\":\"因果分析-制造\",\"title\":\"问题产生因果分析\"}"
+              },
+              {
+                "id": "167f817cab5",
+                "name": "问题流出原因",
+                "switchContentToAssemblyId": "/D4关系图.assy",
+                "type": "switch",
+                "passParametersToAssembly": "{\"type\":\"因果分析-流出\",\"title\":\"问题流出因果分析\"}"
+              },
+              {
+                "id": "167f812dfdf",
+                "name": "根本起因描述",
+                "bundleId": "com.bizvisionsoft.pms",
+                "className": "com.bizvisionsoft.pms.problem.action.EditD4RootCauseDesc",
+                "type": "customized"
+              }
+            ],
+            "type": "customized"
+          },
+          {
+            "id": "168338ec276",
+            "name": "永久纠正措施",
+            "children": [
+              {
+                "id": "167f8170efd",
+                "name": "选择解决方案",
+                "switchContentToAssemblyId": "/D5PCA候选方案.assy",
+                "children": [],
+                "type": "switch"
+              },
+              {
+                "id": "16835b292f7",
+                "name": "批准永久纠正措施",
+                "bundleId": "com.bizvisionsoft.pms",
+                "className": "com.bizvisionsoft.pms.problem.action.LifecycleChage",
+                "type": "customized",
+                "parameters": "{\"stage\":\"pcaApproved\"}"
+              }
+            ],
+            "type": "customized"
+          },
+          {
+            "id": "168339150d8",
+            "name": "执行和确认",
+            "children": [
+              {
+                "id": "167f81defa9",
+                "name": "执行永久纠正措施",
+                "switchContentToAssemblyId": "/D6执行和确认永久纠正措施表格.gridassy",
+                "type": "switch"
+              },
+              {
+                "id": "168338faf07",
+                "name": "验证永久纠正措施",
+                "bundleId": "com.bizvisionsoft.pms",
+                "className": "com.bizvisionsoft.pms.problem.action.LifecycleChage",
+                "type": "customized",
+                "parameters": "{\"stage\":\"pcaValidated\"}"
+              },
+              {
+                "id": "1683391d47a",
+                "name": "永久纠正措施确认有效",
+                "bundleId": "com.bizvisionsoft.pms",
+                "className": "com.bizvisionsoft.pms.problem.action.LifecycleChage",
+                "type": "customized",
+                "parameters": "{\"stage\":\"pcaConfirmed\"}"
+              }
+            ],
+            "type": "customized"
+          },
+          {
+            "id": "167f81ff0f2",
+            "name": "系统性预防",
+            "image": "/img/prevent_w.svg",
+            "children": [
+              {
+                "id": "167f8202125",
+                "name": "类似系统分析",
+                "switchContentToAssemblyId": "/D7类似系统表格.gridassy",
+                "type": "switch"
+              },
+              {
+                "id": "167f820b345",
+                "name": "系统性预防措施",
+                "switchContentToAssemblyId": "/D7系统性预防措施表格.gridassy",
+                "type": "switch"
+              }
+            ],
+            "type": "customized"
+          },
+          {
+            "id": "167f820fb0b",
+            "name": "总结和问题关闭",
+            "image": "/img/exp_w.svg",
+            "children": [
+              {
+                "id": "1683df232ef",
+                "name": "挽回损失和善后措施",
+                "switchContentToAssemblyId": "/D8损失挽回措施表格.gridassy",
+                "type": "switch",
+                "excludeRole": "外部用户"
+              },
+              {
+                "id": "1683b4c7bf0",
+                "name": "问题成本记账",
+                "switchContentToAssemblyId": "/D8问题成本账目表格.gridassy",
+                "type": "switch",
+                "excludeRole": "外部用户"
+              },
+              {
+                "id": "1684813f7ef",
+                "name": "问题成本统计图表",
+                "switchContentToAssemblyId": "/D8问题成本期间分类汇总.chartassy",
+                "type": "switch",
+                "excludeRole": "外部用户"
+              },
+              {
+                "id": "1681e533665",
+                "name": "经验教训总结",
+                "switchContentToAssemblyId": "/D8经验教训表格.gridassy",
+                "type": "switch"
+              },
+              {
+                "id": "1681e534dae",
+                "name": "问题关闭",
+                "bundleId": "com.bizvisionsoft.pms",
+                "className": "com.bizvisionsoft.pms.problem.action.ProblemLifecycle",
+                "type": "customized",
+                "parameters": "{\"action\":\"close\"}"
+              }
+            ],
+            "type": "customized"
+          }
+        ]
+      },
+      "footbar": {},
+      "contentArea": {
+        "typeName": "内容区",
+        "assemblyLinks": [
+          {
+            "typeName": "组件链接",
+            "id": "/8D问题看板.assy"
+          }
+        ]
+      },
+      "inputDataSetService": "com.bizvisionsoft.service.ProblemService"
+    },
+    {
+      "typeName": "页面",
+      "id": "167fcdbe622",
+      "name": "问题管理",
+      "title": "问题管理",
+      "headbar": {},
+      "sidebar": {
+        "enabled": true,
+        "width": 240,
+        "header": "/标题栏（带有用户头像和产品名称）.assy",
+        "toolbarItems": [
+          {
+            "id": "16898a329fc",
+            "name": "问题综合分析图表",
+            "image": "/img/chart_linebar_w.svg",
+            "switchContentToAssemblyId": "/问题综合分析图表.assy",
+            "type": "switch"
+          }
+        ],
+        "sidebarItems": [
+          {
+            "id": "1683244d826",
+            "name": "识别问题",
+            "image": "/img/write_w.svg",
+            "children": [
+              {
+                "id": "167fcde241f",
+                "name": "注册新问题",
+                "bundleId": "com.bizvisionsoft.pms",
+                "className": "com.bizvisionsoft.pms.problem.action.EditProblem",
+                "children": [],
+                "type": "customized",
+                "parameters": "{\"actionType\":\"create\"}"
+              },
+              {
+                "id": "167fce928ca",
+                "name": "已创建的问题",
+                "switchContentToAssemblyId": "/问题清单（已创建）.gridassy",
+                "type": "switch",
+                "parameters": "",
+                "passParametersToAssembly": "{\"status\":\"已创建\"}"
+              },
+              {
+                "id": "167fcea761a",
+                "name": "已取消的问题",
+                "switchContentToAssemblyId": "/问题清单（已取消）.gridassy",
+                "type": "switch",
+                "parameters": "",
+                "passParametersToAssembly": "{\"status\":\"已取消\"}"
+              }
+            ],
+            "type": "customized"
+          },
+          {
+            "id": "167fce9fce4",
+            "name": "解决问题",
+            "switchContentToAssemblyId": "/问题清单（解决中）.gridassy",
+            "type": "switch",
+            "excludeRole": "质量经理",
+            "parameters": "",
+            "passParametersToAssembly": "{\"status\":\"解决中\"}"
+          },
+          {
+            "id": "16a6e5b3ab7",
+            "name": "解决问题",
+            "switchContentToAssemblyId": "/问题清单（解决中-all）.gridassy",
+            "type": "switch",
+            "role": "质量经理",
+            "passParametersToAssembly": "{\"status\":\"解决中\"}"
+          },
+          {
+            "id": "16842e870c3",
+            "name": "问题分析",
+            "image": "/img/chart_linebar_w.svg",
+            "children": [
+              {
+                "id": "1686446710d",
+                "name": "问题综合分析图表",
+                "switchContentToAssemblyId": "/问题综合分析图表.assy",
+                "type": "switch"
+              },
+              {
+                "id": "168431046ba",
+                "name": "成本分类图表",
+                "switchContentToAssemblyId": "/问题成本按成本分类钻取.drillchartassy",
+                "type": "switch"
+              },
+              {
+                "id": "1684311a679",
+                "name": "问题分类图表",
+                "switchContentToAssemblyId": "/问题成本按问题分类钻取.drillchartassy",
+                "type": "switch"
+              },
+              {
+                "id": "16863cf1235",
+                "name": "原因分类图表",
+                "switchContentToAssemblyId": "/问题成本按问题原因分类钻取.drillchartassy",
+                "type": "switch"
+              },
+              {
+                "id": "1684312b093",
+                "name": "责任部门分类图表",
+                "switchContentToAssemblyId": "/问题成本按责任部门分类钻取.drillchartassy",
+                "type": "switch"
+              }
+            ],
+            "type": "customized",
+            "excludeRole": ""
+          },
+          {
+            "id": "167fce0b560",
+            "name": "问题知识库",
+            "image": "",
+            "children": [
+              {
+                "id": "167fcea4338",
+                "name": "问题数据库",
+                "switchContentToAssemblyId": "/问题清单（问题数据库）.gridassy",
+                "type": "switch",
+                "parameters": "",
+                "passParametersToAssembly": ""
+              },
+              {
+                "id": "168903732b5",
+                "name": "经验数据库",
+                "switchContentToAssemblyId": "/问题经验库表格.gridassy",
+                "children": [],
+                "type": "switch"
+              },
+              {
+                "id": "167fcdfb304",
+                "name": "行动预案库",
+                "switchContentToAssemblyId": "/行动预案.gridassy",
+                "type": "switch"
+              },
+              {
+                "id": "16873b171a3",
+                "name": "目标和决策准则库",
+                "switchContentToAssemblyId": "/目标和决策准则模板表格.gridassy",
+                "type": "switch"
+              }
+            ],
+            "type": "customized",
+            "excludeRole": ""
+          },
+          {
+            "id": "16832bf3d33",
+            "name": "问题预防",
+            "image": "/img/prevent_w.svg",
+            "switchContentToAssemblyId": "/系统性预防措施表格.gridassy",
+            "type": "switch"
+          }
+        ]
+      },
+      "footbar": {},
+      "contentArea": {
+        "typeName": "内容区",
+        "assemblyLinks": [
+          {
+            "typeName": "组件链接",
+            "id": "/问题管理看板.assy"
+          }
+        ]
+      },
+      "home": true,
+      "excludeRole": "外部用户"
+    },
+    {
+      "typeName": "页面",
+      "id": "168954a3362",
+      "name": "问题管理客户入口",
+      "title": "问题管理",
+      "headbar": {},
+      "sidebar": {
+        "enabled": true,
+        "width": 240,
+        "header": "/标题栏（带有用户头像和产品名称）.assy",
+        "toolbarItems": [],
+        "sidebarItems": [
+          {
+            "id": "167fcde241f",
+            "name": "注册新问题",
+            "image": "/img/write_w.svg",
+            "bundleId": "com.bizvisionsoft.pms",
+            "className": "com.bizvisionsoft.pms.problem.action.EditProblem",
+            "children": [],
+            "type": "customized",
+            "parameters": "{\"actionType\":\"create\"}"
+          },
+          {
+            "id": "167fce928ca",
+            "name": "已创建的问题",
+            "switchContentToAssemblyId": "/问题清单（已创建）.gridassy",
+            "type": "switch",
+            "parameters": "",
+            "passParametersToAssembly": "{\"status\":\"已创建\"}"
+          },
+          {
+            "id": "167fce9fce4",
+            "name": "解决中的问题",
+            "switchContentToAssemblyId": "/问题清单（解决中）.gridassy",
+            "type": "switch",
+            "parameters": "",
+            "passParametersToAssembly": "{\"status\":\"解决中\"}"
+          },
+          {
+            "id": "167fcea761a",
+            "name": "已取消的问题",
+            "switchContentToAssemblyId": "/问题清单（已取消）.gridassy",
+            "type": "switch",
+            "parameters": "",
+            "passParametersToAssembly": "{\"status\":\"已取消\"}"
+          },
+          {
+            "id": "1689554f11c",
+            "name": "已关闭的问题",
+            "switchContentToAssemblyId": "/问题清单（已关闭）.gridassy",
+            "type": "switch",
+            "passParametersToAssembly": "{\"status\":\"已关闭\"}"
+          }
+        ]
+      },
+      "footbar": {},
+      "contentArea": {
+        "typeName": "内容区",
+        "assemblyLinks": [
+          {
+            "typeName": "组件链接",
+            "id": "/问题管理看板.assy"
+          }
+        ]
+      },
+      "home": true,
+      "role": "外部用户"
+    }
+  ],
+  "assyLib": {
+    "assys": []
+  },
+  "password": "admin",
+  "footLeftText": "",
+  "headLogo": "/img/tops_logo_w.svg",
+  "pageBackgroundImage": "",
+  "pageBackgroundImageCSS": "brui_blur",
+  "welcome": "登录TOPS",
+  "headLogoWidth": 150,
+  "headLogoHeight": 32,
+  "disableNotice": false,
+  "noticeImg1": "/img/bg01.svg",
+  "noticeContent1": "\u003cdiv style\u003d\u0027margin-top:32px;margin-right:96px;font-size:32px;font-weight:lighter;color:#4d4d4d\u0027\u003eTOPS和8D并不仅是填表格或问题报告\u003c/div\u003e\u003cbr\u003e\u003cbr\u003e\n\u003cdiv style\u003d\u0027margin-right:96px;font-size:18px;font-weight:lighter;color:#808080\u0027\u003e我们管理了从问题识别、解决、关闭到预防的全过程，是专业的团队导向问题解决系统。\n\u003cdiv\u003e",
+  "noticeImg2": "/img/bg02.svg",
+  "noticeContent2": "\u003cdiv style\u003d\u0027margin-top:32px;margin-right:96px;font-size:32px;font-weight:lighter;color:#4d4d4d\u0027\u003e\n木桶定律耳熟能详，但哪一块才是真正的短板？\u003c/div\u003e\u003cbr\u003e\u003cbr\u003e\n\u003cdiv style\u003d\u0027margin-right:96px;font-size:18px;font-weight:lighter;color:#808080\u0027\u003e\n我们运用数据分析，从组织和流程进行多维度的统计和对比，帮助您发现真正的短板。\n\u003cdiv\u003e",
+  "noticeImg3": "/img/bg03.svg",
+  "noticeContent3": "\u003cdiv style\u003d\u0027margin-top:32px;margin-right:96px;font-size:32px;font-weight:lighter;color:#4d4d4d\u0027\u003e和您的客户一起解决问题\u003c/div\u003e\u003cbr\u003e\u003cbr\u003e\n\u003cdiv style\u003d\u0027margin-right:96px;font-size:18px;font-weight:lighter;color:#808080\u0027\u003e\n不仅仅是您的内部系统，客户、供应商和合作伙伴也能够加入问题解决团队共同解决问题。\n\u003cdiv\u003e",
+  "defaultPageCSS": ""
+}

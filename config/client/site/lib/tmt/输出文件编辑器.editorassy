@@ -7,19 +7,25 @@
   "folderId": "1638c40accd",
   "fields": [
     {
-      "name": "新字段",
-      "text": "输出文件名称",
+      "name": "number",
+      "text": "文件编号",
       "type": "单行文本框",
       "formFields": []
     },
     {
-      "name": "新字段",
-      "text": "版本号",
+      "name": "name",
+      "text": "名称",
       "type": "单行文本框",
       "formFields": []
     },
     {
-      "name": "新字段",
+      "name": "major",
+      "text": "版本",
+      "type": "单行文本框",
+      "formFields": []
+    },
+    {
+      "name": "changer",
       "text": "更改人",
       "type": "对象选择框",
       "formFields": [],
@@ -27,13 +33,13 @@
       "valueFieldName": "userId"
     },
     {
-      "name": "新字段",
+      "name": "changeRemark",
       "text": "更改说明",
       "type": "多行文本框",
       "formFields": []
     },
     {
-      "name": "新字段",
+      "name": "changeNo",
       "text": "变更编号",
       "type": "单行文本框",
       "formFields": []
