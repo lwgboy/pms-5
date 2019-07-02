@@ -39,7 +39,7 @@ import org.openxmlformats.schemas.wordprocessingml.x2006.main.STMerge;
 
 import com.bizvisionsoft.service.tools.Formatter;
 
-public class Form2WordExporter {
+public class Form2DocxExporter {
 
 	public static final float DEFAULT_LOGO_HEIGHT = 8.5f;
 
@@ -61,7 +61,7 @@ public class Form2WordExporter {
 
 	private Map<String, String> docxProperties;
 
-	public Form2WordExporter(ExportableForm config, Function<String, Object> getFieldText, Map<String, String> docxProperties) {
+	public Form2DocxExporter(ExportableForm config, Function<String, Object> getFieldText, Map<String, String> docxProperties) {
 		this.config = config;
 		this.getFieldValue = getFieldText;
 		this.docxProperties = docxProperties;
