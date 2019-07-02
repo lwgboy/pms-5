@@ -65,7 +65,13 @@ public class EditProblem {
 	}
 
 	private void edit(IBruiContext context, Problem problem, boolean editable) {
-		Editor.create("问题编辑器（编辑）.editorassy", context, problem, false).setEditable(editable).ok((r, t) -> {
+		String editor = "问题编辑器（编辑）.editorassy";
+		if("esl_1DEBN8GE9".equals(br.getDomain())) {
+			editor = "/tops/eslscm/问题编辑器（编辑）.editorassy";
+		}else if("sunway".equals(br.getDomain())) {
+			editor = "/tops/sunway/问题编辑器（编辑）.editorassy";
+		}
+		Editor.create(editor, context, problem, false).setEditable(editable).ok((r, t) -> {
 			r.remove("_id");
 			BasicDBObject fu = new FilterAndUpdate().filter(new BasicDBObject("_id", problem.get_id())).set(r).bson();
 			long l = Services.get(ProblemService.class).updateProblems(fu, br.getDomain());
@@ -354,7 +360,13 @@ public class EditProblem {
 
 	private void create(IBruiContext context) {
 		Problem problem = br.newInstance(Problem.class).setCreationInfo(br.operationInfo());
-		Editor.create("问题编辑器（创建）.editorassy", context, problem, false).ok((r, t) -> {
+		String editor = "问题编辑器（创建）.editorassy";
+		if("esl_1DEBN8GE9".equals(br.getDomain())) {
+			editor = "/tops/eslscm/问题编辑器（创建）.editorassy";
+		}else if("sunway".equals(br.getDomain())) {
+			editor = "/tops/sunway/问题编辑器（创建）.editorassy";
+		}
+		Editor.create(editor, context, problem, false).ok((r, t) -> {
 			ProblemService service = Services.get(ProblemService.class);
 			t = service.insertProblem(t, br.getDomain());
 			if (t != null) {

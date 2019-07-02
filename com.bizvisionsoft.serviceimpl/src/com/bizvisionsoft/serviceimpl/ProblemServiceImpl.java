@@ -1683,4 +1683,26 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 		// TODO ÅúÁ¿±à¼­±à¼­
 	}
 
+	@Override
+	public long deleteD4Verify(ObjectId _id, String domain) {
+		Document delete = c("d4Verify", domain).findOneAndDelete(new BasicDBObject("_id", _id));
+		if (delete != null) {
+			deleteFileInField(delete, "verifyImg", domain);
+			return 1;
+		}
+		return 0;
+	}
+	
+	@Override
+	public Document insertD4Verify(Document t, String lang, String render, String domain) {
+		c("d4Verify", domain).insertOne(t);
+		if ("card".equals(render))
+			return new ProblemCardRenderer(lang, domain).renderD4Verify(t, lang);   /////
+		return t;
+	}
+	
+	@Override
+	public List<Document> listD4Verify(ObjectId problem_id, String domain) {
+		return c("d4Verify", domain).find(new Document("problem_id", problem_id)).sort(new Document("index", 1)).into(new ArrayList<>());
+	}
 }

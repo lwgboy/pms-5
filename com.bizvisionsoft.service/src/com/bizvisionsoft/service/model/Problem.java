@@ -453,4 +453,112 @@ public class Problem {
 	public boolean isSolving() {
 		return Problem.StatusSolving.equals(status);
 	}
+	
+	@ReadValue
+	@WriteValue
+	private boolean needReport;
+	
+
+	@ReadValue
+	@WriteValue
+	private List<RemoteFile> meetingattachs;
+	
+	@ReadValue
+	@WriteValue
+	private List<RemoteFile> reportattachs;
+	
+	/**
+	 * 客诉类型
+	 */
+	@ReadValue
+	@WriteValue
+	private String complaintType;
+	
+	/**
+	 * 出货单号
+	 */
+	@ReadValue
+	@WriteValue
+	private String shippingNumber;
+	
+	/**
+	 * 出货方式
+	 */
+	@ReadValue
+	@WriteValue
+	private String shippingMode;
+	
+	/**
+	 * 退货数量
+	 */
+	@ReadValue
+	@WriteValue
+	private String quantityReturned;
+	
+	/**
+	 * 不良率
+	 */
+	@ReadValue
+	@WriteValue
+	private String defectiveRate;
+
+	/**
+	 * 补退货类型
+	 */
+	@ReadValue
+	@WriteValue
+	private String typeOfrefund;
+
+	/**
+	 * 补货PO
+	 */
+	@ReadValue
+	@WriteValue
+	private String replenishmentPO;
+	
+	/**
+	 * 流程ID
+	 */
+	@ReadValue
+	@WriteValue
+	private String flowID;
+	
+	/**
+	 * 预留boolean字段1：
+	 * 信维：Shipment Inspection/Agents Release(出货前/第三方检查）
+	 */
+	@ReadValue
+	@WriteValue
+	private boolean boolean1;
+	
+	/**
+	 * 预留boolean字段2：
+	 * 信维：Reliability Test（可靠性测试）
+	 */
+	@ReadValue
+	@WriteValue
+	private boolean boolean2;
+	
+	/**
+	 * 预留date字段1：
+	 * 信维：实际回复时间
+	 */
+	@ReadValue
+	@WriteValue
+	private Date date1;
+	
+	/**
+	 * 客户ID（从organization表中获取的）
+	 */
+	private ObjectId customer_id;
+	
+	@WriteValue("customerId") // 编辑器用
+	public void setCustomer(Organization org) {
+		this.customer_id = Optional.ofNullable(org).map(o -> o.get_id()).orElse(null);
+	}
+
+	@ReadValue("customerId") // 编辑器用
+	public Organization getCustomer() {
+		return Optional.ofNullable(customer_id).map(_id -> ServicesLoader.get(OrganizationService.class).get(_id, domain)).orElse(null);
+	}
 }

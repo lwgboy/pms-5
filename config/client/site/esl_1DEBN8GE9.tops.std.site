@@ -220,7 +220,8 @@
           {
             "typeName": "组件链接",
             "id": "/系统管理首页面板.assy",
-            "defaultAssembly": true
+            "defaultAssembly": true,
+            "text": "系统管理首页面板"
           }
         ]
       },
@@ -270,7 +271,7 @@
               {
                 "id": "1683ba1f2d2",
                 "name": "问题初始记录",
-                "switchContentToAssemblyId": "/D0问题初始记录信息面板.infopadassy",
+                "switchContentToAssemblyId": "/tops/eslscm/D0问题初始记录信息面板.infopadassy",
                 "type": "switch"
               },
               {
@@ -486,7 +487,8 @@
         "assemblyLinks": [
           {
             "typeName": "组件链接",
-            "id": "/8D问题看板.assy"
+            "id": "/8D问题看板.assy",
+            "text": "8D问题看板"
           }
         ]
       },
@@ -652,7 +654,8 @@
         "assemblyLinks": [
           {
             "typeName": "组件链接",
-            "id": "/问题管理看板.assy"
+            "id": "/问题管理看板.assy",
+            "text": "问题管理看板"
           }
         ]
       },
@@ -720,7 +723,8 @@
         "assemblyLinks": [
           {
             "typeName": "组件链接",
-            "id": "/问题管理看板.assy"
+            "id": "/问题管理看板.assy",
+            "text": "问题管理看板"
           }
         ]
       },

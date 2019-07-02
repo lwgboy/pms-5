@@ -38,7 +38,7 @@ public class EditD2ProblemDesc {
 		});
 	}
 
-	@Behavior({ "编辑问题描述文本" })
+	@Behavior({ "编辑问题描述文本" ,ProblemService.ACTION_EDIT})
 	private boolean enableEdit(@MethodParam(Execute.ROOT_CONTEXT_INPUT_OBJECT) Problem problem,
 			@MethodParam(Execute.CONTEXT_SELECTION_1ST) Document element) {
 		return "解决中".equals(problem.getStatus());

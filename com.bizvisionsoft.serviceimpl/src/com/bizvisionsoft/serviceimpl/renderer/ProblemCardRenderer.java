@@ -346,6 +346,27 @@ public class ProblemCardRenderer extends BasicServiceImpl {
 
 		return new Document("_id", doc.get("_id")).append("html", sb.toString()).append("height", 240);
 	}
+	
+	public Document renderD4Verify(Document doc, String lang) {
+		StringBuffer sb = new StringBuffer();
+
+		sb.append(
+				"<div class='brui_zoomImage' style='padding-bottom:75%;cursor:pointer;height:1px;border-radius:4px 4px 0px 0px;background-image:url("
+						+ RenderTools.getFirstFileURL(doc, "problemImg", domain) + ")' " + "onclick='$.getJSON(\"bvs/imgf?c=d2ProblemPhoto&i="
+						+ doc.get("_id") + "&f=problemImg\", function(json){layer.photos({photos: json});});'" + "></div>");
+
+		RenderTools.appendText(sb, doc.getString("problemImgDesc"), RenderTools.STYLE_3LINE);
+
+		RenderTools.appendText(sb,
+				Formatter.getString(doc.getDate("receiveDate")) + "/" + doc.getString("receiver") + " " + doc.getString("location"),
+				RenderTools.STYLE_1LINE);
+
+		RenderTools.appendButton(sb, "layui-icon-close", 12, 12, "É¾³ýÍ¼Æ¬×ÊÁÏ", "deletephoto");
+
+		RenderTools.appendCardBg(sb);
+
+		return new Document("_id", doc.get("_id")).append("html", sb.toString()).append("height", 240);
+	}
 
 	public Document renderAction(Document doc,  boolean editable) {
 		String stage = doc.getString("stage");

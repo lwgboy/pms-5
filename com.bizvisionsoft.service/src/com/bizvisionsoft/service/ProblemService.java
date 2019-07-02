@@ -121,7 +121,7 @@ public interface ProblemService {
 	@Path("/{domain}/item/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet({ "问题清单（已创建）/" + DataSet.UPDATE, "问题清单（解决中）/" + DataSet.UPDATE })
+	@DataSet({ "问题清单（已创建）/" + DataSet.UPDATE, "问题清单（解决中）/" + DataSet.UPDATE , "D8会议纪要和最终报告/update" })
 	public long updateProblems(@MethodParam(MethodParam.FILTER_N_UPDATE) BasicDBObject fu,
 			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
@@ -214,6 +214,13 @@ public interface ProblemService {
 			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@DELETE
+	@Path("/d4/item/_id/{_id}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public long deleteD4Verify(@PathParam("_id") ObjectId _id, 
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+	
+	@DELETE
 	@Path("/{domain}/d5/pca/_id/{_id}/{lang}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
@@ -239,7 +246,7 @@ public interface ProblemService {
 	@Path("/{domain}/_id/{_id}/{lang}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet("D0问题初始记录信息面板/list")
+	@DataSet({"D0问题初始记录信息面板/list", "D8会议纪要和最终报告/list"})
 	public Problem info(@PathParam("_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId _id,
 			@PathParam("lang") @MethodParam(MethodParam.LANG) String lang,
 			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
@@ -274,6 +281,15 @@ public interface ProblemService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public Document getD4RootCauseDesc(@PathParam("_id") ObjectId _id,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+
+	@POST
+	@Path("/_id/{_id}/d4/verify/ds/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("D4原因分析验证记录表格/list")
+	public List<Document> listD4Verify(
+			@PathParam("_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId problem_id,
 			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@GET
@@ -370,6 +386,14 @@ public interface ProblemService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public void insertD4RootCauseDesc(Document t, @PathParam("lang") String language,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+
+	@POST
+	@Path("/d4/verify/{render}/{lang}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public Document insertD4Verify(Document t, @PathParam("lang") String lang,
+			@PathParam("render") String render,
 			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
