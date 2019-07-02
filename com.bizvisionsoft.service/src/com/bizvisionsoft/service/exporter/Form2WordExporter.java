@@ -447,7 +447,7 @@ public class Form2WordExporter {
 				result.add(w);
 				width = width - WordUtil.mm2halfPt(w.getWidthInMM());
 			}
-			result.add(new TableCellWriter(f, (List<?>) value, (int) width));
+			result.add(new TableCellWriter(f, (TableCellValue) value, (int) width));
 
 		} else if (ExportableFormField.TYPE_TEXT.equals(type)) {
 			if (!hideLabel)
