@@ -545,7 +545,8 @@
           "formFields": [],
           "selectorAssemblyId": "/tmt/零部件信息.gridassy",
           "hideLabel": true,
-          "enableCreateItem": true
+          "enableCreateItem": true,
+          "stdReportLabelHide": true
         },
         {
           "name": "采购规范选用",

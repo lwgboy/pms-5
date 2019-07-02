@@ -9,7 +9,6 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.function.Function;
@@ -59,12 +58,9 @@ public class Form2DocxExporter {
 
 	private Function<String, Object> getFieldValue;
 
-	private Map<String, String> docxProperties;
-
-	public Form2DocxExporter(ExportableForm config, Function<String, Object> getFieldText, Map<String, String> docxProperties) {
+	public Form2DocxExporter(ExportableForm config, Function<String, Object> getFieldText) {
 		this.config = config;
 		this.getFieldValue = getFieldText;
-		this.docxProperties = docxProperties;
 	}
 
 	public String export() throws Exception {
@@ -117,11 +113,11 @@ public class Form2DocxExporter {
 		// …Ë÷√Œƒµµ Ù–‘
 		CoreProperties prop = docx.getProperties().getCoreProperties();
 
-		if (docxProperties != null) {
-			String text = docxProperties.get("creator");
+		if (config.properties != null) {
+			String text = config.properties.get("creator");
 			if (text != null)
 				prop.setCreator(text);
-			text = docxProperties.get("created");
+			text = config.properties.get("created");
 			if (text != null)
 				prop.setCreated(text);
 		}
@@ -439,8 +435,8 @@ public class Form2DocxExporter {
 			float width = pageSize[0] - pageMargin[1] - pageMargin[3];
 			width = WordUtil.mm2halfPt(width);
 
-			int[] internalMargin = getTableInternalMargin();
-			width = width - internalMargin[1] - internalMargin[3];
+//			int[] internalMargin = getTableInternalMargin();
+//			width = width - internalMargin[1] - internalMargin[3];
 
 			if (!hideLabel) {
 				LabelCellWriter w = new LabelCellWriter(f);
