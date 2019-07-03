@@ -63,7 +63,7 @@
         {
           "id": "167eacd24d3",
           "name": "partVer",
-          "text": "成品料号",
+          "text": "周期",
           "type": "单行文本框",
           "formFields": []
         },
