@@ -31,5 +31,6 @@
     }
   ],
   "actions": [],
+  "nullValueAllowedFields": "meetingattachs#reportattachs",
   "addToParentContext": true
 }

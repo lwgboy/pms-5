@@ -83,14 +83,25 @@ public class EditProblem {
 	}
 
 	private void edits(IBruiContext context, Problem problem) {
-
-		Editor.create("tops/问题编辑器（整体创建）.editorassy", context, new Document(), false).ok((r, t) -> {
+		String editor = "tops/问题编辑器（整体创建）.editorassy";
+		if("esl_1DEBN8GE9".equals(br.getDomain())) {
+			editor = "/tops/eslscm/问题编辑器（整体创建）.editorassy";
+		}else if("leo_1DEQR41EQ".equals(br.getDomain())) {
+			editor = "/tops/leoco/问题编辑器（整体创建）.editorassy";
+		}
+		Editor.create(editor, context, new Document(), false).ok((r, t) -> {
 			saveDocument(t, problem.get_id());
 		});
 	}
 
 	private void creates(IBruiContext context) {
-		Editor.create("tops/问题编辑器（整体创建）.editorassy", context, new Document(), false).ok((r, t) -> {
+		String editor = "tops/问题编辑器（整体创建）.editorassy";
+		if("esl_1DEBN8GE9".equals(br.getDomain())) {
+			editor = "/tops/eslscm/问题编辑器（整体创建）.editorassy";
+		}else if("leo_1DEQR41EQ".equals(br.getDomain())) {
+			editor = "/tops/leoco/问题编辑器（整体创建）.editorassy";
+		}
+		Editor.create(editor, context, new Document(), false).ok((r, t) -> {
 			saveDocument(t, null);
 		});
 	}

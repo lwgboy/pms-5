@@ -466,6 +466,13 @@
                 "type": "switch"
               },
               {
+                "name": "会议纪要和最终报告 ",
+                "text": "会议纪要和最终报告 ",
+                "switchContentToAssemblyId": "/tops/leoco/D8会议纪要和最终报告.infopadassy",
+                "style": "",
+                "type": "switch"
+              },
+              {
                 "id": "1681e534dae",
                 "name": "问题关闭",
                 "bundleId": "com.bizvisionsoft.pms",
