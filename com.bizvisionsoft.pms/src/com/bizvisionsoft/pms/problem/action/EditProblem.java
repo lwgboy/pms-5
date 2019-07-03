@@ -68,8 +68,8 @@ public class EditProblem {
 		String editor = "问题编辑器（编辑）.editorassy";
 		if("esl_1DEBN8GE9".equals(br.getDomain())) {
 			editor = "/tops/eslscm/问题编辑器（编辑）.editorassy";
-		}else if("sunway".equals(br.getDomain())) {
-			editor = "/tops/sunway/问题编辑器（编辑）.editorassy";
+		}else if("leo_1DEQR41EQ".equals(br.getDomain())) {
+			editor = "/tops/leoco/问题编辑器（编辑）.editorassy";
 		}
 		Editor.create(editor, context, problem, false).setEditable(editable).ok((r, t) -> {
 			r.remove("_id");
@@ -363,8 +363,8 @@ public class EditProblem {
 		String editor = "问题编辑器（创建）.editorassy";
 		if("esl_1DEBN8GE9".equals(br.getDomain())) {
 			editor = "/tops/eslscm/问题编辑器（创建）.editorassy";
-		}else if("sunway".equals(br.getDomain())) {
-			editor = "/tops/sunway/问题编辑器（创建）.editorassy";
+		}else if("leo_1DEQR41EQ".equals(br.getDomain())) {
+			editor = "/tops/leoco/问题编辑器（创建）.editorassy";
 		}
 		Editor.create(editor, context, problem, false).ok((r, t) -> {
 			ProblemService service = Services.get(ProblemService.class);

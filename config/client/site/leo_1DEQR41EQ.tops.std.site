@@ -268,7 +268,7 @@
               {
                 "id": "1683ba1f2d2",
                 "name": "问题初始记录",
-                "switchContentToAssemblyId": "/D0问题初始记录信息面板.infopadassy",
+                "switchContentToAssemblyId": "/tops/leoco/D0问题初始记录信息面板.infopadassy",
                 "type": "switch"
               },
               {
