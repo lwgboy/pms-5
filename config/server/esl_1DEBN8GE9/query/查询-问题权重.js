@@ -28,10 +28,14 @@
 		"path" : "$cost"
 	}
 }, {
+	$unwind: {
+	    "path":"$classifyProblems"
+	}
+}, {
 	"$group" : {
 		"_id" : {
-			"_id" : "$classifyProblem._id",
-			"path" : "$classifyProblem.path"
+			"_id" : "$classifyProblems._id",
+			"path" : "$classifyProblems.path"
 		},
 		"value" : {
 			"$sum" : "$cost.value"
@@ -55,12 +59,16 @@
 		"path" : "$items"
 	}
 }, {
-	"$project" : {
-		"_id" : "$items._id._id",
-		"name" : "$items._id.path",
-		"value" : {
-			"$divide" : [ "$items.value", "$value" ]
-		}
+	$project: {
+	    "_id" : "$items._id._id",
+	    "name" : "$items._id.path",
+	    "value" : {
+	        "$cond":[
+		            {"$eq":["$value",0]},
+		            0,
+	        		{"$divide" : [ "$items.value", "$value" ]}
+	        		]
+	    }
 	}
 }, {
 	"$sort" : {
