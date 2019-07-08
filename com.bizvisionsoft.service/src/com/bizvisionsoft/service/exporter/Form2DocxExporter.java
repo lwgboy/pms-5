@@ -834,10 +834,10 @@ public class Form2DocxExporter {
 
 	private void writeParagraph(XWPFParagraph para) {
 		List<XWPFRun> runs = para.getRuns();
-		String xWPFParagraphText = para.getText();
+		String pText = para.getText();
 		String regEx = "\\{.+?\\}";
 		Pattern pattern = Pattern.compile(regEx);
-		Matcher matcher = pattern.matcher(xWPFParagraphText);// 正则匹配字符串{****}
+		Matcher matcher = pattern.matcher(pText);// 正则匹配字符串{****}
 
 		if (matcher.find()) {
 			// 查找到有标签才执行替换
@@ -878,7 +878,6 @@ public class Form2DocxExporter {
 
 			} else {
 				// {**}被分成多个run
-
 				// 先处理起始run标签,取得第一个{key}值
 				XWPFRun beginRun = runs.get(beginRunIndex);
 				String beginRunText = beginRun.text();

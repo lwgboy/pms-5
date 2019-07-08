@@ -782,5 +782,5 @@
   "stdReportTableLeftBorderSize": 1,
   "stdReportTableInsideHBorderSize": 1,
   "stdReportTableInsideVBorderSize": 1,
-  "stdPageTemplate": "/rpt/demotemplate.docx"
+  "stdPageTemplate": ""
 }
