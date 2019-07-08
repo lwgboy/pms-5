@@ -1,0 +1,51 @@
+{
+  "id": "/D8会议纪要和最终报告.infopadassy",
+  "name": "D8会议纪要和最终报告",
+  "title": "会议纪要和最终报告",
+  "layout": [],
+  "type": "infopad",
+  "stickerTitle": "会议纪要和最终报告",
+  "folderId": "168987781d7",
+  "gridDataSetService": "com.bizvisionsoft.service.ProblemService",
+  "fields": [
+    {
+      "id": "16a103e171b",
+      "name": "新字段4",
+      "type": "行",
+      "formFields": [
+        {
+          "id": "16a103e19be",
+          "name": "meetingattachs",
+          "text": "会议纪要",
+          "type": "多个文件选择框",
+          "formFields": [],
+          "fileNamespace": "prmAtt"
+        },
+        {
+          "id": "16a103e247d",
+          "name": "reportattachs",
+          "text": "最终报告",
+          "type": "多个文件选择框",
+          "formFields": [],
+          "fileNamespace": "prmAtt"
+        }
+      ]
+    }
+  ],
+  "actions": [
+    {
+      "id": "16a104a67e7",
+      "name": "edit",
+      "image": "/img/edit_w.svg",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.problem.action.EditD8MeetingReport",
+      "style": "normal",
+      "editorAssemblyId": "/D8-会议纪要和最终报告.editorassy",
+      "editorAssemblyEditable": true,
+      "actionBehavier": true,
+      "type": "customized"
+    }
+  ],
+  "hasTitlebar": true,
+  "displayInputLabelInTitlebar": true
+}

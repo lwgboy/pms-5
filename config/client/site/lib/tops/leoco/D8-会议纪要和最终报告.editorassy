@@ -1,0 +1,36 @@
+{
+  "id": "/D8-会议纪要和最终报告.editorassy",
+  "name": "D8-会议纪要和最终报告",
+  "title": "会议纪要和最终报告",
+  "layout": [],
+  "type": "editor",
+  "folderId": "1689872b96f",
+  "fields": [
+    {
+      "id": "16a10330a0b",
+      "name": "新字段3",
+      "type": "行",
+      "formFields": [
+        {
+          "id": "16a1032006c",
+          "name": "meetingattachs",
+          "text": "会议纪要",
+          "type": "多个文件选择框",
+          "formFields": [],
+          "fileNamespace": "prmAtt"
+        },
+        {
+          "id": "16a10323114",
+          "name": "reportattachs",
+          "text": "最终报告",
+          "type": "多个文件选择框",
+          "formFields": [],
+          "fileNamespace": "prmAtt"
+        }
+      ]
+    }
+  ],
+  "actions": [],
+  "nullValueAllowedFields": "meetingattachs#reportattachs",
+  "addToParentContext": true
+}

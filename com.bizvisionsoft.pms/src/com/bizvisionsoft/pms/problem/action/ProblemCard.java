@@ -40,7 +40,13 @@ public class ProblemCard {
 				}
 			}
 		} else if ("create".equals(e.text)) {
-			Editor.create("问题编辑器（创建）.editorassy", context, br.newInstance(Problem.class).setCreationInfo(br.operationInfo()), true).ok((d,t)->{
+			String editor = "问题编辑器（创建）.editorassy";
+			if("esl_1DEBN8GE9".equals(br.getDomain())) {
+				editor = "/tops/eslscm/问题编辑器（创建）.editorassy";
+			}else if("leo_1DEQR41EQ".equals(br.getDomain())) {
+				editor = "/tops/leoco/问题编辑器（创建）.editorassy";
+			}
+			Editor.create(editor, context, br.newInstance(Problem.class).setCreationInfo(br.operationInfo()), true).ok((d,t)->{
 				Services.get(ProblemService.class).insertProblem(t, br.getDomain());
 				((IQueryEnable)context.getContent()).doRefresh();
 			});

@@ -1,4 +1,5 @@
 {
+  "typeName": "站点",
   "id": "1618092b217",
   "name": "TOPS",
   "version": "2.0",
@@ -19,6 +20,7 @@
   },
   "pages": [
     {
+      "typeName": "页面",
       "id": "164067d4250",
       "name": "系统管理",
       "title": "系统管理",
@@ -211,10 +213,13 @@
         ]
       },
       "contentArea": {
+        "typeName": "内容区",
         "assemblyLinks": [
           {
+            "typeName": "组件链接",
             "id": "/系统管理首页面板.assy",
-            "defaultAssembly": true
+            "defaultAssembly": true,
+            "text": "系统管理首页面板"
           }
         ]
       },
@@ -222,6 +227,7 @@
       "role": "系统管理员"
     },
     {
+      "typeName": "页面",
       "id": "167f7e0a80e",
       "name": "问题解决-TOPS过程",
       "title": "TOPS",
@@ -473,15 +479,19 @@
         ]
       },
       "contentArea": {
+        "typeName": "内容区",
         "assemblyLinks": [
           {
-            "id": "/8D问题看板.assy"
+            "typeName": "组件链接",
+            "id": "/8D问题看板.assy",
+            "text": "8D问题看板"
           }
         ]
       },
       "inputDataSetService": "com.bizvisionsoft.service.ProblemService"
     },
     {
+      "typeName": "页面",
       "id": "167fcdbe622",
       "name": "问题管理",
       "title": "问题管理",
@@ -634,8 +644,10 @@
         ]
       },
       "contentArea": {
+        "typeName": "内容区",
         "assemblyLinks": [
           {
+            "typeName": "组件链接",
             "id": "/问题管理看板.assy",
             "text": "问题管理看板"
           }
@@ -645,6 +657,7 @@
       "excludeRole": "外部用户"
     },
     {
+      "typeName": "页面",
       "id": "168954a3362",
       "name": "问题管理客户入口",
       "title": "问题管理",
@@ -698,9 +711,12 @@
         ]
       },
       "contentArea": {
+        "typeName": "内容区",
         "assemblyLinks": [
           {
-            "id": "/问题管理看板.assy"
+            "typeName": "组件链接",
+            "id": "/问题管理看板.assy",
+            "text": "问题管理看板"
           }
         ]
       },
