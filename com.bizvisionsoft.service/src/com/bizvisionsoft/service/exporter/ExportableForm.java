@@ -1,6 +1,7 @@
 package com.bizvisionsoft.service.exporter;
 
 import java.util.List;
+import java.util.Map;
 
 public class ExportableForm {
 
@@ -63,5 +64,12 @@ public class ExportableForm {
 	public Integer stdReportTableTopBorderSize;
 
 	public String stdReportTableTopBorderType;
+	
+	public String templateFilePath;
+	
+	public String stdPageTemplate;
+
+	public Map<String,String> properties;
+
 
 }

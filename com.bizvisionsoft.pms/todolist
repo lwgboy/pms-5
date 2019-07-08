@@ -251,6 +251,8 @@ import com.bizvisionsoft.annotations.md.mongocodex.IAutoGenerator;
 引用的时候
 
 
+1. 为assembly增加字段：报表模板，用于参数化套用。页眉页脚模板
+
 
 1. 项目状态Update
 1.1. tmt升级合同

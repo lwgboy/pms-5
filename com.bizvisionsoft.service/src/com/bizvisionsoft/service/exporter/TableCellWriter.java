@@ -9,6 +9,7 @@ import org.apache.poi.xwpf.usermodel.TableRowAlign;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
 import org.apache.poi.xwpf.usermodel.XWPFRun;
 import org.apache.poi.xwpf.usermodel.XWPFTable;
+import org.apache.poi.xwpf.usermodel.XWPFTable.XWPFBorderType;
 import org.apache.poi.xwpf.usermodel.XWPFTableCell;
 import org.apache.poi.xwpf.usermodel.XWPFTableCell.XWPFVertAlign;
 import org.apache.poi.xwpf.usermodel.XWPFTableRow;
@@ -32,6 +33,7 @@ public class TableCellWriter extends CellWriter {
 	@Override
 	public void write(XWPFTableCell cell) {
 		super.write(cell);
+		WordUtil.setCellMargin(cell, new int[] { 0, 0, 0, 0 });
 		if (value == null)
 			return;
 		XWPFParagraph p = cell.getParagraphArray(0);
@@ -40,6 +42,8 @@ public class TableCellWriter extends CellWriter {
 		table.setWidth(width);
 		table.setTableAlignment(TableRowAlign.CENTER);
 		table.setCellMargins(40, 40, 40, 40);// 设定内边距
+		table.setInsideHBorder(XWPFBorderType.SINGLE, 1, 0, "000000");
+		table.setInsideVBorder(XWPFBorderType.SINGLE, 1, 0, "000000");
 
 		int total = 0;
 		for (int i = 0; i < value.columnWidths.size(); i++) {
@@ -47,15 +51,13 @@ public class TableCellWriter extends CellWriter {
 		}
 		String[] colWidth = new String[value.columnWidths.size()];
 		for (int i = 0; i < colWidth.length; i++) {
-			int ratio =(int)( (1f * width*value.columnWidths.get(i)) / total);
-			colWidth[i] = ""+ratio;
+			int ratio = (int) ((1f * width * value.columnWidths.get(i)) / total);
+			colWidth[i] = "" + ratio;
 		}
 
 		if (Check.isAssigned(value.headers)) {
 			createRow(table, value.headers, colWidth, r -> {
-				r.setFontFamily("宋体");
-				r.setFontSize(9);
-				r.setBold(true);
+				r.setFontFamily("黑体");
 			});
 		}
 		if (Check.isAssigned(value.rows)) {
@@ -67,7 +69,6 @@ public class TableCellWriter extends CellWriter {
 		for (int i = 0; i < rows.size(); i++) {
 			createRow(table, rows.get(i), colWidth, r -> {
 				r.setFontFamily("宋体");
-				r.setFontSize(9);
 			});
 		}
 	}
@@ -90,6 +91,8 @@ public class TableCellWriter extends CellWriter {
 
 			XWPFRun pRun = c.getParagraphArray(0).createRun();
 			pRun.setText(cellData);// 处理超文本
+			pRun.setFontSize(9);
+			formatter.accept(pRun);
 		}
 	}
 

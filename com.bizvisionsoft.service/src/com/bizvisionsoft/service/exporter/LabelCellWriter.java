@@ -25,11 +25,6 @@ public class LabelCellWriter extends CellWriter {
 	}
 
 	@Override
-	protected boolean getDefaultBold() {
-		return false;
-	}
-
-	@Override
 	protected Enum getHorizontalAlign() {
 		return STJc.CENTER;
 	}

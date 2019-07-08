@@ -3,16 +3,20 @@ package com.bizvisionsoft.service.exporter;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.function.Function;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -24,6 +28,7 @@ import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.poifs.crypt.HashAlgorithm;
 import org.apache.poi.util.Units;
 import org.apache.poi.wp.usermodel.HeaderFooterType;
+import org.apache.poi.xwpf.usermodel.PositionInParagraph;
 import org.apache.poi.xwpf.usermodel.TableRowAlign;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFFooter;
@@ -34,6 +39,10 @@ import org.apache.poi.xwpf.usermodel.XWPFTable;
 import org.apache.poi.xwpf.usermodel.XWPFTable.XWPFBorderType;
 import org.apache.poi.xwpf.usermodel.XWPFTableCell;
 import org.apache.poi.xwpf.usermodel.XWPFTableRow;
+import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTBody;
+import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTPageMar;
+import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTPageSz;
+import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTSectPr;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.STJc;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.STMerge;
 
@@ -59,16 +68,37 @@ public class Form2DocxExporter {
 
 	private Function<String, Object> getFieldValue;
 
-	private Map<String, String> docxProperties;
+	private int[] pageSize;
 
-	public Form2DocxExporter(ExportableForm config, Function<String, Object> getFieldText, Map<String, String> docxProperties) {
+	private int[] pageMargin;
+
+	private Integer hMar;
+
+	private Integer fMar;
+
+	private XWPFDocument docx;
+
+	private int contentWidthInHalfPT;
+
+	private int contentWidth;
+
+	public Form2DocxExporter(ExportableForm config, Function<String, Object> getFieldText) {
 		this.config = config;
 		this.getFieldValue = getFieldText;
-		this.docxProperties = docxProperties;
 	}
 
 	public String export() throws Exception {
-		return exportWithNoneTemplate();
+		// 判断配置中有没有模板
+		if (config.templateFilePath == null) {
+			return exportWithNoneTemplate();
+		} else {
+			return exportWithTemplate(config.templateFilePath);
+		}
+	}
+
+	private String exportWithTemplate(String templateFilePath) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	private String exportWithNoneTemplate() throws Exception {
@@ -77,13 +107,57 @@ public class Form2DocxExporter {
 
 		FileOutputStream out = null;
 		try {
-			XWPFDocument docx = new XWPFDocument();
+			if (byPageTemplate()) {
+				InputStream is = new FileInputStream(config.stdPageTemplate);
+				docx = new XWPFDocument(is);
+
+				CTBody body = docx.getDocument().getBody();
+				CTSectPr sPr = body.getSectPr();
+				if (sPr != null) {
+					CTPageSz pgSz = sPr.getPgSz();
+					if (pgSz != null) {
+						Integer width = getIntValue(pgSz.getW());
+						Integer height = getIntValue(pgSz.getH());
+						if (width != null && height != null) {
+							pageSize = new int[] { width, height };
+						}
+					}
+					CTPageMar pgMar = sPr.getPgMar();
+					if (pgMar != null) {
+						Integer top = getIntValue(pgMar.getTop());
+						Integer right = getIntValue(pgMar.getRight());
+						Integer bottom = getIntValue(pgMar.getBottom());
+						Integer left = getIntValue(pgMar.getLeft());
+						Integer header = getIntValue(pgMar.getHeader());
+						Integer footer = getIntValue(pgMar.getFooter());
+
+						if (top != null && right != null && bottom != null && left != null && header != null && footer != null) {
+							pageMargin = new int[] { top, right, bottom, left };
+							hMar = header.intValue();
+							fMar = footer.intValue();
+						}
+					}
+				}
+			} else {
+				docx = new XWPFDocument();
+				pageSize = getPageSizeFromConfig();
+				pageMargin = getPageMarginFromConfig();
+				////////////////////////////////////////////////////////////////////////
+				// 页面尺寸，纸张方向等标准属性
+				// 设置页眉距离页面顶端
+				hMar = getHeaderMarginFromConfig();
+				// 设置页脚距离页面底端
+				fMar = getFooterMarginFromConfig();
+			}
+			contentWidth = pageSize[0] - pageMargin[1] - pageMargin[3];
+			contentWidthInHalfPT = (int) WordUtil.mm2halfPt(contentWidth);
+
 			// 预处理
-			preTreatment(docx);
+			preTreatment();
 
-			writePage(docx, config.fields);
+			writePage();
 
-			postTreatment(docx);
+			postTreatment();
 
 			out = new FileOutputStream(config.fileName);
 
@@ -103,6 +177,16 @@ public class Form2DocxExporter {
 		}
 	}
 
+	private Integer getIntValue(BigInteger w) {
+		if (w == null)
+			return null;
+		return BigDecimal.valueOf(WordUtil.halfPt2mm(w.floatValue())).intValue();
+	}
+
+	private boolean byPageTemplate() {
+		return config.stdPageTemplate != null;
+	}
+
 	private boolean isReadonly() {
 		return Boolean.FALSE.equals(config.stdReportEditable);
 	}
@@ -112,22 +196,22 @@ public class Form2DocxExporter {
 	 * 
 	 * @param docx
 	 */
-	private void postTreatment(XWPFDocument docx) {
+	private void postTreatment() {
 		////////////////////////////////////////////////////////////////////////
 		// 设置文档属性
 		CoreProperties prop = docx.getProperties().getCoreProperties();
 
-		if (docxProperties != null) {
-			String text = docxProperties.get("creator");
+		if (config.properties != null) {
+			String text = config.properties.get("creator");
 			if (text != null)
 				prop.setCreator(text);
-			text = docxProperties.get("created");
+			text = config.properties.get("created");
 			if (text != null)
 				prop.setCreated(text);
 		}
 	}
 
-	private int[] getPageSize() {
+	private int[] getPageSizeFromConfig() {
 		// 取自定义的纸张设置
 		if (config.stdReportPageSize != null) {
 			try {
@@ -149,7 +233,7 @@ public class Form2DocxExporter {
 	 * 
 	 * @return 上右下左
 	 */
-	private int[] getPageMargin() {
+	private int[] getPageMarginFromConfig() {
 		try {
 			Integer[] result = Stream.of(config.stdReportPageMargin.split(" ")).map(Integer::parseInt).collect(Collectors.toList())
 					.toArray(new Integer[0]);
@@ -159,52 +243,53 @@ public class Form2DocxExporter {
 		return new int[] { 20, 15, 15, 20 };
 	}
 
-	private void writePage(XWPFDocument docx, List<ExportableFormField> fields) {
+	private void writePage() {
+
 		boolean noPage = true;
-		for (int i = 0; i < fields.size(); i++) {
-			ExportableFormField field = fields.get(i);
+		for (int i = 0; i < config.fields.size(); i++) {
+			ExportableFormField field = config.fields.get(i);
 			if (ExportableFormField.TYPE_PAGE.equals(field.type)) {// 添加页面
-				writePageTitle(docx, field);
-				writeTable(docx, field.formFields);
-				if (i != fields.size() - 1)
-					writePageBreaker(docx);
+				writePageTitle(field);
+				writeTable(field.formFields);
+				if (i != config.fields.size() - 1)
+					writePageBreaker();
 				noPage = false;
 			} else if (ExportableFormField.TYPE_PAGE_NOTE.equals(field.type)) {// 文本页面
-				writePageTitle(docx, field);
-				writeTable(docx, Arrays.asList(field));
-				if (i != fields.size() - 1)
-					writePageBreaker(docx);
+				writePageTitle(field);
+				writeTable(Arrays.asList(field));
+				if (i != config.fields.size() - 1)
+					writePageBreaker();
 				noPage = false;
 			} else if (ExportableFormField.TYPE_PAGE_HTML.equals(field.type)) {
-				writePageTitle(docx, field);
-				writeTable(docx, Arrays.asList(field));
-				if (i != fields.size() - 1)
-					writePageBreaker(docx);
+				writePageTitle(field);
+				writeTable(Arrays.asList(field));
+				if (i != config.fields.size() - 1)
+					writePageBreaker();
 				noPage = false;
 			}
 		}
 		if (noPage)
-			writeTable(docx, fields);
+			writeTable(config.fields);
 	}
 
-	private void writePageBreaker(XWPFDocument docx) {
+	private void writePageBreaker() {
 		if (Boolean.TRUE.equals(config.stdReportBreakByTabPage)) {
 			docx.createParagraph().setPageBreak(true);
 		}
 	}
 
-	private void writePageTitle(XWPFDocument docx, ExportableFormField field) {
+	private void writePageTitle(ExportableFormField field) {
 		if (Boolean.TRUE.equals(config.stdReportExportTabPageTitle)) {
 			String title = field.text;
-			writeStyleParagraphText(docx, title, "标题 1");
+			writeStyleParagraphText(title, "标题 1");
 		}
 	}
 
-	private void writeTable(XWPFDocument docx, List<ExportableFormField> formFields) {
+	private void writeTable(List<ExportableFormField> formFields) {
 		if (formFields == null)
 			return;
 		int cols = caculatePageTableColumns(formFields);
-		XWPFTable table = createTable(docx, cols);
+		XWPFTable table = createTable(cols);
 
 		for (int i = 0; i < formFields.size(); i++) {
 			ArrayList<CellWriter> cells = createFormattableCells(formFields.get(i), new ArrayList<>());
@@ -246,16 +331,13 @@ public class Form2DocxExporter {
 
 	}
 
-	private XWPFTable createTable(XWPFDocument docx, int cols) {
+	private XWPFTable createTable(int cols) {
 		XWPFTable tbl = docx.createTable(1, cols);
 		// 设定对齐方式
 		tbl.setTableAlignment(TableRowAlign.CENTER);
 
 		// 计算表格尺寸
-		int[] pageSize = getPageSize();
-		int[] pageMargin = getPageMargin();
-		int bodyWidth = pageSize[0] - pageMargin[3] - pageMargin[1];
-		tbl.setWidth((int) WordUtil.mm2halfPt(bodyWidth));
+		tbl.setWidth(contentWidthInHalfPT);
 
 		// 设定内边距
 		int[] internalMargin = getTableInternalMargin();
@@ -266,42 +348,42 @@ public class Form2DocxExporter {
 		int size;
 		String color;
 		XWPFBorderType borderType = Optional.ofNullable(config.stdReportTableTopBorderType).map(XWPFBorderType::valueOf).orElse(null);
-		if (borderType != null) {
+		if (borderType != null && !XWPFBorderType.NIL.equals(borderType)) {
 			size = Optional.ofNullable(config.stdReportTableTopBorderSize).orElse(1);
 			color = config.stdReportTableTopBorderColor;
 			tbl.setTopBorder(borderType, size, 0, color);// int space;//如果是段落边框，才考虑这个设置
 		}
 
 		borderType = Optional.ofNullable(config.stdReportTableRightBorderType).map(XWPFBorderType::valueOf).orElse(null);
-		if (borderType != null) {
+		if (borderType != null && !XWPFBorderType.NIL.equals(borderType)) {
 			size = Optional.ofNullable(config.stdReportTableRightBorderSize).orElse(1);
 			color = config.stdReportTableRightBorderColor;
 			tbl.setRightBorder(borderType, size, 0, color);
 		}
 
 		borderType = Optional.ofNullable(config.stdReportTableBottomBorderType).map(XWPFBorderType::valueOf).orElse(null);
-		if (borderType != null) {
+		if (borderType != null && !XWPFBorderType.NIL.equals(borderType)) {
 			size = Optional.ofNullable(config.stdReportTableBottomBorderSize).orElse(1);
 			color = config.stdReportTableBottomBorderColor;
 			tbl.setBottomBorder(borderType, size, 0, color);
 		}
 
 		borderType = Optional.ofNullable(config.stdReportTableLeftBorderType).map(XWPFBorderType::valueOf).orElse(null);
-		if (borderType != null) {
+		if (borderType != null && !XWPFBorderType.NIL.equals(borderType)) {
 			size = Optional.ofNullable(config.stdReportTableLeftBorderSize).orElse(1);
 			color = config.stdReportTableLeftBorderColor;
 			tbl.setLeftBorder(borderType, size, 0, color);
 		}
 
 		borderType = Optional.ofNullable(config.stdReportTableInsideHBorderType).map(XWPFBorderType::valueOf).orElse(null);
-		if (borderType != null) {
+		if (borderType != null && !XWPFBorderType.NIL.equals(borderType)) {
 			size = Optional.ofNullable(config.stdReportTableInsideHBorderSize).orElse(1);
 			color = config.stdReportTableInsideHBorderColor;
 			tbl.setInsideHBorder(borderType, size, 0, color);
 		}
 
 		borderType = Optional.ofNullable(config.stdReportTableInsideVBorderType).map(XWPFBorderType::valueOf).orElse(null);
-		if (borderType != null) {
+		if (borderType != null && !XWPFBorderType.NIL.equals(borderType)) {
 			size = Optional.ofNullable(config.stdReportTableInsideVBorderSize).orElse(1);
 			color = config.stdReportTableInsideVBorderColor;
 			tbl.setInsideVBorder(borderType, size, 0, color);
@@ -313,7 +395,7 @@ public class Form2DocxExporter {
 	private int[] getTableInternalMargin() {
 		String pageMargin = config.stdReportTableInternalMargin;
 		try {
-			Integer[] result = Stream.of(pageMargin.split(" ")).map(s -> (int) WordUtil.mm2halfPt(Integer.parseInt(s)))
+			Integer[] result = Stream.of(pageMargin.split(" ")).map(s -> WordUtil.mm2halfPt(Integer.parseInt(s)))
 					.collect(Collectors.toList()).toArray(new Integer[0]);
 			return new int[] { result[0], result[1], result[2], result[3] };
 		} catch (Exception e) {
@@ -322,14 +404,14 @@ public class Form2DocxExporter {
 		return new int[] { 40, 40, 40, 40 };
 	}
 
-	private int getFooterMargin() {
+	private int getFooterMarginFromConfig() {
 		Integer value = config.stdReportFootMargin;
 		if (value != null)
 			return value.intValue();
 		return 8;
 	}
 
-	private int getHeaderMargin() {
+	private int getHeaderMarginFromConfig() {
 		Integer value = config.stdReportHeaderMargin;
 		if (value != null)
 			return value.intValue();
@@ -373,9 +455,7 @@ public class Form2DocxExporter {
 			result.add(new FileCellWriter(f, (String) value));
 
 		} else if (ExportableFormField.TYPE_IMAGE_FILE.equals(type)) {
-			int[] pageSize = getPageSize();
-			int[] pageMargin = getPageMargin();
-			int width = pageSize[0] - pageMargin[3] - pageMargin[1];
+			int width = contentWidth;
 			if (!hideLabel) {
 				LabelCellWriter w = new LabelCellWriter(f);
 				result.add(w);
@@ -434,13 +514,11 @@ public class Form2DocxExporter {
 			result.add(new TextCellWriter(f, (String) value));
 
 		} else if (ExportableFormField.TYPE_TABLE.equals(type)) {
-			int[] pageSize = getPageSize();
-			int[] pageMargin = getPageMargin();
 			float width = pageSize[0] - pageMargin[1] - pageMargin[3];
 			width = WordUtil.mm2halfPt(width);
 
-			int[] internalMargin = getTableInternalMargin();
-			width = width - internalMargin[1] - internalMargin[3];
+			// int[] internalMargin = getTableInternalMargin();
+			// width = width - internalMargin[1] - internalMargin[3];
 
 			if (!hideLabel) {
 				LabelCellWriter w = new LabelCellWriter(f);
@@ -613,7 +691,7 @@ public class Form2DocxExporter {
 	// }
 	// }
 
-	private void writeStyleParagraphText(XWPFDocument docx, String text, String style) {
+	private void writeStyleParagraphText(String text, String style) {
 		if (!text.isEmpty()) {
 			XWPFParagraph p = docx.createParagraph();
 			p.setStyle(style);
@@ -623,29 +701,21 @@ public class Form2DocxExporter {
 		}
 	}
 
-	private void preTreatment(XWPFDocument docx) throws Exception {
-		int[] pageSize = getPageSize();
-		int[] pageMargin = getPageMargin();
-		int contentWidth = (int) WordUtil.mm2halfPt(pageSize[0] - pageMargin[1] - pageMargin[3]);
-
-		////////////////////////////////////////////////////////////////////////
-		// 页面尺寸，纸张方向等标准属性
-		// 设置页眉距离页面顶端
-		int hMar = getHeaderMargin();
-		// 设置页脚距离页面底端
-		int fMar = getFooterMargin();
-		WordUtil.setPage(docx, pageSize, pageMargin, hMar, fMar);
-
-		////////////////////////////////////////////////////////////////////////
-		// 创建默认的页眉
-		createHeader(docx, contentWidth);
-
-		////////////////////////////////////////////////////////////////////////
-		// 创建默认的页脚
-		createFooter(docx, contentWidth);
+	private void preTreatment() throws Exception {
+		if (byPageTemplate()) {
+			writeParameters();
+		} else {
+			WordUtil.setPage(docx, pageSize, pageMargin, hMar, fMar);
+			////////////////////////////////////////////////////////////////////////
+			// 创建默认的页眉
+			createHeader(contentWidthInHalfPT);
+			////////////////////////////////////////////////////////////////////////
+			// 创建默认的页脚
+			createFooter(contentWidthInHalfPT);
+		}
 	}
 
-	private void createHeader(XWPFDocument docx, int contentWidth) throws IOException, InvalidFormatException {
+	private void createHeader(int contentWidth) throws IOException, InvalidFormatException {
 		XWPFHeader header = docx.createHeader(HeaderFooterType.DEFAULT);
 		XWPFTable tbl = header.createTable(1, 2);
 		// 去掉边框
@@ -695,7 +765,7 @@ public class Form2DocxExporter {
 		pRun.setText(value);
 	}
 
-	private void createFooter(XWPFDocument docx, int contentWidth) {
+	private void createFooter(int contentWidth) {
 		XWPFTable tbl;
 		XWPFFooter footer = docx.createFooter(HeaderFooterType.DEFAULT);
 		tbl = footer.createTable(1, 3);
@@ -729,6 +799,178 @@ public class Form2DocxExporter {
 			WordUtil.setXWPFRunStyle(run, "黑体", 10);
 			run.setText(value);
 		}
+	}
+
+	private void writeParameters() {
+		// 写页眉
+		Optional.ofNullable(docx.getHeaderList()).ifPresent((l -> l.stream().forEach(this::writeHeader)));
+		// 写页脚
+		Optional.ofNullable(docx.getFooterList()).ifPresent((l -> l.stream().forEach(this::writeFooter)));
+		// 写段落
+		Optional.ofNullable(docx.getParagraphs()).ifPresent(t -> t.stream().forEach(this::writeParagraph));
+	}
+
+	private void writeFooter(XWPFFooter footer) {
+		Optional.ofNullable(footer.getTables()).ifPresent(t -> t.stream().forEach(this::writeTable));
+		Optional.ofNullable(footer.getParagraphs()).ifPresent(t -> t.stream().forEach(this::writeParagraph));
+	}
+
+	private void writeHeader(XWPFHeader header) {
+		Optional.ofNullable(header.getTables()).ifPresent(t -> t.stream().forEach(this::writeTable));
+		Optional.ofNullable(header.getParagraphs()).ifPresent(t -> t.stream().forEach(this::writeParagraph));
+	}
+
+	private void writeTable(XWPFTable table) {
+		Optional.ofNullable(table.getRows()).ifPresent(t -> t.stream().forEach(this::writeRow));
+	}
+
+	private void writeRow(XWPFTableRow row) {
+		Optional.ofNullable(row.getTableCells()).ifPresent(t -> t.stream().forEach(this::writeCell));
+	}
+
+	private void writeCell(XWPFTableCell cell) {
+		Optional.ofNullable(cell.getParagraphs()).ifPresent(t -> t.stream().forEach(this::writeParagraph));
+	}
+
+	private void writeParagraph(XWPFParagraph para) {
+		List<XWPFRun> runs = para.getRuns();
+		String pText = para.getText();
+		String regEx = "\\{.+?\\}";
+		Pattern pattern = Pattern.compile(regEx);
+		Matcher matcher = pattern.matcher(pText);// 正则匹配字符串{****}
+
+		if (matcher.find()) {
+			// 查找到有标签才执行替换
+			int beginRunIndex = para.searchText("{", new PositionInParagraph()).getBeginRun();// 标签开始run位置
+			int endRunIndex = para.searchText("}", new PositionInParagraph()).getEndRun();// 结束标签
+			StringBuffer key = new StringBuffer();
+
+			if (beginRunIndex == endRunIndex) {
+				// {**}在一个run标签内
+				XWPFRun beginRun = runs.get(beginRunIndex);
+				String beginRunText = beginRun.text();
+
+				int beginIndex = beginRunText.indexOf("{");
+				int endIndex = beginRunText.indexOf("}");
+				int length = beginRunText.length();
+
+				if (beginIndex == 0 && endIndex == length - 1) {
+					// 该run标签只有{**}
+					XWPFRun insertNewRun = para.insertNewRun(beginRunIndex);
+					insertNewRun.getCTR().setRPr(beginRun.getCTR().getRPr());
+					// 设置文本
+					key.append(beginRunText.substring(1, endIndex));
+					String text = Optional.ofNullable(getFieldValue.apply(key.toString())).map(e -> "" + e).orElse("");
+					insertNewRun.setText(text);
+					para.removeRun(beginRunIndex + 1);
+				} else {
+					// 该run标签为**{**}** 或者 **{**} 或者{**}**，替换key后，还需要加上原始key前后的文本
+					XWPFRun insertNewRun = para.insertNewRun(beginRunIndex);
+					insertNewRun.getCTR().setRPr(beginRun.getCTR().getRPr());
+					// 设置文本
+					key.append(beginRunText.substring(beginRunText.indexOf("{") + 1, beginRunText.indexOf("}")));
+					String text = Optional.ofNullable(getFieldValue.apply(key.toString())).map(e -> "" + e).orElse("");
+					String textString = beginRunText.substring(0, beginIndex) + text + beginRunText.substring(endIndex + 1);
+
+					insertNewRun.setText(textString);
+					para.removeRun(beginRunIndex + 1);
+				}
+
+			} else {
+				// {**}被分成多个run
+				// 先处理起始run标签,取得第一个{key}值
+				XWPFRun beginRun = runs.get(beginRunIndex);
+				String beginRunText = beginRun.text();
+				int beginIndex = beginRunText.indexOf("{");
+				if (beginRunText.length() > 1) {
+					key.append(beginRunText.substring(beginIndex + 1));
+				}
+				ArrayList<Integer> removeRunList = new ArrayList<Integer>();// 需要移除的run
+				// 处理中间的run
+				for (int i = beginRunIndex + 1; i < endRunIndex; i++) {
+					XWPFRun run = runs.get(i);
+					String runText = run.text();
+					key.append(runText);
+					removeRunList.add(i);
+				}
+
+				// 获取endRun中的key值
+				XWPFRun endRun = runs.get(endRunIndex);
+				String endRunText = endRun.text();
+				int endIndex = endRunText.indexOf("}");
+				// run中**}或者**}**
+				if (endRunText.length() > 1 && endIndex != 0) {
+					key.append(endRunText.substring(0, endIndex));
+				}
+
+				// *******************************************************************
+				// 取得key值后替换标签
+
+				// 先处理开始标签
+				if (beginRunText.length() == 2) {
+					// run标签内文本{
+					XWPFRun insertNewRun = para.insertNewRun(beginRunIndex);
+					insertNewRun.getCTR().setRPr(beginRun.getCTR().getRPr());
+					// 设置文本
+					String text = Optional.ofNullable(getFieldValue.apply(key.toString())).map(e -> "" + e).orElse("");
+					insertNewRun.setText(text);
+					para.removeRun(beginRunIndex + 1);// 移除原始的run
+				} else {
+					// 该run标签为**{**或者 {** ，替换key后，还需要加上原始key前的文本
+					XWPFRun insertNewRun = para.insertNewRun(beginRunIndex);
+					insertNewRun.getCTR().setRPr(beginRun.getCTR().getRPr());
+					// 设置文本
+					String text = Optional.ofNullable(getFieldValue.apply(key.toString())).map(e -> "" + e).orElse("");
+					String textString = beginRunText.substring(0, beginRunText.indexOf("{")) + text;
+					// System.out.println(">>>>>"+textString);
+					// 分行处理
+					if (textString.contains("@")) {
+						String[] textStrings = textString.split("@");
+						for (int i = 0; i < textStrings.length; i++) {
+							// System.out.println(">>>>>textStrings>>"+textStrings[i]);
+							insertNewRun.setText(textStrings[i]);
+							// insertNewRun.addCarriageReturn();
+							insertNewRun.addBreak();// 换行
+						}
+					} else {
+						insertNewRun.setText(textString);
+					}
+					para.removeRun(beginRunIndex + 1);// 移除原始的run
+				}
+
+				// 处理结束标签
+				if (endRunText.length() == 1) {
+					// run标签内文本只有}
+					XWPFRun insertNewRun = para.insertNewRun(endRunIndex);
+					insertNewRun.getCTR().setRPr(endRun.getCTR().getRPr());
+					// 设置文本
+					insertNewRun.setText("");
+					para.removeRun(endRunIndex + 1);// 移除原始的run
+
+				} else {
+					// 该run标签为**}**或者 }** 或者**}，替换key后，还需要加上原始key后的文本
+					XWPFRun insertNewRun = para.insertNewRun(endRunIndex);
+					insertNewRun.getCTR().setRPr(endRun.getCTR().getRPr());
+					// 设置文本
+					String textString = endRunText.substring(endRunText.indexOf("}") + 1);
+					insertNewRun.setText(textString);
+					para.removeRun(endRunIndex + 1);// 移除原始的run
+				}
+
+				// 处理中间的run标签
+				for (int i = 0; i < removeRunList.size(); i++) {
+					XWPFRun xWPFRun = runs.get(removeRunList.get(i));// 原始run
+					XWPFRun insertNewRun = para.insertNewRun(removeRunList.get(i));
+					insertNewRun.getCTR().setRPr(xWPFRun.getCTR().getRPr());
+					insertNewRun.setText("");
+					para.removeRun(removeRunList.get(i) + 1);// 移除原始的run
+				}
+
+			} // 处理${**}被分成多个run
+			writeParagraph(para);
+
+		} // if 有标签
+
 	}
 
 }

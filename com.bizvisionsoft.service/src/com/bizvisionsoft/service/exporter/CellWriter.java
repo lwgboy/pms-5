@@ -148,14 +148,20 @@ public abstract class CellWriter {
 		Optional.ofNullable(getFontSize()).ifPresent(pRun::setFontSize);
 		Optional.ofNullable(getFontFamily()).ifPresent(pRun::setFontFamily);
 		Optional.ofNullable(getForegoundColorInRGB()).ifPresent(pRun::setColor);
-		pRun.setBold(isBold());
+		Optional.ofNullable(isBold()).ifPresent(pRun::setBold);
+		Optional.ofNullable(isItalic()).ifPresent(pRun::setItalic);
+		Optional.ofNullable(isEmbossed()).ifPresent(pRun::setEmbossed);
+		Optional.ofNullable(isStrikeThrough()).ifPresent(pRun::setStrikeThrough);
+		Optional.ofNullable(isDoubleStrikethrough()).ifPresent(pRun::setDoubleStrikethrough);
+		Optional.ofNullable(isShadow()).ifPresent(pRun::setShadow);
+		Optional.ofNullable(isImprinted()).ifPresent(pRun::setImprinted);
 	}
 
 	private int[] getCellMargin() {
 		if (field != null) {
 			String margin = isLabel() ? field.stdReportLabelCellMargin : field.stdReportFieldCellMargin;
 			try {
-				Integer[] result = Stream.of(margin.split(" ")).map(s -> (int) WordUtil.mm2halfPt(Float.parseFloat(s)))
+				Integer[] result = Stream.of(margin.split(" ")).map(s -> WordUtil.mm2halfPt(Float.parseFloat(s)))
 						.collect(Collectors.toList()).toArray(new Integer[0]);
 				return new int[] { result[0], result[1], result[2], result[3] };
 			} catch (Exception e) {
@@ -198,18 +204,68 @@ public abstract class CellWriter {
 		return getDefaultVerticalAlign();
 	}
 
-	private boolean isBold() {
-		if (field != null) {
-			Boolean setting = isLabel() ? field.stdReportLabelBold : field.stdReportFieldBold;
-			if (setting != null)
-				return setting;
-		}
-		return getDefaultBold();
+	private Boolean isBold() {
+		return Optional.ofNullable(field).map(f -> isLabel() ? field.stdReportLabelBold : field.stdReportFieldBold)
+				.orElse(getDefaultBold());
+	}
+
+	private Boolean isImprinted() {
+		return Optional.ofNullable(field).map(f -> isLabel() ? field.stdReportLabelImprinted : field.stdReportFieldImprinted)
+				.orElse(getDefaultImprinted());
+	}
+
+	protected Boolean getDefaultImprinted() {
+		return null;
+	}
+
+	private Boolean isShadow() {
+		return Optional.ofNullable(field).map(f -> isLabel() ? field.stdReportLabelShadow: field.stdReportFieldShadow)
+				.orElse(getDefaultShadow());
+	}
+
+	protected Boolean getDefaultShadow() {
+		return null;
+	}
+
+	private Boolean isStrikeThrough() {
+		return Optional.ofNullable(field).map(f -> isLabel() ? field.stdReportLabelStrikeThrough: field.stdReportFieldStrikeThrough)
+				.orElse(getDefaultStrikeThrough());
+	}
+
+	protected Boolean getDefaultStrikeThrough() {
+		return null;
+	}
+
+	private Boolean isDoubleStrikethrough() {
+		return Optional.ofNullable(field).map(f -> isLabel() ? field.stdReportLabelDoubleStrikethrough: field.stdReportFieldDoubleStrikethrough)
+				.orElse(getDefaultDoubleStrikethrough());
+	}
+
+	protected Boolean getDefaultDoubleStrikethrough() {
+		return null;
+	}
+
+	private Boolean isEmbossed() {
+		return Optional.ofNullable(field).map(f -> isLabel() ? field.stdReportLabelEmbossed: field.stdReportFieldEmbossed)
+				.orElse(getDefaultEmbossed());
+	}
+
+	protected Boolean getDefaultEmbossed() {
+		return null;
+	}
+
+	private Boolean isItalic() {
+		return Optional.ofNullable(field).map(f -> isLabel() ? field.stdReportLabelItalic: field.stdReportFieldItalic)
+				.orElse(getDefaultItalic());
+	}
+
+	protected Boolean getDefaultItalic() {
+		return null;
 	}
 
 	private String getForegoundColorInRGB() {
 		if (field != null) {
-			String setting = isLabel() ? field.stdReportLabelForegound: field.stdReportFieldForegound;
+			String setting = isLabel() ? field.stdReportLabelForegound : field.stdReportFieldForegound;
 			if (Check.isAssigned(setting))
 				return setting;
 		}
@@ -257,8 +313,8 @@ public abstract class CellWriter {
 		return false;
 	}
 
-	protected boolean getDefaultBold() {
-		return false;
+	protected Boolean getDefaultBold() {
+		return null;
 	}
 
 	protected String getDefaultFontFamily() {

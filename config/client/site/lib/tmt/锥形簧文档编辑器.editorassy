@@ -116,11 +116,11 @@
           "type": "横幅",
           "formFields": [],
           "staticContent": true,
-          "stdReportFieldTopBorderType": "THIN_THICK_THIN_MEDIUM_GAP",
+          "stdReportFieldTopBorderType": "NIL",
           "stdReportFieldLeftBorderType": "NONE",
           "stdReportFieldRightBorderType": "NONE",
-          "stdReportFieldTopBorderColor": "ff0000",
-          "stdReportFieldTopBorderSize": 10
+          "stdReportFieldTopBorderColor": "",
+          "stdReportFieldTopBorderSize": 0
         },
         {
           "name": "新字段",
@@ -545,7 +545,8 @@
           "formFields": [],
           "selectorAssemblyId": "/tmt/零部件信息.gridassy",
           "hideLabel": true,
-          "enableCreateItem": true
+          "enableCreateItem": true,
+          "stdReportLabelHide": true
         },
         {
           "name": "采购规范选用",
@@ -764,21 +765,23 @@
   "stdReportPageMargin": "30 20 20 20",
   "stdReportExportTabPageTitle": false,
   "stdReportBreakByTabPage": false,
-  "stdReportTableTopBorderType": "TRIPLE",
-  "stdReportTableLeftBorderType": "THICK",
-  "stdReportTableBottomBorderType": "THICK",
-  "stdReportTableRightBorderType": "THICK",
-  "stdReportTableInsideHBorderType": "DASHED",
-  "stdReportTableInsideVBorderType": "DOTTED",
-  "stdReportTableTopBorderColor": "0d0d0d",
-  "stdReportTableRightBorderColor": "0d0d0d",
-  "stdReportTableBottomBorderColor": "0d0d0d",
-  "stdReportTableLeftBorderColor": "0d0d0d",
+  "stdReportTableTopBorderType": "DOUBLE",
+  "stdReportTableLeftBorderType": "DOUBLE",
+  "stdReportTableBottomBorderType": "DOUBLE",
+  "stdReportTableRightBorderType": "DOUBLE",
+  "stdReportTableInsideHBorderType": "SINGLE",
+  "stdReportTableInsideVBorderType": "SINGLE",
+  "stdReportTableTopBorderColor": "000000",
+  "stdReportTableRightBorderColor": "000000",
+  "stdReportTableBottomBorderColor": "000000",
+  "stdReportTableLeftBorderColor": "000000",
+  "stdReportTableInsideHBorderColor": "0d0d0d",
   "stdReportTableInsideVBorderColor": "0d0d0d",
-  "stdReportTableTopBorderSize": 1,
-  "stdReportTableRightBorderSize": 1,
-  "stdReportTableBottomBorderSize": 1,
-  "stdReportTableLeftBorderSize": 1,
+  "stdReportTableTopBorderSize": 4,
+  "stdReportTableRightBorderSize": 4,
+  "stdReportTableBottomBorderSize": 4,
+  "stdReportTableLeftBorderSize": 4,
   "stdReportTableInsideHBorderSize": 1,
-  "stdReportTableInsideVBorderSize": 1
+  "stdReportTableInsideVBorderSize": 1,
+  "stdPageTemplate": ""
 }
