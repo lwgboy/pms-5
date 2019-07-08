@@ -288,3 +288,5 @@ import com.bizvisionsoft.annotations.md.mongocodex.IAutoGenerator;
 导出设置
 默认页眉
 公司logo和名称
+
+解决服务端保存导出配置的问题
