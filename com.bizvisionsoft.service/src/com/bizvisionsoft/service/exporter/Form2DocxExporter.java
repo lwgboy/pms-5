@@ -348,42 +348,42 @@ public class Form2DocxExporter {
 		int size;
 		String color;
 		XWPFBorderType borderType = Optional.ofNullable(config.stdReportTableTopBorderType).map(XWPFBorderType::valueOf).orElse(null);
-		if (borderType != null) {
+		if (borderType != null && !XWPFBorderType.NIL.equals(borderType)) {
 			size = Optional.ofNullable(config.stdReportTableTopBorderSize).orElse(1);
 			color = config.stdReportTableTopBorderColor;
 			tbl.setTopBorder(borderType, size, 0, color);// int space;//如果是段落边框，才考虑这个设置
 		}
 
 		borderType = Optional.ofNullable(config.stdReportTableRightBorderType).map(XWPFBorderType::valueOf).orElse(null);
-		if (borderType != null) {
+		if (borderType != null && !XWPFBorderType.NIL.equals(borderType)) {
 			size = Optional.ofNullable(config.stdReportTableRightBorderSize).orElse(1);
 			color = config.stdReportTableRightBorderColor;
 			tbl.setRightBorder(borderType, size, 0, color);
 		}
 
 		borderType = Optional.ofNullable(config.stdReportTableBottomBorderType).map(XWPFBorderType::valueOf).orElse(null);
-		if (borderType != null) {
+		if (borderType != null && !XWPFBorderType.NIL.equals(borderType)) {
 			size = Optional.ofNullable(config.stdReportTableBottomBorderSize).orElse(1);
 			color = config.stdReportTableBottomBorderColor;
 			tbl.setBottomBorder(borderType, size, 0, color);
 		}
 
 		borderType = Optional.ofNullable(config.stdReportTableLeftBorderType).map(XWPFBorderType::valueOf).orElse(null);
-		if (borderType != null) {
+		if (borderType != null && !XWPFBorderType.NIL.equals(borderType)) {
 			size = Optional.ofNullable(config.stdReportTableLeftBorderSize).orElse(1);
 			color = config.stdReportTableLeftBorderColor;
 			tbl.setLeftBorder(borderType, size, 0, color);
 		}
 
 		borderType = Optional.ofNullable(config.stdReportTableInsideHBorderType).map(XWPFBorderType::valueOf).orElse(null);
-		if (borderType != null) {
+		if (borderType != null && !XWPFBorderType.NIL.equals(borderType)) {
 			size = Optional.ofNullable(config.stdReportTableInsideHBorderSize).orElse(1);
 			color = config.stdReportTableInsideHBorderColor;
 			tbl.setInsideHBorder(borderType, size, 0, color);
 		}
 
 		borderType = Optional.ofNullable(config.stdReportTableInsideVBorderType).map(XWPFBorderType::valueOf).orElse(null);
-		if (borderType != null) {
+		if (borderType != null && !XWPFBorderType.NIL.equals(borderType)) {
 			size = Optional.ofNullable(config.stdReportTableInsideVBorderSize).orElse(1);
 			color = config.stdReportTableInsideVBorderColor;
 			tbl.setInsideVBorder(borderType, size, 0, color);
