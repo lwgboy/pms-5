@@ -577,6 +577,17 @@ public interface ProblemService {
 			@MethodParam(MethodParam.LANG) @PathParam("lang") String lang,
 			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
+	@POST
+	@Path("/{domain}/itemtodo/{status}/{userid}/card/{lang}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "待办问题看板/list" })
+	public List<Document> listProblemsToDo(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
+			@MethodParam("status") @PathParam("status") String status,
+			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userid") String userid,
+			@MethodParam(MethodParam.LANG) @PathParam("lang") String lang,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+	
 	@PUT
 	@Path("/{domain}/cc/")
 	@Consumes("application/json; charset=UTF-8")
