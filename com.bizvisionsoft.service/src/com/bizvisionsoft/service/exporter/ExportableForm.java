@@ -65,6 +65,11 @@ public class ExportableForm {
 
 	public String stdReportTableTopBorderType;
 	
+	public String templateFilePath;
+	
+	public String stdPageTemplate;
+
 	public Map<String,String> properties;
+
 
 }

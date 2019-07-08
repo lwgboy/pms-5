@@ -26,7 +26,7 @@ public class BannerCellWriter extends CellWriter {
 	}
 
 	@Override
-	protected boolean getDefaultBold() {
+	protected Boolean getDefaultBold() {
 		return true;
 	}
 

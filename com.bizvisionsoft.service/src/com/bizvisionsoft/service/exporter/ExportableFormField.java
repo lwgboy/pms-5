@@ -220,4 +220,28 @@ public class ExportableFormField {
 
 	public String name;
 
+	public Boolean stdReportLabelImprinted;
+
+	public Boolean stdReportFieldImprinted;
+
+	public Boolean stdReportLabelShadow;
+
+	public Boolean stdReportFieldShadow;
+
+	public Boolean stdReportLabelItalic;
+
+	public Boolean stdReportFieldItalic;
+
+	public Boolean stdReportLabelEmbossed;
+
+	public Boolean stdReportFieldEmbossed;
+
+	public Boolean stdReportLabelDoubleStrikethrough;
+
+	public Boolean stdReportFieldDoubleStrikethrough;
+
+	public Boolean stdReportLabelStrikeThrough;
+
+	public Boolean stdReportFieldStrikeThrough;
+
 }
