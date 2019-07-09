@@ -117,6 +117,15 @@
           "readOnly": true,
           "required": true,
           "selectorAssemblyId": "/组织选择器.gridassy"
+        },
+        {
+          "name": "container_id",
+          "text": "资料库",
+          "type": "对象选择框",
+          "formFields": [],
+          "readOnly": true,
+          "selectorAssemblyId": "/vault/资料库.gridassy",
+          "valueFieldName": "_id"
         }
       ]
     },

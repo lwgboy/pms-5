@@ -11,10 +11,12 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
+import org.bson.Document;
 import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.annotations.md.service.DataSet;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
+import com.bizvisionsoft.service.model.VaultFolder;
 import com.bizvisionsoft.service.model.Docu;
 import com.bizvisionsoft.service.model.DocuSetting;
 import com.bizvisionsoft.service.model.DocuTemplate;
@@ -143,7 +145,8 @@ public interface DocumentService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("项目档案库文件列表/" + DataSet.UPDATE)
-	public long updateDocument(@MethodParam(MethodParam.FILTER_N_UPDATE) BasicDBObject filterAndUpdate, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+	public long updateDocument(@MethodParam(MethodParam.FILTER_N_UPDATE) BasicDBObject filterAndUpdate,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
 	@Path("/{domain}/docu/ds")
@@ -164,15 +167,16 @@ public interface DocumentService {
 	@Path("/{domain}/docu/{_id}/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public long countProjectDocument(@MethodParam(MethodParam.FILTER) BasicDBObject filter, @PathParam("_id") ObjectId project_id,
-			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+	public long countProjectDocument(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
+			@PathParam("_id") ObjectId project_id, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
 	@Path("/{domain}/docu/wp_id/{wp_id}/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("输出文档/" + DataSet.LIST)
-	public List<Docu> listWorkPackageDocument(@PathParam("wp_id") @MethodParam(MethodParam.CONTEXT_INPUT_OBJECT_ID) ObjectId _id,
+	public List<Docu> listWorkPackageDocument(
+			@PathParam("wp_id") @MethodParam(MethodParam.CONTEXT_INPUT_OBJECT_ID) ObjectId _id,
 			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
@@ -221,20 +225,23 @@ public interface DocumentService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("文档模板/" + DataSet.UPDATE)
-	public long updateDocumentTemplate(@MethodParam(MethodParam.FILTER_N_UPDATE) BasicDBObject fu, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+	public long updateDocumentTemplate(@MethodParam(MethodParam.FILTER_N_UPDATE) BasicDBObject fu,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
 	@Path("/{domain}/docuSetting/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public DocuSetting createDocumentSetting(DocuSetting doc, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+	public DocuSetting createDocumentSetting(DocuSetting doc,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
 	@Path("/{domain}/docuSetting/wp_id/{wp_id}/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("输出文档设置/" + DataSet.LIST)
-	public List<DocuSetting> listDocumentSetting(@PathParam("wp_id") @MethodParam(MethodParam.CONTEXT_INPUT_OBJECT_ID) ObjectId _id,
+	public List<DocuSetting> listDocumentSetting(
+			@PathParam("wp_id") @MethodParam(MethodParam.CONTEXT_INPUT_OBJECT_ID) ObjectId _id,
 			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@PUT
@@ -242,7 +249,8 @@ public interface DocumentService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("输出文档设置/" + DataSet.UPDATE)
-	public long updateDocumentSetting(@MethodParam(MethodParam.FILTER_N_UPDATE) BasicDBObject filterAndUpdate, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+	public long updateDocumentSetting(@MethodParam(MethodParam.FILTER_N_UPDATE) BasicDBObject filterAndUpdate,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@DELETE
 	@Path("/{domain}/docuSetting/_id/{_id}")
@@ -250,5 +258,37 @@ public interface DocumentService {
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("输出文档设置/" + DataSet.DELETE)
 	public long deleteDocumentSetting(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+
+	@POST
+	@Path("/{domain}/container/ds")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "资料库文件夹/" + DataSet.LIST, "项目资料库文件夹/" + DataSet.LIST })
+	public List<VaultFolder> listContainer(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+
+	@POST
+	@Path("/{domain}/container/count")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "资料库文件夹/" + DataSet.COUNT, "项目资料库文件夹/" + DataSet.COUNT })
+	public long countContainer(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+
+	@POST
+	@Path("/{domain}/container/docu/ds")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("资料库文件列表/" + DataSet.LIST)
+	public List<Document> listContainerDocument(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+
+	@POST
+	@Path("/{domain}/container/docu/count")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("资料库文件列表/" + DataSet.COUNT)
+	public long countContainerDocument(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
 			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 }

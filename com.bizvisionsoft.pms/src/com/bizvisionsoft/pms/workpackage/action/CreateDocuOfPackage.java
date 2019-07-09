@@ -84,8 +84,10 @@ public class CreateDocuOfPackage {
 			docu.setEditorName(editorName);// 保存编辑器名称
 			Document encodeDocument = docu.encodeDocument();
 			Editor.open(editorName, context, encodeDocument, true, (r, t) -> {
-				String id = docu.generateId();
-				t.append("id", id);
+//				gridPart.insert(Services.get(DocumentService.class).createDocument(t, br.getDomain()));
+				//TODO 产生文档编号
+//				String id = docu.generateId();
+//				t.append("id", id);
 				insert(gridPart, t);
 			});
 		} else {

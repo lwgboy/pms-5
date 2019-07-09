@@ -110,6 +110,15 @@
       ]
     },
     {
+      "name": "container_id",
+      "text": "资料库",
+      "type": "对象选择框",
+      "formFields": [],
+      "required": true,
+      "selectorAssemblyId": "/vault/资料库.gridassy",
+      "valueFieldName": "_id"
+    },
+    {
       "id": "163f73b6204",
       "name": "info",
       "text": "启用阶段管理时，项目WBS的第一层将作为项目的阶段，进行分阶段管理。\n各阶段均可对阶段进行WBS分解，编制进度计划，建立团队，编制预算。\n注意：项目创建后，本选项将不可更改。\n",

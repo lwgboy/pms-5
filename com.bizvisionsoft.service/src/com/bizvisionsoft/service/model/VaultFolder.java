@@ -1,10 +1,12 @@
 package com.bizvisionsoft.service.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.annotations.md.mongocodex.Exclude;
+import com.bizvisionsoft.annotations.md.mongocodex.Persistence;
 import com.bizvisionsoft.annotations.md.mongocodex.PersistenceCollection;
 import com.bizvisionsoft.annotations.md.service.DataSet;
 import com.bizvisionsoft.annotations.md.service.Label;
@@ -12,10 +14,13 @@ import com.bizvisionsoft.annotations.md.service.ReadValue;
 import com.bizvisionsoft.annotations.md.service.Structure;
 import com.bizvisionsoft.annotations.md.service.WriteValue;
 import com.bizvisionsoft.service.DocumentService;
+import com.bizvisionsoft.service.OrganizationService;
 import com.bizvisionsoft.service.ServicesLoader;
+import com.bizvisionsoft.service.datatools.Query;
+import com.mongodb.BasicDBObject;
 
 @PersistenceCollection("folder")
-public class Folder implements IFolder {
+public class VaultFolder implements IFolder {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// 基本的一些字段
@@ -38,6 +43,7 @@ public class Folder implements IFolder {
 
 	@ReadValue
 	@WriteValue
+	@Persistence("desc")
 	private String name;
 
 	@ReadValue
@@ -48,7 +54,86 @@ public class Folder implements IFolder {
 	@WriteValue
 	private ObjectId root_id;
 
-	@ReadValue({ "项目档案库文件夹/folderName" })
+	@ReadValue
+	@WriteValue
+	private String containertype;
+
+	@ReadValue
+	@WriteValue
+	private String description;
+
+	@ReadValue
+	@WriteValue
+	private boolean iscontainer;
+
+	@ReadValue
+	@WriteValue
+	private boolean defaultquery;
+
+	@ReadValue
+	@WriteValue
+	private String wchost;
+
+	@ReadValue
+	@WriteValue
+	private String containername;
+
+	@ReadValue
+	@WriteValue
+	private String wcaddress;
+
+	@ReadValue
+	@WriteValue
+	private String wcview;
+
+	@ReadValue
+	@WriteValue
+	private String wcfolderservice;
+
+	@ReadValue
+	@WriteValue
+	private String wcuser;
+
+	@ReadValue
+	@WriteValue
+	private String wcpassword;
+
+	@ReadValue
+	@WriteValue
+	@Persistence("org_id")
+	private List<ObjectId> organization_id;
+
+	@WriteValue("organization")
+	private void setOrganization(List<Organization> org) {
+		organization_id = new ArrayList<ObjectId>();
+		org.forEach(o -> organization_id.add(o.get_id()));
+	}
+
+	@ReadValue("organization")
+	public List<Organization> getOrganization() {
+		if (organization_id != null) {
+			return ServicesLoader.get(OrganizationService.class).createDataSet(
+					new Query().filter(new BasicDBObject("_id", new BasicDBObject("$in", organization_id))).bson(),
+					domain);
+		} else {
+			return new ArrayList<>();
+		}
+	}
+
+	@ReadValue("type")
+	@WriteValue("type")
+	private String getType() {
+		if ("pm".equals(containertype))
+			return "PM资料库";
+		if ("wc".equals(containertype))
+			return "Windchill容器";
+		if ("dcpdm".equals(containertype))
+			return "DCPDM";
+
+		return "其他";
+	}
+
+	@ReadValue({ "资料库文件夹/folderName", "项目资料库文件夹/folderName" })
 	private String getHTMLName() {
 		String iconUrl;
 		if (parent_id == null) {
@@ -66,7 +151,7 @@ public class Folder implements IFolder {
 		return html;
 	}
 
-	@ReadValue("项目文件夹选择列表/folderName")
+	@ReadValue("文件夹选择列表/folderName")
 	private String getHTMLName2() {
 		String iconUrl;
 		if (parent_id == null) {
@@ -82,6 +167,17 @@ public class Folder implements IFolder {
 		return html;
 	}
 
+	@Structure("项目资料库文件夹/" + DataSet.LIST)
+	private List<VaultFolder> listChildren() {
+		return ServicesLoader.get(DocumentService.class)
+				.listContainer(new Query().filter(new BasicDBObject("parent_id", _id)).bson(), domain);
+	}
+
+	@Structure("项目资料库文件夹/" + DataSet.COUNT)
+	private long countChildren() {
+		return ServicesLoader.get(DocumentService.class).countContainer(new BasicDBObject("parent_id", _id), domain);
+	}
+
 	@Override
 	@Label
 	public String toString() {
@@ -89,16 +185,6 @@ public class Folder implements IFolder {
 	}
 
 	public String domain;
-
-	@Structure(DataSet.LIST)
-	private List<Folder> listChildren() {
-		return ServicesLoader.get(DocumentService.class).listChildrenProjectFolder(_id, domain);
-	}
-
-	@Structure(DataSet.COUNT)
-	private long countChildren() {
-		return ServicesLoader.get(DocumentService.class).countChildrenProjectFolder(_id, domain);
-	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -114,22 +200,22 @@ public class Folder implements IFolder {
 		return name;
 	}
 
-	public Folder setName(String name) {
+	public VaultFolder setName(String name) {
 		this.name = name;
 		return this;
 	}
 
-	public Folder setProject_id(ObjectId project_id) {
+	public VaultFolder setProject_id(ObjectId project_id) {
 		this.project_id = project_id;
 		return this;
 	}
 
-	public Folder setParent_id(ObjectId parent_id) {
+	public VaultFolder setParent_id(ObjectId parent_id) {
 		this.parent_id = parent_id;
 		return this;
 	}
 
-	public Folder setOpened(boolean opened) {
+	public VaultFolder setOpened(boolean opened) {
 		this.opened = opened;
 		return this;
 	}
@@ -149,4 +235,20 @@ public class Folder implements IFolder {
 	public void setRoot_id(ObjectId root_id) {
 		this.root_id = root_id;
 	}
+
+	public static VaultFolder getInstance(Project project, boolean isflderroot, String domain) {
+		VaultFolder folder = getInstance(domain);
+		folder.setflderroot(isflderroot);
+		folder.setProject_id(project.get_id());
+		folder.setRoot_id(project.getContainer_id());
+		return folder;
+	}
+
+	public static VaultFolder getInstance(String domain) {
+		VaultFolder folder = new VaultFolder();
+		folder.set_id(new ObjectId());
+		folder.domain = domain;
+		return folder;
+	}
+
 }

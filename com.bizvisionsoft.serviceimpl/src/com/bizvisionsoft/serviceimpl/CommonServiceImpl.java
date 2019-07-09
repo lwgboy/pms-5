@@ -28,6 +28,7 @@ import com.bizvisionsoft.service.model.ResourceActual;
 import com.bizvisionsoft.service.model.ResourcePlan;
 import com.bizvisionsoft.service.model.ResourceType;
 import com.bizvisionsoft.service.model.TrackView;
+import com.bizvisionsoft.service.model.VaultFolder;
 import com.bizvisionsoft.serviceimpl.exception.ServiceException;
 import com.bizvisionsoft.serviceimpl.renderer.MessageRenderer;
 import com.mongodb.BasicDBObject;
@@ -782,6 +783,41 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 			filter = new BasicDBObject();
 		filter.put("type", "功能角色");
 		return c("dictionary", domain).countDocuments(filter);
+	}
+
+	@Override
+	public List<VaultFolder> listContainer(BasicDBObject condition, String domain) {
+		condition.append("filter", getContainerFilter((BasicDBObject) condition.get("filter")));
+		condition.append("sort", Optional.ofNullable((BasicDBObject) condition.get("sort")).orElse(new BasicDBObject())
+				.append("desc", 1));
+		return createDataSet(condition, VaultFolder.class, domain);
+	}
+
+	@Override
+	public long countContainer(BasicDBObject filter, String domain) {
+		if (filter == null)
+			filter = new BasicDBObject();
+		filter = getContainerFilter(filter);
+
+		return count(filter, VaultFolder.class, domain);
+	}
+
+	private BasicDBObject getContainerFilter(BasicDBObject filter) {
+		filter = Optional.ofNullable(filter).orElse(new BasicDBObject());
+		filter.append("iscontainer", true);
+
+		return filter;
+	}
+
+	@Override
+	public long deleteContainer(ObjectId _id, String domain) {
+		// TODO 能否删除判断
+		return delete(_id, VaultFolder.class, domain);
+	}
+
+	@Override
+	public long updateContainer(BasicDBObject filterAndUpdate, String domain) {
+		return update(filterAndUpdate, VaultFolder.class, domain);
 	}
 
 }
