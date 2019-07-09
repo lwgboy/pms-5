@@ -246,7 +246,7 @@
           "text": "额外要求",
           "type": "表格",
           "formFields": [],
-          "selectorAssemblyId": "/tmt/额外要求.gridassy",
+          "selectorAssemblyId": "/pms/tmt/额外要求.gridassy",
           "hideLabel": true,
           "enableCreateItem": true
         },
@@ -255,7 +255,7 @@
           "text": "产品作用",
           "type": "表格",
           "formFields": [],
-          "selectorAssemblyId": "/tmt/产品作用.gridassy",
+          "selectorAssemblyId": "/pms/tmt/产品作用.gridassy",
           "enableCreateItem": true
         },
         {
@@ -276,7 +276,7 @@
           "text": "参考文件",
           "type": "表格",
           "formFields": [],
-          "selectorAssemblyId": "/tmt/参考文件.gridassy",
+          "selectorAssemblyId": "/pms/tmt/参考文件.gridassy",
           "enableCreateItem": true
         },
         {
@@ -284,7 +284,7 @@
           "text": "规范性引用文件",
           "type": "表格",
           "formFields": [],
-          "selectorAssemblyId": "/tmt/规范性引用文件.gridassy"
+          "selectorAssemblyId": "/pms/tmt/规范性引用文件.gridassy"
         },
         {
           "name": "橡胶材料性能",
@@ -412,7 +412,7 @@
           "text": "文档修改信息",
           "type": "多个对象选择框",
           "formFields": [],
-          "selectorAssemblyId": "/tmt/文档修改信息.gridassy",
+          "selectorAssemblyId": "/pms/tmt/文档修改信息.gridassy",
           "hideLabel": true,
           "enableCreateItem": true
         },
@@ -543,7 +543,7 @@
           "text": "零部件信息",
           "type": "表格",
           "formFields": [],
-          "selectorAssemblyId": "/tmt/零部件信息.gridassy",
+          "selectorAssemblyId": "/pms/tmt/零部件信息.gridassy",
           "hideLabel": true,
           "enableCreateItem": true,
           "stdReportLabelHide": true
@@ -706,7 +706,7 @@
           "text": "判断标准",
           "type": "表格",
           "formFields": [],
-          "selectorAssemblyId": "/tmt/判断标准.gridassy",
+          "selectorAssemblyId": "/pms/tmt/判断标准.gridassy",
           "enableCreateItem": true
         },
         {

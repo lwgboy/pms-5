@@ -71,7 +71,7 @@
     {
       "name": "创建",
       "text": "创建",
-      "editorAssemblyId": "/tmt/输出文件编辑器.editorassy",
+      "editorAssemblyId": "/pms/tmt/输出文件编辑器.editorassy",
       "type": "insert",
       "createActionNewInstanceBundleId": "org.mongodb.mongo-java-driver",
       "createActionNewInstanceClassName": "org.bson.Document"

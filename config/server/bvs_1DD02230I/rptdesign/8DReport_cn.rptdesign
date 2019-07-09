@@ -620,6 +620,51 @@
             <property name="id">2001</property>
             <expression name="value" type="javascript">params["pipeline-problem"].value</expression>
         </structure>
+        <structure>
+            <property name="name">mongoURI</property>
+            <property name="id">4</property>
+            <expression name="value" type="javascript">params["dbConnect"].value</expression>
+        </structure>
+        <structure>
+            <property name="name">ignoreURI</property>
+            <property name="id">4</property>
+        </structure>
+        <structure>
+            <property name="name">serverHost</property>
+            <property name="id">4</property>
+        </structure>
+        <structure>
+            <property name="name">serverPort</property>
+            <property name="id">4</property>
+        </structure>
+        <structure>
+            <property name="name">databaseName</property>
+            <property name="id">4</property>
+        </structure>
+        <structure>
+            <property name="name">userName</property>
+            <property name="id">4</property>
+        </structure>
+        <structure>
+            <property name="name">password</property>
+            <property name="id">4</property>
+        </structure>
+        <structure>
+            <property name="name">socketKeepAlive</property>
+            <property name="id">4</property>
+        </structure>
+        <structure>
+            <property name="name">useRequestSession</property>
+            <property name="id">4</property>
+        </structure>
+        <structure>
+            <property name="name">OdaConnProfileName</property>
+            <property name="id">4</property>
+        </structure>
+        <structure>
+            <property name="name">OdaConnProfileStorePath</property>
+            <property name="id">4</property>
+        </structure>
     </list-property>
     <property name="units">in</property>
     <property name="iconFile">/templates/blank_report.gif</property>
@@ -738,6 +783,17 @@
         <scalar-parameter name="pipeline-problem" id="5980">
             <property name="valueType">static</property>
             <property name="isRequired">true</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="dbConnect" id="7804">
+            <property name="valueType">static</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
             <list-property name="selectionList"/>
