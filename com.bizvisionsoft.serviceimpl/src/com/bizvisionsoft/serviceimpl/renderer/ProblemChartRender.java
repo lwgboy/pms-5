@@ -277,11 +277,13 @@ public class ProblemChartRender extends BasicServiceImpl {
 		List<Document> categories = new ArrayList<>();
 		List<Document> nodes = c("problem", domain).aggregate(Domain.getJQ(domain, "查询-问题权重").array())
 				.map((Document d) -> {
-					String name = ((List<String>) d.get("name")).get(0);
+//					String name = ((List<String>) d.get("name")).get(0);
+					String name = (String) d.get("name");
 					String cata = "问题:" + name.split("/")[0].trim();
 					categories.add(new Document("name", cata));
 					double value = Check.instanceOf(d.get("value"), Number.class).map(n -> n.doubleValue()).orElse(0d);
-					ObjectId _id = ((List<ObjectId>) d.get("_id")).get(0);
+//					ObjectId _id = ((List<ObjectId>) d.get("_id")).get(0);
+					ObjectId _id = (ObjectId)d.get("_id");
 					return new Document("name", name)//
 							.append("id", _id.toHexString())//
 							.append("draggable", true)//
@@ -309,7 +311,8 @@ public class ProblemChartRender extends BasicServiceImpl {
 
 		List<Document> links = c("problem", domain).aggregate(Domain.getJQ(domain, "查询-问题因果关系").array())
 				.map((Document d) -> createGraphicLink(d.getObjectId("_id").toHexString(),
-						((List<ObjectId>) d.get("pid")).get(0).toHexString()))
+//						((List<ObjectId>) d.get("pid")).get(0).toHexString()))
+						((ObjectId) d.get("pid")).toHexString()))
 				.into(new ArrayList<>());
 
 		Document chart = Domain.getJQ(domain, "图表-因果关系图-带箭头").set("标题", "问题因果分析").set("data", nodes).set("links", links)

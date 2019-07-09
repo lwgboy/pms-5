@@ -1705,4 +1705,17 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 	public List<Document> listD4Verify(ObjectId problem_id, String domain) {
 		return c("d4Verify", domain).find(new Document("problem_id", problem_id)).sort(new Document("index", 1)).into(new ArrayList<>());
 	}
+
+	@Override
+	/**
+	 * 根据团队成员基本信息，创建待办，只有ERA、ICA、PCA、SPA和LRA的待办
+	 */
+	public List<Document> listProblemsToDo(BasicDBObject condition, String status, String userid, String lang,
+			String domain) {
+		// TODO Auto-generated method stub
+		List<Bson> pipeline = Domain.getJQ(domain, "查询-问题-待办").set("userId", userid).array();
+		ArrayList<Document> result = c("d1CFT", domain).aggregate(pipeline)
+				.map(d -> new ProblemCardRenderer(lang, domain).renderTODO(d)).into(new ArrayList<>());
+		return result;
+	}
 }

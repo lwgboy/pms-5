@@ -66,10 +66,14 @@
 	"$addFields" : {
 		"cost" : {
 			"$ceil" : {
-				"$divide" : [ {
-					"$multiply" : [ "$cost", "$cause.weight" ]
-				}, "$weight" ]
-			}
+	            "$cond":[
+		            {"$eq":["$weight",0]},
+		            0,
+		            {"$divide" : [ {
+		                "$multiply" : [ "$cost", "$cause.weight" ]
+		            }, "$weight" ]}
+		            ]
+		        }
 		}
 	}
 }, {

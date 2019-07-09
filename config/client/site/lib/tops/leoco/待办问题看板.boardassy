@@ -1,0 +1,21 @@
+{
+  "id": "/解决中问题看板.boardassy",
+  "name": "待办问题看板",
+  "title": "解决中问题看板",
+  "layout": [],
+  "type": "board",
+  "stickerTitle": "待办事项",
+  "folderId": "167fcdcde82",
+  "gridAutoHeight": true,
+  "gridDataSetService": "com.bizvisionsoft.service.ProblemService",
+  "columns": [],
+  "fields": [],
+  "actions": [],
+  "rowActions": [],
+  "hasTitlebar": true,
+  "disableStdQuery": false,
+  "parameters": "{\"status\":\"解决中\",\"render\":\"card\"}",
+  "scrollLoadData": false,
+  "compactTitleBar": true,
+  "sortFields": []
+}

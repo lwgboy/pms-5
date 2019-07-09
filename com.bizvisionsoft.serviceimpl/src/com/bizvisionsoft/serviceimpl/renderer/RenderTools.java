@@ -100,8 +100,8 @@ public class RenderTools {
 	}
 
 	public static void appendUserAndText(StringBuffer sb, Document user, String text, String domain) {
-		String name = user.getString("name");
-		String url = RenderTools.getFirstFileURL(user, "headPics", domain);
+		String name = null == user ? null : user.getString("name");
+		String url = null == user ? null : RenderTools.getFirstFileURL(user, "headPics", domain);
 		appendUserAndText(sb, url, name, text);
 	}
 

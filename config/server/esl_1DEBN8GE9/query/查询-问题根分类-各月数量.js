@@ -8,11 +8,13 @@
 		"let" : {
 			"class_id" : "$_id"
 		},
-		"pipeline" : [ {
+		"pipeline" : [  {"$unwind":{
+	    	"path":"$classifyProblems"
+	    }},{
 			"$match" : {
 				"$expr" : {
 					"$and" : [ {
-						"$in" : [ "$$class_id", "$classifyProblem._ids" ]
+						"$in" : [ "$$class_id", "$classifyProblems._ids" ]
 					}, {
 						"$in" : [ "$status", [ "解决中", "已关闭" ] ]
 					} ]
