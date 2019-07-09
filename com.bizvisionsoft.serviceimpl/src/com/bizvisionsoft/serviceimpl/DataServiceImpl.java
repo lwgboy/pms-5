@@ -23,6 +23,7 @@ import com.mongodb.client.model.FindOneAndUpdateOptions;
 import com.mongodb.client.model.ReturnDocument;
 import com.mongodb.client.model.UpdateOptions;
 import com.mongodb.client.model.Updates;
+import com.mongodb.client.result.UpdateResult;
 
 public class DataServiceImpl extends MongoDBService {
 
@@ -48,6 +49,13 @@ public class DataServiceImpl extends MongoDBService {
 
 	/////////////////////////////////////////////////////////////////////////////////////
 	// ¸üÐÂ
+	final protected Document upsert(Document filter, Document update, String col, String domain) {
+		UpdateOptions option = new UpdateOptions().upsert(true);
+		UpdateResult ur = c(col, domain).updateOne(filter, update, option);
+		return new Document().append("matched", ur.getMatchedCount()).append("modified", ur.getModifiedCount()).append("_id",
+				ur.getUpsertedId());
+	}
+
 	final protected Document update(Document update, String col, String domain) {
 		Document filter = new Document("_id", update.get("_id"));
 		update.remove("_id");

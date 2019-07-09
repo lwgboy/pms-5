@@ -15,6 +15,7 @@ import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.annotations.md.service.DataSet;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
+import com.bizvisionsoft.service.exporter.ExportableForm;
 import com.bizvisionsoft.service.model.Docu;
 import com.bizvisionsoft.service.model.DocuSetting;
 import com.bizvisionsoft.service.model.DocuTemplate;
@@ -143,7 +144,8 @@ public interface DocumentService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("项目档案库文件列表/" + DataSet.UPDATE)
-	public long updateDocument(@MethodParam(MethodParam.FILTER_N_UPDATE) BasicDBObject filterAndUpdate, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+	public long updateDocument(@MethodParam(MethodParam.FILTER_N_UPDATE) BasicDBObject filterAndUpdate,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
 	@Path("/{domain}/docu/ds")
@@ -221,7 +223,8 @@ public interface DocumentService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("文档模板/" + DataSet.UPDATE)
-	public long updateDocumentTemplate(@MethodParam(MethodParam.FILTER_N_UPDATE) BasicDBObject fu, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+	public long updateDocumentTemplate(@MethodParam(MethodParam.FILTER_N_UPDATE) BasicDBObject fu,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
 	@Path("/{domain}/docuSetting/")
@@ -242,7 +245,8 @@ public interface DocumentService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("输出文档设置/" + DataSet.UPDATE)
-	public long updateDocumentSetting(@MethodParam(MethodParam.FILTER_N_UPDATE) BasicDBObject filterAndUpdate, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+	public long updateDocumentSetting(@MethodParam(MethodParam.FILTER_N_UPDATE) BasicDBObject filterAndUpdate,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@DELETE
 	@Path("/{domain}/docuSetting/_id/{_id}")
@@ -251,4 +255,20 @@ public interface DocumentService {
 	@DataSet("输出文档设置/" + DataSet.DELETE)
 	public long deleteDocumentSetting(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id,
 			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// 管理文档的导出配置，导出等
+	@PUT
+	@Path("/{domain}/expconfig/{col}/{_id}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public long updateDocumentExportConfig(ExportableForm form, @PathParam("col") String col, @PathParam("_id") ObjectId _id,
+			@PathParam("domain") String domain);
+
+	@DELETE
+	@Path("/{domain}/expconfig/{_id}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public long deleteDocumentExportConfig(@PathParam("_id") ObjectId _id, @PathParam("domain") String domain);
+
 }
