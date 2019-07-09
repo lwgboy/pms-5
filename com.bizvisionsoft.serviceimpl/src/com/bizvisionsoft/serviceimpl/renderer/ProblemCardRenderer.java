@@ -452,6 +452,20 @@ public class ProblemCardRenderer extends BasicServiceImpl {
 		RenderTools.appendCardBg(sb);
 		return new Document("_id", doc.get("_id")).append("html", sb.toString());
 	}
+	
+	/**
+	 * 待办事项，根据团队职位，生成待办，点击的时候直接进入到对应的子页面
+	 * 
+	 */
+	public Document renderTODO(Document doc) {
+		StringBuffer sb = new StringBuffer();
+		String title = ((List<Document>)doc.get("problem")).get(0).getString("name");
+		RenderTools.appendHeader(sb, indigo, title, 36);
+		RenderTools.appendText(sb, "角色："+doc.getString("roleName"), RenderTools.STYLE_NLINE);
+		RenderTools.appendButton(sb, "layui-icon-more", 12, 12, "处理待办", "open/" + "");
+		RenderTools.appendCardBg(sb);
+		return new Document("_id", doc.get("_id")).append("html", sb.toString());
+	}
 
 	public Document renderD4(Document doc, String type, String rootCauseDesc, Document charger_meta, Date date) {
 
