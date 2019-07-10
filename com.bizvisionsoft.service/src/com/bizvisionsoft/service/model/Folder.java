@@ -15,7 +15,7 @@ import com.bizvisionsoft.service.DocumentService;
 import com.bizvisionsoft.service.ServicesLoader;
 
 @PersistenceCollection("folder")
-public class Folder implements IFolder{
+public class Folder implements IFolder {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// 基本的一些字段
@@ -40,6 +40,14 @@ public class Folder implements IFolder{
 	@WriteValue
 	private String name;
 
+	@ReadValue
+	@WriteValue
+	private boolean isflderroot;
+
+	@ReadValue
+	@WriteValue
+	private ObjectId root_id;
+
 	@ReadValue({ "项目档案库文件夹/folderName" })
 	private String getHTMLName() {
 		String iconUrl;
@@ -50,15 +58,15 @@ public class Folder implements IFolder{
 		} else {
 			iconUrl = "rwt-resources/extres/img/folder_closed.svg";
 		}
-		String html = "<div class='brui_ly_hline'>" + "<img src="
-				+ iconUrl + " style='margin-right:8px;' width='20px' height='20px'/>" + "<div style='flex:auto;'>"
-				+ name + "</div>"
+		String html = "<div class='brui_ly_hline'>" + "<img src=" + iconUrl
+				+ " style='margin-right:8px;' width='20px' height='20px'/>" + "<div style='flex:auto;'>" + name
+				+ "</div>"
 				+ "<a href='open/' target='_rwt' style='margin-right:8px;'><i class='layui-icon layui-btn layui-btn-primary layui-btn-xs' style='cursor:pointer;'>&#xe671;</i></a>"
 				+ "</div>";
 		return html;
 	}
 
-	@ReadValue("项目文件夹选择列表/folderName" )
+	@ReadValue("项目文件夹选择列表/folderName")
 	private String getHTMLName2() {
 		String iconUrl;
 		if (parent_id == null) {
@@ -68,9 +76,9 @@ public class Folder implements IFolder{
 		} else {
 			iconUrl = "rwt-resources/extres/img/folder_closed.svg";
 		}
-		String html = "<div class='brui_ly_hline'>" + "<img src="
-				+ iconUrl + " style='margin-right:8px;' width='20px' height='20px'/>" + "<div style='flex:auto;'>"
-				+ name + "</div>" + "</div>";
+		String html = "<div class='brui_ly_hline'>" + "<img src=" + iconUrl
+				+ " style='margin-right:8px;' width='20px' height='20px'/>" + "<div style='flex:auto;'>" + name
+				+ "</div>" + "</div>";
 		return html;
 	}
 
@@ -81,7 +89,7 @@ public class Folder implements IFolder{
 	}
 
 	public String domain;
-	
+
 	@Structure(DataSet.LIST)
 	private List<Folder> listChildren() {
 		return ServicesLoader.get(DocumentService.class).listChildrenProjectFolder(_id, domain);
@@ -96,6 +104,10 @@ public class Folder implements IFolder{
 
 	public ObjectId get_id() {
 		return _id;
+	}
+
+	public void set_id(ObjectId _id) {
+		this._id = _id;
 	}
 
 	public String getName() {
@@ -122,4 +134,19 @@ public class Folder implements IFolder{
 		return this;
 	}
 
+	public boolean isflderroot() {
+		return isflderroot;
+	}
+
+	public void setflderroot(boolean isflderroot) {
+		this.isflderroot = isflderroot;
+	}
+
+	public ObjectId getRoot_id() {
+		return root_id;
+	}
+
+	public void setRoot_id(ObjectId root_id) {
+		this.root_id = root_id;
+	}
 }

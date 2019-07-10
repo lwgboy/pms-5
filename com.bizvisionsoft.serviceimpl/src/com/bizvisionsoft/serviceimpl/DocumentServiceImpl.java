@@ -3,7 +3,6 @@ package com.bizvisionsoft.serviceimpl;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 import org.bson.Document;
 import org.bson.conversions.Bson;
@@ -11,14 +10,13 @@ import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.service.DocumentService;
 import com.bizvisionsoft.service.common.Domain;
-import com.bizvisionsoft.service.exporter.ExportableForm;
 import com.bizvisionsoft.service.model.Docu;
 import com.bizvisionsoft.service.model.DocuSetting;
 import com.bizvisionsoft.service.model.DocuTemplate;
 import com.bizvisionsoft.service.model.Folder;
 import com.bizvisionsoft.service.model.FolderInTemplate;
+import com.bizvisionsoft.service.model.VaultFolder;
 import com.mongodb.BasicDBObject;
-import com.mongodb.client.DistinctIterable;
 import com.mongodb.client.model.Aggregates;
 import com.mongodb.client.model.Field;
 
@@ -147,7 +145,7 @@ public class DocumentServiceImpl extends BasicServiceImpl implements DocumentSer
 			if (limit != null)
 				pipeline.add(Aggregates.limit(limit));
 
-			appendUserInfo(pipeline, "createBy", "createByInfo", domain);
+			// appendUserInfo(pipeline, "createBy", "createByInfo", domain);
 
 			return c(Docu.class, domain).aggregate(pipeline).into(new ArrayList<>());
 		} else {
@@ -253,21 +251,55 @@ public class DocumentServiceImpl extends BasicServiceImpl implements DocumentSer
 	public long deleteDocumentSetting(ObjectId _id, String domain) {
 		return delete(_id, DocuSetting.class, domain);
 	}
-
+	
 	@Override
-	public long updateDocumentExportConfig(ExportableForm form, String col, ObjectId _id, String domain) {
-		ObjectId confId = c(col,domain).distinct("exportConfig", ObjectId.class).first();
-		if(confId == null) {//√ª”–≈‰÷√
-			confId = new ObjectId();
-		}
-		form._id = _id;
-		Document result = upsert(new Document("_id", _id), form.encodeDocument(), "exportConfig", domain);
-		return Optional.ofNullable(result.getInteger("matched")).orElse(0);
+	public List<VaultFolder> listContainer(BasicDBObject condition, String domain) {
+		if (condition != null)
+			return createDataSet(condition, VaultFolder.class, domain);
+		return new ArrayList<VaultFolder>();
 	}
 
 	@Override
-	public long deleteDocumentExportConfig(ObjectId _id, String domain) {
-		return delete(_id, "exportConfig", domain);
+	public long countContainer(BasicDBObject filter, String domain) {
+		if (filter != null)
+			return count(filter, VaultFolder.class, domain);
+		return 0;
+	}
+
+	@Override
+	public List<Document> listContainerDocument(BasicDBObject condition, String domain) {
+		if (condition != null) {
+			Integer skip = (Integer) condition.get("skip");
+			Integer limit = (Integer) condition.get("limit");
+			BasicDBObject filter = (BasicDBObject) condition.get("filter");
+			BasicDBObject sort = (BasicDBObject) condition.get("sort");
+
+			ArrayList<Bson> pipeline = new ArrayList<Bson>();
+
+			if (filter != null)
+				pipeline.add(Aggregates.match(filter));
+
+			if (sort != null)
+				pipeline.add(Aggregates.sort(sort));
+
+			if (skip != null)
+				pipeline.add(Aggregates.skip(skip));
+
+			if (limit != null)
+				pipeline.add(Aggregates.limit(limit));
+
+			debugPipeline(pipeline);
+
+			return c("docu").aggregate(pipeline).into(new ArrayList<>());
+		}
+		return new ArrayList<Document>();
+	}
+
+	@Override
+	public long countContainerDocument(BasicDBObject filter, String domain) {
+		if (filter != null)
+			return count(filter, Docu.class, domain);
+		return 0;
 	}
 
 }

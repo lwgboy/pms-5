@@ -40,6 +40,7 @@ import com.bizvisionsoft.service.model.Result;
 import com.bizvisionsoft.service.model.Role;
 import com.bizvisionsoft.service.model.SalesItem;
 import com.bizvisionsoft.service.model.Stockholder;
+import com.bizvisionsoft.service.model.VaultFolder;
 import com.bizvisionsoft.service.model.Work;
 import com.bizvisionsoft.service.model.WorkReport;
 import com.bizvisionsoft.service.model.Workspace;
@@ -69,6 +70,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 			// 数据准备
 			ObjectId obsRoot_id = new ObjectId();// 组织根
 			ObjectId cbsRoot_id = new ObjectId();// 预算根
+			ObjectId folderRoot_id = new ObjectId();// 文件夹根
 
 			ObjectId program_id = input.getProgram_id();
 			ObjectId obsParent_id = null;// 组织上级
@@ -83,7 +85,7 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 			}
 			/////////////////////////////////////////////////////////////////////////////
 			// 0. 创建项目
-			project = insert(input.setOBS_id(obsRoot_id).setCBS_id(cbsRoot_id), Project.class, domain);
+			project = insert(input.setOBS_id(obsRoot_id).setCBS_id(cbsRoot_id).setFolder_id(folderRoot_id), Project.class, domain);
 			/////////////////////////////////////////////////////////////////////////////
 			// 1. 项目团队初始化
 			OBSItem obsRoot = new OBSItem()// 创建本项目的OBS根节点
@@ -106,6 +108,14 @@ public class ProjectServiceImpl extends BasicServiceImpl implements ProjectServi
 			cbsRoot.setName(project.getName());
 			insert(cbsRoot, CBSItem.class, domain);
 
+			/////////////////////////////////////////////////////////////////////////////
+			// 3. 资料库初始化
+			// 创建根
+			VaultFolder folder = VaultFolder.getInstance(project, true, domain);
+			folder.set_id(folderRoot_id);
+			folder.setName(project.getName());
+			folder.setParent_id(project.getContainer_id());
+			insert(folder, VaultFolder.class, domain);
 		} else {
 			project = insert(input, Project.class, domain);
 		}
