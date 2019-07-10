@@ -1,0 +1,193 @@
+{
+  "id": "/已创建问题看板.boardassy",
+  "name": "已创建问题看板",
+  "title": "已创建问题看板",
+  "layout": [],
+  "type": "board",
+  "stickerTitle": "已创建",
+  "folderId": "167fcdcde82",
+  "gridAutoHeight": true,
+  "gridDataSetService": "com.bizvisionsoft.service.ProblemService",
+  "columns": [],
+  "fields": [
+    {
+      "id": "1683ae7f5c9",
+      "name": "新字段13",
+      "type": "行",
+      "formFields": [
+        {
+          "id": "1683ae397f3",
+          "name": "id",
+          "text": "编号",
+          "type": "文本输入框（查询）",
+          "formFields": []
+        },
+        {
+          "id": "1683ae398a8",
+          "name": "name",
+          "text": "问题描述",
+          "type": "文本输入框（查询）",
+          "formFields": []
+        }
+      ]
+    },
+    {
+      "id": "1683ae829a5",
+      "name": "新字段14",
+      "type": "行",
+      "formFields": [
+        {
+          "id": "1683ae39940",
+          "name": "custId",
+          "text": "客户编号",
+          "type": "文本输入框（查询）",
+          "formFields": []
+        },
+        {
+          "id": "1683ae84e88",
+          "name": "custInfo",
+          "text": "客户名称",
+          "type": "文本输入框（查询）",
+          "formFields": []
+        }
+      ]
+    },
+    {
+      "id": "1683ae88a77",
+      "name": "新字段16",
+      "type": "行",
+      "formFields": [
+        {
+          "id": "1683ae399f4",
+          "name": "partNum",
+          "text": "零部件编号",
+          "type": "文本输入框（查询）",
+          "formFields": []
+        },
+        {
+          "id": "1683ae39be9",
+          "name": "partVer",
+          "text": "版本",
+          "type": "文本输入框（查询）",
+          "formFields": []
+        }
+      ]
+    },
+    {
+      "id": "1683ae8acce",
+      "name": "新字段17",
+      "type": "行",
+      "formFields": [
+        {
+          "id": "1683ae39a9a",
+          "name": "partName",
+          "text": "零件名称",
+          "type": "文本输入框（查询）",
+          "formFields": []
+        },
+        {
+          "id": "1683ae39b33",
+          "name": "lotNum",
+          "text": "批次",
+          "type": "文本输入框（查询）",
+          "formFields": []
+        }
+      ]
+    },
+    {
+      "id": "1683ae8f8ca",
+      "name": "新字段18",
+      "type": "行",
+      "formFields": [
+        {
+          "id": "1683ae39c8e",
+          "name": "distDate",
+          "text": "发料日期",
+          "type": "日期时间范围（查询）",
+          "formFields": [],
+          "dateType": "datetime"
+        },
+        {
+          "id": "1683ae39d67",
+          "name": "distQty",
+          "text": "发料数量",
+          "type": "文本输入框（查询）",
+          "formFields": []
+        }
+      ]
+    },
+    {
+      "id": "1683ae912af",
+      "name": "新字段19",
+      "type": "行",
+      "formFields": [
+        {
+          "id": "1683ae45399",
+          "name": "issueDate",
+          "text": "问题发起日期",
+          "type": "日期时间范围（查询）",
+          "formFields": [],
+          "dateType": "datetime"
+        },
+        {
+          "id": "1683ae6188f",
+          "name": "initiatedFrom",
+          "text": "问题最初来源",
+          "type": "下拉选择框（查询）",
+          "formFields": [],
+          "optionText": "供应商#合作伙伴#设计#生产#客户"
+        }
+      ]
+    },
+    {
+      "id": "1683ae61953",
+      "name": "deptName",
+      "text": "责任部门",
+      "type": "文本输入框（查询）",
+      "formFields": []
+    }
+  ],
+  "actions": [
+    {
+      "id": "16837222338",
+      "name": "切换",
+      "image": "/img/right_w.svg",
+      "switchContentToAssemblyId": "/问题清单（已关闭）.gridassy",
+      "style": "info",
+      "type": "switch",
+      "parameters": "",
+      "passParametersToAssembly": "{\"status\":\"已创建\"}"
+    }
+  ],
+  "rowActions": [
+    {
+      "id": "167f373edb2",
+      "name": "操作",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.problem.action.ProblemCard",
+      "type": "customized",
+      "parameters": "{\"editorName\":\"/tops/eslscm/问题编辑器（创建）.editorassy\"}"
+    }
+  ],
+  "hasTitlebar": true,
+  "disableStdQuery": false,
+  "parameters": "{\"status\":\"已创建\",\"render\":\"card\"}",
+  "scrollLoadData": false,
+  "compactTitleBar": true,
+  "sortFields": [
+    {
+      "id": "1683b0249bf",
+      "name": "distDate",
+      "text": "发料日期",
+      "type": "排序字段",
+      "formFields": []
+    },
+    {
+      "id": "1683b02c348",
+      "name": "issueDate",
+      "text": "问题发起日期",
+      "type": "排序字段",
+      "formFields": []
+    }
+  ]
+}
