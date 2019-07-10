@@ -1,0 +1,11 @@
+{ 
+    "_id" : "bvs_tmt", 
+    "activated" : true, 
+    "rootPath" : "D:\\sg\\git-pms6\\pms\\config/server/bvs_tmt", 
+    "site" : [
+        "D:\\sg\\git-pms6\\pms\\config\\client/site/bvs_tmt.pms.std.site"
+    ], 
+    "databaseUser" : "20149518@teg.cn", 
+    "databasePassword" : "ebSDiADF", 
+    "databaseSSLConnection" : false
+}
