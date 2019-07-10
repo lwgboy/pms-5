@@ -11,12 +11,12 @@ import org.bson.types.ObjectId;
 import com.bizvisionsoft.mongocodex.tools.BsonTools;
 import com.bizvisionsoft.service.DocumentService;
 import com.bizvisionsoft.service.common.Domain;
-import com.bizvisionsoft.service.model.VaultFolder;
 import com.bizvisionsoft.service.model.Docu;
 import com.bizvisionsoft.service.model.DocuSetting;
 import com.bizvisionsoft.service.model.DocuTemplate;
 import com.bizvisionsoft.service.model.Folder;
 import com.bizvisionsoft.service.model.FolderInTemplate;
+import com.bizvisionsoft.service.model.VaultFolder;
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.model.Aggregates;
 import com.mongodb.client.model.Field;
@@ -35,8 +35,7 @@ public class DocumentServiceImpl extends BasicServiceImpl implements DocumentSer
 
 	@Override
 	public List<Folder> listProjectRootFolder(ObjectId project_id, String domain) {
-		return c(Folder.class, domain).find(new Document("project_id", project_id).append("parent_id", null))
-				.into(new ArrayList<>());
+		return c(Folder.class, domain).find(new Document("project_id", project_id).append("parent_id", null)).into(new ArrayList<>());
 	}
 
 	@Override
@@ -61,8 +60,7 @@ public class DocumentServiceImpl extends BasicServiceImpl implements DocumentSer
 
 	@Override
 	public List<FolderInTemplate> listChildrenFolderTemplate(ObjectId parent_id, String domain) {
-		return list(FolderInTemplate.class, domain,
-				new BasicDBObject("filter", new BasicDBObject("parent_id", parent_id)),
+		return list(FolderInTemplate.class, domain, new BasicDBObject("filter", new BasicDBObject("parent_id", parent_id)),
 				Aggregates.graphLookup("folderInTemplate", "$folderInTemplate_id", "parent_id", "_id", "parent"), //
 				Aggregates.addFields(new Field<String>("path", "$parent.name")), //
 				Aggregates.project(new Document("parent", false)));
@@ -106,8 +104,7 @@ public class DocumentServiceImpl extends BasicServiceImpl implements DocumentSer
 
 	@Override
 	public boolean renameProjectTemplateFolder(ObjectId folder_id, String name, String domain) {
-		c("folderInTemplate", domain).updateOne(new Document("_id", folder_id),
-				new Document("$set", new Document("name", name)));
+		c("folderInTemplate", domain).updateOne(new Document("_id", folder_id), new Document("$set", new Document("name", name)));
 		return true;
 	}
 
@@ -165,8 +162,7 @@ public class DocumentServiceImpl extends BasicServiceImpl implements DocumentSer
 			BasicDBObject filter = (BasicDBObject) condition.get("filter");
 			BasicDBObject sort = (BasicDBObject) condition.get("sort");
 
-			List<ObjectId> folder_id = c(Folder.class, domain)
-					.distinct("_id", new Document("project_id", project_id), ObjectId.class)
+			List<ObjectId> folder_id = c(Folder.class, domain).distinct("_id", new Document("project_id", project_id), ObjectId.class)
 					.into(new ArrayList<ObjectId>());
 
 			ArrayList<Bson> pipeline = new ArrayList<Bson>();
@@ -191,8 +187,7 @@ public class DocumentServiceImpl extends BasicServiceImpl implements DocumentSer
 
 	@Override
 	public long countProjectDocument(BasicDBObject filter, ObjectId project_id, String domain) {
-		List<ObjectId> folder_id = c(Folder.class, domain)
-				.distinct("_id", new Document("project_id", project_id), ObjectId.class)
+		List<ObjectId> folder_id = c(Folder.class, domain).distinct("_id", new Document("project_id", project_id), ObjectId.class)
 				.into(new ArrayList<ObjectId>());
 		if (filter == null)
 			filter = new BasicDBObject();
@@ -257,12 +252,11 @@ public class DocumentServiceImpl extends BasicServiceImpl implements DocumentSer
 	public long deleteDocumentSetting(ObjectId _id, String domain) {
 		return delete(_id, DocuSetting.class, domain);
 	}
-
+	
 	@Override
 	public List<VaultFolder> listContainer(BasicDBObject condition, String domain) {
 		if (condition != null)
 			return createDataSet(condition, VaultFolder.class, domain);
-
 		return new ArrayList<VaultFolder>();
 	}
 
@@ -270,7 +264,6 @@ public class DocumentServiceImpl extends BasicServiceImpl implements DocumentSer
 	public long countContainer(BasicDBObject filter, String domain) {
 		if (filter != null)
 			return count(filter, VaultFolder.class, domain);
-
 		return 0;
 	}
 
@@ -289,7 +282,6 @@ public class DocumentServiceImpl extends BasicServiceImpl implements DocumentSer
 	public long countContainerDocument(BasicDBObject filter, String domain) {
 		if (filter != null)
 			return count(filter, Docu.class, domain);
-
 		return 0;
 	}
 
