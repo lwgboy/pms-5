@@ -53,33 +53,34 @@
       "type": "行",
       "formFields": [
         {
-          "id": "167e83f9f19",
-          "name": "partNum",
-          "text": "零部件编号",
-          "type": "单行文本框",
-          "formFields": [],
-          "tooltips": ""
-        },
-        {
           "id": "167eacd24d3",
           "name": "partVer",
-          "text": "版本",
+          "text": "问题发现时段",
           "type": "单行文本框",
           "formFields": []
         },
         {
-          "id": "167eaccd565",
-          "name": "partName",
-          "text": "零件名称",
-          "type": "单行文本框",
+          "id": "167eac2717f",
+          "name": "issueDate",
+          "text": "发生日期",
+          "type": "日期时间选择",
+          "formFields": [],
+          "required": true
+        },
+        {
+          "id": "167eaba50ed",
+          "name": "latestTimeReq",
+          "text": "要求回复时间",
+          "type": "日期时间选择",
           "formFields": []
         },
         {
-          "id": "167e83f9fbf",
-          "name": "lotNum",
-          "text": "批次",
-          "type": "单行文本框",
-          "formFields": []
+          "id": "167e83f9f19",
+          "name": "date1",
+          "text": "实际回复时间",
+          "type": "日期时间选择",
+          "formFields": [],
+          "tooltips": ""
         }
       ]
     },
@@ -89,35 +90,66 @@
       "type": "行",
       "formFields": [
         {
-          "id": "167eaba50ed",
-          "name": "distDate",
-          "text": "发料日期",
-          "type": "日期时间选择",
+          "id": "167e83f9fbf",
+          "name": "lotNum",
+          "text": "订单号",
+          "type": "单行文本框",
           "formFields": []
         },
         {
           "id": "167eabaadc4",
-          "name": "distQty",
-          "text": "发料数量",
+          "name": "partNum",
+          "text": "BOM编码",
           "type": "单行文本框",
           "formFields": [],
           "textRestrict": "无限定"
         },
         {
-          "id": "167eac2717f",
-          "name": "issueDate",
-          "text": "问题发起日期",
-          "type": "日期时间选择",
+          "id": "167eaca4af2",
+          "name": "partName",
+          "text": "产品型号",
+          "type": "单行文本框",
           "formFields": [],
           "required": true
         },
         {
-          "id": "167eaca4af2",
+          "id": "167eaccd565",
           "name": "issueBy",
           "text": "问题发起人",
           "type": "单行文本框",
+          "formFields": []
+        }
+      ]
+    },
+    {
+      "name": "新字段",
+      "type": "行",
+      "formFields": [
+        {
+          "name": "distQty",
+          "text": "抽检数量",
+          "type": "单行文本框",
+          "formFields": []
+        },
+        {
+          "name": "quantityReturned",
+          "text": "不合格品数量",
+          "type": "单行文本框",
+          "formFields": []
+        },
+        {
+          "name": "boolean1",
+          "text": "第三方检查",
+          "type": "复选框",
           "formFields": [],
-          "required": true
+          "checkStyle": "开关（默认）"
+        },
+        {
+          "name": "boolean2",
+          "text": "可靠性测试",
+          "type": "复选框",
+          "formFields": [],
+          "checkStyle": "开关（默认）"
         }
       ]
     },
