@@ -8,6 +8,7 @@ import org.bson.Document;
 import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 
+import com.bizvisionsoft.mongocodex.tools.BsonTools;
 import com.bizvisionsoft.service.DocumentService;
 import com.bizvisionsoft.service.common.Domain;
 import com.bizvisionsoft.service.model.VaultFolder;
@@ -275,31 +276,13 @@ public class DocumentServiceImpl extends BasicServiceImpl implements DocumentSer
 
 	@Override
 	public List<Document> listContainerDocument(BasicDBObject condition, String domain) {
+		List<Document> result = new ArrayList<Document>();
 		if (condition != null) {
-			Integer skip = (Integer) condition.get("skip");
-			Integer limit = (Integer) condition.get("limit");
-			BasicDBObject filter = (BasicDBObject) condition.get("filter");
-			BasicDBObject sort = (BasicDBObject) condition.get("sort");
-
-			ArrayList<Bson> pipeline = new ArrayList<Bson>();
-
-			if (filter != null)
-				pipeline.add(Aggregates.match(filter));
-
-			if (sort != null)
-				pipeline.add(Aggregates.sort(sort));
-
-			if (skip != null)
-				pipeline.add(Aggregates.skip(skip));
-
-			if (limit != null)
-				pipeline.add(Aggregates.limit(limit));
-
-			debugPipeline(pipeline);
-
-			return c("docu").aggregate(pipeline).into(new ArrayList<>());
+			//TODO createDataSet需要支持直接传入集合名称的方法
+			createDataSet(condition, Docu.class, domain)
+					.forEach((Docu docu) -> result.add(BsonTools.encodeDocument(docu)));
 		}
-		return new ArrayList<Document>();
+		return result;
 	}
 
 	@Override
