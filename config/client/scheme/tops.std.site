@@ -521,7 +521,7 @@
                 "className": "com.bizvisionsoft.pms.problem.action.EditProblem",
                 "children": [],
                 "type": "customized",
-                "parameters": "{\"actionType\":\"create\"}"
+                "parameters": "{\"actionType\":\"create\",\"editorName\":\"问题编辑器（创建）.editorassy\"}"
               },
               {
                 "id": "167fce928ca",

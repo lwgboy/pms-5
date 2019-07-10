@@ -462,7 +462,7 @@ public class ProblemCardRenderer extends BasicServiceImpl {
 		String title = ((List<Document>)doc.get("problem")).get(0).getString("name");
 		RenderTools.appendHeader(sb, indigo, title, 36);
 		RenderTools.appendText(sb, "角色："+doc.getString("roleName"), RenderTools.STYLE_NLINE);
-		RenderTools.appendButton(sb, "layui-icon-more", 12, 12, "处理待办", "open/" + "");
+		RenderTools.appendTODOAction(sb, "layui-icon-more", 12, 12, "处理待办", "open/" + "");
 		RenderTools.appendCardBg(sb);
 		return new Document("_id", doc.get("_id")).append("html", sb.toString());
 	}

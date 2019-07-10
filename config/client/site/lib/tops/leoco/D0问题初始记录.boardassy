@@ -27,7 +27,7 @@
       "bundleId": "com.bizvisionsoft.pms",
       "className": "com.bizvisionsoft.pms.problem.action.EditProblem",
       "type": "customized",
-      "parameters": ""
+      "parameters": "{\"editorName\":\"/tops/leoco/Œ Ã‚±‡º≠∆˜£®±‡º≠£©.editorassy\"}"
     }
   ],
   "hasTitlebar": true,

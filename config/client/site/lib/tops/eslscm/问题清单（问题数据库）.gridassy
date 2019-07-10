@@ -1,9 +1,10 @@
 {
-  "id": "/问题清单（解决中）.gridassy",
-  "name": "问题清单（解决中）",
+  "id": "/问题清单（问题数据库）.gridassy",
+  "name": "问题清单（问题数据库）",
+  "description": "查看所有状态不为已取消的问题",
   "layout": [],
   "type": "grid",
-  "stickerTitle": "",
+  "stickerTitle": "问题数据库",
   "folderId": "167e83f2862",
   "gridLineVisiable": true,
   "gridHeaderVisiable": true,
@@ -23,7 +24,16 @@
       "enableColumnSort": true
     },
     {
-      "id": "168462e0c53",
+      "id": "16a9bb5aa53",
+      "name": "status",
+      "text": "状态",
+      "alignment": 16777216,
+      "width": 80,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "168462e6288",
       "name": "classifyProblem",
       "text": "类别",
       "alignment": 16384,
@@ -176,7 +186,7 @@
       ]
     },
     {
-      "id": "1684ad4b027",
+      "id": "1684a732ad7",
       "name": "cost.summary",
       "text": "损失成本",
       "alignment": 131072,
@@ -184,79 +194,6 @@
       "resizeable": true,
       "columns": [],
       "format": "￥#,###.00"
-    },
-    {
-      "id": "16840d23acf",
-      "name": "指标",
-      "text": "指标",
-      "alignment": 16384,
-      "width": 80,
-      "resizeable": true,
-      "columns": [
-        {
-          "id": "16840d26d7d",
-          "name": "severityIndInfo",
-          "text": "严重性",
-          "alignment": 16777216,
-          "width": 60,
-          "resizeable": true,
-          "detail": true,
-          "summary": true,
-          "columns": []
-        },
-        {
-          "id": "16840d33f64",
-          "name": "urgencyIndInfo",
-          "text": "紧迫性",
-          "alignment": 16777216,
-          "width": 60,
-          "resizeable": true,
-          "detail": true,
-          "summary": true,
-          "columns": []
-        },
-        {
-          "id": "16840d33164",
-          "name": "lostIndInfo",
-          "text": "损失",
-          "alignment": 16777216,
-          "width": 60,
-          "resizeable": true,
-          "detail": true,
-          "summary": true,
-          "columns": []
-        },
-        {
-          "id": "16840d328be",
-          "name": "incidenceIndInfo",
-          "text": "影响",
-          "alignment": 16777216,
-          "width": 60,
-          "resizeable": true,
-          "detail": true,
-          "columns": []
-        },
-        {
-          "id": "16840d32a7f",
-          "name": "freqIndInfo",
-          "text": "频度",
-          "alignment": 16777216,
-          "width": 60,
-          "resizeable": true,
-          "detail": true,
-          "columns": []
-        },
-        {
-          "id": "16840d32c2f",
-          "name": "detectionIndInfo",
-          "text": "可探测",
-          "alignment": 16777216,
-          "width": 60,
-          "resizeable": true,
-          "detail": true,
-          "columns": []
-        }
-      ]
     },
     {
       "id": "16879573d8e",
@@ -398,127 +335,127 @@
           "resizeable": true,
           "detail": true,
           "columns": []
+        },
+        {
+          "id": "1650624adeb",
+          "name": "closeOn",
+          "text": "关闭",
+          "alignment": 16777216,
+          "width": 160,
+          "resizeable": true,
+          "detail": true,
+          "summary": true,
+          "columns": [],
+          "format": "yyyy-MM-dd HH:mm:ss"
+        },
+        {
+          "id": "1650624b020",
+          "name": "closeBy",
+          "text": "",
+          "alignment": 16777216,
+          "width": 64,
+          "resizeable": true,
+          "detail": true,
+          "columns": []
         }
       ]
     }
   ],
   "fields": [
     {
-      "id": "167e978a1ab",
-      "name": "新字段10",
-      "type": "行",
-      "formFields": [
-        {
-          "id": "167e9737f03",
-          "name": "id",
-          "text": "问题编号",
-          "type": "文本输入框（查询）",
-          "formFields": []
-        },
-        {
-          "id": "167e9737fa3",
-          "name": "name",
-          "text": "问题简述",
-          "type": "文本输入框（查询）",
-          "formFields": []
-        }
-      ]
+      "id": "16a9bb03d30",
+      "name": "status",
+      "text": "状态",
+      "type": "下拉选择框（查询）",
+      "formFields": [],
+      "optionText": "已创建#解决中#已关闭"
     },
     {
-      "id": "167e978db86",
-      "name": "新字段12",
-      "type": "行",
-      "formFields": [
-        {
-          "id": "167e973811c",
-          "name": "custId",
-          "text": "客户编号",
-          "type": "文本输入框（查询）",
-          "formFields": []
-        },
-        {
-          "id": "167e973819c",
-          "name": "custInfo",
-          "text": "客户名称",
-          "type": "文本输入框（查询）",
-          "formFields": []
-        }
-      ]
+      "id": "167e9737f03",
+      "name": "id",
+      "text": "问题编号",
+      "type": "文本输入框（查询）",
+      "formFields": []
     },
     {
-      "id": "167e97934da",
-      "name": "新字段14",
-      "type": "行",
-      "formFields": [
-        {
-          "id": "167e975fb5d",
-          "name": "creationInfo.date",
-          "text": "创建时间",
-          "type": "日期时间范围（查询）",
-          "formFields": [],
-          "dateType": "datetime"
-        },
-        {
-          "id": "167e9795766",
-          "name": "creationInfo.userName",
-          "text": "创建人",
-          "type": "文本输入框（查询）",
-          "formFields": []
-        }
-      ]
+      "id": "167e9737fa3",
+      "name": "name",
+      "text": "问题简述",
+      "type": "文本输入框（查询）",
+      "formFields": []
+    },
+    {
+      "id": "167e973811c",
+      "name": "custId",
+      "text": "客户编号",
+      "type": "文本输入框（查询）",
+      "formFields": []
+    },
+    {
+      "id": "167e973819c",
+      "name": "custInfo",
+      "text": "客户名称",
+      "type": "文本输入框（查询）",
+      "formFields": []
+    },
+    {
+      "id": "168902fcce0",
+      "name": "deptName",
+      "text": "责任部门",
+      "type": "文本输入框（查询）",
+      "formFields": []
+    },
+    {
+      "id": "1689030e315",
+      "name": "issueDate",
+      "text": "发起日期",
+      "type": "日期时间范围（查询）",
+      "formFields": []
+    },
+    {
+      "id": "167e975fb5d",
+      "name": "creationInfo.date",
+      "text": "创建时间",
+      "type": "日期时间范围（查询）",
+      "formFields": [],
+      "dateType": "datetime"
+    },
+    {
+      "id": "167e9795766",
+      "name": "creationInfo.userName",
+      "text": "创建人",
+      "type": "文本输入框（查询）",
+      "formFields": []
+    },
+    {
+      "id": "1689018a79c",
+      "name": "classifyProblem._ids",
+      "text": "问题类别",
+      "type": "多个对象选择框（查询）",
+      "verticalLabel": true,
+      "formFields": [],
+      "selectorAssemblyId": "/问题分类选择表格（查询用）.gridassy",
+      "grabVertical": true,
+      "valueFieldName": "_id"
     }
   ],
-  "actions": [],
+  "actions": [
+    {
+      "name": "注册新问题",
+      "text": "注册新问题",
+      "image": "/img/add_16_w.svg",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.problem.action.EditProblem",
+      "style": "normal",
+      "type": "customized",
+      "parameters": "{\"actionType\":\"creates\",\"editorName\":\"/tops/eslscm/问题编辑器（整体创建）.editorassy\"}}"
+    }
+  ],
   "rowActions": [
-    {
-      "id": "167e9ddfc5b",
-      "name": "关闭",
-      "image": "",
-      "bundleId": "com.bizvisionsoft.pms",
-      "className": "com.bizvisionsoft.pms.problem.action.ProblemLifecycle",
-      "forceText": true,
-      "style": "warning",
-      "actionBehavier": true,
-      "type": "customized",
-      "parameters": "{\"action\":\"close\"}"
-    },
-    {
-      "id": "1685110ec7c",
-      "name": "取消",
-      "bundleId": "com.bizvisionsoft.pms",
-      "className": "com.bizvisionsoft.pms.problem.action.ProblemLifecycle",
-      "forceText": true,
-      "style": "warning",
-      "actionBehavier": true,
-      "type": "customized",
-      "parameters": "{\"action\":\"cancel\"}"
-    },
-    {
-      "id": "168510e7401",
-      "name": "指标",
-      "bundleId": "com.bizvisionsoft.pms",
-      "className": "com.bizvisionsoft.pms.problem.action.EditProblemIndicators",
-      "forceText": true,
-      "style": "normal",
-      "editorAssemblyEditable": true,
-      "actionBehavier": true,
-      "type": "customized",
-      "parameters": "{\"render\":\"gridrow\"}"
-    },
-    {
-      "id": "167e9e13fc3",
-      "name": "编辑",
-      "image": "/img/edit_w.svg",
-      "style": "normal",
-      "editorAssemblyId": "/问题编辑器（编辑）.editorassy",
-      "editorAssemblyEditable": true,
-      "actionBehavier": false,
-      "type": "edit",
-      "parameters": ""
-    },
     {
       "id": "167e9e6c197",
       "name": "打开",
+      "text": "打开",
       "image": "/img/right_w.svg",
       "bundleId": "com.bizvisionsoft.pms",
       "className": "com.bizvisionsoft.pms.problem.action.OpenProblem",
@@ -528,10 +465,10 @@
     }
   ],
   "hasTitlebar": true,
-  "displayInputLabelInTitlebar": false,
-  "displayRootInputLabelInTitlebar": false,
+  "disableInitLoadData": true,
+  "disableStdQuery": true,
+  "disableStdSort": false,
   "parameters": "{\"render\":\"gridrow\"}",
-  "compactTitleBar": false,
   "sortFields": [],
-  "stickerTitleScript": "\"问题- \"+context_passed_parameter.status"
+  "stickerTitleScript": ""
 }
