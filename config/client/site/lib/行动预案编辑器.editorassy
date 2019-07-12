@@ -118,7 +118,7 @@
           "id": "167f3258769",
           "name": "detail",
           "text": "详细计划",
-          "type": "HTML文本框",
+          "type": "多行文本框",
           "formFields": [],
           "required": true,
           "grabVertical": true

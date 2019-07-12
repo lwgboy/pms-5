@@ -81,7 +81,7 @@
       "id": "167f2b37774",
       "name": "detail",
       "text": "详细计划",
-      "type": "HTML文本框",
+      "type": "多行文本框",
       "formFields": [],
       "grabVertical": true
     },
@@ -133,7 +133,7 @@
     },
     {
       "id": "1688f8e5f50",
-      "name": "attachment",
+      "name": "verification.attachment",
       "text": "验证资料\u003cbr\u003e检验报告\u003cbr\u003e测试结果\u003cbr\u003e其他附件",
       "type": "多个文件选择框",
       "formFields": [],

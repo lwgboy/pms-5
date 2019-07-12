@@ -332,7 +332,7 @@ public class ProblemCardRenderer extends BasicServiceImpl {
 				"<div class='brui_zoomImage' style='padding-bottom:75%;cursor:pointer;height:1px;border-radius:4px 4px 0px 0px;background-image:url("
 						+ RenderTools.getFirstFileURL(doc, "problemImg", domain) + ")' "
 						+ "onclick='$.getJSON(\"bvs/imgf?c=d2ProblemPhoto&i=" + doc.get("_id")
-						+ "&f=problemImg\", function(json){layer.photos({photos: json});});'" + "></div>");
+						+ "&domain="+domain+"&f=problemImg\", function(json){layer.photos({photos: json});});'" + "></div>");
 
 		RenderTools.appendText(sb, doc.getString("problemImgDesc"), RenderTools.STYLE_3LINE);
 
@@ -353,7 +353,7 @@ public class ProblemCardRenderer extends BasicServiceImpl {
 		sb.append(
 				"<div class='brui_zoomImage' style='padding-bottom:75%;cursor:pointer;height:1px;border-radius:4px 4px 0px 0px;background-image:url("
 						+ RenderTools.getFirstFileURL(doc, "problemImg", domain) + ")' " + "onclick='$.getJSON(\"bvs/imgf?c=d2ProblemPhoto&i="
-						+ doc.get("_id") + "&f=problemImg\", function(json){layer.photos({photos: json});});'" + "></div>");
+						+ doc.get("_id") + "&domain="+domain+"&f=problemImg\", function(json){layer.photos({photos: json});});'" + "></div>");
 
 		RenderTools.appendText(sb, doc.getString("problemImgDesc"), RenderTools.STYLE_3LINE);
 

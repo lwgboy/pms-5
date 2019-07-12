@@ -80,7 +80,7 @@
       "id": "167f2b37774",
       "name": "detail",
       "text": "详细计划",
-      "type": "HTML文本框",
+      "type": "多行文本框",
       "formFields": [],
       "grabVertical": true
     }
