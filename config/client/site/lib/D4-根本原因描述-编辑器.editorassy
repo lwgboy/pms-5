@@ -20,6 +20,8 @@
           "formFields": [],
           "textMessage": "什么问题？/当前状况是什么？",
           "required": true,
+          "height": 140,
+          "grabVertical": false,
           "hideLabel": false,
           "verticalAlignLabel": true
         },
@@ -30,6 +32,7 @@
           "type": "多个文件选择框",
           "formFields": [],
           "fileNamespace": "prmAtt",
+          "height": 20,
           "verticalAlignLabel": true
         },
         {
@@ -39,24 +42,18 @@
           "type": "多行文本框",
           "formFields": [],
           "required": true,
+          "height": 140,
+          "grabVertical": false,
           "verticalAlignLabel": true
         },
         {
           "id": "16a96caa2fd",
           "name": "escapePointAtt",
-          "text": "问题逃出点附件",
+          "text": "问题逃出附件",
           "type": "多个文件选择框",
           "formFields": [],
           "fileNamespace": "prmAtt",
-          "verticalAlignLabel": true
-        },
-        {
-          "id": "16809a7ede1",
-          "name": "evidenceFile",
-          "text": "验证证据",
-          "type": "多个文件选择框",
-          "formFields": [],
-          "fileNamespace": "prmAtt",
+          "height": 20,
           "verticalAlignLabel": true
         },
         {
@@ -87,11 +84,27 @@
       ]
     },
     {
-      "id": "16809aefca9",
-      "name": "evidenceData",
-      "text": "验证记录",
-      "type": "标签页（HTML编辑）",
-      "formFields": []
+      "name": "验证记录",
+      "type": "标签页",
+      "formFields": [
+        {
+          "id": "16809aefca9",
+          "name": "evidenceData",
+          "text": "验证记录",
+          "type": "HTML文本框",
+          "formFields": [],
+          "grabVertical": true
+        },
+        {
+          "id": "16809a7ede1",
+          "name": "evidenceFile",
+          "text": "验证证据",
+          "type": "多个文件选择框",
+          "formFields": [],
+          "fileNamespace": "prmAtt",
+          "verticalAlignLabel": true
+        }
+      ]
     }
   ],
   "actions": [
