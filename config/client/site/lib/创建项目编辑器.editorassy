@@ -139,7 +139,7 @@
       "id": "162d0ff0df2",
       "name": "description",
       "text": "项目背景",
-      "type": "HTML文本框",
+      "type": "多行文本框",
       "formFields": [],
       "grabVertical": true
     }

@@ -30,6 +30,7 @@
           "type": "多个文件选择框",
           "formFields": [],
           "fileNamespace": "prmAtt",
+          "height": 20,
           "verticalAlignLabel": true
         },
         {
@@ -44,10 +45,11 @@
         {
           "id": "16a96caa2fd",
           "name": "escapePointAtt",
-          "text": "问题逃出点附件",
+          "text": "问题逃出附件",
           "type": "多个文件选择框",
           "formFields": [],
           "fileNamespace": "prmAtt",
+          "height": 20,
           "verticalAlignLabel": true
         },
         {
@@ -57,6 +59,7 @@
           "type": "多个文件选择框",
           "formFields": [],
           "fileNamespace": "prmAtt",
+          "height": 20,
           "verticalAlignLabel": true
         },
         {
@@ -85,13 +88,6 @@
           ]
         }
       ]
-    },
-    {
-      "id": "16809aefca9",
-      "name": "evidenceData",
-      "text": "验证记录",
-      "type": "标签页（HTML编辑）",
-      "formFields": []
     }
   ],
   "actions": [

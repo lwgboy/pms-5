@@ -75,7 +75,7 @@
           "id": "1681e3c6840",
           "name": "abstract",
           "text": "摘要",
-          "type": "HTML文本框",
+          "type": "多行文本框",
           "formFields": [],
           "required": false,
           "grabVertical": true
@@ -129,7 +129,7 @@
           "id": "168926af40c",
           "name": "advantage",
           "text": "优点",
-          "type": "HTML文本框",
+          "type": "多行文本框",
           "formFields": [],
           "grabVertical": true,
           "verticalAlignLabel": true
@@ -138,7 +138,7 @@
           "id": "1681e36e51c",
           "name": "weakness",
           "text": "缺点",
-          "type": "HTML文本框",
+          "type": "多行文本框",
           "formFields": [],
           "grabVertical": true,
           "verticalAlignLabel": true

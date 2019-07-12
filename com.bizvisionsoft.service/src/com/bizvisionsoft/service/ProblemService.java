@@ -214,7 +214,7 @@ public interface ProblemService {
 			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@DELETE
-	@Path("/d4/item/_id/{_id}")
+	@Path("/{domain}/d4/item/_id/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public long deleteD4Verify(@PathParam("_id") ObjectId _id, 
@@ -266,6 +266,8 @@ public interface ProblemService {
 	public Document getD2ProblemDesc(
 			@PathParam("_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId problem_id,
 			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+	
+
 
 	@POST
 	@Path("/{domain}/_id/{_id}/d2/photo/ds/")
@@ -284,11 +286,19 @@ public interface ProblemService {
 			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/_id/{_id}/d4/verify/ds/")
+	@Path("/{domain}/_id/{_id}/d4/verify/ds/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("D4原因分析验证记录表格/list")
 	public List<Document> listD4Verify(
+			@PathParam("_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId problem_id,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+	
+	@GET
+	@Path("/{domain}/_id/{_id}/d4/verify")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public Document getD4Verify(
 			@PathParam("_id") @MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) ObjectId problem_id,
 			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
@@ -389,10 +399,18 @@ public interface ProblemService {
 			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/d4/verify/{render}/{lang}")
+	@Path("/{domain}/d4/verify/{render}/{lang}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public Document insertD4Verify(Document t, @PathParam("lang") String lang,
+			@PathParam("render") String render,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+
+	@POST
+	@Path("/{domain}/d4/verify/{render}/{lang}/update")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public Document updateD4Verify(Document t, @PathParam("lang") String lang,
 			@PathParam("render") String render,
 			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 

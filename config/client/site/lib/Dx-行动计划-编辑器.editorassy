@@ -69,20 +69,20 @@
       ]
     },
     {
+      "id": "167f2b37774",
+      "name": "detail",
+      "text": "详细计划",
+      "type": "多行文本框",
+      "formFields": [],
+      "grabVertical": true
+    },
+    {
       "id": "16a96880662",
       "name": "attachments",
       "text": "附件",
       "type": "多个文件选择框",
       "formFields": [],
       "fileNamespace": "prmAtt"
-    },
-    {
-      "id": "167f2b37774",
-      "name": "detail",
-      "text": "详细计划",
-      "type": "HTML文本框",
-      "formFields": [],
-      "grabVertical": true
     }
   ],
   "actions": [
