@@ -3,9 +3,13 @@
 		"_id" : "<problem_id>"
 	}
 }, {
+	$unwind: {
+	    path : "$classifyProblems"
+	}
+},{
 	"$graphLookup" : {
 		"from" : "classifyProblem",
-		"startWith" : "$classifyProblem._id",
+		"startWith" : "$classifyProblems._id",
 		"connectFromField" : "parent_id",
 		"connectToField" : "_id",
 		"as" : "root"
