@@ -134,30 +134,48 @@
       "type": "行",
       "formFields": [
         {
-          "name": "distQty",
-          "text": "抽检数量",
-          "type": "单行文本框",
-          "formFields": []
+          "name": "新字段",
+          "type": "行",
+          "formFields": [
+            {
+              "name": "distQty",
+              "text": "抽检或投入",
+              "type": "单行文本框",
+              "formFields": []
+            },
+            {
+              "name": "quantityReturned",
+              "text": "不合格品数量",
+              "type": "单行文本框",
+              "formFields": []
+            },
+            {
+              "name": "defectiveRate",
+              "text": "不良率",
+              "type": "文本标签",
+              "formFields": []
+            }
+          ]
         },
         {
-          "name": "quantityReturned",
-          "text": "不合格品数量",
-          "type": "单行文本框",
-          "formFields": []
-        },
-        {
-          "name": "boolean1",
-          "text": "第三方检查",
-          "type": "复选框",
-          "formFields": [],
-          "checkStyle": "开关（默认）"
-        },
-        {
-          "name": "boolean2",
-          "text": "可靠性测试",
-          "type": "复选框",
-          "formFields": [],
-          "checkStyle": "开关（默认）"
+          "name": "新字段",
+          "type": "行",
+          "formFields": [
+            {
+              "name": "boolean1",
+              "text": "第三方检查",
+              "type": "复选框",
+              "formFields": [],
+              "checkStyle": "开关（默认）"
+            },
+            {
+              "name": "boolean2",
+              "text": "可靠性测试",
+              "type": "复选框",
+              "formFields": [],
+              "checkStyle": "开关（默认）"
+            }
+          ]
         }
       ]
     },
@@ -223,7 +241,7 @@
           "id": "16840450b84",
           "name": "latestTimeReq",
           "text": "最晚时间要求",
-          "type": "日期时间选择",
+          "type": "行",
           "formFields": [],
           "required": true,
           "dateType": "datetime"

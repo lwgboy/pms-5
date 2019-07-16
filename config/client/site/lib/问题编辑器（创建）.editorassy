@@ -50,7 +50,8 @@
           "name": "partVer",
           "text": "问题发现时段",
           "type": "单行文本框",
-          "formFields": []
+          "formFields": [],
+          "required": true
         },
         {
           "id": "167eac2717f",
@@ -65,7 +66,8 @@
           "name": "latestTimeReq",
           "text": "要求回复时间",
           "type": "日期时间选择",
-          "formFields": []
+          "formFields": [],
+          "required": true
         },
         {
           "id": "167e83f9f19",
@@ -110,7 +112,8 @@
           "name": "issueBy",
           "text": "问题发起人",
           "type": "单行文本框",
-          "formFields": []
+          "formFields": [],
+          "required": true
         }
       ]
     },
@@ -119,30 +122,51 @@
       "type": "行",
       "formFields": [
         {
-          "name": "distQty",
-          "text": "抽检数量",
-          "type": "单行文本框",
-          "formFields": []
+          "name": "新字段",
+          "type": "行",
+          "formFields": [
+            {
+              "name": "distQty",
+              "text": "抽检或投入",
+              "type": "单行文本框",
+              "formFields": [],
+              "required": true
+            },
+            {
+              "name": "quantityReturned",
+              "text": "不合格品数量",
+              "type": "单行文本框",
+              "formFields": [],
+              "required": true
+            },
+            {
+              "name": "defectiveRate",
+              "text": "不良率",
+              "type": "单行文本框",
+              "formFields": [],
+              "required": true
+            }
+          ]
         },
         {
-          "name": "quantityReturned",
-          "text": "不合格品数量",
-          "type": "单行文本框",
-          "formFields": []
-        },
-        {
-          "name": "boolean1",
-          "text": "第三方检查",
-          "type": "复选框",
-          "formFields": [],
-          "checkStyle": "开关（默认）"
-        },
-        {
-          "name": "boolean2",
-          "text": "可靠性测试",
-          "type": "复选框",
-          "formFields": [],
-          "checkStyle": "开关（默认）"
+          "name": "新字段",
+          "type": "行",
+          "formFields": [
+            {
+              "name": "boolean1",
+              "text": "第三方检查",
+              "type": "复选框",
+              "formFields": [],
+              "checkStyle": "开关（默认）"
+            },
+            {
+              "name": "boolean2",
+              "text": "可靠性测试",
+              "type": "复选框",
+              "formFields": [],
+              "checkStyle": "开关（默认）"
+            }
+          ]
         }
       ]
     },
@@ -157,7 +181,7 @@
           "text": "问题分类",
           "type": "多个对象选择框",
           "formFields": [],
-          "required": false,
+          "required": true,
           "selectorAssemblyId": "/问题分类.gridassy",
           "height": 0,
           "valueFieldName": ""
@@ -168,7 +192,7 @@
           "text": "责任部门",
           "type": "多个对象选择框",
           "formFields": [],
-          "required": true,
+          "required": false,
           "selectorAssemblyId": "/组织选择器.gridassy",
           "height": 0,
           "valueFieldName": ""
@@ -206,9 +230,9 @@
       "formFields": [
         {
           "id": "16840450b84",
-          "name": "latestTimeReq",
-          "text": "最晚时间要求",
-          "type": "日期时间选择",
+          "name": "",
+          "text": "",
+          "type": "行",
           "formFields": [],
           "required": true,
           "dateType": "datetime"

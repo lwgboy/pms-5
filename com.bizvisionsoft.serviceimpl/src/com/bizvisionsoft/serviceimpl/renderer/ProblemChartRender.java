@@ -313,7 +313,7 @@ public class ProblemChartRender extends BasicServiceImpl {
 		List<Document> links = c("problem", domain).aggregate(Domain.getJQ(domain, "查询-问题因果关系").array())
 				.map((Document d) -> createGraphicLink(d.getObjectId("_id").toHexString(),
 //						((List<ObjectId>) d.get("pid")).get(0).toHexString()))
-						((ObjectId) d.get("pid")).toHexString()))
+						null == d.get("pid")?"":((ObjectId) d.get("pid")).toHexString()))
 				.into(new ArrayList<>());
 
 		Document chart = Domain.getJQ(domain, "图表-因果关系图-带箭头").set("标题", "问题因果分析").set("data", nodes).set("links", links)
