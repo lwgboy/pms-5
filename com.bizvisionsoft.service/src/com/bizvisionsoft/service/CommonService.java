@@ -25,6 +25,8 @@ import com.bizvisionsoft.service.model.Certificate;
 import com.bizvisionsoft.service.model.ChangeProcess;
 import com.bizvisionsoft.service.model.Dictionary;
 import com.bizvisionsoft.service.model.Equipment;
+import com.bizvisionsoft.service.model.ExportDocRule;
+import com.bizvisionsoft.service.model.FormDef;
 import com.bizvisionsoft.service.model.Message;
 import com.bizvisionsoft.service.model.NewMessage;
 import com.bizvisionsoft.service.model.ResourceType;
@@ -58,8 +60,7 @@ public interface CommonService {
 	@Path("/{domain}/msg/_id/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public Message getMessage(@PathParam("_id") ObjectId _id,
-			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+	public Message getMessage(@PathParam("_id") ObjectId _id, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
 	@Path("/{domain}/msg/userId/{userId}/count")
@@ -188,8 +189,7 @@ public interface CommonService {
 	@Path("/{domain}/restype/{_id}/er/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public long countERResources(@PathParam("_id") ObjectId _id,
-			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+	public long countERResources(@PathParam("_id") ObjectId _id, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@GET
 	@Path("/{domain}/restype/{_id}")
@@ -245,8 +245,7 @@ public interface CommonService {
 	@Path("/{domain}/cal/_id/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public Calendar getCalendar(@PathParam("_id") ObjectId _id,
-			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+	public Calendar getCalendar(@PathParam("_id") ObjectId _id, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
 	@Path("/{domain}/cal/")
@@ -275,8 +274,7 @@ public interface CommonService {
 	@Path("/{domain}/cal/wt/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public void updateCalendarWorkTime(BasicDBObject r,
-			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+	public void updateCalendarWorkTime(BasicDBObject r, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@PUT
 	@Path("/{domain}/cal/")
@@ -290,8 +288,7 @@ public interface CommonService {
 	@Path("/{domain}/cal/wt/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public void deleteCalendarWorkTime(@PathParam("_id") ObjectId _id,
-			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+	public void deleteCalendarWorkTime(@PathParam("_id") ObjectId _id, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	//
@@ -372,8 +369,7 @@ public interface CommonService {
 	@Path("/{domain}/projectrole/{id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public Dictionary getProjectRole(@PathParam("id") String id,
-			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+	public Dictionary getProjectRole(@PathParam("id") String id, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	//
@@ -407,29 +403,25 @@ public interface CommonService {
 	@Path("/{domain}/accountItem/parent/{id}/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public List<AccountItem> getAccoutItem(@PathParam("id") String id,
-			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+	public List<AccountItem> getAccoutItem(@PathParam("id") String id, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
 	@Path("/{domain}/accountItem/parent/{id}/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public long countAccoutItem(@PathParam("id") String id,
-			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+	public long countAccoutItem(@PathParam("id") String id, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
 	@Path("/{domain}/accountIncome/parent/{id}/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public long countAccoutIncome(@PathParam("id") String id,
-			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+	public long countAccoutIncome(@PathParam("id") String id, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
 	@Path("/{domain}/accountItem/ds/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public List<AccountItem> queryAccountItem(BasicDBObject filter,
-			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+	public List<AccountItem> queryAccountItem(BasicDBObject filter, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
 	@Path("/{domain}/accountIncome/ds/")
@@ -490,8 +482,7 @@ public interface CommonService {
 	@Path("/{domain}/accoutItem/hasParentIds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public List<Document> getAllAccoutItemsHasParentIds(
-			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+	public List<Document> getAllAccoutItemsHasParentIds(@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
 	@Path("/{domain}/gencode/{name}/{key}")
@@ -556,8 +547,7 @@ public interface CommonService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("变更审核/" + DataSet.LIST)
-	public List<ChangeProcess> createChangeProcessDataSet(
-			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+	public List<ChangeProcess> createChangeProcessDataSet(@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@GET
 	@Path("/{domain}/changeprocess/_id/{_id}")
@@ -595,22 +585,19 @@ public interface CommonService {
 	@Path("/{domain}/strudata/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public List<Document> listStructuredData(BasicDBObject query,
-			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+	public List<Document> listStructuredData(BasicDBObject query, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
 	@Path("/{domain}/strudata/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public void insertStructuredData(List<Document> result,
-			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+	public void insertStructuredData(List<Document> result, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@PUT
 	@Path("/{domain}/strudata/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public void updateStructuredData(BasicDBObject fu,
-			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+	public void updateStructuredData(BasicDBObject fu, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
 	@Path("/{domain}/newMessage/")
@@ -636,8 +623,7 @@ public interface CommonService {
 	@Path("/{domain}/setting/{name}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public Document getSetting(@PathParam("name") String name,
-			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+	public Document getSetting(@PathParam("name") String name, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@GET
 	@Path("/setting/{name}")
@@ -710,4 +696,94 @@ public interface CommonService {
 			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	@POST
+	@Path("/{domain}/formDef/ds")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "表单定义/" + DataSet.LIST })
+	public List<FormDef> listFormDef(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+
+	@POST
+	@Path("/{domain}/formDef/count")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "表单定义/" + DataSet.COUNT })
+	public long countFormDef(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+
+	@DELETE
+	@Path("/{domain}/formDef/_id/{_id}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public long deleteFormDef(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+
+	@PUT
+	@Path("/{domain}/formDef/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public long updateFormDef(@MethodParam(MethodParam.FILTER_N_UPDATE) BasicDBObject filterAndUpdate,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+
+	@POST
+	@Path("/{domain}/formDef/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public FormDef insertFormDef(@MethodParam(MethodParam.OBJECT) FormDef formDef,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+
+	@GET
+	@Path("/{domain}/formDef/_id/{_id}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public FormDef getFormDef(@PathParam("_id") ObjectId _id, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+
+	@POST
+	@Path("/{domain}/exportDocRule/ds")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public List<ExportDocRule> listExportDocRule(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+
+	@POST
+	@Path("/{domain}/exportDocRule/count")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public long countExportDocRule(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+
+	@POST
+	@Path("/{domain}/exportDocRule/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public ExportDocRule insertExportDocRule(@MethodParam(MethodParam.OBJECT) ExportDocRule exportDocRule,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+
+	@DELETE
+	@Path("/{domain}/exportDocRule/_id/{_id}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public long deleteExportDocRule(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+
+	@PUT
+	@Path("/{domain}/exportDocRule/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public long updateExportDocRule(@MethodParam(MethodParam.FILTER_N_UPDATE) BasicDBObject filterAndUpdate,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+
+	@GET
+	@Path("/{domain}/exportDocRule/_id/{_id}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public ExportDocRule getExportDocRule(@PathParam("_id") ObjectId _id,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 }

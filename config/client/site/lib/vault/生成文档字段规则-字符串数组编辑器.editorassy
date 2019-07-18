@@ -1,0 +1,42 @@
+{
+  "id": "/字典编辑器.editorassy",
+  "name": "生成文档字段规则-字段值",
+  "title": "字段值",
+  "layout": [],
+  "type": "editor",
+  "folderId": "162dc3e928e",
+  "fields": [
+    {
+      "name": "基本信息",
+      "type": "标签页",
+      "formFields": [
+        {
+          "name": "sourceField",
+          "text": "源字段名",
+          "type": "单行文本框",
+          "formFields": [],
+          "required": true
+        },
+        {
+          "name": "targetField",
+          "text": "目标字段名",
+          "type": "单行文本框",
+          "formFields": [],
+          "required": true
+        },
+        {
+          "name": "value",
+          "text": "值",
+          "type": "表格",
+          "formFields": [],
+          "required": true,
+          "selectorAssemblyId": "/单name列表格.gridassy",
+          "enableCreateItem": true
+        }
+      ]
+    }
+  ],
+  "actions": [],
+  "smallEditor": true,
+  "disableInitLoadData": false
+}

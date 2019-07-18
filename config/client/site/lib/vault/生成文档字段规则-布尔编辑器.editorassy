@@ -1,0 +1,40 @@
+{
+  "id": "/字典编辑器.editorassy",
+  "name": "生成文档字段规则-布尔",
+  "title": "布尔常量",
+  "layout": [],
+  "type": "editor",
+  "folderId": "162dc3e928e",
+  "fields": [
+    {
+      "name": "基本信息",
+      "type": "标签页",
+      "formFields": [
+        {
+          "name": "sourceField",
+          "text": "源字段名",
+          "type": "单行文本框",
+          "formFields": [],
+          "required": true
+        },
+        {
+          "name": "targetField",
+          "text": "目标字段名",
+          "type": "单行文本框",
+          "formFields": [],
+          "required": true
+        },
+        {
+          "name": "value",
+          "text": "值",
+          "type": "复选框",
+          "formFields": [],
+          "required": true
+        }
+      ]
+    }
+  ],
+  "actions": [],
+  "smallEditor": true,
+  "disableInitLoadData": false
+}
