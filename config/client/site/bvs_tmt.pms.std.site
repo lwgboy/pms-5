@@ -168,12 +168,6 @@
             "verticalSpan": 0
           },
           {
-            "name": "档案库",
-            "text": "档案库",
-            "switchContentToAssemblyId": "/vault/组织资料库.assy",
-            "type": "switch"
-          },
-          {
             "id": "161989cc8b9",
             "name": "部门工作",
             "text": "部门工作",
@@ -181,6 +175,12 @@
             "type": "switch",
             "role": "部门经理",
             "verticalSpan": 0
+          },
+          {
+            "name": "档案库",
+            "text": "档案库",
+            "switchContentToAssemblyId": "/vault/组织资料库.assy",
+            "type": "switch"
           },
           {
             "id": "1642aaa73c6",

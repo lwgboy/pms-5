@@ -695,6 +695,20 @@ public interface CommonService {
 	public long updateContainer(@MethodParam(MethodParam.FILTER_N_UPDATE) BasicDBObject filterAndUpdate,
 			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
+	@POST
+	@Path("/{domain}/container/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "×ÊÁÏ¿â/" + DataSet.INSERT })
+	public VaultFolder insertContainer(@MethodParam(MethodParam.OBJECT) VaultFolder vf,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+
+	@GET
+	@Path("/{domain}/container/_id/{_id}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public VaultFolder getVaultFolder(@PathParam("_id") ObjectId _id, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////

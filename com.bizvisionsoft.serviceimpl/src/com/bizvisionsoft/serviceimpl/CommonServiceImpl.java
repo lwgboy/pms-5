@@ -812,6 +812,16 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 	}
 
 	@Override
+	public VaultFolder insertContainer(VaultFolder vf, String domain) {
+		return insert(vf, VaultFolder.class, domain);
+	}
+
+	@Override
+	public VaultFolder getVaultFolder(ObjectId _id, String domain) {
+		return get(_id, VaultFolder.class, domain);
+	}
+
+	@Override
 	public List<FormDef> listFormDef(BasicDBObject condition, String domain) {
 		return createDataSet(condition, FormDef.class, domain);
 	}
