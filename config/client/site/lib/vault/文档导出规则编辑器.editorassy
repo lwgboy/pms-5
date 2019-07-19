@@ -31,5 +31,6 @@
   ],
   "actions": [],
   "smallEditor": true,
+  "addToParentContext": false,
   "disableInitLoadData": false
 }
