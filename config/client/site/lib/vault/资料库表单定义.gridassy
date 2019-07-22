@@ -1,0 +1,68 @@
+{
+  "id": "/名称字典.gridassy",
+  "name": "资料库表单定义",
+  "layout": [],
+  "type": "grid",
+  "stickerTitle": "表单定义",
+  "folderId": "162dc3e928e",
+  "gridAutoExpandLevel": 2,
+  "gridLineVisiable": true,
+  "gridHeaderVisiable": true,
+  "gridHasHScroll": true,
+  "gridHasVScroll": true,
+  "gridDataSetService": "com.bizvisionsoft.service.CommonService",
+  "columns": [
+    {
+      "id": "162bd1ccbe0",
+      "name": "name",
+      "text": "名称",
+      "alignment": 16384,
+      "width": 80,
+      "resizeable": true,
+      "columns": [],
+      "enableColumnSort": true
+    },
+    {
+      "name": "editorId",
+      "text": "表单名称",
+      "alignment": 16384,
+      "width": 80,
+      "resizeable": true,
+      "columns": [],
+      "enableColumnSort": true
+    }
+  ],
+  "fields": [
+    {
+      "name": "name",
+      "text": "名称",
+      "type": "文本输入框（查询）",
+      "formFields": []
+    },
+    {
+      "name": "editorId",
+      "text": "表单名称",
+      "type": "文本输入框（查询）",
+      "formFields": []
+    }
+  ],
+  "gridAutoColumnWidth": true,
+  "actions": [],
+  "rowActions": [],
+  "hasTitlebar": true,
+  "disableInitLoadData": false,
+  "sortFields": [
+    {
+      "name": "name",
+      "text": "名称",
+      "type": "排序字段",
+      "formFields": []
+    },
+    {
+      "name": "editorId",
+      "text": "表单名称",
+      "type": "排序字段",
+      "formFields": []
+    }
+  ]
+}

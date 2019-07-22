@@ -62,6 +62,13 @@
           "formFields": [],
           "selectorAssemblyId": "/组织选择器（项目承担单位）.gridassy",
           "valueFieldName": ""
+        },
+        {
+          "name": "formDef",
+          "text": "表单定义",
+          "type": "多个对象选择框",
+          "formFields": [],
+          "selectorAssemblyId": "/vault/资料库表单定义.gridassy"
         }
       ]
     },
