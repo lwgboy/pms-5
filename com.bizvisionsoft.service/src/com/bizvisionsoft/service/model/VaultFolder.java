@@ -13,6 +13,7 @@ import com.bizvisionsoft.annotations.md.service.Label;
 import com.bizvisionsoft.annotations.md.service.ReadValue;
 import com.bizvisionsoft.annotations.md.service.Structure;
 import com.bizvisionsoft.annotations.md.service.WriteValue;
+import com.bizvisionsoft.service.CommonService;
 import com.bizvisionsoft.service.DocumentService;
 import com.bizvisionsoft.service.OrganizationService;
 import com.bizvisionsoft.service.ServicesLoader;
@@ -112,9 +113,29 @@ public class VaultFolder implements IFolder {
 	@ReadValue("organization")
 	public List<Organization> getOrganization() {
 		if (organization_id != null) {
-			return ServicesLoader.get(OrganizationService.class).createDataSet(
-					new Query().filter(new BasicDBObject("_id", new BasicDBObject("$in", organization_id))).bson(),
-					domain);
+			return ServicesLoader.get(OrganizationService.class)
+					.createDataSet(new Query().filter(new BasicDBObject("_id", new BasicDBObject("$in", organization_id))).bson(), domain);
+		} else {
+			return new ArrayList<>();
+		}
+	}
+
+	@ReadValue
+	@WriteValue
+	@Persistence
+	private List<ObjectId> formDef_id;
+
+	@WriteValue("formDef")
+	private void setFormDef(List<FormDef> org) {
+		formDef_id = new ArrayList<ObjectId>();
+		org.forEach(o -> formDef_id.add(o.get_id()));
+	}
+
+	@ReadValue("formDef")
+	public List<FormDef> getFormDef() {
+		if (formDef_id != null) {
+			return ServicesLoader.get(CommonService.class)
+					.listFormDef(new Query().filter(new BasicDBObject("_id", new BasicDBObject("$in", formDef_id))).bson(), domain);
 		} else {
 			return new ArrayList<>();
 		}
@@ -143,9 +164,8 @@ public class VaultFolder implements IFolder {
 		} else {
 			iconUrl = "rwt-resources/extres/img/folder_closed.svg";
 		}
-		String html = "<div class='brui_ly_hline'>" + "<img src=" + iconUrl
-				+ " style='margin-right:8px;' width='20px' height='20px'/>" + "<div style='flex:auto;'>" + name
-				+ "</div>"
+		String html = "<div class='brui_ly_hline'>" + "<img src=" + iconUrl + " style='margin-right:8px;' width='20px' height='20px'/>"
+				+ "<div style='flex:auto;'>" + name + "</div>"
 				+ "<a href='open/' target='_rwt' style='margin-right:8px;'><i class='layui-icon layui-btn layui-btn-primary layui-btn-xs' style='cursor:pointer;'>&#xe671;</i></a>"
 				+ "</div>";
 		return html;
@@ -161,16 +181,15 @@ public class VaultFolder implements IFolder {
 		} else {
 			iconUrl = "rwt-resources/extres/img/folder_closed.svg";
 		}
-		String html = "<div class='brui_ly_hline'>" + "<img src=" + iconUrl
-				+ " style='margin-right:8px;' width='20px' height='20px'/>" + "<div style='flex:auto;'>" + name
-				+ "</div>" + "</div>";
+		String html = "<div class='brui_ly_hline'>" + "<img src=" + iconUrl + " style='margin-right:8px;' width='20px' height='20px'/>"
+				+ "<div style='flex:auto;'>" + name + "</div>" + "</div>";
 		return html;
 	}
 
 	@Structure("项目资料库文件夹/" + DataSet.LIST)
 	private List<VaultFolder> listChildren() {
-		return ServicesLoader.get(DocumentService.class)
-				.listContainer(new Query().filter(new BasicDBObject("parent_id", _id)).bson(), domain);
+		return ServicesLoader.get(DocumentService.class).listContainer(new Query().filter(new BasicDBObject("parent_id", _id)).bson(),
+				domain);
 	}
 
 	@Structure("项目资料库文件夹/" + DataSet.COUNT)
@@ -234,6 +253,20 @@ public class VaultFolder implements IFolder {
 
 	public void setRoot_id(ObjectId root_id) {
 		this.root_id = root_id;
+	}
+
+	@Override
+	public IFolder getContainer() {
+		if (isflderroot)
+			return this;
+		return root_id != null ? ServicesLoader.get(CommonService.class).getVaultFolder(root_id, domain) : null;
+	}
+
+	@Override
+	public List<FormDef> getContainerFormDefs() {
+		if (isflderroot)
+			return getFormDef();
+		return root_id != null ? ServicesLoader.get(CommonService.class).getVaultFolder(root_id, domain).getFormDef() : null;
 	}
 
 	public static VaultFolder getInstance(Project project, boolean isflderroot, String domain) {

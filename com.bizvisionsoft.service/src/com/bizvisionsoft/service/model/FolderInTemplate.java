@@ -134,4 +134,14 @@ public class FolderInTemplate implements IFolder {
 		return this;
 	}
 
+	@Override
+	public IFolder getContainer() {
+		return null;
+	}
+
+	@Override
+	public List<FormDef> getContainerFormDefs() {
+		return null;
+	}
+
 }
