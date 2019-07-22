@@ -1,14 +1,14 @@
 package com.bizvisionsoft.service.model;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.bson.Document;
 import org.bson.types.ObjectId;
 
+import com.bizvisionsoft.annotations.md.mongocodex.Exclude;
 import com.bizvisionsoft.annotations.md.mongocodex.PersistenceCollection;
+import com.bizvisionsoft.annotations.md.service.ImageURL;
 import com.bizvisionsoft.annotations.md.service.ReadValue;
-import com.bizvisionsoft.annotations.md.service.Structure;
 import com.bizvisionsoft.annotations.md.service.WriteValue;
 
 @PersistenceCollection("exportDocRule")
@@ -22,11 +22,13 @@ public class ExportDocRule {
 		return _id;
 	}
 
-	private ObjectId formDef_id;
-
 	@ReadValue
 	@WriteValue
 	private String editorId;
+
+	@ImageURL("name")
+	@Exclude
+	private String icon = "/img/exportdocrule_c.svg";
 
 	public String getEditorId() {
 		return editorId;
@@ -42,6 +44,8 @@ public class ExportDocRule {
 		return editorId;
 	}
 
+	@ReadValue
+	@WriteValue
 	private Document exportableForm;
 
 	public void setExportableForm(Document exportableForm) {
@@ -62,17 +66,11 @@ public class ExportDocRule {
 	@WriteValue
 	private String postProc;
 
-	public void setFormDef_id(ObjectId formDef_id) {
-		this.formDef_id = formDef_id;
+	public String getPostProc() {
+		return postProc;
 	}
 
-	@Structure("list")
-	public List<Document> listSubAccountItems() {
-		return fieldMap != null ? fieldMap : new ArrayList<Document>();
-	}
-
-	@Structure("count")
-	public long countSubAccountItems() {
-		return fieldMap != null ? fieldMap.size() : 0;
+	public void setPostProc(String postProc) {
+		this.postProc = postProc;
 	}
 }

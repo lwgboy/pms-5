@@ -277,4 +277,22 @@ public interface SystemService {
 	@DataSet("企业域清单/" + DataSet.UPDATE)
 	public long updateDomain(@MethodParam(MethodParam.FILTER_N_UPDATE) BasicDBObject filterAndUpdate);
 
+	@POST
+	@Path("/assembly/create/editorId/{editorId}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public void checkFormDAfterCreate( @PathParam("editorId")String editorId);
+
+	@POST
+	@Path("/assembly/modifiy/editorId/{editorId}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public void checkFormDAfterModifiy(Document exportableForm, @PathParam("editorId") String editorId);
+
+	@POST
+	@Path("/assembly/delete/editorId/{editorId}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public void checkFormDAfterDelete( @PathParam("editorId")String editorId);
+
 }

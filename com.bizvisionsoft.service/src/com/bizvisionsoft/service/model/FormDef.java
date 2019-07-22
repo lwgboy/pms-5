@@ -6,7 +6,9 @@ import java.util.regex.Pattern;
 
 import org.bson.types.ObjectId;
 
+import com.bizvisionsoft.annotations.md.mongocodex.Exclude;
 import com.bizvisionsoft.annotations.md.mongocodex.PersistenceCollection;
+import com.bizvisionsoft.annotations.md.service.ImageURL;
 import com.bizvisionsoft.annotations.md.service.ReadValue;
 import com.bizvisionsoft.annotations.md.service.Structure;
 import com.bizvisionsoft.annotations.md.service.WriteValue;
@@ -21,7 +23,7 @@ public class FormDef {
 	public String domain;
 
 	private ObjectId _id;
-	
+
 	public ObjectId get_id() {
 		return _id;
 	}
@@ -31,15 +33,23 @@ public class FormDef {
 	private String name;
 
 	@WriteValue
-	@ReadValue
-	private String editorId;
-
-	@WriteValue
+	@ReadValue({ "editorId", "editorTypeId" })
 	private String editorTypeId;
+
+	@ReadValue
+	@WriteValue
+	private boolean activated;
+
+	@ImageURL("name")
+	@Exclude
+	private String icon = "/img/form_c.svg";
+
+	public String getName() {
+		return name;
+	}
 
 	@WriteValue("editorName")
 	public void setEditorName(String editorName) {
-		this.editorId = editorName;
 		Pattern editorIdText = Pattern.compile("_(v|V)(.*?)(.editorassy)");
 		Matcher matcher = editorIdText.matcher(editorName);
 		if (matcher.find()) {
@@ -48,19 +58,19 @@ public class FormDef {
 			this.editorTypeId = editorName.replaceAll(".editorassy", "");
 		}
 	}
-	
+
 	@ReadValue("editorName")
 	public String getEditorName() {
-		return editorId;
+		return editorTypeId;
 	}
 
-	@Structure("list")
+	@Structure("表单定义/list")
 	public List<ExportDocRule> listSubAccountItems() {
 		return ServicesLoader.get(CommonService.class).listExportDocRule(new Query().filter(new BasicDBObject("formDef_id", _id)).bson(),
 				domain);
 	}
 
-	@Structure("count")
+	@Structure("表单定义/count")
 	public long countSubAccountItems() {
 		return ServicesLoader.get(CommonService.class).countExportDocRule(new BasicDBObject("formDef_id", _id), domain);
 	}
@@ -69,7 +79,6 @@ public class FormDef {
 	public ExportDocRule newSubItem() {
 		ExportDocRule edr = new ExportDocRule();
 		edr.domain = domain;
-		edr.setFormDef_id(_id);
 		return edr;
 	}
 

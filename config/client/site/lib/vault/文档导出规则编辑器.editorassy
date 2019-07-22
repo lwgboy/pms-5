@@ -12,7 +12,7 @@
       "formFields": [
         {
           "name": "editorName",
-          "text": "表单名称",
+          "text": "编辑器Id",
           "type": "对象选择框",
           "formFields": [],
           "required": true,
@@ -24,7 +24,7 @@
           "text": "后处理JS",
           "type": "多行文本框",
           "formFields": [],
-          "required": true
+          "required": false
         }
       ]
     }

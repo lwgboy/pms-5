@@ -717,7 +717,7 @@ public interface CommonService {
 	@Path("/{domain}/formDef/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet({ "表单定义/" + DataSet.LIST })
+	@DataSet({ "表单定义/" + DataSet.LIST, "资料库表单定义/" + DataSet.LIST })
 	public List<FormDef> listFormDef(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
 			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
@@ -725,8 +725,24 @@ public interface CommonService {
 	@Path("/{domain}/formDef/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet({ "表单定义/" + DataSet.COUNT })
+	@DataSet({ "表单定义/" + DataSet.COUNT, "资料库表单定义/" + DataSet.COUNT })
 	public long countFormDef(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+
+	@POST
+	@Path("/{domain}/formDef/selector/ds")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "表单定义选择表格/" + DataSet.LIST })
+	public List<FormDef> listFormDefSelector(@MethodParam(MethodParam.CONTEXT_INPUT_OBJECT) VaultFolder folder,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+
+	@POST
+	@Path("/{domain}/formDef/selector/count")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "表单定义选择表格/" + DataSet.COUNT, })
+	public long countFormDefSelector(@MethodParam(MethodParam.CONTEXT_INPUT_OBJECT) VaultFolder folder,
 			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@DELETE

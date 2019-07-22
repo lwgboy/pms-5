@@ -813,6 +813,8 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 
 	@Override
 	public VaultFolder insertContainer(VaultFolder vf, String domain) {
+		//TODO 添加资料库默认属性
+		
 		return insert(vf, VaultFolder.class, domain);
 	}
 
@@ -882,6 +884,18 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 	@Override
 	public ExportDocRule getExportDocRule(ObjectId _id, String domain) {
 		return get(_id, ExportDocRule.class, domain);
+	}
+
+	@Override
+	public List<FormDef> listFormDefSelector(VaultFolder folder, String domain) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public long countFormDefSelector(VaultFolder folder, String domain) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 }

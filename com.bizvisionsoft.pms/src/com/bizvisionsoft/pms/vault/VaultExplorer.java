@@ -1,6 +1,8 @@
 package com.bizvisionsoft.pms.vault;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 import org.eclipse.jface.dialogs.InputDialog;
@@ -16,6 +18,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 
 import com.bizvisionsoft.bruicommons.factory.action.ActionFactory;
+import com.bizvisionsoft.bruicommons.model.Action;
 import com.bizvisionsoft.bruiengine.assembly.GridPart;
 import com.bizvisionsoft.bruiengine.assembly.StickerTitlebar;
 import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
@@ -23,10 +26,13 @@ import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.ui.ActionMenu;
 import com.bizvisionsoft.bruiengine.ui.AssemblyContainer;
 import com.bizvisionsoft.bruiengine.ui.Editor;
+import com.bizvisionsoft.bruiengine.ui.Selector;
 import com.bizvisionsoft.bruiengine.util.Controls;
 import com.bizvisionsoft.service.DocumentService;
 import com.bizvisionsoft.service.model.Docu;
+import com.bizvisionsoft.service.model.FormDef;
 import com.bizvisionsoft.service.model.IFolder;
+import com.bizvisionsoft.service.tools.Check;
 import com.bizvisionsoft.serviceconsumer.Services;
 import com.mongodb.BasicDBObject;
 
@@ -109,10 +115,8 @@ public abstract class VaultExplorer {
 	 */
 	private StickerTitlebar createBar(Composite parent) {
 		StickerTitlebar bar = new StickerTitlebar(parent, null,
-				Arrays.asList(
-						new ActionFactory().name("查询").image("/img/search_w.svg").tooltips("查询项目文档").infoStyle().get()))
-								.setActions(context.getAssembly().getActions())
-								.setText(context.getAssembly().getTitle());
+				Arrays.asList(new ActionFactory().name("查询").image("/img/search_w.svg").tooltips("查询项目文档").infoStyle().get()))
+						.setActions(context.getAssembly().getActions()).setText(context.getAssembly().getTitle());
 		bar.addListener(SWT.Selection, l -> {
 			filePane.openQueryEditor();
 		});
@@ -127,13 +131,13 @@ public abstract class VaultExplorer {
 	 */
 	private Composite createFilePane(Composite parent) {
 		// 创建文件组件
-		AssemblyContainer right = new AssemblyContainer(parent, context).setAssembly(br.getAssembly(getFileGridassy()))
-				.setServices(br).create();
+		AssemblyContainer right = new AssemblyContainer(parent, context).setAssembly(br.getAssembly(getFileGridassy())).setServices(br)
+				.create();
 
 		filePane = (GridPart) right.getContext().getContent();
 		// 增加文件夹选择时的侦听，选择后修改文件组件查询
-		folderPane.getViewer().addPostSelectionChangedListener(
-				e -> selectFolderQueryFile((IFolder) e.getStructuredSelection().getFirstElement()));
+		folderPane.getViewer()
+				.addPostSelectionChangedListener(e -> selectFolderQueryFile((IFolder) e.getStructuredSelection().getFirstElement()));
 		selectFolderQueryFile(null);
 		return right.getContainer();
 	}
@@ -159,8 +163,8 @@ public abstract class VaultExplorer {
 	 */
 	private Composite createFolderPane(Composite parent) {
 		// 创建文件夹组件
-		AssemblyContainer left = new AssemblyContainer(parent, context).setAssembly(br.getAssembly(getFolderGridassy()))
-				.setServices(br).create();
+		AssemblyContainer left = new AssemblyContainer(parent, context).setAssembly(br.getAssembly(getFolderGridassy())).setServices(br)
+				.create();
 
 		folderPane = (GridPart) left.getContext().getContent();
 		// 添加文件夹选择的侦听，点击后open按钮，弹出文件夹操作。
@@ -207,41 +211,51 @@ public abstract class VaultExplorer {
 	 */
 	private void showMenu(final IFolder folder) {
 		// TODO 权限控制
-		new ActionMenu(br).setActions(Arrays.asList(
-				// 创建文档
-				new ActionFactory().text("创建文档").name("createFile").img("/img/file_add_w.svg").normalStyle()
-						.exec((e, c) -> {
-							// TODO 需要支持选中文档模板创建文件夹
-							Docu docu = br.newInstance(Docu.class).setFolder_id(folder.get_id())
-									.setCreationInfo(br.operationInfo());
-							Editor.open("通用文档编辑器.editorassy", context, docu, true, (b, t) -> {
-								filePane.insert(Services.get(DocumentService.class).createDocument(t, br.getDomain()));
-							});
-						}).get(),
-				// 创建子文件夹
-				new ActionFactory().text("创建子文件夹").name("createFolder").img("/img/folder_add_w.svg").normalStyle()
-						.exec((e, c) -> {
-							if (createFolder(folder)) {
-								folderPane.refresh(folder);
-								folderPane.getViewer().expandToLevel(folder, 1);
-							}
-						}).get(),
-				// 文件夹更名
-				new ActionFactory().text("文件夹更名").name("renameFolder").img("/img/folder_rename_w.svg").normalStyle()
-						.exec((e, c) -> {
-							if (renameFolder(folder)) {
-								folderPane.update(folder);
-							}
-						}).get(),
-				// 删除文件夹
-				new ActionFactory().text("删除文件夹").name("deleteFolder").img("/img/delete_w.svg").warningStyle()
-						.exec((e, c) -> {
-							if (deleteFolder(folder)) {
-								folderPane.remove(folder);
-							}
-						}).get()
-		//
-		)).open();
+		List<Action> folderMenu = new ArrayList<Action>();
+		// 通用文档
+		folderMenu.add(new ActionFactory().text("创建通用文档").name("createFile").img("/img/file_add_w.svg").normalStyle().exec((e, c) -> {
+			Docu docu = br.newInstance(Docu.class).setFolder_id(folder.get_id()).setCreationInfo(br.operationInfo());
+			Editor.open("通用文档编辑器.editorassy", context, docu, true, (b, t) -> {
+				filePane.insert(Services.get(DocumentService.class).createDocument(t, br.getDomain()));
+			});
+		}).get());
+		// 根据表单定义创建文档
+		// 判断容器是否存在表单定义
+		List<FormDef> containerFormDefs = folder.getContainerFormDefs();
+		if (Check.isAssigned(containerFormDefs))
+			folderMenu.add(new ActionFactory().text("创建表单").name("createFile").img("/img/file_add_w.svg").normalStyle().exec((e, c) -> {
+				// TODO 弹出选择器选中表单定义
+				Selector.open("/vault/表单定义选择器.selectorassy", context, folder.getContainer(), l->{
+					// TODO 根据所选的表单定义初始化Document并用表单定义中定义的编辑器打开编辑
+					// Docu docu =
+					// br.newInstance(Docu.class).setFolder_id(folder.get_id()).setCreationInfo(br.operationInfo());
+					// Editor.open("通用文档编辑器.editorassy", context, docu, true, (b, t) -> {
+					// filePane.insert(Services.get(DocumentService.class).createDocument(t,
+					// br.getDomain()));
+					// });
+				});
+				
+			}).get());
+		// 创建子文件夹
+		folderMenu.add(new ActionFactory().text("创建子文件夹").name("createFolder").img("/img/folder_add_w.svg").normalStyle().exec((e, c) -> {
+			if (createFolder(folder)) {
+				folderPane.refresh(folder);
+				folderPane.getViewer().expandToLevel(folder, 1);
+			}
+		}).get());
+		// 文件夹更名
+		folderMenu.add(new ActionFactory().text("文件夹更名").name("renameFolder").img("/img/folder_rename_w.svg").normalStyle().exec((e, c) -> {
+			if (renameFolder(folder)) {
+				folderPane.update(folder);
+			}
+		}).get());
+		// 删除文件夹
+		folderMenu.add(new ActionFactory().text("删除文件夹").name("deleteFolder").img("/img/delete_w.svg").warningStyle().exec((e, c) -> {
+			if (deleteFolder(folder)) {
+				folderPane.remove(folder);
+			}
+		}).get());
+		new ActionMenu(br).setActions(folderMenu).open();
 	}
 
 	/**

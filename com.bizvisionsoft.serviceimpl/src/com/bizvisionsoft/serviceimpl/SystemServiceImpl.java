@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import org.apache.commons.io.FileUtils;
@@ -682,6 +684,39 @@ public class SystemServiceImpl extends BasicServiceImpl implements SystemService
 	@Override
 	public long countDomainReq(BasicDBObject filter) {
 		return count(filter, "request", null);
+	}
+
+	@Override
+	public void checkFormDAfterCreate(String editorId) {
+		String editorTypeId = getEditorTypeId(editorId);
+
+		// TODO
+	}
+
+	@Override
+	public void checkFormDAfterModifiy(Document exportableForm, String editorId) {
+		String editorTypeId = getEditorTypeId(editorId);
+		// TODO
+	}
+
+	@Override
+	public void checkFormDAfterDelete(String editorId) {
+		String editorTypeId = getEditorTypeId(editorId);
+		// TODO
+	}
+
+	/**
+	 * 获取编辑器类型ID
+	 * 
+	 * @param editorId
+	 * @return
+	 */
+	private String getEditorTypeId(String editorId) {
+		Pattern editorIdText = Pattern.compile("_(v|V)(.*?)(.editorassy)");
+		Matcher matcher = editorIdText.matcher(editorId);
+		if (matcher.find())
+			return editorId.replaceAll(matcher.group(), "");
+		return editorId.replaceAll(".editorassy", "");
 	}
 
 }

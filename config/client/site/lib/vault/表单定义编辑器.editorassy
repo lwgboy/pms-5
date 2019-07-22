@@ -15,12 +15,13 @@
           "name": "name",
           "text": "名称",
           "type": "单行文本框",
+          "verticalLabel": false,
           "formFields": [],
           "required": true
         },
         {
           "name": "editorName",
-          "text": "表单名称",
+          "text": "编辑器Id",
           "type": "对象选择框",
           "formFields": [],
           "required": true,

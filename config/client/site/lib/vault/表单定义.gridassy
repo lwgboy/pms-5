@@ -17,16 +17,16 @@
       "name": "name",
       "text": "名称",
       "alignment": 16384,
-      "width": 80,
+      "width": 160,
       "resizeable": true,
       "columns": [],
       "enableColumnSort": true
     },
     {
       "name": "editorId",
-      "text": "表单名称",
+      "text": "编辑器",
       "alignment": 16384,
-      "width": 80,
+      "width": 320,
       "resizeable": true,
       "columns": [],
       "enableColumnSort": true
@@ -35,31 +35,15 @@
       "name": "postProc",
       "text": "后处理JS",
       "alignment": 16384,
-      "width": 80,
+      "width": 300,
       "resizeable": true,
       "columns": []
     },
     {
-      "name": "sourceField",
-      "text": "源字段名",
+      "name": "activated",
+      "text": "启用",
       "alignment": 16384,
-      "width": 80,
-      "resizeable": true,
-      "columns": []
-    },
-    {
-      "name": "targetField",
-      "text": "目标字段名",
-      "alignment": 16384,
-      "width": 80,
-      "resizeable": true,
-      "columns": []
-    },
-    {
-      "name": "value",
-      "text": "值",
-      "alignment": 16384,
-      "width": 80,
+      "width": 64,
       "resizeable": true,
       "columns": []
     }
@@ -82,13 +66,13 @@
   "actions": [
     {
       "id": "162bd220157",
-      "name": "create",
+      "name": "创建",
       "image": "/img/add_16_w.svg",
       "bundleId": "com.bizvisionsoft.pms",
       "className": "com.bizvisionsoft.pms.formdef.action.FormDefACT",
       "style": "normal",
       "editorAssemblyId": "/vault/表单定义编辑器.editorassy",
-      "type": "customized",
+      "type": "insert",
       "createActionNewInstanceBundleId": "com.bizvisionsoft.service",
       "createActionNewInstanceClassName": "com.bizvisionsoft.service.model.FormDef",
       "verticalSpan": 0
