@@ -88,8 +88,11 @@ public class FormDefACT {
 						.set(BsonTools.getBasicDBObject((FormDef) d, "_id")).bson(), br.getDomain());
 				viewer.update(AUtil.simpleCopy(d, element), null);
 			});
-		else if (element instanceof ExportDocRule)
+		else if (element instanceof ExportDocRule) {
 			EditExportDocRuleDialog.open(br, context, (ExportDocRule) element);
+			service.updateExportDocRule(new FilterAndUpdate().filter(new BasicDBObject("_id", ((ExportDocRule) element).get_id()))
+					.set(BsonTools.getBasicDBObject((ExportDocRule) element, "_id")).bson(), br.getDomain());
+		}
 
 	}
 

@@ -1,0 +1,20 @@
+{
+  "id": "/字典编辑器.editorassy",
+  "name": "生成文档字段规则-多行文本",
+  "title": "字符串常量",
+  "layout": [],
+  "type": "editor",
+  "folderId": "162dc3e928e",
+  "fields": [
+    {
+      "name": "value",
+      "type": "多行文本框",
+      "formFields": [],
+      "grabVertical": true,
+      "hideLabel": true
+    }
+  ],
+  "actions": [],
+  "smallEditor": true,
+  "disableInitLoadData": false
+}

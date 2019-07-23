@@ -11,9 +11,13 @@ import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.CellEditor;
+import org.eclipse.jface.viewers.CheckboxCellEditor;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.ComboBoxCellEditor;
+import org.eclipse.jface.viewers.DialogCellEditor;
 import org.eclipse.jface.viewers.EditingSupport;
+import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.nebula.jface.gridviewer.GridTableViewer;
 import org.eclipse.nebula.jface.gridviewer.GridViewerColumn;
 import org.eclipse.nebula.widgets.grid.Grid;
@@ -46,6 +50,7 @@ import com.bizvisionsoft.bruicommons.model.FormField;
 import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.service.UserSession;
+import com.bizvisionsoft.bruiengine.ui.Editor;
 import com.bizvisionsoft.bruiengine.ui.Selector;
 import com.bizvisionsoft.bruiengine.util.BruiColors;
 import com.bizvisionsoft.bruiengine.util.BruiColors.BruiColor;
@@ -53,6 +58,7 @@ import com.bizvisionsoft.bruiengine.util.Controls;
 import com.bizvisionsoft.service.model.ExportDocRule;
 import com.bizvisionsoft.service.model.FormDef;
 import com.bizvisionsoft.service.tools.Check;
+import com.bizvisionsoft.service.tools.Formatter;
 
 public class EditExportDocRuleDialog extends Dialog {
 
@@ -60,10 +66,11 @@ public class EditExportDocRuleDialog extends Dialog {
 
 	public static int open(IBruiService br, BruiAssemblyContext context, ExportDocRule exportDocRule) {
 		EditExportDocRuleDialog dialog = new EditExportDocRuleDialog(br, context, Display.getCurrent().getActiveShell());
-		dialog.exportDocRule = exportDocRule;
+		dialog.setExportDocRule(exportDocRule);
 		return dialog.open();
 	}
 
+	private Map<String, String> formDefFieldList;
 	private ExportDocRule exportDocRule;
 
 	private IBruiService br;
@@ -78,6 +85,20 @@ public class EditExportDocRuleDialog extends Dialog {
 		super(parentShell);
 		this.br = br;
 		this.context = context;
+	}
+
+	public void setExportDocRule(ExportDocRule exportDocRule) {
+		this.exportDocRule = exportDocRule;
+		// 根据FormDef的编辑器类型ID获取最终版的编辑器Assembly
+		FormDef formDef = exportDocRule.getFormDef();
+		String editorTypeId = formDef.getEditorTypeId();
+		String editorId = ModelLoader.getLatestVersionEditorIdOfType(editorTypeId);
+		if (editorId != null) {
+			Assembly formDefAssy = ModelLoader.getLibAssembly(editorId);
+			// 获取FormDef对应编辑器的字段清单
+			formDefFieldList = getFieldList(formDefAssy.getFields());
+		}
+
 	}
 
 	@Override
@@ -217,16 +238,6 @@ public class EditExportDocRuleDialog extends Dialog {
 			// 获取选择编辑器的字段清单
 			Map<String, String> selectedFieldList = getFieldList(selectedAssy.getFields());
 
-			// 根据FormDef的编辑器类型ID获取最终版的编辑器Assembly
-			Map<String, String> formDefFieldList = null;
-			FormDef formDef = exportDocRule.getFormDef();
-			String editorTypeId = formDef.getEditorTypeId();
-			String editorId = ModelLoader.getLatestVersionEditorIdOfType(editorTypeId);
-			if (editorId != null) {
-				Assembly formDefAssy = ModelLoader.getLibAssembly(editorId);
-				// 获取FormDef对应编辑器的字段清单
-				formDefFieldList = getFieldList(formDefAssy.getFields());
-			}
 			List<Document> fieldMap = getFieldMap(selectedFieldList, formDefFieldList);
 
 			viewer.setInput(fieldMap);
@@ -354,18 +365,26 @@ public class EditExportDocRuleDialog extends Dialog {
 	}
 
 	protected void runCreateItem(Event e) {
-		// TODO Auto-generated method stub
-
+		Document item = new Document();
+		setSelection(Arrays.asList(item));
+		viewer.editElement(item, 0);
 	}
 
+	@SuppressWarnings("unchecked")
 	protected void runRemoveSelected(Event e) {
-		// TODO Auto-generated method stub
-
+		if (viewer.getInput() == null)
+			return;
+		IStructuredSelection selection = (IStructuredSelection) viewer.getSelection();
+		Document element = (Document) selection.getFirstElement();
+		if (element != null) {
+			((List<Document>) viewer.getInput()).remove(element);
+			viewer.remove(element);
+		}
 	}
 
 	protected void runRemoveAllItems(Event e) {
 		// TODO Auto-generated method stub
-
+		viewer.setInput(new ArrayList<Document>());
 	}
 
 	private void createColumns(GridTableViewer viewer, Grid grid) {
@@ -388,6 +407,30 @@ public class EditExportDocRuleDialog extends Dialog {
 				return ((Document) element).getString("filedName");
 			}
 		});
+		vcol.setEditingSupport(new EditingSupport(viewer) {
+			@Override
+			protected CellEditor getCellEditor(Object element) {
+				return new TextCellEditor(viewer.getGrid());
+			}
+
+			@Override
+			protected boolean canEdit(Object element) {
+				return true;
+			}
+
+			@Override
+			protected Object getValue(Object element) {
+				return Formatter.getString(((Document) element).get("filed"));
+			}
+
+			@Override
+			protected void setValue(Object element, Object value) {
+				Document doc = (Document) element;
+				doc.append("filedName", (String) value);
+				doc.append("filed", (String) value);
+			}
+
+		});
 
 		// 类型
 		col = new GridColumn(grid, SWT.NONE);
@@ -408,6 +451,7 @@ public class EditExportDocRuleDialog extends Dialog {
 				return ((Document) element).getString("type");
 			}
 		});
+
 		vcol.setEditingSupport(new EditingSupport(viewer) {
 
 			List<String> items = Arrays.asList(ExportDocRule.TYPE_FIELD_ALL);
@@ -457,29 +501,74 @@ public class EditExportDocRuleDialog extends Dialog {
 			public String getText(Object element) {
 				Document doc = (Document) element;
 				if (ExportDocRule.TYPE_FIELD_MAPPING.equals(doc.get("type")))
-					return doc.getString("valueText");
-				return doc.getString("value");
+					return Formatter.getString(doc.get("valueText"));
+
+				return Formatter.getString(doc.get("value"));
 			}
 		});
 		vcol.setEditingSupport(new EditingSupport(viewer) {
-
 			@Override
 			protected CellEditor getCellEditor(Object element) {
-				return null;
+				CellEditor editor = null;
+				Document doc = (Document) element;
+				Object type = doc.get("type");
+
+				if (ExportDocRule.TYPE_FIELD_ARRAY.equals(type) || ExportDocRule.TYPE_FIELD_TABLE.equals(type)) {// 类型为数组或表格时，使用DialogCellEditor，弹出多行文本框进行编辑
+					editor = new DialogCellEditor(viewer.getGrid()) {
+						@Override
+						protected Object openDialogBox(Control parent) {// Composite
+							Editor.create("/vault/生成文档字段规则-多行文本.editorassy", context, doc, true).setTitle(doc.getString("type")).open();
+							return null;
+						}
+					};
+				} else if (ExportDocRule.TYPE_FIELD_MAPPING.equals(type)) {// 类型为映射时，使用DialogCellEditor，弹出表单字段清单进行选择
+					editor = new DialogCellEditor(viewer.getGrid()) {
+						@Override
+						protected Object openDialogBox(Control parent) {// Composite
+							Selector.create("/vault/编辑器字段选择器.selectorassy", context, formDefFieldList).open(l -> {
+								String name = ((Document) l.get(0)).getString("name");
+								doc.put("value", name);
+								doc.put("valueText",
+										(formDefFieldList.get(name) != null ? formDefFieldList.get(name) : "") + "[$" + name + "]");
+							});
+							return null;
+						}
+					};
+				} else if (ExportDocRule.TYPE_FIELD_BOOLEAN.equals(type)) {// 类型为布尔时，使用CheckboxCellEditor进行编辑
+					editor = new CheckboxCellEditor(viewer.getGrid());
+				} else if (ExportDocRule.TYPE_FIELD_NUMBER.equals(type) || ExportDocRule.TYPE_FIELD_STRING.equals(type)) {// 类型为文本或数值时，使用TextCellEditor进行编辑
+					editor = new TextCellEditor(viewer.getGrid());
+				}
+				return editor;
 			}
 
 			@Override
 			protected boolean canEdit(Object element) {
-				return false;
+				return true;
 			}
 
 			@Override
 			protected Object getValue(Object element) {
+				Document doc = (Document) element;
+				Object type = doc.get("type");
+				if (ExportDocRule.TYPE_FIELD_BOOLEAN.equals(type))
+					return doc.getBoolean("value", false);
+				else if (ExportDocRule.TYPE_FIELD_NUMBER.equals(type) || ExportDocRule.TYPE_FIELD_STRING.equals(type))
+					return Formatter.getString(doc.get("value"));
 				return null;
 			}
 
 			@Override
 			protected void setValue(Object element, Object value) {
+				Document doc = (Document) element;
+				Object type = doc.get("type");
+				if (ExportDocRule.TYPE_FIELD_BOOLEAN.equals(type))
+					doc.put("value", value);
+				else if (ExportDocRule.TYPE_FIELD_NUMBER.equals(type))
+					doc.put("value", Double.parseDouble((String) value));
+				else if (ExportDocRule.TYPE_FIELD_STRING.equals(type))
+					doc.put("value", (String) value);
+				viewer.refresh(element);
 			}
 
 		});
@@ -546,8 +635,23 @@ public class EditExportDocRuleDialog extends Dialog {
 		return point;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	protected void buttonPressed(int buttonId) {
+		if (buttonId != IDialogConstants.CANCEL_ID) {
+
+			String editorId = selectionField.getText();
+			if (editorId != null)
+				exportDocRule.setEditorId(editorId);
+
+			List<Document> fieldMap = (List<Document>) viewer.getInput();
+			if (Check.isAssigned(fieldMap))
+				exportDocRule.setFieldMap(fieldMap);
+
+			String postProc2 = postProc.getText();
+			if (postProc2 != null)
+				exportDocRule.setPostProc(postProc2);
+		}
 		if (buttonId == IDialogConstants.DETAILS_ID) {
 			checkFormDef();
 		}

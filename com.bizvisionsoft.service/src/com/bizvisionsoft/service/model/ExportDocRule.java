@@ -15,13 +15,21 @@ import com.bizvisionsoft.annotations.md.service.WriteValue;
 @PersistenceCollection("exportDocRule")
 public class ExportDocRule {
 
+	@Exclude
 	public static String TYPE_FIELD_MAPPING = "映射";
+	@Exclude
 	public static String TYPE_FIELD_NUMBER = "数值";
+	@Exclude
 	public static String TYPE_FIELD_STRING = "文本";
+	@Exclude
 	public static String TYPE_FIELD_BOOLEAN = "布尔";
+	@Exclude
 	public static String TYPE_FIELD_ARRAY = "数组";
+	@Exclude
 	public static String TYPE_FIELD_TABLE = "表格";
-	public static String[] TYPE_FIELD_ALL = new String[] {TYPE_FIELD_MAPPING,TYPE_FIELD_NUMBER,TYPE_FIELD_STRING,TYPE_FIELD_BOOLEAN,TYPE_FIELD_ARRAY,TYPE_FIELD_TABLE};
+	@Exclude
+	public static String[] TYPE_FIELD_ALL = new String[] { TYPE_FIELD_MAPPING, TYPE_FIELD_NUMBER, TYPE_FIELD_STRING, TYPE_FIELD_BOOLEAN,
+			TYPE_FIELD_ARRAY, TYPE_FIELD_TABLE };
 
 	public String domain;
 
@@ -41,6 +49,10 @@ public class ExportDocRule {
 
 	public String getEditorId() {
 		return editorId;
+	}
+
+	public void setEditorId(String editorId) {
+		this.editorId = editorId;
 	}
 
 	@ReadValue
@@ -91,4 +103,5 @@ public class ExportDocRule {
 	public void setPostProc(String postProc) {
 		this.postProc = postProc;
 	}
+
 }
