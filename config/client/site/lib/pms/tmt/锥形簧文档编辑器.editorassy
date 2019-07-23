@@ -137,7 +137,8 @@
               "text": "安装在",
               "type": "下拉选择框",
               "formFields": [],
-              "optionText": "轴箱和转向架构架之间"
+              "optionText": "",
+              "dicCatalog": "角色名称"
             }
           ]
         },
