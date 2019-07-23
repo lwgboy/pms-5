@@ -212,30 +212,21 @@ public abstract class VaultExplorer {
 	private void showMenu(final IFolder folder) {
 		// TODO 权限控制
 		List<Action> folderMenu = new ArrayList<Action>();
-		// 通用文档
-		folderMenu.add(new ActionFactory().text("创建通用文档").name("createFile").img("/img/file_add_w.svg").normalStyle().exec((e, c) -> {
-			Docu docu = br.newInstance(Docu.class).setFolder_id(folder.get_id()).setCreationInfo(br.operationInfo());
-			Editor.open("通用文档编辑器.editorassy", context, docu, true, (b, t) -> {
-				filePane.insert(Services.get(DocumentService.class).createDocument(t, br.getDomain()));
-			});
-		}).get());
 		// 根据表单定义创建文档
 		// 判断容器是否存在表单定义
-		List<FormDef> containerFormDefs = folder.getContainerFormDefs();
-		if (Check.isAssigned(containerFormDefs))
-			folderMenu.add(new ActionFactory().text("创建表单").name("createFile").img("/img/file_add_w.svg").normalStyle().exec((e, c) -> {
-				// TODO 弹出选择器选中表单定义
-				Selector.open("/vault/表单定义选择器.selectorassy", context, folder.getContainer(), l->{
-					// TODO 根据所选的表单定义初始化Document并用表单定义中定义的编辑器打开编辑
-					// Docu docu =
-					// br.newInstance(Docu.class).setFolder_id(folder.get_id()).setCreationInfo(br.operationInfo());
-					// Editor.open("通用文档编辑器.editorassy", context, docu, true, (b, t) -> {
-					// filePane.insert(Services.get(DocumentService.class).createDocument(t,
-					// br.getDomain()));
-					// });
-				});
-				
-			}).get());
+		folderMenu.add(new ActionFactory().text("创建文档").name("createFile").img("/img/file_add_w.svg").normalStyle().exec((e, c) -> {
+			// TODO 弹出选择器选中表单定义，第一个就是通用文档编辑器.editorassy
+			Selector.open("/vault/表单定义选择器.selectorassy", context, folder.getContainer(), l -> {
+				// TODO 根据所选的表单定义初始化Document并用表单定义中定义的编辑器打开编辑
+				// Docu docu =
+				// br.newInstance(Docu.class).setFolder_id(folder.get_id()).setCreationInfo(br.operationInfo());
+				// Editor.open("通用文档编辑器.editorassy", context, docu, true, (b, t) -> {
+				// filePane.insert(Services.get(DocumentService.class).createDocument(t,
+				// br.getDomain()));
+				// });
+			});
+
+		}).get());
 		// 创建子文件夹
 		folderMenu.add(new ActionFactory().text("创建子文件夹").name("createFolder").img("/img/folder_add_w.svg").normalStyle().exec((e, c) -> {
 			if (createFolder(folder)) {

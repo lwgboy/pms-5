@@ -182,6 +182,12 @@
             "verticalSpan": 0
           },
           {
+            "name": "档案库",
+            "text": "档案库",
+            "switchContentToAssemblyId": "/vault/组织资料库.assy",
+            "type": "switch"
+          },
+          {
             "id": "1642aaa73c6",
             "name": "资源管理",
             "children": [
@@ -720,7 +726,7 @@
           {
             "id": "1628df224b5",
             "name": "项目档案库",
-            "switchContentToAssemblyId": "/项目档案库.assy",
+            "switchContentToAssemblyId": "/vault/项目资料库.assy",
             "type": "switch",
             "verticalSpan": 0
           },
@@ -925,6 +931,12 @@
             "type": "customized",
             "role": "",
             "verticalSpan": 0
+          },
+          {
+            "name": "项目档案库",
+            "text": "",
+            "switchContentToAssemblyId": "/vault/项目资料库.assy",
+            "type": "switch"
           },
           {
             "id": "162fffc1a86",
@@ -1298,7 +1310,7 @@
           {
             "id": "9628df224b5",
             "name": "项目档案库",
-            "switchContentToAssemblyId": "/项目档案库.assy",
+            "switchContentToAssemblyId": "/vault/项目资料库.assy",
             "type": "switch",
             "verticalSpan": 0
           },
@@ -1616,7 +1628,7 @@
           {
             "id": "9928df224b5",
             "name": "项目档案库",
-            "switchContentToAssemblyId": "/项目档案库.assy",
+            "switchContentToAssemblyId": "/vault/项目资料库.assy",
             "type": "switch",
             "verticalSpan": 0
           },
@@ -1884,6 +1896,25 @@
             "type": "customized"
           },
           {
+            "name": "资料库",
+            "text": "资料库",
+            "children": [
+              {
+                "name": "资料库设置",
+                "text": "资料库设置",
+                "switchContentToAssemblyId": "/vault/资料库.gridassy",
+                "type": "switch"
+              },
+              {
+                "name": "表单定义",
+                "text": "表单定义",
+                "switchContentToAssemblyId": "/vault/表单定义.gridassy",
+                "type": "switch"
+              }
+            ],
+            "type": "customized"
+          },
+          {
             "id": "16555b265e3",
             "name": "财务科目",
             "text": "财务科目",
@@ -2112,7 +2143,8 @@
           {
             "typeName": "组件链接",
             "id": "/系统管理首页面板.assy",
-            "defaultAssembly": true
+            "defaultAssembly": true,
+            "text": "系统管理首页面板"
           }
         ]
       },

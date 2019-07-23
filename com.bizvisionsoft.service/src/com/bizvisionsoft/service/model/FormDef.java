@@ -9,6 +9,7 @@ import org.bson.types.ObjectId;
 import com.bizvisionsoft.annotations.md.mongocodex.Exclude;
 import com.bizvisionsoft.annotations.md.mongocodex.PersistenceCollection;
 import com.bizvisionsoft.annotations.md.service.ImageURL;
+import com.bizvisionsoft.annotations.md.service.Label;
 import com.bizvisionsoft.annotations.md.service.ReadValue;
 import com.bizvisionsoft.annotations.md.service.Structure;
 import com.bizvisionsoft.annotations.md.service.WriteValue;
@@ -19,6 +20,11 @@ import com.mongodb.BasicDBObject;
 
 @PersistenceCollection("formDef")
 public class FormDef {
+	
+	
+	@ReadValue(ReadValue.TYPE)
+	@Exclude
+	public static final String typeName = "表单定义";
 
 	public String domain;
 
@@ -30,6 +36,7 @@ public class FormDef {
 
 	@ReadValue
 	@WriteValue
+	@Label
 	private String name;
 
 	@WriteValue
