@@ -1,6 +1,7 @@
 package com.bizvisionsoft.pms.formdef;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,7 +10,10 @@ import org.bson.Document;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.viewers.ArrayContentProvider;
+import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
+import org.eclipse.jface.viewers.ComboBoxCellEditor;
+import org.eclipse.jface.viewers.EditingSupport;
 import org.eclipse.nebula.jface.gridviewer.GridTableViewer;
 import org.eclipse.nebula.jface.gridviewer.GridViewerColumn;
 import org.eclipse.nebula.widgets.grid.Grid;
@@ -391,7 +395,7 @@ public class EditExportDocRuleDialog extends Dialog {
 		col.setText("类型");
 		col.setAlignment(SWT.CENTER);
 		col.setWidth(80);
-		col.setMinimumWidth(100);
+		col.setMinimumWidth(50);
 		col.setMoveable(false);
 		col.setResizeable(true);
 		col.setDetail(false);
@@ -404,12 +408,42 @@ public class EditExportDocRuleDialog extends Dialog {
 				return ((Document) element).getString("type");
 			}
 		});
+		vcol.setEditingSupport(new EditingSupport(viewer) {
+
+			List<String> items = Arrays.asList(ExportDocRule.TYPE_FIELD_ALL);
+
+			@Override
+			protected void setValue(Object element, Object value) {
+				((Document) element).append("type", items.get((int) value)).append("value", null).append("valueText", null);
+				viewer.refresh(element);
+			}
+
+			@Override
+			protected Object getValue(Object element) {
+				return items.indexOf(((Document) element).get("type"));
+			}
+
+			@Override
+			protected CellEditor getCellEditor(Object element) {
+				return new ComboBoxCellEditor(viewer.getGrid(), items.toArray(new String[0])) {
+					@Override
+					protected void doSetValue(Object value) {
+						super.doSetValue(value);
+					}
+				};
+			}
+
+			@Override
+			protected boolean canEdit(Object element) {
+				return true;
+			}
+		});
 
 		// 值
 		col = new GridColumn(grid, SWT.NONE);
 		col.setData("name", "value");
 		col.setText("值");
-		col.setAlignment(SWT.CENTER);
+		col.setAlignment(SWT.LEFT);
 		col.setWidth(120);
 		col.setMinimumWidth(100);
 		col.setMoveable(false);
@@ -426,6 +460,28 @@ public class EditExportDocRuleDialog extends Dialog {
 					return doc.getString("valueText");
 				return doc.getString("value");
 			}
+		});
+		vcol.setEditingSupport(new EditingSupport(viewer) {
+
+			@Override
+			protected CellEditor getCellEditor(Object element) {
+				return null;
+			}
+
+			@Override
+			protected boolean canEdit(Object element) {
+				return false;
+			}
+
+			@Override
+			protected Object getValue(Object element) {
+				return null;
+			}
+
+			@Override
+			protected void setValue(Object element, Object value) {
+			}
+
 		});
 	}
 

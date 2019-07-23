@@ -21,6 +21,7 @@ public class ExportDocRule {
 	public static String TYPE_FIELD_BOOLEAN = "布尔";
 	public static String TYPE_FIELD_ARRAY = "数组";
 	public static String TYPE_FIELD_TABLE = "表格";
+	public static String[] TYPE_FIELD_ALL = new String[] {TYPE_FIELD_MAPPING,TYPE_FIELD_NUMBER,TYPE_FIELD_STRING,TYPE_FIELD_BOOLEAN,TYPE_FIELD_ARRAY,TYPE_FIELD_TABLE};
 
 	public String domain;
 
