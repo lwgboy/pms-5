@@ -1856,14 +1856,19 @@
             "type": "customized"
           },
           {
-            "name": "资料库",
-            "text": "资料库",
+            "name": "资料库管理",
+            "text": "资料库管理",
             "children": [
               {
                 "name": "资料库设置",
                 "text": "资料库设置",
                 "switchContentToAssemblyId": "/vault/资料库.gridassy",
                 "type": "switch"
+              },
+              {
+                "name": "资料库权限管理",
+                "text": "资料库权限管理",
+                "type": "customized"
               },
               {
                 "name": "表单定义",
