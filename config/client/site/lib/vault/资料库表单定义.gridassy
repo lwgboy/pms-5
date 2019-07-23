@@ -6,6 +6,7 @@
   "stickerTitle": "表单定义",
   "folderId": "162dc3e928e",
   "gridAutoExpandLevel": 2,
+  "gridMarkupEnabled": true,
   "gridLineVisiable": true,
   "gridHeaderVisiable": true,
   "gridHasHScroll": true,

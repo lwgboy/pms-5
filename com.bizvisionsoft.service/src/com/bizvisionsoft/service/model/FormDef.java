@@ -44,6 +44,8 @@ public class FormDef {
 	@Exclude
 	private String icon = "/img/form_c.svg";
 
+	private List<ObjectId> exportDocRule_ids;
+
 	public String getName() {
 		return name;
 	}
@@ -66,13 +68,14 @@ public class FormDef {
 
 	@Structure("表单定义/list")
 	public List<ExportDocRule> listSubAccountItems() {
-		return ServicesLoader.get(CommonService.class).listExportDocRule(new Query().filter(new BasicDBObject("formDef_id", _id)).bson(),
-				domain);
+		return ServicesLoader.get(CommonService.class).listExportDocRule(
+				new Query().filter(new BasicDBObject("_id", new BasicDBObject("$in", exportDocRule_ids))).bson(), domain);
 	}
 
 	@Structure("表单定义/count")
 	public long countSubAccountItems() {
-		return ServicesLoader.get(CommonService.class).countExportDocRule(new BasicDBObject("formDef_id", _id), domain);
+		return ServicesLoader.get(CommonService.class)
+				.countExportDocRule(new BasicDBObject("_id", new BasicDBObject("$in", exportDocRule_ids)), domain);
 	}
 
 	@Structure("new")

@@ -13,7 +13,7 @@
         {
           "id": "162bd1ff051",
           "name": "name",
-          "text": "资料库名称",
+          "text": "名称",
           "type": "单行文本框",
           "formFields": [],
           "required": true
@@ -24,56 +24,59 @@
           "type": "单选框",
           "formFields": [],
           "required": true,
-          "optionValue": "pm#wc#dcpdm#other",
-          "optionText": "PM资料库#Windchill容器#DCPDM#其他",
+          "optionValue": "pm#wc",
+          "optionText": "PM资料库#Windchill容器",
           "radioStyle": "横向分段（默认）"
+        },
+        {
+          "name": "defaultquery",
+          "text": "所有用户可查询",
+          "type": "复选框",
+          "formFields": [],
+          "checkStyle": "开关（默认）"
         },
         {
           "name": "description",
           "text": "说明",
           "type": "多行文本框",
-          "formFields": []
-        },
-        {
-          "name": "新字段",
-          "type": "行",
-          "formFields": [
-            {
-              "name": "iscontainer",
-              "text": "资料库",
-              "type": "复选框",
-              "formFields": [],
-              "required": true,
-              "checkStyle": "开关（默认）"
-            },
-            {
-              "name": "defaultquery",
-              "text": "所有用户可查询",
-              "type": "复选框",
-              "formFields": [],
-              "checkStyle": "开关（默认）"
-            }
-          ]
-        },
+          "formFields": [],
+          "grabVertical": true
+        }
+      ]
+    },
+    {
+      "name": "组织拥有者",
+      "type": "标签页",
+      "formFields": [
         {
           "name": "organization",
-          "text": "组织",
+          "text": "组织拥有者",
           "type": "多个对象选择框",
           "formFields": [],
           "selectorAssemblyId": "/组织选择器（项目承担单位）.gridassy",
-          "valueFieldName": ""
-        },
+          "grabVertical": true,
+          "valueFieldName": "",
+          "hideLabel": true
+        }
+      ]
+    },
+    {
+      "name": "表单定义",
+      "type": "标签页",
+      "formFields": [
         {
           "name": "formDef",
           "text": "表单定义",
           "type": "多个对象选择框",
           "formFields": [],
-          "selectorAssemblyId": "/vault/资料库表单定义.gridassy"
+          "selectorAssemblyId": "/vault/资料库表单定义.gridassy",
+          "grabVertical": true,
+          "hideLabel": true
         }
       ]
     },
     {
-      "name": "Windchill容器属性",
+      "name": "Windchill集成",
       "type": "标签页",
       "formFields": [
         {

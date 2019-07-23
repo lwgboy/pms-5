@@ -20,7 +20,6 @@ import com.bizvisionsoft.service.CommonService;
 import com.bizvisionsoft.service.datatools.FilterAndUpdate;
 import com.bizvisionsoft.service.model.ExportDocRule;
 import com.bizvisionsoft.service.model.FormDef;
-import com.bizvisionsoft.service.model.Problem;
 import com.bizvisionsoft.serviceconsumer.Services;
 import com.mongodb.BasicDBObject;
 
@@ -44,8 +43,7 @@ public class FormDefACT {
 	}
 
 	@Execute
-	public void execute(@MethodParam(Execute.ROOT_CONTEXT_INPUT_OBJECT) Problem problem,
-			@MethodParam(Execute.CONTEXT_SELECTION_1ST) Object element, @MethodParam(Execute.EVENT) Event e,
+	public void execute(@MethodParam(Execute.CONTEXT_SELECTION_1ST) Object element, @MethodParam(Execute.EVENT) Event e,
 			@MethodParam(Execute.ACTION) Action a) {
 		if ("edit".equals(a.getName()) || "edit".equals(e.text))
 			doEdit(element);

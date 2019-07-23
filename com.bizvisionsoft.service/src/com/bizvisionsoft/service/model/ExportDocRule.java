@@ -7,6 +7,7 @@ import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.annotations.md.mongocodex.Exclude;
 import com.bizvisionsoft.annotations.md.mongocodex.PersistenceCollection;
+import com.bizvisionsoft.annotations.md.mongocodex.SetValue;
 import com.bizvisionsoft.annotations.md.service.ImageURL;
 import com.bizvisionsoft.annotations.md.service.ReadValue;
 import com.bizvisionsoft.annotations.md.service.WriteValue;
@@ -32,6 +33,15 @@ public class ExportDocRule {
 
 	public String getEditorId() {
 		return editorId;
+	}
+
+	@ReadValue
+	@WriteValue
+	@SetValue("formDef")
+	private FormDef formDef;
+
+	public FormDef getFormDef() {
+		return formDef;
 	}
 
 	@WriteValue("editorName")

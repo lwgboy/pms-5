@@ -813,8 +813,8 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 
 	@Override
 	public VaultFolder insertContainer(VaultFolder vf, String domain) {
-		//TODO 添加资料库默认属性
-		
+		// TODO 添加资料库默认属性
+		vf.setIsContainer(true);
 		return insert(vf, VaultFolder.class, domain);
 	}
 
@@ -857,7 +857,14 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 
 	@Override
 	public List<ExportDocRule> listExportDocRule(BasicDBObject condition, String domain) {
-		return createDataSet(condition, ExportDocRule.class, domain);
+		Integer skip = (Integer) condition.get("skip");
+		Integer limit = (Integer) condition.get("limit");
+		BasicDBObject filter = (BasicDBObject) condition.get("filter");
+		BasicDBObject sort = (BasicDBObject) condition.get("sort");
+		return query(c -> {
+			c.add(Aggregates.lookup("formDef", "_id", "exportDocRule_ids", "formDef"));
+			c.add(Aggregates.unwind("$formDef"));
+		}, skip, limit, filter, sort, null, ExportDocRule.class, domain);
 	}
 
 	@Override
@@ -867,6 +874,7 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 
 	@Override
 	public ExportDocRule insertExportDocRule(ExportDocRule exportDocRule, String domain) {
+		// TODO更新FormDef
 		return insert(exportDocRule, ExportDocRule.class, domain);
 	}
 
