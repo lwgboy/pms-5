@@ -3,12 +3,13 @@
   "name": "资料库",
   "layout": [],
   "type": "grid",
-  "stickerTitle": "资料库",
+  "stickerTitle": "资料库设置",
   "folderId": "162dc3e928e",
   "gridLineVisiable": true,
   "gridHeaderVisiable": true,
   "gridHasHScroll": true,
   "gridHasVScroll": true,
+  "gridPageControl": true,
   "gridDataSetService": "com.bizvisionsoft.service.CommonService",
   "columns": [
     {
@@ -29,7 +30,22 @@
       "columns": []
     }
   ],
-  "fields": [],
+  "fields": [
+    {
+      "name": "name",
+      "text": "名称",
+      "type": "文本输入框（查询）",
+      "formFields": []
+    },
+    {
+      "name": "type",
+      "text": "资料库类型",
+      "type": "下拉选择框（查询）",
+      "formFields": [],
+      "optionValue": "pm#wc",
+      "optionText": "PM资料库#Windchill容器"
+    }
+  ],
   "gridAutoColumnWidth": true,
   "actions": [
     {

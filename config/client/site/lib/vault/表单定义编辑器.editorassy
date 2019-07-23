@@ -27,11 +27,27 @@
           "required": true,
           "selectorAssemblyId": "/组件选择器（编辑器）.gridassy",
           "valueFieldName": "id"
+        },
+        {
+          "name": "activated",
+          "text": "启用",
+          "type": "复选框",
+          "formFields": [],
+          "checkStyle": "开关（默认）"
         }
       ]
     }
   ],
-  "actions": [],
+  "actions": [
+    {
+      "name": "检查",
+      "text": "检查",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.formdef.action.CheckFormDefACT",
+      "style": "normal",
+      "type": "customized"
+    }
+  ],
   "smallEditor": true,
   "disableInitLoadData": false
 }

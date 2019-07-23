@@ -269,6 +269,14 @@ public class VaultFolder implements IFolder {
 		return root_id != null ? ServicesLoader.get(CommonService.class).getVaultFolder(root_id, domain).getFormDef() : null;
 	}
 
+	public boolean isContainer() {
+		return iscontainer;
+	}
+
+	public void setIsContainer(boolean iscontainer) {
+		this.iscontainer = iscontainer;
+	}
+
 	public static VaultFolder getInstance(Project project, boolean isflderroot, String domain) {
 		VaultFolder folder = getInstance(domain);
 		folder.setflderroot(isflderroot);

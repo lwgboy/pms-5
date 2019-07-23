@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.bson.Document;
 import org.eclipse.jface.dialogs.Dialog;
+import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.nebula.jface.gridviewer.GridTableViewer;
@@ -13,6 +14,7 @@ import org.eclipse.nebula.widgets.grid.Grid;
 import org.eclipse.nebula.widgets.grid.GridColumn;
 import org.eclipse.rap.rwt.RWT;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.FormAttachment;
@@ -26,11 +28,14 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.TabFolder;
+import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.swt.widgets.Text;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.bizvisionsoft.bruicommons.model.Assembly;
+import com.bizvisionsoft.bruicommons.model.FormField;
 import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.service.UserSession;
@@ -52,8 +57,11 @@ public class EditExportDocRuleDialog extends Dialog {
 	}
 
 	private ExportDocRule exportDocRule;
+
 	private IBruiService br;
+
 	private BruiAssemblyContext context;
+
 	private Text selectionField;
 	private GridTableViewer viewer;
 	private Text postProc;
@@ -65,6 +73,14 @@ public class EditExportDocRuleDialog extends Dialog {
 	}
 
 	@Override
+	protected void createButtonsForButtonBar(Composite parent) {
+		createButton(parent, IDialogConstants.DETAILS_ID, "检查", false).setData(RWT.CUSTOM_VARIANT, Controls.CSS_INFO);
+
+		createButton(parent, IDialogConstants.CANCEL_ID, "取消", false).setData(RWT.CUSTOM_VARIANT, Controls.CSS_WARNING);
+		createButton(parent, IDialogConstants.OK_ID, "确定", true).setData(RWT.CUSTOM_VARIANT, Controls.CSS_NORMAL);
+	}
+
+	@Override
 	protected void configureShell(Shell newShell) {
 		super.configureShell(newShell);
 		newShell.setText("文档导出规则");
@@ -73,20 +89,54 @@ public class EditExportDocRuleDialog extends Dialog {
 	@Override
 	protected Control createDialogArea(Composite parent) {
 		Composite panel = (Composite) super.createDialogArea(parent);
-		GridLayout layout = new GridLayout(1, false);
-		layout.marginWidth = 24;
-		layout.marginHeight = 24;
-		layout.horizontalSpacing = 24;
-		layout.verticalSpacing = 12;
-		panel.setLayout(layout);
 
-		selectionField = createSelectionField(panel);
-		viewer = createTableField(panel);
-		postProc = createMultiTextField(panel);
+		TabFolder folder = new TabFolder(panel, SWT.TOP | SWT.BORDER);
 
-		initData();
+		Composite tabItem = createTabItem(folder, "基本信息");
+
+		selectionField = createSelectionField(tabItem);
+		postProc = createMultiTextField(tabItem);
+
+		tabItem = createTabItem(folder, "导出文档字段");
+		viewer = createTableField(tabItem);
+
+		folder.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 
 		return panel;
+	}
+
+	private Composite createTabItem(TabFolder folder, String tabText) {
+		TabItem item = new TabItem(folder, SWT.NONE);
+		item.setText(tabText);
+		ScrolledComposite sc = createPage(folder);
+		item.setControl(sc);
+		return (Composite) sc.getContent();
+	}
+
+	private ScrolledComposite createPage(Composite parent) {
+		final ScrolledComposite sc = new ScrolledComposite(parent, SWT.V_SCROLL);
+		Composite content = new Composite(sc, SWT.NONE);
+
+		GridLayout layout = new GridLayout();
+		layout.marginBottom = 4;
+		layout.marginTop = 8;
+		layout.marginLeft = 4;
+		layout.marginRight = 4;
+		layout.marginWidth = 0;
+		layout.marginHeight = 0;
+		layout.verticalSpacing = 8;
+		layout.horizontalSpacing = 0;
+		content.setLayout(layout);
+
+		sc.setExpandVertical(true);
+		sc.setContent(content);
+
+		sc.addListener(SWT.Resize, e -> {
+			Point size = content.computeSize(sc.getBounds().width, SWT.DEFAULT);
+			sc.getContent().setSize(size.x, size.y);
+			sc.setMinHeight(size.y);
+		});
+		return sc;
 	}
 
 	private void initData() {
@@ -155,15 +205,31 @@ public class EditExportDocRuleDialog extends Dialog {
 			selectionField.setText(id);
 
 			List<Document> fieldMap = new ArrayList<Document>();
-			assembly.getFields().forEach(field -> {
-				Document doc = new Document();
-				fieldMap.add(doc);
-				String type = field.getType();
-
-				doc.put("filedName", field.getName());
-			});
+			assembly.getFields().forEach(field -> setAssemblyField(fieldMap, field));
 			viewer.setInput(fieldMap);
 		});
+	}
+
+	/**
+	 * 设置Assembly的Field到fieldMap中
+	 * 
+	 * @param fieldMap
+	 * @param formField
+	 */
+	private void setAssemblyField(List<Document> fieldMap, FormField formField) {
+		String type = formField.getType();
+		// TODO 去除掉page和行设置、去除掉横幅
+
+		if (FormField.TYPE_PAGE.equals(type) || FormField.TYPE_INLINE.equals(type)) {
+			formField.getFormFields().forEach(field -> setAssemblyField(fieldMap, field));
+		} else if (!FormField.TYPE_BANNER.equals(type)) {
+			Document doc = new Document();
+			fieldMap.add(doc);
+			doc.put("filed", formField.getName());
+			String text = formField.getText();
+			doc.put("filedName", (text != null ? text : "") + "[" + formField.getName() + "]");
+			// TODO 检查FormDef的编辑器，给字段设置默认值
+		}
 	}
 
 	public boolean setSelection(List<Document> data) {
@@ -182,7 +248,7 @@ public class EditExportDocRuleDialog extends Dialog {
 		Composite container = new Composite(parent, SWT.BORDER);
 		container.setBackground(BruiColors.getColor(BruiColor.White));
 		container.setLayout(new FormLayout());
-		GridData gd = new GridData(SWT.FILL, SWT.FILL, true, false);
+		GridData gd = new GridData(SWT.FILL, SWT.FILL, true, true);
 		gd.heightHint = 227;
 		container.setLayoutData(gd);
 
@@ -205,11 +271,10 @@ public class EditExportDocRuleDialog extends Dialog {
 			GridColumn[] cols = grid.getColumns();
 			int total = 0;
 			for (int i = 0; i < cols.length; i++) {
-				if (!Boolean.TRUE.equals(cols[i].getData("fixedRight")))
-					total += cols[i].getWidth();
+				total += cols[i].getWidth();
 			}
 			for (int i = 0; i < cols.length; i++) {
-				if (total != 0 && !Boolean.TRUE.equals(cols[i].getData("fixedRight"))) {
+				if (total != 0) {
 					cols[i].setWidth(width * cols[i].getWidth() / total);
 				}
 			}
@@ -261,7 +326,7 @@ public class EditExportDocRuleDialog extends Dialog {
 		col.setData("name", "filedName");
 		col.setText("字段");
 		col.setAlignment(SWT.LEFT);
-		col.setWidth(100);
+		col.setWidth(120);
 		col.setMinimumWidth(100);
 		col.setMoveable(false);
 		col.setResizeable(true);
@@ -281,7 +346,7 @@ public class EditExportDocRuleDialog extends Dialog {
 		col.setData("name", "type");
 		col.setText("类型");
 		col.setAlignment(SWT.CENTER);
-		col.setWidth(100);
+		col.setWidth(80);
 		col.setMinimumWidth(100);
 		col.setMoveable(false);
 		col.setResizeable(true);
@@ -301,7 +366,7 @@ public class EditExportDocRuleDialog extends Dialog {
 		col.setData("name", "value");
 		col.setText("值");
 		col.setAlignment(SWT.CENTER);
-		col.setWidth(100);
+		col.setWidth(120);
 		col.setMinimumWidth(100);
 		col.setMoveable(false);
 		col.setResizeable(true);
@@ -332,7 +397,7 @@ public class EditExportDocRuleDialog extends Dialog {
 		layout.marginWidth = 0;
 		layout.numColumns = 2;
 		container.setLayout(layout);
-		container.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+		container.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 
 		// 创建选择器文本
 		Label titleLabel = new Label(container, SWT.CENTER);
@@ -365,8 +430,8 @@ public class EditExportDocRuleDialog extends Dialog {
 
 		Point point = getShell().computeSize(SWT.DEFAULT, SWT.DEFAULT, true);
 
-		int width = point.x > 820 ? point.x : 820;// 最小宽度
-		int height = point.y > 480 ? point.y : 480;// 最小高度
+		int width = point.x > 1200 ? point.x : 1200;// 最小宽度
+		int height = point.y > 800 ? point.y : 800;// 最小高度
 
 		// 如果宽度大于屏幕宽度，设为屏幕宽度
 		width = width > disb.width ? disb.width : width;
@@ -377,4 +442,18 @@ public class EditExportDocRuleDialog extends Dialog {
 		point.y = height;
 		return point;
 	}
+
+	@Override
+	protected void buttonPressed(int buttonId) {
+		if (buttonId == IDialogConstants.DETAILS_ID) {
+			checkFormDef();
+		}
+		super.buttonPressed(buttonId);
+	}
+
+	private void checkFormDef() {
+		// TODO Auto-generated method stub
+
+	}
+
 }
