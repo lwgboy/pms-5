@@ -1846,17 +1846,24 @@
                 "verticalSpan": 0
               },
               {
-                "name": "资料库",
-                "text": "资料库",
-                "switchContentToAssemblyId": "/vault/资料库.gridassy",
-                "type": "switch"
-              },
-              {
                 "id": "162dc3d1622",
                 "name": "名称字典",
                 "switchContentToAssemblyId": "/名称字典.gridassy",
                 "type": "switch",
                 "verticalSpan": 0
+              }
+            ],
+            "type": "customized"
+          },
+          {
+            "name": "资料库",
+            "text": "资料库",
+            "children": [
+              {
+                "name": "资料库设置",
+                "text": "资料库设置",
+                "switchContentToAssemblyId": "/vault/资料库.gridassy",
+                "type": "switch"
               },
               {
                 "name": "表单定义",

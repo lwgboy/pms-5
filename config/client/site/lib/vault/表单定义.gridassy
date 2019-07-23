@@ -15,7 +15,7 @@
     {
       "id": "162bd1ccbe0",
       "name": "name",
-      "text": "名称",
+      "text": "类型名称",
       "alignment": 16384,
       "width": 160,
       "resizeable": true,
@@ -33,7 +33,7 @@
     },
     {
       "name": "postProc",
-      "text": "后处理JS",
+      "text": "后处理脚本",
       "alignment": 16384,
       "width": 300,
       "resizeable": true,

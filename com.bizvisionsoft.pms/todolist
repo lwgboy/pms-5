@@ -301,3 +301,4 @@ import com.bizvisionsoft.annotations.md.mongocodex.IAutoGenerator;
 5.编辑器修改侦听
 6.FormDef激活检查
 7.VaultExplorer创建文档时的弹出选择器，增加“通用文档编辑器.editorassy”
+8.ModelLoader最大版本号判断
