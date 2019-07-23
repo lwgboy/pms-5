@@ -15,6 +15,13 @@ import com.bizvisionsoft.annotations.md.service.WriteValue;
 @PersistenceCollection("exportDocRule")
 public class ExportDocRule {
 
+	public static String TYPE_FIELD_MAPPING = "映射";
+	public static String TYPE_FIELD_NUMBER = "数值";
+	public static String TYPE_FIELD_STRING = "文本";
+	public static String TYPE_FIELD_BOOLEAN = "布尔";
+	public static String TYPE_FIELD_ARRAY = "数组";
+	public static String TYPE_FIELD_TABLE = "表格";
+
 	public String domain;
 
 	private ObjectId _id;

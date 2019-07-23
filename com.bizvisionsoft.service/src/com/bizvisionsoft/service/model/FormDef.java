@@ -69,7 +69,7 @@ public class FormDef {
 	}
 
 	@ReadValue("editorName")
-	public String getEditorName() {
+	public String getEditorTypeId() {
 		return editorTypeId;
 	}
 
