@@ -33,6 +33,10 @@ public class Dictionary {
 	@ReadValue
 	@WriteValue
 	private String name;
+
+	@ReadValue
+	@WriteValue
+	private Integer index;
 	
 	@ReadValue
 	@WriteValue

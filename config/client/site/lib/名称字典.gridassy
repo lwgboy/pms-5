@@ -21,6 +21,14 @@
       "columns": []
     },
     {
+      "name": "index",
+      "text": "ÅÅÐòË÷Òý",
+      "alignment": 16384,
+      "width": 40,
+      "resizeable": true,
+      "columns": []
+    },
+    {
       "id": "162bd1f7950",
       "name": "id",
       "text": "±àºÅ",
@@ -92,5 +100,6 @@
     }
   ],
   "hasTitlebar": true,
-  "disableInitLoadData": false
+  "disableInitLoadData": false,
+  "sortFields": []
 }
