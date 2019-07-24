@@ -23,7 +23,7 @@
       "enableColumnSort": true
     },
     {
-      "name": "editorId",
+      "name": "editorTypeId",
       "text": "±à¼­Æ÷",
       "alignment": 16384,
       "width": 320,

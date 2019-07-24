@@ -874,8 +874,12 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 
 	@Override
 	public ExportDocRule insertExportDocRule(ExportDocRule exportDocRule, String domain) {
+		ObjectId parent_id = exportDocRule.getFormDef().get_id();
+		ExportDocRule insert = insert(exportDocRule, ExportDocRule.class, domain);
 		// TODO¸üÐÂFormDef
-		return insert(exportDocRule, ExportDocRule.class, domain);
+		c(FormDef.class, domain).updateOne(new BasicDBObject("_id", parent_id),
+				new BasicDBObject("$addToSet", new BasicDBObject("exportDocRule_ids",insert.get_id())));
+		return insert;
 	}
 
 	@Override

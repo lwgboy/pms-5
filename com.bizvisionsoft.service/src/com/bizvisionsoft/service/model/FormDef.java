@@ -1,6 +1,8 @@
 package com.bizvisionsoft.service.model;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -20,8 +22,7 @@ import com.mongodb.BasicDBObject;
 
 @PersistenceCollection("formDef")
 public class FormDef {
-	
-	
+
 	@ReadValue(ReadValue.TYPE)
 	@Exclude
 	public static final String typeName = "表单定义";
@@ -39,8 +40,7 @@ public class FormDef {
 	@Label
 	private String name;
 
-	@WriteValue
-	@ReadValue({ "editorId", "editorTypeId" })
+	@ReadValue
 	private String editorTypeId;
 
 	@ReadValue
@@ -49,7 +49,7 @@ public class FormDef {
 
 	@ImageURL("name")
 	@Exclude
-	private String icon = "/img/form_c.svg";
+	public static String icon = "/img/form_c.svg";
 
 	private List<ObjectId> exportDocRule_ids;
 
@@ -57,38 +57,39 @@ public class FormDef {
 		return name;
 	}
 
-	@WriteValue("editorName")
-	public void setEditorName(String editorName) {
+	@WriteValue("editorTypeId")
+	public void setEditorTypeId(String editorTypeId) {
 		Pattern editorIdText = Pattern.compile("_(v|V)(.*?)(.editorassy)");
-		Matcher matcher = editorIdText.matcher(editorName);
+		Matcher matcher = editorIdText.matcher(editorTypeId);
 		if (matcher.find()) {
-			this.editorTypeId = editorName.replaceAll(matcher.group(), "");
+			this.editorTypeId = editorTypeId.replaceAll(matcher.group(), "");
 		} else {
-			this.editorTypeId = editorName.replaceAll(".editorassy", "");
+			this.editorTypeId = editorTypeId.replaceAll(".editorassy", "");
 		}
 	}
 
-	@ReadValue("editorName")
 	public String getEditorTypeId() {
 		return editorTypeId;
 	}
 
 	@Structure("表单定义/list")
-	public List<ExportDocRule> listSubAccountItems() {
-		return ServicesLoader.get(CommonService.class).listExportDocRule(
-				new Query().filter(new BasicDBObject("_id", new BasicDBObject("$in", exportDocRule_ids))).bson(), domain);
+	public List<ExportDocRule> listExportDocRule() {
+		return Optional.ofNullable(exportDocRule_ids)
+				.map(_ids -> ServicesLoader.get(CommonService.class)
+						.listExportDocRule(new Query().filter(new BasicDBObject("_id", new BasicDBObject("$in", _ids))).bson(), domain))
+				.orElse(new ArrayList<ExportDocRule>());
 	}
 
 	@Structure("表单定义/count")
-	public long countSubAccountItems() {
-		return ServicesLoader.get(CommonService.class)
-				.countExportDocRule(new BasicDBObject("_id", new BasicDBObject("$in", exportDocRule_ids)), domain);
+	public long countExportDocRule() {
+		return Optional.ofNullable(exportDocRule_ids).map(_ids -> ServicesLoader.get(CommonService.class)
+				.countExportDocRule(new BasicDBObject("_id", new BasicDBObject("$in", _ids)), domain)).orElse(0l);
 	}
 
-	@Structure("new")
 	public ExportDocRule newSubItem() {
 		ExportDocRule edr = new ExportDocRule();
 		edr.domain = domain;
+		edr.setFormDef(this);
 		return edr;
 	}
 

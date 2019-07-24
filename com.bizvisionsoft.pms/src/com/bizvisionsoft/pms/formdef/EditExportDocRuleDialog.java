@@ -293,7 +293,7 @@ public class EditExportDocRuleDialog extends Dialog {
 
 	public boolean setSelection(List<Document> data) {
 		selectionField.setText("");
-		exportDocRule.setEditorName(null);
+		exportDocRule.setEditorId(null);
 		return true;
 	}
 
