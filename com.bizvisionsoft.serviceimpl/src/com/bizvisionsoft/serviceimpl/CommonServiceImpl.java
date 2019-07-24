@@ -36,7 +36,6 @@ import com.bizvisionsoft.serviceimpl.renderer.MessageRenderer;
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Aggregates;
-import com.mongodb.client.model.FindOneAndDeleteOptions;
 
 public class CommonServiceImpl extends BasicServiceImpl implements CommonService {
 
@@ -286,7 +285,8 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 
 	@Override
 	public List<String> listDictionary(String type, String valueField, String domain) {
-		return c("dictionary", domain).distinct(valueField, (new BasicDBObject("type", type)), String.class).into(new ArrayList<>());
+		return c("dictionary", domain).find(new Document("type", type)).sort(new Document("index", -1)).map(d -> d.getString(valueField))
+				.into(new ArrayList<>());
 	}
 
 	@Override

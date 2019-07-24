@@ -40,9 +40,16 @@
       "text": "说明",
       "type": "单行文本框",
       "formFields": []
+    },
+    {
+      "name": "index",
+      "text": "排序索引",
+      "type": "数字输入框",
+      "formFields": []
     }
   ],
   "actions": [],
   "smallEditor": true,
+  "tinyEditor": true,
   "disableInitLoadData": false
 }

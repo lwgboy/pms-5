@@ -138,7 +138,8 @@
               "type": "下拉选择框",
               "formFields": [],
               "optionText": "",
-              "dicCatalog": "角色名称"
+              "dicCatalog": "",
+              "dicCatalogField": "pm"
             }
           ]
         },
