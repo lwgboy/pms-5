@@ -741,7 +741,7 @@ public interface CommonService {
 	@Path("/{domain}/formDef/selector/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet({ "表单定义选择表格/" + DataSet.COUNT, })
+	@DataSet({ "表单定义选择表格/" + DataSet.COUNT })
 	public long countFormDefSelector(@MethodParam(MethodParam.CONTEXT_INPUT_OBJECT) VaultFolder folder,
 			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 

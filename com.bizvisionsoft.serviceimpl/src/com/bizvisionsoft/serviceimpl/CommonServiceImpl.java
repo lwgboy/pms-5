@@ -36,6 +36,7 @@ import com.bizvisionsoft.serviceimpl.renderer.MessageRenderer;
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Aggregates;
+import com.mongodb.client.model.FindOneAndDeleteOptions;
 
 public class CommonServiceImpl extends BasicServiceImpl implements CommonService {
 
@@ -836,7 +837,8 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 	@Override
 	public long deleteFormDef(ObjectId _id, String domain) {
 		// TODO 删除时检查是否存在下级、是否被使用
-
+		Document doc = c("formDef", domain).find(new BasicDBObject("_id", _id)).first();
+		c(ExportDocRule.class, domain).deleteMany(new BasicDBObject("_id", new BasicDBObject("$in", doc.get("exportDocRule_ids"))));
 		return delete(_id, FormDef.class, domain);
 	}
 
@@ -878,7 +880,7 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 		ExportDocRule insert = insert(exportDocRule, ExportDocRule.class, domain);
 		// TODO更新FormDef
 		c(FormDef.class, domain).updateOne(new BasicDBObject("_id", parent_id),
-				new BasicDBObject("$addToSet", new BasicDBObject("exportDocRule_ids",insert.get_id())));
+				new BasicDBObject("$addToSet", new BasicDBObject("exportDocRule_ids", insert.get_id())));
 		return insert;
 	}
 

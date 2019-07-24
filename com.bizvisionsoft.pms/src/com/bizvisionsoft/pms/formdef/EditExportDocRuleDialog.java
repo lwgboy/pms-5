@@ -5,18 +5,18 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.bson.Document;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.CheckboxCellEditor;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.ComboBoxCellEditor;
-import org.eclipse.jface.viewers.DialogCellEditor;
 import org.eclipse.jface.viewers.EditingSupport;
-import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.nebula.jface.gridviewer.GridTableViewer;
 import org.eclipse.nebula.jface.gridviewer.GridViewerColumn;
@@ -44,6 +44,8 @@ import org.eclipse.swt.widgets.Text;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.bizivisionsoft.widgets.util.Layer;
+import com.bizvisionsoft.annotations.AUtil;
 import com.bizvisionsoft.bruicommons.ModelLoader;
 import com.bizvisionsoft.bruicommons.model.Assembly;
 import com.bizvisionsoft.bruicommons.model.FormField;
@@ -70,6 +72,12 @@ public class EditExportDocRuleDialog extends Dialog {
 		return dialog.open();
 	}
 
+	public static EditExportDocRuleDialog create(IBruiService br, BruiAssemblyContext context, ExportDocRule exportDocRule) {
+		EditExportDocRuleDialog dialog = new EditExportDocRuleDialog(br, context, Display.getCurrent().getActiveShell());
+		dialog.setExportDocRule(exportDocRule);
+		return dialog;
+	}
+
 	private Map<String, String> formDefFieldList;
 	private ExportDocRule exportDocRule;
 
@@ -88,7 +96,7 @@ public class EditExportDocRuleDialog extends Dialog {
 	}
 
 	public void setExportDocRule(ExportDocRule exportDocRule) {
-		this.exportDocRule = exportDocRule;
+		this.exportDocRule = AUtil.deepCopy(exportDocRule);
 		// 根据FormDef的编辑器类型ID获取最终版的编辑器Assembly
 		FormDef formDef = exportDocRule.getFormDef();
 		String editorTypeId = formDef.getEditorTypeId();
@@ -121,13 +129,13 @@ public class EditExportDocRuleDialog extends Dialog {
 
 		TabFolder folder = new TabFolder(panel, SWT.TOP | SWT.BORDER);
 
-		Composite tabItem = createTabItem(folder, "基本信息");
+		Composite tabItem = createTabItem(folder, "字段设置");
 
 		selectionField = createSelectionField(tabItem);
-		postProc = createMultiTextField(tabItem);
-
-		tabItem = createTabItem(folder, "导出文档字段");
 		viewer = createTableField(tabItem);
+
+		tabItem = createTabItem(folder, "后处理脚本");
+		postProc = createMultiTextField(tabItem);
 
 		folder.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 
@@ -230,7 +238,7 @@ public class EditExportDocRuleDialog extends Dialog {
 	}
 
 	protected void runShowSelector(Event e) {
-		Selector.open("/组件选择器.selectorassy", context, null, l -> {
+		Selector.open("/组件选择器（编辑器）.selectorassy", context, null, l -> {
 			Assembly selectedAssy = (Assembly) l.get(0);
 			String id = selectedAssy.getId();
 			selectionField.setText(id);
@@ -311,7 +319,7 @@ public class EditExportDocRuleDialog extends Dialog {
 		gd.heightHint = 227;
 		container.setLayoutData(gd);
 
-		GridTableViewer viewer = new GridTableViewer(container, SWT.NONE | SWT.V_SCROLL | SWT.H_SCROLL);
+		GridTableViewer viewer = new GridTableViewer(container, SWT.CHECK | SWT.V_SCROLL | SWT.H_SCROLL);
 		viewer.setUseHashlookup(false);
 		viewer.setContentProvider(ArrayContentProvider.getInstance());
 
@@ -326,7 +334,7 @@ public class EditExportDocRuleDialog extends Dialog {
 			if (width == 0) {
 				return;
 			}
-			width -= 0;
+			width -= 10;
 			GridColumn[] cols = grid.getColumns();
 			int total = 0;
 			for (int i = 0; i < cols.length; i++) {
@@ -342,10 +350,11 @@ public class EditExportDocRuleDialog extends Dialog {
 		Composite toolbar = new Composite(container, SWT.NONE);
 		toolbar.setLayout(new FormLayout());
 
-		Controls.button(toolbar).rwt("inbox").setText("创建").loc(SWT.LEFT, 64, 28).select(this::runCreateItem)//
-				.addRight(() -> Controls.button(toolbar)).rwt("inbox").setText("删除").size(64, 28)//
+		Controls.button(toolbar).rwt("inbox").setText("创建").loc(SWT.LEFT, 64, 28).left(0, 10).bottom(100, -10)//
+				.select(this::runCreateItem)//
+				.addRight(10, () -> Controls.button(toolbar)).rwt("inbox").setText("删除").size(64, 28).bottom(100, -10)//
 				.select(this::runRemoveSelected)//
-				.addRight(() -> Controls.button(toolbar)).rwt("inbox").setText("清空").size(64, 28)//
+				.addRight(10, () -> Controls.button(toolbar)).rwt("inbox").setText("清空").size(64, 28).bottom(100, -10)//
 				.select(this::runRemoveAllItems);
 
 		FormData fd = new FormData();
@@ -357,7 +366,7 @@ public class EditExportDocRuleDialog extends Dialog {
 
 		fd = new FormData();
 		toolbar.setLayoutData(fd);
-		fd.height = 38;
+		fd.height = 42;
 		fd.left = new FormAttachment(0);
 		fd.right = new FormAttachment(100);
 		fd.bottom = new FormAttachment(100);
@@ -366,7 +375,8 @@ public class EditExportDocRuleDialog extends Dialog {
 
 	protected void runCreateItem(Event e) {
 		Document item = new Document();
-		setSelection(Arrays.asList(item));
+		((List<Document>) viewer.getInput()).add(item);
+		viewer.add(item);
 		viewer.editElement(item, 0);
 	}
 
@@ -374,17 +384,22 @@ public class EditExportDocRuleDialog extends Dialog {
 	protected void runRemoveSelected(Event e) {
 		if (viewer.getInput() == null)
 			return;
-		IStructuredSelection selection = (IStructuredSelection) viewer.getSelection();
-		Document element = (Document) selection.getFirstElement();
-		if (element != null) {
-			((List<Document>) viewer.getInput()).remove(element);
-			viewer.remove(element);
-		}
+
+		List<Document> elements = (List<Document>) getCheckedItems();
+		((List<Document>) viewer.getInput()).removeAll(elements);
+		viewer.remove(elements.toArray());
+	}
+
+	public List<?> getCheckedItems() {
+		return Arrays.asList(viewer.getGrid().getItems()).stream().filter(i -> i.getChecked()).map(i -> i.getData())
+				.collect(Collectors.toCollection(ArrayList::new));
 	}
 
 	protected void runRemoveAllItems(Event e) {
-		// TODO Auto-generated method stub
-		viewer.setInput(new ArrayList<Document>());
+		if (MessageDialog.openConfirm(getShell(), "清空字段设置", "请确认清空字段设置？")){
+			viewer.setInput(new ArrayList<Document>());
+			Layer.message("已清空");
+		}
 	}
 
 	private void createColumns(GridTableViewer viewer, Grid grid) {
@@ -428,6 +443,7 @@ public class EditExportDocRuleDialog extends Dialog {
 				Document doc = (Document) element;
 				doc.append("filedName", (String) value);
 				doc.append("filed", (String) value);
+				viewer.refresh(element);
 			}
 
 		});
@@ -458,8 +474,11 @@ public class EditExportDocRuleDialog extends Dialog {
 
 			@Override
 			protected void setValue(Object element, Object value) {
-				((Document) element).append("type", items.get((int) value)).append("value", null).append("valueText", null);
-				viewer.refresh(element);
+				int selectedIndex = (int) value;
+				if (selectedIndex >= 0) {
+					((Document) element).append("type", items.get(selectedIndex)).append("value", null).append("valueText", null);
+					viewer.refresh(element);
+				}
 			}
 
 			@Override
@@ -514,24 +533,22 @@ public class EditExportDocRuleDialog extends Dialog {
 				Object type = doc.get("type");
 
 				if (ExportDocRule.TYPE_FIELD_ARRAY.equals(type) || ExportDocRule.TYPE_FIELD_TABLE.equals(type)) {// 类型为数组或表格时，使用DialogCellEditor，弹出多行文本框进行编辑
-					editor = new DialogCellEditor(viewer.getGrid()) {
+					editor = new DialogTextCellEditor(viewer.getGrid(), SWT.READ_ONLY) {
 						@Override
-						protected Object openDialogBox(Control parent) {// Composite
+						protected void openDialod() {
 							Editor.create("/vault/生成文档字段规则-多行文本.editorassy", context, doc, true).setTitle(doc.getString("type")).open();
-							return null;
 						}
 					};
 				} else if (ExportDocRule.TYPE_FIELD_MAPPING.equals(type)) {// 类型为映射时，使用DialogCellEditor，弹出表单字段清单进行选择
-					editor = new DialogCellEditor(viewer.getGrid()) {
+					editor = new DialogTextCellEditor(viewer.getGrid(), SWT.READ_ONLY) {
 						@Override
-						protected Object openDialogBox(Control parent) {// Composite
+						protected void openDialod() {
 							Selector.create("/vault/编辑器字段选择器.selectorassy", context, formDefFieldList).open(l -> {
 								String name = ((Document) l.get(0)).getString("name");
 								doc.put("value", name);
 								doc.put("valueText",
 										(formDefFieldList.get(name) != null ? formDefFieldList.get(name) : "") + "[$" + name + "]");
 							});
-							return null;
 						}
 					};
 				} else if (ExportDocRule.TYPE_FIELD_BOOLEAN.equals(type)) {// 类型为布尔时，使用CheckboxCellEditor进行编辑
@@ -553,9 +570,8 @@ public class EditExportDocRuleDialog extends Dialog {
 				Object type = doc.get("type");
 				if (ExportDocRule.TYPE_FIELD_BOOLEAN.equals(type))
 					return doc.getBoolean("value", false);
-				else if (ExportDocRule.TYPE_FIELD_NUMBER.equals(type) || ExportDocRule.TYPE_FIELD_STRING.equals(type))
+				else
 					return Formatter.getString(doc.get("value"));
-				return null;
 			}
 
 			@Override
@@ -565,7 +581,10 @@ public class EditExportDocRuleDialog extends Dialog {
 				if (ExportDocRule.TYPE_FIELD_BOOLEAN.equals(type))
 					doc.put("value", value);
 				else if (ExportDocRule.TYPE_FIELD_NUMBER.equals(type))
-					doc.put("value", Double.parseDouble((String) value));
+					try {
+						doc.put("value", Double.parseDouble((String) value));
+					} catch (Exception ex) {
+					}
 				else if (ExportDocRule.TYPE_FIELD_STRING.equals(type))
 					doc.put("value", (String) value);
 				viewer.refresh(element);
@@ -638,7 +657,7 @@ public class EditExportDocRuleDialog extends Dialog {
 	@SuppressWarnings("unchecked")
 	@Override
 	protected void buttonPressed(int buttonId) {
-		if (buttonId != IDialogConstants.CANCEL_ID) {
+		if (buttonId == IDialogConstants.OK_ID) {
 
 			String editorId = selectionField.getText();
 			if (editorId != null)
@@ -661,6 +680,26 @@ public class EditExportDocRuleDialog extends Dialog {
 	private void checkFormDef() {
 		// TODO Auto-generated method stub
 
+	}
+
+	public ExportDocRule getExportDocRule() {
+		return exportDocRule;
+	}
+
+	private abstract class DialogTextCellEditor extends TextCellEditor {
+		public DialogTextCellEditor(Composite parent, int style) {
+			super(parent, style);
+		}
+
+		@Override
+		protected Control createControl(Composite parent) {
+			Text createControl = (Text) super.createControl(parent);
+			createControl.setEditable(false);
+			openDialod();
+			return createControl;
+		}
+
+		protected abstract void openDialod();
 	}
 
 }

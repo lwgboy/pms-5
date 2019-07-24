@@ -45,7 +45,7 @@ public class ExportDocRule {
 	@Label
 	private String editorId;
 
-	@ImageURL("name")
+	@ImageURL("editorTypeId")
 	@Exclude
 	public static String icon = "/img/exportdocrule_c.svg";
 

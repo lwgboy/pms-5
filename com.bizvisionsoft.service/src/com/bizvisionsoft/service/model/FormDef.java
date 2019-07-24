@@ -47,11 +47,15 @@ public class FormDef {
 	@WriteValue
 	private boolean activated;
 
-	@ImageURL("name")
+	@ImageURL("editorTypeId")
 	@Exclude
 	public static String icon = "/img/form_c.svg";
 
 	private List<ObjectId> exportDocRule_ids;
+	
+	public List<ObjectId> getExportDocRule_ids() {
+		return exportDocRule_ids;
+	}
 
 	public String getName() {
 		return name;

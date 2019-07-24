@@ -1,9 +1,13 @@
 package com.bizvisionsoft.pms.formdef.action;
 
+import java.util.Optional;
+
 import org.eclipse.jface.dialogs.IDialogConstants;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.nebula.jface.gridviewer.GridTreeViewer;
 import org.eclipse.swt.widgets.Event;
 
+import com.bizivisionsoft.widgets.util.Layer;
 import com.bizvisionsoft.annotations.AUtil;
 import com.bizvisionsoft.annotations.md.service.Behavior;
 import com.bizvisionsoft.annotations.ui.common.Execute;
@@ -60,9 +64,9 @@ public class FormDefACT {
 	 * @param element
 	 */
 	private void doCreate(Object element) {
-		ExportDocRule exportDocRule = ((FormDef) element).newSubItem();
-		if (IDialogConstants.OK_ID == EditExportDocRuleDialog.open(br, context, exportDocRule)) {
-			service.insertExportDocRule(exportDocRule, br.getDomain());
+		EditExportDocRuleDialog dialog = EditExportDocRuleDialog.create(br, context, ((FormDef) element).newSubItem());
+		if (IDialogConstants.OK_ID == dialog.open()) {
+			service.insertExportDocRule(dialog.getExportDocRule(), br.getDomain());
 			((IQueryEnable) context.getContent()).doRefresh();
 		}
 	}
@@ -73,12 +77,17 @@ public class FormDefACT {
 	 * @param element
 	 */
 	private void doDelete(Object element) {
-		if (element instanceof FormDef)
-			service.deleteFormDef(((FormDef) element).get_id(), br.getDomain());
-		else
-			service.deleteExportDocRule(((ExportDocRule) element).get_id(), br.getDomain());
+		String label = AUtil.readTypeAndLabel(element);
+		String message = Optional.ofNullable(label).map(m -> "请确认将要删除 " + m).orElse("请确认将要删除选择的记录。");
+		if (MessageDialog.openConfirm(br.getCurrentShell(), "删除", message)) {
+			if (element instanceof FormDef)
+				service.deleteFormDef(((FormDef) element).get_id(), br.getDomain());
+			else
+				service.deleteExportDocRule(((ExportDocRule) element).get_id(), br.getDomain());
 
-		((IQueryEnable) context.getContent()).doRefresh();
+			((IQueryEnable) context.getContent()).doRefresh();
+			Layer.message("已删除");
+		}
 	}
 
 	/**
@@ -94,10 +103,12 @@ public class FormDefACT {
 				viewer.update(AUtil.simpleCopy(d, element), null);
 			});
 		else if (element instanceof ExportDocRule) {
-			if (IDialogConstants.OK_ID == EditExportDocRuleDialog.open(br, context, (ExportDocRule) element)) {
+			EditExportDocRuleDialog dialog = EditExportDocRuleDialog.create(br, context, (ExportDocRule) element);
+			if (IDialogConstants.OK_ID == dialog.open()) {
+				ExportDocRule exportDocRule = dialog.getExportDocRule();
 				service.updateExportDocRule(new FilterAndUpdate().filter(new BasicDBObject("_id", ((ExportDocRule) element).get_id()))
-						.set(BsonTools.getBasicDBObject((ExportDocRule) element, "_id")).bson(), br.getDomain());
-				viewer.update(element, null);
+						.set(BsonTools.getBasicDBObject(exportDocRule, "_id")).bson(), br.getDomain());
+				viewer.update(AUtil.simpleCopy(exportDocRule, element), null);
 			}
 		}
 

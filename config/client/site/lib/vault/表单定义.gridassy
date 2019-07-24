@@ -13,16 +13,6 @@
   "gridDataSetService": "com.bizvisionsoft.service.CommonService",
   "columns": [
     {
-      "id": "162bd1ccbe0",
-      "name": "name",
-      "text": "类型名称",
-      "alignment": 16384,
-      "width": 160,
-      "resizeable": true,
-      "columns": [],
-      "enableColumnSort": true
-    },
-    {
       "name": "editorTypeId",
       "text": "编辑器",
       "alignment": 16384,
@@ -32,12 +22,14 @@
       "enableColumnSort": true
     },
     {
-      "name": "postProc",
-      "text": "后处理脚本",
+      "id": "162bd1ccbe0",
+      "name": "name",
+      "text": "文档类型名称",
       "alignment": 16384,
-      "width": 300,
+      "width": 160,
       "resizeable": true,
-      "columns": []
+      "columns": [],
+      "enableColumnSort": true
     },
     {
       "name": "activated",
@@ -50,14 +42,14 @@
   ],
   "fields": [
     {
-      "name": "name",
-      "text": "名称",
+      "name": "editorTypeId",
+      "text": "编辑器",
       "type": "文本输入框（查询）",
       "formFields": []
     },
     {
-      "name": "editorId",
-      "text": "表单名称",
+      "name": "name",
+      "text": "文档类型名称",
       "type": "文本输入框（查询）",
       "formFields": []
     }
@@ -122,14 +114,14 @@
   "disableInitLoadData": false,
   "sortFields": [
     {
-      "name": "name",
-      "text": "名称",
+      "name": "editorTypeId",
+      "text": "编辑器",
       "type": "排序字段",
       "formFields": []
     },
     {
-      "name": "editorId",
-      "text": "表单名称",
+      "name": "name",
+      "text": "文档类型名称",
       "type": "排序字段",
       "formFields": []
     }
