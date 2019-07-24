@@ -17,20 +17,30 @@ import com.bizvisionsoft.annotations.md.service.WriteValue;
 public class ExportDocRule {
 
 	@Exclude
-	public static String TYPE_FIELD_MAPPING = "映射";
+	public static final String TYPE_FIELD_MAPPING = "映射";
+
 	@Exclude
-	public static String TYPE_FIELD_NUMBER = "数值";
+	public static final String TYPE_FIELD_NUMBER = "数值";
+
 	@Exclude
-	public static String TYPE_FIELD_STRING = "文本";
+	public static final String TYPE_FIELD_STRING = "文本";
+
 	@Exclude
-	public static String TYPE_FIELD_BOOLEAN = "布尔";
+	public static final String TYPE_FIELD_BOOLEAN = "布尔";
+
 	@Exclude
-	public static String TYPE_FIELD_ARRAY = "数组";
+	public static final String TYPE_FIELD_ARRAY = "数组";
+
 	@Exclude
-	public static String TYPE_FIELD_TABLE = "表格";
+	public static final String TYPE_FIELD_TABLE = "表格";
+
 	@Exclude
-	public static String[] TYPE_FIELD_ALL = new String[] { TYPE_FIELD_MAPPING, TYPE_FIELD_NUMBER, TYPE_FIELD_STRING, TYPE_FIELD_BOOLEAN,
-			TYPE_FIELD_ARRAY, TYPE_FIELD_TABLE };
+	public static final String[] TYPE_FIELD_ALL = new String[] { TYPE_FIELD_MAPPING, TYPE_FIELD_NUMBER, TYPE_FIELD_STRING,
+			TYPE_FIELD_BOOLEAN, TYPE_FIELD_ARRAY, TYPE_FIELD_TABLE };
+
+	@ImageURL("name")
+	@Exclude
+	public static final String icon = "/img/exportdocrule_c.svg";
 
 	public String domain;
 
@@ -44,10 +54,6 @@ public class ExportDocRule {
 	@ReadValue({ "editorId", "editorTypeId" })
 	@Label
 	private String editorId;
-
-	@ImageURL("name")
-	@Exclude
-	public static String icon = "/img/exportdocrule_c.svg";
 
 	public String getEditorId() {
 		return editorId;

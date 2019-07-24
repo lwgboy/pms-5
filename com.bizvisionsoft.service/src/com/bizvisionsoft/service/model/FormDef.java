@@ -27,6 +27,10 @@ public class FormDef {
 	@Exclude
 	public static final String typeName = "表单定义";
 
+	@ImageURL("name")
+	@Exclude
+	public static final String icon = "/img/form_c.svg";
+
 	public String domain;
 
 	private ObjectId _id;
@@ -47,9 +51,6 @@ public class FormDef {
 	@WriteValue
 	private boolean activated;
 
-	@ImageURL("name")
-	@Exclude
-	public static String icon = "/img/form_c.svg";
 
 	private List<ObjectId> exportDocRule_ids;
 
