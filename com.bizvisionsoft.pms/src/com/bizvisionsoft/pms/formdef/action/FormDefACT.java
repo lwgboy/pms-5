@@ -1,5 +1,6 @@
 package com.bizvisionsoft.pms.formdef.action;
 
+import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.nebula.jface.gridviewer.GridTreeViewer;
 import org.eclipse.swt.widgets.Event;
 
@@ -59,7 +60,11 @@ public class FormDefACT {
 	 * @param element
 	 */
 	private void doCreate(Object element) {
-		EditExportDocRuleDialog.open(br, context, ((FormDef) element).newSubItem());
+		ExportDocRule exportDocRule = ((FormDef) element).newSubItem();
+		if (IDialogConstants.OK_ID == EditExportDocRuleDialog.open(br, context, exportDocRule)) {
+			service.insertExportDocRule(exportDocRule, br.getDomain());
+			((IQueryEnable) context.getContent()).doRefresh();
+		}
 	}
 
 	/**
@@ -89,9 +94,11 @@ public class FormDefACT {
 				viewer.update(AUtil.simpleCopy(d, element), null);
 			});
 		else if (element instanceof ExportDocRule) {
-			EditExportDocRuleDialog.open(br, context, (ExportDocRule) element);
-			service.updateExportDocRule(new FilterAndUpdate().filter(new BasicDBObject("_id", ((ExportDocRule) element).get_id()))
-					.set(BsonTools.getBasicDBObject((ExportDocRule) element, "_id")).bson(), br.getDomain());
+			if (IDialogConstants.OK_ID == EditExportDocRuleDialog.open(br, context, (ExportDocRule) element)) {
+				service.updateExportDocRule(new FilterAndUpdate().filter(new BasicDBObject("_id", ((ExportDocRule) element).get_id()))
+						.set(BsonTools.getBasicDBObject((ExportDocRule) element, "_id")).bson(), br.getDomain());
+				viewer.update(element, null);
+			}
 		}
 
 	}

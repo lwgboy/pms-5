@@ -763,6 +763,7 @@ public interface CommonService {
 	@Path("/{domain}/formDef/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "表单定义/" + DataSet.INSERT })
 	public FormDef insertFormDef(@MethodParam(MethodParam.OBJECT) FormDef formDef,
 			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 

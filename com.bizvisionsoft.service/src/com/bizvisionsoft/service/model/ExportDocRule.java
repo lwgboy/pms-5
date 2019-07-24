@@ -9,6 +9,7 @@ import com.bizvisionsoft.annotations.md.mongocodex.Exclude;
 import com.bizvisionsoft.annotations.md.mongocodex.PersistenceCollection;
 import com.bizvisionsoft.annotations.md.mongocodex.SetValue;
 import com.bizvisionsoft.annotations.md.service.ImageURL;
+import com.bizvisionsoft.annotations.md.service.Label;
 import com.bizvisionsoft.annotations.md.service.ReadValue;
 import com.bizvisionsoft.annotations.md.service.WriteValue;
 
@@ -39,13 +40,14 @@ public class ExportDocRule {
 		return _id;
 	}
 
-	@ReadValue
 	@WriteValue
+	@ReadValue({ "editorId", "editorTypeId" })
+	@Label
 	private String editorId;
 
 	@ImageURL("name")
 	@Exclude
-	private String icon = "/img/exportdocrule_c.svg";
+	public static String icon = "/img/exportdocrule_c.svg";
 
 	public String getEditorId() {
 		return editorId;
@@ -64,12 +66,10 @@ public class ExportDocRule {
 		return formDef;
 	}
 
-	@WriteValue("editorName")
-	public void setEditorName(String editorName) {
-		this.editorId = editorName;
+	public void setFormDef(FormDef formDef) {
+		this.formDef = formDef;
 	}
 
-	@ReadValue("editorName")
 	public String getEditorName() {
 		return editorId;
 	}

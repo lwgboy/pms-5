@@ -11,7 +11,7 @@
       "type": "标签页",
       "formFields": [
         {
-          "name": "editorName",
+          "name": "editorId",
           "text": "编辑器Id",
           "type": "对象选择框",
           "formFields": [],

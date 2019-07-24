@@ -16,7 +16,7 @@
       "required": true
     },
     {
-      "name": "editorName",
+      "name": "editorTypeId",
       "text": "编辑器类型Id",
       "type": "对象选择框",
       "formFields": [],
