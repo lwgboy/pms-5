@@ -1,6 +1,7 @@
 package com.bizvisionsoft.service;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -20,6 +21,7 @@ import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.service.model.Backup;
 import com.bizvisionsoft.service.model.Domain;
 import com.bizvisionsoft.service.model.DomainRequest;
+import com.bizvisionsoft.service.model.Result;
 import com.bizvisionsoft.service.model.ServerInfo;
 import com.mongodb.BasicDBObject;
 
@@ -87,13 +89,12 @@ public interface SystemService {
 	public String getClientSetting(@PathParam("userId") String userId, @PathParam("clientId") String clientId,
 			@PathParam("name") String name);
 
-	
 	@PUT
 	@Path("/{domain}/clientSetting/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public void updateClientSetting(Document setting, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
-	
+
 	@PUT
 	@Path("/clientSetting/")
 	@Consumes("application/json; charset=UTF-8")
@@ -221,7 +222,7 @@ public interface SystemService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public void requestDomain(Document data);
-	
+
 	@POST
 	@Path("/host/requestDomain/ds")
 	@Consumes("application/json; charset=UTF-8")
@@ -281,7 +282,7 @@ public interface SystemService {
 	@Path("/assembly/create/editorId/{editorId}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public void checkFormDAfterCreate( @PathParam("editorId")String editorId);
+	public void checkFormDAfterCreate(@PathParam("editorId") String editorId);
 
 	@POST
 	@Path("/assembly/modifiy/editorId/{editorId}")
@@ -293,6 +294,12 @@ public interface SystemService {
 	@Path("/assembly/delete/editorId/{editorId}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public void checkFormDAfterDelete( @PathParam("editorId")String editorId);
+	public void checkFormDAfterDelete(@PathParam("editorId") String editorId);
+
+	@POST
+	@Path("/{domain}/formDefCheck/_id/{_id}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public List<Result> formDefCheck(Map<String, String> formDFieldMap, @PathParam("_id") ObjectId _id, @PathParam("domain") String domain);
 
 }

@@ -691,29 +691,29 @@ public class EditExportDocRuleDialog extends Dialog {
 				exportDocRule.setPostProc(postProc2);
 		}
 		if (buttonId == IDialogConstants.DETAILS_ID) {
-			checkFormDef();
+			checkExportDocRule();
 		}
 		super.buttonPressed(buttonId);
 	}
 
 	@SuppressWarnings("unchecked")
-	private void checkFormDef() {
+	private void checkExportDocRule() {
 		String editorTypeId = exportDocRule.getFormDef().getEditorTypeId();
 		Assembly formDAssy = ModelLoader.getLatestVersionEditorAssemblyOfType(editorTypeId);
 		if (formDAssy == null) {
-			// TODO 错误提示
+			Layer.error("无法获取表单定义所选编辑器");
+			return;
 		}
+		Map<String, String> formDFieldMap = ModelLoader.getEditorAssemblyFieldNameMap(formDAssy);
 
 		ExportableForm exportableForm = exportDocRule.getExportableForm();
-
 		List<Document> fieldLists = (List<Document>) viewer.getInput();
 
 		List<String> errorField = new ArrayList<String>();
 		List<String> errorExportableField = new ArrayList<String>();
-		List<String> infoField = new ArrayList<String>();
+		List<String> warningFieldField = new ArrayList<String>();
 
 		// 检查导出文档规则字段清单中，映射关系的字段是否全部在文档定义的编辑器字段列表中，不在则提示错误
-		Map<String, String> formDFieldMap = ModelLoader.getEditorAssemblyFieldNameMap(formDAssy);
 		Map<String, Document> fieldMaps = new HashMap<String, Document>();
 		for (Document doc : fieldLists) {
 			if (ExportDocRule.TYPE_FIELD_MAPPING.equals(doc.get("type"))) {
@@ -729,7 +729,7 @@ public class EditExportDocRuleDialog extends Dialog {
 		formDFieldNames.removeAll(fieldMaps.keySet());
 		for (String fieldName : formDFieldNames) {
 			String text = formDFieldMap.get(fieldName);
-			infoField.add((text != null ? text : "") + "[" + fieldName + "]");
+			warningFieldField.add((text != null ? text : "") + "[" + fieldName + "]");
 		}
 
 		// 检查导出文件配置中的字段是否都在文档规则字段清单中
@@ -751,14 +751,16 @@ public class EditExportDocRuleDialog extends Dialog {
 			sb.append("<br>");
 		}
 
-		if (infoField.size() > 0) {
+		if (warningFieldField.size() > 0) {
 			sb.append("<span class='layui-badge layui-bg-orange'>警告</span>: ");
-			sb.append(Formatter.getString(infoField));
+			sb.append(Formatter.getString(warningFieldField));
 			sb.append("以上表单中的字段未找到文档映射字段.");
 			sb.append("<br>");
 		}
-
-		Layer.alert("导出文档规则检查", sb.toString(), 600, 400, false);
+		if (sb.length() > 0)
+			Layer.alert("导出文档规则检查", sb.toString(), 600, 400, false);
+		else
+			Layer.message("检查完成。");
 	}
 
 	private void checkExportableFields(Map<String, Document> fieldMaps, List<ExportableFormField> exportableFields,
