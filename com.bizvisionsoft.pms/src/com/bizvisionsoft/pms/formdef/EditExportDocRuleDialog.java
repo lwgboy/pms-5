@@ -1,10 +1,12 @@
 package com.bizvisionsoft.pms.formdef;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.bson.Document;
@@ -32,6 +34,7 @@ import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
@@ -49,14 +52,16 @@ import com.bizvisionsoft.annotations.AUtil;
 import com.bizvisionsoft.bruicommons.ModelLoader;
 import com.bizvisionsoft.bruicommons.model.Assembly;
 import com.bizvisionsoft.bruicommons.model.FormField;
+import com.bizvisionsoft.bruiengine.assembly.exporter.ExportableFormBuilder;
 import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
-import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.service.UserSession;
 import com.bizvisionsoft.bruiengine.ui.Editor;
 import com.bizvisionsoft.bruiengine.ui.Selector;
 import com.bizvisionsoft.bruiengine.util.BruiColors;
 import com.bizvisionsoft.bruiengine.util.BruiColors.BruiColor;
 import com.bizvisionsoft.bruiengine.util.Controls;
+import com.bizvisionsoft.service.exporter.ExportableForm;
+import com.bizvisionsoft.service.exporter.ExportableFormField;
 import com.bizvisionsoft.service.model.ExportDocRule;
 import com.bizvisionsoft.service.model.FormDef;
 import com.bizvisionsoft.service.tools.Check;
@@ -66,14 +71,14 @@ public class EditExportDocRuleDialog extends Dialog {
 
 	public Logger logger = LoggerFactory.getLogger(getClass());
 
-	public static int open(IBruiService br, BruiAssemblyContext context, ExportDocRule exportDocRule) {
-		EditExportDocRuleDialog dialog = new EditExportDocRuleDialog(br, context, Display.getCurrent().getActiveShell());
+	public static int open(BruiAssemblyContext context, ExportDocRule exportDocRule) {
+		EditExportDocRuleDialog dialog = new EditExportDocRuleDialog(context, Display.getCurrent().getActiveShell());
 		dialog.setExportDocRule(exportDocRule);
 		return dialog.open();
 	}
 
-	public static EditExportDocRuleDialog create(IBruiService br, BruiAssemblyContext context, ExportDocRule exportDocRule) {
-		EditExportDocRuleDialog dialog = new EditExportDocRuleDialog(br, context, Display.getCurrent().getActiveShell());
+	public static EditExportDocRuleDialog create(BruiAssemblyContext context, ExportDocRule exportDocRule) {
+		EditExportDocRuleDialog dialog = new EditExportDocRuleDialog(context, Display.getCurrent().getActiveShell());
 		dialog.setExportDocRule(exportDocRule);
 		return dialog;
 	}
@@ -81,17 +86,14 @@ public class EditExportDocRuleDialog extends Dialog {
 	private Map<String, String> formDefFieldList;
 	private ExportDocRule exportDocRule;
 
-	private IBruiService br;
-
 	private BruiAssemblyContext context;
 
 	private Text selectionField;
 	private GridTableViewer viewer;
 	private Text postProc;
 
-	protected EditExportDocRuleDialog(IBruiService br, BruiAssemblyContext context, Shell parentShell) {
+	protected EditExportDocRuleDialog(BruiAssemblyContext context, Shell parentShell) {
 		super(parentShell);
-		this.br = br;
 		this.context = context;
 	}
 
@@ -100,21 +102,21 @@ public class EditExportDocRuleDialog extends Dialog {
 		// 根据FormDef的编辑器类型ID获取最终版的编辑器Assembly
 		FormDef formDef = exportDocRule.getFormDef();
 		String editorTypeId = formDef.getEditorTypeId();
-		String editorId = ModelLoader.getLatestVersionEditorIdOfType(editorTypeId);
-		if (editorId != null) {
-			Assembly formDefAssy = ModelLoader.getLibAssembly(editorId);
+		Assembly formDefAssy = ModelLoader.getLatestVersionEditorAssemblyOfType(editorTypeId);
+		if (formDefAssy != null) {
 			// 获取FormDef对应编辑器的字段清单
-			formDefFieldList = getFieldList(formDefAssy.getFields());
+			formDefFieldList = ModelLoader.getEditorAssemblyFieldNameMap(formDefAssy);
 		}
 
 	}
 
 	@Override
-	protected void createButtonsForButtonBar(Composite parent) {
-		createButton(parent, IDialogConstants.DETAILS_ID, "检查", false).setData(RWT.CUSTOM_VARIANT, Controls.CSS_INFO);
+	protected Control createButtonBar(Composite parent) {
+		return null;
+	}
 
-		createButton(parent, IDialogConstants.CANCEL_ID, "取消", false).setData(RWT.CUSTOM_VARIANT, Controls.CSS_WARNING);
-		createButton(parent, IDialogConstants.OK_ID, "确定", true).setData(RWT.CUSTOM_VARIANT, Controls.CSS_NORMAL);
+	@Override
+	protected void createButtonsForButtonBar(Composite parent) {
 	}
 
 	@Override
@@ -140,6 +142,31 @@ public class EditExportDocRuleDialog extends Dialog {
 		folder.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 
 		initData();
+
+		Composite toolbar = new Composite(panel, SWT.NONE);
+		GridData layoutData = new GridData(SWT.FILL, SWT.FILL, true, false);
+		layoutData.heightHint = 32;
+		toolbar.setLayoutData(layoutData);
+		toolbar.setFont(parent.getFont());
+
+		FormLayout layout = new FormLayout();
+		layout.marginWidth = 4;
+		toolbar.setLayout(layout);
+
+		Button right = Controls.button(toolbar).rwt(Controls.CSS_NORMAL).setText(IDialogConstants.get().OK_LABEL)
+				.loc(SWT.TOP | SWT.BOTTOM | SWT.RIGHT, 120).listen(SWT.Selection, e -> {
+					buttonPressed(IDialogConstants.OK_ID);
+				}).get();
+		parent.getShell().setDefaultButton(right);
+		right = Controls.button(toolbar).rwt(Controls.CSS_WARNING).setText(IDialogConstants.get().CANCEL_LABEL)
+				.loc(SWT.TOP | SWT.BOTTOM, 120).right(right, -16).listen(SWT.Selection, e -> {
+					buttonPressed(IDialogConstants.CANCEL_ID);
+				}).get();
+
+		// 创建配置的工具栏
+		Controls.button(toolbar).rwt(Controls.CSS_INFO).setText("检查").listen(SWT.Selection, e -> {
+			buttonPressed(IDialogConstants.DETAILS_ID);
+		}).loc(SWT.TOP | SWT.BOTTOM, 120).left();
 
 		return panel;
 	}
@@ -243,8 +270,15 @@ public class EditExportDocRuleDialog extends Dialog {
 			String id = selectedAssy.getId();
 			selectionField.setText(id);
 
+			try {
+				ExportableForm buildForm = ExportableFormBuilder.buildForm(selectedAssy);
+				exportDocRule.setExportableForm(buildForm);
+			} catch (IOException e1) {
+				logger.error("编辑器导出规则配置错误。", e);
+			}
+
 			// 获取选择编辑器的字段清单
-			Map<String, String> selectedFieldList = getFieldList(selectedAssy.getFields());
+			Map<String, String> selectedFieldList = ModelLoader.getEditorAssemblyFieldNameMap(selectedAssy);
 
 			List<Document> fieldMap = getFieldMap(selectedFieldList, formDefFieldList);
 
@@ -261,41 +295,20 @@ public class EditExportDocRuleDialog extends Dialog {
 	 */
 	private List<Document> getFieldMap(Map<String, String> selectedFieldList, Map<String, String> formDefFieldList) {
 		List<Document> result = new ArrayList<Document>();
+		if (Check.isAssigned(selectedFieldList))
+			selectedFieldList.forEach((name, text) -> {
+				Document doc = new Document();
+				result.add(doc);
+				doc.put("filed", name);
+				doc.put("filedName", (text != null ? text : "") + "[" + name + "]");
 
-		selectedFieldList.forEach((name, text) -> {
-			Document doc = new Document();
-			result.add(doc);
-			doc.put("filed", name);
-			doc.put("filedName", (text != null ? text : "") + "[" + name + "]");
-
-			if (Check.isAssigned(formDefFieldList) && formDefFieldList.containsKey(name)) {
-				doc.put("type", ExportDocRule.TYPE_FIELD_MAPPING);
-				doc.put("value", name);
-				doc.put("valueText", (formDefFieldList.get(name) != null ? formDefFieldList.get(name) : "") + "[$" + name + "]");
-			}
-		});
-
-		return result;
-	}
-
-	/**
-	 * 根据FormField获取字段清单
-	 * 
-	 * @param formFields
-	 * @return
-	 */
-	private Map<String, String> getFieldList(List<FormField> formFields) {
-		Map<String, String> result = new HashMap<String, String>();
-		if (Check.isAssigned(formFields))
-			formFields.forEach(formField -> {
-				String type = formField.getType();
-				// 去除掉page和行设置、
-				if (FormField.TYPE_PAGE.equals(type) || FormField.TYPE_INLINE.equals(type)) {
-					result.putAll(getFieldList(formField.getFormFields()));
-				} else if (!FormField.TYPE_BANNER.equals(type)) {// 去除掉横幅字段
-					result.put(formField.getName(), formField.getText());
+				if (Check.isAssigned(formDefFieldList) && formDefFieldList.containsKey(name)) {
+					doc.put("type", ExportDocRule.TYPE_FIELD_MAPPING);
+					doc.put("value", name);
+					doc.put("valueText", (formDefFieldList.get(name) != null ? formDefFieldList.get(name) : "") + "[$" + name + "]");
 				}
 			});
+
 		return result;
 	}
 
@@ -349,6 +362,11 @@ public class EditExportDocRuleDialog extends Dialog {
 
 		Composite toolbar = new Composite(container, SWT.NONE);
 		toolbar.setLayout(new FormLayout());
+		FormData fd = new FormData();
+		new Label(toolbar, SWT.HORIZONTAL | SWT.SEPARATOR).setLayoutData(fd);
+		fd.top = new FormAttachment();
+		fd.left = new FormAttachment();
+		fd.right = new FormAttachment(100);
 
 		Controls.button(toolbar).rwt("inbox").setText("创建").loc(SWT.LEFT, 64, 28).left(0, 10).bottom(100, -10)//
 				.select(this::runCreateItem)//
@@ -357,7 +375,7 @@ public class EditExportDocRuleDialog extends Dialog {
 				.addRight(10, () -> Controls.button(toolbar)).rwt("inbox").setText("清空").size(64, 28).bottom(100, -10)//
 				.select(this::runRemoveAllItems);
 
-		FormData fd = new FormData();
+		fd = new FormData();
 		grid.setLayoutData(fd);
 		fd.top = new FormAttachment(0);
 		fd.left = new FormAttachment(0);
@@ -366,13 +384,14 @@ public class EditExportDocRuleDialog extends Dialog {
 
 		fd = new FormData();
 		toolbar.setLayoutData(fd);
-		fd.height = 42;
+		fd.height = 48;
 		fd.left = new FormAttachment(0);
 		fd.right = new FormAttachment(100);
 		fd.bottom = new FormAttachment(100);
 		return viewer;
 	}
 
+	@SuppressWarnings("unchecked")
 	protected void runCreateItem(Event e) {
 		Document item = new Document();
 		((List<Document>) viewer.getInput()).add(item);
@@ -396,7 +415,7 @@ public class EditExportDocRuleDialog extends Dialog {
 	}
 
 	protected void runRemoveAllItems(Event e) {
-		if (MessageDialog.openConfirm(getShell(), "清空字段设置", "请确认清空字段设置？")){
+		if (MessageDialog.openConfirm(getShell(), "清空字段设置", "请确认清空字段设置？")) {
 			viewer.setInput(new ArrayList<Document>());
 			Layer.message("已清空");
 		}
@@ -677,9 +696,87 @@ public class EditExportDocRuleDialog extends Dialog {
 		super.buttonPressed(buttonId);
 	}
 
+	@SuppressWarnings("unchecked")
 	private void checkFormDef() {
-		// TODO Auto-generated method stub
+		String editorTypeId = exportDocRule.getFormDef().getEditorTypeId();
+		Assembly formDAssy = ModelLoader.getLatestVersionEditorAssemblyOfType(editorTypeId);
+		if (formDAssy == null) {
+			// TODO 错误提示
+		}
 
+		ExportableForm exportableForm = exportDocRule.getExportableForm();
+
+		List<Document> fieldLists = (List<Document>) viewer.getInput();
+
+		List<String> errorField = new ArrayList<String>();
+		List<String> errorExportableField = new ArrayList<String>();
+		List<String> infoField = new ArrayList<String>();
+
+		// 检查导出文档规则字段清单中，映射关系的字段是否全部在文档定义的编辑器字段列表中，不在则提示错误
+		Map<String, String> formDFieldMap = ModelLoader.getEditorAssemblyFieldNameMap(formDAssy);
+		Map<String, Document> fieldMaps = new HashMap<String, Document>();
+		for (Document doc : fieldLists) {
+			if (ExportDocRule.TYPE_FIELD_MAPPING.equals(doc.get("type"))) {
+				String fieldName = doc.getString("value");
+				if (!formDFieldMap.containsKey(fieldName)) {
+					errorField.add(doc.getString("filedName"));
+				}
+
+			}
+			fieldMaps.put(doc.getString("filed"), doc);
+		}
+		Set<String> formDFieldNames = formDFieldMap.keySet();
+		formDFieldNames.removeAll(fieldMaps.keySet());
+		for (String fieldName : formDFieldNames) {
+			String text = formDFieldMap.get(fieldName);
+			infoField.add((text != null ? text : "") + "[" + fieldName + "]");
+		}
+
+		// 检查导出文件配置中的字段是否都在文档规则字段清单中
+		if (exportableForm != null)
+			checkExportableFields(fieldMaps, exportableForm.fields, errorExportableField);
+
+		StringBuffer sb = new StringBuffer();
+		if (errorField.size() > 0) {
+			sb.append("<span class='layui-badge'>错误</span>: ");
+			sb.append(Formatter.getString(errorField));
+			sb.append("以上字段未在表单中定义，无法导出文档.");
+			sb.append("<br>");
+		}
+
+		if (errorExportableField.size() > 0) {
+			sb.append("<span class='layui-badge'>错误</span>: ");
+			sb.append(Formatter.getString(errorExportableField));
+			sb.append("以上字段无法导出到文件.");
+			sb.append("<br>");
+		}
+
+		if (infoField.size() > 0) {
+			sb.append("<span class='layui-badge layui-bg-orange'>警告</span>: ");
+			sb.append(Formatter.getString(infoField));
+			sb.append("以上表单中的字段未找到文档映射字段.");
+			sb.append("<br>");
+		}
+
+		Layer.alert("导出文档规则检查", sb.toString(), 600, 400, false);
+	}
+
+	private void checkExportableFields(Map<String, Document> fieldMaps, List<ExportableFormField> exportableFields,
+			List<String> errorField) {
+		if (Check.isAssigned(exportableFields))
+			for (ExportableFormField field : exportableFields) {
+				String type = field.type;
+				if (FormField.TYPE_PAGE.equals(type) || FormField.TYPE_INLINE.equals(type)) {
+					checkExportableFields(fieldMaps, field.formFields, errorField);
+				} else if (!FormField.TYPE_BANNER.equals(type)) {// 去除掉横幅字段
+					String name = field.name;
+					if (!fieldMaps.containsKey(name)) {
+						String text = field.text;
+						errorField.add((text != null ? text : "") + "[" + name + "]");
+					}
+
+				}
+			}
 	}
 
 	public ExportDocRule getExportDocRule() {

@@ -64,7 +64,7 @@ public class FormDefACT {
 	 * @param element
 	 */
 	private void doCreate(Object element) {
-		EditExportDocRuleDialog dialog = EditExportDocRuleDialog.create(br, context, ((FormDef) element).newSubItem());
+		EditExportDocRuleDialog dialog = EditExportDocRuleDialog.create(context, ((FormDef) element).newSubItem());
 		if (IDialogConstants.OK_ID == dialog.open()) {
 			service.insertExportDocRule(dialog.getExportDocRule(), br.getDomain());
 			((IQueryEnable) context.getContent()).doRefresh();
@@ -103,7 +103,7 @@ public class FormDefACT {
 				viewer.update(AUtil.simpleCopy(d, element), null);
 			});
 		else if (element instanceof ExportDocRule) {
-			EditExportDocRuleDialog dialog = EditExportDocRuleDialog.create(br, context, (ExportDocRule) element);
+			EditExportDocRuleDialog dialog = EditExportDocRuleDialog.create(context, (ExportDocRule) element);
 			if (IDialogConstants.OK_ID == dialog.open()) {
 				ExportDocRule exportDocRule = dialog.getExportDocRule();
 				service.updateExportDocRule(new FilterAndUpdate().filter(new BasicDBObject("_id", ((ExportDocRule) element).get_id()))
