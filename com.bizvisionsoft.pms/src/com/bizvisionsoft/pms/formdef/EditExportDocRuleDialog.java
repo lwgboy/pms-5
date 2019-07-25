@@ -332,6 +332,8 @@ public class EditExportDocRuleDialog extends Dialog {
 		gd.heightHint = 227;
 		container.setLayoutData(gd);
 
+		Text filter = new Text(container, SWT.NONE);
+
 		GridTableViewer viewer = new GridTableViewer(container, SWT.CHECK | SWT.V_SCROLL | SWT.H_SCROLL);
 		viewer.setUseHashlookup(false);
 		viewer.setContentProvider(ArrayContentProvider.getInstance());
