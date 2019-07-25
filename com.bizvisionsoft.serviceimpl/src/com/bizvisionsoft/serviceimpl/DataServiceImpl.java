@@ -13,6 +13,7 @@ import org.bson.types.ObjectId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.bizvisionsoft.service.DataService;
 import com.bizvisionsoft.service.common.Domain;
 import com.bizvisionsoft.service.provider.BsonProvider;
 import com.mongodb.BasicDBObject;
@@ -25,7 +26,7 @@ import com.mongodb.client.model.UpdateOptions;
 import com.mongodb.client.model.Updates;
 import com.mongodb.client.result.UpdateResult;
 
-public class DataServiceImpl extends MongoDBService {
+public class DataServiceImpl extends MongoDBService implements DataService{
 
 	private Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -365,6 +366,18 @@ public class DataServiceImpl extends MongoDBService {
 
 	final protected Document blankChart(String domain) {
 		return Domain.getJQ(domain, "图表-无数据").doc();
+	}
+
+	@Override
+	public List<Document> query(String collection, List<Document> pipeline, Document sort, Integer skip, Integer limit, String domain) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Document> queryJQ(String collection, String jq, Document parameter, String domain) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
