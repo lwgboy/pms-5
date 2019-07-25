@@ -14,8 +14,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.bizvisionsoft.service.DataService;
+import com.bizvisionsoft.service.QueryCommand;
 import com.bizvisionsoft.service.common.Domain;
+import com.bizvisionsoft.service.common.JQ;
 import com.bizvisionsoft.service.provider.BsonProvider;
+import com.bizvisionsoft.service.tools.Check;
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.gridfs.GridFSBuckets;
 import com.mongodb.client.model.Aggregates;
@@ -26,7 +29,7 @@ import com.mongodb.client.model.UpdateOptions;
 import com.mongodb.client.model.Updates;
 import com.mongodb.client.result.UpdateResult;
 
-public class DataServiceImpl extends MongoDBService implements DataService{
+public class DataServiceImpl extends MongoDBService implements DataService {
 
 	private Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -369,15 +372,27 @@ public class DataServiceImpl extends MongoDBService implements DataService{
 	}
 
 	@Override
-	public List<Document> query(String collection, List<Document> pipeline, Document sort, Integer skip, Integer limit, String domain) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Document> query(QueryCommand command) {
+		if (Check.isAssigned(command.jq)) {
+			return queryJQ(command.collection, command.jq, command.parameter, command.domain);
+		} else if (Check.isAssigned(command.pipeline)) {
+			return query(command.collection, command.pipeline, command.parameter, command.domain);
+		}
+		return new ArrayList<>();
 	}
 
-	@Override
-	public List<Document> queryJQ(String collection, String jq, Document parameter, String domain) {
-		// TODO Auto-generated method stub
-		return null;
+	protected List<Document> query(String collection, String pipeline, Document parameter, String domain) {
+		JQ jq = new JQ();
+		if (parameter != null)
+			parameter.entrySet().forEach(e -> jq.set(e.getKey(), e.getValue()));
+		return c(collection, domain).aggregate(jq.array(pipeline)).into(new ArrayList<>());
+	}
+
+	protected List<Document> queryJQ(String collection, String jqName, Document parameter, String domain) {
+		JQ jq = Domain.get(domain).jq(jqName);
+		if (parameter != null)
+			parameter.entrySet().forEach(e -> jq.set(e.getKey(), e.getValue()));
+		return c(collection, domain).aggregate(jq.array()).into(new ArrayList<>());
 	}
 
 }

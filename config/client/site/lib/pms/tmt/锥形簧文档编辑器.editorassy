@@ -41,9 +41,12 @@
             {
               "name": "productNo",
               "text": "物资编码",
-              "type": "单行文本框",
+              "type": "下拉选择框",
               "formFields": [],
               "readOnly": false,
+              "optionQueryCollection": "project",
+              "optionQueryPipeline": "[\r\n{\"$match\":{\"name\":\"\u003cproductName\u003e\"}},\r\n{\"$project\" : {\"value\" : \"$name\"}}\r\n]",
+              "optionQueryParameters": "productName",
               "stdReportFieldFontFamily": "Consolas",
               "stdReportFieldFontSize": 16
             },
