@@ -318,3 +318,4 @@ import com.bizvisionsoft.annotations.md.mongocodex.IAutoGenerator;
 17.2 根据其他字段提供选择-------------------OK
 18.选择的动态化-------------------------------OK
 19. 字典的index字段索引【注意】
+20. Combo支持查询命令------------------------OK
