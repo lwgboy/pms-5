@@ -12,6 +12,7 @@ import com.bizvisionsoft.annotations.md.service.ImageURL;
 import com.bizvisionsoft.annotations.md.service.Label;
 import com.bizvisionsoft.annotations.md.service.ReadValue;
 import com.bizvisionsoft.annotations.md.service.WriteValue;
+import com.bizvisionsoft.service.exporter.ExportableForm;
 
 @PersistenceCollection("exportDocRule")
 public class ExportDocRule {
@@ -38,7 +39,7 @@ public class ExportDocRule {
 	public static final String[] TYPE_FIELD_ALL = new String[] { TYPE_FIELD_MAPPING, TYPE_FIELD_NUMBER, TYPE_FIELD_STRING,
 			TYPE_FIELD_BOOLEAN, TYPE_FIELD_ARRAY, TYPE_FIELD_TABLE };
 
-	@ImageURL("name")
+	@ImageURL("editorTypeId")
 	@Exclude
 	public static final String icon = "/img/exportdocrule_c.svg";
 
@@ -82,10 +83,14 @@ public class ExportDocRule {
 
 	@ReadValue
 	@WriteValue
-	private Document exportableForm;
+	private ExportableForm exportableForm;
 
-	public void setExportableForm(Document exportableForm) {
+	public void setExportableForm(ExportableForm exportableForm) {
 		this.exportableForm = exportableForm;
+	}
+
+	public ExportableForm getExportableForm() {
+		return exportableForm;
 	}
 
 	private List<Document> fieldMap;
