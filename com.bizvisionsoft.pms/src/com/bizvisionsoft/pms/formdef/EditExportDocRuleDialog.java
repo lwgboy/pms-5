@@ -510,7 +510,7 @@ public class EditExportDocRuleDialog extends Dialog {
 		col = new GridColumn(grid, SWT.NONE);
 		col.setData("name", "type");
 		col.setText("¿‡–Õ");
-		col.setAlignment(SWT.CENTER);
+		col.setAlignment(SWT.LEFT);
 		col.setWidth(80);
 		col.setMinimumWidth(50);
 		col.setMoveable(false);
