@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -603,7 +604,8 @@ public class EditExportDocRuleDialog extends Dialog {
 								dialogMessage = "请填写表格类型的常量。格式如下：[[\\\"元素1\\\",\\\"元素2\\\"]]";
 							}
 
-							InputDialog d = new InputDialog(getShell(), dialogTitle, dialogMessage, doc.getString("value"), txt -> {
+							String text = Optional.ofNullable(doc.getString("value")).orElse("");
+							InputDialog d = new InputDialog(getShell(), dialogTitle, dialogMessage, text, txt -> {
 								try {
 									JsonObject.readFrom(txt);
 									return null;
