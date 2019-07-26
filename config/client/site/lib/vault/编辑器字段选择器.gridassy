@@ -33,7 +33,20 @@
       "columns": []
     }
   ],
-  "fields": [],
+  "fields": [
+    {
+      "name": "name",
+      "text": "名称",
+      "type": "文本输入框（查询）",
+      "formFields": []
+    },
+    {
+      "name": "text",
+      "text": "标签",
+      "type": "文本输入框（查询）",
+      "formFields": []
+    }
+  ],
   "gridAutoColumnWidth": true,
   "actions": [],
   "rowActions": [],
