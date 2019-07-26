@@ -535,7 +535,11 @@ public class EditExportDocRuleDialog extends Dialog {
 			protected void setValue(Object element, Object value) {
 				int selectedIndex = (int) value;
 				if (selectedIndex >= 0) {
-					((Document) element).append("type", items.get(selectedIndex)).append("value", null).append("valueText", null);
+					Document doc = (Document) element;
+					String type = items.get(selectedIndex);
+					if (!type.equals(doc.get("type"))) {
+						doc.append("type", type).append("value", null).append("valueText", null);
+					}
 					viewer.refresh(element);
 				}
 			}
