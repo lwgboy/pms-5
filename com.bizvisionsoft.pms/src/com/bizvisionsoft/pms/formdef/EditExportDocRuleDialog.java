@@ -17,7 +17,6 @@ import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.CheckboxCellEditor;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
-import org.eclipse.jface.viewers.ComboBoxCellEditor;
 import org.eclipse.jface.viewers.EditingSupport;
 import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.nebula.jface.gridviewer.GridTableViewer;
@@ -47,6 +46,7 @@ import org.eclipse.swt.widgets.Text;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.bizivisionsoft.widgets.swt.customized.ComboBoxCellEditor;
 import com.bizivisionsoft.widgets.util.Layer;
 import com.bizvisionsoft.annotations.AUtil;
 import com.bizvisionsoft.bruicommons.ModelLoader;
@@ -509,12 +509,7 @@ public class EditExportDocRuleDialog extends Dialog {
 
 			@Override
 			protected CellEditor getCellEditor(Object element) {
-				return new ComboBoxCellEditor(viewer.getGrid(), items.toArray(new String[0])) {
-					@Override
-					protected void doSetValue(Object value) {
-						super.doSetValue(value);
-					}
-				};
+				return new ComboBoxCellEditor(viewer.getGrid(), items.toArray(new String[0]));
 			}
 
 			@Override
@@ -549,19 +544,19 @@ public class EditExportDocRuleDialog extends Dialog {
 		vcol.setEditingSupport(new EditingSupport(viewer) {
 			@Override
 			protected CellEditor getCellEditor(Object element) {
-				CellEditor editor = null;
+				CellEditor cellEditor = null;
 				Document doc = (Document) element;
 				Object type = doc.get("type");
 
 				if (ExportDocRule.TYPE_FIELD_ARRAY.equals(type) || ExportDocRule.TYPE_FIELD_TABLE.equals(type)) {// 类型为数组或表格时，使用DialogCellEditor，弹出多行文本框进行编辑
-					editor = new DialogTextCellEditor(viewer.getGrid(), SWT.READ_ONLY) {
+					cellEditor = new DialogTextCellEditor(viewer.getGrid(), SWT.READ_ONLY) {
 						@Override
 						protected void openDialod() {
 							Editor.create("/vault/生成文档字段规则-多行文本.editorassy", context, doc, true).setTitle(doc.getString("type")).open();
 						}
 					};
 				} else if (ExportDocRule.TYPE_FIELD_MAPPING.equals(type)) {// 类型为映射时，使用DialogCellEditor，弹出表单字段清单进行选择
-					editor = new DialogTextCellEditor(viewer.getGrid(), SWT.READ_ONLY) {
+					cellEditor = new DialogTextCellEditor(viewer.getGrid(), SWT.READ_ONLY) {
 						@Override
 						protected void openDialod() {
 							Selector.create("/vault/编辑器字段选择器.selectorassy", context, formDefFieldList).open(l -> {
@@ -573,11 +568,11 @@ public class EditExportDocRuleDialog extends Dialog {
 						}
 					};
 				} else if (ExportDocRule.TYPE_FIELD_BOOLEAN.equals(type)) {// 类型为布尔时，使用CheckboxCellEditor进行编辑
-					editor = new CheckboxCellEditor(viewer.getGrid());
+					cellEditor = new CheckboxCellEditor(viewer.getGrid());
 				} else if (ExportDocRule.TYPE_FIELD_NUMBER.equals(type) || ExportDocRule.TYPE_FIELD_STRING.equals(type)) {// 类型为文本或数值时，使用TextCellEditor进行编辑
-					editor = new TextCellEditor(viewer.getGrid());
+					cellEditor = new TextCellEditor(viewer.getGrid());
 				}
-				return editor;
+				return cellEditor;
 			}
 
 			@Override
