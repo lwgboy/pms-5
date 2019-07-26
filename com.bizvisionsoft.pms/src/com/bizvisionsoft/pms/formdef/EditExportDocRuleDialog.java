@@ -26,7 +26,6 @@ import org.eclipse.nebula.jface.gridviewer.GridTableViewer;
 import org.eclipse.nebula.jface.gridviewer.GridViewerColumn;
 import org.eclipse.nebula.widgets.grid.Grid;
 import org.eclipse.nebula.widgets.grid.GridColumn;
-import org.eclipse.rap.json.JsonObject;
 import org.eclipse.rap.rwt.RWT;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
@@ -60,7 +59,6 @@ import com.bizvisionsoft.bruiengine.assembly.TextFilter;
 import com.bizvisionsoft.bruiengine.assembly.exporter.ExportableFormBuilder;
 import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
 import com.bizvisionsoft.bruiengine.service.UserSession;
-import com.bizvisionsoft.bruiengine.ui.Editor;
 import com.bizvisionsoft.bruiengine.ui.Selector;
 import com.bizvisionsoft.bruiengine.util.BruiColors;
 import com.bizvisionsoft.bruiengine.util.BruiColors.BruiColor;
@@ -344,8 +342,8 @@ public class EditExportDocRuleDialog extends Dialog {
 		titleLabel.setData(RWT.CUSTOM_VARIANT, "field");
 
 		FormData fd = new FormData();
-		fd.top = new FormAttachment();
-		fd.left = new FormAttachment();
+		fd.top = new FormAttachment(0, -1);
+		fd.left = new FormAttachment(0, -1);
 		fd.width = 100;
 		titleLabel.setLayoutData(fd);
 
@@ -353,7 +351,7 @@ public class EditExportDocRuleDialog extends Dialog {
 		Composite pane = Controls.comp(container, SWT.BORDER).formLayout().get();
 		Text text = new Text(pane, SWT.NONE);
 		text.setMessage("输入字段名称");
-		text.setCursor(text.getDisplay().getSystemCursor(SWT.CURSOR_HAND));
+		// text.setCursor(text.getDisplay().getSystemCursor(SWT.CURSOR_HAND));
 
 		Controls.button(pane).rwt("inline").setText("查询").loc(SWT.RIGHT | SWT.BOTTOM, 54, 36)//
 				.select(e -> {
@@ -367,8 +365,8 @@ public class EditExportDocRuleDialog extends Dialog {
 				.addLeft(() -> Controls.handle(text)).loc(SWT.TOP | SWT.BOTTOM | SWT.LEFT);
 
 		fd = new FormData();
-		fd.top = new FormAttachment();
-		fd.right = new FormAttachment(100);
+		fd.top = new FormAttachment(0, -1);
+		fd.right = new FormAttachment(100, 1);
 		fd.left = new FormAttachment(titleLabel);
 		pane.setLayoutData(fd);
 
@@ -381,24 +379,6 @@ public class EditExportDocRuleDialog extends Dialog {
 		grid.setLinesVisible(true);
 
 		createColumns(viewer, grid);
-
-		grid.getParent().addListener(SWT.Resize, e -> {
-			int width = grid.getParent().getBounds().width;
-			if (width == 0) {
-				return;
-			}
-			width -= 10;
-			GridColumn[] cols = grid.getColumns();
-			int total = 0;
-			for (int i = 0; i < cols.length; i++) {
-				total += cols[i].getWidth();
-			}
-			for (int i = 0; i < cols.length; i++) {
-				if (total != 0) {
-					cols[i].setWidth(width * cols[i].getWidth() / total);
-				}
-			}
-		});
 
 		Composite toolbar = new Composite(container, SWT.NONE);
 		toolbar.setLayout(new FormLayout());
@@ -462,19 +442,39 @@ public class EditExportDocRuleDialog extends Dialog {
 	}
 
 	private void createColumns(GridTableViewer viewer, Grid grid) {
-		// 字段列
+		// TODO 一列
 		GridColumn col = new GridColumn(grid, SWT.NONE);
+		col.setText("");
+		col.setAlignment(SWT.LEFT);
+		col.setWidth(35);
+		col.setMinimumWidth(10);
+		col.setMoveable(false);
+		col.setResizeable(true);
+		col.setDetail(false);
+		col.setSummary(false);
+		GridViewerColumn vcol = new GridViewerColumn(viewer, col);
+		vcol.setLabelProvider(new ColumnLabelProvider() {
+			@Override
+			public String getText(Object element) {
+				return "";
+			}
+		});
+
+		// 字段列
+		col = new GridColumn(grid, SWT.NONE);
 		col.setData("name", "filedName");
 		col.setText("字段");
 		col.setAlignment(SWT.LEFT);
-		col.setWidth(120);
+		col.setWidth(320);
 		col.setMinimumWidth(100);
 		col.setMoveable(false);
 		col.setResizeable(true);
 		col.setDetail(false);
 		col.setSummary(false);
 
-		GridViewerColumn vcol = new GridViewerColumn(viewer, col);
+		// text.setCursor(text.getDisplay().getSystemCursor(SWT.CURSOR_HAND));
+
+		vcol = new GridViewerColumn(viewer, col);
 		vcol.setLabelProvider(new ColumnLabelProvider() {
 			@Override
 			public String getText(Object element) {
@@ -512,7 +512,7 @@ public class EditExportDocRuleDialog extends Dialog {
 		col.setData("name", "type");
 		col.setText("类型");
 		col.setAlignment(SWT.LEFT);
-		col.setWidth(80);
+		col.setWidth(120);
 		col.setMinimumWidth(50);
 		col.setMoveable(false);
 		col.setResizeable(true);
@@ -570,7 +570,7 @@ public class EditExportDocRuleDialog extends Dialog {
 		col.setData("name", "value");
 		col.setText("值");
 		col.setAlignment(SWT.LEFT);
-		col.setWidth(120);
+		col.setWidth(680);
 		col.setMinimumWidth(100);
 		col.setMoveable(false);
 		col.setResizeable(true);
@@ -606,15 +606,17 @@ public class EditExportDocRuleDialog extends Dialog {
 								dialogMessage = "请填写数组类型的常量。格式如下：[\"元素1\",\"元素2\"]";
 							} else if (ExportDocRule.TYPE_FIELD_TABLE.equals(type)) {
 								dialogTitle = "编辑表格常量";
-								dialogMessage = "请填写表格类型的常量。格式如下：[[\\\"元素1\\\",\\\"元素2\\\"]]";
+								dialogMessage = "请填写表格类型的常量。格式如下：[[\"元素1\",\"元素2\"]]";
 							}
 
 							InputDialog d = new InputDialog(getShell(), dialogTitle, dialogMessage, doc.getString("value"), txt -> {
 								try {
-									JsonObject.readFrom(txt);
+									// JsonArray;
+									// .fromObject(txt);
+									// .readFrom(txt);
 									return null;
 								} catch (Exception e) {
-									return "填写的内容格式符合要求。";
+									return "格式不符合要求。";
 								}
 							}).setTextMultiline(true);
 							if (d.open() == InputDialog.OK) {
@@ -626,7 +628,7 @@ public class EditExportDocRuleDialog extends Dialog {
 					editor = new SelectorCellEditor(viewer.getGrid(), SWT.READ_ONLY) {
 						@Override
 						protected void openDialog() {
-							Selector.create("/vault/编辑器字段选择器.selectorassy", context, formDefFieldList).open(l -> {
+							Selector.create("/vault/编辑器字段选择器.selectorassy", context, formDefFieldList).setTitle("选择表单字段").open(l -> {
 								String name = ((Document) l.get(0)).getString("name");
 								doc.put("value", name);
 								doc.put("valueText",
@@ -665,7 +667,8 @@ public class EditExportDocRuleDialog extends Dialog {
 					doc.put("value", value);
 				else if (ExportDocRule.TYPE_FIELD_NUMBER.equals(type))
 					try {
-						doc.put("value", Double.parseDouble((String) value));
+						Double.parseDouble((String) value);
+						doc.put("value", value);
 					} catch (Exception ex) {
 					}
 				else if (ExportDocRule.TYPE_FIELD_STRING.equals(type))
