@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 import org.bson.Document;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
+import org.eclipse.jface.dialogs.InputDialog;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.CellEditor;
@@ -473,7 +474,7 @@ public class EditExportDocRuleDialog extends Dialog {
 		col = new GridColumn(grid, SWT.NONE);
 		col.setData("name", "type");
 		col.setText("类型");
-		col.setAlignment(SWT.CENTER);
+		col.setAlignment(SWT.LEFT);
 		col.setWidth(80);
 		col.setMinimumWidth(50);
 		col.setMoveable(false);
@@ -509,7 +510,7 @@ public class EditExportDocRuleDialog extends Dialog {
 
 			@Override
 			protected CellEditor getCellEditor(Object element) {
-				return new ComboBoxCellEditor(viewer.getGrid(), items.toArray(new String[0])) {
+				return new ComboBoxCellEditor(viewer.getGrid(), items.toArray(new String[0]), SWT.READ_ONLY) {
 					@Override
 					protected void doSetValue(Object value) {
 						super.doSetValue(value);
@@ -553,26 +554,7 @@ public class EditExportDocRuleDialog extends Dialog {
 				Document doc = (Document) element;
 				Object type = doc.get("type");
 
-				if (ExportDocRule.TYPE_FIELD_ARRAY.equals(type) || ExportDocRule.TYPE_FIELD_TABLE.equals(type)) {// 类型为数组或表格时，使用DialogCellEditor，弹出多行文本框进行编辑
-					editor = new DialogTextCellEditor(viewer.getGrid(), SWT.READ_ONLY) {
-						@Override
-						protected void openDialod() {
-							Editor.create("/vault/生成文档字段规则-多行文本.editorassy", context, doc, true).setTitle(doc.getString("type")).open();
-						}
-					};
-				} else if (ExportDocRule.TYPE_FIELD_MAPPING.equals(type)) {// 类型为映射时，使用DialogCellEditor，弹出表单字段清单进行选择
-					editor = new DialogTextCellEditor(viewer.getGrid(), SWT.READ_ONLY) {
-						@Override
-						protected void openDialod() {
-							Selector.create("/vault/编辑器字段选择器.selectorassy", context, formDefFieldList).open(l -> {
-								String name = ((Document) l.get(0)).getString("name");
-								doc.put("value", name);
-								doc.put("valueText",
-										(formDefFieldList.get(name) != null ? formDefFieldList.get(name) : "") + "[$" + name + "]");
-							});
-						}
-					};
-				} else if (ExportDocRule.TYPE_FIELD_BOOLEAN.equals(type)) {// 类型为布尔时，使用CheckboxCellEditor进行编辑
+				if (ExportDocRule.TYPE_FIELD_BOOLEAN.equals(type)) {// 类型为布尔时，使用CheckboxCellEditor进行编辑
 					editor = new CheckboxCellEditor(viewer.getGrid());
 				} else if (ExportDocRule.TYPE_FIELD_NUMBER.equals(type) || ExportDocRule.TYPE_FIELD_STRING.equals(type)) {// 类型为文本或数值时，使用TextCellEditor进行编辑
 					editor = new TextCellEditor(viewer.getGrid());
@@ -582,7 +564,25 @@ public class EditExportDocRuleDialog extends Dialog {
 
 			@Override
 			protected boolean canEdit(Object element) {
-				return true;
+
+				Document doc = (Document) element;
+				Object type = doc.get("type");
+
+				if (ExportDocRule.TYPE_FIELD_ARRAY.equals(type) || ExportDocRule.TYPE_FIELD_TABLE.equals(type)) {// 类型为数组或表格时，使用DialogCellEditor，弹出多行文本框进行编辑
+					// InputDialog
+
+					// Editor.create("/vault/生成文档字段规则-多行文本.editorassy", context, doc,
+					// true).setTitle(doc.getString("type")).open();
+					return false;
+				} else if (ExportDocRule.TYPE_FIELD_MAPPING.equals(type)) {// 类型为映射时，使用DialogCellEditor，弹出表单字段清单进行选择
+					Selector.create("/vault/编辑器字段选择器.selectorassy", context, formDefFieldList).setTitle("选择表单字段").open(l -> {
+						String name = ((Document) l.get(0)).getString("name");
+						doc.put("value", name);
+						doc.put("valueText", (formDefFieldList.get(name) != null ? formDefFieldList.get(name) : "") + "[$" + name + "]");
+					});
+					return false;
+				} else
+					return true;
 			}
 
 			@Override
@@ -603,7 +603,8 @@ public class EditExportDocRuleDialog extends Dialog {
 					doc.put("value", value);
 				else if (ExportDocRule.TYPE_FIELD_NUMBER.equals(type))
 					try {
-						doc.put("value", Double.parseDouble((String) value));
+						Double.parseDouble((String) value);
+						doc.put("value", value);
 					} catch (Exception ex) {
 					}
 				else if (ExportDocRule.TYPE_FIELD_STRING.equals(type))
@@ -796,11 +797,11 @@ public class EditExportDocRuleDialog extends Dialog {
 		protected Control createControl(Composite parent) {
 			Text createControl = (Text) super.createControl(parent);
 			createControl.setEditable(false);
-			openDialod();
+			openDialog();
 			return createControl;
 		}
 
-		protected abstract void openDialod();
+		protected abstract void openDialog();
 	}
 
 }
