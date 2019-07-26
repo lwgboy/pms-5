@@ -329,7 +329,7 @@ public class EditExportDocRuleDialog extends Dialog {
 	 */
 	private GridTableViewer createTableField(Composite parent) {
 		Composite container = new Composite(parent, SWT.BORDER);
-		container.setBackground(BruiColors.getColor(BruiColor.White));
+//		container.setBackground(BruiColors.getColor(BruiColor.White));
 		container.setLayout(new FormLayout());
 		GridData gd = new GridData(SWT.FILL, SWT.FILL, true, true);
 		gd.heightHint = 227;
@@ -342,8 +342,8 @@ public class EditExportDocRuleDialog extends Dialog {
 		titleLabel.setData(RWT.CUSTOM_VARIANT, "field");
 
 		FormData fd = new FormData();
-		fd.top = new FormAttachment(0, -1);
-		fd.left = new FormAttachment(0, -1);
+		fd.top = new FormAttachment(0);
+		fd.left = new FormAttachment(0);
 		fd.width = 100;
 		titleLabel.setLayoutData(fd);
 
