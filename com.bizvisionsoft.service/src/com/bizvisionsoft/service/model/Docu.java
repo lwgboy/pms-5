@@ -36,14 +36,18 @@ public class Docu implements JsonExternalizable {
 	private String id;
 
 	public String domain;
-	
+
 	public String generateId() {
-		return (String) new DocNumberGenerator().generate(this, Generator.DEFAULT_NAME, "docu", String.class,domain);
+		return (String) new DocNumberGenerator().generate(this, Generator.DEFAULT_NAME, "docu", String.class, domain);
 	}
 
 	@ReadValue
 	@WriteValue
 	private ObjectId folder_id;
+
+	@ReadValue
+	@WriteValue
+	private ObjectId formDef_id;
 
 	@ReadValue
 	@WriteValue

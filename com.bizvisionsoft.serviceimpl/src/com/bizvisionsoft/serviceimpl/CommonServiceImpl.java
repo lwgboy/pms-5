@@ -20,22 +20,26 @@ import com.bizvisionsoft.service.model.Calendar;
 import com.bizvisionsoft.service.model.Certificate;
 import com.bizvisionsoft.service.model.ChangeProcess;
 import com.bizvisionsoft.service.model.Dictionary;
+import com.bizvisionsoft.service.model.Docu;
 import com.bizvisionsoft.service.model.Equipment;
 import com.bizvisionsoft.service.model.ExportDocRule;
 import com.bizvisionsoft.service.model.FormDef;
 import com.bizvisionsoft.service.model.Message;
 import com.bizvisionsoft.service.model.NewMessage;
 import com.bizvisionsoft.service.model.ProjectStatus;
+import com.bizvisionsoft.service.model.RefDef;
 import com.bizvisionsoft.service.model.ResourceActual;
 import com.bizvisionsoft.service.model.ResourcePlan;
 import com.bizvisionsoft.service.model.ResourceType;
 import com.bizvisionsoft.service.model.TrackView;
 import com.bizvisionsoft.service.model.VaultFolder;
+import com.bizvisionsoft.service.tools.Check;
 import com.bizvisionsoft.serviceimpl.exception.ServiceException;
 import com.bizvisionsoft.serviceimpl.renderer.MessageRenderer;
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Aggregates;
+import com.mongodb.client.model.Field;
 
 public class CommonServiceImpl extends BasicServiceImpl implements CommonService {
 
@@ -780,25 +784,25 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 
 	@Override
 	public List<VaultFolder> listContainer(BasicDBObject condition, String domain) {
-		condition.append("filter", getContainerFilter((BasicDBObject) condition.get("filter")));
-		condition.append("sort", Optional.ofNullable((BasicDBObject) condition.get("sort")).orElse(new BasicDBObject()).append("desc", 1));
-		return createDataSet(condition, VaultFolder.class, domain);
+		Integer skip = (Integer) condition.get("skip");
+		Integer limit = (Integer) condition.get("limit");
+		BasicDBObject filter = (BasicDBObject) condition.get("filter");
+		BasicDBObject sort = Optional.ofNullable((BasicDBObject) condition.get("sort")).orElse(new BasicDBObject()).append("desc", 1);
+
+		return query(pipeline -> {
+			pipeline.add(Aggregates.match(new BasicDBObject("iscontainer", true)));
+			pipeline.add(Aggregates.lookup("organization", "org_id", "_id", "_org"));
+			pipeline.add(Aggregates.addFields(new Field<String>("orgFullName", "$_org.fullName")));
+			pipeline.add(Aggregates.project(new BasicDBObject("_org", false)));//
+		}, skip, limit, filter, sort, null, VaultFolder.class, domain);
 	}
 
 	@Override
 	public long countContainer(BasicDBObject filter, String domain) {
-		if (filter == null)
-			filter = new BasicDBObject();
-		filter = getContainerFilter(filter);
-
-		return count(filter, VaultFolder.class, domain);
-	}
-
-	private BasicDBObject getContainerFilter(BasicDBObject filter) {
 		filter = Optional.ofNullable(filter).orElse(new BasicDBObject());
 		filter.append("iscontainer", true);
 
-		return filter;
+		return count(filter, VaultFolder.class, domain);
 	}
 
 	@Override
@@ -836,9 +840,27 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 
 	@Override
 	public long deleteFormDef(ObjectId _id, String domain) {
-		// TODO 删除时检查是否存在下级、是否被使用
 		Document doc = c("formDef", domain).find(new BasicDBObject("_id", _id)).first();
-		c(ExportDocRule.class, domain).deleteMany(new BasicDBObject("_id", new BasicDBObject("$in", doc.get("exportDocRule_ids"))));
+		if (doc == null)
+			throw new ServiceException("表单定义已被删除。");
+
+		// 检查表单定义是否启用,启用的表单定义不允许被删除
+		if (doc.getBoolean("activated", true))
+			throw new ServiceException("表单定义已启用,不允许无法删除.");
+
+		// 检查表单定义是否被使用,被使用的表单定义不允许被删除
+		// TODO docu增加formDef_id索引
+		if (count(new BasicDBObject("formDef_id", doc.get("_id")), Docu.class, domain) > 0)
+			throw new ServiceException("表单定义在使用中,不允许无法删除.");
+
+		List<?> exportDocRule_ids = (List<?>) doc.get("exportDocRule_ids");
+		if (Check.isAssigned(exportDocRule_ids))
+			c(ExportDocRule.class, domain).deleteMany(new BasicDBObject("_id", new BasicDBObject("$in", exportDocRule_ids)));
+
+		List<?> refDef_ids = (List<?>) doc.get("refDef_ids");
+		if (Check.isAssigned(refDef_ids))
+			c(RefDef.class, domain).deleteMany(new BasicDBObject("_id", new BasicDBObject("$in", refDef_ids)));
+
 		return delete(_id, FormDef.class, domain);
 	}
 
@@ -849,12 +871,66 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 
 	@Override
 	public FormDef insertFormDef(FormDef formDef, String domain) {
+		// TODO 检查重名
+
 		return insert(formDef, FormDef.class, domain);
 	}
 
 	@Override
 	public FormDef getFormDef(ObjectId _id, String domain) {
 		return get(_id, FormDef.class, domain);
+	}
+
+	@Override
+	public FormDef upgradeFormDef(ObjectId _id, String domain) {
+		Document formDefDoc = c("formDef", domain).find(new BasicDBObject("_id", _id)).first();
+		if (formDefDoc == null)
+			throw new ServiceException("表单定义已被删除，无法升版.");
+
+		long l = c("formDef", domain).countDocuments(new BasicDBObject("name", formDefDoc.get("name")));
+		// 设置新表单定义的_id和版本号
+		ObjectId formDef_id = new ObjectId();
+		formDefDoc.put("_id", formDef_id);
+		formDefDoc.put("vid", l);
+
+		// 复制文档导出规则
+		List<Document> exportDocRuleDoc = new ArrayList<Document>();
+		List<ObjectId> exportDocRule_idNs = new ArrayList<ObjectId>();
+		List<?> exportDocRule_ids = (List<?>) formDefDoc.get("exportDocRule_ids");
+		if (Check.isAssigned(exportDocRule_ids)) {
+			c("exportDocRule", domain).find(new BasicDBObject("_id", new BasicDBObject("$in", exportDocRule_ids)))
+					.forEach((Document doc) -> {
+						ObjectId n_id = new ObjectId();
+						exportDocRule_idNs.add(n_id);
+						doc.put("_id", n_id);
+						exportDocRuleDoc.add(doc);
+					});
+			formDefDoc.put("exportDocRule_ids", exportDocRule_idNs);
+		}
+
+		// 复制参照定义
+		List<Document> refDefDoc = new ArrayList<Document>();
+		List<ObjectId> refDef_idNs = new ArrayList<ObjectId>();
+		List<?> refDef_ids = (List<?>) formDefDoc.get("refDef_ids");
+		if (Check.isAssigned(refDef_ids)) {
+			c("refDef", domain).find(new BasicDBObject("_id", new BasicDBObject("$in", refDef_ids))).forEach((Document doc) -> {
+				ObjectId n_id = new ObjectId();
+				refDef_idNs.add(n_id);
+				doc.put("_id", n_id);
+				refDefDoc.add(doc);
+			});
+			formDefDoc.put("refDef_ids", refDef_idNs);
+		}
+
+		if (exportDocRuleDoc.size() > 0)
+			c("exportDocRule", domain).insertMany(exportDocRuleDoc);
+
+		if (refDefDoc.size() > 0)
+			c("refDef", domain).insertMany(refDefDoc);
+
+		c("formDef", domain).insertOne(formDefDoc);
+
+		return getFormDef(formDef_id, domain);
 	}
 
 	@Override

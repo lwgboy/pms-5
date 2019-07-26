@@ -39,7 +39,7 @@ public class ExportDocRule {
 	public static final String[] TYPE_FIELD_ALL = new String[] { TYPE_FIELD_MAPPING, TYPE_FIELD_NUMBER, TYPE_FIELD_STRING,
 			TYPE_FIELD_BOOLEAN, TYPE_FIELD_ARRAY, TYPE_FIELD_TABLE };
 
-	@ImageURL("editorTypeId")
+	@ImageURL("editorId")
 	@Exclude
 	public static final String icon = "/img/exportdocrule_c.svg";
 
@@ -52,7 +52,7 @@ public class ExportDocRule {
 	}
 
 	@WriteValue
-	@ReadValue({ "editorId", "editorTypeId" })
+	@ReadValue
 	@Label
 	private String editorId;
 

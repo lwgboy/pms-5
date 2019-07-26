@@ -773,6 +773,12 @@ public interface CommonService {
 	@Produces("application/json; charset=UTF-8")
 	public FormDef getFormDef(@PathParam("_id") ObjectId _id, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
+	@GET
+	@Path("/{domain}/upgradeFormDef/_id/{_id}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public FormDef upgradeFormDef(@PathParam("_id") ObjectId _id, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+
 	@POST
 	@Path("/{domain}/exportDocRule/ds")
 	@Consumes("application/json; charset=UTF-8")

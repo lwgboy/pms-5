@@ -8,6 +8,7 @@ import org.bson.types.ObjectId;
 import com.bizvisionsoft.annotations.md.mongocodex.Exclude;
 import com.bizvisionsoft.annotations.md.mongocodex.Persistence;
 import com.bizvisionsoft.annotations.md.mongocodex.PersistenceCollection;
+import com.bizvisionsoft.annotations.md.mongocodex.SetValue;
 import com.bizvisionsoft.annotations.md.service.DataSet;
 import com.bizvisionsoft.annotations.md.service.Label;
 import com.bizvisionsoft.annotations.md.service.ReadValue;
@@ -103,6 +104,11 @@ public class VaultFolder implements IFolder {
 	@WriteValue
 	@Persistence("org_id")
 	private List<ObjectId> organization_id;
+
+	@ReadValue
+	@WriteValue
+	@SetValue("orgFullName")
+	private List<String> orgFullName;
 
 	@WriteValue("organization")
 	private void setOrganization(List<Organization> org) {

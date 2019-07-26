@@ -2105,7 +2105,8 @@
         "assemblyLinks": [
           {
             "id": "/系统管理首页面板.assy",
-            "defaultAssembly": true
+            "defaultAssembly": true,
+            "text": "系统管理首页面板"
           }
         ]
       },

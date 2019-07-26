@@ -38,12 +38,18 @@
       "formFields": []
     },
     {
-      "name": "type",
+      "name": "containertype",
       "text": "资料库类型",
       "type": "下拉选择框（查询）",
       "formFields": [],
       "optionValue": "pm#wc",
       "optionText": "PM资料库#Windchill容器"
+    },
+    {
+      "name": "orgFullName",
+      "text": "组织所有者",
+      "type": "文本输入框（查询）",
+      "formFields": []
     }
   ],
   "gridAutoColumnWidth": true,

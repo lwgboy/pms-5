@@ -7,6 +7,28 @@
   "folderId": "162dc3e928e",
   "fields": [
     {
+      "name": "新字段",
+      "type": "行",
+      "formFields": [
+        {
+          "name": "activated",
+          "text": "启用",
+          "type": "复选框",
+          "formFields": [],
+          "readOnly": true,
+          "required": false,
+          "checkStyle": "开关（默认）"
+        },
+        {
+          "name": "vid",
+          "text": "版本",
+          "type": "单行文本框",
+          "formFields": [],
+          "readOnly": true
+        }
+      ]
+    },
+    {
       "id": "162bd1ff051",
       "name": "name",
       "text": "类型名称",
@@ -16,20 +38,13 @@
       "required": true
     },
     {
-      "name": "editorTypeId",
-      "text": "编辑器类型Id",
+      "name": "editorId",
+      "text": "编辑器Id",
       "type": "对象选择框",
       "formFields": [],
       "required": true,
       "selectorAssemblyId": "/组件选择器（编辑器）.gridassy",
       "valueFieldName": "id"
-    },
-    {
-      "name": "activated",
-      "text": "启用",
-      "type": "复选框",
-      "formFields": [],
-      "checkStyle": "开关（默认）"
     }
   ],
   "actions": [
