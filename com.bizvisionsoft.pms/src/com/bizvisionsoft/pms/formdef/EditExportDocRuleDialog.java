@@ -20,6 +20,7 @@ import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.CheckboxCellEditor;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.EditingSupport;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.nebula.jface.gridviewer.GridTableViewer;
@@ -59,13 +60,13 @@ import com.bizvisionsoft.bruicommons.model.FormField;
 import com.bizvisionsoft.bruiengine.assembly.TextFilter;
 import com.bizvisionsoft.bruiengine.assembly.exporter.ExportableFormBuilder;
 import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
+import com.bizvisionsoft.bruiengine.service.Model;
 import com.bizvisionsoft.bruiengine.service.UserSession;
 import com.bizvisionsoft.bruiengine.ui.Selector;
 import com.bizvisionsoft.bruiengine.util.Controls;
 import com.bizvisionsoft.service.exporter.ExportableForm;
 import com.bizvisionsoft.service.exporter.ExportableFormField;
 import com.bizvisionsoft.service.model.ExportDocRule;
-import com.bizvisionsoft.service.model.FormDef;
 import com.bizvisionsoft.service.tools.Check;
 import com.bizvisionsoft.service.tools.Formatter;
 
@@ -85,7 +86,7 @@ public class EditExportDocRuleDialog extends Dialog {
 		return dialog;
 	}
 
-	private Map<String, String> formDefFieldList;
+	private Map<String, String> formDefFieldMap;
 	private ExportDocRule exportDocRule;
 
 	private BruiAssemblyContext context;
@@ -102,12 +103,10 @@ public class EditExportDocRuleDialog extends Dialog {
 	public void setExportDocRule(ExportDocRule exportDocRule) {
 		this.exportDocRule = AUtil.deepCopy(exportDocRule);
 		// 根据FormDef的编辑器类型ID获取最终版的编辑器Assembly
-		FormDef formDef = exportDocRule.getFormDef();
-		String editorTypeId = formDef.getEditorTypeId();
-		Assembly formDefAssy = ModelLoader.getLatestVersionEditorAssemblyOfType(editorTypeId);
+		Assembly formDefAssy = Model.getAssembly(exportDocRule.getFormDef().getEditorId());
 		if (formDefAssy != null) {
 			// 获取FormDef对应编辑器的字段清单
-			formDefFieldList = ModelLoader.getEditorAssemblyFieldNameMap(formDefAssy);
+			formDefFieldMap = ModelLoader.getEditorAssemblyFieldNameMap(formDefAssy);
 		}
 
 	}
@@ -280,9 +279,9 @@ public class EditExportDocRuleDialog extends Dialog {
 			}
 
 			// 获取选择编辑器的字段清单
-			Map<String, String> selectedFieldList = ModelLoader.getEditorAssemblyFieldNameMap(selectedAssy);
+			Map<String, String> selectedFieldMap = ModelLoader.getEditorAssemblyFieldNameMap(selectedAssy);
 
-			List<Document> fieldMap = getFieldMap(selectedFieldList, formDefFieldList);
+			List<Document> fieldMap = getFieldMap(selectedFieldMap, formDefFieldMap);
 
 			viewer.setInput(fieldMap);
 		});
@@ -291,23 +290,23 @@ public class EditExportDocRuleDialog extends Dialog {
 	/**
 	 * 获取导出文档规则的字段清单
 	 * 
-	 * @param selectedFieldList
-	 * @param formDefFieldList
+	 * @param selectedFieldMap
+	 * @param formDefFieldMap
 	 * @return
 	 */
-	private List<Document> getFieldMap(Map<String, String> selectedFieldList, Map<String, String> formDefFieldList) {
+	private List<Document> getFieldMap(Map<String, String> selectedFieldMap, Map<String, String> formDefFieldMap) {
 		List<Document> result = new ArrayList<Document>();
-		if (Check.isAssigned(selectedFieldList))
-			selectedFieldList.forEach((name, text) -> {
+		if (Check.isAssigned(selectedFieldMap))
+			selectedFieldMap.forEach((name, text) -> {
 				Document doc = new Document();
 				result.add(doc);
 				doc.put("filed", name);
 				doc.put("filedName", (text != null ? text : "") + "[" + name + "]");
 
-				if (Check.isAssigned(formDefFieldList) && formDefFieldList.containsKey(name)) {
+				if (Check.isAssigned(formDefFieldMap) && formDefFieldMap.containsKey(name)) {
 					doc.put("type", ExportDocRule.TYPE_FIELD_MAPPING);
 					doc.put("value", name);
-					doc.put("valueText", (formDefFieldList.get(name) != null ? formDefFieldList.get(name) : "") + "[$" + name + "]");
+					doc.put("valueText", (formDefFieldMap.get(name) != null ? formDefFieldMap.get(name) : "") + "[$" + name + "]");
 				}
 			});
 
@@ -327,11 +326,10 @@ public class EditExportDocRuleDialog extends Dialog {
 	 * @return
 	 */
 	private GridTableViewer createTableField(Composite parent) {
-		Composite container = new Composite(parent, SWT.BORDER);
-//		container.setBackground(BruiColors.getColor(BruiColor.White));
+		Composite container = new Composite(parent, SWT.NONE);
+		container.setBackground(BruiColors.getColor(BruiColor.White));
 		container.setLayout(new FormLayout());
-		GridData gd = new GridData(SWT.FILL, SWT.FILL, true, true);
-		gd.heightHint = 227;
+		GridData gd = new GridData(SWT.FILL, SWT.FILL, true, false);
 		container.setLayoutData(gd);
 
 		// 创建文本
@@ -341,8 +339,8 @@ public class EditExportDocRuleDialog extends Dialog {
 		titleLabel.setData(RWT.CUSTOM_VARIANT, "field");
 
 		FormData fd = new FormData();
-		fd.top = new FormAttachment(0);
-		fd.left = new FormAttachment(0);
+		fd.top = new FormAttachment();
+		fd.left = new FormAttachment();
 		fd.width = 100;
 		titleLabel.setLayoutData(fd);
 
@@ -364,10 +362,17 @@ public class EditExportDocRuleDialog extends Dialog {
 				.addLeft(() -> Controls.handle(text)).loc(SWT.TOP | SWT.BOTTOM | SWT.LEFT);
 
 		fd = new FormData();
-		fd.top = new FormAttachment(0, -1);
-		fd.right = new FormAttachment(100, 1);
+		fd.top = new FormAttachment();
+		fd.right = new FormAttachment(100);
 		fd.left = new FormAttachment(titleLabel);
 		pane.setLayoutData(fd);
+
+		container = new Composite(parent, SWT.BORDER);
+		container.setBackground(BruiColors.getColor(BruiColor.White));
+		container.setLayout(new FormLayout());
+		gd = new GridData(SWT.FILL, SWT.FILL, true, true);
+		gd.heightHint = 227;
+		container.setLayoutData(gd);
 
 		GridTableViewer viewer = new GridTableViewer(container, SWT.CHECK | SWT.V_SCROLL | SWT.H_SCROLL);
 		viewer.setUseHashlookup(false);
@@ -415,7 +420,9 @@ public class EditExportDocRuleDialog extends Dialog {
 		Document item = new Document();
 		((List<Document>) viewer.getInput()).add(item);
 		viewer.add(item);
-		viewer.editElement(item, 0);
+		viewer.setSelection(new StructuredSelection(item));
+		// TODO 存在问题，如果没有选中table的记录时，无法进行定位
+		viewer.editElement(item, 1);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -441,7 +448,6 @@ public class EditExportDocRuleDialog extends Dialog {
 	}
 
 	private void createColumns(GridTableViewer viewer, Grid grid) {
-		// TODO 一列
 		GridColumn col = new GridColumn(grid, SWT.NONE);
 		col.setText("");
 		col.setAlignment(SWT.LEFT);
@@ -499,9 +505,11 @@ public class EditExportDocRuleDialog extends Dialog {
 			@Override
 			protected void setValue(Object element, Object value) {
 				Document doc = (Document) element;
-				doc.append("filedName", (String) value);
-				doc.append("filed", (String) value);
-				viewer.refresh(element);
+				if (!value.equals(doc.get("filed"))) {
+					doc.append("filedName", (String) value);
+					doc.append("filed", (String) value);
+					viewer.refresh(element);
+				}
 			}
 
 		});
@@ -623,11 +631,11 @@ public class EditExportDocRuleDialog extends Dialog {
 					cellEditor = new SelectorCellEditor(viewer.getGrid(), SWT.READ_ONLY) {
 						@Override
 						protected void openDialog() {
-							Selector.create("/vault/编辑器字段选择器.selectorassy", context, formDefFieldList).setTitle("选择表单字段").open(l -> {
+							Selector.create("/vault/编辑器字段选择器.selectorassy", context, formDefFieldMap).setTitle("选择表单字段").open(l -> {
 								String name = ((Document) l.get(0)).getString("name");
 								doc.put("value", name);
 								doc.put("valueText",
-										(formDefFieldList.get(name) != null ? formDefFieldList.get(name) : "") + "[$" + name + "]");
+										(formDefFieldMap.get(name) != null ? formDefFieldMap.get(name) : "") + "[$" + name + "]");
 							});
 						}
 					};
@@ -751,8 +759,7 @@ public class EditExportDocRuleDialog extends Dialog {
 
 	@SuppressWarnings("unchecked")
 	private void checkExportDocRule() {
-		String editorTypeId = exportDocRule.getFormDef().getEditorTypeId();
-		Assembly formDAssy = ModelLoader.getLatestVersionEditorAssemblyOfType(editorTypeId);
+		Assembly formDAssy = Model.getAssembly(exportDocRule.getFormDef().getEditorId());
 		if (formDAssy == null) {
 			Layer.error("无法获取表单定义所选编辑器");
 			return;
@@ -762,19 +769,46 @@ public class EditExportDocRuleDialog extends Dialog {
 		ExportableForm exportableForm = exportDocRule.getExportableForm();
 		List<Document> fieldLists = (List<Document>) viewer.getInput();
 
+		List<String> errorSameField = new ArrayList<String>();
+		List<String> errorCompleteField = new ArrayList<String>();
 		List<String> errorField = new ArrayList<String>();
 		List<String> errorExportableField = new ArrayList<String>();
 		List<String> warningFieldField = new ArrayList<String>();
+		boolean nullField = false;
 
-		// 检查导出文档规则字段清单中，映射关系的字段是否全部在文档定义的编辑器字段列表中，不在则提示错误
+		// 检查字段清单中是否重复字段名的字段
+		// 检查和字段清单中的字段名是否设置了值
+		// 检查字段清单中所有字段后设置了类型,并且存在对应的value
 		Map<String, Document> fieldMaps = new HashMap<String, Document>();
 		for (Document doc : fieldLists) {
+			String filed = doc.getString("filed");
+			Object type = doc.get("type");
+			Object value = doc.get("value");
+			if (!filed.isEmpty()) {
+				if (fieldMaps.keySet().contains(filed)) {
+					errorSameField.add((String) doc.getOrDefault("filedName", doc.getString("filed")));
+					continue;
+				}
+				if (type == null) {
+					errorCompleteField.add((String) doc.getOrDefault("filedName", doc.getString("filed")));
+					continue;
+				}
+				if (value == null) {
+					errorCompleteField.add((String) doc.getOrDefault("filedName", doc.getString("filed")));
+					continue;
+				}
+				fieldMaps.put(filed, doc);
+			} else
+				nullField = true;
+		}
+
+		// 检查导出文档规则字段清单中，映射关系的字段是否全部在文档定义的编辑器字段列表中，不在则提示错误
+		for (Document doc : fieldMaps.values()) {
 			if (ExportDocRule.TYPE_FIELD_MAPPING.equals(doc.get("type"))) {
 				String fieldName = doc.getString("value");
 				if (!formDFieldMap.containsKey(fieldName)) {
-					errorField.add(doc.getString("filedName"));
+					errorField.add((String) doc.getOrDefault("filedName", doc.getString("filed")));
 				}
-
 			}
 			fieldMaps.put(doc.getString("filed"), doc);
 		}
@@ -790,26 +824,47 @@ public class EditExportDocRuleDialog extends Dialog {
 			checkExportableFields(fieldMaps, exportableForm.fields, errorExportableField);
 
 		StringBuffer sb = new StringBuffer();
+		if (nullField) {
+			sb.append("<span class='layui-badge'>错误</span>");
+			sb.append("字段设置中存在未确定字段名的字段.");
+			sb.append("<br>");
+		}
+
+		if (errorSameField.size() > 0) {
+			sb.append("<span class='layui-badge'>错误</span>");
+			sb.append(Formatter.getString(errorSameField));
+			sb.append("以上字段在字段设置中重复.");
+			sb.append("<br>");
+		}
+
+		if (errorCompleteField.size() > 0) {
+			sb.append("<span class='layui-badge'>错误</span>");
+			sb.append(Formatter.getString(errorCompleteField));
+			sb.append("以上字段在字段设置未设置类型和值.");
+			sb.append("<br>");
+		}
+
 		if (errorField.size() > 0) {
-			sb.append("<span class='layui-badge'>错误</span>: ");
+			sb.append("<span class='layui-badge'>错误</span>");
 			sb.append(Formatter.getString(errorField));
 			sb.append("以上字段未在表单中定义，无法导出文档.");
 			sb.append("<br>");
 		}
 
 		if (errorExportableField.size() > 0) {
-			sb.append("<span class='layui-badge'>错误</span>: ");
+			sb.append("<span class='layui-badge'>错误</span>");
 			sb.append(Formatter.getString(errorExportableField));
 			sb.append("以上字段无法导出到文件.");
 			sb.append("<br>");
 		}
 
 		if (warningFieldField.size() > 0) {
-			sb.append("<span class='layui-badge layui-bg-orange'>警告</span>: ");
+			sb.append("<span class='layui-badge layui-bg-orange'>警告</span>");
 			sb.append(Formatter.getString(warningFieldField));
 			sb.append("以上表单中的字段未找到文档映射字段.");
 			sb.append("<br>");
 		}
+
 		if (sb.length() > 0)
 			Layer.alert("导出文档规则检查", sb.toString(), 600, 400, false);
 		else

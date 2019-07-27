@@ -13,7 +13,7 @@
   "gridDataSetService": "com.bizvisionsoft.service.CommonService",
   "columns": [
     {
-      "name": "editorTypeId",
+      "name": "editorId",
       "text": "±à¼­Æ÷",
       "alignment": 16384,
       "width": 320,
@@ -30,6 +30,15 @@
       "resizeable": true,
       "columns": [],
       "enableColumnSort": true
+    },
+    {
+      "name": "vid",
+      "text": "°æ±¾ºÅ",
+      "alignment": 131072,
+      "width": 64,
+      "resizeable": true,
+      "columns": [],
+      "forceDisplayZero": true
     },
     {
       "name": "activated",
@@ -84,6 +93,29 @@
       "type": "customized",
       "createActionNewInstanceBundleId": "com.bizvisionsoft.service",
       "createActionNewInstanceClassName": "com.bizvisionsoft.service.model.ExportDocRule"
+    },
+    {
+      "id": "e62bd541aff",
+      "name": "upgrade",
+      "text": "Éý°æ",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.formdef.action.FormDefACT",
+      "forceText": true,
+      "style": "normal",
+      "objectBehavier": false,
+      "actionBehavier": true,
+      "type": "customized"
+    },
+    {
+      "id": "d62bd541aff",
+      "name": "activate",
+      "text": "ÆôÓÃ/Í£ÓÃ",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.formdef.action.FormDefACT",
+      "forceText": true,
+      "style": "normal",
+      "actionBehavier": true,
+      "type": "customized"
     },
     {
       "id": "162bd541af5",

@@ -25,15 +25,9 @@ import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.ui.ActionMenu;
 import com.bizvisionsoft.bruiengine.ui.AssemblyContainer;
-import com.bizvisionsoft.bruiengine.ui.Editor;
 import com.bizvisionsoft.bruiengine.ui.Selector;
 import com.bizvisionsoft.bruiengine.util.Controls;
-import com.bizvisionsoft.service.DocumentService;
-import com.bizvisionsoft.service.model.Docu;
-import com.bizvisionsoft.service.model.FormDef;
 import com.bizvisionsoft.service.model.IFolder;
-import com.bizvisionsoft.service.tools.Check;
-import com.bizvisionsoft.serviceconsumer.Services;
 import com.mongodb.BasicDBObject;
 
 public abstract class VaultExplorer {

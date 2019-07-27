@@ -10,6 +10,7 @@ import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.bruicommons.ModelLoader;
 import com.bizvisionsoft.bruicommons.model.Assembly;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
+import com.bizvisionsoft.bruiengine.service.Model;
 import com.bizvisionsoft.service.SystemService;
 import com.bizvisionsoft.service.model.FormDef;
 import com.bizvisionsoft.service.model.Result;
@@ -26,8 +27,7 @@ public class CheckFormDefACT {
 			FormDef formDef = (FormDef) element;
 			if (formDef.get_id() == null)
 				return;
-			String editorTypeId = formDef.getEditorTypeId();
-			Assembly formDAssy = ModelLoader.getLatestVersionEditorAssemblyOfType(editorTypeId);
+			Assembly formDAssy = Model.getAssembly(formDef.getEditorId());
 			if (formDAssy == null) {
 				Layer.error("无法获取表单定义所选编辑器");
 				return;
@@ -40,7 +40,15 @@ public class CheckFormDefACT {
 				BasicDBObject data = r.data;
 				switch (r.type) {
 				case Result.TYPE_ERROR:
-					if ("errorField".equals(data.getString("type"))) {
+					if ("nullField".equals(data.getString("type"))) {
+						return "<span class='layui-badge'>错误</span>: " + data.getString("editorId") + " 编辑器  " + r.message + "<br>";
+					} else if ("errorSameField".equals(data.getString("type"))) {
+						return "<span class='layui-badge'>错误</span>: " + data.getString("editorId") + " 编辑器  " + r.message + "以上字段在字段设置中重复."
+								+ "<br>";
+					} else if ("errorCompleteField".equals(data.getString("type"))) {
+						return "<span class='layui-badge'>错误</span>: " + data.getString("editorId") + " 编辑器  " + r.message
+								+ "以上字段在字段设置未设置类型和值." + "<br>";
+					} else if ("errorField".equals(data.getString("type"))) {
 						return "<span class='layui-badge'>错误</span>: " + data.getString("editorId") + " 编辑器  " + r.message
 								+ "字段未在表单中定义，无法导出文档." + "<br>";
 					} else if ("errorExportableField".equals(data.getString("type"))) {

@@ -253,6 +253,7 @@ public class SystemServiceImpl extends BasicServiceImpl implements SystemService
 		createIndex("docu", new Document("category", 1), "category", domain);
 		createIndex("docu", new Document("name", 1), "name", domain);
 		createIndex("docu", new Document("id", 1), "id", domain);
+		createIndex("docu", new Document("formDef_id", 1), "id", domain);
 
 		createUniqueIndex("eps", new Document("id", 1), "id", domain);
 
@@ -734,22 +735,50 @@ public class SystemServiceImpl extends BasicServiceImpl implements SystemService
 		c("formDef", domain).aggregate(Domain.getJQ(domain, "查询-文档导出规则-表单定义").set("_id", formDef_id).array()).forEach((Document docs) -> {
 			ExportDocRule exportDocRule = new ExportDocRule();
 			BsonTools.decodeDocument(docs, exportDocRule);
+
+			List<String> errorSameField = new ArrayList<String>();
+			List<String> errorCompleteField = new ArrayList<String>();
 			List<String> errorField = new ArrayList<String>();
 			List<String> errorExportableField = new ArrayList<String>();
 			List<String> warningField = new ArrayList<String>();
+			boolean nullField = false;
 
 			List<Document> fieldLists = exportDocRule.getFieldMap();
 			ExportableForm exportableForm = exportDocRule.getExportableForm();
 
-			// 检查导出文档规则字段清单中，映射关系的字段是否全部在文档定义的编辑器字段列表中，不在则提示错误
+			// 检查字段清单中是否重复字段名的字段
+			// 检查和字段清单中的字段名是否设置了值
+			// 检查字段清单中所有字段后设置了类型,并且存在对应的value
 			Map<String, Document> fieldMaps = new HashMap<String, Document>();
 			for (Document doc : fieldLists) {
+				String filed = doc.getString("filed");
+				Object type = doc.get("type");
+				Object value = doc.get("value");
+				if (!filed.isEmpty()) {
+					if (fieldMaps.keySet().contains(filed)) {
+						errorSameField.add((String) doc.getOrDefault("filedName", doc.getString("filed")));
+						continue;
+					}
+					if (type == null) {
+						errorCompleteField.add((String) doc.getOrDefault("filedName", doc.getString("filed")));
+						continue;
+					}
+					if (value == null) {
+						errorCompleteField.add((String) doc.getOrDefault("filedName", doc.getString("filed")));
+						continue;
+					}
+					fieldMaps.put(filed, doc);
+				} else
+					nullField = true;
+			}
+
+			// 检查导出文档规则字段清单中，映射关系的字段是否全部在文档定义的编辑器字段列表中，不在则提示错误
+			for (Document doc : fieldMaps.values()) {
 				if (ExportDocRule.TYPE_FIELD_MAPPING.equals(doc.get("type"))) {
 					String fieldName = doc.getString("value");
 					if (!formDFieldMap.containsKey(fieldName)) {
-						errorField.add(doc.getString("filedName"));
+						errorField.add((String) doc.getOrDefault("filedName", doc.getString("filed")));
 					}
-
 				}
 				fieldMaps.put(doc.getString("filed"), doc);
 			}
@@ -763,6 +792,24 @@ public class SystemServiceImpl extends BasicServiceImpl implements SystemService
 			// 检查导出文件配置中的字段是否都在文档规则字段清单中
 			if (exportableForm != null)
 				checkExportableFields(fieldMaps, exportableForm.fields, errorExportableField);
+
+			if (nullField) {
+				Result r = Result.error("字段设置中存在未确定字段名的字段.");
+				r.setResultDate(new BasicDBObject("editorId", exportDocRule.getEditorId()).append("type", "nullField"));
+				result.add(r);
+			}
+
+			if (errorSameField.size() > 0) {
+				Result r = Result.error(Formatter.getString(errorSameField));
+				r.setResultDate(new BasicDBObject("editorId", exportDocRule.getEditorId()).append("type", "errorSameField"));
+				result.add(r);
+			}
+
+			if (errorCompleteField.size() > 0) {
+				Result r = Result.error(Formatter.getString(errorCompleteField));
+				r.setResultDate(new BasicDBObject("editorId", exportDocRule.getEditorId()).append("type", "errorCompleteField"));
+				result.add(r);
+			}
 
 			if (errorField.size() > 0) {
 				Result r = Result.error(Formatter.getString(errorField));

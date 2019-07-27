@@ -3,8 +3,6 @@ package com.bizvisionsoft.service.model;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import org.bson.types.ObjectId;
 
@@ -27,7 +25,7 @@ public class FormDef {
 	@Exclude
 	public static final String typeName = "表单定义";
 
-	@ImageURL("editorTypeId")
+	@ImageURL("editorId")
 	@Exclude
 	public static final String icon = "/img/form_c.svg";
 
@@ -45,35 +43,46 @@ public class FormDef {
 	private String name;
 
 	@ReadValue
-	private String editorTypeId;
+	@WriteValue
+	private String editorId;
 
 	@ReadValue
 	@WriteValue
 	private boolean activated;
 
+	@ReadValue()
+	private int vid;
+
 	private List<ObjectId> exportDocRule_ids;
+
+	private List<ObjectId> refDef_ids;
+
+	public boolean isActivated() {
+		return activated;
+	}
+
+	public void setActivated(boolean activated) {
+		this.activated = activated;
+	}
 
 	public List<ObjectId> getExportDocRule_ids() {
 		return exportDocRule_ids;
+	}
+
+	public List<ObjectId> getRefDef_ids() {
+		return refDef_ids;
 	}
 
 	public String getName() {
 		return name;
 	}
 
-	@WriteValue("editorTypeId")
-	public void setEditorTypeId(String editorTypeId) {
-		Pattern editorIdText = Pattern.compile("_(v|V)(.*?)(.editorassy)");
-		Matcher matcher = editorIdText.matcher(editorTypeId);
-		if (matcher.find()) {
-			this.editorTypeId = editorTypeId.replaceAll(matcher.group(), "");
-		} else {
-			this.editorTypeId = editorTypeId.replaceAll(".editorassy", "");
-		}
+	public String getEditorId() {
+		return editorId;
 	}
 
-	public String getEditorTypeId() {
-		return editorTypeId;
+	public void setVid(int vid) {
+		this.vid = vid;
 	}
 
 	@Structure("表单定义/list")
