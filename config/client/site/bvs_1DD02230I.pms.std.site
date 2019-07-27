@@ -1846,9 +1846,9 @@
                 "verticalSpan": 0
               },
               {
-                "name": "资料库",
-                "text": "资料库",
-                "switchContentToAssemblyId": "/vault/资料库.gridassy",
+                "name": "资料库设置",
+                "text": "资料库设置",
+                "switchContentToAssemblyId": "/vault/资料库设置.gridassy",
                 "type": "switch"
               },
               {

@@ -667,7 +667,7 @@ public interface CommonService {
 	@Path("/{domain}/container/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet({ "资料库/" + DataSet.LIST })
+	@DataSet({ "资料库设置/" + DataSet.LIST })
 	public List<VaultFolder> listContainer(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
 			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
@@ -675,7 +675,7 @@ public interface CommonService {
 	@Path("/{domain}/container/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet({ "资料库/" + DataSet.COUNT })
+	@DataSet({ "资料库设置/" + DataSet.COUNT })
 	public long countContainer(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
 			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
@@ -683,7 +683,7 @@ public interface CommonService {
 	@Path("/{domain}/container/_id/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet("资料库/" + DataSet.DELETE)
+	@DataSet("资料库设置/" + DataSet.DELETE)
 	public long deleteContainer(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id,
 			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
@@ -691,7 +691,7 @@ public interface CommonService {
 	@Path("/{domain}/container/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet("资料库/" + DataSet.UPDATE)
+	@DataSet("资料库设置/" + DataSet.UPDATE)
 	public long updateContainer(@MethodParam(MethodParam.FILTER_N_UPDATE) BasicDBObject filterAndUpdate,
 			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
@@ -699,7 +699,7 @@ public interface CommonService {
 	@Path("/{domain}/container/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet({ "资料库/" + DataSet.INSERT })
+	@DataSet({ "资料库设置/" + DataSet.INSERT })
 	public VaultFolder insertContainer(@MethodParam(MethodParam.OBJECT) VaultFolder vf,
 			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
@@ -717,7 +717,7 @@ public interface CommonService {
 	@Path("/{domain}/formDef/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet({ "表单定义/" + DataSet.LIST, "资料库表单定义/" + DataSet.LIST })
+	@DataSet("表单定义/" + DataSet.LIST)
 	public List<FormDef> listFormDef(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
 			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
@@ -725,8 +725,24 @@ public interface CommonService {
 	@Path("/{domain}/formDef/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet({ "表单定义/" + DataSet.COUNT, "资料库表单定义/" + DataSet.COUNT })
+	@DataSet("表单定义/" + DataSet.COUNT)
 	public long countFormDef(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+
+	@POST
+	@Path("/{domain}/containerFormDef/ds")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("资料库表单定义/" + DataSet.LIST)
+	public List<Document> listContainerFormDef(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+
+	@POST
+	@Path("/{domain}/containerFormDef/count")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("资料库表单定义/" + DataSet.COUNT)
+	public long countContainerFormDef(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
 			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST

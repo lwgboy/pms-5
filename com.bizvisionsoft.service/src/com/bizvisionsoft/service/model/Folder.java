@@ -181,11 +181,4 @@ public class Folder implements IFolder {
 			return this;
 		return root_id != null ? ServicesLoader.get(CommonService.class).getVaultFolder(root_id, domain) : null;
 	}
-
-	@Override
-	public List<FormDef> getContainerFormDefs() {
-		if (isflderroot)
-			return getFormDef();
-		return root_id != null ? ServicesLoader.get(CommonService.class).getVaultFolder(root_id, domain).getFormDef() : null;
-	}
 }

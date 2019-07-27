@@ -1862,7 +1862,7 @@
               {
                 "name": "资料库设置",
                 "text": "资料库设置",
-                "switchContentToAssemblyId": "/vault/资料库.gridassy",
+                "switchContentToAssemblyId": "/vault/资料库设置.gridassy",
                 "type": "switch"
               },
               {

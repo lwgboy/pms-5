@@ -124,7 +124,7 @@
           "type": "对象选择框",
           "formFields": [],
           "readOnly": true,
-          "selectorAssemblyId": "/vault/资料库.gridassy",
+          "selectorAssemblyId": "/vault/资料库设置.gridassy",
           "valueFieldName": "_id"
         }
       ]

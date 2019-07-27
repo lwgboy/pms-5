@@ -91,7 +91,7 @@ public class FolderInTemplate implements IFolder {
 				+ "<div style='flex:auto;'>" + name + "</div>" + "</div>";
 		return html;
 	}
-	
+
 	public String domain;
 
 	@Structure(DataSet.LIST)
@@ -138,10 +138,4 @@ public class FolderInTemplate implements IFolder {
 	public IFolder getContainer() {
 		return null;
 	}
-
-	@Override
-	public List<FormDef> getContainerFormDefs() {
-		return null;
-	}
-
 }

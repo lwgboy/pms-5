@@ -3,6 +3,7 @@ package com.bizvisionsoft.service.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bson.Document;
 import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.annotations.md.mongocodex.Exclude;
@@ -128,19 +129,19 @@ public class VaultFolder implements IFolder {
 	@ReadValue
 	@WriteValue
 	@Persistence
-	private List<ObjectId> formDef_id;
+	private List<String> formDefNames;
 
 	@WriteValue("formDef")
-	private void setFormDef(List<FormDef> org) {
-		formDef_id = new ArrayList<ObjectId>();
-		org.forEach(o -> formDef_id.add(o.get_id()));
+	private void setFormDef(List<Document> org) {
+		formDefNames = new ArrayList<String>();
+		org.forEach(o -> formDefNames.add(o.getString("name")));
 	}
 
 	@ReadValue("formDef")
-	public List<FormDef> getFormDef() {
-		if (formDef_id != null) {
-			return ServicesLoader.get(CommonService.class)
-					.listFormDef(new Query().filter(new BasicDBObject("_id", new BasicDBObject("$in", formDef_id))).bson(), domain);
+	public List<Document> getFormDef() {
+		if (formDefNames != null) {
+			return ServicesLoader.get(CommonService.class).listContainerFormDef(
+					new Query().filter(new BasicDBObject("name", new BasicDBObject("$in", formDefNames))).bson(), domain);
 		} else {
 			return new ArrayList<>();
 		}
@@ -265,13 +266,6 @@ public class VaultFolder implements IFolder {
 		if (isflderroot)
 			return this;
 		return root_id != null ? ServicesLoader.get(CommonService.class).getVaultFolder(root_id, domain) : null;
-	}
-
-	@Override
-	public List<FormDef> getContainerFormDefs() {
-		if (isflderroot)
-			return getFormDef();
-		return root_id != null ? ServicesLoader.get(CommonService.class).getVaultFolder(root_id, domain).getFormDef() : null;
 	}
 
 	public boolean isContainer() {

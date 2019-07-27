@@ -61,7 +61,7 @@
       ]
     },
     {
-      "name": "表单定义",
+      "name": "文档类型",
       "type": "标签页",
       "formFields": [
         {
@@ -71,6 +71,7 @@
           "formFields": [],
           "selectorAssemblyId": "/vault/资料库表单定义.gridassy",
           "grabVertical": true,
+          "valueFieldName": "",
           "hideLabel": true
         }
       ]

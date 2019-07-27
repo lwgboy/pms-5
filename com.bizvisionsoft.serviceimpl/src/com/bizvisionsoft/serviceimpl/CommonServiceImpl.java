@@ -854,6 +854,25 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 	}
 
 	@Override
+	public List<Document> listContainerFormDef(BasicDBObject condition, String domain) {
+		ArrayList<Document> into = new ArrayList<Document>();
+		c("formDef", domain).distinct("name",
+				Optional.ofNullable((BasicDBObject) condition.get("filter")).orElse(new BasicDBObject()).append("activated", true),
+				String.class).forEach((String s) -> {
+					into.add(new Document("name", s));
+				});
+
+		return into;
+	}
+
+	@Override
+	public long countContainerFormDef(BasicDBObject filter, String domain) {
+		return c("formDef", domain)
+				.distinct("name", Optional.ofNullable(filter).orElse(new BasicDBObject()).append("activated", true), String.class)
+				.into(new ArrayList<String>()).size();
+	}
+
+	@Override
 	public long deleteFormDef(ObjectId _id, String domain) {
 		Document doc = c("formDef", domain).find(new BasicDBObject("_id", _id)).first();
 		if (doc == null)
