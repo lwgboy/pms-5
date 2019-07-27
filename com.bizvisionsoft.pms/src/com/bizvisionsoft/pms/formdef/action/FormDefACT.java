@@ -1,11 +1,11 @@
 package com.bizvisionsoft.pms.formdef.action;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
 import org.eclipse.jface.dialogs.IDialogConstants;
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.nebula.jface.gridviewer.GridTreeViewer;
 import org.eclipse.swt.widgets.Event;
 
@@ -76,7 +76,7 @@ public class FormDefACT {
 				return;
 
 			if (!formDef.isActivated()) {
-
+				// TODO 单独方法
 				Assembly formDAssy = Model.getAssembly(formDef.getEditorId());
 				if (formDAssy == null) {
 					Layer.error("无法获取表单定义所选编辑器");
@@ -88,68 +88,102 @@ public class FormDefACT {
 				boolean error = false;
 				boolean warning = false;
 				List<Result> result = Services.get(SystemService.class).formDefCheck(formDFieldMap, formDef.get_id(), br.getDomain());
-				StringBuffer sb = new StringBuffer();
+				Map<String, String> map = new HashMap<String, String>();
 				for (Result r : result) {
 					BasicDBObject data = r.data;
 					switch (r.type) {
 					case Result.TYPE_ERROR:
 						error = true;
 						if ("nullField".equals(data.getString("type"))) {
-							sb.append("<span class='layui-badge'>错误</span>: ");
-							sb.append(data.getString("editorId"));
-							sb.append(" 编辑器  ");
-							sb.append(r.message);
-							sb.append("<br>");
+							String message = map.get("nullField");
+							if (message == null)
+								map.put("nullField", message);
+							else
+								message += ",";
+							message += data.getString("editorId");
 						} else if ("errorSameField".equals(data.getString("type"))) {
-							sb.append("<span class='layui-badge'>错误</span>: ");
-							sb.append(data.getString("editorId"));
-							sb.append(" 编辑器  ");
-							sb.append(r.message);
-							sb.append("以上字段在字段设置中重复.");
-							sb.append("<br>");
+							String message = map.get("errorSameField");
+							if (message == null)
+								map.put("errorSameField", message);
+							else
+								message += ",";
+							message += data.getString("editorId");
 						} else if ("errorCompleteField".equals(data.getString("type"))) {
-							sb.append("<span class='layui-badge'>错误</span>: ");
-							sb.append(data.getString("editorId"));
-							sb.append(" 编辑器  ");
-							sb.append(r.message);
-							sb.append("以上字段在字段设置未设置类型和值.");
-							sb.append("<br>");
+							String message = map.get("errorCompleteField");
+							if (message == null)
+								map.put("errorCompleteField", message);
+							else
+								message += ",";
+							message += data.getString("editorId");
 						} else if ("errorField".equals(data.getString("type"))) {
-							sb.append("<span class='layui-badge'>错误</span>: ");
-							sb.append(data.getString("editorId"));
-							sb.append(" 编辑器  ");
-							sb.append(r.message);
-							sb.append("字段未在表单中定义，无法导出文档.");
-							sb.append("<br>");
+							String message = map.get("errorField");
+							if (message == null)
+								map.put("errorField", message);
+							else
+								message += ",";
+							message += data.getString("editorId");
 						} else if ("errorExportableField".equals(data.getString("type"))) {
-							sb.append("<span class='layui-badge'>错误</span>: ");
-							sb.append(data.getString("editorId"));
-							sb.append(" 编辑器  ");
-							sb.append(r.message);
-							sb.append("字段无法导出到文件.");
-							sb.append("<br>");
+							String message = map.get("errorExportableField");
+							if (message == null)
+								map.put("errorExportableField", message);
+							else
+								message += ",";
+							message += data.getString("editorId");
 						}
+						break;
 					case Result.TYPE_WARNING:
 						warning = true;
-						sb.append("<span class='layui-badge layui-bg-blue'>警告</span>:");
-						sb.append(data.getString("editorId"));
-						sb.append(" 编辑器  ");
-						sb.append(r.message);
-						sb.append("表单中的字段未找到文档映射字段.");
-						sb.append("<br>");
+						String message = map.get("warning");
+						if (message == null)
+							map.put("errorExportableField", message);
+						else
+							message += ",";
+						message += data.getString("editorId");
+						break;
 					}
 				}
 				if (error) {
-					MessageDialog.openError(br.getCurrentShell(), "表单定义检查", sb.toString());
+					StringBuffer sb = new StringBuffer();
+					sb.append("<span class='layui-badge'>错误</span><br/>");
+					for (String key : map.keySet()) {
+						if ("nullField".equals(key)) {
+							sb.append("编辑器: ");
+							sb.append(map.get(key));
+							sb.append(" 字段设置中存在未确定字段名的字段.<br/>");
+						} else if ("errorSameField".equals(key)) {
+							sb.append("编辑器: ");
+							sb.append(map.get(key));
+							sb.append(" 存在重名的字段设置.<br/>");
+						} else if ("errorCompleteField".equals(key)) {
+							sb.append("编辑器: ");
+							sb.append(map.get(key));
+							sb.append(" 字段设置中存在未设置类型和值的字段.<br/>");
+						} else if ("errorField".equals(key)) {
+							sb.append("编辑器: ");
+							sb.append(map.get(key));
+							sb.append(" 字段设置中存在表单定义中没有的字段，无法导出文档.<br/>");
+						} else if ("errorExportableField".equals(key)) {
+							sb.append("编辑器: ");
+							sb.append(map.get(key));
+							sb.append(" 字段设置与导出配置不一致,无法导出到文件.<br/>");
+						}
+					}
+					br.error("表单定义检查", sb.toString());
 					return;
-				} else if (warning)
-					if (!MessageDialog.openQuestion(br.getCurrentShell(), "表单定义检查", sb.toString() + "<br>是否继续？"))
+				} else if (warning) {
+					StringBuffer sb = new StringBuffer();
+					sb.append("<span class='layui-badge layui-bg-blue'>警告</span><br/>编辑器: ");
+					sb.append(map.get("warning"));
+					sb.append(" 表单定义中的字段未找到文档映射字段.");
+					if (!br.confirm("表单定义检查", sb.toString() + "<br>是否继续？"))
 						return;
+				}
 			}
 			Services.get(CommonService.class).updateFormDef(new FilterAndUpdate().filter(new BasicDBObject("_id", formDef.get_id()))
 					.set(new BasicDBObject("activated", !formDef.isActivated())).bson(), br.getDomain());
 			formDef.setActivated(!formDef.isActivated());
 			viewer.update(formDef, null);
+			viewer.refresh(formDef);
 		}
 	}
 
@@ -157,6 +191,7 @@ public class FormDefACT {
 		if (element instanceof FormDef) {
 			Services.get(CommonService.class).upgradeFormDef(((FormDef) element).get_id(), br.getDomain());
 			((IQueryEnable) context.getContent()).doRefresh();
+			Layer.message("表单定义已升版。");
 		}
 	}
 
@@ -181,14 +216,18 @@ public class FormDefACT {
 	private void doDelete(Object element) {
 		String label = AUtil.readTypeAndLabel(element);
 		String message = Optional.ofNullable(label).map(m -> "请确认将要删除 " + m).orElse("请确认将要删除选择的记录。");
-		if (MessageDialog.openConfirm(br.getCurrentShell(), "删除", message)) {
-			if (element instanceof FormDef)
-				service.deleteFormDef(((FormDef) element).get_id(), br.getDomain());
-			else
-				service.deleteExportDocRule(((ExportDocRule) element).get_id(), br.getDomain());
+		if (br.confirm("删除", message)) {
+			try {
+				if (element instanceof FormDef)
+					service.deleteFormDef(((FormDef) element).get_id(), br.getDomain());
+				else
+					service.deleteExportDocRule(((ExportDocRule) element).get_id(), br.getDomain());
 
-			((IQueryEnable) context.getContent()).doRefresh();
-			Layer.message("已删除");
+				((IQueryEnable) context.getContent()).doRefresh();
+				Layer.message("已删除");
+			} catch (Exception e) {
+				Layer.error(e);
+			}
 		}
 	}
 
@@ -217,7 +256,7 @@ public class FormDefACT {
 	}
 
 	/**
-	 * 控制创建按钮能否编辑
+	 * 控制创建按钮
 	 * 
 	 * @param element
 	 * @return
@@ -226,4 +265,17 @@ public class FormDefACT {
 	private boolean enable(@MethodParam(Execute.CONTEXT_SELECTION_1ST) Object element) {
 		return element instanceof FormDef;
 	}
+
+	/**
+	 * 控制删除按钮
+	 * 
+	 * @param element
+	 * @return
+	 */
+	@Behavior({ "delete", "edit" })
+	private boolean enableActivated(@MethodParam(Execute.CONTEXT_SELECTION_1ST) Object element) {
+		return (element instanceof FormDef && !((FormDef) element).isActivated())
+				|| (element instanceof ExportDocRule && !((ExportDocRule) element).getFormDef().isActivated());
+	}
+
 }

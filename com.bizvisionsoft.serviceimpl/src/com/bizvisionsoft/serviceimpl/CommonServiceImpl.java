@@ -799,10 +799,16 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 
 	@Override
 	public long countContainer(BasicDBObject filter, String domain) {
-		filter = Optional.ofNullable(filter).orElse(new BasicDBObject());
-		filter.append("iscontainer", true);
+		ArrayList<Bson> pipeline = new ArrayList<Bson>();
+		pipeline.add(Aggregates.match(new BasicDBObject("iscontainer", true)));
+		pipeline.add(Aggregates.lookup("organization", "org_id", "_id", "_org"));
+		pipeline.add(Aggregates.addFields(new Field<String>("orgFullName", "$_org.fullName")));
+		pipeline.add(Aggregates.project(new BasicDBObject("_org", false)));//
 
-		return count(filter, VaultFolder.class, domain);
+		if (filter != null)
+			pipeline.add(Aggregates.match(filter));
+
+		return c(VaultFolder.class, domain).aggregate(pipeline).into(new ArrayList<>()).size();
 	}
 
 	@Override
@@ -830,6 +836,15 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 
 	@Override
 	public List<FormDef> listFormDef(BasicDBObject condition, String domain) {
+		BasicDBObject sort = new BasicDBObject();
+		sort.append("name", 1);
+		sort.append("vid", -1);
+
+		if (condition.get("sort") != null)
+			sort.putAll(((BasicDBObject) condition.get("sort")).toMap());
+
+		condition.put("sort", sort);
+
 		return createDataSet(condition, FormDef.class, domain);
 	}
 
@@ -846,7 +861,7 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 
 		// 检查表单定义是否启用,启用的表单定义不允许被删除
 		if (doc.getBoolean("activated", true))
-			throw new ServiceException("表单定义已启用,不允许无法删除.");
+			throw new ServiceException("表单定义已启用,不允许删除.");
 
 		// 检查表单定义是否被使用,被使用的表单定义不允许被删除
 		// TODO docu增加formDef_id索引
@@ -871,7 +886,8 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 
 	@Override
 	public FormDef insertFormDef(FormDef formDef, String domain) {
-		// TODO 检查重名
+		if (c(FormDef.class, domain).countDocuments(new BasicDBObject("name", formDef.getName())) > 0)
+			throw new ServiceException("表单定义重名.");
 
 		return insert(formDef, FormDef.class, domain);
 	}
@@ -887,11 +903,13 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 		if (formDefDoc == null)
 			throw new ServiceException("表单定义已被删除，无法升版.");
 
+		// TODO
 		long l = c("formDef", domain).countDocuments(new BasicDBObject("name", formDefDoc.get("name")));
 		// 设置新表单定义的_id和版本号
 		ObjectId formDef_id = new ObjectId();
 		formDefDoc.put("_id", formDef_id);
 		formDefDoc.put("vid", l);
+		formDefDoc.put("activated", false);
 
 		// 复制文档导出规则
 		List<Document> exportDocRuleDoc = new ArrayList<Document>();
@@ -939,6 +957,7 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 		Integer limit = (Integer) condition.get("limit");
 		BasicDBObject filter = (BasicDBObject) condition.get("filter");
 		BasicDBObject sort = (BasicDBObject) condition.get("sort");
+
 		return query(c -> {
 			c.add(Aggregates.lookup("formDef", "_id", "exportDocRule_ids", "formDef"));
 			c.add(Aggregates.unwind("$formDef"));
@@ -967,7 +986,13 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 
 	@Override
 	public long deleteExportDocRule(ObjectId _id, String domain) {
+		Document doc = c("formDef", domain).find(new BasicDBObject("exportDocRule_ids", _id)).first();
+		// 检查表单定义是否启用,启用的表单定义不允许被删除
+		if (doc.getBoolean("activated", true))
+			throw new ServiceException("表单定义已启用,不允许删除.");
+
 		// TODO 删除时检查是否被使用
+
 		return delete(_id, ExportDocRule.class, domain);
 	}
 
