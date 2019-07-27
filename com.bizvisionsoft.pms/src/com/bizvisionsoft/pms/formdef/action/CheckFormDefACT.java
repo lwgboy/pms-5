@@ -1,5 +1,6 @@
 package com.bizvisionsoft.pms.formdef.action;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -35,37 +36,103 @@ public class CheckFormDefACT {
 
 			Map<String, String> formDFieldMap = ModelLoader.getEditorAssemblyFieldNameMap(formDAssy);
 
+			boolean error = false;
+			boolean warning = false;
 			List<Result> result = Services.get(SystemService.class).formDefCheck(formDFieldMap, formDef.get_id(), br.getDomain());
-			String content = result.stream().map(r -> {
+			Map<String, String> map = new HashMap<String, String>();
+			for (Result r : result) {
 				BasicDBObject data = r.data;
 				switch (r.type) {
 				case Result.TYPE_ERROR:
+					error = true;
 					if ("nullField".equals(data.getString("type"))) {
-						return "<span class='layui-badge'>错误</span>: " + data.getString("editorId") + " 编辑器  " + r.message + "<br>";
+						String message = map.get("nullField");
+						if (message == null)
+							map.put("nullField", message);
+						else
+							message += ",";
+						message += data.getString("editorId");
 					} else if ("errorSameField".equals(data.getString("type"))) {
-						return "<span class='layui-badge'>错误</span>: " + data.getString("editorId") + " 编辑器  " + r.message + "以上字段在字段设置中重复."
-								+ "<br>";
+						String message = map.get("errorSameField");
+						if (message == null)
+							map.put("errorSameField", message);
+						else
+							message += ",";
+						message += data.getString("editorId");
+						// sb.append(" 编辑器存在重名的字段设置");
 					} else if ("errorCompleteField".equals(data.getString("type"))) {
-						return "<span class='layui-badge'>错误</span>: " + data.getString("editorId") + " 编辑器  " + r.message
-								+ "以上字段在字段设置未设置类型和值." + "<br>";
+						String message = map.get("errorCompleteField");
+						if (message == null)
+							map.put("errorCompleteField", message);
+						else
+							message += ",";
+						message += data.getString("editorId");
+						// sb.append(" 编辑器字段设置中存在未设置类型和值的字段");
 					} else if ("errorField".equals(data.getString("type"))) {
-						return "<span class='layui-badge'>错误</span>: " + data.getString("editorId") + " 编辑器  " + r.message
-								+ "字段未在表单中定义，无法导出文档." + "<br>";
+						String message = map.get("errorField");
+						if (message == null)
+							map.put("errorField", message);
+						else
+							message += ",";
+						message += data.getString("editorId");
+						// sb.append(" 编辑器字段设置中存在表单定义中没有的字段，无法导出文档.");
 					} else if ("errorExportableField".equals(data.getString("type"))) {
-						return "<span class='layui-badge'>错误</span>: " + data.getString("editorId") + " 编辑器  " + r.message + "字段无法导出到文件."
-								+ "<br>";
+						String message = map.get("errorExportableField");
+						if (message == null)
+							map.put("errorExportableField", message);
+						else
+							message += ",";
+						message += data.getString("editorId");
+						// sb.append(" 编辑器字段设置与导出配置不一致,无法导出到文件.");
 					}
+					break;
 				case Result.TYPE_WARNING:
-					return "<span class='layui-badge layui-bg-blue'>警告</span>:" + data.getString("editorId") + " 编辑器  " + r.message
-							+ "表单中的字段未找到文档映射字段." + "<br>";
+					warning = true;
+					String message = map.get("warning");
+					if (message == null)
+						map.put("errorExportableField", message);
+					else
+						message += ",";
+					message += data.getString("editorId");
+					break;
 				}
-				return "";
-			}).reduce(String::concat).orElse(null);
-			if (content != null) {
-				Layer.alert("表单定义检查", content, 600, 400, false);
-			} else {
-				Layer.message("已通过检查。");
 			}
+			if (error) {
+				StringBuffer sb = new StringBuffer();
+				sb.append("<span class='layui-badge'>错误</span><br/>");
+				for (String key : map.keySet()) {
+					if ("nullField".equals(key)) {
+						sb.append("编辑器: ");
+						sb.append(map.get(key));
+						sb.append(" 字段设置中存在未确定字段名的字段.<br/>");
+					} else if ("errorSameField".equals(key)) {
+						sb.append("编辑器: ");
+						sb.append(map.get(key));
+						sb.append(" 存在重名的字段设置.<br/>");
+					} else if ("errorCompleteField".equals(key)) {
+						sb.append("编辑器: ");
+						sb.append(map.get(key));
+						sb.append(" 字段设置中存在未设置类型和值的字段.<br/>");
+					} else if ("errorField".equals(key)) {
+						sb.append("编辑器: ");
+						sb.append(map.get(key));
+						sb.append(" 字段设置中存在表单定义中没有的字段，无法导出文档.<br/>");
+					} else if ("errorExportableField".equals(key)) {
+						sb.append("编辑器: ");
+						sb.append(map.get(key));
+						sb.append(" 字段设置与导出配置不一致,无法导出到文件.<br/>");
+					}
+				}
+				br.error("表单定义检查", sb.toString());
+				return;
+			} else if (warning) {
+				StringBuffer sb = new StringBuffer();
+				sb.append("<span class='layui-badge layui-bg-blue'>警告</span><br/>编辑器: ");
+				sb.append(map.get("warning"));
+				sb.append(" 表单定义中的字段未找到文档映射字段.");
+				Layer.message("表单定义检查", sb.toString());
+			} else
+				Layer.message("已通过检查。");
 		}
 	}
 }

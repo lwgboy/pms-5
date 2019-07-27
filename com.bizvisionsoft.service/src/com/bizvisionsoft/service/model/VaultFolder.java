@@ -45,8 +45,7 @@ public class VaultFolder implements IFolder {
 
 	@ReadValue
 	@WriteValue
-	@Persistence("desc")
-	private String name;
+	private String desc;
 
 	@ReadValue
 	@WriteValue
@@ -171,7 +170,7 @@ public class VaultFolder implements IFolder {
 			iconUrl = "rwt-resources/extres/img/folder_closed.svg";
 		}
 		String html = "<div class='brui_ly_hline'>" + "<img src=" + iconUrl + " style='margin-right:8px;' width='20px' height='20px'/>"
-				+ "<div style='flex:auto;'>" + name + "</div>"
+				+ "<div style='flex:auto;'>" + desc + "</div>"
 				+ "<a href='open/' target='_rwt' style='margin-right:8px;'><i class='layui-icon layui-btn layui-btn-primary layui-btn-xs' style='cursor:pointer;'>&#xe671;</i></a>"
 				+ "</div>";
 		return html;
@@ -188,7 +187,7 @@ public class VaultFolder implements IFolder {
 			iconUrl = "rwt-resources/extres/img/folder_closed.svg";
 		}
 		String html = "<div class='brui_ly_hline'>" + "<img src=" + iconUrl + " style='margin-right:8px;' width='20px' height='20px'/>"
-				+ "<div style='flex:auto;'>" + name + "</div>" + "</div>";
+				+ "<div style='flex:auto;'>" + desc + "</div>" + "</div>";
 		return html;
 	}
 
@@ -206,7 +205,7 @@ public class VaultFolder implements IFolder {
 	@Override
 	@Label
 	public String toString() {
-		return name;
+		return desc;
 	}
 
 	public String domain;
@@ -221,12 +220,12 @@ public class VaultFolder implements IFolder {
 		this._id = _id;
 	}
 
-	public String getName() {
-		return name;
+	public String getDesc() {
+		return desc;
 	}
 
-	public VaultFolder setName(String name) {
-		this.name = name;
+	public VaultFolder setDesc(String desc) {
+		this.desc = desc;
 		return this;
 	}
 
@@ -296,6 +295,17 @@ public class VaultFolder implements IFolder {
 		folder.set_id(new ObjectId());
 		folder.domain = domain;
 		return folder;
+	}
+
+	@Override
+	public IFolder setName(String name) {
+		this.desc = name;
+		return this;
+	}
+
+	@Override
+	public String getName() {
+		return desc;
 	}
 
 }

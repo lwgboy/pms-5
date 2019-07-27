@@ -61,6 +61,19 @@
       "text": "文档类型名称",
       "type": "文本输入框（查询）",
       "formFields": []
+    },
+    {
+      "name": "vid",
+      "text": "版本号",
+      "type": "文本输入框（查询）",
+      "formFields": [],
+      "textQueryType": "数值"
+    },
+    {
+      "name": "activated",
+      "text": "启用",
+      "type": "复选框（查询）",
+      "formFields": []
     }
   ],
   "gridAutoColumnWidth": true,
@@ -127,6 +140,7 @@
       "style": "normal",
       "editorAssemblyId": "/vault/表单定义编辑器.editorassy",
       "editorAssemblyEditable": true,
+      "actionBehavier": true,
       "type": "customized",
       "verticalSpan": 0
     },
@@ -138,6 +152,7 @@
       "bundleId": "com.bizvisionsoft.pms",
       "className": "com.bizvisionsoft.pms.formdef.action.FormDefACT",
       "style": "warning",
+      "actionBehavier": true,
       "type": "customized",
       "verticalSpan": 0
     }

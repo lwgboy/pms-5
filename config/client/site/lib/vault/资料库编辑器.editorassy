@@ -12,7 +12,7 @@
       "formFields": [
         {
           "id": "162bd1ff051",
-          "name": "name",
+          "name": "desc",
           "text": "名称",
           "type": "单行文本框",
           "formFields": [],

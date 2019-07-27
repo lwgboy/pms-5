@@ -14,10 +14,10 @@
   "columns": [
     {
       "id": "162bd1ccbe0",
-      "name": "name",
-      "text": "名称",
+      "name": "desc",
+      "text": "资料库名称",
       "alignment": 16384,
-      "width": 80,
+      "width": 320,
       "resizeable": true,
       "columns": []
     },
@@ -25,15 +25,39 @@
       "name": "type",
       "text": "资料库类型",
       "alignment": 16384,
-      "width": 80,
+      "width": 100,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "name": "description",
+      "text": "说明",
+      "alignment": 16384,
+      "width": 320,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "name": "orgFullName",
+      "text": "组织",
+      "alignment": 16384,
+      "width": 320,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "name": "defaultquery",
+      "text": "所有用户可查询",
+      "alignment": 16384,
+      "width": 100,
       "resizeable": true,
       "columns": []
     }
   ],
   "fields": [
     {
-      "name": "name",
-      "text": "名称",
+      "name": "desc",
+      "text": "资料库名称",
       "type": "文本输入框（查询）",
       "formFields": []
     },
@@ -47,8 +71,14 @@
     },
     {
       "name": "orgFullName",
-      "text": "组织所有者",
+      "text": "组织名称",
       "type": "文本输入框（查询）",
+      "formFields": []
+    },
+    {
+      "name": "defaultquery",
+      "text": "所有用户可查询",
+      "type": "复选框（查询）",
       "formFields": []
     }
   ],
@@ -96,5 +126,18 @@
   ],
   "hasTitlebar": true,
   "disableInitLoadData": false,
-  "sortFields": []
+  "sortFields": [
+    {
+      "name": "desc",
+      "text": "资料库名称",
+      "type": "排序字段",
+      "formFields": []
+    },
+    {
+      "name": "type",
+      "text": "资料库类型",
+      "type": "排序字段",
+      "formFields": []
+    }
+  ]
 }
