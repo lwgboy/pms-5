@@ -68,6 +68,7 @@ public class FormDefACT {
 		else if ("activate".equals(a.getName()) || "activate".equals(e.text))
 			doActivate(element);
 	}
+	
 
 	private void doActivate(Object element) {
 		if (element instanceof FormDef) {
