@@ -140,7 +140,7 @@ public class VaultFolder implements IFolder {
 	@ReadValue("formDef")
 	public List<Document> getFormDef() {
 		if (formDefNames != null) {
-			return ServicesLoader.get(CommonService.class).listContainerFormDef(
+			return ServicesLoader.get(CommonService.class).listNameOfFormDef(
 					new Query().filter(new BasicDBObject("name", new BasicDBObject("$in", formDefNames))).bson(), domain);
 		} else {
 			return new ArrayList<>();

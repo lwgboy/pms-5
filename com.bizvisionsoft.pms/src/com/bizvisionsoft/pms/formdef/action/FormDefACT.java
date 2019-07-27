@@ -1,8 +1,5 @@
 package com.bizvisionsoft.pms.formdef.action;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 import org.eclipse.jface.dialogs.IDialogConstants;
@@ -16,22 +13,18 @@ import com.bizvisionsoft.annotations.ui.common.Execute;
 import com.bizvisionsoft.annotations.ui.common.Init;
 import com.bizvisionsoft.annotations.ui.common.Inject;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
-import com.bizvisionsoft.bruicommons.ModelLoader;
 import com.bizvisionsoft.bruicommons.model.Action;
-import com.bizvisionsoft.bruicommons.model.Assembly;
 import com.bizvisionsoft.bruiengine.assembly.IQueryEnable;
 import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
-import com.bizvisionsoft.bruiengine.service.Model;
 import com.bizvisionsoft.bruiengine.ui.Editor;
 import com.bizvisionsoft.mongocodex.tools.BsonTools;
 import com.bizvisionsoft.pms.formdef.EditExportDocRuleDialog;
+import com.bizvisionsoft.pms.formdef.FormDefTools;
 import com.bizvisionsoft.service.CommonService;
-import com.bizvisionsoft.service.SystemService;
 import com.bizvisionsoft.service.datatools.FilterAndUpdate;
 import com.bizvisionsoft.service.model.ExportDocRule;
 import com.bizvisionsoft.service.model.FormDef;
-import com.bizvisionsoft.service.model.Result;
 import com.bizvisionsoft.serviceconsumer.Services;
 import com.mongodb.BasicDBObject;
 
@@ -67,8 +60,21 @@ public class FormDefACT {
 			doUpgrade(element);
 		else if ("activate".equals(a.getName()) || "activate".equals(e.text))
 			doActivate(element);
+		else if ("inactivate".equals(a.getName()) || "inactivate".equals(e.text))
+			doInactivate(element);
 	}
-	
+
+	private void doInactivate(Object element) {
+		if (element instanceof FormDef) {
+			FormDef formDef = (FormDef) element;
+			if (formDef.get_id() == null)
+				return;
+			Services.get(CommonService.class).updateFormDef(new FilterAndUpdate().filter(new BasicDBObject("_id", formDef.get_id()))
+					.set(new BasicDBObject("activated", false)).bson(), br.getDomain());
+			formDef.setActivated(false);
+			viewer.refresh(formDef);
+		}
+	}
 
 	private void doActivate(Object element) {
 		if (element instanceof FormDef) {
@@ -76,122 +82,20 @@ public class FormDefACT {
 			if (formDef.get_id() == null)
 				return;
 
-			if (!formDef.isActivated()) {
-				// TODO 单独方法
-				Assembly formDAssy = Model.getAssembly(formDef.getEditorId());
-				if (formDAssy == null) {
-					Layer.error("无法获取表单定义所选编辑器");
-					return;
-				}
-
-				Map<String, String> formDFieldMap = ModelLoader.getEditorAssemblyFieldNameMap(formDAssy);
-
-				boolean error = false;
-				boolean warning = false;
-				List<Result> result = Services.get(SystemService.class).formDefCheck(formDFieldMap, formDef.get_id(), br.getDomain());
-				Map<String, String> map = new HashMap<String, String>();
-				for (Result r : result) {
-					BasicDBObject data = r.data;
-					switch (r.type) {
-					case Result.TYPE_ERROR:
-						error = true;
-						if ("nullField".equals(data.getString("type"))) {
-							String message = map.get("nullField");
-							if (message == null)
-								map.put("nullField", message);
-							else
-								message += ",";
-							message += data.getString("editorId");
-						} else if ("errorSameField".equals(data.getString("type"))) {
-							String message = map.get("errorSameField");
-							if (message == null)
-								map.put("errorSameField", message);
-							else
-								message += ",";
-							message += data.getString("editorId");
-						} else if ("errorCompleteField".equals(data.getString("type"))) {
-							String message = map.get("errorCompleteField");
-							if (message == null)
-								map.put("errorCompleteField", message);
-							else
-								message += ",";
-							message += data.getString("editorId");
-						} else if ("errorField".equals(data.getString("type"))) {
-							String message = map.get("errorField");
-							if (message == null)
-								map.put("errorField", message);
-							else
-								message += ",";
-							message += data.getString("editorId");
-						} else if ("errorExportableField".equals(data.getString("type"))) {
-							String message = map.get("errorExportableField");
-							if (message == null)
-								map.put("errorExportableField", message);
-							else
-								message += ",";
-							message += data.getString("editorId");
-						}
-						break;
-					case Result.TYPE_WARNING:
-						warning = true;
-						String message = map.get("warning");
-						if (message == null)
-							map.put("errorExportableField", message);
-						else
-							message += ",";
-						message += data.getString("editorId");
-						break;
-					}
-				}
-				if (error) {
-					StringBuffer sb = new StringBuffer();
-					sb.append("<span class='layui-badge'>错误</span><br/>");
-					for (String key : map.keySet()) {
-						if ("nullField".equals(key)) {
-							sb.append("编辑器: ");
-							sb.append(map.get(key));
-							sb.append(" 字段设置中存在未确定字段名的字段.<br/>");
-						} else if ("errorSameField".equals(key)) {
-							sb.append("编辑器: ");
-							sb.append(map.get(key));
-							sb.append(" 存在重名的字段设置.<br/>");
-						} else if ("errorCompleteField".equals(key)) {
-							sb.append("编辑器: ");
-							sb.append(map.get(key));
-							sb.append(" 字段设置中存在未设置类型和值的字段.<br/>");
-						} else if ("errorField".equals(key)) {
-							sb.append("编辑器: ");
-							sb.append(map.get(key));
-							sb.append(" 字段设置中存在表单定义中没有的字段，无法导出文档.<br/>");
-						} else if ("errorExportableField".equals(key)) {
-							sb.append("编辑器: ");
-							sb.append(map.get(key));
-							sb.append(" 字段设置与导出配置不一致,无法导出到文件.<br/>");
-						}
-					}
-					br.error("表单定义检查", sb.toString());
-					return;
-				} else if (warning) {
-					StringBuffer sb = new StringBuffer();
-					sb.append("<span class='layui-badge layui-bg-blue'>警告</span><br/>编辑器: ");
-					sb.append(map.get("warning"));
-					sb.append(" 表单定义中的字段未找到文档映射字段.");
-					if (!br.confirm("表单定义检查", sb.toString() + "<br>是否继续？"))
-						return;
-				}
+			if (FormDefTools.checkFormDef(br, formDef)) {
+				Services.get(CommonService.class).updateFormDef(new FilterAndUpdate().filter(new BasicDBObject("_id", formDef.get_id()))
+						.set(new BasicDBObject("activated", true)).bson(), br.getDomain());
+				formDef.setActivated(true);
+				viewer.update(formDef, null);
+				viewer.refresh(formDef);
 			}
-			Services.get(CommonService.class).updateFormDef(new FilterAndUpdate().filter(new BasicDBObject("_id", formDef.get_id()))
-					.set(new BasicDBObject("activated", !formDef.isActivated())).bson(), br.getDomain());
-			formDef.setActivated(!formDef.isActivated());
-			viewer.update(formDef, null);
-			viewer.refresh(formDef);
 		}
 	}
 
 	private void doUpgrade(Object element) {
 		if (element instanceof FormDef) {
-			Services.get(CommonService.class).upgradeFormDef(((FormDef) element).get_id(), br.getDomain());
-			((IQueryEnable) context.getContent()).doRefresh();
+			FormDef formDef = Services.get(CommonService.class).upgradeFormDef(((FormDef) element).get_id(), br.getDomain());
+			viewer.refresh(formDef);
 			Layer.message("表单定义已升版。");
 		}
 	}
@@ -202,7 +106,7 @@ public class FormDefACT {
 	 * @param element
 	 */
 	private void doCreate(Object element) {
-		EditExportDocRuleDialog dialog = EditExportDocRuleDialog.create(context, ((FormDef) element).newSubItem());
+		EditExportDocRuleDialog dialog = EditExportDocRuleDialog.create(context, ((FormDef) element).newSubItem(), br);
 		if (IDialogConstants.OK_ID == dialog.open()) {
 			service.insertExportDocRule(dialog.getExportDocRule(), br.getDomain());
 			((IQueryEnable) context.getContent()).doRefresh();
@@ -245,7 +149,7 @@ public class FormDefACT {
 				viewer.update(AUtil.simpleCopy(d, element), null);
 			});
 		else if (element instanceof ExportDocRule) {
-			EditExportDocRuleDialog dialog = EditExportDocRuleDialog.create(context, (ExportDocRule) element);
+			EditExportDocRuleDialog dialog = EditExportDocRuleDialog.create(context, (ExportDocRule) element, br);
 			if (IDialogConstants.OK_ID == dialog.open()) {
 				ExportDocRule exportDocRule = dialog.getExportDocRule();
 				service.updateExportDocRule(new FilterAndUpdate().filter(new BasicDBObject("_id", ((ExportDocRule) element).get_id()))
@@ -262,9 +166,31 @@ public class FormDefACT {
 	 * @param element
 	 * @return
 	 */
-	@Behavior({ "create", "upgrade", "activate" })
+	@Behavior({ "create", "upgrade" })
 	private boolean enable(@MethodParam(Execute.CONTEXT_SELECTION_1ST) Object element) {
 		return element instanceof FormDef;
+	}
+
+	/**
+	 * 控制创建按钮
+	 * 
+	 * @param element
+	 * @return
+	 */
+	@Behavior("activate")
+	private boolean enableActivate(@MethodParam(Execute.CONTEXT_SELECTION_1ST) Object element) {
+		return element instanceof FormDef && !Boolean.TRUE.equals(((FormDef) element).isActivated());
+	}
+
+	/**
+	 * 控制创建按钮
+	 * 
+	 * @param element
+	 * @return
+	 */
+	@Behavior("inactivate")
+	private boolean enableInactivate(@MethodParam(Execute.CONTEXT_SELECTION_1ST) Object element) {
+		return element instanceof FormDef && Boolean.TRUE.equals(((FormDef) element).isActivated());
 	}
 
 	/**

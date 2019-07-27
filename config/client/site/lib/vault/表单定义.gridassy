@@ -10,6 +10,7 @@
   "gridHeaderVisiable": true,
   "gridHasHScroll": true,
   "gridHasVScroll": true,
+  "gridPageControl": true,
   "gridDataSetService": "com.bizvisionsoft.service.CommonService",
   "columns": [
     {
@@ -94,20 +95,6 @@
   ],
   "rowActions": [
     {
-      "id": "f62bd541aff",
-      "name": "create",
-      "text": "创建下级",
-      "image": "/img/add_16_w.svg",
-      "bundleId": "com.bizvisionsoft.pms",
-      "className": "com.bizvisionsoft.pms.formdef.action.FormDefACT",
-      "style": "normal",
-      "editorAssemblyId": "/vault/文档导出规则编辑器.editorassy",
-      "actionBehavier": true,
-      "type": "customized",
-      "createActionNewInstanceBundleId": "com.bizvisionsoft.service",
-      "createActionNewInstanceClassName": "com.bizvisionsoft.service.model.ExportDocRule"
-    },
-    {
       "id": "e62bd541aff",
       "name": "upgrade",
       "text": "升版",
@@ -122,13 +109,37 @@
     {
       "id": "d62bd541aff",
       "name": "activate",
-      "text": "启用/停用",
+      "text": "启",
       "bundleId": "com.bizvisionsoft.pms",
       "className": "com.bizvisionsoft.pms.formdef.action.FormDefACT",
       "forceText": true,
       "style": "normal",
       "actionBehavier": true,
       "type": "customized"
+    },
+    {
+      "id": "d62bd741aff",
+      "name": "inactivate",
+      "text": "停",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.formdef.action.FormDefACT",
+      "style": "normal",
+      "actionBehavier": true,
+      "type": "customized"
+    },
+    {
+      "id": "f62bd541aff",
+      "name": "create",
+      "text": "创建下级",
+      "image": "/img/add_16_w.svg",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.formdef.action.FormDefACT",
+      "style": "normal",
+      "editorAssemblyId": "/vault/文档导出规则编辑器.editorassy",
+      "actionBehavier": true,
+      "type": "customized",
+      "createActionNewInstanceBundleId": "com.bizvisionsoft.service",
+      "createActionNewInstanceClassName": "com.bizvisionsoft.service.model.ExportDocRule"
     },
     {
       "id": "162bd541af5",
