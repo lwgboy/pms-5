@@ -125,7 +125,7 @@ public class FormDef {
 		for (String fieldName : formDFieldNames) {
 			String text = formDFieldMap.get(fieldName);
 			Result r = Result.warning((text != null ? text : "") + "[" + fieldName + "]");
-			r.setResultDate(new BasicDBObject("editorId", getEditorId()).append("type", "warningField"));
+			r.setResultDate(new BasicDBObject("editorId", editorId).append("type", "warningField"));
 			results.add(r);
 		}
 

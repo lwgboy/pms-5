@@ -46,7 +46,7 @@ public class FormDefTools {
 		boolean error = false;
 		boolean warning = false;
 		Map<String, String> map = new HashMap<String, String>();
-		for (Result r : result) {//循环检查结果
+		for (Result r : result) {// 循环检查结果
 			BasicDBObject data = r.data;
 			switch (r.type) {
 			case Result.TYPE_ERROR:
@@ -54,48 +54,54 @@ public class FormDefTools {
 				if ("nullField".equals(data.getString("type"))) {
 					String message = map.get("nullField");
 					if (message == null)
-						map.put("nullField", message);
+						message = "";
 					else
 						message += ",";
 					message += data.getString("editorId");
+					map.put("nullField", message);
 				} else if ("errorSameField".equals(data.getString("type"))) {
 					String message = map.get("errorSameField");
 					if (message == null)
-						map.put("errorSameField", message);
+						message = "";
 					else
 						message += ",";
 					message += data.getString("editorId");
+					map.put("errorSameField", message);
 				} else if ("errorCompleteField".equals(data.getString("type"))) {
 					String message = map.get("errorCompleteField");
 					if (message == null)
-						map.put("errorCompleteField", message);
+						message = "";
 					else
 						message += ",";
 					message += data.getString("editorId");
+					map.put("errorCompleteField", message);
 				} else if ("errorField".equals(data.getString("type"))) {
 					String message = map.get("errorField");
 					if (message == null)
-						map.put("errorField", message);
+						message = "";
 					else
 						message += ",";
 					message += data.getString("editorId");
+					map.put("errorField", message);
 				} else if ("errorExportableField".equals(data.getString("type"))) {
 					String message = map.get("errorExportableField");
 					if (message == null)
-						map.put("errorExportableField", message);
+						message = "";
 					else
 						message += ",";
 					message += data.getString("editorId");
+					map.put("errorExportableField", message);
 				}
 				break;
 			case Result.TYPE_WARNING:
 				warning = true;
 				String message = map.get("warning");
 				if (message == null)
-					map.put("errorExportableField", message);
+					message = "";
 				else
 					message += ",";
 				message += data.getString("editorId");
+				map.put("errorExportableField", message);
 				break;
 			}
 		}

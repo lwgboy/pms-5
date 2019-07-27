@@ -135,19 +135,19 @@ public class ExportDocRule {
 			if (Check.isAssigned(field)) {
 				if (exportDocRuleFields.contains(field)) {// 判断当前字段是否重复
 					Result result = Result.error((String) doc.getOrDefault("fieldName", doc.getString("field")));
-					result.setResultDate(new BasicDBObject("editorId", getEditorId()).append("type", "errorSameField"));
+					result.setResultDate(new BasicDBObject("editorId", editorId).append("type", "errorSameField"));
 					results.add(result);
 					continue;
 				}
 				if (type == null || value == null) {// 判断字段类型和值是否为null
 					Result result = Result.error((String) doc.getOrDefault("fieldName", doc.getString("field")));
-					result.setResultDate(new BasicDBObject("editorId", getEditorId()).append("type", "errorCompleteField"));
+					result.setResultDate(new BasicDBObject("editorId", editorId).append("type", "errorCompleteField"));
 					results.add(result);
 					continue;
 				}
 				if (TYPE_FIELD_MAPPING.equals(type) && !formDFieldMap.containsKey(value)) {// 判断“映射”类型字段所选的值是否在表单定义的字段列表中
 					Result result = Result.error((String) doc.getOrDefault("fieldName", doc.getString("field")));
-					result.setResultDate(new BasicDBObject("editorId", getEditorId()).append("type", "errorField"));
+					result.setResultDate(new BasicDBObject("editorId", editorId).append("type", "errorField"));
 					results.add(result);
 				}
 				exportDocRuleFields.add(field);
@@ -160,7 +160,7 @@ public class ExportDocRule {
 
 		if (nullField) {
 			Result result = Result.error("字段设置中存在未确定字段名的字段.");
-			result.setResultDate(new BasicDBObject("editorId", getEditorId()).append("type", "nullField"));
+			result.setResultDate(new BasicDBObject("editorId", editorId).append("type", "nullField"));
 			results.add(result);
 		}
 		return results;
@@ -177,7 +177,7 @@ public class ExportDocRule {
 					if (!fields.contains(name)) {
 						String text = field.text;
 						Result r = Result.error((text != null ? text : "") + "[" + name + "]");
-						r.setResultDate(new BasicDBObject("editorId", getEditorId()).append("type", "errorExportableField"));
+						r.setResultDate(new BasicDBObject("editorId", editorId).append("type", "errorExportableField"));
 						results.add(r);
 					}
 
