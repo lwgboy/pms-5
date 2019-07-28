@@ -43,7 +43,7 @@ public class FormDefTools {
 
 	private static boolean showResult(IBruiService br, List<Result> results, String title, String message) {
 		
-		//TODO 弹出提示
+		//TODO 修改弹出提示
 		InformationDialog.openConfirm(br.getCurrentShell(), title, message, results);
 
 		// boolean error = false;
