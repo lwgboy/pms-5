@@ -62,6 +62,8 @@ public class Result {
 	public static final int CODE_NOT_ALLOWED = 0x9003;
 
 	public int code;
+	
+	public String name;
 
 	public String message;
 
@@ -232,13 +234,13 @@ public class Result {
 	@ImageURL()
 	public String getImage() {
 		if (type == Result.TYPE_QUESTION) {
-			return "/img/form_c.svg";
+			return "/img/question_c.svg";
 		} else if (type == Result.TYPE_ERROR) {
-			return "/img/form_c.svg";
+			return "/img/error_c.svg";
 		} else if (type == Result.TYPE_WARNING) {
-			return "/img/form_c.svg";
+			return "/img/warning_c.svg";
 		} else if (type == Result.TYPE_INFO) {
-			return "/img/form_c.svg";
+			return "/img/info_c.svg";
 		}
 		return "";
 	}
