@@ -139,12 +139,6 @@ public class ExportDocRule {
 					results.add(result);
 					continue;
 				}
-				if (type == null || value == null) {// 判断字段类型和值是否为null
-					Result result = Result.error((String) doc.getOrDefault("fieldName", doc.getString("field")));
-					result.setResultDate(new BasicDBObject("editorId", editorId).append("type", "errorCompleteField"));
-					results.add(result);
-					continue;
-				}
 				if (TYPE_FIELD_MAPPING.equals(type) && !formDFieldMap.containsKey(value)) {// 判断“映射”类型字段所选的值是否在表单定义的字段列表中
 					Result result = Result.error((String) doc.getOrDefault("fieldName", doc.getString("field")));
 					result.setResultDate(new BasicDBObject("editorId", editorId).append("type", "errorField"));

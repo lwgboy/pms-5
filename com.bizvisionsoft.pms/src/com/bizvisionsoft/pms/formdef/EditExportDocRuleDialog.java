@@ -741,13 +741,17 @@ public class EditExportDocRuleDialog extends Dialog {
 	protected void buttonPressed(int buttonId) {
 		if (buttonId == IDialogConstants.OK_ID) {
 
+			List<Document> fieldMap = (List<Document>) viewer.getInput();
+			if (Check.isAssigned(fieldMap)) {
+				if (!checkAndSetFieldMap(fieldMap)) {
+					Layer.error("字段设置为录入完整。");
+					return;
+				}
+			}
+
 			String editorId = selectionField.getText();
 			if (editorId != null)
 				exportDocRule.setEditorId(editorId);
-
-			List<Document> fieldMap = (List<Document>) viewer.getInput();
-			if (Check.isAssigned(fieldMap))
-				exportDocRule.setFieldMap(fieldMap);
 
 			String postProc2 = postProc.getText();
 			if (postProc2 != null)
@@ -757,6 +761,26 @@ public class EditExportDocRuleDialog extends Dialog {
 			checkExportDocRule();
 		}
 		super.buttonPressed(buttonId);
+	}
+
+	private boolean checkAndSetFieldMap(List<Document> fieldMap) {
+		for (Document doc : fieldMap) {
+			String field = doc.getString("field");
+			Object type = doc.get("type");
+			Object value = doc.get("value");
+			if (Check.isAssigned(field)) {
+				if (field == null || type == null || value == null) {// 判断字段名、字段类型和值是否为null
+					viewer.editElement(doc, 1);
+					return false;
+				}
+			} else {
+				viewer.editElement(doc, 1);
+				return false;
+			}
+		}
+
+		exportDocRule.setFieldMap(fieldMap);
+		return true;
 	}
 
 	private void checkExportDocRule() {

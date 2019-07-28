@@ -17,7 +17,7 @@ public class Result {
 	public static final int CODE_SUCCESS = 900;
 
 	public static final int CODE_USER_TERMINATE = 901;
-	
+
 	public static final int CODE_USER_IGNORED = 904;
 
 	public static final int CODE_CBS_DEFF_BUDGET = 903;
@@ -221,6 +221,22 @@ public class Result {
 		Result result = info("忽略");
 		result.code = CODE_USER_IGNORED;
 		return result;
+	}
+
+	@Override
+	public String toString() {
+		StringBuffer sb = new StringBuffer();
+		if (type == Result.TYPE_QUESTION) {
+			sb.append("[询问]");
+		} else if (type == Result.TYPE_ERROR) {
+			sb.append("[错误]");
+		} else if (type == Result.TYPE_WARNING) {
+			sb.append("[警告]");
+		} else if (type == Result.TYPE_INFO) {
+			sb.append("[消息]");
+		}
+		sb.append(message);
+		return sb.toString();
 	}
 
 }

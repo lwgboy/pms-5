@@ -110,7 +110,7 @@ public class FormDefACT {
 		EditExportDocRuleDialog dialog = EditExportDocRuleDialog.create(context, ((FormDef) element).newSubItem(), br);
 		if (IDialogConstants.OK_ID == dialog.open()) {
 			service.insertExportDocRule(dialog.getExportDocRule(), br.getDomain());
-			((IQueryEnable) context.getContent()).doRefresh();
+			viewer.refresh(element);
 		}
 	}
 
@@ -124,11 +124,12 @@ public class FormDefACT {
 		String message = Optional.ofNullable(label).map(m -> "请确认将要删除 " + m).orElse("请确认将要删除选择的记录。");
 		if (br.confirm("删除", message)) {
 			try {
-				if (element instanceof FormDef)
+				if (element instanceof FormDef) {
 					service.deleteFormDef(((FormDef) element).get_id(), br.getDomain());
-				else
+					viewer.remove(element);
+				} else {
 					service.deleteExportDocRule(((ExportDocRule) element).get_id(), br.getDomain());
-
+				}
 				((IQueryEnable) context.getContent()).doRefresh();
 				Layer.message("已删除");
 			} catch (Exception e) {
