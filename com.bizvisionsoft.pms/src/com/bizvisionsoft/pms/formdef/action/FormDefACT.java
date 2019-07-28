@@ -70,7 +70,7 @@ public class FormDefACT {
 			if (formDef.get_id() == null)
 				return;
 
-			if (br.confirm("删除", "请确认将要删除 " + formDef.getName())) {
+			if (br.confirm("停用", "请确认要停用 表单定义： " + formDef.getName())) {
 				Services.get(CommonService.class).updateFormDef(new FilterAndUpdate().filter(new BasicDBObject("_id", formDef.get_id()))
 						.set(new BasicDBObject("activated", false)).bson(), br.getDomain());
 				formDef.setActivated(false);
