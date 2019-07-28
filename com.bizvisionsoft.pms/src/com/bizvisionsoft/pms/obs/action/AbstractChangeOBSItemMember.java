@@ -4,9 +4,11 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.bson.types.ObjectId;
+import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialog;
 
 import com.bizvisionsoft.bruiengine.service.IBruiService;
+import com.bizvisionsoft.bruiengine.ui.InformationDialog;
 import com.bizvisionsoft.service.OBSService;
 import com.bizvisionsoft.service.WorkService;
 import com.bizvisionsoft.service.model.OBSItem;
@@ -20,24 +22,21 @@ public abstract class AbstractChangeOBSItemMember {
 		String type = obsItem.isRole() ? "角色" : "团队";
 		boolean hasError = false;
 		boolean hasWarning = false;
-		String message = "";
 		if (!result.isEmpty()) {
 			for (Result r : result)
 				if (Result.TYPE_ERROR == r.type) {
-					message = "<span class='layui-badge'>错误</span> " + type + ": " + obsItem + " 的成员有工作需要移交，请移交后再进行删除。";
 					hasError = true;
 					break;
 				} else if (Result.TYPE_WARNING == r.type) {
-					message = "<span class='layui-badge layui-bg-orange'>警告</span> 从项目组中移除: " + obsItem + " 。将取消该" + type + "所有成员的工作任命。";
 					hasWarning = true;
 					break;
 				}
 		}
 		if (hasError) {
-			MessageDialog.openError(br.getCurrentShell(), "删除" + type, message);
+			InformationDialog.openInfo(br.getCurrentShell(), "删除" + type, "删除" + type, result);
 			return false;
 		} else if (hasWarning) {
-			if (!MessageDialog.openQuestion(br.getCurrentShell(), "删除" + type, message + "<br>是否继续？"))
+			if (IDialogConstants.OK_ID != InformationDialog.openConfirm(br.getCurrentShell(), "删除" + type, "删除" + type, result))
 				return false;
 			else {
 				Services.get(OBSService.class).removeUnStartWorkUser(obsItem, br.getCurrentUserId(), br.getDomain());
@@ -66,10 +65,10 @@ public abstract class AbstractChangeOBSItemMember {
 		}
 		if (!message.isEmpty()) {
 			if (hasError) {
-				MessageDialog.openError(br.getCurrentShell(), title, message);
+				MessageDialog.openError(br.getCurrentShell(), title, message + " 存在以下问题需要解决。");
 				return false;
 			} else if (hasWarning) {
-				if (!MessageDialog.openQuestion(br.getCurrentShell(), title, message + "<br>是否继续？"))
+				if (!MessageDialog.openQuestion(br.getCurrentShell(), title, message + "指定担任者存在以下问题。<br>是否继续？"))
 					return false;
 				else
 					Services.get(WorkService.class).removeUnStartWorkUser(Arrays.asList(userId), scope_id, br.getCurrentUserId(),

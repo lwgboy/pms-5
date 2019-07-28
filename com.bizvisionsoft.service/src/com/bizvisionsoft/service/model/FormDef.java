@@ -124,7 +124,7 @@ public class FormDef {
 		// 检查formDef
 		for (String fieldName : formDFieldNames) {
 			String text = formDFieldMap.get(fieldName);
-			Result r = Result.warning((text != null ? text : "") + "[" + fieldName + "]");
+			Result r = Result.warning("表单定义中，字段 " + (text != null ? text : "") + "[" + fieldName + "] 没有完全映射到文档。");
 			r.setResultDate(new BasicDBObject("editorId", editorId).append("type", "warningField"));
 			results.add(r);
 		}

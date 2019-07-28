@@ -743,10 +743,8 @@ public class EditExportDocRuleDialog extends Dialog {
 
 			List<Document> fieldMap = (List<Document>) viewer.getInput();
 			if (Check.isAssigned(fieldMap)) {
-				if (!checkAndSetFieldMap(fieldMap)) {
-					Layer.error("字段设置为录入完整。");
+				if (!checkAndSetFieldMap(fieldMap))
 					return;
-				}
 			}
 
 			String editorId = selectionField.getText();
@@ -764,6 +762,7 @@ public class EditExportDocRuleDialog extends Dialog {
 	}
 
 	private boolean checkAndSetFieldMap(List<Document> fieldMap) {
+		List<String> exportDocRuleFields = new ArrayList<String>();
 		for (Document doc : fieldMap) {
 			String field = doc.getString("field");
 			Object type = doc.get("type");
@@ -771,12 +770,20 @@ public class EditExportDocRuleDialog extends Dialog {
 			if (Check.isAssigned(field)) {
 				if (field == null || type == null || value == null) {// 判断字段名、字段类型和值是否为null
 					viewer.editElement(doc, 1);
+					Layer.error("字段设置未录入完整。");
 					return false;
 				}
 			} else {
 				viewer.editElement(doc, 1);
+				Layer.error("字段设置未录入完整。");
 				return false;
 			}
+			if (exportDocRuleFields.contains(field)) {// 判断当前字段是否重复
+				viewer.editElement(doc, 1);
+				Layer.error("字段名重复，请重新录入。");
+				return false;
+			}
+			exportDocRuleFields.add(field);
 		}
 
 		exportDocRule.setFieldMap(fieldMap);
