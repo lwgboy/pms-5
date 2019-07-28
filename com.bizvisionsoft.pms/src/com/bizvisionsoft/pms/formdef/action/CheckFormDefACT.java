@@ -18,7 +18,8 @@ public class CheckFormDefACT {
 			if (formDef.get_id() == null)
 				return;
 
-			FormDefTools.checkFormDef(br, formDef);
+			FormDefTools.checkFormDef(br, formDef, "表单定义检查", "表单定义存在以下问题，这些问题将造成其无法启用。", //
+					"表单定义存在以下问题，这些问题需要进行确认。");
 		}
 	}
 }

@@ -85,7 +85,8 @@ public class FormDefACT {
 			if (formDef.get_id() == null)
 				return;
 
-			if (FormDefTools.checkFormDef(br, formDef)) {
+			if (FormDefTools.checkFormDef(br, formDef, "表单定义检查", "表单定义存在以下问题，这些问题将造成表单定义无法启用。", //
+					"文档导出规则存在以下问题，是否继续？")) {
 				Services.get(CommonService.class).updateFormDef(new FilterAndUpdate().filter(new BasicDBObject("_id", formDef.get_id()))
 						.set(new BasicDBObject("activated", true)).bson(), br.getDomain());
 				formDef.setActivated(true);
