@@ -5,4 +5,5 @@ import com.bizvisionsoft.annotations.md.mongocodex.PersistenceCollection;
 @PersistenceCollection("refDef")
 public class RefDef {
 
+
 }

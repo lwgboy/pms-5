@@ -926,16 +926,16 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 		// TODO
 
 		Document vidDoc = c("formDef", domain)
-				.aggregate(Arrays.asList(Aggregates.match(new BasicDBObject("name", formDefDoc.get("name"))), Aggregates
-						.group(new BasicDBObject("_id", "$name"), Arrays.asList(new BsonField("value", new BasicDBObject("$max", "$vid"))))))
+				.aggregate(Arrays.asList(Aggregates.match(new BasicDBObject("name", formDefDoc.get("name"))), Aggregates.group(
+						new BasicDBObject("_id", "$name"), Arrays.asList(new BsonField("value", new BasicDBObject("$max", "$vid"))))))
 				.first();
 
-//		Integer l = vidDoc.get("value",-1);
-		int l = vidDoc.getInteger("value", -1);
+		int version = Optional.ofNullable((Number) vidDoc.get("value")).map(i -> i.intValue()+1).orElse(0);
+
 		// 设置新表单定义的_id和版本号
 		ObjectId formDef_id = new ObjectId();
 		formDefDoc.put("_id", formDef_id);
-		formDefDoc.put("vid", l + 1);
+		formDefDoc.put("vid", version);
 		formDefDoc.put("activated", false);
 
 		// 复制文档导出规则
