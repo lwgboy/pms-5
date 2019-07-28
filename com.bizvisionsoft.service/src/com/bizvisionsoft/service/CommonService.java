@@ -734,7 +734,7 @@ public interface CommonService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("资料库表单定义/" + DataSet.LIST)
-	public List<Document> listContainerFormDef(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
+	public List<Document> listNameOfFormDef(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
 			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
@@ -742,7 +742,7 @@ public interface CommonService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("资料库表单定义/" + DataSet.COUNT)
-	public long countContainerFormDef(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
+	public long countNameOfFormDef(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
 			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST

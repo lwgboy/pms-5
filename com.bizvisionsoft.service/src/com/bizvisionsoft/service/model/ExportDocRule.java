@@ -1,6 +1,8 @@
 package com.bizvisionsoft.service.model;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.bson.Document;
 import org.bson.types.ObjectId;
@@ -13,6 +15,9 @@ import com.bizvisionsoft.annotations.md.service.Label;
 import com.bizvisionsoft.annotations.md.service.ReadValue;
 import com.bizvisionsoft.annotations.md.service.WriteValue;
 import com.bizvisionsoft.service.exporter.ExportableForm;
+import com.bizvisionsoft.service.exporter.ExportableFormField;
+import com.bizvisionsoft.service.tools.Check;
+import com.mongodb.BasicDBObject;
 
 @PersistenceCollection("exportDocRule")
 public class ExportDocRule {
@@ -113,6 +118,71 @@ public class ExportDocRule {
 
 	public void setPostProc(String postProc) {
 		this.postProc = postProc;
+	}
+
+	public List<Result> check(Map<String, String> formDFieldMap) {
+		return check(formDFieldMap, new ArrayList<String>());
+	}
+
+	public List<Result> check(Map<String, String> formDFieldMap, List<String> exportDocRuleFields) {
+		boolean nullField = false;
+		List<Result> results = new ArrayList<Result>();
+
+		for (Document doc : getFieldMap()) {
+			String field = doc.getString("field");
+			Object type = doc.get("type");
+			Object value = doc.get("value");
+			if (Check.isAssigned(field)) {
+				if (exportDocRuleFields.contains(field)) {// 判断当前字段是否重复
+					Result result = Result.error((String) doc.getOrDefault("fieldName", doc.getString("field")));
+					result.setResultDate(new BasicDBObject("editorId", editorId).append("type", "errorSameField"));
+					results.add(result);
+					continue;
+				}
+				if (type == null || value == null) {// 判断字段类型和值是否为null
+					Result result = Result.error((String) doc.getOrDefault("fieldName", doc.getString("field")));
+					result.setResultDate(new BasicDBObject("editorId", editorId).append("type", "errorCompleteField"));
+					results.add(result);
+					continue;
+				}
+				if (TYPE_FIELD_MAPPING.equals(type) && !formDFieldMap.containsKey(value)) {// 判断“映射”类型字段所选的值是否在表单定义的字段列表中
+					Result result = Result.error((String) doc.getOrDefault("fieldName", doc.getString("field")));
+					result.setResultDate(new BasicDBObject("editorId", editorId).append("type", "errorField"));
+					results.add(result);
+				}
+				exportDocRuleFields.add(field);
+			} else
+				nullField = true;
+		}
+
+		if (exportableForm != null)
+			checkExportableFields(exportDocRuleFields, exportableForm.fields, results);
+
+		if (nullField) {
+			Result result = Result.error("字段设置中存在未确定字段名的字段.");
+			result.setResultDate(new BasicDBObject("editorId", editorId).append("type", "nullField"));
+			results.add(result);
+		}
+		return results;
+	}
+
+	private void checkExportableFields(List<String> fields, List<ExportableFormField> exportableFields, List<Result> results) {
+		if (Check.isAssigned(exportableFields))
+			for (ExportableFormField field : exportableFields) {
+				String type = field.type;
+				if (ExportableFormField.TYPE_PAGE.equals(type) || ExportableFormField.TYPE_INLINE.equals(type)) {
+					checkExportableFields(fields, field.formFields, results);
+				} else if (!ExportableFormField.TYPE_BANNER.equals(type)) {// 去除掉横幅字段
+					String name = field.name;
+					if (!fields.contains(name)) {
+						String text = field.text;
+						Result r = Result.error((text != null ? text : "") + "[" + name + "]");
+						r.setResultDate(new BasicDBObject("editorId", editorId).append("type", "errorExportableField"));
+						results.add(r);
+					}
+
+				}
+			}
 	}
 
 }

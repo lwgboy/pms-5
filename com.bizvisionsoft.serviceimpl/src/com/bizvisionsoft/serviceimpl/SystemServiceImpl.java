@@ -5,10 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -19,21 +16,15 @@ import org.bson.Document;
 import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 
-import com.bizvisionsoft.mongocodex.tools.BsonTools;
 import com.bizvisionsoft.service.SystemService;
 import com.bizvisionsoft.service.ValueRule;
 import com.bizvisionsoft.service.ValueRuleSegment;
 import com.bizvisionsoft.service.common.Domain;
 import com.bizvisionsoft.service.common.JQ;
 import com.bizvisionsoft.service.common.Service;
-import com.bizvisionsoft.service.exporter.ExportableForm;
-import com.bizvisionsoft.service.exporter.ExportableFormField;
 import com.bizvisionsoft.service.model.Backup;
 import com.bizvisionsoft.service.model.DomainRequest;
-import com.bizvisionsoft.service.model.ExportDocRule;
-import com.bizvisionsoft.service.model.Result;
 import com.bizvisionsoft.service.model.ServerInfo;
-import com.bizvisionsoft.service.tools.Check;
 import com.bizvisionsoft.service.tools.FileTools;
 import com.bizvisionsoft.service.tools.Formatter;
 import com.bizvisionsoft.serviceimpl.commons.EmailClient;
@@ -727,131 +718,5 @@ public class SystemServiceImpl extends BasicServiceImpl implements SystemService
 		if (matcher.find())
 			return editorId.replaceAll(matcher.group(), "");
 		return editorId.replaceAll(".editorassy", "");
-	}
-
-	@Override
-	public List<Result> formDefCheck(Map<String, String> formDFieldMap, ObjectId formDef_id, String domain) {
-		List<Result> result = new ArrayList<Result>();
-		Document formDef = c("formDef", domain).find(new BasicDBObject("_id", formDef_id))
-				.projection(new BasicDBObject("exportDocRule_ids", 1)).first();
-		if (formDef != null && formDef.get("exportDocRule_ids")!= null)
-			c("formDef", domain).aggregate(Domain.getJQ(domain, "查询-文档导出规则-表单定义").set("_id", formDef_id).array(),ExportDocRule.class)
-					.forEach((ExportDocRule exportDocRule) -> {
-
-						List<String> errorSameField = new ArrayList<String>();
-						List<String> errorCompleteField = new ArrayList<String>();
-						List<String> errorField = new ArrayList<String>();
-						List<String> errorExportableField = new ArrayList<String>();
-						List<String> warningField = new ArrayList<String>();
-						boolean nullField = false;
-
-						List<Document> fieldLists = exportDocRule.getFieldMap();
-						ExportableForm exportableForm = exportDocRule.getExportableForm();
-
-						// 检查字段清单中是否重复字段名的字段
-						// 检查和字段清单中的字段名是否设置了值
-						// 检查字段清单中所有字段后设置了类型,并且存在对应的value
-						Map<String, Document> fieldMaps = new HashMap<String, Document>();
-						for (Document doc : fieldLists) {
-							String filed = doc.getString("filed");
-							Object type = doc.get("type");
-							Object value = doc.get("value");
-							if (!filed.isEmpty()) {
-								if (fieldMaps.keySet().contains(filed)) {
-									errorSameField.add((String) doc.getOrDefault("filedName", doc.getString("filed")));
-									continue;
-								}
-								if (type == null) {
-									errorCompleteField.add((String) doc.getOrDefault("filedName", doc.getString("filed")));
-									continue;
-								}
-								if (value == null) {
-									errorCompleteField.add((String) doc.getOrDefault("filedName", doc.getString("filed")));
-									continue;
-								}
-								fieldMaps.put(filed, doc);
-							} else
-								nullField = true;
-						}
-
-						// 检查导出文档规则字段清单中，映射关系的字段是否全部在文档定义的编辑器字段列表中，不在则提示错误
-						for (Document doc : fieldMaps.values()) {
-							if (ExportDocRule.TYPE_FIELD_MAPPING.equals(doc.get("type"))) {
-								String fieldName = doc.getString("value");
-								if (!formDFieldMap.containsKey(fieldName)) {
-									errorField.add((String) doc.getOrDefault("filedName", doc.getString("filed")));
-								}
-							}
-							fieldMaps.put(doc.getString("filed"), doc);
-						}
-						Set<String> formDFieldNames = formDFieldMap.keySet();
-						formDFieldNames.removeAll(fieldMaps.keySet());
-						for (String fieldName : formDFieldNames) {
-							String text = formDFieldMap.get(fieldName);
-							warningField.add((text != null ? text : "") + "[" + fieldName + "]");
-						}
-
-						// 检查导出文件配置中的字段是否都在文档规则字段清单中
-						if (exportableForm != null)
-							checkExportableFields(fieldMaps, exportableForm.fields, errorExportableField);
-
-						if (nullField) {
-							Result r = Result.error("字段设置中存在未确定字段名的字段.");
-							r.setResultDate(new BasicDBObject("editorId", exportDocRule.getEditorId()).append("type", "nullField"));
-							result.add(r);
-						}
-
-						if (errorSameField.size() > 0) {
-							Result r = Result.error(Formatter.getString(errorSameField));
-							r.setResultDate(new BasicDBObject("editorId", exportDocRule.getEditorId()).append("type", "errorSameField"));
-							result.add(r);
-						}
-
-						if (errorCompleteField.size() > 0) {
-							Result r = Result.error(Formatter.getString(errorCompleteField));
-							r.setResultDate(
-									new BasicDBObject("editorId", exportDocRule.getEditorId()).append("type", "errorCompleteField"));
-							result.add(r);
-						}
-
-						if (errorField.size() > 0) {
-							Result r = Result.error(Formatter.getString(errorField));
-							r.setResultDate(new BasicDBObject("editorId", exportDocRule.getEditorId()).append("type", "errorField"));
-							result.add(r);
-						}
-
-						if (errorExportableField.size() > 0) {
-							Result r = Result.error(Formatter.getString(errorExportableField));
-							r.setResultDate(
-									new BasicDBObject("editorId", exportDocRule.getEditorId()).append("type", "errorExportableField"));
-							result.add(r);
-						}
-
-						if (warningField.size() > 0) {
-							Result r = Result.warning(Formatter.getString(warningField));
-							r.setResultDate(new BasicDBObject("editorId", exportDocRule.getEditorId()).append("type", "warningField"));
-							result.add(r);
-						}
-					});
-
-		return result;
-	}
-
-	private void checkExportableFields(Map<String, Document> fieldMaps, List<ExportableFormField> exportableFields,
-			List<String> errorField) {
-		if (Check.isAssigned(exportableFields))
-			for (ExportableFormField field : exportableFields) {
-				String type = field.type;
-				if ("标签页".equals(type) || "行".equals(type)) {
-					checkExportableFields(fieldMaps, field.formFields, errorField);
-				} else if (!"横幅".equals(type)) {// 去除掉横幅字段
-					String name = field.name;
-					if (!fieldMaps.containsKey(name)) {
-						String text = field.text;
-						errorField.add((text != null ? text : "") + "[" + name + "]");
-					}
-
-				}
-			}
 	}
 }

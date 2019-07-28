@@ -2,7 +2,9 @@ package com.bizvisionsoft.service.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
 import org.bson.types.ObjectId;
 
@@ -16,6 +18,7 @@ import com.bizvisionsoft.annotations.md.service.WriteValue;
 import com.bizvisionsoft.service.CommonService;
 import com.bizvisionsoft.service.ServicesLoader;
 import com.bizvisionsoft.service.datatools.Query;
+import com.bizvisionsoft.service.tools.Check;
 import com.mongodb.BasicDBObject;
 
 @PersistenceCollection("formDef")
@@ -104,6 +107,34 @@ public class FormDef {
 		edr.domain = domain;
 		edr.setFormDef(this);
 		return edr;
+	}
+
+	public List<Result> check(Map<String, String> formDFieldMap) {
+		List<Result> results = new ArrayList<Result>();
+		List<String> exportDocRuleFields = new ArrayList<String>();
+		Set<String> formDFieldNames = formDFieldMap.keySet();
+		// ºÏ≤ÈExportDocRule
+		if (Check.isAssigned(exportDocRule_ids)) {
+			List<ExportDocRule> exportDocRules = listExportDocRule();
+			exportDocRules.forEach(exportDocRule -> {
+				results.addAll(exportDocRule.check(formDFieldMap, exportDocRuleFields));
+				formDFieldNames.removeAll(exportDocRuleFields);
+			});
+		}
+		// ºÏ≤ÈformDef
+		for (String fieldName : formDFieldNames) {
+			String text = formDFieldMap.get(fieldName);
+			Result r = Result.warning((text != null ? text : "") + "[" + fieldName + "]");
+			r.setResultDate(new BasicDBObject("editorId", editorId).append("type", "warningField"));
+			results.add(r);
+		}
+
+		// TODO ºÏ≤ÈRefDef
+		if (Check.isAssigned(refDef_ids)) {
+
+		}
+
+		return results;
 	}
 
 }
