@@ -11,6 +11,7 @@ import java.util.Optional;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
+import org.hibernate.hql.internal.ast.tree.AggregatedSelectExpression;
 
 import com.bizvisionsoft.service.CommonService;
 import com.bizvisionsoft.service.datatools.FilterAndUpdate;
@@ -39,6 +40,7 @@ import com.bizvisionsoft.serviceimpl.renderer.MessageRenderer;
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Aggregates;
+import com.mongodb.client.model.BsonField;
 import com.mongodb.client.model.Field;
 
 public class CommonServiceImpl extends BasicServiceImpl implements CommonService {
@@ -908,7 +910,6 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 		if (count(new BasicDBObject("name", formDef.getName()), FormDef.class, domain) > 0)
 			throw new ServiceException("表单定义重名。");
 
-		
 		return insert(formDef, FormDef.class, domain);
 	}
 
@@ -924,11 +925,17 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 			throw new ServiceException("表单定义已被删除，无法升版。");
 
 		// TODO
-		long l = c("formDef", domain).countDocuments(new BasicDBObject("name", formDefDoc.get("name")));
+
+		Document vidDoc = c("formDef", domain)
+				.aggregate(Arrays.asList(Aggregates.match(new BasicDBObject("name", formDefDoc.get("name"))), Aggregates
+						.group(new BasicDBObject("_id", "$name"), Arrays.asList(new BsonField("value", new BasicDBObject("$max", "$vid"))))))
+				.first();
+
+		int l = vidDoc.getInteger("value", -1);
 		// 设置新表单定义的_id和版本号
 		ObjectId formDef_id = new ObjectId();
 		formDefDoc.put("_id", formDef_id);
-		formDefDoc.put("vid", l);
+		formDefDoc.put("vid", l + 1);
 		formDefDoc.put("activated", false);
 
 		// 复制文档导出规则
