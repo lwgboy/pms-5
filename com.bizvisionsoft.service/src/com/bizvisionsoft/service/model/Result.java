@@ -227,14 +227,18 @@ public class Result {
 	public String toString() {
 		StringBuffer sb = new StringBuffer();
 		if (type == Result.TYPE_QUESTION) {
-			sb.append("[询问]");
+			sb.append("[消息] ");
 		} else if (type == Result.TYPE_ERROR) {
-			sb.append("[错误]");
+			sb.append("[错误] ");
 		} else if (type == Result.TYPE_WARNING) {
-			sb.append("[警告]");
+			sb.append("[警告] ");
 		} else if (type == Result.TYPE_INFO) {
-			sb.append("[消息]");
+			sb.append("[消息] ");
 		}
+		sb.append("代码： ");
+		sb.append(code);
+
+		sb.append(" ");
 		sb.append(message);
 		return sb.toString();
 	}
