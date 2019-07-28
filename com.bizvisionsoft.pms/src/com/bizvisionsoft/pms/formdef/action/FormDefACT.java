@@ -69,10 +69,13 @@ public class FormDefACT {
 			FormDef formDef = (FormDef) element;
 			if (formDef.get_id() == null)
 				return;
-			Services.get(CommonService.class).updateFormDef(new FilterAndUpdate().filter(new BasicDBObject("_id", formDef.get_id()))
-					.set(new BasicDBObject("activated", false)).bson(), br.getDomain());
-			formDef.setActivated(false);
-			viewer.refresh(formDef);
+
+			if (br.confirm("删除", "请确认将要删除 " + formDef.getName())) {
+				Services.get(CommonService.class).updateFormDef(new FilterAndUpdate().filter(new BasicDBObject("_id", formDef.get_id()))
+						.set(new BasicDBObject("activated", false)).bson(), br.getDomain());
+				formDef.setActivated(false);
+				viewer.refresh(formDef);
+			}
 		}
 	}
 
@@ -163,13 +166,13 @@ public class FormDefACT {
 	}
 
 	/**
-	 * 控制创建按钮
+	 * 控制升版按钮
 	 * 
 	 * @param element
 	 * @return
 	 */
-	@Behavior({ "create", "upgrade" })
-	private boolean enable(@MethodParam(Execute.CONTEXT_SELECTION_1ST) Object element) {
+	@Behavior("upgrade")
+	private boolean enableUpgrade(@MethodParam(Execute.CONTEXT_SELECTION_1ST) Object element) {
 		return element instanceof FormDef;
 	}
 
@@ -179,7 +182,7 @@ public class FormDefACT {
 	 * @param element
 	 * @return
 	 */
-	@Behavior("activate")
+	@Behavior({ "create", "activate" })
 	private boolean enableActivate(@MethodParam(Execute.CONTEXT_SELECTION_1ST) Object element) {
 		return element instanceof FormDef && !Boolean.TRUE.equals(((FormDef) element).isActivated());
 	}

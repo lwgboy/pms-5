@@ -62,8 +62,6 @@ public class Result {
 	public static final int CODE_NOT_ALLOWED = 0x9003;
 
 	public int code;
-	
-	public String name;
 
 	public String message;
 

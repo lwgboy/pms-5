@@ -123,7 +123,7 @@
       "text": "ͣ",
       "bundleId": "com.bizvisionsoft.pms",
       "className": "com.bizvisionsoft.pms.formdef.action.FormDefACT",
-      "style": "normal",
+      "style": "serious",
       "actionBehavier": true,
       "type": "customized"
     },
