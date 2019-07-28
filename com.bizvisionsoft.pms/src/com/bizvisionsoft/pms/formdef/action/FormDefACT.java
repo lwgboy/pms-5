@@ -95,7 +95,8 @@ public class FormDefACT {
 	private void doUpgrade(Object element) {
 		if (element instanceof FormDef) {
 			FormDef formDef = Services.get(CommonService.class).upgradeFormDef(((FormDef) element).get_id(), br.getDomain());
-			viewer.refresh(formDef);
+			viewer.insert(viewer.getInput(), formDef, 0);
+			viewer.expandToLevel(formDef, 1);
 			Layer.message("表单定义已升版。");
 		}
 	}
