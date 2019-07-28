@@ -735,10 +735,8 @@ public class SystemServiceImpl extends BasicServiceImpl implements SystemService
 		Document formDef = c("formDef", domain).find(new BasicDBObject("_id", formDef_id))
 				.projection(new BasicDBObject("exportDocRule_ids", 1)).first();
 		if (formDef != null && formDef.get("exportDocRule_ids")!= null)
-			c("formDef", domain).aggregate(Domain.getJQ(domain, "查询-文档导出规则-表单定义").set("_id", formDef_id).array())
-					.forEach((Document docs) -> {
-						ExportDocRule exportDocRule = new ExportDocRule();
-						BsonTools.decodeDocument(docs, exportDocRule);
+			c("formDef", domain).aggregate(Domain.getJQ(domain, "查询-文档导出规则-表单定义").set("_id", formDef_id).array(),ExportDocRule.class)
+					.forEach((ExportDocRule exportDocRule) -> {
 
 						List<String> errorSameField = new ArrayList<String>();
 						List<String> errorCompleteField = new ArrayList<String>();
