@@ -11,7 +11,6 @@ import java.util.Optional;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
-import org.hibernate.hql.internal.ast.tree.AggregatedSelectExpression;
 
 import com.bizvisionsoft.service.CommonService;
 import com.bizvisionsoft.service.datatools.FilterAndUpdate;
@@ -931,6 +930,7 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 						.group(new BasicDBObject("_id", "$name"), Arrays.asList(new BsonField("value", new BasicDBObject("$max", "$vid"))))))
 				.first();
 
+//		Integer l = vidDoc.get("value",-1);
 		int l = vidDoc.getInteger("value", -1);
 		// 设置新表单定义的_id和版本号
 		ObjectId formDef_id = new ObjectId();

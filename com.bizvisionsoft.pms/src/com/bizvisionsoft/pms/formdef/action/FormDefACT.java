@@ -14,6 +14,7 @@ import com.bizvisionsoft.annotations.ui.common.Init;
 import com.bizvisionsoft.annotations.ui.common.Inject;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.bruicommons.model.Action;
+import com.bizvisionsoft.bruiengine.assembly.GridPart;
 import com.bizvisionsoft.bruiengine.assembly.IQueryEnable;
 import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
@@ -95,6 +96,7 @@ public class FormDefACT {
 	private void doUpgrade(Object element) {
 		if (element instanceof FormDef) {
 			FormDef formDef = Services.get(CommonService.class).upgradeFormDef(((FormDef) element).get_id(), br.getDomain());
+			((GridPart) context.getContent()).insert(formDef);
 			viewer.refresh(formDef);
 			Layer.message("表单定义已升版。");
 		}
