@@ -9,7 +9,12 @@ import com.bizvisionsoft.annotations.md.service.WriteValue;
 public class RefDef {
 
 	/**
-	 * 表单参照，如果作为表单参照，集合是确定的（docu）,需要考虑访问哪个对象，该对象的字段，以及后处理脚本
+	 * 表单参照，如果作为表单参照，集合是确定的（docu）,需要考虑访问哪个对象，该对象的字段，以及后处理脚本。
+	 * 
+	 * 表单参照需要赋值的字段包括：
+	 * 
+	 * 1. 文档类型
+	 * 2. 
 	 */
 	@Exclude
 	public static final String REF_TYPE_FORM = "form";
