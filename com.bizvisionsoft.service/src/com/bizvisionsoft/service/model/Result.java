@@ -1,5 +1,6 @@
 package com.bizvisionsoft.service.model;
 
+import com.bizvisionsoft.annotations.md.service.ImageURL;
 import com.mongodb.BasicDBObject;
 
 public class Result {
@@ -225,22 +226,34 @@ public class Result {
 
 	@Override
 	public String toString() {
-		StringBuffer sb = new StringBuffer();
-		if (type == Result.TYPE_QUESTION) {
-			sb.append("[消息] ");
-		} else if (type == Result.TYPE_ERROR) {
-			sb.append("[错误] ");
-		} else if (type == Result.TYPE_WARNING) {
-			sb.append("[警告] ");
-		} else if (type == Result.TYPE_INFO) {
-			sb.append("[消息] ");
-		}
-		sb.append("代码： ");
-		sb.append(code);
+		return "[" + getTypeValue() + "] 代码： " + code + " " + message;
+	}
 
-		sb.append(" ");
-		sb.append(message);
-		return sb.toString();
+	@ImageURL()
+	public String getImage() {
+		if (type == Result.TYPE_QUESTION) {
+			return "/img/form_c.svg";
+		} else if (type == Result.TYPE_ERROR) {
+			return "/img/form_c.svg";
+		} else if (type == Result.TYPE_WARNING) {
+			return "/img/form_c.svg";
+		} else if (type == Result.TYPE_INFO) {
+			return "/img/form_c.svg";
+		}
+		return "";
+	}
+
+	public String getTypeValue() {
+		if (type == Result.TYPE_QUESTION) {
+			return "消息";
+		} else if (type == Result.TYPE_ERROR) {
+			return "错误";
+		} else if (type == Result.TYPE_WARNING) {
+			return "警告";
+		} else if (type == Result.TYPE_INFO) {
+			return "消息";
+		}
+		return "";
 	}
 
 }
