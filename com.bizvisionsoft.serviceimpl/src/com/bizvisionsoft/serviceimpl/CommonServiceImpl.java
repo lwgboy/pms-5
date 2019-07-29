@@ -20,19 +20,27 @@ import com.bizvisionsoft.service.model.Calendar;
 import com.bizvisionsoft.service.model.Certificate;
 import com.bizvisionsoft.service.model.ChangeProcess;
 import com.bizvisionsoft.service.model.Dictionary;
+import com.bizvisionsoft.service.model.Docu;
 import com.bizvisionsoft.service.model.Equipment;
+import com.bizvisionsoft.service.model.ExportDocRule;
+import com.bizvisionsoft.service.model.FormDef;
 import com.bizvisionsoft.service.model.Message;
 import com.bizvisionsoft.service.model.NewMessage;
 import com.bizvisionsoft.service.model.ProjectStatus;
+import com.bizvisionsoft.service.model.RefDef;
 import com.bizvisionsoft.service.model.ResourceActual;
 import com.bizvisionsoft.service.model.ResourcePlan;
 import com.bizvisionsoft.service.model.ResourceType;
 import com.bizvisionsoft.service.model.TrackView;
+import com.bizvisionsoft.service.model.VaultFolder;
+import com.bizvisionsoft.service.tools.Check;
 import com.bizvisionsoft.serviceimpl.exception.ServiceException;
 import com.bizvisionsoft.serviceimpl.renderer.MessageRenderer;
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Aggregates;
+import com.mongodb.client.model.BsonField;
+import com.mongodb.client.model.Field;
 
 public class CommonServiceImpl extends BasicServiceImpl implements CommonService {
 
@@ -79,12 +87,12 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 	public long deleteResourceType(ObjectId _id, String domain) {
 		// TODO 考虑资源类型被使用的状况
 		if (count(new BasicDBObject("_id", _id), "equipment", domain) > 0) {
-			BasicDBObject fu = new FilterAndUpdate().filter(new BasicDBObject("_id", _id))
-					.set(new BasicDBObject("resourceType_id", null)).bson();
+			BasicDBObject fu = new FilterAndUpdate().filter(new BasicDBObject("_id", _id)).set(new BasicDBObject("resourceType_id", null))
+					.bson();
 			return updateEquipment(fu, domain);
 		} else if (count(new BasicDBObject("_id", _id), "user", domain) > 0) {
-			BasicDBObject fu = new FilterAndUpdate().filter(new BasicDBObject("_id", _id))
-					.set(new BasicDBObject("resourceType_id", null)).bson();
+			BasicDBObject fu = new FilterAndUpdate().filter(new BasicDBObject("_id", _id)).set(new BasicDBObject("resourceType_id", null))
+					.bson();
 			return new UserServiceImpl().update(fu, domain);
 		} else {
 			String id = c("resourceType", domain).distinct("id", new BasicDBObject("_id", _id), String.class).first();
@@ -268,8 +276,7 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 	public Map<String, String> getDictionary(String type, String domain) {
 		Map<String, String> result = new HashMap<String, String>();
 		Iterable<Document> itr = c("dictionary", domain).find(new BasicDBObject("type", type));
-		itr.forEach(d -> result.put(d.getString("name") + " [" + d.getString("id") + "]",
-				d.getString("id") + "#" + d.getString("name")));
+		itr.forEach(d -> result.put(d.getString("name") + " [" + d.getString("id") + "]", d.getString("id") + "#" + d.getString("name")));
 		return result;
 	}
 
@@ -283,7 +290,7 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 
 	@Override
 	public List<String> listDictionary(String type, String valueField, String domain) {
-		return c("dictionary", domain).distinct(valueField, (new BasicDBObject("type", type)), String.class)
+		return c("dictionary", domain).find(new Document("type", type)).sort(new Document("index", -1)).map(d -> d.getString(valueField))
 				.into(new ArrayList<>());
 	}
 
@@ -332,8 +339,7 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 		String parentId = ai.getParentId();
 		if (parentId != null) {
 			c("accountItem", domain).updateMany(
-					new Document("$or",
-							Arrays.asList(new Document("id", parentId), new Document("subAccounts", parentId))),
+					new Document("$or", Arrays.asList(new Document("id", parentId), new Document("subAccounts", parentId))),
 					new Document("$push", new Document("subAccounts", ai.getId())));
 		}
 		return ai;
@@ -345,8 +351,7 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 		String parentId = ai.getParentId();
 		if (parentId != null) {
 			c("accountIncome", domain).updateMany(
-					new Document("$or",
-							Arrays.asList(new Document("id", parentId), new Document("subAccounts", parentId))),
+					new Document("$or", Arrays.asList(new Document("id", parentId), new Document("subAccounts", parentId))),
 					new Document("$push", new Document("subAccounts", ai.getId())));
 		}
 		return ai;
@@ -365,8 +370,7 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 			}
 
 			// 引用的
-			long refCnt = c("cbsSubject", domain)
-					.countDocuments(new Document("subjectNumber", new Document("$in", toDelete)));
+			long refCnt = c("cbsSubject", domain).countDocuments(new Document("subjectNumber", new Document("$in", toDelete)));
 			if (refCnt > 0) {
 				throw new ServiceException("不能删除项目预算和成本正在使用的科目。");
 			}
@@ -394,14 +398,12 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 			}
 
 			// 引用的
-			long refCnt = c("revenueForecastItem", domain)
-					.countDocuments(new Document("subject", new Document("$in", toDelete)));
+			long refCnt = c("revenueForecastItem", domain).countDocuments(new Document("subject", new Document("$in", toDelete)));
 			if (refCnt > 0) {
 				throw new ServiceException("不能删除项目收益预测正在使用的科目。");
 			}
 
-			refCnt = c("revenueRealizeItem", domain)
-					.countDocuments(new Document("subject", new Document("$in", toDelete)));
+			refCnt = c("revenueRealizeItem", domain).countDocuments(new Document("subject", new Document("$in", toDelete)));
 			if (refCnt > 0) {
 				throw new ServiceException("不能删除项目收益实现正在使用的科目。");
 			}
@@ -557,8 +559,7 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 	@Override
 	public Date getCurrentCBSPeriod(String domain) {
 		Document doc = c("project", domain)
-				.find(new Document("status",
-						new Document("$nin", Arrays.asList(ProjectStatus.Created, ProjectStatus.Closed))))
+				.find(new Document("status", new Document("$nin", Arrays.asList(ProjectStatus.Created, ProjectStatus.Closed))))
 				.sort(new Document("settlementDate", -1)).projection(new Document("settlementDate", 1)).first();
 		java.util.Calendar cal = java.util.Calendar.getInstance();
 		cal.add(java.util.Calendar.MONTH, -1);
@@ -578,8 +579,7 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 
 	@Override
 	public List<ChangeProcess> createChangeProcessDataSet(String domain) {
-		return c(ChangeProcess.class, domain).find().sort(new Document("index", 1))
-				.into(new ArrayList<ChangeProcess>());
+		return c(ChangeProcess.class, domain).find().sort(new Document("index", 1)).into(new ArrayList<ChangeProcess>());
 	}
 
 	@Override
@@ -590,8 +590,7 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 	@Override
 	public ChangeProcess insertChangeProcess(ChangeProcess changeProcess, String domain) {
 
-		Document doc = c("changeProcess", domain).find().sort(new Document("index", -1))
-				.projection(new Document("index", 1)).first();
+		Document doc = c("changeProcess", domain).find().sort(new Document("index", -1)).projection(new Document("index", 1)).first();
 		if (doc != null)
 			changeProcess.setIndex(doc.getInteger("index", 0) + 1);
 		else
@@ -770,8 +769,8 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 
 	@Override
 	public List<Dictionary> listFunctionRoles(BasicDBObject condition, String domain) {
-		BasicDBObject filter = Optional.ofNullable((BasicDBObject) condition.get("filter")).orElse(new BasicDBObject())
-				.append("type", "功能角色");
+		BasicDBObject filter = Optional.ofNullable((BasicDBObject) condition.get("filter")).orElse(new BasicDBObject()).append("type",
+				"功能角色");
 		condition.append("filter", filter);
 		return createDataSet(condition, Dictionary.class, domain);
 	}
@@ -782,6 +781,263 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 			filter = new BasicDBObject();
 		filter.put("type", "功能角色");
 		return c("dictionary", domain).countDocuments(filter);
+	}
+
+	@Override
+	public List<VaultFolder> listContainer(BasicDBObject condition, String domain) {
+		Integer skip = (Integer) condition.get("skip");
+		Integer limit = (Integer) condition.get("limit");
+		BasicDBObject filter = (BasicDBObject) condition.get("filter");
+		BasicDBObject sort = Optional.ofNullable((BasicDBObject) condition.get("sort")).orElse(new BasicDBObject()).append("desc", 1);
+
+		return query(pipeline -> {
+			pipeline.add(Aggregates.match(new BasicDBObject("iscontainer", true)));
+			pipeline.add(Aggregates.lookup("organization", "org_id", "_id", "_org"));
+			pipeline.add(Aggregates.addFields(new Field<String>("orgFullName", "$_org.fullName")));
+			pipeline.add(Aggregates.project(new BasicDBObject("_org", false)));//
+		}, skip, limit, filter, sort, null, VaultFolder.class, domain);
+	}
+
+	@Override
+	public long countContainer(BasicDBObject filter, String domain) {
+		ArrayList<Bson> pipeline = new ArrayList<Bson>();
+		pipeline.add(Aggregates.match(new BasicDBObject("iscontainer", true)));
+		pipeline.add(Aggregates.lookup("organization", "org_id", "_id", "_org"));
+		pipeline.add(Aggregates.addFields(new Field<String>("orgFullName", "$_org.fullName")));
+		pipeline.add(Aggregates.project(new BasicDBObject("_org", false)));//
+
+		if (filter != null)
+			pipeline.add(Aggregates.match(filter));
+
+		return c(VaultFolder.class, domain).aggregate(pipeline).into(new ArrayList<>()).size();
+	}
+
+	@Override
+	public long deleteContainer(ObjectId _id, String domain) {
+		// TODO 能否删除判断
+		return delete(_id, VaultFolder.class, domain);
+	}
+
+	@Override
+	public long updateContainer(BasicDBObject filterAndUpdate, String domain) {
+		return update(filterAndUpdate, VaultFolder.class, domain);
+	}
+
+	@Override
+	public VaultFolder insertContainer(VaultFolder vf, String domain) {
+		// TODO 添加资料库默认属性
+		vf.setIsContainer(true);
+		return insert(vf, VaultFolder.class, domain);
+	}
+
+	@Override
+	public VaultFolder getVaultFolder(ObjectId _id, String domain) {
+		return get(_id, VaultFolder.class, domain);
+	}
+
+	@Override
+	public List<FormDef> listFormDef(BasicDBObject condition, String domain) {
+		BasicDBObject sort = new BasicDBObject();
+		sort.append("name", 1);
+		sort.append("vid", -1);
+
+		if (condition.get("sort") != null)
+			sort.putAll(((BasicDBObject) condition.get("sort")).toMap());
+
+		condition.put("sort", sort);
+
+		return createDataSet(condition, FormDef.class, domain);
+	}
+
+	@Override
+	public long countFormDef(BasicDBObject filter, String domain) {
+		return count(filter, FormDef.class, domain);
+	}
+
+	@Override
+	public List<Document> listNameOfFormDef(BasicDBObject condition, String domain) {
+		ArrayList<Document> into = new ArrayList<Document>();
+		c("formDef", domain).distinct("name",
+				Optional.ofNullable((BasicDBObject) condition.get("filter")).orElse(new BasicDBObject()).append("activated", true),
+				String.class).forEach((String s) -> {
+					into.add(new Document("name", s));
+				});
+
+		return into;
+	}
+
+	@Override
+	public long countNameOfFormDef(BasicDBObject filter, String domain) {
+		return c("formDef", domain)
+				.distinct("name", Optional.ofNullable(filter).orElse(new BasicDBObject()).append("activated", true), String.class)
+				.into(new ArrayList<String>()).size();
+	}
+
+	@Override
+	public long deleteFormDef(ObjectId _id, String domain) {
+		Document doc = c("formDef", domain).find(new BasicDBObject("_id", _id)).first();
+		if (doc == null)
+			throw new ServiceException("表单定义已被删除。");
+
+		// 检查表单定义是否启用,启用的表单定义不允许被删除
+		if (doc.getBoolean("activated", true))
+			throw new ServiceException("表单定义已启用,不允许删除。");
+
+		// 检查表单定义是否被使用,被使用的表单定义不允许被删除
+		// TODO docu增加formDef_id索引
+		if (count(new BasicDBObject("formDef_id", doc.get("_id")), Docu.class, domain) > 0)
+			throw new ServiceException("表单定义在使用中,不允许无法删除。");
+
+		List<?> exportDocRule_ids = (List<?>) doc.get("exportDocRule_ids");
+		if (Check.isAssigned(exportDocRule_ids))
+			c(ExportDocRule.class, domain).deleteMany(new BasicDBObject("_id", new BasicDBObject("$in", exportDocRule_ids)));
+
+		List<?> refDef_ids = (List<?>) doc.get("refDef_ids");
+		if (Check.isAssigned(refDef_ids))
+			c(RefDef.class, domain).deleteMany(new BasicDBObject("_id", new BasicDBObject("$in", refDef_ids)));
+
+		return delete(_id, FormDef.class, domain);
+	}
+
+	@Override
+	public long updateFormDef(BasicDBObject filterAndUpdate, String domain) {
+		return update(filterAndUpdate, FormDef.class, domain);
+	}
+
+	@Override
+	public FormDef insertFormDef(FormDef formDef, String domain) {
+		if (count(new BasicDBObject("name", formDef.getName()), FormDef.class, domain) > 0)
+			throw new ServiceException("表单定义重名。");
+
+		return insert(formDef, FormDef.class, domain);
+	}
+
+	@Override
+	public FormDef getFormDef(ObjectId _id, String domain) {
+		return get(_id, FormDef.class, domain);
+	}
+
+	@Override
+	public FormDef upgradeFormDef(ObjectId _id, String domain) {
+		Document formDefDoc = c("formDef", domain).find(new BasicDBObject("_id", _id)).first();
+		if (formDefDoc == null)
+			throw new ServiceException("表单定义已被删除，无法升版。");
+
+		// TODO
+
+		Document vidDoc = c("formDef", domain)
+				.aggregate(Arrays.asList(Aggregates.match(new BasicDBObject("name", formDefDoc.get("name"))), Aggregates.group(
+						new BasicDBObject("_id", "$name"), Arrays.asList(new BsonField("value", new BasicDBObject("$max", "$vid"))))))
+				.first();
+
+		int version = Optional.ofNullable((Number) vidDoc.get("value")).map(i -> i.intValue()+1).orElse(0);
+
+		// 设置新表单定义的_id和版本号
+		ObjectId formDef_id = new ObjectId();
+		formDefDoc.put("_id", formDef_id);
+		formDefDoc.put("vid", version);
+		formDefDoc.put("activated", false);
+
+		// 复制文档导出规则
+		List<Document> exportDocRuleDoc = new ArrayList<Document>();
+		List<ObjectId> exportDocRule_idNs = new ArrayList<ObjectId>();
+		List<?> exportDocRule_ids = (List<?>) formDefDoc.get("exportDocRule_ids");
+		if (Check.isAssigned(exportDocRule_ids)) {
+			c("exportDocRule", domain).find(new BasicDBObject("_id", new BasicDBObject("$in", exportDocRule_ids)))
+					.forEach((Document doc) -> {
+						ObjectId n_id = new ObjectId();
+						exportDocRule_idNs.add(n_id);
+						doc.put("_id", n_id);
+						exportDocRuleDoc.add(doc);
+					});
+			formDefDoc.put("exportDocRule_ids", exportDocRule_idNs);
+		}
+
+		// 复制参照定义
+		List<Document> refDefDoc = new ArrayList<Document>();
+		List<ObjectId> refDef_idNs = new ArrayList<ObjectId>();
+		List<?> refDef_ids = (List<?>) formDefDoc.get("refDef_ids");
+		if (Check.isAssigned(refDef_ids)) {
+			c("refDef", domain).find(new BasicDBObject("_id", new BasicDBObject("$in", refDef_ids))).forEach((Document doc) -> {
+				ObjectId n_id = new ObjectId();
+				refDef_idNs.add(n_id);
+				doc.put("_id", n_id);
+				refDefDoc.add(doc);
+			});
+			formDefDoc.put("refDef_ids", refDef_idNs);
+		}
+
+		if (exportDocRuleDoc.size() > 0)
+			c("exportDocRule", domain).insertMany(exportDocRuleDoc);
+
+		if (refDefDoc.size() > 0)
+			c("refDef", domain).insertMany(refDefDoc);
+
+		c("formDef", domain).insertOne(formDefDoc);
+
+		return getFormDef(formDef_id, domain);
+	}
+
+	@Override
+	public List<ExportDocRule> listExportDocRule(BasicDBObject condition, String domain) {
+		Integer skip = (Integer) condition.get("skip");
+		Integer limit = (Integer) condition.get("limit");
+		BasicDBObject filter = (BasicDBObject) condition.get("filter");
+		BasicDBObject sort = (BasicDBObject) condition.get("sort");
+
+		return query(c -> {
+			c.add(Aggregates.lookup("formDef", "_id", "exportDocRule_ids", "formDef"));
+			c.add(Aggregates.unwind("$formDef"));
+		}, skip, limit, filter, sort, null, ExportDocRule.class, domain);
+	}
+
+	@Override
+	public long countExportDocRule(BasicDBObject filter, String domain) {
+		return count(filter, ExportDocRule.class, domain);
+	}
+
+	@Override
+	public ExportDocRule insertExportDocRule(ExportDocRule exportDocRule, String domain) {
+		ObjectId parent_id = exportDocRule.getFormDef().get_id();
+		ExportDocRule insert = insert(exportDocRule, ExportDocRule.class, domain);
+		// TODO更新FormDef
+		c(FormDef.class, domain).updateOne(new BasicDBObject("_id", parent_id),
+				new BasicDBObject("$addToSet", new BasicDBObject("exportDocRule_ids", insert.get_id())));
+		return insert;
+	}
+
+	@Override
+	public long updateExportDocRule(BasicDBObject filterAndUpdate, String domain) {
+		return update(filterAndUpdate, ExportDocRule.class, domain);
+	}
+
+	@Override
+	public long deleteExportDocRule(ObjectId _id, String domain) {
+		Document doc = c("formDef", domain).find(new BasicDBObject("exportDocRule_ids", _id)).first();
+		// 检查表单定义是否启用,启用的表单定义不允许被删除
+		if (doc.getBoolean("activated", true))
+			throw new ServiceException("表单定义已启用,不允许删除。");
+
+		// TODO 删除时检查是否被使用
+
+		return delete(_id, ExportDocRule.class, domain);
+	}
+
+	@Override
+	public ExportDocRule getExportDocRule(ObjectId _id, String domain) {
+		return get(_id, ExportDocRule.class, domain);
+	}
+
+	@Override
+	public List<FormDef> listFormDefSelector(VaultFolder folder, String domain) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public long countFormDefSelector(VaultFolder folder, String domain) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 }

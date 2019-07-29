@@ -87,13 +87,12 @@ public interface SystemService {
 	public String getClientSetting(@PathParam("userId") String userId, @PathParam("clientId") String clientId,
 			@PathParam("name") String name);
 
-	
 	@PUT
 	@Path("/{domain}/clientSetting/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public void updateClientSetting(Document setting, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
-	
+
 	@PUT
 	@Path("/clientSetting/")
 	@Consumes("application/json; charset=UTF-8")
@@ -221,7 +220,7 @@ public interface SystemService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public void requestDomain(Document data);
-	
+
 	@POST
 	@Path("/host/requestDomain/ds")
 	@Consumes("application/json; charset=UTF-8")
@@ -276,5 +275,23 @@ public interface SystemService {
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("企业域清单/" + DataSet.UPDATE)
 	public long updateDomain(@MethodParam(MethodParam.FILTER_N_UPDATE) BasicDBObject filterAndUpdate);
+
+	@POST
+	@Path("/assembly/create/editorId/{editorId}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public void checkFormDAfterCreate(@PathParam("editorId") String editorId);
+
+	@POST
+	@Path("/assembly/modifiy/editorId/{editorId}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public void checkFormDAfterModifiy(Document exportableForm, @PathParam("editorId") String editorId);
+
+	@POST
+	@Path("/assembly/delete/editorId/{editorId}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public void checkFormDAfterDelete(@PathParam("editorId") String editorId);
 
 }

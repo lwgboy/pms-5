@@ -528,7 +528,10 @@
     }
   ],
   "hasTitlebar": true,
+  "displayInputLabelInTitlebar": false,
+  "displayRootInputLabelInTitlebar": false,
   "parameters": "{\"render\":\"gridrow\"}",
+  "compactTitleBar": false,
   "sortFields": [],
   "stickerTitleScript": "\"Œ Ã‚- \"+context_passed_parameter.status"
 }

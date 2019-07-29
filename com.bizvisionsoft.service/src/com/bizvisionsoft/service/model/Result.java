@@ -1,5 +1,6 @@
 package com.bizvisionsoft.service.model;
 
+import com.bizvisionsoft.annotations.md.service.ImageURL;
 import com.mongodb.BasicDBObject;
 
 public class Result {
@@ -17,7 +18,7 @@ public class Result {
 	public static final int CODE_SUCCESS = 900;
 
 	public static final int CODE_USER_TERMINATE = 901;
-	
+
 	public static final int CODE_USER_IGNORED = 904;
 
 	public static final int CODE_CBS_DEFF_BUDGET = 903;
@@ -59,6 +60,12 @@ public class Result {
 	public static final int CODE_NOTFOUND = 0x9002;
 
 	public static final int CODE_NOT_ALLOWED = 0x9003;
+
+	public static final int CODE_CHECK_FORMDEF = 0x8001;
+
+	public static final int CODE_CHECK_EXPORTDOCRULE_FORM = 0x8002;
+
+	public static final int CODE_CHECK_EXPORTDOCRULE_EXPORTABLE = 0x8003;
 
 	public int code;
 
@@ -221,6 +228,38 @@ public class Result {
 		Result result = info("忽略");
 		result.code = CODE_USER_IGNORED;
 		return result;
+	}
+
+	@Override
+	public String toString() {
+		return "[" + getTypeValue() + "] 代码： " + code + " " + message;
+	}
+
+	@ImageURL()
+	public String getImage() {
+		if (type == Result.TYPE_QUESTION) {
+			return "/img/question_c.svg";
+		} else if (type == Result.TYPE_ERROR) {
+			return "/img/error_c.svg";
+		} else if (type == Result.TYPE_WARNING) {
+			return "/img/warning_c.svg";
+		} else if (type == Result.TYPE_INFO) {
+			return "/img/info_c.svg";
+		}
+		return "";
+	}
+
+	public String getTypeValue() {
+		if (type == Result.TYPE_QUESTION) {
+			return "消息";
+		} else if (type == Result.TYPE_ERROR) {
+			return "错误";
+		} else if (type == Result.TYPE_WARNING) {
+			return "警告";
+		} else if (type == Result.TYPE_INFO) {
+			return "消息";
+		}
+		return "";
 	}
 
 }

@@ -152,8 +152,14 @@ public class ProblemChartRender extends BasicServiceImpl {
 		// 1. 查找相似的问题; TODO 使用语义分析
 		List<ObjectId> similarProblems = new ArrayList<>();
 		c("problem", domain).aggregate(Arrays.asList(//
+				Aggregates.unwind("$classifyProblems"),
 				Aggregates.match(
-						new Document("status", "已关闭").append("classifyProblem._ids", new Document("$in", catalog_ids)))//
+						new Document("status", "已关闭").append("classifyProblems._ids", new Document("$in", catalog_ids))),
+				new Document("$group",new Document().append("_id", null).append("p_id", new Document("$addToSet","$_id"))),
+				Aggregates.unwind("$p_id"),
+				Aggregates.lookup("problem", "p_id", "_id", "newproblem"),
+				Aggregates.unwind("$newproblem"),
+				new Document().append("$replaceRoot", new Document().append("newRoot","$newproblem"))
 		)).forEach((Document d) -> {
 			// Modify by zjc 20190318 将问题自身排除出相似问题中，否则会因为连线指向自身导致异常
 			if (HanLP.extractKeyword(d.getString("name"), 15).stream().anyMatch(keyword::contains)
@@ -236,7 +242,7 @@ public class ProblemChartRender extends BasicServiceImpl {
 				});
 
 		if (nodes.size() == 1) {
-			return blankChart(cata);
+			return blankChart(domain);
 		}
 		Document chart = Domain.getJQ(domain, "图表-因果关系图-带箭头-无视觉").set("标题", "").set("data", nodes).set("links", links)
 				.set("categories", categories).doc();

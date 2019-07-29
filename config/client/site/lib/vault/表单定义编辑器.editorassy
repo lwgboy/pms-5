@@ -1,0 +1,62 @@
+{
+  "id": "/字典编辑器.editorassy",
+  "name": "表单定义编辑器",
+  "title": "表单定义",
+  "layout": [],
+  "type": "editor",
+  "folderId": "162dc3e928e",
+  "fields": [
+    {
+      "name": "新字段",
+      "type": "行",
+      "formFields": [
+        {
+          "name": "activated",
+          "text": "启用",
+          "type": "复选框",
+          "formFields": [],
+          "readOnly": true,
+          "required": false,
+          "checkStyle": "开关（默认）"
+        },
+        {
+          "name": "vid",
+          "text": "版本",
+          "type": "单行文本框",
+          "formFields": [],
+          "readOnly": true
+        }
+      ]
+    },
+    {
+      "id": "162bd1ff051",
+      "name": "name",
+      "text": "类型名称",
+      "type": "单行文本框",
+      "verticalLabel": false,
+      "formFields": [],
+      "required": true
+    },
+    {
+      "name": "editorId",
+      "text": "编辑器Id",
+      "type": "对象选择框",
+      "formFields": [],
+      "required": true,
+      "selectorAssemblyId": "/组件选择器（编辑器）.gridassy",
+      "valueFieldName": "id"
+    }
+  ],
+  "actions": [
+    {
+      "name": "检查",
+      "text": "检查",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.formdef.action.CheckFormDefACT",
+      "style": "normal",
+      "type": "customized"
+    }
+  ],
+  "smallEditor": true,
+  "disableInitLoadData": false
+}

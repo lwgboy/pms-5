@@ -1,0 +1,9 @@
+{
+  "id": "/日报项目选择器.selectorassy",
+  "name": "表单定义选择器",
+  "layout": [],
+  "type": "selector",
+  "folderId": "163f7eed09c",
+  "selectorGridAssemblyId": "/vault/表单定义选择表格.gridassy",
+  "disableInitLoadData": false
+}

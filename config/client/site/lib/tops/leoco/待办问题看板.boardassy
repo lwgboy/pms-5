@@ -11,7 +11,16 @@
   "columns": [],
   "fields": [],
   "actions": [],
-  "rowActions": [],
+  "rowActions": [
+    {
+      "id": "bd78ed84-6031-40e7-8f94-1cc3e39a5ee0",
+      "name": "操作",
+      "text": "",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.problem.action.ToDoAction",
+      "type": "customized"
+    }
+  ],
   "hasTitlebar": true,
   "disableStdQuery": false,
   "parameters": "{\"status\":\"解决中\",\"render\":\"card\"}",

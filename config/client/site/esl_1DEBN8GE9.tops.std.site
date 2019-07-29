@@ -487,7 +487,7 @@
         "assemblyLinks": [
           {
             "typeName": "组件链接",
-            "id": "/8D问题看板.assy",
+            "id": "/tops/eslscm/8D问题看板.assy",
             "text": "8D问题看板"
           }
         ]
@@ -526,7 +526,7 @@
                 "className": "com.bizvisionsoft.pms.problem.action.EditProblem",
                 "children": [],
                 "type": "customized",
-                "parameters": "{\"actionType\":\"create\"}"
+                "parameters": "{\"actionType\":\"create\",\"editorName\":\"/tops/eslscm/问题编辑器（创建）.editorassy\"}"
               },
               {
                 "id": "167fce928ca",
@@ -611,7 +611,7 @@
               {
                 "id": "167fcea4338",
                 "name": "问题数据库",
-                "switchContentToAssemblyId": "/问题清单（问题数据库）.gridassy",
+                "switchContentToAssemblyId": "/tops/eslscm/问题清单（问题数据库）.gridassy",
                 "type": "switch",
                 "parameters": "",
                 "passParametersToAssembly": ""
@@ -654,7 +654,7 @@
         "assemblyLinks": [
           {
             "typeName": "组件链接",
-            "id": "/问题管理看板.assy",
+            "id": "/tops/eslscm/问题管理看板.assy",
             "text": "问题管理看板"
           }
         ]

@@ -16,7 +16,7 @@ import io.swagger.annotations.Api;
 public interface ReportService {
 
 	@POST
-	@Path("/{domain}/")
+	@Path("/")
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	@Produces(MediaType.APPLICATION_OCTET_STREAM)
 	public Response generateReport(@FormParam("rptParam") String rptParam, @FormParam("template") String templateName,
@@ -29,7 +29,7 @@ public interface ReportService {
 	public Response generateReport();
 
 	@POST
-	@Path("/{domain}/command/")
+	@Path("/command/")
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	@Produces(MediaType.APPLICATION_OCTET_STREAM)
 	public Response commandReport(@FormParam("command") String rptParam, @FormParam("domain") String domain);

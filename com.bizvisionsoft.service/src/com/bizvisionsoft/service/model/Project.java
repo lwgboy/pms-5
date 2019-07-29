@@ -3,7 +3,9 @@ package com.bizvisionsoft.service.model;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.bson.types.ObjectId;
@@ -17,6 +19,7 @@ import com.bizvisionsoft.annotations.md.mongocodex.Strict;
 import com.bizvisionsoft.annotations.md.service.Behavior;
 import com.bizvisionsoft.annotations.md.service.ImageURL;
 import com.bizvisionsoft.annotations.md.service.Label;
+import com.bizvisionsoft.annotations.md.service.ReadOptions;
 import com.bizvisionsoft.annotations.md.service.ReadValue;
 import com.bizvisionsoft.annotations.md.service.RoleBased;
 import com.bizvisionsoft.annotations.md.service.SelectionValidation;
@@ -24,6 +27,7 @@ import com.bizvisionsoft.annotations.md.service.Structure;
 import com.bizvisionsoft.annotations.md.service.WriteValue;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.service.CBSService;
+import com.bizvisionsoft.service.CommonService;
 import com.bizvisionsoft.service.OBSService;
 import com.bizvisionsoft.service.OrganizationService;
 import com.bizvisionsoft.service.ProjectService;
@@ -33,6 +37,7 @@ import com.bizvisionsoft.service.ServicesLoader;
 import com.bizvisionsoft.service.UserService;
 import com.bizvisionsoft.service.WorkService;
 import com.bizvisionsoft.service.datatools.FilterAndUpdate;
+import com.bizvisionsoft.service.datatools.Query;
 import com.bizvisionsoft.service.tools.Check;
 import com.bizvisionsoft.service.tools.MetaInfoWarpper;
 import com.mongodb.BasicDBObject;
@@ -418,7 +423,8 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope, IRevenueScope, 
 
 	@ReadValue("impUnit") // 编辑器用
 	public Organization getOrganization() {
-		return Optional.ofNullable(impUnit_id).map(_id -> ServicesLoader.get(OrganizationService.class).get(_id, domain)).orElse(null);
+		return Optional.ofNullable(impUnit_id)
+				.map(_id -> ServicesLoader.get(OrganizationService.class).get(_id, domain)).orElse(null);
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -699,8 +705,7 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope, IRevenueScope, 
 	public OBSItem newOBSScopeRoot() {
 
 		OBSItem obsRoot = new OBSItem()// 创建本项目的OBS根节点
-				.setDomain(domain)
-			.set_id(new ObjectId())// 设置_id与项目关联
+				.setDomain(domain).set_id(new ObjectId())// 设置_id与项目关联
 				.setScope_id(_id)// 设置scope_id表明该组织节点是该项目的组织
 				.setParent_id(null)// 设置上级的id
 				.setName(getName() + "项目组")// 设置该组织节点的默认名称
@@ -715,8 +720,8 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope, IRevenueScope, 
 
 	@Override
 	public void updateOBSRootId(ObjectId obs_id) {
-		ServicesLoader.get(ProjectService.class).update(
-				new FilterAndUpdate().filter(new BasicDBObject("_id", _id)).set(new BasicDBObject("obs_id", obs_id)).bson(), domain);
+		ServicesLoader.get(ProjectService.class).update(new FilterAndUpdate().filter(new BasicDBObject("_id", _id))
+				.set(new BasicDBObject("obs_id", obs_id)).bson(), domain);
 		this.obs_id = obs_id;
 	}
 
@@ -1282,4 +1287,50 @@ public class Project implements IOBSScope, ICBSScope, IWBSScope, IRevenueScope, 
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	@ReadValue
+	@WriteValue
+	@Persistence
+	public ObjectId container_id;
+	
+	@ReadValue
+	@WriteValue
+	@Persistence
+	private ObjectId folder_id;
+	
+	public ObjectId getContainer_id() {
+		return container_id;
+	}
+
+	@WriteValue("containerId")
+	public void setContainerId(String containerId) {
+		this.container_id = new ObjectId(containerId);
+	}
+
+	@ReadValue("containerId")
+	public String getContainerId() {
+		if (container_id != null)
+			return container_id.toString();
+
+		return null;
+	}
+
+	@ReadOptions("containerId")
+	public Map<String, String> getSystemContainerId() {
+		Map<String, String> result = new HashMap<String, String>();
+		// TODO V4.0中会根据选择的承担组织改变选择,暂时使用的是弹出选择。
+		List<VaultFolder> listContainer = ServicesLoader.get(CommonService.class).listContainer(new Query().bson(),
+				domain);
+		listContainer.forEach(vf -> result.put(vf.getName(), vf.get_id().toString()));
+		return result;
+	}
+
+	public Project setFolder_id(ObjectId folder_id) {
+		this.folder_id = folder_id;
+		return this;
+	}
+	
+	public ObjectId getFolder_id() {
+		return folder_id;
+	}
 }

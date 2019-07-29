@@ -100,7 +100,8 @@
       "formFields": [],
       "required": true,
       "selectorAssemblyId": "/问题分类.gridassy",
-      "grabVertical": false
+      "grabVertical": false,
+      "valueFieldName": ""
     }
   ],
   "actions": [],

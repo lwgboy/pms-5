@@ -332,7 +332,7 @@ public class ProblemCardRenderer extends BasicServiceImpl {
 				"<div class='brui_zoomImage' style='padding-bottom:75%;cursor:pointer;height:1px;border-radius:4px 4px 0px 0px;background-image:url("
 						+ RenderTools.getFirstFileURL(doc, "problemImg", domain) + ")' "
 						+ "onclick='$.getJSON(\"bvs/imgf?c=d2ProblemPhoto&i=" + doc.get("_id")
-						+ "&f=problemImg\", function(json){layer.photos({photos: json});});'" + "></div>");
+						+ "&domain="+domain+"&f=problemImg\", function(json){layer.photos({photos: json});});'" + "></div>");
 
 		RenderTools.appendText(sb, doc.getString("problemImgDesc"), RenderTools.STYLE_3LINE);
 
@@ -462,9 +462,9 @@ public class ProblemCardRenderer extends BasicServiceImpl {
 		String title = ((List<Document>)doc.get("problem")).get(0).getString("name");
 		RenderTools.appendHeader(sb, indigo, title, 36);
 		RenderTools.appendText(sb, "角色："+doc.getString("roleName"), RenderTools.STYLE_NLINE);
-		RenderTools.appendButton(sb, "layui-icon-more", 12, 12, "处理待办", "open/" + "");
+		RenderTools.appendTODOAction(sb, "layui-icon-more", 12, 12, "处理待办", "open/" + "");
 		RenderTools.appendCardBg(sb);
-		return new Document("_id", doc.get("_id")).append("html", sb.toString());
+		return new Document("_id", doc.get("problem_id")).append("html", sb.toString()).append("roleName", doc.get("roleName"));
 	}
 
 	public Document renderD4(Document doc, String type, String rootCauseDesc, Document charger_meta, Date date) {

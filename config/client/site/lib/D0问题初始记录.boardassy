@@ -8,6 +8,7 @@
   "folderId": "168987781d7",
   "gridAutoHeight": true,
   "gridDataSetService": "com.bizvisionsoft.service.ProblemService",
+  "columns": [],
   "fields": [],
   "actions": [
     {

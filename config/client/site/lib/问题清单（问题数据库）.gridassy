@@ -475,6 +475,7 @@
   "hasTitlebar": true,
   "disableInitLoadData": true,
   "disableStdQuery": true,
+  "disableStdSort": false,
   "parameters": "{\"render\":\"gridrow\"}",
   "sortFields": [],
   "stickerTitleScript": ""

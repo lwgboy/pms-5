@@ -102,6 +102,7 @@ public abstract class CBSSubjectGrid extends CBSGrid {
 	 * @param amount
 	 *            金额（差额，与当前金额数据的差值）
 	 */
+	@SuppressWarnings("unchecked")
 	private void changeAmountData(String period, String subjectNumber, Double amount) {
 		// 计算CBSItem的金额
 		calculationAmount(cbsItemAmount, period, amount);

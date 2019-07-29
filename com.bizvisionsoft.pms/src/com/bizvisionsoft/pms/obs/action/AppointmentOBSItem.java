@@ -3,7 +3,7 @@ package com.bizvisionsoft.pms.obs.action;
 import java.util.Arrays;
 import java.util.List;
 
-import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.dialogs.IDialogConstants;
 
 import com.bizvisionsoft.annotations.ui.common.Execute;
 import com.bizvisionsoft.annotations.ui.common.Inject;
@@ -11,6 +11,7 @@ import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.bruiengine.assembly.IStructuredDataPart;
 import com.bizvisionsoft.bruiengine.service.IBruiContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
+import com.bizvisionsoft.bruiengine.ui.InformationDialog;
 import com.bizvisionsoft.bruiengine.ui.Selector;
 import com.bizvisionsoft.service.OBSService;
 import com.bizvisionsoft.service.WorkService;
@@ -34,28 +35,21 @@ public class AppointmentOBSItem {
 					br.getDomain());
 			boolean hasError = false;
 			boolean hasWarning = false;
-			String message = "";
 			if (!result.isEmpty()) {
 				for (Result r : result)
 					if (Result.TYPE_ERROR == r.type) {
 						hasError = true;
-						message += "<span class='layui-badge'>错误</span> " + r.message + "<br>";
 					} else if (Result.TYPE_WARNING == r.type) {
 						hasWarning = true;
-						message += "<span class='layui-badge layui-bg-orange'>警告</span> " + r.message + "<br>";
-					} else {
-						message += "<span class='layui-badge layui-bg-blue'>信息</span> " + r.message + "<br>";
 					}
 			}
-			if (!message.isEmpty()) {
-				if (hasError) {
-					MessageDialog.openError(br.getCurrentShell(), "指定担任者", message);
+			if (hasError) {
+				InformationDialog.openInfo(br.getCurrentShell(), "指定担任者", "指定担任者存在以下问题需要解决。", result);
+				return;
+			} else if (hasWarning) {
+				if (IDialogConstants.OK_ID != InformationDialog.openConfirm(br.getCurrentShell(), "指定担任者", "指定担任者存在以下问题。<br>是否继续？", result))
 					return;
-				} else if (hasWarning) {
-					if (!MessageDialog.openQuestion(br.getCurrentShell(), "指定担任者", message + "<br>是否继续？"))
-						return;
 
-				}
 			}
 		}
 

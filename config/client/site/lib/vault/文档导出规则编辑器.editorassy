@@ -1,0 +1,36 @@
+{
+  "id": "/字典编辑器.editorassy",
+  "name": "文档导出规则编辑器",
+  "title": "文档导出规则",
+  "layout": [],
+  "type": "editor",
+  "folderId": "162dc3e928e",
+  "fields": [
+    {
+      "name": "基本信息",
+      "type": "标签页",
+      "formFields": [
+        {
+          "name": "editorId",
+          "text": "编辑器Id",
+          "type": "对象选择框",
+          "formFields": [],
+          "required": true,
+          "selectorAssemblyId": "/组件选择器（编辑器）.gridassy",
+          "valueFieldName": "id"
+        },
+        {
+          "name": "postProc",
+          "text": "后处理JS",
+          "type": "多行文本框",
+          "formFields": [],
+          "required": false
+        }
+      ]
+    }
+  ],
+  "actions": [],
+  "smallEditor": true,
+  "addToParentContext": false,
+  "disableInitLoadData": false
+}

@@ -1,0 +1,582 @@
+{
+  "id": "/问题编辑器（创建）.editorassy",
+  "name": "问题编辑器（整体创建）",
+  "title": "创建问题初始记录",
+  "layout": [],
+  "type": "editor",
+  "folderId": "168403f8c15",
+  "fields": [
+    {
+      "name": "基本信息",
+      "type": "标签页",
+      "formFields": [
+        {
+          "id": "167eac3493e",
+          "name": "initiatedFrom",
+          "text": "问题最初来源",
+          "type": "下拉选择框",
+          "formFields": [],
+          "required": true,
+          "optionText": "客户#供应商#设计#生产#工程#售后服务#监理单位#监管部门#合作伙伴",
+          "radioStyle": "横向分段（默认）"
+        },
+        {
+          "name": "新字段",
+          "type": "行",
+          "formFields": [
+            {
+              "id": "167eaec3e90",
+              "name": "name",
+              "text": "问题简述",
+              "type": "单行文本框",
+              "formFields": [],
+              "required": true
+            },
+            {
+              "name": "status",
+              "text": "状态",
+              "type": "单选框",
+              "formFields": [],
+              "optionText": "已创建#解决中#已关闭#已取消",
+              "radioStyle": "横向分段（默认）"
+            }
+          ]
+        },
+        {
+          "id": "167e84540b3",
+          "name": "新字段8",
+          "type": "行",
+          "formFields": [
+            {
+              "id": "167e83f9dca",
+              "name": "custId",
+              "text": "客户编号",
+              "type": "单行文本框",
+              "formFields": [],
+              "required": true
+            },
+            {
+              "id": "167e83f9e76",
+              "name": "custInfo",
+              "text": "客户名称",
+              "type": "单行文本框",
+              "formFields": [],
+              "required": true
+            }
+          ]
+        },
+        {
+          "id": "167e8454290",
+          "name": "新字段9",
+          "type": "行",
+          "formFields": [
+            {
+              "id": "167e83f9f19",
+              "name": "partNum",
+              "text": "成品料号",
+              "type": "单行文本框",
+              "formFields": [],
+              "tooltips": ""
+            },
+            {
+              "id": "167eacd24d3",
+              "name": "partVer",
+              "text": "周期",
+              "type": "单行文本框",
+              "formFields": []
+            },
+            {
+              "id": "167eaccd565",
+              "name": "partName",
+              "text": "客户料号",
+              "type": "单行文本框",
+              "formFields": []
+            },
+            {
+              "id": "167e83f9fbf",
+              "name": "lotNum",
+              "text": "批次",
+              "type": "单行文本框",
+              "formFields": []
+            }
+          ]
+        },
+        {
+          "id": "167eaba3f28",
+          "name": "新字段5",
+          "type": "行",
+          "formFields": [
+            {
+              "id": "167eaba50ed",
+              "name": "distDate",
+              "text": "发料日期",
+              "type": "日期时间选择",
+              "formFields": []
+            },
+            {
+              "id": "167eabaadc4",
+              "name": "distQty",
+              "text": "发料数量",
+              "type": "单行文本框",
+              "formFields": [],
+              "textRestrict": "无限定"
+            },
+            {
+              "id": "167eac2717f",
+              "name": "issueDate",
+              "text": "问题发起日期",
+              "type": "日期时间选择",
+              "formFields": [],
+              "required": true
+            },
+            {
+              "id": "167eaca4af2",
+              "name": "issueBy",
+              "text": "问题发起人",
+              "type": "单行文本框",
+              "formFields": [],
+              "required": true
+            }
+          ]
+        },
+        {
+          "id": "16845d54f1b",
+          "name": "新字段5",
+          "type": "行",
+          "formFields": [
+            {
+              "id": "16845d4c4fa",
+              "name": "classifyProblems",
+              "text": "问题分类",
+              "type": "多个对象选择框",
+              "formFields": [],
+              "required": false,
+              "selectorAssemblyId": "/问题分类选择表格（查询用）.gridassy",
+              "valueFieldName": "_id"
+            },
+            {
+              "id": "167e845b11f",
+              "name": "depts",
+              "text": "责任部门",
+              "type": "多个对象选择框",
+              "formFields": [],
+              "required": true,
+              "selectorAssemblyId": "/组织选择器.gridassy",
+              "valueFieldName": "_id"
+            }
+          ]
+        },
+        {
+          "id": "168402ad9e6",
+          "name": "新字段2",
+          "type": "行",
+          "formFields": [
+            {
+              "id": "167e85fd36b",
+              "name": "idrrept",
+              "text": "异常报告",
+              "type": "多个文件选择框",
+              "formFields": [],
+              "tooltips": "",
+              "fileNamespace": "prmAtt"
+            },
+            {
+              "id": "167ead8d565",
+              "name": "attarchments",
+              "text": "附件资料",
+              "type": "多个文件选择框",
+              "formFields": [],
+              "fileNamespace": "prmAtt"
+            }
+          ]
+        },
+        {
+          "id": "16870206f31",
+          "name": "新字段3",
+          "type": "行",
+          "formFields": [
+            {
+              "id": "16840450b84",
+              "name": "latestTimeReq",
+              "text": "最晚时间要求",
+              "type": "日期时间选择",
+              "formFields": [],
+              "required": true,
+              "dateType": "datetime"
+            },
+            {
+              "id": "1684043b3b8",
+              "name": "severityInd",
+              "text": "严重性级别",
+              "type": "对象选择框",
+              "formFields": [],
+              "required": true,
+              "selectorAssemblyId": "/严重性等级.gridassy",
+              "valueFieldName": "_id"
+            }
+          ]
+        },
+        {
+          "id": "168702239ad",
+          "name": "新字段1",
+          "type": "行",
+          "formFields": [
+            {
+              "id": "16840a9a557",
+              "name": "freqInd",
+              "text": "发生频度",
+              "type": "对象选择框",
+              "formFields": [],
+              "required": true,
+              "selectorAssemblyId": "/频度等级.gridassy",
+              "valueFieldName": "_id"
+            },
+            {
+              "id": "16840b42e72",
+              "name": "detectionInd",
+              "text": "可探测性指标",
+              "type": "对象选择框",
+              "formFields": [],
+              "required": true,
+              "selectorAssemblyId": "/可探测性级别.gridassy",
+              "valueFieldName": "_id"
+            }
+          ]
+        },
+        {
+          "id": "168702254f1",
+          "name": "新字段2",
+          "type": "行",
+          "formFields": [
+            {
+              "id": "1684046b216",
+              "name": "lostInd",
+              "text": "问题损失级别",
+              "type": "对象选择框",
+              "formFields": [],
+              "required": true,
+              "selectorAssemblyId": "/损失等级.gridassy",
+              "valueFieldName": "_id"
+            },
+            {
+              "id": "16840a9a75a",
+              "name": "incidenceInd",
+              "text": "影响范围指标",
+              "type": "对象选择框",
+              "formFields": [],
+              "required": true,
+              "selectorAssemblyId": "/影响范围等级.gridassy",
+              "valueFieldName": "_id"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "问题解决团队",
+      "type": "标签页",
+      "formFields": [
+        {
+          "name": "d1CFT",
+          "text": "问题解决团队",
+          "type": "多个对象选择框",
+          "formFields": [],
+          "selectorAssemblyId": "/tops/D1多功能小组表格（整体创建）.gridassy",
+          "height": 360,
+          "hideLabel": true,
+          "enableCreateItem": true
+        }
+      ]
+    },
+    {
+      "name": "问题描述",
+      "type": "标签页",
+      "formFields": [
+        {
+          "name": "现场照片",
+          "text": "现场照片",
+          "type": "横幅",
+          "formFields": [],
+          "staticContent": true,
+          "bannerStyle": "normal"
+        },
+        {
+          "name": "d2ProblemPhoto",
+          "text": "现场照片",
+          "type": "多个对象选择框",
+          "formFields": [],
+          "selectorAssemblyId": "/tops/D2现场照片表格（整体创建）.gridassy",
+          "height": 360,
+          "hideLabel": true,
+          "enableCreateItem": true
+        },
+        {
+          "name": "5W2H问题描述",
+          "text": "5W2H问题描述",
+          "type": "横幅",
+          "formFields": [],
+          "staticContent": true,
+          "bannerStyle": "normal"
+        },
+        {
+          "id": "167ed6ff14b",
+          "name": "what",
+          "text": "What",
+          "type": "单行文本框",
+          "verticalLabel": false,
+          "formFields": [],
+          "textMessage": "什么问题？/当前状况是什么？",
+          "required": false
+        },
+        {
+          "id": "167ed6ff1f7",
+          "name": "when",
+          "text": "When",
+          "type": "单行文本框",
+          "formFields": [],
+          "textMessage": "问题在何时发生？",
+          "required": false
+        },
+        {
+          "id": "167ed6ff2a7",
+          "name": "where",
+          "text": "Where",
+          "type": "单行文本框",
+          "formFields": [],
+          "textMessage": "问题在何处发生？/有无位置的变化？",
+          "required": false
+        },
+        {
+          "id": "167ed6ff36e",
+          "name": "who",
+          "text": "Who",
+          "type": "单行文本框",
+          "formFields": [],
+          "textMessage": "和哪些人有关？/谁负责这项工作？",
+          "required": false
+        },
+        {
+          "id": "167ed6ff404",
+          "name": "why",
+          "text": "Why",
+          "type": "单行文本框",
+          "formFields": [],
+          "textMessage": "为什么出现这个问题？/对原因的推测",
+          "required": false
+        },
+        {
+          "id": "167ed703cf8",
+          "name": "how",
+          "text": "How",
+          "type": "单行文本框",
+          "formFields": [],
+          "textMessage": "怎样发现问题的？",
+          "required": false
+        },
+        {
+          "id": "167ed703dbf",
+          "name": "howmany",
+          "text": "How many",
+          "type": "单行文本框",
+          "formFields": [],
+          "textMessage": "差距有多大？问题出现多少次？/频度",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "临时控制行动",
+      "type": "标签页",
+      "formFields": [
+        {
+          "name": "ica",
+          "text": "临时控制行动",
+          "type": "多个对象选择框",
+          "formFields": [],
+          "selectorAssemblyId": "/tops/D3临时控制行动表格（整体创建）.gridassy",
+          "height": 360,
+          "hideLabel": true,
+          "enableCreateItem": true
+        }
+      ]
+    },
+    {
+      "name": "根本原因分析",
+      "type": "标签页",
+      "formFields": [
+        {
+          "name": "问题原因分析",
+          "text": "问题原因分析",
+          "type": "横幅",
+          "formFields": [],
+          "staticContent": true,
+          "bannerStyle": "normal"
+        },
+        {
+          "name": "causeRelation",
+          "type": "多个对象选择框",
+          "formFields": [],
+          "selectorAssemblyId": "/tops/D4问题原因分析表格（整体创建）.gridassy",
+          "hideLabel": true,
+          "enableCreateItem": true
+        },
+        {
+          "name": "根本起因描述",
+          "text": "根本起因描述",
+          "type": "横幅",
+          "formFields": [],
+          "staticContent": true,
+          "bannerStyle": "normal"
+        },
+        {
+          "id": "167ed6ff14b",
+          "name": "rootCauseDesc",
+          "text": "根本原因",
+          "type": "多行文本框",
+          "verticalLabel": false,
+          "formFields": [],
+          "textMessage": "什么问题？/当前状况是什么？",
+          "required": false,
+          "hideLabel": false,
+          "verticalAlignLabel": true
+        },
+        {
+          "id": "16a96ca9963",
+          "name": "rootCauseAtt",
+          "text": "根本原因附件",
+          "type": "多个文件选择框",
+          "formFields": [],
+          "fileNamespace": "prmAtt",
+          "verticalAlignLabel": true
+        },
+        {
+          "id": "1680938a34c",
+          "name": "escapePoint",
+          "text": "问题逃出点",
+          "type": "多行文本框",
+          "formFields": [],
+          "required": false,
+          "verticalAlignLabel": true
+        },
+        {
+          "id": "16a96caa2fd",
+          "name": "escapePointAtt",
+          "text": "问题逃出点附件",
+          "type": "多个文件选择框",
+          "formFields": [],
+          "fileNamespace": "prmAtt",
+          "verticalAlignLabel": true
+        },
+        {
+          "id": "16809a7ede1",
+          "name": "evidenceFile",
+          "text": "验证证据",
+          "type": "多个文件选择框",
+          "formFields": [],
+          "fileNamespace": "prmAtt",
+          "verticalAlignLabel": true
+        },
+        {
+          "id": "1687e42f939",
+          "name": "新字段13",
+          "type": "行",
+          "formFields": [
+            {
+              "id": "16809ffd53c",
+              "name": "charger",
+              "text": "负责人",
+              "type": "对象选择框",
+              "formFields": [],
+              "required": false,
+              "selectorAssemblyId": "/用户选择列表.gridassy",
+              "valueFieldName": "userId"
+            },
+            {
+              "id": "1680a02f81b",
+              "name": "date",
+              "text": "日期",
+              "type": "日期时间选择",
+              "formFields": [],
+              "required": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "永久纠正措施",
+      "type": "标签页",
+      "formFields": [
+        {
+          "name": "pca",
+          "type": "多个对象选择框",
+          "formFields": [],
+          "selectorAssemblyId": "/tops/D6执行和确认永久纠正措施表格（整体创建）.gridassy",
+          "height": 360,
+          "hideLabel": true,
+          "enableCreateItem": true
+        }
+      ]
+    },
+    {
+      "name": "系统性预防",
+      "type": "标签页",
+      "formFields": [
+        {
+          "name": "类似系统分析",
+          "text": "类似系统分析",
+          "type": "横幅",
+          "formFields": [],
+          "staticContent": true,
+          "bannerStyle": "normal"
+        },
+        {
+          "name": "d7Similar",
+          "type": "多个对象选择框",
+          "formFields": [],
+          "selectorAssemblyId": "/tops/D7类似系统表格（整体创建）.gridassy",
+          "height": 360,
+          "hideLabel": true,
+          "enableCreateItem": true
+        },
+        {
+          "name": "系统性预防措施",
+          "text": "系统性预防措施",
+          "type": "横幅",
+          "formFields": [],
+          "staticContent": true,
+          "bannerStyle": "normal"
+        },
+        {
+          "name": "spa",
+          "type": "多个对象选择框",
+          "formFields": [],
+          "selectorAssemblyId": "/tops/D7系统性预防措施表格（整体创建）.gridassy",
+          "height": 360,
+          "hideLabel": true,
+          "enableCreateItem": true
+        }
+      ]
+    },
+    {
+      "name": "经验总结",
+      "type": "标签页",
+      "formFields": [
+        {
+          "name": "exp",
+          "text": "经验教训",
+          "type": "多个对象选择框",
+          "formFields": [],
+          "selectorAssemblyId": "/tops/D8经验教训表格（整体创建）.gridassy",
+          "hideLabel": true,
+          "enableCreateItem": true
+        }
+      ]
+    }
+  ],
+  "actions": [],
+  "smallEditor": false,
+  "tinyEditor": false,
+  "fullscreen": true,
+  "labelWidth": 100
+}

@@ -22,6 +22,9 @@ import com.mongodb.BasicDBObject;
 public class ProblemCard {
 	@Inject
 	private IBruiService br;
+	
+	@Inject
+	private String editorName;
 
 	@Execute
 	public void execute(@MethodParam(Execute.CONTEXT_SELECTION_1ST) Document element,
@@ -41,10 +44,8 @@ public class ProblemCard {
 			}
 		} else if ("create".equals(e.text)) {
 			String editor = "问题编辑器（创建）.editorassy";
-			if("esl_1DEBN8GE9".equals(br.getDomain())) {
-				editor = "/tops/eslscm/问题编辑器（创建）.editorassy";
-			}else if("leo_1DEQR41EQ".equals(br.getDomain())) {
-				editor = "/tops/leoco/问题编辑器（创建）.editorassy";
+			if(null != editorName) {
+				editor = editorName;
 			}
 			Editor.create(editor, context, br.newInstance(Problem.class).setCreationInfo(br.operationInfo()), true).ok((d,t)->{
 				Services.get(ProblemService.class).insertProblem(t, br.getDomain());

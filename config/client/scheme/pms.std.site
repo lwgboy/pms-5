@@ -1,5 +1,4 @@
 {
-  "typeName": "站点",
   "id": "1618092b217",
   "name": "WisPlanner",
   "version": "5.2M2",
@@ -20,13 +19,9 @@
   },
   "pages": [
     {
-      "typeName": "页面",
       "id": "16182ccd795",
       "name": "首页",
       "title": "WisPlanner5",
-      "headbar": {
-        "height": 64
-      },
       "sidebar": {
         "enabled": true,
         "width": 240,
@@ -182,6 +177,12 @@
             "verticalSpan": 0
           },
           {
+            "name": "档案库",
+            "text": "档案库",
+            "switchContentToAssemblyId": "/vault/组织资料库.assy",
+            "type": "switch"
+          },
+          {
             "id": "1642aaa73c6",
             "name": "资源管理",
             "children": [
@@ -332,14 +333,9 @@
           }
         ]
       },
-      "footbar": {
-        "height": 64
-      },
       "contentArea": {
-        "typeName": "内容区",
         "assemblyLinks": [
           {
-            "typeName": "组件链接",
             "id": "/主页看板（一般用户默认）.assy",
             "defaultAssembly": true,
             "excludeRole": "项目总监#项目管理员",
@@ -347,7 +343,6 @@
             "text": "工作看板"
           },
           {
-            "typeName": "组件链接",
             "id": "/主页看板（PMO用户默认）.assy",
             "role": "项目总监#项目管理员",
             "image": "/img/todo_w.svg",
@@ -359,11 +354,9 @@
       "excludeRole": "系统管理员#业务管理员"
     },
     {
-      "typeName": "页面",
       "id": "16183e364b9",
       "name": "项目首页（执行）",
       "title": "项目首页",
-      "headbar": {},
       "sidebar": {
         "enabled": true,
         "width": 240,
@@ -720,7 +713,7 @@
           {
             "id": "1628df224b5",
             "name": "项目档案库",
-            "switchContentToAssemblyId": "/项目档案库.assy",
+            "switchContentToAssemblyId": "/vault/项目资料库.assy",
             "type": "switch",
             "verticalSpan": 0
           },
@@ -765,18 +758,14 @@
           }
         ]
       },
-      "footbar": {},
       "contentArea": {
-        "typeName": "内容区",
         "assemblyLinks": [
           {
-            "typeName": "组件链接",
             "id": "/项目主页.assy",
             "image": "/img/dashboard_w.svg",
             "text": "项目仪表台"
           },
           {
-            "typeName": "组件链接",
             "id": "/项目工作看板.assy",
             "defaultAssembly": true,
             "image": "/img/todo_w.svg",
@@ -787,11 +776,9 @@
       "inputDataSetService": "com.bizvisionsoft.service.ProjectService"
     },
     {
-      "typeName": "页面",
       "id": "162ff912b33",
       "name": "项目首页（启动）",
       "title": "项目首页",
-      "headbar": {},
       "sidebar": {
         "enabled": true,
         "width": 240,
@@ -927,6 +914,12 @@
             "verticalSpan": 0
           },
           {
+            "name": "项目档案库",
+            "text": "",
+            "switchContentToAssemblyId": "/vault/项目资料库.assy",
+            "type": "switch"
+          },
+          {
             "id": "162fffc1a86",
             "name": "项目相关方",
             "switchContentToAssemblyId": "/项目干系人.gridassy",
@@ -966,12 +959,9 @@
           }
         ]
       },
-      "footbar": {},
       "contentArea": {
-        "typeName": "内容区",
         "assemblyLinks": [
           {
-            "typeName": "组件链接",
             "id": "/项目主页（创建状态）.assy",
             "defaultAssembly": true
           }
@@ -980,11 +970,9 @@
       "inputDataSetService": "com.bizvisionsoft.service.ProjectService"
     },
     {
-      "typeName": "页面",
       "id": "96183e364b9",
       "name": "项目首页（收尾）",
       "title": "项目首页",
-      "headbar": {},
       "sidebar": {
         "enabled": true,
         "width": 240,
@@ -1298,7 +1286,7 @@
           {
             "id": "9628df224b5",
             "name": "项目档案库",
-            "switchContentToAssemblyId": "/项目档案库.assy",
+            "switchContentToAssemblyId": "/vault/项目资料库.assy",
             "type": "switch",
             "verticalSpan": 0
           },
@@ -1343,19 +1331,15 @@
           }
         ]
       },
-      "footbar": {},
       "contentArea": {
-        "typeName": "内容区",
         "assemblyLinks": [
           {
-            "typeName": "组件链接",
             "id": "/项目主页.assy",
             "defaultAssembly": true,
             "image": "/img/dashboard_w.svg",
             "text": "项目仪表台"
           },
           {
-            "typeName": "组件链接",
             "id": "/项目工作看板.assy",
             "image": "/img/todo_w.svg",
             "text": "项目工作看板"
@@ -1365,11 +1349,9 @@
       "inputDataSetService": "com.bizvisionsoft.service.ProjectService"
     },
     {
-      "typeName": "页面",
       "id": "99183e364b9",
       "name": "项目首页（关闭）",
       "title": "项目首页",
-      "headbar": {},
       "sidebar": {
         "enabled": true,
         "width": 240,
@@ -1616,7 +1598,7 @@
           {
             "id": "9928df224b5",
             "name": "项目档案库",
-            "switchContentToAssemblyId": "/项目档案库.assy",
+            "switchContentToAssemblyId": "/vault/项目资料库.assy",
             "type": "switch",
             "verticalSpan": 0
           },
@@ -1629,12 +1611,9 @@
           }
         ]
       },
-      "footbar": {},
       "contentArea": {
-        "typeName": "内容区",
         "assemblyLinks": [
           {
-            "typeName": "组件链接",
             "id": "/项目主页（关闭状态）.assy",
             "defaultAssembly": true
           }
@@ -1643,11 +1622,9 @@
       "inputDataSetService": "com.bizvisionsoft.service.ProjectService"
     },
     {
-      "typeName": "页面",
       "id": "163c92214c7",
       "name": "项目模板",
       "title": "项目模板",
-      "headbar": {},
       "sidebar": {
         "enabled": true,
         "width": 240,
@@ -1731,12 +1708,9 @@
           }
         ]
       },
-      "footbar": {},
       "contentArea": {
-        "typeName": "内容区",
         "assemblyLinks": [
           {
-            "typeName": "组件链接",
             "id": "/项目模板操作面板.actionpanelassy",
             "defaultAssembly": true
           }
@@ -1745,11 +1719,9 @@
       "inputDataSetService": "com.bizvisionsoft.service.ProjectTemplateService"
     },
     {
-      "typeName": "页面",
       "id": "164067d4250",
       "name": "系统管理",
       "title": "系统管理",
-      "headbar": {},
       "sidebar": {
         "enabled": true,
         "width": 240,
@@ -1879,6 +1851,30 @@
                 "switchContentToAssemblyId": "/名称字典.gridassy",
                 "type": "switch",
                 "verticalSpan": 0
+              }
+            ],
+            "type": "customized"
+          },
+          {
+            "name": "资料库管理",
+            "text": "资料库管理",
+            "children": [
+              {
+                "name": "资料库设置",
+                "text": "资料库设置",
+                "switchContentToAssemblyId": "/vault/资料库设置.gridassy",
+                "type": "switch"
+              },
+              {
+                "name": "资料库权限管理",
+                "text": "资料库权限管理",
+                "type": "customized"
+              },
+              {
+                "name": "表单定义",
+                "text": "表单定义",
+                "switchContentToAssemblyId": "/vault/表单定义.gridassy",
+                "type": "switch"
               }
             ],
             "type": "customized"
@@ -2105,14 +2101,12 @@
           }
         ]
       },
-      "footbar": {},
       "contentArea": {
-        "typeName": "内容区",
         "assemblyLinks": [
           {
-            "typeName": "组件链接",
             "id": "/系统管理首页面板.assy",
-            "defaultAssembly": true
+            "defaultAssembly": true,
+            "text": "系统管理首页面板"
           }
         ]
       },

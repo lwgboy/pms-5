@@ -39,6 +39,9 @@ public class EditProblem {
 
 	@Inject
 	private String actionType;
+	
+	@Inject
+	private String editorName;
 
 	@Inject
 	private String render;
@@ -66,10 +69,8 @@ public class EditProblem {
 
 	private void edit(IBruiContext context, Problem problem, boolean editable) {
 		String editor = "问题编辑器（编辑）.editorassy";
-		if("esl_1DEBN8GE9".equals(br.getDomain())) {
-			editor = "/tops/eslscm/问题编辑器（编辑）.editorassy";
-		}else if("leo_1DEQR41EQ".equals(br.getDomain())) {
-			editor = "/tops/leoco/问题编辑器（编辑）.editorassy";
+		if(null != editorName) {
+			editor = editorName;
 		}
 		Editor.create(editor, context, problem, false).setEditable(editable).ok((r, t) -> {
 			r.remove("_id");
@@ -84,10 +85,8 @@ public class EditProblem {
 
 	private void edits(IBruiContext context, Problem problem) {
 		String editor = "tops/问题编辑器（整体创建）.editorassy";
-		if("esl_1DEBN8GE9".equals(br.getDomain())) {
-			editor = "/tops/eslscm/问题编辑器（整体创建）.editorassy";
-		}else if("leo_1DEQR41EQ".equals(br.getDomain())) {
-			editor = "/tops/leoco/问题编辑器（整体创建）.editorassy";
+		if(null != editorName) {
+			editor = editorName;
 		}
 		Editor.create(editor, context, new Document(), false).ok((r, t) -> {
 			saveDocument(t, problem.get_id());
@@ -96,10 +95,8 @@ public class EditProblem {
 
 	private void creates(IBruiContext context) {
 		String editor = "tops/问题编辑器（整体创建）.editorassy";
-		if("esl_1DEBN8GE9".equals(br.getDomain())) {
-			editor = "/tops/eslscm/问题编辑器（整体创建）.editorassy";
-		}else if("leo_1DEQR41EQ".equals(br.getDomain())) {
-			editor = "/tops/leoco/问题编辑器（整体创建）.editorassy";
+		if(null != editorName) {
+			editor = editorName;
 		}
 		Editor.create(editor, context, new Document(), false).ok((r, t) -> {
 			saveDocument(t, null);
@@ -372,10 +369,8 @@ public class EditProblem {
 	private void create(IBruiContext context) {
 		Problem problem = br.newInstance(Problem.class).setCreationInfo(br.operationInfo());
 		String editor = "问题编辑器（创建）.editorassy";
-		if("esl_1DEBN8GE9".equals(br.getDomain())) {
-			editor = "/tops/eslscm/问题编辑器（创建）.editorassy";
-		}else if("leo_1DEQR41EQ".equals(br.getDomain())) {
-			editor = "/tops/leoco/问题编辑器（创建）.editorassy";
+		if(null != editorName) {
+			editor = editorName;
 		}
 		Editor.create(editor, context, problem, false).ok((r, t) -> {
 			ProblemService service = Services.get(ProblemService.class);

@@ -139,8 +139,6 @@ public abstract class CabinetASM {
 	}
 
 	private void showMenu(final IFolder folder) {
-		// 显示资源选择框
-
 		new ActionMenu(br).setActions(Arrays.asList(
 				// a1
 				new ActionFactory().text("创建文档").name("createFile").img("/img/file_add_w.svg").normalStyle()

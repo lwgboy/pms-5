@@ -1497,6 +1497,8 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 
 	@Override
 	public List<Catalog> listProblemAnlysisRoot(ObjectId problem_id, String domain) {
+		List<Catalog> l = c("problem", domain).aggregate(Domain.getJQ(domain, "查询-问题-根分类").set("problem_id", problem_id).array())
+				.map(CatalogMapper::classifyProblem).into(new ArrayList<>());
 		return c("problem", domain).aggregate(Domain.getJQ(domain, "查询-问题-根分类").set("problem_id", problem_id).array())
 				.map(CatalogMapper::classifyProblem).into(new ArrayList<>());
 	}

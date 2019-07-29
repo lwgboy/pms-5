@@ -10,4 +10,8 @@ public interface IFolder {
 
 	IFolder setName(String name);
 
+	String getName();
+	
+	IFolder getContainer();
+	
 }

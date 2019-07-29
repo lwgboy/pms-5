@@ -22,3 +22,4 @@ Require-Bundle: org.eclipse.core.runtime,
  com.bizvisionsoft.mongocodex,
  slf4j.api;bundle-version="1.7.25",
  com.google.gson
+Bundle-Activator: com.bizvisionsoft.pms.Activator

@@ -1,0 +1,143 @@
+{
+  "id": "/名称字典.gridassy",
+  "name": "资料库设置",
+  "layout": [],
+  "type": "grid",
+  "stickerTitle": "资料库设置",
+  "folderId": "162dc3e928e",
+  "gridLineVisiable": true,
+  "gridHeaderVisiable": true,
+  "gridHasHScroll": true,
+  "gridHasVScroll": true,
+  "gridPageControl": true,
+  "gridDataSetService": "com.bizvisionsoft.service.CommonService",
+  "columns": [
+    {
+      "id": "162bd1ccbe0",
+      "name": "desc",
+      "text": "资料库名称",
+      "alignment": 16384,
+      "width": 320,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "name": "type",
+      "text": "资料库类型",
+      "alignment": 16384,
+      "width": 100,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "name": "description",
+      "text": "说明",
+      "alignment": 16384,
+      "width": 320,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "name": "orgFullName",
+      "text": "组织",
+      "alignment": 16384,
+      "width": 320,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "name": "defaultquery",
+      "text": "所有用户可查询",
+      "alignment": 16384,
+      "width": 100,
+      "resizeable": true,
+      "columns": []
+    }
+  ],
+  "fields": [
+    {
+      "name": "desc",
+      "text": "资料库名称",
+      "type": "文本输入框（查询）",
+      "formFields": []
+    },
+    {
+      "name": "containertype",
+      "text": "资料库类型",
+      "type": "下拉选择框（查询）",
+      "formFields": [],
+      "optionValue": "pm#wc",
+      "optionText": "PM资料库#Windchill容器"
+    },
+    {
+      "name": "orgFullName",
+      "text": "组织名称",
+      "type": "文本输入框（查询）",
+      "formFields": []
+    },
+    {
+      "name": "defaultquery",
+      "text": "所有用户可查询",
+      "type": "复选框（查询）",
+      "formFields": []
+    }
+  ],
+  "gridAutoColumnWidth": true,
+  "actions": [
+    {
+      "id": "162bd220157",
+      "name": "创建",
+      "image": "/img/add_16_w.svg",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.cert.action.CreateCertificate",
+      "style": "normal",
+      "editorAssemblyId": "/vault/资料库编辑器.editorassy",
+      "type": "insert",
+      "createActionNewInstanceBundleId": "com.bizvisionsoft.service",
+      "createActionNewInstanceClassName": "com.bizvisionsoft.service.model.VaultFolder",
+      "verticalSpan": 0
+    }
+  ],
+  "rowActions": [
+    {
+      "id": "162bd541af5",
+      "name": "编辑",
+      "text": "编辑",
+      "image": "/img/edit_w.svg",
+      "bundleId": "",
+      "className": "",
+      "style": "normal",
+      "editorAssemblyId": "/vault/资料库编辑器.editorassy",
+      "editorAssemblyEditable": true,
+      "type": "edit",
+      "verticalSpan": 0
+    },
+    {
+      "id": "162bd239c04",
+      "name": "删除",
+      "text": "删除",
+      "image": "/img/minus_16_w.svg",
+      "bundleId": "",
+      "className": "",
+      "style": "warning",
+      "type": "delete",
+      "verticalSpan": 0
+    }
+  ],
+  "hasTitlebar": true,
+  "disableInitLoadData": false,
+  "sortFields": [
+    {
+      "name": "desc",
+      "text": "资料库名称",
+      "type": "排序字段",
+      "formFields": []
+    },
+    {
+      "name": "type",
+      "text": "资料库类型",
+      "type": "排序字段",
+      "formFields": []
+    }
+  ]
+}

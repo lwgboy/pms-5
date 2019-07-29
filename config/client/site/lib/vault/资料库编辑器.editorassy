@@ -1,0 +1,133 @@
+{
+  "id": "/字典编辑器.editorassy",
+  "name": "资料库编辑器",
+  "title": "资料库",
+  "layout": [],
+  "type": "editor",
+  "folderId": "162dc3e928e",
+  "fields": [
+    {
+      "name": "基本信息",
+      "type": "标签页",
+      "formFields": [
+        {
+          "id": "162bd1ff051",
+          "name": "desc",
+          "text": "名称",
+          "type": "单行文本框",
+          "formFields": [],
+          "required": true
+        },
+        {
+          "name": "containertype",
+          "text": "资料库类型",
+          "type": "单选框",
+          "formFields": [],
+          "required": true,
+          "optionValue": "pm#wc",
+          "optionText": "PM资料库#Windchill容器",
+          "radioStyle": "横向分段（默认）"
+        },
+        {
+          "name": "defaultquery",
+          "text": "所有用户可查询",
+          "type": "复选框",
+          "formFields": [],
+          "checkStyle": "开关（默认）"
+        },
+        {
+          "name": "description",
+          "text": "说明",
+          "type": "多行文本框",
+          "formFields": [],
+          "grabVertical": true
+        }
+      ]
+    },
+    {
+      "name": "组织拥有者",
+      "type": "标签页",
+      "formFields": [
+        {
+          "name": "organization",
+          "text": "组织拥有者",
+          "type": "多个对象选择框",
+          "formFields": [],
+          "selectorAssemblyId": "/组织选择器（项目承担单位）.gridassy",
+          "grabVertical": true,
+          "valueFieldName": "",
+          "hideLabel": true
+        }
+      ]
+    },
+    {
+      "name": "文档类型",
+      "type": "标签页",
+      "formFields": [
+        {
+          "name": "formDef",
+          "text": "文件类型",
+          "type": "多个对象选择框",
+          "formFields": [],
+          "selectorAssemblyId": "/vault/资料库表单定义.gridassy",
+          "grabVertical": true,
+          "valueFieldName": "",
+          "hideLabel": true
+        }
+      ]
+    },
+    {
+      "name": "Windchill集成",
+      "type": "标签页",
+      "formFields": [
+        {
+          "name": "wchost",
+          "text": "Windchill主机",
+          "type": "单行文本框",
+          "formFields": []
+        },
+        {
+          "name": "containername",
+          "text": "容器名称",
+          "type": "单行文本框",
+          "formFields": []
+        },
+        {
+          "name": "wcaddress",
+          "text": "同步服务",
+          "type": "单行文本框",
+          "formFields": []
+        },
+        {
+          "name": "wcview",
+          "text": "可视化服务",
+          "type": "单行文本框",
+          "formFields": [],
+          "textMessage": "http://\u003cyourdomain\u003e/Windchill/login/showObjectViewPage.jsp"
+        },
+        {
+          "name": "wcfolderservice",
+          "text": "文件夹服务",
+          "type": "单行文本框",
+          "formFields": [],
+          "textMessage": "http://\u003cyourdomain\u003e/Windchill/login/showFolderView.jsp"
+        },
+        {
+          "name": "wcuser",
+          "text": "用户名",
+          "type": "单行文本框",
+          "formFields": []
+        },
+        {
+          "name": "wcpassword",
+          "text": "密码",
+          "type": "单行文本框",
+          "formFields": []
+        }
+      ]
+    }
+  ],
+  "actions": [],
+  "smallEditor": true,
+  "disableInitLoadData": false
+}
