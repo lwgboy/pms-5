@@ -33,8 +33,8 @@
       "id": "16828c483d6",
       "name": "verify",
       "text": "验证内容",
-      "alignment": 16777216,
-      "width": 180,
+      "alignment": 16384,
+      "width": 800,
       "resizeable": true,
       "columns": [],
       "format": "yyyy-MM-dd HH:mm:ss"
@@ -44,7 +44,7 @@
       "name": "verifyImg",
       "text": "相关图片",
       "alignment": 16384,
-      "width": 320,
+      "width": 180,
       "resizeable": true,
       "columns": []
     },
@@ -53,7 +53,7 @@
       "name": "planDate",
       "text": "计划时间",
       "alignment": 16384,
-      "width": 320,
+      "width": 80,
       "resizeable": true,
       "columns": [],
       "format": "yyyy-MM-dd HH:mm:ss"

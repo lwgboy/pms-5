@@ -1,5 +1,4 @@
 {
-  "typeName": "站点",
   "id": "1618092b217",
   "name": "TOPS",
   "version": "2.0",
@@ -20,7 +19,6 @@
   },
   "pages": [
     {
-      "typeName": "页面",
       "id": "164067d4250",
       "name": "系统管理",
       "title": "系统管理",
@@ -213,10 +211,8 @@
         ]
       },
       "contentArea": {
-        "typeName": "内容区",
         "assemblyLinks": [
           {
-            "typeName": "组件链接",
             "id": "/系统管理首页面板.assy",
             "defaultAssembly": true,
             "text": "系统管理首页面板"
@@ -227,7 +223,6 @@
       "role": "系统管理员"
     },
     {
-      "typeName": "页面",
       "id": "167f7e0a80e",
       "name": "问题解决-TOPS过程",
       "title": "TOPS",
@@ -258,6 +253,15 @@
             "className": "com.bizvisionsoft.pms.problem.action.ExportProblemReport",
             "type": "customized",
             "parameters": "{\n\"template\":\"8DReport_cn.rptdesign\",\n\"fileName\":\"问题报告\",\n\"rptParam\":\n{\n\"pipeline-problem\":\"topsreport/pipeline-problem\",\n\"pipeline-d1cft\":\"topsreport/pipeline-d1cft\",\n\"pipeline-d2ProblemPhoto\":\"topsreport/pipeline-d2ProblemPhoto\",\n\"pipeline-d7Similar\":\"topsreport/pipeline-d7Similar\",\n\"pipeline-ai-era\":\"topsreport/pipeline-ai-era\",\n\"pipeline-ai-ica\":\"topsreport/pipeline-ai-ica\",\n\"pipeline-ai-pca-make\":\"topsreport/pipeline-ai-pca-make\",\n\"pipeline-ai-pca-out\":\"topsreport/pipeline-ai-pca-out\",\n\"pipeline-ai-spa\":\"topsreport/pipeline-ai-spa\",\n\"pipeline-causeRelation-make\":\"topsreport/pipeline-causeRelation-make\",\n\"pipeline-causeRelation-out\":\"topsreport/pipeline-causeRelation-out\"\n}\n}"
+          },
+          {
+            "id": "0530ea8b-b810-4b50-9f94-6d64ff541a2c",
+            "name": "输出8D报告2",
+            "text": "输出8D报告2",
+            "bundleId": "com.bizvisionsoft.pms",
+            "className": "com.bizvisionsoft.pms.problem.action.ExportProblemCNReport",
+            "type": "customized",
+            "debug": true
           }
         ],
         "sidebarItems": [
@@ -485,10 +489,8 @@
         ]
       },
       "contentArea": {
-        "typeName": "内容区",
         "assemblyLinks": [
           {
-            "typeName": "组件链接",
             "id": "/8D问题看板.assy",
             "text": "8D问题看板"
           }
@@ -497,7 +499,6 @@
       "inputDataSetService": "com.bizvisionsoft.service.ProblemService"
     },
     {
-      "typeName": "页面",
       "id": "167fcdbe622",
       "name": "问题管理",
       "title": "问题管理",
@@ -650,10 +651,8 @@
         ]
       },
       "contentArea": {
-        "typeName": "内容区",
         "assemblyLinks": [
           {
-            "typeName": "组件链接",
             "id": "/问题管理看板.assy",
             "text": "问题管理看板"
           }
@@ -663,7 +662,6 @@
       "excludeRole": "外部用户"
     },
     {
-      "typeName": "页面",
       "id": "168954a3362",
       "name": "问题管理客户入口",
       "title": "问题管理",
@@ -717,10 +715,8 @@
         ]
       },
       "contentArea": {
-        "typeName": "内容区",
         "assemblyLinks": [
           {
-            "typeName": "组件链接",
             "id": "/问题管理看板.assy",
             "text": "问题管理看板"
           }

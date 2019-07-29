@@ -46,7 +46,15 @@
       "name": "objective",
       "text": "预期结果",
       "alignment": 16384,
-      "width": 320,
+      "width": 240,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "name": "attachments",
+      "text": "附件",
+      "alignment": 16384,
+      "width": 240,
       "resizeable": true,
       "columns": []
     },

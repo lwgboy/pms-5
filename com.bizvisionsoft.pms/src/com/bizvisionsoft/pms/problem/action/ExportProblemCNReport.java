@@ -6,15 +6,25 @@ import org.eclipse.rap.rwt.RWT;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.bizivisionsoft.widgets.tools.WidgetHandler;
 import com.bizvisionsoft.annotations.ui.common.Execute;
+import com.bizvisionsoft.annotations.ui.common.Inject;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.bruiengine.service.IBruiContext;
+import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.service.UserSession;
+import com.bizvisionsoft.service.ProblemService;
+import com.bizvisionsoft.service.ReportService;
+import com.bizvisionsoft.service.ServicesLoader;
 import com.bizvisionsoft.service.model.Problem;
+import com.bizvisionsoft.serviceconsumer.Services;
 
 public class ExportProblemCNReport {
 
 	public Logger logger = LoggerFactory.getLogger(getClass());
+	
+	@Inject
+	private IBruiService br;
 
 	@Execute
 	private void execute(@MethodParam(Execute.CONTEXT) IBruiContext context) {
@@ -82,12 +92,8 @@ public class ExportProblemCNReport {
 		;
 
 		JsonObject jo = new JsonObject().set("rptParam", rptParam.toJson()).set("template", "8DReport_cn.rptdesign")
-				.set("fileName", "问题报告").set("serverPath",
-						"http://" + RWT.getRequest().getServerName() + ":" + RWT.getRequest().getServerPort());
-		UserSession.bruiToolkit().downloadServerFile("topsreport", jo);
-//		String serverFilePath = Services.get(ProblemService.class).createReportAndGetDownloadPath(rptParam,
-//				problem.get_id(), "8DReport_cn.rptdesign", "问题报告",
-//				"http://" + RWT.getRequest().getServerName() + ":" + RWT.getRequest().getServerPort());
-//		UserSession.bruiToolkit().downloadServerFile("bvs/fs", new JsonObject().set("id", serverFilePath));
+				.set("outputType", "excel").set("fileName", "问题报告").set("domain", br.getDomain());
+		UserSession.bruiToolkit().downloadServerFile("report", jo);
+//		UserSession.bruiToolkit().transportServerFile("report", "问题报告.xlsx", jo);
 	}
 }

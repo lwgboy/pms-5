@@ -138,7 +138,12 @@ public class ProblemChartRender extends BasicServiceImpl {
 		c("problem", domain).aggregate(Arrays.asList(//
 				Aggregates.unwind("$classifyProblems"),
 				Aggregates.match(
-						new Document("status", "已关闭").append("classifyProblems._ids", new Document("$in", catalog_ids)))//
+						new Document("status", "已关闭").append("classifyProblems._ids", new Document("$in", catalog_ids))),
+				new Document("$group",new Document().append("_id", null).append("p_id", new Document("$addToSet","$_id"))),
+				Aggregates.unwind("$p_id"),
+				Aggregates.lookup("problem", "p_id", "_id", "newproblem"),
+				Aggregates.unwind("$newproblem"),
+				new Document().append("$replaceRoot", new Document().append("newRoot","$newproblem"))
 		)).forEach((Document d) -> {
 			// Modify by zjc 20190318 将问题自身排除出相似问题中，否则会因为连线指向自身导致异常
 			if (HanLP.extractKeyword(d.getString("name"), 15).stream().anyMatch(keyword::contains)

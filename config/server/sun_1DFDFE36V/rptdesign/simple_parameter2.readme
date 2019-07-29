@@ -1,0 +1,5 @@
+输入参数：
+[{"$match":{"chargerId" : "0000032"}}, {"$lookup" : {"from" : "project", "localField" : "project_id","foreignField" : "_id", "as" : "project"}}, { "$unwind" : {"path" : "$project"}}]
+
+输入参数：
+[{"$match":{"project_id":{"$oid":"5b988ee1a183c92e0c105ede"}}}, {"$lookup" : {"from" : "project", "localField" : "project_id","foreignField" : "_id", "as" : "project"}}, { "$unwind" : {"path" : "$project"}}]
