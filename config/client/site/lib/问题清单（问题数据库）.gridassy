@@ -72,6 +72,14 @@
       "enableColumnSort": true
     },
     {
+      "name": "clickCount",
+      "text": "查看次数",
+      "alignment": 16777216,
+      "width": 80,
+      "resizeable": true,
+      "columns": []
+    },
+    {
       "id": "167eaef8e1d",
       "name": "issueBy",
       "text": "发起人",

@@ -47,6 +47,7 @@ import com.bizvisionsoft.service.provider.DateAdapter;
 import com.bizvisionsoft.service.provider.DocumentAdapter;
 import com.bizvisionsoft.service.provider.ObjectIdAdapter;
 import com.bizvisionsoft.service.tools.Check;
+import com.bizvisionsoft.service.tools.Formatter;
 import com.bizvisionsoft.serviceimpl.exception.ServiceException;
 import com.bizvisionsoft.serviceimpl.renderer.ProblemCardRenderer;
 import com.bizvisionsoft.serviceimpl.renderer.ProblemChartRender;
@@ -1346,6 +1347,28 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 	public Document createCountClassifyByProblemChart(String domain) {
 		return ProblemChartRender.renderCountClassifyByProblemChart(domain);
 	}
+	@Override
+	public Document createCountClassifyByProblemChartDate(String domain) {
+		return ProblemChartRender.renderCountClassifyByProblemChartDate(domain);
+	}
+	@Override
+	public Document createCountOrganizationChart(Document condition,String domain) {
+		return ProblemChartRender.renderCountcreateCountOrganizationChart(condition,domain);
+	}
+	
+	@Override
+	public Document createCountClassifyProblemChart(Document condition,String domain) {
+		return ProblemChartRender.renderCountcreateCountClassifyProblemChart(condition,domain);
+	}
+	@Override
+	public Document createCountClassifyProblemsChart(Document condition,String domain) {
+		return ProblemChartRender.renderCountcreateCountClassifyProblemsChart(condition,domain);
+	}
+	@Override
+	public Document createCountClassifyProblemXianXinChart(Document condition,String domain) {
+		return ProblemChartRender.renderCountcreateCountClassifyProblemXianXinChart(condition,domain);
+	}
+
 
 	@Override
 	public Document createCostClassifyByCauseChart(String domain) {
@@ -1718,4 +1741,172 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 				.map(d -> new ProblemCardRenderer(lang, domain).renderTODO(d)).into(new ArrayList<>());
 		return result;
 	}
+
+	@Override
+	public void updateClickCount(Problem problem, String domain) {
+		// TODO Auto-generated method stub
+		List<ObjectId> pjIds= new ArrayList<>();
+		pjIds.add(problem.get_id());
+		 c("problem", problem.domain).updateMany(new Document().append("_id",new Document("$in", pjIds)),
+				new Document().append("$set", new Document("clickCount",problem.getClickCount() +1)));
+	}
+	
+	@Override
+	public List<Document> classifyProblemListExp(BasicDBObject condition, String domain) {
+		List<Bson> pipe = new ArrayList<>();
+    	pipe.add(new Document("$unwind", new Document("path", "$problem").append("preserveNullAndEmptyArrays", true)));
+		appendConditionToPipeline(pipe, condition);
+		ArrayList<Document> doc=c("classifyProblem", domain).aggregate(Domain.getJQ(domain, "查询-问题根分类-客户投诉不良分类-资源").set("anddate", "2019").array()).into(new ArrayList<>());
+		List<Document> Lists=new ArrayList<>();
+		double sum=0;
+		double Proportion=0;
+		double AccumulativeProportion=0;
+		for (Document document : doc) {sum+=document.getInteger("count");}
+		for (Document document : doc) {
+			document.get("count");
+			Proportion=(document.getInteger("count")/sum)*100;
+			AccumulativeProportion+=Proportion;
+			document.append("zb", Proportion).append("jlzb", AccumulativeProportion);
+			Lists.add(document);
+		}
+		Lists.add(new Document().append("name", "总合").append("count", sum).append("zb", "100").append("jlzb", "100"));
+		return Lists;
+	}
+
+	@Override
+	public long classifyProblemCountExp(BasicDBObject filter, String domain) {
+		List<Bson> prefixPipelines = new ArrayList<>();
+		prefixPipelines.add(
+				new Document("$unwind", new Document("path", "$problem").append("preserveNullAndEmptyArrays", true)));
+		long lon=count("Practice", domain, filter, prefixPipelines);
+		return lon;
+	}
+	
+	@Override
+	public List<Document> classifyProblemListExpDetails(BasicDBObject condition, String domain) {
+		List<Bson> pipe = new ArrayList<>();
+    	pipe.add(new Document("$unwind", new Document("path", "$problem").append("preserveNullAndEmptyArrays", true)));
+		appendConditionToPipeline(pipe, condition);
+		ArrayList<Document> doc=c("classifyProblem", domain).aggregate(Domain.getJQ(domain, "查询-问题根分类-客户投诉不良分类").set("anddate", "2019").array()).into(new ArrayList<>());
+		List<Document> Lists=new ArrayList<>();
+		List<String> xAxis = getXAxisOrganizationChart();
+		for (int i = 0; i < doc.size(); i++) {
+			Document data = doc.get(i);
+			String name = data.getString("_id");
+			double[] Doubles = getDatas((List<?>) data.get("source"), xAxis, -1);
+			Lists.add(new Document().append("name", name)
+					.append("January", Doubles[0]).append("February", Doubles[1]).append("March", Doubles[2]).append("April", Doubles[3])
+					.append("May", Doubles[4]).append("June", Doubles[5]).append("July", Doubles[6]).append("August", Doubles[7])
+					.append("September", Doubles[8]).append("October", Doubles[9]).append("November", Doubles[10]).append("December", Doubles[11])
+					.append("Total", Doubles[0]+Doubles[1]+Doubles[2]+Doubles[3]+Doubles[4]+Doubles[5]+Doubles[6]
+							+Doubles[7]+Doubles[8]+Doubles[9]+Doubles[10]+Doubles[11]));
+		}
+		return Lists;
+	}
+
+	@Override
+	public long classifyProblemCountExpDetails(BasicDBObject filter, String domain) {
+		List<Bson> prefixPipelines = new ArrayList<>();
+		prefixPipelines.add(
+				new Document("$unwind", new Document("path", "$problem").append("preserveNullAndEmptyArrays", true)));
+		long lon=count("Practice", domain, filter, prefixPipelines);
+		return lon;
+	}
+	
+	int i=0;
+	private double [] getDatas(List<?> list, List<String> xAxis, int direction) {
+		i=0;
+		Map<String, Double> map = new HashMap<String, Double>();
+		list.forEach(o ->map.put(((Document) o).getString("_id"), 
+				Double.parseDouble(((Document) o).getInteger("value").toString())));
+		Calendar cal = Calendar.getInstance();
+		double [] cValue = new double[12];
+		xAxis.forEach(date -> {
+			try {
+				cal.setTime(new SimpleDateFormat("yyyy-MM").parse(date));
+				cal.add(Calendar.MONTH, -1);
+				double pValue = Optional.ofNullable(map.get(date)).orElse(0d);
+				cValue[i]=pValue;
+				i++;
+			} catch (ParseException e) {
+				
+			}
+		});
+		return cValue;
+	}
+	
+	private List<String> getXAxisOrganizationChart() {
+        Calendar currCal=Calendar.getInstance();  
+        int currentYear = currCal.get(Calendar.YEAR);
+		//获取最小时间
+		Date from =getYearFirst(currentYear);
+		//获取最大时间
+		Date to = getYearLast(currentYear);
+		//以时间段为参数传入 返回 list 集合  时间数据
+		return getXAxisData("month", from, to); 
+	}
+		
+	public static Date getYearFirst(int year) {
+		Calendar calendar=Calendar.getInstance();
+		calendar.clear();
+		calendar.set(Calendar.YEAR, year);
+		Date CurrYearFirst=calendar.getTime();
+		return CurrYearFirst;
+	}
+	
+	public static Date getYearLast(int year) {
+		Calendar calendar=Calendar.getInstance();
+		calendar.clear();
+		calendar.set(Calendar.YEAR, year);
+		calendar.roll(Calendar.DAY_OF_YEAR, -1);
+		Date CurrYearFirst=calendar.getTime();
+		return CurrYearFirst;
+	}
+
+	private ArrayList<String> getXAxisData(String xAxis, Date from, Date to) {
+		ArrayList<String> xAxisData = new ArrayList<String>();
+		SimpleDateFormat sdf;
+		if ("date".equals(xAxis)) {
+			Calendar cal = Calendar.getInstance();
+			from = Formatter.getStartOfDay(from);
+			to = Formatter.getEndOfDay(to);
+			cal.setTime(from);
+			sdf = new SimpleDateFormat("yyyy-MM-dd");
+			while (!cal.getTime().after(to)) {
+				xAxisData.add(sdf.format(cal.getTime()));
+				cal.add(Calendar.DAY_OF_MONTH, 1);
+			}
+		} else if ("month".equals(xAxis)) {
+			Calendar cal = Calendar.getInstance();
+			//     时间类                  方法为  获取这个月的第一天
+			from = Formatter.getStartOfMonth(from);
+			//     时间类                  方法为  获取这个月的最后一天
+			to = Formatter.getEndOfMonth(to);
+			cal.setTime(from);
+			sdf = new SimpleDateFormat("yyyy-MM");
+			//从时间类最早月份开始    到 最后 中间所有的月份  保存到 cal 中
+			//          判断 月份时候跟当前月份相同 如果不相同
+			while (!cal.getTime().after(to)) {
+				xAxisData.add(sdf.format(cal.getTime()));
+				//月份加一
+				cal.add(Calendar.MONTH, 1);
+			}
+		} else if ("year".equals(xAxis)) {
+			Calendar cal = Calendar.getInstance();
+			from = Formatter.getStartOfYear(from);
+			to = Formatter.getEndOfYear(to);
+			cal.setTime(from);
+			sdf = new SimpleDateFormat("yyyy");
+			while (!cal.getTime().after(to)) {
+				xAxisData.add(sdf.format(cal.getTime()));
+				cal.add(Calendar.YEAR, 1);
+			}
+		}
+		return xAxisData;
+	}
+
+	
+	
+	
+	
 }
