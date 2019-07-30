@@ -58,9 +58,9 @@ public class JSTools {
 		ScriptEngine se = getEngine();
 		try {
 			Object value = se.eval(src, b);
-			if (function != null && !function.isEmpty()) {
+			if (Check.isAssigned(function)) {
 				value = ((Invocable) se).invokeFunction(function.trim(), functionInput);
-			} else {
+			} else if (Check.isAssigned(outputVarName)) {
 				value = se.get(outputVarName);
 			}
 			return value;

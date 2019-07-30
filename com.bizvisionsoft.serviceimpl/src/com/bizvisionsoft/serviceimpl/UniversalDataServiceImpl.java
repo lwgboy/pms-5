@@ -28,6 +28,7 @@ import com.bizvisionsoft.service.provider.DateAdapter;
 import com.bizvisionsoft.service.provider.DocumentAdapter;
 import com.bizvisionsoft.service.provider.ObjectIdAdapter;
 import com.bizvisionsoft.service.tools.Check;
+import com.bizvisionsoft.service.tools.Formatter;
 import com.bizvisionsoft.service.tools.JSTools;
 import com.bizvisionsoft.service.tools.ServiceHelper;
 import com.bizvisionsoft.serviceimpl.exception.ServiceException;
@@ -52,11 +53,11 @@ public class UniversalDataServiceImpl extends BasicServiceImpl implements Univer
 		} else {
 			if (qName != null) {
 				JQ jq = Domain.getJQ(domain, qName);
-				List<String> parameters = JQ.listParameter(jq.getJS());
+				List<String> parameters = Formatter.listParameter(jq.getJS());
 				setQueryParameters(command, parameters, jq, domain);
 				pipeline = jq.array();
 			} else {
-				List<String> parameters = JQ.listParameter(qPipeline);
+				List<String> parameters = Formatter.listParameter(qPipeline);
 				JQ jq = new JQ();
 				setQueryParameters(command, parameters, jq, domain);
 				pipeline = jq.array(qPipeline);

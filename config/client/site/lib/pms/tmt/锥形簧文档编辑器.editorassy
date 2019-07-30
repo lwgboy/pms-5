@@ -40,12 +40,13 @@
             },
             {
               "name": "productNo",
+              "description": "例子：下拉选项 查询的项目名称为产品名称的记录",
               "text": "物资编码",
               "type": "下拉选择框",
               "formFields": [],
               "readOnly": false,
               "optionQueryCollection": "project",
-              "optionQueryPipeline": "[\r\n{\"$match\":{\"name\":\"\u003cproductName\u003e\"}},\r\n{\"$project\" : {\"value\" : \"$name\"}}\r\n]",
+              "optionQueryPipeline": "[\r\n{\"$match\":{\"name\":\"\u003cproductName\u003e\"}},\r\n{\"$project\" : {\"value\" : \"$id\"}}\r\n]",
               "optionQueryParameters": "productName",
               "stdReportFieldFontFamily": "Consolas",
               "stdReportFieldFontSize": 16
@@ -58,6 +59,8 @@
               "readOnly": false,
               "optionText": "A类#B类#C类",
               "radioStyle": "横向分段（默认）",
+              "computeQueryParameters": "",
+              "isComputeField": false,
               "stdReportFieldBold": true
             }
           ]
@@ -88,7 +91,10 @@
               "text": "工作令号",
               "type": "单行文本框",
               "formFields": [],
-              "readOnly": false
+              "readOnly": false,
+              "computePreProcess": "\"ABS-\"+input.get(\"productNo\");",
+              "computeQueryParameters": "productNo",
+              "isComputeField": true
             }
           ]
         },
