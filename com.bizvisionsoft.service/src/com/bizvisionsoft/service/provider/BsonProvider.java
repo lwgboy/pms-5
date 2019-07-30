@@ -11,6 +11,7 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.Produces;
@@ -21,6 +22,7 @@ import javax.ws.rs.ext.MessageBodyReader;
 import javax.ws.rs.ext.MessageBodyWriter;
 import javax.ws.rs.ext.Provider;
 
+import org.bson.BsonArray;
 import org.bson.Document;
 import org.bson.types.ObjectId;
 import org.slf4j.Logger;
@@ -107,39 +109,47 @@ public class BsonProvider<T> implements MessageBodyReader<T>, MessageBodyWriter<
 		String className = ur.getTargetClassName();
 		String bundleName = ur.getTargetBundleName();
 		Class<?> clazz = ServicesLoader.getClass(className, bundleName);
-		if (clazz == null) {
-			ur.setValue(Document.parse(ur.getResult()));
-			return (T) ur;
-		}
-		try {
+		if (clazz == null || clazz.getName().equals("org.bson.Document")) {
 			if (ur.isList()) {
-				ParameterizedType rpt = new ParameterizedType() {
-					@Override
-					public Type[] getActualTypeArguments() {
-						return new Type[] { clazz };
+				List<Document> value = new ArrayList<>();
+				BsonArray arr = BsonArray.parse(ur.getResult());
+				arr.forEach(v -> {
+					if (v.isDocument()) {
+						value.add(Document.parse(v.asDocument().toJson()));
 					}
-
-					@Override
-					public Type getRawType() {
-						return ArrayList.class;
-					}
-
-					@Override
-					public Type getOwnerType() {
-						return null;
-					}
-				};
-				ur.setValue(getGson().fromJson(ur.getResult(), rpt));
-				return (T) ur;
+				});
+				ur.setValue(value);
 			} else {
-				ur.setValue(getGson().fromJson(ur.getResult(), clazz));
-				return (T) ur;
+				ur.setValue(Document.parse(ur.getResult()));
 			}
+		} else {
+			try {
+				if (ur.isList()) {
+					ParameterizedType rpt = new ParameterizedType() {
+						@Override
+						public Type[] getActualTypeArguments() {
+							return new Type[] { clazz };
+						}
 
-		} catch (Exception e) {
-			logger.error(e.getMessage(), e);
+						@Override
+						public Type getRawType() {
+							return ArrayList.class;
+						}
+
+						@Override
+						public Type getOwnerType() {
+							return null;
+						}
+					};
+					ur.setValue(getGson().fromJson(ur.getResult(), rpt));
+				} else {
+					ur.setValue(getGson().fromJson(ur.getResult(), clazz));
+				}
+			} catch (Exception e) {
+				logger.error(e.getMessage(), e);
+			}
 		}
-		return null;
+		return (T) ur;
 	}
 
 }

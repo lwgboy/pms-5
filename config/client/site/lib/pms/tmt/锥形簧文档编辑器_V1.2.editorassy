@@ -159,7 +159,7 @@
               "text": "结构设计师",
               "type": "对象选择框",
               "formFields": [],
-              "selectorAssemblyId": "/项目团队.gridassy",
+              "selectorAssemblyId": "/demo/选项目团队.gridassy",
               "valueFieldName": "userId"
             },
             {

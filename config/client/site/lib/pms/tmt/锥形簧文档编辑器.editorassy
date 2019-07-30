@@ -164,7 +164,7 @@
               "text": "结构设计师",
               "type": "对象选择框",
               "formFields": [],
-              "selectorAssemblyId": "/项目团队.gridassy",
+              "selectorAssemblyId": "/demo/选项目团队.gridassy",
               "valueFieldName": "userId"
             },
             {
@@ -745,14 +745,6 @@
       "text": "默认导出",
       "style": "info",
       "type": "export"
-    },
-    {
-      "name": "导出",
-      "text": "模板导出",
-      "bundleId": "com.bizvisionsoft.pms",
-      "className": "com.bizvisionsoft.pms.tmt.DemoExport",
-      "style": "info",
-      "type": "customized"
     }
   ],
   "smallEditor": false,

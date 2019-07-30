@@ -2,6 +2,9 @@ package com.bizvisionsoft.serviceimpl;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.bson.Document;
@@ -18,10 +21,15 @@ import com.bizvisionsoft.mongocodex.codec.Codex;
 import com.bizvisionsoft.mongocodex.codec.CodexProvider;
 import com.bizvisionsoft.service.ServicesLoader;
 import com.bizvisionsoft.service.UniversalDataService;
+import com.bizvisionsoft.service.common.Domain;
+import com.bizvisionsoft.service.common.JQ;
 import com.bizvisionsoft.service.provider.BasicDBObjectAdapter;
 import com.bizvisionsoft.service.provider.DateAdapter;
 import com.bizvisionsoft.service.provider.DocumentAdapter;
 import com.bizvisionsoft.service.provider.ObjectIdAdapter;
+import com.bizvisionsoft.service.tools.Check;
+import com.bizvisionsoft.service.tools.JSTools;
+import com.bizvisionsoft.service.tools.ServiceHelper;
 import com.bizvisionsoft.serviceimpl.exception.ServiceException;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -35,7 +43,25 @@ public class UniversalDataServiceImpl extends BasicServiceImpl implements Univer
 
 	@Override
 	public UniversalResult list(UniversalCommand command, String domain) {
-		ArrayList<Bson> pipeline = new ArrayList<Bson>();
+		List<Bson> pipeline;
+
+		String qName = command.getQueryJQ();
+		String qPipeline = command.getQueryPipeline();
+		if (qName == null && qPipeline == null) {
+			pipeline = new ArrayList<>();
+		} else {
+			if (qName != null) {
+				JQ jq = Domain.getJQ(domain, qName);
+				List<String> parameters = JQ.listParameter(jq.getJS());
+				setQueryParameters(command, parameters, jq, domain);
+				pipeline = jq.array();
+			} else {
+				List<String> parameters = JQ.listParameter(qPipeline);
+				JQ jq = new JQ();
+				setQueryParameters(command, parameters, jq, domain);
+				pipeline = jq.array(qPipeline);
+			}
+		}
 
 		Integer skip = command.getParameter("condition.skip", Integer.class);
 		Integer limit = command.getParameter("condition.limit", Integer.class);
@@ -57,8 +83,31 @@ public class UniversalDataServiceImpl extends BasicServiceImpl implements Univer
 		return listResult(className, bundleName, getGson().toJson(result), domain);
 	}
 
+	private void setQueryParameters(UniversalCommand command, List<String> parameters, JQ jq, String domain) {
+		// 运行前处理
+		String js = command.getQueryPreProcess();
+		if (Check.isAssigned(js)) {
+			Map<String, Object> cmdParams = command.getParameters();
+			Map<String, Object> params = new HashMap<String, Object>();
+			Document binding = new Document("cmdParams", cmdParams).append("ServiceHelper", new ServiceHelper(domain)).append("params",
+					params);
+			JSTools.invoke(js, null, "params", binding);
+			params.forEach(jq::set);
+		} else {
+			// 直接设置参数
+			parameters.forEach(p -> {
+				Object value = command.getParameter(p);
+				jq.set(p, value);
+			});
+		}
+	}
+
 	private MongoCollection<Document> col(UniversalCommand command, String domain) {
-		String colName = command.getTargetCollection();
+		String colName = command.getQueryCollection();
+		if (colName != null)
+			return c(colName, domain);
+
+		colName = command.getTargetCollection();
 		if (colName != null)
 			return c(colName, domain);
 

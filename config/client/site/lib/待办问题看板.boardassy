@@ -1,0 +1,30 @@
+{
+  "id": "/解决中问题看板.boardassy",
+  "name": "待办问题看板",
+  "title": "解决中问题看板",
+  "layout": [],
+  "type": "board",
+  "stickerTitle": "已指定行动角色",
+  "folderId": "167fcdcde82",
+  "gridAutoHeight": true,
+  "gridDataSetService": "com.bizvisionsoft.service.ProblemService",
+  "columns": [],
+  "fields": [],
+  "actions": [],
+  "rowActions": [
+    {
+      "id": "bd78ed84-6031-40e7-8f94-1cc3e39a5ee0",
+      "name": "操作",
+      "text": "",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.problem.action.ToDoAction",
+      "type": "customized"
+    }
+  ],
+  "hasTitlebar": true,
+  "disableStdQuery": false,
+  "parameters": "{\"status\":\"解决中\",\"render\":\"card\"}",
+  "scrollLoadData": false,
+  "compactTitleBar": true,
+  "sortFields": []
+}
