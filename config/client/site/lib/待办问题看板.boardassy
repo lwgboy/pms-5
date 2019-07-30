@@ -4,7 +4,7 @@
   "title": "解决中问题看板",
   "layout": [],
   "type": "board",
-  "stickerTitle": "待办事项",
+  "stickerTitle": "已指定行动角色",
   "folderId": "167fcdcde82",
   "gridAutoHeight": true,
   "gridDataSetService": "com.bizvisionsoft.service.ProblemService",
