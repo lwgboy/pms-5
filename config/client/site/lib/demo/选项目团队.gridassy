@@ -35,9 +35,8 @@
     }
   ],
   "queryCollection": "project",
-  "queryPipeline": "[ {\"$match\" : {\t\"name\" : \"\u003ccontext_input_object.projectName\u003e\"}}\r\n, {\"$lookup\" : {\"from\" : \"obs\", \"localField\" : \"_id\", \"foreignField\" : \"scope_id\",\"as\" : \"obs\"}}\r\n, {\"$unwind\" : {\"path\" : \"$obs\"}}\r\n, {\"$replaceRoot\" : {\"newRoot\" : \"$obs\"}}\r\n, {\"$group\" : {\"_id\" : \"$managerId\"}}\r\n, {\"$lookup\" : {\"from\" : \"user\",\"localField\" : \"_id\",\"foreignField\" : \"userId\",\"as\" : \"user\"}}\r\n, {\"$unwind\" : {\"path\" : \"$user\"}}\r\n, {\"$replaceRoot\" : {\"newRoot\" : \"$user\"}}]",
-  "queryDecodeClass": "",
-  "queryDecodeClassBundle": "",
+  "queryPipeline": "[ {\"$match\" : {\t\"name\" : \"\u003c项目名称\u003e\"}}\r\n, {\"$lookup\" : {\"from\" : \"obs\", \"localField\" : \"_id\", \"foreignField\" : \"scope_id\",\"as\" : \"obs\"}}\r\n, {\"$unwind\" : {\"path\" : \"$obs\"}}\r\n, {\"$replaceRoot\" : {\"newRoot\" : \"$obs\"}}\r\n, {\"$group\" : {\"_id\" : \"$managerId\"}}\r\n, {\"$lookup\" : {\"from\" : \"user\",\"localField\" : \"_id\",\"foreignField\" : \"userId\",\"as\" : \"user\"}}\r\n, {\"$unwind\" : {\"path\" : \"$user\"}}\r\n, {\"$replaceRoot\" : {\"newRoot\" : \"$user\"}}]",
+  "queryParameterProcess": "var contextInput \u003d cmdParams.get(\"context_input_object\");\r\nif(contextInput!\u003dnull){\r\n  params.put(\"项目名称\",contextInput.projectName);\r\n}",
   "fields": [
     {
       "name": "userId",
