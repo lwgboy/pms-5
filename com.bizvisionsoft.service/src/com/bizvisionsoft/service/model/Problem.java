@@ -524,6 +524,13 @@ public class Problem {
 	private String flowID;
 	
 	/**
+	 * 声学：项目阶段
+	 */
+	@ReadValue
+	@WriteValue
+	private String str1;
+	
+	/**
 	 * 预留boolean字段1：
 	 * 信维：Shipment Inspection/Agents Release(出货前/第三方检查）
 	 */
