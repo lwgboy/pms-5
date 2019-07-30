@@ -620,6 +620,58 @@
             <property name="id">2001</property>
             <expression name="value" type="javascript">params["pipeline-problem"].value</expression>
         </structure>
+        <structure>
+            <property name="name">queryText</property>
+            <property name="id">2001</property>
+        </structure>
+        <structure>
+            <property name="name">selectedFields</property>
+            <property name="id">2001</property>
+        </structure>
+        <structure>
+            <property name="name">findQueryExpr</property>
+            <property name="id">2001</property>
+        </structure>
+        <structure>
+            <property name="name">sortExpr</property>
+            <property name="id">2001</property>
+        </structure>
+        <structure>
+            <property name="name">batchSize</property>
+            <property name="id">2001</property>
+        </structure>
+        <structure>
+            <property name="name">rtMDSearchLimit</property>
+            <property name="id">2001</property>
+        </structure>
+        <structure>
+            <property name="name">numSkipDocuments</property>
+            <property name="id">2001</property>
+        </structure>
+        <structure>
+            <property name="name">indexHints</property>
+            <property name="id">2001</property>
+        </structure>
+        <structure>
+            <property name="name">queryReadPreference</property>
+            <property name="id">2001</property>
+        </structure>
+        <structure>
+            <property name="name">queryReadPreferenceTags</property>
+            <property name="id">2001</property>
+        </structure>
+        <structure>
+            <property name="name">noTimeOut</property>
+            <property name="id">2001</property>
+        </structure>
+        <structure>
+            <property name="name">allowsPartialResults</property>
+            <property name="id">2001</property>
+        </structure>
+        <structure>
+            <property name="name">flattenCollections</property>
+            <property name="id">2001</property>
+        </structure>
     </list-property>
     <property name="units">in</property>
     <property name="iconFile">/templates/blank_report.gif</property>
@@ -753,7 +805,9 @@
             <property name="ignoreURI">true</property>
             <property name="serverHost">127.0.0.1</property>
             <property name="serverPort">10001</property>
-            <property name="databaseName">bvs_std</property>
+            <property name="databaseName">aco_1DH08IJBC</property>
+            <property name="userName">651854967@qq.com</property>
+            <encrypted-property name="password" encryptionID="base64">WFhEZ3dWaEM=</encrypted-property>
             <property name="socketKeepAlive">false</property>
             <property name="useRequestSession">false</property>
         </oda-data-source>
@@ -1004,7 +1058,7 @@
                     <property name="nativeDataType">2</property>
                 </structure>
             </list-property>
-            <xml-property name="queryText"><![CDATA[{ "operationExpr" : "[{$match:{\"problem_id\":{\"$oid\":\"5c44aa2ee37dab171c7e1453\"}}}, \r\n        { \r\n            \"$addFields\" : {\r\n                \"title\" : \"$verification.title\", \r\n                \"comment\" : \"$verification.comment\", \r\n                \"verificationuser\" : \"$verification.user_meta.name\", \r\n                \"verificationdate\" : \"$verification.date\", \r\n                \"chargername\" : \"$charger_meta.name\",\"finish\": {$cond:[\"$finish\",\"是\",\"否\"]},\r\n                \"verificationAttachment\":\"$verification.attachment.name\"\r\n            }\r\n        }]" , "operationType" : "AGGREGATE" , "selectedFields" : [ "action" , "detail" , "objective" , "planStart" , "planFinish" , "finish" , "index" , "title" , "comment" , "chargername" , "verificationuser" , "verificationdate" , "verificationAttachment"] , "collectionName" : "problemAction"}]]></xml-property>
+            <xml-property name="queryText"><![CDATA[{ "operationExpr" : "[{$match:{\"problem_id\":{\"$oid\":\"5d25a044b6c4951db0934006\"}}}, \r\n        { \r\n            \"$addFields\" : {\r\n                \"title\" : \"$verification.title\", \r\n                \"comment\" : \"$verification.comment\", \r\n                \"verificationuser\" : \"$verification.user_meta.name\", \r\n                \"verificationdate\" : \"$verification.date\", \r\n                \"chargername\" : \"$charger_meta.name\",\"finish\": {$cond:[\"$finish\",\"是\",\"否\"]},\r\n                \"verificationAttachment\":\"$verification.attachment.name\"\r\n            }\r\n        }]" , "operationType" : "AGGREGATE" , "selectedFields" : [ "action" , "detail" , "objective" , "planStart" , "planFinish" , "finish" , "index" , "title" , "comment" , "chargername" , "verificationuser" , "verificationdate" , "verificationAttachment"] , "collectionName" : "problemAction"}]]></xml-property>
             <structure name="designerState">
                 <property name="version">1.0</property>
                 <property name="stateContentAsString">false,1</property>
@@ -2589,7 +2643,7 @@
                     <property name="nativeDataType">2</property>
                 </structure>
             </list-property>
-            <xml-property name="queryText"><![CDATA[{ "operationExpr" : "[{$match:{\"problem_id\":{\"$oid\":\"5c44aa2ee37dab171c7e1453\"}}}, \r\n        { \r\n            \"$addFields\" : {\r\n                \"title\" : \"$verification.title\", \r\n                \"comment\" : \"$verification.comment\", \r\n                \"verificationuser\" : \"$verification.user_meta.name\", \r\n                \"verificationdate\" : \"$verification.date\", \r\n                \"chargername\" : \"$charger_meta.name\",\"finish\": {$cond:[\"$finish\",\"是\",\"否\"]},\r\n                \"verificationAttachment\":\"$verification.attachment.name\"\r\n            }\r\n        }]" , "operationType" : "AGGREGATE" , "selectedFields" : [ "action" , "objective" , "planStart" , "planFinish" , "detail" , "finish" , "index" , "title" , "comment" , "chargername" , "verificationuser" , "verificationdate" , "verificationAttachment"] , "collectionName" : "problemAction"}]]></xml-property>
+            <xml-property name="queryText"><![CDATA[{ "operationExpr" : "[{$match:{\"problem_id\":{\"$oid\":\"5d25a044b6c4951db0934006\"}}}, \r\n        { \r\n            \"$addFields\" : {\r\n                \"title\" : \"$verification.title\", \r\n                \"comment\" : \"$verification.comment\", \r\n                \"verificationuser\" : \"$verification.user_meta.name\", \r\n                \"verificationdate\" : \"$verification.date\", \r\n                \"chargername\" : \"$charger_meta.name\",\"finish\": {$cond:[\"$finish\",\"是\",\"否\"]},\r\n                \"verificationAttachment\":\"$verification.attachment.name\"\r\n            }\r\n        }]" , "operationType" : "AGGREGATE" , "selectedFields" : [ "action" , "objective" , "planStart" , "planFinish" , "detail" , "finish" , "index" , "title" , "comment" , "chargername" , "verificationuser" , "verificationdate" , "verificationAttachment"] , "collectionName" : "problemAction"}]]></xml-property>
             <structure name="designerState">
                 <property name="version">1.0</property>
                 <property name="stateContentAsString">false,10</property>
@@ -4174,7 +4228,7 @@
                     <property name="nativeDataType">2</property>
                 </structure>
             </list-property>
-            <xml-property name="queryText"><![CDATA[{ "operationExpr" : "[{$match:{\"problem_id\":{\"$oid\":\"5c44aa2ee37dab171c7e1453\"}}}, \r\n        { \r\n            \"$addFields\" : {\r\n                \"title\" : \"$verification.title\", \r\n                \"comment\" : \"$verification.comment\", \r\n                \"verificationuser\" : \"$verification.user_meta.name\", \r\n                \"verificationdate\" : \"$verification.date\", \r\n                \"chargername\" : \"$charger_meta.name\",\"finish\": {$cond:[\"$finish\",\"是\",\"否\"]},\r\n                \"verificationAttachment\":\"$verification.attachment.name\"\r\n            }\r\n        }]" , "operationType" : "AGGREGATE" , "selectedFields" : [ "action" , "objective" , "planStart" , "planFinish" , "detail" , "index" , "title" , "comment" , "chargername" , "finish" , "verificationuser" , "verificationdate" , "verificationAttachment"] , "collectionName" : "problemAction"}]]></xml-property>
+            <xml-property name="queryText"><![CDATA[{ "operationExpr" : "[{$match:{\"problem_id\":{\"$oid\":\"5d25a044b6c4951db0934006\"}}}, \r\n        { \r\n            \"$addFields\" : {\r\n                \"title\" : \"$verification.title\", \r\n                \"comment\" : \"$verification.comment\", \r\n                \"verificationuser\" : \"$verification.user_meta.name\", \r\n                \"verificationdate\" : \"$verification.date\", \r\n                \"chargername\" : \"$charger_meta.name\",\"finish\": {$cond:[\"$finish\",\"是\",\"否\"]},\r\n                \"verificationAttachment\":\"$verification.attachment.name\"\r\n            }\r\n        }]" , "operationType" : "AGGREGATE" , "selectedFields" : [ "action" , "objective" , "planStart" , "planFinish" , "detail" , "index" , "title" , "comment" , "chargername" , "finish" , "verificationuser" , "verificationdate" , "verificationAttachment"] , "collectionName" : "problemAction"}]]></xml-property>
             <structure name="designerState">
                 <property name="version">1.0</property>
                 <property name="stateContentAsString">false,10</property>
@@ -4622,7 +4676,7 @@
                     <property name="nativeDataType">2</property>
                 </structure>
             </list-property>
-            <xml-property name="queryText"><![CDATA[{ "operationExpr" : "[ { '$match' :{\"problem_id\":{\"$oid\":\"5c44aa2ee37dab171c7e1453\"}} }, { '$sort' :{ 'role' : 1 } }]" , "operationType" : "AGGREGATE" , "selectedFields" : [ "member" , "role" , "name" , "mobile" , "position" , "email" , "dept"] , "collectionName" : "d1CFT"}]]></xml-property>
+            <xml-property name="queryText"><![CDATA[{ "operationExpr" : "[ { '$match' :{\"problem_id\":{\"$oid\":\"5d25a044b6c4951db0934006\"}} }, { '$sort' :{ 'role' : 1 } }]" , "operationType" : "AGGREGATE" , "selectedFields" : [ "member" , "role" , "name" , "mobile" , "position" , "email" , "dept"] , "collectionName" : "d1CFT"}]]></xml-property>
             <structure name="designerState">
                 <property name="version">1.0</property>
                 <property name="stateContentAsString">false,1</property>
@@ -4929,7 +4983,7 @@
                     <property name="nativeDataType">2</property>
                 </structure>
             </list-property>
-            <xml-property name="queryText"><![CDATA[{ "operationExpr" : "[\r\n        { \r\n            \"$match\" : {\r\n\"problem_id\":{\"$oid\":\"5c44aa2ee37dab171c7e1453\"}\r\n            }\r\n        }, \r\n        { \r\n            \"$unwind\" : {\r\n                \"path\" : \"$problemImg\", \r\n                \"preserveNullAndEmptyArrays\" : true\r\n            }\r\n        }, \r\n        { \r\n            \"$addFields\" : {\r\n                \"img\" : {\r\n                    \"$concat\" : [\r\n                        \"<img alt='' src='/bvs/fs?id=\", \r\n                        {\r\n                            \"$toString\" : \"$problemImg._id\"\r\n                        }, \r\n                        \"&amp;namespace=\", \r\n                        \"$problemImg.namepace\", \r\n                        \"&amp;name=\", \r\n                        \"$problemImg.name\", \r\n                        \"&amp;sid=rwt' style='width:200px' />\"\r\n                    ]\r\n                }\r\n            }\r\n        }\r\n    ]" , "operationType" : "AGGREGATE" , "selectedFields" : [ "problemImgDesc" , "location" , "receiveDate" , "receiver" , "img"] , "collectionName" : "d2ProblemPhoto"}]]></xml-property>
+            <xml-property name="queryText"><![CDATA[{ "operationExpr" : "[\r\n        { \r\n            \"$match\" : {\r\n\"problem_id\":{\"$oid\":\"5d25a044b6c4951db0934006\"}\r\n            }\r\n        }, \r\n        { \r\n            \"$unwind\" : {\r\n                \"path\" : \"$problemImg\", \r\n                \"preserveNullAndEmptyArrays\" : true\r\n            }\r\n        }, \r\n        { \r\n            \"$addFields\" : {\r\n                \"img\" : {\r\n                    \"$concat\" : [\r\n                        \"<img alt='' src='/bvs/fs?id=\", \r\n                        {\r\n                            \"$toString\" : \"$problemImg._id\"\r\n                        }, \r\n                        \"&amp;namespace=\", \r\n                        \"$problemImg.namepace\", \r\n                        \"&amp;name=\", \r\n                        \"$problemImg.name\", \r\n                        \"&amp;sid=rwt' style='width:200px' />\"\r\n                    ]\r\n                }\r\n            }\r\n        }\r\n    ]" , "operationType" : "AGGREGATE" , "selectedFields" : [ "problemImgDesc" , "location" , "receiveDate" , "receiver" , "img"] , "collectionName" : "d2ProblemPhoto"}]]></xml-property>
             <structure name="designerState">
                 <property name="version">1.0</property>
                 <property name="stateContentAsString">false,1</property>
@@ -5421,12 +5475,6 @@
                     <text-property name="heading">evidenceData</text-property>
                 </structure>
                 <structure>
-                    <property name="columnName">classifyProblem.path</property>
-                    <property name="analysis">dimension</property>
-                    <text-property name="displayName">classifyProblem.path</text-property>
-                    <text-property name="heading">classifyProblem.path</text-property>
-                </structure>
-                <structure>
                     <property name="columnName">deptName</property>
                     <property name="analysis">dimension</property>
                     <text-property name="displayName">deptName</text-property>
@@ -5714,11 +5762,6 @@
                     <structure>
                         <property name="position">26</property>
                         <property name="name">evidenceData</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">27</property>
-                        <property name="name">classifyProblem.path</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
@@ -6038,13 +6081,6 @@
                     <property name="nativeDataType">2</property>
                 </structure>
                 <structure>
-                    <property name="position">27</property>
-                    <property name="name">classifyProblem.path</property>
-                    <property name="nativeName">classifyProblem.path</property>
-                    <property name="dataType">string</property>
-                    <property name="nativeDataType">2</property>
-                </structure>
-                <structure>
                     <property name="position">28</property>
                     <property name="name">deptName</property>
                     <property name="nativeName">deptName</property>
@@ -6227,7 +6263,7 @@
                     <property name="nativeDataType">2</property>
                 </structure>
             </list-property>
-            <xml-property name="queryText"><![CDATA[{ "operationExpr" : "[\r\n        { \r\n            \"$match\" : {\r\n\"_id\":{\"$oid\":\"5c44aa2ee37dab171c7e1453\"}\r\n            }\r\n        }, \r\n        { \r\n            \"$lookup\" : {\r\n                \"from\" : \"d2ProblemDesc\", \r\n                \"localField\" : \"_id\", \r\n                \"foreignField\" : \"_id\", \r\n                \"as\" : \"d2ProblemDesc\"\r\n            }\r\n        }, \r\n        { \r\n            \"$unwind\" : {\r\n                \"path\" : \"$d2ProblemDesc\", \r\n                \"preserveNullAndEmptyArrays\" : true\r\n            }\r\n        }, \r\n        { \r\n            \"$lookup\" : {\r\n                \"from\" : \"d4RootCauseDesc\", \r\n                \"localField\" : \"_id\", \r\n                \"foreignField\" : \"_id\", \r\n                \"as\" : \"d4RootCauseDesc\"\r\n            }\r\n        }, \r\n        { \r\n            \"$unwind\" : {\r\n                \"path\" : \"$d4RootCauseDesc\", \r\n                \"preserveNullAndEmptyArrays\" : true\r\n            }\r\n        }, { \r\n            \"$lookup\" : {\r\n                \"from\" : \"organization\", \r\n                \"localField\" : \"dept_id\", \r\n                \"foreignField\" : \"_id\", \r\n                \"as\" : \"org\"\r\n            }\r\n        }, \r\n        { \r\n            \"$unwind\" : {\r\n                \"path\" : \"$org\", \r\n                \"preserveNullAndEmptyArrays\" : true\r\n            }\r\n        }, \r\n        { \r\n            \"$lookup\" : {\r\n                \"from\" : \"d5PCA\", \r\n                \"let\" : {\r\n                    \"problem_id\" : \"$_id\"\r\n                }, \r\n                \"pipeline\" : [\r\n                    {\r\n                        \"$match\" : {\r\n                            \"$expr\" : {\r\n                                \"$and\" : [\r\n                                    {\r\n                                        \"$eq\" : [\r\n                                            \"$$problem_id\", \r\n                                            \"$problem_id\"\r\n                                        ]\r\n                                    }, \r\n                                    \"$selected\"\r\n                                ]\r\n                            }\r\n                        }\r\n                    }\r\n                ], \r\n                \"as\" : \"d5PCA\"\r\n            }\r\n        }, \r\n        { \r\n            \"$unwind\" : {\r\n                \"path\" : \"$d5PCA\", \r\n                \"preserveNullAndEmptyArrays\" : true\r\n            }\r\n        }, \r\n        { \r\n            \"$addFields\" : {\r\n                \"how\" : \"$d2ProblemDesc.how\", \r\n                \"howmany\" : \"$d2ProblemDesc.howmany\", \r\n                \"what\" : \"$d2ProblemDesc.what\", \r\n                \"why\" : \"$d2ProblemDesc.why\", \r\n                \"when\" : \"$d2ProblemDesc.when\", \r\n                \"where\" : \"$d2ProblemDesc.where\", \r\n                \"who\" : \"$d2ProblemDesc.who\",\r\n                \"rootCauseDesc\" : \"$d4RootCauseDesc.rootCauseDesc\", \r\n                \"escapePoint\" : \"$d4RootCauseDesc.escapePoint\", \r\n                \"evidenceData\" : \"$d4RootCauseDesc.evidenceData\",\r\n                \"deptName\" : \"$org.name\",\r\n                \"icaConfirmedOn\":\"$icaConfirmed.date\",\r\n                \"icaConfirmedBy\":\"$icaConfirmed.userName\",\r\n                \"pcaApprovedOn\":\"$pcaApproved.date\",\r\n                \"pcaApprovedBy\":\"$pcaApproved.userName\",\r\n                \"icaConfirmedOn\":\"$icaConfirmed.date\",\r\n                \"pcaValidatedBy\":\"$pcaValidated.userName\",\r\n                \"pcaValidatedOn\":\"$pcaValidated.date\",\r\n                \"pcaConfirmedBy\":\"$pcaConfirmed.userName\",\r\n                \"pcaConfirmedOn\":\"$pcaConfirmed.date\",\r\n                \"closeDate\" : \"$closeInfo.date\",\r\n                \"closeBy\" : \"$closeInfo.userName\",\r\n                \"severityIndText\": {\"$concat\":[{\"$toString\":\"$severityInd.index\"},\".\",\"$severityInd.value\",\"(\",\"$severityInd.desc\",\")\"]},\r\n                \"freqIndText\": {\"$concat\":[{\"$toString\":\"$freqInd.index\"},\".\",\"$freqInd.value\",\"(\",\"$freqInd.text\",\")\"]},\r\n                \"detectionIndText\": {\"$concat\":[{\"$toString\":\"$detectionInd.index\"},\".\",\"$detectionInd.value\",\"(\",\"$detectionInd.desc\",\")\"]},\r\n                \"lostIndText\": {\"$concat\":[{\"$toString\":\"$lostInd.index\"},\".\",\"$lostInd.value\",\"(\",\"$lostInd.desc\",\")\"]},\r\n                 \"incidenceIndText\": {\"$concat\":[{\"$toString\":\"$incidenceInd.index\"},\".\",\"$incidenceInd.value\",\"(\",\"$incidenceInd.desc\",\")\"]},\r\n                \"d5pcaCharger1name\" : \"$d5PCA.charger1_meta.name\", \r\n                \"d5pcaPlanStart1\" : \"$d5PCA.planStart1\", \r\n                \"d5pcaPlanFinish1\" : \"$d5PCA.planFinish1\", \r\n                \"d5pcaCharger2name\" : \"$d5PCA.charger2_meta.name\", \r\n                \"d5pcaPlanStart2\" : \"$d5PCA.planStart2\", \r\n                \"d5pcaPlanFinish2\" : \"$d5PCA.planFinish2\", \r\n                \"d5pca1\" : \"$d5PCA.pca1.name\", \r\n                \"d5pca2\" : \"$d5PCA.pca2.name\",\r\n                \"idrrept\" : \"$idrrept.name\",\r\n                \"attarchments\" : \"$attarchments.name\"\r\n            }\r\n        }, \r\n        { \r\n            \"$project\" : {\r\n                \"d2ProblemDesc\" : false, \r\n                \"d4RootCauseDesc\" : false,\r\n                \"org\" : false,\r\n                \"d5PCA\" : false,\r\n            }\r\n        }\r\n    ]" , "operationType" : "AGGREGATE" , "selectedFields" : [ "partVer" , "partName" , "distDate" , "distQty" , "custId" , "id" , "issueDate" , "custConfirm" , "issueBy" , "lotNum" , "initiatedFrom" , "partNum" , "custInfo" , "name" , "status" , "latestTimeReq" , "how" , "howmany" , "what" , "why" , "when" , "where" , "who" , "rootCauseDesc" , "escapePoint" , "evidenceData" , "classifyProblem.path" , "deptName" , "closeDate" , "closeBy" , "severityIndText" , "freqIndText" , "detectionIndText" , "lostIndText" , "incidenceIndText" , "d5pcaCharger1name" , "d5pcaPlanStart1" , "d5pcaPlanFinish1" , "d5pcaCharger2name" , "d5pcaPlanStart2" , "d5pcaPlanFinish2" , "icaConfirmedOn" , "icaConfirmedBy" , "pcaApprovedOn" , "pcaApprovedBy" , "pcaValidatedBy" , "pcaValidatedOn" , "pcaConfirmedBy" , "pcaConfirmedOn" , "d5pca1" , "d5pca2" , "attarchments" , "idrrept"] , "collectionName" : "problem"}]]></xml-property>
+            <xml-property name="queryText"><![CDATA[{ "operationExpr" : "[\r\n        { \r\n            \"$match\" : {\r\n\"_id\":{\"$oid\":\"5d25a044b6c4951db0934006\"}\r\n            }\r\n        }, \r\n        { \r\n            \"$lookup\" : {\r\n                \"from\" : \"d2ProblemDesc\", \r\n                \"localField\" : \"_id\", \r\n                \"foreignField\" : \"_id\", \r\n                \"as\" : \"d2ProblemDesc\"\r\n            }\r\n        }, \r\n        { \r\n            \"$unwind\" : {\r\n                \"path\" : \"$d2ProblemDesc\", \r\n                \"preserveNullAndEmptyArrays\" : true\r\n            }\r\n        }, \r\n        { \r\n            \"$lookup\" : {\r\n                \"from\" : \"d4RootCauseDesc\", \r\n                \"localField\" : \"_id\", \r\n                \"foreignField\" : \"_id\", \r\n                \"as\" : \"d4RootCauseDesc\"\r\n            }\r\n        }, \r\n        { \r\n            \"$unwind\" : {\r\n                \"path\" : \"$d4RootCauseDesc\", \r\n                \"preserveNullAndEmptyArrays\" : true\r\n            }\r\n        }, { \r\n            \"$lookup\" : {\r\n                \"from\" : \"organization\", \r\n                \"localField\" : \"dept_id\", \r\n                \"foreignField\" : \"_id\", \r\n                \"as\" : \"org\"\r\n            }\r\n        }, \r\n        { \r\n            \"$unwind\" : {\r\n                \"path\" : \"$org\", \r\n                \"preserveNullAndEmptyArrays\" : true\r\n            }\r\n        }, \r\n        { \r\n            \"$lookup\" : {\r\n                \"from\" : \"d5PCA\", \r\n                \"let\" : {\r\n                    \"problem_id\" : \"$_id\"\r\n                }, \r\n                \"pipeline\" : [\r\n                    {\r\n                        \"$match\" : {\r\n                            \"$expr\" : {\r\n                                \"$and\" : [\r\n                                    {\r\n                                        \"$eq\" : [\r\n                                            \"$$problem_id\", \r\n                                            \"$problem_id\"\r\n                                        ]\r\n                                    }, \r\n                                    \"$selected\"\r\n                                ]\r\n                            }\r\n                        }\r\n                    }\r\n                ], \r\n                \"as\" : \"d5PCA\"\r\n            }\r\n        }, \r\n        { \r\n            \"$unwind\" : {\r\n                \"path\" : \"$d5PCA\", \r\n                \"preserveNullAndEmptyArrays\" : true\r\n            }\r\n        }, \r\n        { \r\n            \"$addFields\" : {\r\n                \"how\" : \"$d2ProblemDesc.how\", \r\n                \"howmany\" : \"$d2ProblemDesc.howmany\", \r\n                \"what\" : \"$d2ProblemDesc.what\", \r\n                \"why\" : \"$d2ProblemDesc.why\", \r\n                \"when\" : \"$d2ProblemDesc.when\", \r\n                \"where\" : \"$d2ProblemDesc.where\", \r\n                \"who\" : \"$d2ProblemDesc.who\",\r\n                \"rootCauseDesc\" : \"$d4RootCauseDesc.rootCauseDesc\", \r\n                \"escapePoint\" : \"$d4RootCauseDesc.escapePoint\", \r\n                \"evidenceData\" : \"$d4RootCauseDesc.evidenceData\",\r\n                \"deptName\" : \"$org.name\",\r\n                \"icaConfirmedOn\":\"$icaConfirmed.date\",\r\n                \"icaConfirmedBy\":\"$icaConfirmed.userName\",\r\n                \"pcaApprovedOn\":\"$pcaApproved.date\",\r\n                \"pcaApprovedBy\":\"$pcaApproved.userName\",\r\n                \"icaConfirmedOn\":\"$icaConfirmed.date\",\r\n                \"pcaValidatedBy\":\"$pcaValidated.userName\",\r\n                \"pcaValidatedOn\":\"$pcaValidated.date\",\r\n                \"pcaConfirmedBy\":\"$pcaConfirmed.userName\",\r\n                \"pcaConfirmedOn\":\"$pcaConfirmed.date\",\r\n                \"closeDate\" : \"$closeInfo.date\",\r\n                \"closeBy\" : \"$closeInfo.userName\",\r\n                \"severityIndText\": {\"$concat\":[{\"$toString\":\"$severityInd.index\"},\".\",\"$severityInd.value\",\"(\",\"$severityInd.desc\",\")\"]},\r\n                \"freqIndText\": {\"$concat\":[{\"$toString\":\"$freqInd.index\"},\".\",\"$freqInd.value\",\"(\",\"$freqInd.text\",\")\"]},\r\n                \"detectionIndText\": {\"$concat\":[{\"$toString\":\"$detectionInd.index\"},\".\",\"$detectionInd.value\",\"(\",\"$detectionInd.desc\",\")\"]},\r\n                \"lostIndText\": {\"$concat\":[{\"$toString\":\"$lostInd.index\"},\".\",\"$lostInd.value\",\"(\",\"$lostInd.desc\",\")\"]},\r\n                 \"incidenceIndText\": {\"$concat\":[{\"$toString\":\"$incidenceInd.index\"},\".\",\"$incidenceInd.value\",\"(\",\"$incidenceInd.desc\",\")\"]},\r\n                \"d5pcaCharger1name\" : \"$d5PCA.charger1_meta.name\", \r\n                \"d5pcaPlanStart1\" : \"$d5PCA.planStart1\", \r\n                \"d5pcaPlanFinish1\" : \"$d5PCA.planFinish1\", \r\n                \"d5pcaCharger2name\" : \"$d5PCA.charger2_meta.name\", \r\n                \"d5pcaPlanStart2\" : \"$d5PCA.planStart2\", \r\n                \"d5pcaPlanFinish2\" : \"$d5PCA.planFinish2\", \r\n                \"d5pca1\" : \"$d5PCA.pca1.name\", \r\n                \"d5pca2\" : \"$d5PCA.pca2.name\",\r\n                \"idrrept\" : \"$idrrept.name\",\r\n                \"attarchments\" : \"$attarchments.name\"\r\n            }\r\n        }, \r\n        { \r\n            \"$project\" : {\r\n                \"d2ProblemDesc\" : false, \r\n                \"d4RootCauseDesc\" : false,\r\n                \"org\" : false,\r\n                \"d5PCA\" : false,\r\n            }\r\n        }\r\n    ]" , "operationType" : "AGGREGATE" , "selectedFields" : [ "partVer" , "partName" , "distDate" , "distQty" , "custId" , "id" , "issueDate" , "custConfirm" , "issueBy" , "lotNum" , "initiatedFrom" , "partNum" , "custInfo" , "name" , "status" , "latestTimeReq" , "how" , "howmany" , "what" , "why" , "when" , "where" , "who" , "rootCauseDesc" , "escapePoint" , "evidenceData" , "deptName" , "closeDate" , "closeBy" , "severityIndText" , "freqIndText" , "detectionIndText" , "lostIndText" , "incidenceIndText" , "d5pcaCharger1name" , "d5pcaPlanStart1" , "d5pcaPlanFinish1" , "d5pcaCharger2name" , "d5pcaPlanStart2" , "d5pcaPlanFinish2" , "icaConfirmedOn" , "icaConfirmedBy" , "pcaApprovedOn" , "pcaApprovedBy" , "pcaValidatedBy" , "pcaValidatedOn" , "pcaConfirmedBy" , "pcaConfirmedOn" , "d5pca1" , "d5pca2" , "attarchments" , "idrrept"] , "collectionName" : "problem"}]]></xml-property>
             <structure name="designerState">
                 <property name="version">1.0</property>
                 <property name="stateContentAsString">false,1</property>
@@ -6867,7 +6903,7 @@
                     <property name="nativeDataType">2</property>
                 </structure>
             </list-property>
-            <xml-property name="queryText"><![CDATA[{ "operationExpr" : "[{$match:{\"problem_id\":{\"$oid\":\"5c44aa2ee37dab171c7e1453\"}}}, \r\n        { \r\n            \"$addFields\" : {\r\n                \"title\" : \"$verification.title\", \r\n                \"comment\" : \"$verification.comment\", \r\n                \"verificationuser\" : \"$verification.user_meta.name\", \r\n                \"verificationdate\" : \"$verification.date\", \r\n                \"chargername\" : \"$charger_meta.name\",\"finish\": {$cond:[\"$finish\",\"是\",\"否\"]},\r\n                \"verificationAttachment\":\"$verification.attachment.name\"\r\n            }\r\n        }]" , "operationType" : "AGGREGATE" , "selectedFields" : [ "objective" , "planStart" , "planFinish" , "detail" , "finish" , "index" , "title" , "comment" , "chargername" , "verificationuser" , "verificationdate" , "verificationAttachment" , "action"] , "collectionName" : "problemAction"}]]></xml-property>
+            <xml-property name="queryText"><![CDATA[{ "operationExpr" : "[{$match:{\"problem_id\":{\"$oid\":\"5d25a044b6c4951db0934006\"}}}, \r\n        { \r\n            \"$addFields\" : {\r\n                \"title\" : \"$verification.title\", \r\n                \"comment\" : \"$verification.comment\", \r\n                \"verificationuser\" : \"$verification.user_meta.name\", \r\n                \"verificationdate\" : \"$verification.date\", \r\n                \"chargername\" : \"$charger_meta.name\",\"finish\": {$cond:[\"$finish\",\"是\",\"否\"]},\r\n                \"verificationAttachment\":\"$verification.attachment.name\"\r\n            }\r\n        }]" , "operationType" : "AGGREGATE" , "selectedFields" : [ "objective" , "planStart" , "planFinish" , "detail" , "finish" , "index" , "title" , "comment" , "chargername" , "verificationuser" , "verificationdate" , "verificationAttachment" , "action"] , "collectionName" : "problemAction"}]]></xml-property>
             <structure name="designerState">
                 <property name="version">1.0</property>
                 <property name="stateContentAsString">false,10</property>
@@ -8308,7 +8344,7 @@
                     <property name="nativeDataType">2</property>
                 </structure>
             </list-property>
-            <xml-property name="queryText"><![CDATA[{ "operationExpr" : "[{ \r\n            \"$match\" : {\r\n\"problem_id\":{\"$oid\":\"5c44aa2ee37dab171c7e1453\"}\r\n            }\r\n        },\r\n        { \r\n            \"$unwind\" : {\r\n                \"path\" : \"$id\", \r\n                \"preserveNullAndEmptyArrays\" : true\r\n            }\r\n        }, \r\n        { \r\n            \"$addFields\" : {\r\n                \"ids\" : {\r\n                    \"$concat\" : [\r\n                        \"$id.id\", \r\n                        \" \", \r\n                        \"$id.keyword\"\r\n                    ]\r\n                }\r\n            }\r\n        }, \r\n        { \r\n            \"$group\" : {\r\n                \"_id\" : \"$_id\", \r\n                \"problem_id\" : {\r\n                    \"$first\" : \"$problem_id\"\r\n                }, \r\n                \"similar\" : {\r\n                    \"$first\" : \"$similar\"\r\n                }, \r\n                \"desc\" : {\r\n                    \"$first\" : \"$desc\"\r\n                }, \r\n                \"degree\" : {\r\n                    \"$first\" : \"$degree\"\r\n                }, \r\n                \"prob\" : {\r\n                    \"$first\" : \"$prob\"\r\n                }, \r\n                \"id\" : {\r\n                    \"$addToSet\" : \"$ids\"\r\n                }\r\n            }\r\n        }]" , "operationType" : "AGGREGATE" , "selectedFields" : [ "similar" , "desc" , "degree" , "prob" , "id"] , "collectionName" : "d7Similar"}]]></xml-property>
+            <xml-property name="queryText"><![CDATA[{ "operationExpr" : "[{ \r\n            \"$match\" : {\r\n\"problem_id\":{\"$oid\":\"5d25a044b6c4951db0934006\"}\r\n            }\r\n        },\r\n        { \r\n            \"$unwind\" : {\r\n                \"path\" : \"$id\", \r\n                \"preserveNullAndEmptyArrays\" : true\r\n            }\r\n        }, \r\n        { \r\n            \"$addFields\" : {\r\n                \"ids\" : {\r\n                    \"$concat\" : [\r\n                        \"$id.id\", \r\n                        \" \", \r\n                        \"$id.keyword\"\r\n                    ]\r\n                }\r\n            }\r\n        }, \r\n        { \r\n            \"$group\" : {\r\n                \"_id\" : \"$_id\", \r\n                \"problem_id\" : {\r\n                    \"$first\" : \"$problem_id\"\r\n                }, \r\n                \"similar\" : {\r\n                    \"$first\" : \"$similar\"\r\n                }, \r\n                \"desc\" : {\r\n                    \"$first\" : \"$desc\"\r\n                }, \r\n                \"degree\" : {\r\n                    \"$first\" : \"$degree\"\r\n                }, \r\n                \"prob\" : {\r\n                    \"$first\" : \"$prob\"\r\n                }, \r\n                \"id\" : {\r\n                    \"$addToSet\" : \"$ids\"\r\n                }\r\n            }\r\n        }]" , "operationType" : "AGGREGATE" , "selectedFields" : [ "similar" , "desc" , "degree" , "prob" , "id"] , "collectionName" : "d7Similar"}]]></xml-property>
             <structure name="designerState">
                 <property name="version">1.0</property>
                 <property name="stateContentAsString">false,1</property>
@@ -8528,7 +8564,7 @@
                     <property name="nativeDataType">2</property>
                 </structure>
             </list-property>
-            <xml-property name="queryText"><![CDATA[{ "operationExpr" : "[\r\n        { \r\n            \"$match\" : {\r\n                \"type\" : \"因果分析-制造\", \r\n                \"problem_id\" : {\"$oid\":\"5c44aa2ee37dab171c7e1453\"}\r\n            }\r\n        },{\"$sort\":{\"subject\":1,\"classifyCause.id\":1,\"_id\":1}},{ \r\n            \"$addFields\" : {\r\n                \"classifyCausePath\" : \"$classifyCause.path\"\r\n            }\r\n        }\r\n    ]" , "operationType" : "AGGREGATE" , "selectedFields" : [ "probability" , "subject" , "name" , "description" , "weight" , "classifyCausePath"] , "collectionName" : "causeRelation"}]]></xml-property>
+            <xml-property name="queryText"><![CDATA[{ "operationExpr" : "[\r\n        { \r\n            \"$match\" : {\r\n                \"type\" : \"因果分析-制造\", \r\n                \"problem_id\" : {\"$oid\":\"5d25a044b6c4951db0934006\"}\r\n            }\r\n        },{\"$sort\":{\"subject\":1,\"classifyCause.id\":1,\"_id\":1}},{ \r\n            \"$addFields\" : {\r\n                \"classifyCausePath\" : \"$classifyCause.path\"\r\n            }\r\n        }\r\n    ]" , "operationType" : "AGGREGATE" , "selectedFields" : [ "probability" , "subject" , "name" , "description" , "weight" , "classifyCausePath"] , "collectionName" : "causeRelation"}]]></xml-property>
             <structure name="designerState">
                 <property name="version">1.0</property>
                 <property name="stateContentAsString">false,10</property>
@@ -8811,7 +8847,7 @@
                     <property name="nativeDataType">2</property>
                 </structure>
             </list-property>
-            <xml-property name="queryText"><![CDATA[{ "operationExpr" : "[\r\n        { \r\n            \"$match\" : {\r\n                \"type\" : \"因果分析-流出\", \r\n                \"problem_id\" : {\"$oid\":\"5c44aa2ee37dab171c7e1453\"}\r\n            }\r\n        },{\"$sort\":{\"subject\":1,\"classifyCause.id\":1,\"_id\":1}},{ \r\n            \"$addFields\" : {\r\n                \"classifyCausePath\" : \"$classifyCause.path\"\r\n            }\r\n        }\r\n    ]" , "operationType" : "AGGREGATE" , "selectedFields" : [ "probability" , "subject" , "name" , "description" , "weight" , "classifyCausePath"] , "collectionName" : "causeRelation"}]]></xml-property>
+            <xml-property name="queryText"><![CDATA[{ "operationExpr" : "[\r\n        { \r\n            \"$match\" : {\r\n                \"type\" : \"因果分析-流出\", \r\n                \"problem_id\" : {\"$oid\":\"5d25a044b6c4951db0934006\"}\r\n            }\r\n        },{\"$sort\":{\"subject\":1,\"classifyCause.id\":1,\"_id\":1}},{ \r\n            \"$addFields\" : {\r\n                \"classifyCausePath\" : \"$classifyCause.path\"\r\n            }\r\n        }\r\n    ]" , "operationType" : "AGGREGATE" , "selectedFields" : [ "probability" , "subject" , "name" , "description" , "weight" , "classifyCausePath"] , "collectionName" : "causeRelation"}]]></xml-property>
             <structure name="designerState">
                 <property name="version">1.0</property>
                 <property name="stateContentAsString">false,10</property>
@@ -9035,12 +9071,6 @@
                     <property name="name">name</property>
                     <text-property name="displayName">name</text-property>
                     <expression name="expression" type="javascript">dataSetRow["name"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">classifyProblem.path</property>
-                    <text-property name="displayName">classifyProblem.path</text-property>
-                    <expression name="expression" type="javascript">dataSetRow["classifyProblem.path"]</expression>
                     <property name="dataType">string</property>
                 </structure>
                 <structure>
