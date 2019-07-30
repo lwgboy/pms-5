@@ -61,6 +61,12 @@ public class Result {
 
 	public static final int CODE_NOT_ALLOWED = 0x9003;
 
+	public static final int CODE_CHECK_FORMDEF = 0x8001;
+
+	public static final int CODE_CHECK_EXPORTDOCRULE_FORM = 0x8002;
+
+	public static final int CODE_CHECK_EXPORTDOCRULE_EXPORTABLE = 0x8003;
+
 	public int code;
 
 	public String message;

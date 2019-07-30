@@ -37,6 +37,16 @@
           "heightHint": -1
         },
         {
+          "id": "/待办问题看板.boardassy",
+          "horizontalAlignment": 4,
+          "verticalAlignment": 16777216,
+          "grabExcessHorizontalSpace": true,
+          "verticalSpan": 1,
+          "horizontalSpan": 1,
+          "widthHint": -1,
+          "heightHint": -1
+        },
+        {
           "id": "/未读消息.boardassy",
           "horizontalAlignment": 4,
           "verticalAlignment": 16777216,

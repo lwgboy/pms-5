@@ -791,7 +791,8 @@ public class EditExportDocRuleDialog extends Dialog {
 	}
 
 	private void checkExportDocRule() {
-		FormDefTools.checkExportDocRule(br, exportDocRule);
+		FormDefTools.checkExportDocRule(br, exportDocRule, "文档导出规则检查", "文档导出规则存在以下问题，这些问题将造成对应的表单定义无法启用。", //
+				"文档导出规则存在以下问题，这些问题需要进行确认。");
 	}
 
 	public ExportDocRule getExportDocRule() {

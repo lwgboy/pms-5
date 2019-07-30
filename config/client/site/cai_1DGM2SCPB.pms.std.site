@@ -1,0 +1,2141 @@
+{
+  "typeName": "站点",
+  "id": "1618092b217",
+  "name": "WisPlanner",
+  "version": "5.2M2",
+  "timestamp": "201905291549",
+  "title": "WisPlanner 6",
+  "path": "/",
+  "headHtml": "\u003cmeta name\u003d\"viewport\" content\u003d\"width\u003ddevice-width,initial-scale\u003d1.0,maximum-scale\u003d1.0,minimum-scale\u003d1.0,user-scalable\u003dno\"/\u003e\n\u003cmeta name\u003d\"format-detection\" content\u003d\"telephone\u003dno\"/\u003e\n\u003cmeta name\u003d\"referrer\" content\u003d\"always\"/\u003e\n\u003cmeta name\u003d\"renderer\" content\u003d\"webkit\"/\u003e \n\n\u003cmeta name\u003d\"apple-touch-fullscreen\" content\u003d\"yes\"/\u003e\n\u003cmeta name\u003d\"apple-mobile-web-app-capable\" content\u003d\"yes\"/\u003e\n\u003cmeta name\u003d\"apple-mobile-web-app-status-bar-style\" content\u003d\"black\"/\u003e\n\n\u003c!--link rel\u003d\"apple-touch-icon-precomposed\" href\u003d\"/apps/images/crrc_logo_144.png\"--\u003e\n\u003c!--link rel\u003d\"apple-touch-icon\" href\u003d\"/apps/images/crrc_logo_144.png\"--\u003e\n\n\u003c!-- Common JSLib --\u003e\n\u003cscript src\u003d\"/resource/js/jquery-1.10.2.min.js\"\u003e\u003c/script\u003e\n\u003cscript src\u003d\"/resource/js/jgestures.min.js\"\u003e\u003c/script\u003e\n\u003cscript src\u003d\"/resource/js/layui.all.js\"\u003e\u003c/script\u003e\n\u003cscript src\u003d\"/resource/js/echarts.min.js\"\u003e\u003c/script\u003e\n\u003c!-- APPS CSS --\u003e\n\u003clink rel\u003d\"stylesheet\" href\u003d\"/resource/css/brui.css\" type\u003d\"text/css\" media\u003d\"screen\" /\u003e\n\u003clink rel\u003d\"stylesheet\" href\u003d\"/resource/css/animations.css\" type\u003d\"text/css\" media\u003d\"screen\" /\u003e\n\u003clink rel\u003d\"stylesheet\" href\u003d\"/resource/js/css/layui.css\" type\u003d\"text/css\" media\u003d\"screen\" /\u003e\n",
+  "pageOverflow": "scrollY",
+  "aliasOfResFolder": "extres",
+  "favIcon": "/img/favicon.png",
+  "description": "项目管理系统",
+  "login": "/用户登录组件.assy",
+  "changePSW": "/用户更改密码页面.assy",
+  "rootFolder": {
+    "children": [],
+    "name": "站点",
+    "id": "1626b905a63"
+  },
+  "pages": [
+    {
+      "typeName": "页面",
+      "id": "16182ccd795",
+      "name": "首页",
+      "title": "WisPlanner5",
+      "headbar": {
+        "height": 64
+      },
+      "sidebar": {
+        "enabled": true,
+        "width": 240,
+        "header": "/标题栏（带有用户头像和产品名称）.assy",
+        "toolbarItems": [
+          {
+            "id": "16715679116",
+            "name": "发送消息",
+            "tooltips": "发送消息",
+            "image": "/img/message_w.svg",
+            "bundleId": "com.bizvisionsoft.pms",
+            "className": "com.bizvisionsoft.pms.message.SendMsgACT",
+            "style": "",
+            "type": "customized",
+            "verticalSpan": 0
+          },
+          {
+            "id": "16a1bf8ac8d",
+            "name": "创建项目",
+            "text": "创建项目",
+            "bundleId": "com.bizvisionsoft.pms",
+            "className": "com.bizvisionsoft.pms.project.action.CreateProject",
+            "type": "customized"
+          }
+        ],
+        "sidebarItems": [
+          {
+            "id": "161985c99a8",
+            "name": "项目管理",
+            "text": "项目管理",
+            "children": [
+              {
+                "id": "1632e57b7a5",
+                "name": "我的项目",
+                "text": "我的项目",
+                "switchContentToAssemblyId": "/我的项目.gridassy",
+                "type": "switch",
+                "role": "",
+                "verticalSpan": 0
+              },
+              {
+                "id": "1646aa835c4",
+                "name": "我管理的项目",
+                "switchContentToAssemblyId": "/所有项目.gridassy",
+                "type": "switch",
+                "role": "项目管理员#项目总监",
+                "verticalSpan": 0
+              },
+              {
+                "id": "16548773bb3",
+                "name": "我管理的项目集",
+                "switchContentToAssemblyId": "/项目集管理.gridassy",
+                "type": "switch",
+                "role": "trail",
+                "verticalSpan": 0
+              },
+              {
+                "id": "161989cc406",
+                "name": "企业项目结构",
+                "text": "企业项目结构",
+                "switchContentToAssemblyId": "/EPS浏览.gridassy",
+                "type": "switch",
+                "role": "项目管理员#项目总监",
+                "verticalSpan": 0
+              },
+              {
+                "id": "16406b99e36",
+                "name": "创建项目",
+                "bundleId": "com.bizvisionsoft.pms",
+                "className": "com.bizvisionsoft.pms.project.action.CreateProject",
+                "type": "customized",
+                "role": "",
+                "verticalSpan": 0
+              }
+            ],
+            "type": "customized",
+            "excludeRole": "",
+            "verticalSpan": 0
+          },
+          {
+            "id": "161985cac4c",
+            "name": "我的工作",
+            "text": "我的工作",
+            "children": [
+              {
+                "id": "161989cc742",
+                "name": "处理工作",
+                "text": "处理工作",
+                "switchContentToAssemblyId": "/我的工作.gridassy",
+                "type": "switch",
+                "role": "",
+                "budgetServiceName": "com.bizvisionsoft.service.WorkService",
+                "verticalSpan": 0
+              },
+              {
+                "id": "1646ae15164",
+                "name": "指派工作",
+                "text": "指派工作",
+                "switchContentToAssemblyId": "/我的待指派工作.gridassy",
+                "type": "switch",
+                "budgetServiceName": "com.bizvisionsoft.service.WorkService",
+                "verticalSpan": 0
+              },
+              {
+                "id": "1646ad17bf4",
+                "name": "确认报告",
+                "text": "确认报告",
+                "switchContentToAssemblyId": "/待确认的报告.gridassy",
+                "type": "switch",
+                "budgetServiceName": "com.bizvisionsoft.service.WorkReportService",
+                "verticalSpan": 0
+              },
+              {
+                "id": "1644e8490d8",
+                "name": "审批项目变更",
+                "text": "审批项目变更",
+                "switchContentToAssemblyId": "/待审批的项目变更.gridassy",
+                "type": "switch",
+                "budgetServiceName": "com.bizvisionsoft.service.ProjectService",
+                "verticalSpan": 0
+              },
+              {
+                "id": "161989cc80d",
+                "name": "我的日程表",
+                "text": "我的日程表",
+                "switchContentToAssemblyId": "/我的工作（日历牌）.schedulerassy",
+                "type": "switch",
+                "role": "",
+                "verticalSpan": 0
+              },
+              {
+                "id": "163624d6384",
+                "name": "已完成的工作",
+                "text": "已完成的工作",
+                "switchContentToAssemblyId": "/我的工作（已完成）.gridassy",
+                "type": "switch",
+                "role": "",
+                "verticalSpan": 0
+              }
+            ],
+            "type": "customized",
+            "excludeRole": "",
+            "budgetServiceName": "com.bizvisionsoft.service.CommonService",
+            "verticalSpan": 0
+          },
+          {
+            "id": "161989cc8b9",
+            "name": "部门工作",
+            "text": "部门工作",
+            "switchContentToAssemblyId": "/部门工作日程表.schedulerassy",
+            "type": "switch",
+            "role": "部门经理",
+            "verticalSpan": 0
+          },
+          {
+            "id": "1642aaa73c6",
+            "name": "资源管理",
+            "children": [
+              {
+                "id": "1671af7df71",
+                "name": "组织资源图表",
+                "switchContentToAssemblyId": "/组织资源图表.drillchartassy",
+                "type": "switch",
+                "passParametersToAssembly": ""
+              },
+              {
+                "id": "1673ff0f654",
+                "name": "EPS资源图表",
+                "switchContentToAssemblyId": "/EPS资源图表.drillchartassy",
+                "type": "switch",
+                "verticalSpan": 0
+              },
+              {
+                "id": "1642aaac69a",
+                "name": "资源数据表",
+                "switchContentToAssemblyId": "/查看资源汇总情况.assy",
+                "type": "switch",
+                "passParametersToAssembly": "{\"type\":\"dept\"}"
+              }
+            ],
+            "type": "switch",
+            "role": "部门经理",
+            "verticalSpan": 0
+          },
+          {
+            "id": "163f1e3d040",
+            "name": "我的报告",
+            "children": [
+              {
+                "id": "163f1e410ff",
+                "name": "日报",
+                "switchContentToAssemblyId": "/日报.gridassy",
+                "type": "switch",
+                "verticalSpan": 0
+              },
+              {
+                "id": "163fe80fbb0",
+                "name": "周报",
+                "switchContentToAssemblyId": "/周报.gridassy",
+                "type": "switch",
+                "verticalSpan": 0
+              },
+              {
+                "id": "163fea075de",
+                "name": "月报",
+                "switchContentToAssemblyId": "/月报.gridassy",
+                "type": "switch",
+                "verticalSpan": 0
+              }
+            ],
+            "type": "switch",
+            "role": "",
+            "verticalSpan": 0
+          },
+          {
+            "id": "16685825d26",
+            "name": "报告管理",
+            "children": [
+              {
+                "id": "1668582ac36",
+                "name": "日报管理",
+                "switchContentToAssemblyId": "/日报管理.gridassy",
+                "type": "switch",
+                "verticalSpan": 0
+              },
+              {
+                "id": "1668582b262",
+                "name": "周报管理",
+                "switchContentToAssemblyId": "/周报管理.gridassy",
+                "type": "switch",
+                "verticalSpan": 0
+              },
+              {
+                "id": "1668582b807",
+                "name": "月报管理",
+                "switchContentToAssemblyId": "/月报管理.gridassy",
+                "type": "switch",
+                "verticalSpan": 0
+              }
+            ],
+            "type": "customized",
+            "role": "项目管理员#项目总监",
+            "verticalSpan": 0
+          },
+          {
+            "id": "161989cc240",
+            "name": "成本管理",
+            "text": "成本管理",
+            "children": [
+              {
+                "id": "16752f4d799",
+                "name": "EPS预算成本图表",
+                "switchContentToAssemblyId": "/EPS预算成本图表.drillchartassy",
+                "type": "switch",
+                "verticalSpan": 0
+              },
+              {
+                "id": "163d33f474f",
+                "name": "预算成本对比分析表",
+                "switchContentToAssemblyId": "/预算成本对比分析.gridassy",
+                "type": "switch",
+                "verticalSpan": 0
+              },
+              {
+                "id": "163c8e430a8",
+                "name": "成本管理",
+                "switchContentToAssemblyId": "/成本管理.gridassy",
+                "type": "switch",
+                "verticalSpan": 0
+              }
+            ],
+            "type": "customized",
+            "role": "财务管理#项目总监",
+            "verticalSpan": 0
+          },
+          {
+            "id": "161989cbe38",
+            "name": "采购管理",
+            "text": "采购管理",
+            "switchContentToAssemblyId": "/采购计划监控（项目管理）.gridassy",
+            "type": "switch",
+            "role": "供应链管理#项目总监",
+            "verticalSpan": 0
+          },
+          {
+            "id": "161989cc03c",
+            "name": "生产管理",
+            "text": "生产管理",
+            "switchContentToAssemblyId": "/生产计划监控（项目管理）.gridassy",
+            "type": "switch",
+            "role": "制造管理#项目总监",
+            "verticalSpan": 0
+          },
+          {
+            "id": "16406dea820",
+            "name": "业务管理",
+            "text": "业务管理",
+            "bundleId": "com.bizvisionsoft.bruiengine",
+            "className": "com.bizvisionsoft.bruiengine.app.buzman.OpenBuzManPageACT",
+            "type": "customized",
+            "role": "业务管理员",
+            "verticalSpan": 0
+          }
+        ]
+      },
+      "footbar": {
+        "height": 64
+      },
+      "contentArea": {
+        "typeName": "内容区",
+        "assemblyLinks": [
+          {
+            "typeName": "组件链接",
+            "id": "/主页看板（一般用户默认）.assy",
+            "defaultAssembly": true,
+            "excludeRole": "项目总监#项目管理员",
+            "image": "/img/todo_w.svg",
+            "text": "工作看板"
+          },
+          {
+            "typeName": "组件链接",
+            "id": "/主页看板（PMO用户默认）.assy",
+            "role": "项目总监#项目管理员",
+            "image": "/img/todo_w.svg",
+            "text": "工作看板"
+          }
+        ]
+      },
+      "home": true,
+      "excludeRole": "系统管理员#业务管理员"
+    },
+    {
+      "typeName": "页面",
+      "id": "16183e364b9",
+      "name": "项目首页（执行）",
+      "title": "项目首页",
+      "headbar": {},
+      "sidebar": {
+        "enabled": true,
+        "width": 240,
+        "header": "/标题栏（当前对象和返回）.assy",
+        "toolbarItems": [
+          {
+            "id": "163ff5e398b",
+            "name": "查看项目基本信息",
+            "tooltips": "查看项目基本信息",
+            "image": "/img/info_w.svg",
+            "bundleId": "com.bizvisionsoft.pms",
+            "className": "com.bizvisionsoft.pms.project.action.OpenProjectInfo",
+            "type": "customized",
+            "verticalSpan": 0
+          }
+        ],
+        "sidebarItems": [
+          {
+            "id": "1628decb7e0",
+            "name": "项目进度管理",
+            "text": "项目进度管理",
+            "children": [
+              {
+                "id": "1628decba8b",
+                "name": "项目进度计划甘特图",
+                "text": "项目进度计划甘特图",
+                "description": "权限控制了按钮",
+                "bundleId": "com.bizvisionsoft.pms",
+                "className": "com.bizvisionsoft.pms.work.gantt.action.OpenGantt",
+                "switchContentToAssemblyId": "/项目甘特图.ganttassy",
+                "type": "customized",
+                "verticalSpan": 0
+              },
+              {
+                "id": "1638b849d14",
+                "name": "项目进度计划和监控",
+                "text": "项目进度计划和监控",
+                "switchContentToAssemblyId": "/进度计划和监控.gridassy",
+                "type": "switch",
+                "role": "PM#PA#PPM",
+                "verticalSpan": 0
+              },
+              {
+                "id": "1641c281efd",
+                "name": "项目进度计划和监控（查看）",
+                "text": "项目进度计划和监控",
+                "switchContentToAssemblyId": "/进度计划和监控（查看）.gridassy",
+                "type": "switch",
+                "excludeRole": "PM#PA#PPM",
+                "verticalSpan": 0
+              },
+              {
+                "id": "163e37901f5",
+                "name": "项目进度跟踪甘特图",
+                "text": "项目进度跟踪甘特图",
+                "switchContentToAssemblyId": "/项目进度跟踪甘特图.ganttassy",
+                "type": "switch",
+                "verticalSpan": 0
+              },
+              {
+                "id": "1643efad59a",
+                "name": "项目进展甘特图",
+                "switchContentToAssemblyId": "/项目进展甘特图.ganttassy",
+                "type": "switch",
+                "verticalSpan": 0
+              }
+            ],
+            "role": "",
+            "verticalSpan": 0
+          },
+          {
+            "id": "163099d3908",
+            "name": "项目组织结构",
+            "text": "项目组织结构",
+            "switchContentToAssemblyId": "/组织结构图.treeassy",
+            "type": "switch",
+            "role": "PM#PA#PPM",
+            "verticalSpan": 0
+          },
+          {
+            "id": "1641c0dfa86",
+            "name": "项目资源管理",
+            "children": [
+              {
+                "id": "1628decc40b",
+                "name": "项目资源计划",
+                "switchContentToAssemblyId": "/资源分配.assy",
+                "type": "switch",
+                "passParametersToAssembly": "{\"type\":\"plan\",\"editable\":true}"
+              },
+              {
+                "id": "163c14c1fd6",
+                "name": "项目资源用量",
+                "switchContentToAssemblyId": "/资源分配.assy",
+                "type": "switch",
+                "passParametersToAssembly": "{\"type\":\"actual\",\"editable\":true}"
+              },
+              {
+                "id": "16750ae040c",
+                "name": "项目资源图表",
+                "switchContentToAssemblyId": "/项目资源图表.drillchartassy",
+                "type": "switch",
+                "verticalSpan": 0
+              },
+              {
+                "id": "16428a1c67a",
+                "name": "项目资源数据表",
+                "switchContentToAssemblyId": "/查看资源汇总情况.assy",
+                "type": "switch",
+                "passParametersToAssembly": "{\"type\":\"project\"}"
+              }
+            ],
+            "type": "customized",
+            "role": "PM#PA#PPM",
+            "verticalSpan": 0
+          },
+          {
+            "id": "1641c100111",
+            "name": "项目资源计划（查看）",
+            "text": "项目资源计划",
+            "children": [
+              {
+                "id": "1641c105971",
+                "name": "项目资源计划",
+                "switchContentToAssemblyId": "/资源分配.assy",
+                "type": "switch",
+                "passParametersToAssembly": "{\"type\":\"plan\",\"editable\":false}"
+              },
+              {
+                "id": "1641c105f08",
+                "name": "项目资源用量",
+                "switchContentToAssemblyId": "/资源分配.assy",
+                "type": "switch",
+                "passParametersToAssembly": "{\"type\":\"actual\",\"editable\":false}"
+              }
+            ],
+            "type": "customized",
+            "excludeRole": "PM#PA#PPM",
+            "verticalSpan": 0
+          },
+          {
+            "id": "1628decc6f8",
+            "name": "项目成本管理",
+            "text": "项目成本管理",
+            "children": [
+              {
+                "id": "1628decc878",
+                "name": "项目资金计划",
+                "text": "项目资金计划",
+                "switchContentToAssemblyId": "/项目资金计划.stickerassy",
+                "type": "switch",
+                "verticalSpan": 0
+              },
+              {
+                "id": "1628decc9e5",
+                "name": "项目实际成本",
+                "text": "项目实际成本",
+                "switchContentToAssemblyId": "/项目实际成本.stickerassy",
+                "type": "switch",
+                "verticalSpan": 0
+              },
+              {
+                "id": "16390f96644",
+                "name": "预算成本对比分析表",
+                "switchContentToAssemblyId": "/项目预算成本对比分析.gridassy",
+                "type": "switch",
+                "verticalSpan": 0
+              },
+              {
+                "id": "1675606e502",
+                "name": "项目预算成本图表",
+                "switchContentToAssemblyId": "/项目预算成本图表.drillchartassy",
+                "type": "switch",
+                "verticalSpan": 0
+              }
+            ],
+            "role": "PM#PA#PPM#PFM",
+            "verticalSpan": 0
+          },
+          {
+            "id": "1641b7ecaa0",
+            "name": "项目计划监控",
+            "children": [
+              {
+                "id": "1641b7feb82",
+                "name": "研发进度监控",
+                "switchContentToAssemblyId": "/研发进度监控.gridassy",
+                "type": "switch",
+                "verticalSpan": 0
+              },
+              {
+                "id": "1641b801e82",
+                "name": "采购计划监控",
+                "switchContentToAssemblyId": "/采购计划监控.gridassy",
+                "type": "switch",
+                "verticalSpan": 0
+              },
+              {
+                "id": "1641b805c50",
+                "name": "生产计划监控",
+                "switchContentToAssemblyId": "/生产计划监控.gridassy",
+                "type": "switch",
+                "verticalSpan": 0
+              },
+              {
+                "id": "1641b8054c8",
+                "name": "检验进度监控",
+                "switchContentToAssemblyId": "/检验进度监控.gridassy",
+                "type": "switch",
+                "verticalSpan": 0
+              }
+            ],
+            "type": "customized",
+            "role": "PM#PA#PPM",
+            "verticalSpan": 0
+          },
+          {
+            "id": "1628decbc1b",
+            "name": "研发进度监控",
+            "switchContentToAssemblyId": "/研发进度监控.gridassy",
+            "type": "switch",
+            "role": "PCE#SE",
+            "excludeRole": "PM#PA#PPM",
+            "verticalSpan": 0
+          },
+          {
+            "id": "1628decbdcc",
+            "name": "采购计划监控",
+            "switchContentToAssemblyId": "/采购计划监控.gridassy",
+            "type": "switch",
+            "role": "PR#SE",
+            "excludeRole": "PM#PA#PPM",
+            "verticalSpan": 0
+          },
+          {
+            "id": "1628decbf7e",
+            "name": "生产计划监控",
+            "switchContentToAssemblyId": "/生产计划监控.gridassy",
+            "type": "switch",
+            "role": "MR#SE",
+            "excludeRole": "PM#PA#PPM",
+            "verticalSpan": 0
+          },
+          {
+            "id": "1628decd621",
+            "name": "检验进度监控",
+            "switchContentToAssemblyId": "/检验进度监控.gridassy",
+            "type": "switch",
+            "role": "QME#SE",
+            "excludeRole": "PM#PA#PPM",
+            "verticalSpan": 0
+          },
+          {
+            "id": "16401d8296f",
+            "name": "项目报告管理",
+            "text": "项目报告管理",
+            "children": [
+              {
+                "id": "16401d836ed",
+                "name": "项目日报",
+                "switchContentToAssemblyId": "/项目日报.gridassy",
+                "type": "switch",
+                "verticalSpan": 0
+              },
+              {
+                "id": "16401d83c9c",
+                "name": "项目周报",
+                "switchContentToAssemblyId": "/项目周报.gridassy",
+                "type": "switch",
+                "verticalSpan": 0
+              },
+              {
+                "id": "16401d843e6",
+                "name": "项目月报",
+                "switchContentToAssemblyId": "/项目月报.gridassy",
+                "type": "switch",
+                "verticalSpan": 0
+              }
+            ],
+            "type": "customized",
+            "role": "PM#PA#PPM",
+            "verticalSpan": 0
+          },
+          {
+            "id": "1628deccce4",
+            "name": "项目风险管理",
+            "text": "项目风险管理",
+            "children": [
+              {
+                "id": "1628decce74",
+                "name": "项目风险登记簿",
+                "switchContentToAssemblyId": "/项目风险登记簿.gridassy",
+                "type": "switch",
+                "verticalSpan": 0
+              },
+              {
+                "id": "1645133f2e9",
+                "name": "可探测性和临近性分析",
+                "switchContentToAssemblyId": "/临近、监测和影响分析（大图表）.chartassy",
+                "type": "switch",
+                "verticalSpan": 0
+              },
+              {
+                "id": "16436807536",
+                "name": "蒙特卡罗模拟",
+                "bundleId": "",
+                "className": "",
+                "switchContentToAssemblyId": "/蒙特卡洛分析展示.chartassy",
+                "type": "switch",
+                "verticalSpan": 0
+              },
+              {
+                "id": "1628deccfe3",
+                "name": "项目风险量化评估",
+                "switchContentToAssemblyId": "/项目风险量化评估.gridassy",
+                "type": "switch",
+                "verticalSpan": 0
+              },
+              {
+                "id": "1628decd302",
+                "name": "风险应对计划",
+                "switchContentToAssemblyId": "/项目风险应对计划.gridassy",
+                "type": "switch",
+                "verticalSpan": 0
+              }
+            ],
+            "role": "",
+            "verticalSpan": 0
+          },
+          {
+            "id": "1628decdce7",
+            "name": "项目变更管理",
+            "text": "项目变更管理",
+            "children": [
+              {
+                "id": "1628decdec9",
+                "name": "项目基线",
+                "switchContentToAssemblyId": "/项目基线.gridassy",
+                "type": "switch",
+                "role": "PM#PA#PPM",
+                "verticalSpan": 0
+              },
+              {
+                "id": "1628df2227f",
+                "name": "项目变更",
+                "switchContentToAssemblyId": "/项目变更.gridassy",
+                "type": "switch",
+                "verticalSpan": 0
+              }
+            ],
+            "role": "",
+            "verticalSpan": 0
+          },
+          {
+            "id": "1628df224b5",
+            "name": "项目档案库",
+            "switchContentToAssemblyId": "/项目档案库.assy",
+            "type": "switch",
+            "verticalSpan": 0
+          },
+          {
+            "id": "1628decb6d6",
+            "name": "项目相关方",
+            "switchContentToAssemblyId": "/项目干系人.gridassy",
+            "type": "switch",
+            "verticalSpan": 0
+          },
+          {
+            "id": "167de085b47",
+            "name": "项目设置",
+            "children": [
+              {
+                "id": "167de099a0f",
+                "name": "项目启动设置",
+                "type": "system_setting"
+              },
+              {
+                "id": "167de09b4bd",
+                "name": "项目计划提交设置",
+                "type": "system_setting"
+              },
+              {
+                "id": "167de09bc59",
+                "name": "项目关闭设置",
+                "type": "system_setting"
+              }
+            ],
+            "type": "customized",
+            "role": "PM#PA#PPM"
+          },
+          {
+            "id": "1628df3363b",
+            "name": "项目收尾",
+            "bundleId": "com.bizvisionsoft.pms",
+            "className": "com.bizvisionsoft.pms.project.action.FinishProject",
+            "type": "customized",
+            "role": "PM#PA#PPM",
+            "verticalSpan": 0
+          }
+        ]
+      },
+      "footbar": {},
+      "contentArea": {
+        "typeName": "内容区",
+        "assemblyLinks": [
+          {
+            "typeName": "组件链接",
+            "id": "/项目主页.assy",
+            "image": "/img/dashboard_w.svg",
+            "text": "项目仪表台"
+          },
+          {
+            "typeName": "组件链接",
+            "id": "/项目工作看板.assy",
+            "defaultAssembly": true,
+            "image": "/img/todo_w.svg",
+            "text": "项目工作看板"
+          }
+        ]
+      },
+      "inputDataSetService": "com.bizvisionsoft.service.ProjectService"
+    },
+    {
+      "typeName": "页面",
+      "id": "162ff912b33",
+      "name": "项目首页（启动）",
+      "title": "项目首页",
+      "headbar": {},
+      "sidebar": {
+        "enabled": true,
+        "width": 240,
+        "header": "/标题栏（当前对象和返回）.assy",
+        "toolbarItems": [
+          {
+            "id": "1640180035b",
+            "name": "查看项目基本信息",
+            "tooltips": "查看项目基本信息",
+            "image": "/img/info_w.svg",
+            "bundleId": "com.bizvisionsoft.pms",
+            "className": "com.bizvisionsoft.pms.project.action.OpenProjectInfo",
+            "type": "customized",
+            "verticalSpan": 0
+          }
+        ],
+        "sidebarItems": [
+          {
+            "id": "163fe7cf799",
+            "name": "项目进度计划",
+            "children": [
+              {
+                "id": "162ffff59b2",
+                "name": "项目进度计划甘特图",
+                "bundleId": "com.bizvisionsoft.pms",
+                "className": "com.bizvisionsoft.pms.work.gantt.action.OpenGantt",
+                "switchContentToAssemblyId": "/项目甘特图.ganttassy",
+                "type": "customized",
+                "verticalSpan": 0
+              },
+              {
+                "id": "163fe7d5eed",
+                "name": "项目进度计划",
+                "switchContentToAssemblyId": "/进度计划.gridassy",
+                "type": "switch",
+                "verticalSpan": 0
+              }
+            ],
+            "type": "customized",
+            "role": "PM#PA#PPM",
+            "verticalSpan": 0
+          },
+          {
+            "id": "1641b383d2e",
+            "name": "项目进度计划（查看）",
+            "text": "项目进度计划",
+            "switchContentToAssemblyId": "/进度计划（查看）.gridassy",
+            "type": "switch",
+            "role": "",
+            "excludeRole": "PM#PA#PPM",
+            "verticalSpan": 0
+          },
+          {
+            "id": "16300006028",
+            "name": "项目组织结构",
+            "switchContentToAssemblyId": "/组织结构图.treeassy",
+            "type": "switch",
+            "role": "PM#PA#PPM",
+            "verticalSpan": 0
+          },
+          {
+            "id": "1641b3795b4",
+            "name": "项目组织结构（查看）",
+            "text": "组织结构",
+            "switchContentToAssemblyId": "/组织结构图（查看）.treeassy",
+            "type": "switch",
+            "role": "",
+            "excludeRole": "PM#PA#PPM",
+            "verticalSpan": 0
+          },
+          {
+            "id": "162fffad053",
+            "name": "项目资金计划",
+            "text": "项目资金计划",
+            "switchContentToAssemblyId": "/项目资金计划.stickerassy",
+            "type": "switch",
+            "role": "",
+            "verticalSpan": 0
+          },
+          {
+            "id": "16370fa7c16",
+            "name": "项目资源计划",
+            "switchContentToAssemblyId": "/资源分配.assy",
+            "type": "switch",
+            "role": "PM#PA#PPM",
+            "passParametersToAssembly": "{\"type\":\"plan\",\"editable\":true}"
+          },
+          {
+            "id": "1641c046ef8",
+            "name": "项目资源计划（查看）",
+            "text": "项目资源计划",
+            "switchContentToAssemblyId": "/资源分配.assy",
+            "type": "switch",
+            "excludeRole": "PM#PA#PPM",
+            "passParametersToAssembly": "{\"type\":\"plan\",\"editable\":false}"
+          },
+          {
+            "id": "16370fb0942",
+            "name": "项目风险管理",
+            "children": [
+              {
+                "id": "16391051314",
+                "name": "项目风险登记簿",
+                "text": "项目风险登记簿",
+                "switchContentToAssemblyId": "/项目风险登记簿.gridassy",
+                "type": "switch",
+                "verticalSpan": 0
+              },
+              {
+                "id": "1643ccc3041",
+                "name": "蒙特卡罗模拟",
+                "switchContentToAssemblyId": "/蒙特卡洛分析展示.chartassy",
+                "type": "switch",
+                "verticalSpan": 0
+              },
+              {
+                "id": "1643cccddc9",
+                "name": "项目风险量化评估",
+                "switchContentToAssemblyId": "/项目风险量化评估.gridassy",
+                "type": "switch",
+                "verticalSpan": 0
+              },
+              {
+                "id": "163910518b0",
+                "name": "风险应对计划",
+                "switchContentToAssemblyId": "/项目风险应对计划.gridassy",
+                "type": "switch",
+                "verticalSpan": 0
+              }
+            ],
+            "type": "customized",
+            "role": "",
+            "verticalSpan": 0
+          },
+          {
+            "id": "162fffc1a86",
+            "name": "项目相关方",
+            "switchContentToAssemblyId": "/项目干系人.gridassy",
+            "type": "switch",
+            "role": "",
+            "verticalSpan": 0
+          },
+          {
+            "id": "167e075e3fa",
+            "name": "项目设置",
+            "children": [
+              {
+                "id": "167e075eddb",
+                "name": "项目启动设置",
+                "type": "system_setting"
+              },
+              {
+                "id": "167e075f471",
+                "name": "项目计划提交设置",
+                "type": "system_setting"
+              },
+              {
+                "id": "167e075fa08",
+                "name": "项目关闭设置",
+                "type": "system_setting"
+              }
+            ],
+            "type": "customized",
+            "role": "PM#PA#PPM"
+          },
+          {
+            "id": "16532b3c294",
+            "name": "快速启动",
+            "switchContentToAssemblyId": "/项目主页（创建状态）.assy",
+            "type": "switch",
+            "verticalSpan": 0
+          }
+        ]
+      },
+      "footbar": {},
+      "contentArea": {
+        "typeName": "内容区",
+        "assemblyLinks": [
+          {
+            "typeName": "组件链接",
+            "id": "/项目主页（创建状态）.assy",
+            "defaultAssembly": true
+          }
+        ]
+      },
+      "inputDataSetService": "com.bizvisionsoft.service.ProjectService"
+    },
+    {
+      "typeName": "页面",
+      "id": "96183e364b9",
+      "name": "项目首页（收尾）",
+      "title": "项目首页",
+      "headbar": {},
+      "sidebar": {
+        "enabled": true,
+        "width": 240,
+        "header": "/标题栏（当前对象和返回）.assy",
+        "toolbarItems": [
+          {
+            "id": "16401806691",
+            "name": "查看项目基本信息",
+            "tooltips": "查看项目基本信息",
+            "image": "/img/info_w.svg",
+            "bundleId": "com.bizvisionsoft.pms",
+            "className": "com.bizvisionsoft.pms.project.action.OpenProjectInfo",
+            "type": "customized",
+            "verticalSpan": 0
+          }
+        ],
+        "sidebarItems": [
+          {
+            "id": "9628decb7e0",
+            "name": "项目进度管理",
+            "text": "项目进度管理",
+            "children": [
+              {
+                "id": "9628decba8b",
+                "name": "项目进度计划甘特图",
+                "text": "项目进度甘特图",
+                "bundleId": "com.bizvisionsoft.pms",
+                "className": "com.bizvisionsoft.pms.work.gantt.action.OpenGantt",
+                "switchContentToAssemblyId": "/项目甘特图（查看）.ganttassy",
+                "type": "switch",
+                "verticalSpan": 0
+              },
+              {
+                "id": "9628decb92d",
+                "name": "项目进度计划和监控（查看）",
+                "text": "项目进度计划和监控",
+                "switchContentToAssemblyId": "/进度计划和监控（查看）.gridassy",
+                "type": "switch",
+                "verticalSpan": 0
+              },
+              {
+                "id": "1641d9cd069",
+                "name": "项目进度跟踪甘特图",
+                "text": "项目进度跟踪甘特图",
+                "switchContentToAssemblyId": "/项目进度跟踪甘特图.ganttassy",
+                "type": "switch",
+                "verticalSpan": 0
+              },
+              {
+                "id": "1643efee278",
+                "name": "项目进展甘特图",
+                "switchContentToAssemblyId": "/项目进展甘特图.ganttassy",
+                "type": "switch",
+                "verticalSpan": 0
+              }
+            ],
+            "verticalSpan": 0
+          },
+          {
+            "id": "963099d3908",
+            "name": "项目组织结构",
+            "text": "项目组织结构",
+            "switchContentToAssemblyId": "/组织结构图（查看）.treeassy",
+            "type": "switch",
+            "verticalSpan": 0
+          },
+          {
+            "id": "9628decc2ae",
+            "name": "项目资源管理",
+            "text": "项目资源管理",
+            "children": [
+              {
+                "id": "9628decc40b",
+                "name": "项目资源计划",
+                "switchContentToAssemblyId": "/资源分配.assy",
+                "type": "switch",
+                "passParametersToAssembly": "{\"type\":\"plan\",\"editable\":false}"
+              },
+              {
+                "id": "9628decc58a",
+                "name": "资源用量状况",
+                "switchContentToAssemblyId": "/资源分配.assy",
+                "type": "switch",
+                "passParametersToAssembly": "{\"type\":\"actual\",\"editable\":false}"
+              },
+              {
+                "id": "166aa2c1314",
+                "name": "项目资源图表",
+                "switchContentToAssemblyId": "/项目资源图表.drillchartassy",
+                "type": "switch",
+                "verticalSpan": 0
+              },
+              {
+                "id": "166aa2c402b",
+                "name": "项目资源数据表",
+                "switchContentToAssemblyId": "/查看资源汇总情况.assy",
+                "type": "switch",
+                "passParametersToAssembly": "{\n\"type\":\"project\"\n}"
+              }
+            ],
+            "type": "customized",
+            "verticalSpan": 0
+          },
+          {
+            "id": "9628decc6f8",
+            "name": "项目成本管理",
+            "text": "项目成本管理",
+            "children": [
+              {
+                "id": "9628decc878",
+                "name": "项目资金计划",
+                "switchContentToAssemblyId": "/项目资金计划.stickerassy",
+                "type": "switch",
+                "verticalSpan": 0
+              },
+              {
+                "id": "9628decc9e5",
+                "name": "项目实际成本",
+                "switchContentToAssemblyId": "/项目实际成本.stickerassy",
+                "type": "switch",
+                "verticalSpan": 0
+              },
+              {
+                "id": "16390f90fd8",
+                "name": "预算成本对比分析表",
+                "switchContentToAssemblyId": "/项目预算成本对比分析.gridassy",
+                "type": "switch",
+                "verticalSpan": 0
+              },
+              {
+                "id": "16756069d6c",
+                "name": "项目预算成本图表",
+                "switchContentToAssemblyId": "/项目预算成本图表.drillchartassy",
+                "type": "switch",
+                "verticalSpan": 0
+              }
+            ],
+            "role": "PM#PA#PPM#PFM",
+            "verticalSpan": 0
+          },
+          {
+            "id": "9628decd492",
+            "name": "项目监控",
+            "text": "项目监控",
+            "children": [
+              {
+                "id": "9628decbc1b",
+                "name": "研发进度监控",
+                "switchContentToAssemblyId": "/研发进度监控.gridassy",
+                "type": "switch",
+                "verticalSpan": 0
+              },
+              {
+                "id": "9628decbdcc",
+                "name": "采购计划监控",
+                "switchContentToAssemblyId": "/采购计划监控.gridassy",
+                "type": "switch",
+                "verticalSpan": 0
+              },
+              {
+                "id": "9628decbf7e",
+                "name": "生产计划监控",
+                "switchContentToAssemblyId": "/生产计划监控.gridassy",
+                "type": "switch",
+                "verticalSpan": 0
+              },
+              {
+                "id": "9628decd621",
+                "name": "检验进度监控",
+                "switchContentToAssemblyId": "/检验进度监控.gridassy",
+                "type": "switch",
+                "verticalSpan": 0
+              }
+            ],
+            "role": "PM#PA#PPM",
+            "verticalSpan": 0
+          },
+          {
+            "id": "1641d9fef51",
+            "name": "研发进度监控",
+            "switchContentToAssemblyId": "/研发进度监控.gridassy",
+            "type": "switch",
+            "role": "PCE#SE",
+            "excludeRole": "PM#PA#PPM",
+            "verticalSpan": 0
+          },
+          {
+            "id": "1641d9ff321",
+            "name": "采购计划监控",
+            "switchContentToAssemblyId": "/采购计划监控.gridassy",
+            "type": "switch",
+            "role": "PR#SE",
+            "excludeRole": "PM#PA#PPM",
+            "verticalSpan": 0
+          },
+          {
+            "id": "1641d9ff67b",
+            "name": "生产计划监控",
+            "switchContentToAssemblyId": "/生产计划监控.gridassy",
+            "type": "switch",
+            "role": "MR#SE",
+            "excludeRole": "PM#PA#PPM",
+            "verticalSpan": 0
+          },
+          {
+            "id": "1641d9ff9a8",
+            "name": "检验进度监控",
+            "switchContentToAssemblyId": "/检验进度监控.gridassy",
+            "type": "switch",
+            "role": "QME#SE",
+            "excludeRole": "PM#PA#PPM",
+            "verticalSpan": 0
+          },
+          {
+            "id": "16401fb6100",
+            "name": "项目报告管理",
+            "children": [
+              {
+                "id": "16401fb6838",
+                "name": "项目日报",
+                "switchContentToAssemblyId": "/项目日报.gridassy",
+                "type": "switch",
+                "verticalSpan": 0
+              },
+              {
+                "id": "16401fb6da1",
+                "name": "项目周报",
+                "switchContentToAssemblyId": "/项目周报.gridassy",
+                "type": "switch",
+                "verticalSpan": 0
+              },
+              {
+                "id": "16401fb7616",
+                "name": "项目月报",
+                "switchContentToAssemblyId": "/项目月报.gridassy",
+                "type": "switch",
+                "verticalSpan": 0
+              }
+            ],
+            "type": "customized",
+            "role": "PM#PA#PPM",
+            "verticalSpan": 0
+          },
+          {
+            "id": "9628deccce4",
+            "name": "项目风险管理",
+            "text": "项目风险管理",
+            "children": [
+              {
+                "id": "9628decce74",
+                "name": "项目风险登记簿",
+                "text": "项目风险登记簿",
+                "switchContentToAssemblyId": "/项目风险登记簿.gridassy",
+                "type": "switch",
+                "verticalSpan": 0
+              },
+              {
+                "id": "1646957a360",
+                "name": "可探测性和临近性分析",
+                "switchContentToAssemblyId": "/临近、监测和影响分析（大图表）.chartassy",
+                "type": "switch",
+                "verticalSpan": 0
+              },
+              {
+                "id": "1646958b336",
+                "name": "蒙特卡罗模拟",
+                "switchContentToAssemblyId": "/蒙特卡洛分析展示（查看）.chartassy",
+                "type": "switch",
+                "verticalSpan": 0
+              },
+              {
+                "id": "9628deccfe3",
+                "name": "项目风险量化评估",
+                "switchContentToAssemblyId": "/项目风险量化评估.gridassy",
+                "type": "switch",
+                "verticalSpan": 0
+              },
+              {
+                "id": "9628decd302",
+                "name": "风险应对计划",
+                "switchContentToAssemblyId": "/项目风险应对计划.gridassy",
+                "type": "switch",
+                "verticalSpan": 0
+              }
+            ],
+            "verticalSpan": 0
+          },
+          {
+            "id": "9628decdce7",
+            "name": "项目变更管理",
+            "text": "项目变更管理",
+            "children": [
+              {
+                "id": "9628decdec9",
+                "name": "项目基线",
+                "switchContentToAssemblyId": "/项目基线（查看）.gridassy",
+                "type": "switch",
+                "role": "PM#PA#PPM",
+                "verticalSpan": 0
+              },
+              {
+                "id": "9628df2227f",
+                "name": "项目变更",
+                "switchContentToAssemblyId": "/项目变更（查看）.gridassy",
+                "type": "switch",
+                "verticalSpan": 0
+              }
+            ],
+            "verticalSpan": 0
+          },
+          {
+            "id": "9628df224b5",
+            "name": "项目档案库",
+            "switchContentToAssemblyId": "/项目档案库.assy",
+            "type": "switch",
+            "verticalSpan": 0
+          },
+          {
+            "id": "9628decb6d6",
+            "name": "项目相关方",
+            "switchContentToAssemblyId": "/项目干系人.gridassy",
+            "type": "switch",
+            "verticalSpan": 0
+          },
+          {
+            "id": "167e07625ba",
+            "name": "项目设置",
+            "children": [
+              {
+                "id": "167e0762d10",
+                "name": "项目启动设置",
+                "type": "system_setting"
+              },
+              {
+                "id": "167e0763366",
+                "name": "项目计划提交设置",
+                "type": "system_setting"
+              },
+              {
+                "id": "167e0763a14",
+                "name": "项目关闭设置",
+                "type": "system_setting"
+              }
+            ],
+            "type": "customized",
+            "role": "PM#PA#PPM"
+          },
+          {
+            "id": "9628df3363b",
+            "name": "项目关闭",
+            "bundleId": "com.bizvisionsoft.pms",
+            "className": "com.bizvisionsoft.pms.project.action.CloseProject",
+            "type": "customized",
+            "role": "PM#PA#PPM",
+            "verticalSpan": 0
+          }
+        ]
+      },
+      "footbar": {},
+      "contentArea": {
+        "typeName": "内容区",
+        "assemblyLinks": [
+          {
+            "typeName": "组件链接",
+            "id": "/项目主页.assy",
+            "defaultAssembly": true,
+            "image": "/img/dashboard_w.svg",
+            "text": "项目仪表台"
+          },
+          {
+            "typeName": "组件链接",
+            "id": "/项目工作看板.assy",
+            "image": "/img/todo_w.svg",
+            "text": "项目工作看板"
+          }
+        ]
+      },
+      "inputDataSetService": "com.bizvisionsoft.service.ProjectService"
+    },
+    {
+      "typeName": "页面",
+      "id": "99183e364b9",
+      "name": "项目首页（关闭）",
+      "title": "项目首页",
+      "headbar": {},
+      "sidebar": {
+        "enabled": true,
+        "width": 240,
+        "header": "/标题栏（当前对象和返回）.assy",
+        "toolbarItems": [
+          {
+            "id": "16401809975",
+            "name": "查看项目基本信息",
+            "tooltips": "查看项目基本信息",
+            "image": "/img/info_w.svg",
+            "bundleId": "com.bizvisionsoft.pms",
+            "className": "com.bizvisionsoft.pms.project.action.OpenProjectInfo",
+            "type": "customized",
+            "verticalSpan": 0
+          }
+        ],
+        "sidebarItems": [
+          {
+            "id": "9928decb7e0",
+            "name": "项目进度管理",
+            "text": "项目进度管理",
+            "children": [
+              {
+                "id": "9928decba8b",
+                "name": "项目进度计划甘特图",
+                "text": "项目进度甘特图",
+                "bundleId": "com.bizvisionsoft.pms",
+                "className": "com.bizvisionsoft.pms.work.gantt.action.OpenGantt",
+                "switchContentToAssemblyId": "/项目甘特图（查看）.ganttassy",
+                "type": "switch",
+                "verticalSpan": 0
+              },
+              {
+                "id": "9928decb92d",
+                "name": "项目进度计划和监控（查看）",
+                "text": "项目进度计划和监控",
+                "switchContentToAssemblyId": "/进度计划和监控（查看）.gridassy",
+                "type": "switch",
+                "verticalSpan": 0
+              },
+              {
+                "id": "1641f8c638f",
+                "name": "项目进度跟踪甘特图",
+                "text": "项目进度跟踪甘特图",
+                "switchContentToAssemblyId": "/项目进度跟踪甘特图.ganttassy",
+                "type": "switch",
+                "verticalSpan": 0
+              },
+              {
+                "id": "1643efe5e9d",
+                "name": "项目进展甘特图",
+                "switchContentToAssemblyId": "/项目进展甘特图.ganttassy",
+                "type": "switch",
+                "verticalSpan": 0
+              }
+            ],
+            "verticalSpan": 0
+          },
+          {
+            "id": "993099d3908",
+            "name": "项目组织结构",
+            "text": "项目组织结构",
+            "switchContentToAssemblyId": "/组织结构图（查看）.treeassy",
+            "type": "switch",
+            "verticalSpan": 0
+          },
+          {
+            "id": "9928decc2ae",
+            "name": "项目资源管理",
+            "text": "项目资源管理",
+            "children": [
+              {
+                "id": "9928decc40b",
+                "name": "项目资源计划",
+                "switchContentToAssemblyId": "/资源分配.assy",
+                "type": "switch",
+                "passParametersToAssembly": "{\"type\":\"plan\",\"editable\":false}"
+              },
+              {
+                "id": "9928decc58a",
+                "name": "资源用量状况",
+                "switchContentToAssemblyId": "/资源分配.assy",
+                "type": "switch",
+                "passParametersToAssembly": "{\"type\":\"actual\",\"editable\":false}"
+              },
+              {
+                "id": "166ab0a0c62",
+                "name": "资源数据表",
+                "switchContentToAssemblyId": "/查看资源汇总情况.assy",
+                "type": "switch",
+                "passParametersToAssembly": "{\n\"type\":\"project\"\n}"
+              },
+              {
+                "id": "166ab0a084d",
+                "name": "资源图表",
+                "switchContentToAssemblyId": "/项目资源图表.drillchartassy",
+                "type": "switch",
+                "verticalSpan": 0
+              }
+            ],
+            "type": "customized",
+            "verticalSpan": 0
+          },
+          {
+            "id": "9928decc6f8",
+            "name": "项目成本管理",
+            "text": "项目成本管理",
+            "children": [
+              {
+                "id": "165c3045f19",
+                "name": "项目资金计划",
+                "switchContentToAssemblyId": "/项目资金计划（查看）.stickerassy",
+                "type": "switch",
+                "verticalSpan": 0
+              },
+              {
+                "id": "165c304971e",
+                "name": "项目实际成本",
+                "switchContentToAssemblyId": "/项目实际成本（查看）.stickerassy",
+                "type": "switch",
+                "verticalSpan": 0
+              },
+              {
+                "id": "16390f86458",
+                "name": "预算成本对比分析表",
+                "switchContentToAssemblyId": "/项目预算成本对比分析.gridassy",
+                "type": "switch",
+                "verticalSpan": 0
+              },
+              {
+                "id": "16756065962",
+                "name": "项目预算成本图表",
+                "switchContentToAssemblyId": "/项目预算成本图表.drillchartassy",
+                "type": "switch",
+                "verticalSpan": 0
+              }
+            ],
+            "verticalSpan": 0
+          },
+          {
+            "id": "9928deccce4",
+            "name": "项目风险管理",
+            "text": "项目风险管理",
+            "children": [
+              {
+                "id": "9928decce74",
+                "name": "项目风险登记簿",
+                "text": "项目风险登记簿",
+                "switchContentToAssemblyId": "/项目风险登记簿（查看）.gridassy",
+                "type": "switch",
+                "verticalSpan": 0
+              },
+              {
+                "id": "164695828f2",
+                "name": "可探测性和临近性分析",
+                "switchContentToAssemblyId": "/临近、监测和影响分析（大图表）.chartassy",
+                "type": "switch",
+                "verticalSpan": 0
+              },
+              {
+                "id": "164695901e9",
+                "name": "蒙特卡罗模拟",
+                "switchContentToAssemblyId": "/蒙特卡洛分析展示（查看）.chartassy",
+                "type": "switch",
+                "verticalSpan": 0
+              },
+              {
+                "id": "9928deccfe3",
+                "name": "项目风险量化评估",
+                "switchContentToAssemblyId": "/项目风险量化评估.gridassy",
+                "type": "switch",
+                "verticalSpan": 0
+              },
+              {
+                "id": "9928decd302",
+                "name": "风险应对计划",
+                "switchContentToAssemblyId": "/项目风险应对计划（查看）.gridassy",
+                "type": "switch",
+                "verticalSpan": 0
+              }
+            ],
+            "verticalSpan": 0
+          },
+          {
+            "id": "9928decd492",
+            "name": "项目监控",
+            "text": "项目监控",
+            "children": [
+              {
+                "id": "9928decbc1b",
+                "name": "研发进度监控",
+                "switchContentToAssemblyId": "/研发进度监控.gridassy",
+                "type": "switch",
+                "verticalSpan": 0
+              },
+              {
+                "id": "9928decbdcc",
+                "name": "采购计划监控",
+                "switchContentToAssemblyId": "/采购计划监控.gridassy",
+                "type": "switch",
+                "verticalSpan": 0
+              },
+              {
+                "id": "9928decbf7e",
+                "name": "生产计划监控",
+                "switchContentToAssemblyId": "/生产计划监控.gridassy",
+                "type": "switch",
+                "verticalSpan": 0
+              },
+              {
+                "id": "9928decd621",
+                "name": "检验进度监控",
+                "switchContentToAssemblyId": "/检验进度监控.gridassy",
+                "type": "switch",
+                "verticalSpan": 0
+              }
+            ],
+            "verticalSpan": 0
+          },
+          {
+            "id": "9928decdec9",
+            "name": "项目变更管理",
+            "text": "项目变更管理",
+            "children": [
+              {
+                "id": "164695bd073",
+                "name": "项目基线",
+                "switchContentToAssemblyId": "/项目基线（查看）.gridassy",
+                "type": "switch",
+                "role": "PM#PA#PPM",
+                "verticalSpan": 0
+              },
+              {
+                "id": "164695bd405",
+                "name": "项目变更",
+                "switchContentToAssemblyId": "/项目变更（查看）.gridassy",
+                "type": "switch",
+                "verticalSpan": 0
+              }
+            ],
+            "type": "switch",
+            "verticalSpan": 0
+          },
+          {
+            "id": "9928df224b5",
+            "name": "项目档案库",
+            "switchContentToAssemblyId": "/项目档案库.assy",
+            "type": "switch",
+            "verticalSpan": 0
+          },
+          {
+            "id": "9928decb6d6",
+            "name": "项目相关方",
+            "switchContentToAssemblyId": "/项目干系人（查看）.gridassy",
+            "type": "switch",
+            "verticalSpan": 0
+          }
+        ]
+      },
+      "footbar": {},
+      "contentArea": {
+        "typeName": "内容区",
+        "assemblyLinks": [
+          {
+            "typeName": "组件链接",
+            "id": "/项目主页（关闭状态）.assy",
+            "defaultAssembly": true
+          }
+        ]
+      },
+      "inputDataSetService": "com.bizvisionsoft.service.ProjectService"
+    },
+    {
+      "typeName": "页面",
+      "id": "163c92214c7",
+      "name": "项目模板",
+      "title": "项目模板",
+      "headbar": {},
+      "sidebar": {
+        "enabled": true,
+        "width": 240,
+        "header": "/标题栏（当前对象和返回）.assy",
+        "toolbarItems": [],
+        "sidebarItems": [
+          {
+            "id": "163c9405fea",
+            "name": "快速设置",
+            "switchContentToAssemblyId": "/项目模板操作面板.actionpanelassy",
+            "type": "switch",
+            "verticalSpan": 0
+          },
+          {
+            "id": "163c9237b01",
+            "name": "进度计划",
+            "text": "进度计划",
+            "switchContentToAssemblyId": "/项目模板甘特图.ganttassy",
+            "type": "switch",
+            "verticalSpan": 0
+          },
+          {
+            "id": "163c9240bb3",
+            "name": "组织结构",
+            "bundleId": "com.bizvisionsoft.pms",
+            "className": "com.bizvisionsoft.pms.projecttemplate.OpenOBSDiagramACT",
+            "type": "customized",
+            "verticalSpan": 0
+          },
+          {
+            "id": "163d2de2b37",
+            "name": "分配角色",
+            "switchContentToAssemblyId": "/项目模板WBS（分配角色）.gridassy",
+            "type": "switch",
+            "verticalSpan": 0
+          },
+          {
+            "id": "163c92520b2",
+            "name": "工作交付",
+            "text": "工作交付",
+            "switchContentToAssemblyId": "/项目模板WBS.gridassy",
+            "type": "switch",
+            "verticalSpan": 0
+          },
+          {
+            "id": "163c924a226",
+            "name": "资源需求",
+            "switchContentToAssemblyId": "/资源需求模板.assy",
+            "type": "switch",
+            "verticalSpan": 0
+          },
+          {
+            "id": "16464f3ad37",
+            "name": "文件夹结构",
+            "switchContentToAssemblyId": "/项目档案库.assy",
+            "type": "switch",
+            "verticalSpan": 0
+          },
+          {
+            "id": "167e07663bf",
+            "name": "项目设置",
+            "children": [
+              {
+                "id": "167e0767dbb",
+                "name": "项目启动设置",
+                "type": "system_setting"
+              },
+              {
+                "id": "167e076841a",
+                "name": "项目计划提交设置",
+                "type": "system_setting"
+              },
+              {
+                "id": "167e0768df0",
+                "name": "项目关闭设置",
+                "type": "system_setting"
+              }
+            ],
+            "type": "customized",
+            "role": ""
+          }
+        ]
+      },
+      "footbar": {},
+      "contentArea": {
+        "typeName": "内容区",
+        "assemblyLinks": [
+          {
+            "typeName": "组件链接",
+            "id": "/项目模板操作面板.actionpanelassy",
+            "defaultAssembly": true
+          }
+        ]
+      },
+      "inputDataSetService": "com.bizvisionsoft.service.ProjectTemplateService"
+    },
+    {
+      "typeName": "页面",
+      "id": "164067d4250",
+      "name": "系统管理",
+      "title": "系统管理",
+      "headbar": {},
+      "sidebar": {
+        "enabled": true,
+        "width": 240,
+        "header": "/标题栏（带有用户头像和产品名称）.assy",
+        "toolbarItems": [],
+        "sidebarItems": [
+          {
+            "id": "164071f3044",
+            "name": "重要提示",
+            "switchContentToAssemblyId": "/系统管理首页面板.assy",
+            "type": "switch",
+            "verticalSpan": 0
+          },
+          {
+            "id": "1640e8bb1bd",
+            "name": "组织和用户",
+            "children": [
+              {
+                "id": "161d7d6b3a5",
+                "name": "组织管理",
+                "text": "组织管理",
+                "bundleId": "",
+                "className": "",
+                "switchContentToAssemblyId": "/组织管理.gridassy",
+                "type": "switch",
+                "verticalSpan": 0
+              },
+              {
+                "id": "162bc7b536f",
+                "name": "用户管理",
+                "switchContentToAssemblyId": "/账户管理.gridassy",
+                "type": "switch",
+                "verticalSpan": 0
+              },
+              {
+                "id": "16524c60c3c",
+                "name": "用户审计",
+                "switchContentToAssemblyId": "/用户操作审计.gridassy",
+                "type": "switch",
+                "verticalSpan": 0
+              },
+              {
+                "id": "162bd2698b2",
+                "name": "资格",
+                "text": "资格",
+                "switchContentToAssemblyId": "/执业资格列表.gridassy",
+                "type": "switch",
+                "verticalSpan": 0
+              },
+              {
+                "id": "1640e3fa0d1",
+                "name": "功能权限",
+                "bundleId": "",
+                "className": "",
+                "switchContentToAssemblyId": "/功能权限设置.gridassy",
+                "type": "switch",
+                "verticalSpan": 0
+              }
+            ],
+            "type": "customized",
+            "verticalSpan": 0
+          },
+          {
+            "id": "1683cd104cb",
+            "name": "业务规则和模板",
+            "children": [
+              {
+                "id": "162751d6f59",
+                "name": "EPS管理",
+                "text": "EPS管理",
+                "switchContentToAssemblyId": "/EPS管理.gridassy",
+                "type": "switch",
+                "verticalSpan": 0
+              },
+              {
+                "id": "162b3903335",
+                "name": "项目模板",
+                "text": "项目模板",
+                "switchContentToAssemblyId": "/项目模板管理.gridassy",
+                "type": "switch",
+                "verticalSpan": 0
+              },
+              {
+                "id": "164ef1fc973",
+                "name": "WBS模块",
+                "switchContentToAssemblyId": "/WBS模块.gridassy",
+                "type": "switch",
+                "verticalSpan": 0
+              },
+              {
+                "id": "166703c8a09",
+                "name": "组织模板",
+                "switchContentToAssemblyId": "/组织模板.gridassy",
+                "type": "switch",
+                "verticalSpan": 0
+              },
+              {
+                "id": "165c64ba47d",
+                "name": "文档模板",
+                "switchContentToAssemblyId": "/文档模板.gridassy",
+                "type": "switch",
+                "verticalSpan": 0
+              },
+              {
+                "id": "167b5df1586",
+                "name": "检查项",
+                "switchContentToAssemblyId": "/检查项.gridassy",
+                "type": "switch"
+              },
+              {
+                "id": "16446c53e93",
+                "name": "变更审核",
+                "switchContentToAssemblyId": "/变更审核.gridassy",
+                "type": "switch",
+                "verticalSpan": 0
+              },
+              {
+                "id": "163621fae4c",
+                "name": "视图和工作包",
+                "switchContentToAssemblyId": "/视图和工作包列表.gridassy",
+                "type": "switch",
+                "verticalSpan": 0
+              },
+              {
+                "id": "162dc3d1622",
+                "name": "名称字典",
+                "switchContentToAssemblyId": "/名称字典.gridassy",
+                "type": "switch",
+                "verticalSpan": 0
+              }
+            ],
+            "type": "customized"
+          },
+          {
+            "id": "16555b265e3",
+            "name": "财务科目",
+            "text": "财务科目",
+            "children": [
+              {
+                "id": "162e58e8ed5",
+                "name": "设置费用类科目",
+                "text": "项目预算和成本科目",
+                "switchContentToAssemblyId": "/费用类科目.gridassy",
+                "type": "switch",
+                "verticalSpan": 0
+              },
+              {
+                "id": "16555ce76d8",
+                "name": "设置收益类别",
+                "text": "项目损益科目",
+                "switchContentToAssemblyId": "/损益类科目.gridassy",
+                "type": "switch",
+                "verticalSpan": 0
+              }
+            ],
+            "type": "customized",
+            "verticalSpan": 0
+          },
+          {
+            "id": "16a85f562e6",
+            "name": "工作流管理",
+            "children": [
+              {
+                "id": "16a0551485b",
+                "name": "工作流定义",
+                "switchContentToAssemblyId": "/工作流定义列表.gridassy",
+                "type": "switch"
+              },
+              {
+                "id": "16a3898180a",
+                "name": "工作流启动权限",
+                "switchContentToAssemblyId": "/工作流定义（授权用）.gridassy",
+                "type": "switch"
+              }
+            ],
+            "type": "customized"
+          },
+          {
+            "id": "16782e950b9",
+            "name": "全局项目设置",
+            "text": "",
+            "children": [
+              {
+                "id": "16782e9aaa4",
+                "name": "项目启动设置",
+                "type": "system_setting",
+                "verticalSpan": 0
+              },
+              {
+                "id": "16782e9eb67",
+                "name": "项目计划提交设置",
+                "type": "system_setting",
+                "verticalSpan": 0
+              },
+              {
+                "id": "16782e9f1c4",
+                "name": "项目关闭设置",
+                "type": "system_setting",
+                "verticalSpan": 0
+              }
+            ],
+            "type": "customized",
+            "verticalSpan": 0
+          },
+          {
+            "id": "1642fb83f8b",
+            "name": "风险管理",
+            "children": [
+              {
+                "id": "1637e57481b",
+                "name": "风险分解结构",
+                "switchContentToAssemblyId": "/RBS类别.gridassy",
+                "type": "switch",
+                "verticalSpan": 0
+              },
+              {
+                "id": "1642fb940b8",
+                "name": "临近性指标设置",
+                "switchContentToAssemblyId": "/临近性指标设置.gridassy",
+                "type": "switch",
+                "verticalSpan": 0
+              },
+              {
+                "id": "1642fba9bb2",
+                "name": "风险评分标准",
+                "text": "风险评分标准",
+                "switchContentToAssemblyId": "/风险评分标准.gridassy",
+                "type": "switch",
+                "verticalSpan": 0
+              }
+            ],
+            "type": "customized",
+            "verticalSpan": 0
+          },
+          {
+            "id": "1640cf046f4",
+            "name": "资源和日历",
+            "children": [
+              {
+                "id": "162c709b128",
+                "name": "设备设施",
+                "text": "设备设施基础数据",
+                "switchContentToAssemblyId": "/设备设施.gridassy",
+                "type": "switch",
+                "verticalSpan": 0
+              },
+              {
+                "id": "162bd782f64",
+                "name": "资源类型",
+                "text": "资源类型",
+                "switchContentToAssemblyId": "/资源类型.gridassy",
+                "type": "switch",
+                "verticalSpan": 0
+              },
+              {
+                "id": "162bd7a224b",
+                "name": "工作日历",
+                "text": "节假日和工作时间",
+                "switchContentToAssemblyId": "/工作日历.gridassy",
+                "type": "switch",
+                "verticalSpan": 0
+              }
+            ],
+            "type": "customized",
+            "verticalSpan": 0
+          },
+          {
+            "id": "1683cd2d3c9",
+            "name": "指标",
+            "children": [
+              {
+                "id": "1642fb9b626",
+                "name": "质量影响等级",
+                "text": "质量影响等级",
+                "switchContentToAssemblyId": "/质量影响级别.gridassy",
+                "type": "switch",
+                "verticalSpan": 0
+              },
+              {
+                "id": "1683ceda283",
+                "name": "严重性等级",
+                "switchContentToAssemblyId": "/严重性等级.gridassy",
+                "type": "switch"
+              },
+              {
+                "id": "1642fba3602",
+                "name": "可探测性级别",
+                "text": "可探测性级别",
+                "switchContentToAssemblyId": "/可探测性级别.gridassy",
+                "type": "switch",
+                "verticalSpan": 0
+              },
+              {
+                "id": "16842d89cc9",
+                "name": "频度等级",
+                "switchContentToAssemblyId": "/频度等级.gridassy",
+                "type": "switch"
+              },
+              {
+                "id": "16842d93f0d",
+                "name": "影响范围等级",
+                "switchContentToAssemblyId": "/影响范围等级.gridassy",
+                "type": "switch"
+              }
+            ],
+            "type": "customized"
+          },
+          {
+            "id": "165d57032c6",
+            "name": "系统设置",
+            "children": [
+              {
+                "id": "1667dc1acb6",
+                "name": "工作时间设置",
+                "bundleId": "",
+                "className": "",
+                "type": "system_setting",
+                "verticalSpan": 0
+              },
+              {
+                "id": "166b313d86e",
+                "name": "测试邮件接收账户",
+                "bundleId": "",
+                "className": "",
+                "type": "system_setting",
+                "verticalSpan": 0
+              },
+              {
+                "id": "1640b0ecf2a",
+                "name": "查看许可证",
+                "switchContentToAssemblyId": "/许可证.gridassy",
+                "type": "switch",
+                "verticalSpan": 0
+              },
+              {
+                "id": "16527b11f80",
+                "name": "管理备份",
+                "switchContentToAssemblyId": "/管理备份.gridassy",
+                "type": "switch",
+                "verticalSpan": 0
+              },
+              {
+                "id": "1677a1661b2",
+                "name": "值生成规则",
+                "bundleId": "",
+                "switchContentToAssemblyId": "/值生成规则.gridassy",
+                "type": "switch",
+                "verticalSpan": 0
+              }
+            ],
+            "type": "customized",
+            "verticalSpan": 0
+          }
+        ]
+      },
+      "footbar": {},
+      "contentArea": {
+        "typeName": "内容区",
+        "assemblyLinks": [
+          {
+            "typeName": "组件链接",
+            "id": "/系统管理首页面板.assy",
+            "defaultAssembly": true
+          }
+        ]
+      },
+      "home": true,
+      "role": "系统管理员"
+    }
+  ],
+  "assyLib": {
+    "assys": []
+  },
+  "password": "admin",
+  "footLeftText": "",
+  "headLogo": "",
+  "pageBackgroundImage": "",
+  "pageBackgroundImageCSS": "brui_blur",
+  "welcome": "登录WisPlanner 5",
+  "headLogoWidth": 156,
+  "headLogoHeight": 60,
+  "noticeImg1": "/img/bg01.svg",
+  "noticeContent1": "\u003cdiv style\u003d\u0027margin-top:32px;margin-right:96px;font-size:32px;font-weight:lighter;color:#4d4d4d\u0027\u003e更强大，更智能，更完整的项目管理系统。\u003c/div\u003e\u003cbr\u003e\u003cbr\u003e\n\u003cdiv style\u003d\u0027margin-right:96px;font-size:18px;font-weight:lighter;color:#808080\u0027\u003eBizVision PMS V5系列现已更名为WisPlanner V5，\n我们更加重视项目管理功能的完整性和易用性。无论是项目团队还是公司管理层都能够以项目为中心展开工作。\u003cdiv\u003e",
+  "noticeImg2": "/img/bg02.svg",
+  "noticeContent2": "\u003cdiv style\u003d\u0027margin-top:32px;margin-right:96px;font-size:32px;font-weight:lighter;color:#4d4d4d\u0027\u003e全新的进度排程功能，帮助您更快更准确地编制项目计划，\n但操作起来更加简单\u003c/div\u003e\u003cbr\u003e\u003cbr\u003e\n\u003cdiv style\u003d\u0027margin-right:96px;font-size:18px;font-weight:lighter;color:#808080\u0027\u003eWisPlanner提供了非常方便的计划排程功能。\n通过套用项目模板和WBS模块可以很容易完成WBS的构建工作。您可以在甘特图上所见所得地编辑，拖拽和移动任务，而同时，系统自动的对整个项目进行了排程。\u003cdiv\u003e",
+  "noticeImg3": "/img/bg03.svg",
+  "noticeContent3": "\u003cdiv style\u003d\u0027margin-top:32px;margin-right:96px;font-size:32px;font-weight:lighter;color:#4d4d4d\u0027\u003e新增加了定性和定量的风险管理功能。\u003c/div\u003e\u003cbr\u003e\u003cbr\u003e\n\u003cdiv style\u003d\u0027margin-right:96px;font-size:18px;font-weight:lighter;color:#808080\u0027\u003eWisPlanner能够帮助您识别风险、\n建立风险登记簿、对风险进行定性分析。使用WisPlanner可针对风险指定应对措施，并实施对风险的跟踪。借助WisPlanner的Monte Carlos进度模拟功能，\n更可对项目进度计划进行定量的分析。给出项目完工的乐观工期、悲观工期以及当前进度按期完成的概率。\u003cdiv\u003e",
+  "defaultPageCSS": ""
+}

@@ -464,7 +464,7 @@ public class ProblemCardRenderer extends BasicServiceImpl {
 		RenderTools.appendText(sb, "角色："+doc.getString("roleName"), RenderTools.STYLE_NLINE);
 		RenderTools.appendTODOAction(sb, "layui-icon-more", 12, 12, "处理待办", "open/" + "");
 		RenderTools.appendCardBg(sb);
-		return new Document("_id", doc.get("_id")).append("html", sb.toString());
+		return new Document("_id", doc.get("problem_id")).append("html", sb.toString()).append("roleName", doc.get("roleName"));
 	}
 
 	public Document renderD4(Document doc, String type, String rootCauseDesc, Document charger_meta, Date date) {

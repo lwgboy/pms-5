@@ -17,7 +17,8 @@ import com.bizvisionsoft.service.model.Result;
 
 public class FormDefTools {
 
-	public static boolean checkExportDocRule(IBruiService br, ExportDocRule exportDocRule) {
+	public static boolean checkExportDocRule(IBruiService br, ExportDocRule exportDocRule, String title, String infoMessage,
+			String confirmMessage) {
 		Assembly formDAssy = Model.getAssembly(exportDocRule.getFormDef().getEditorId());
 		if (formDAssy == null) {
 			Layer.error("无法获取表单定义所选编辑器");
@@ -27,10 +28,10 @@ public class FormDefTools {
 
 		List<Result> result = exportDocRule.check(formDFieldMap);
 
-		return showResult(br, result, "表单定义检查", "表单定义");
+		return showResult(br, result, title, infoMessage, confirmMessage);
 	}
 
-	public static boolean checkFormDef(IBruiService br, FormDef formDef) {
+	public static boolean checkFormDef(IBruiService br, FormDef formDef, String title, String infoMessage, String confirmMessage) {
 		Assembly formDAssy = Model.getAssembly(formDef.getEditorId());
 		if (formDAssy == null) {
 			Layer.error("无法获取表单定义所选编辑器");
@@ -40,10 +41,10 @@ public class FormDefTools {
 
 		List<Result> result = formDef.check(formDFieldMap);
 
-		return showResult(br, result, "导出文档规则检查", "导出文档规则的");
+		return showResult(br, result, title, infoMessage, confirmMessage);
 	}
 
-	private static boolean showResult(IBruiService br, List<Result> results, String title, String message) {
+	private static boolean showResult(IBruiService br, List<Result> results, String title, String infoMessage, String confirmMessage) {
 		if (results.size() > 0) {
 
 			boolean error = false;
@@ -59,12 +60,11 @@ public class FormDefTools {
 				}
 			}
 			if (error) {
-				InformationDialog.openInfo(br.getCurrentShell(), title, message + " 存在以下问题需要解决。", results);
+				InformationDialog.openInfo(br.getCurrentShell(), title, infoMessage, results);
 				return false;
 			}
 			if (warning)
-				return IDialogConstants.OK_ID == InformationDialog.openConfirm(br.getCurrentShell(), title,
-						message + " 存在以下问题。<br>是否继续？", results);
+				return IDialogConstants.OK_ID == InformationDialog.openConfirm(br.getCurrentShell(), title, confirmMessage, results);
 		}
 		return true;
 	}
