@@ -92,8 +92,11 @@
               "type": "单行文本框",
               "formFields": [],
               "readOnly": false,
-              "computePreProcess": "\"ABS-\"+input.get(\"productNo\");",
+              "computePreProcess": "function getResult(){\r\n  print(value);\r\n  queryParam.put(\"epsName\",\"通讯产品\");//设置参数供查询使用\r\n  return \"ABS-\"+data.get(\"productNo\");\r\n};\r\ngetResult();",
+              "computeQueryCollection": "eps",
+              "computeQueryPipeline": "[\r\n{\"$match\":{\"name\":\"\u003cepsName\u003e\"}},\r\n{\"$limit\":1}\r\n]",
               "computeQueryParameters": "productNo",
+              "computePostProcess": "function getResult(){\r\n  if(value\u003d\u003dundefined || value.length\u003d\u003d0){\r\n   return \"\";\r\n  }else{\r\n   return value[0].get(\"id\")+\".\"+data.get(\"productNo\");\r\n  }\r\n};\r\n\r\ngetResult();",
               "isComputeField": true
             }
           ]
@@ -275,6 +278,8 @@
           "selectorAssemblyId": "/pms/tmt/零部件信息.gridassy",
           "hideLabel": true,
           "enableCreateItem": true,
+          "computePreProcess": "function getResult(){\r\n  var Document\u003dJava.type(\"org.bson.Document\");\r\n  var ArrayList \u003d Java.type(\"java.util.ArrayList\");\r\n\r\n  var items \u003d new ArrayList();\r\n  var i1 \u003d new Document();\r\n  i1.put(\"number\",\"0001\");\r\n  i1.put(\"name\",\"测试记录1\");\r\n  i1.put(\"drawingNo\",\"DRW-0001\");\r\n  i1.put(\"qty\",12);\r\n  items.add(i1);\r\n  var i2 \u003d  new Document();\r\n  i2.put(\"number\",\"0002\");\r\n  i2.put(\"name\",\"测试记录2\");\r\n  i2.put(\"drawingNo\",\"DRW-0002\");\r\n  i2.put(\"qty\",9);\r\n  items.add(i2);\r\n return items;\r\n};\r\ngetResult();",
+          "isComputeField": true,
           "stdReportLabelHide": true
         },
         {
