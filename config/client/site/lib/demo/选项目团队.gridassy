@@ -1,0 +1,63 @@
+{
+  "id": "/项目团队.gridassy",
+  "name": "项目组成员",
+  "layout": [],
+  "type": "grid",
+  "stickerTitle": "项目组成员",
+  "folderId": "162d7e33b8a",
+  "gridAutoExpandLevel": 2,
+  "gridMarkupEnabled": true,
+  "gridLineVisiable": true,
+  "gridHeaderVisiable": true,
+  "gridHasHScroll": true,
+  "gridHasVScroll": true,
+  "gridDataSetService": "",
+  "gridDataSetBundleId": "",
+  "gridDataSetClassName": "",
+  "columns": [
+    {
+      "id": "16475d81ea3",
+      "name": "userId",
+      "text": "id",
+      "alignment": 16384,
+      "width": 80,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "16475d82022",
+      "name": "name",
+      "text": "姓名",
+      "alignment": 16384,
+      "width": 80,
+      "resizeable": true,
+      "columns": []
+    }
+  ],
+  "queryCollection": "project",
+  "queryPipeline": "[ {\"$match\" : {\t\"name\" : \"\u003ccontext_input_object.projectName\u003e\"}}\r\n, {\"$lookup\" : {\"from\" : \"obs\", \"localField\" : \"_id\", \"foreignField\" : \"scope_id\",\"as\" : \"obs\"}}\r\n, {\"$unwind\" : {\"path\" : \"$obs\"}}\r\n, {\"$replaceRoot\" : {\"newRoot\" : \"$obs\"}}\r\n, {\"$group\" : {\"_id\" : \"$managerId\"}}\r\n, {\"$lookup\" : {\"from\" : \"user\",\"localField\" : \"_id\",\"foreignField\" : \"userId\",\"as\" : \"user\"}}\r\n, {\"$unwind\" : {\"path\" : \"$user\"}}\r\n, {\"$replaceRoot\" : {\"newRoot\" : \"$user\"}}]",
+  "queryDecodeClass": "",
+  "queryDecodeClassBundle": "",
+  "fields": [
+    {
+      "name": "userId",
+      "text": "id",
+      "type": "文本输入框（查询）",
+      "formFields": []
+    },
+    {
+      "name": "name",
+      "text": "姓名",
+      "type": "文本输入框（查询）",
+      "formFields": []
+    }
+  ],
+  "gridAutoColumnWidth": true,
+  "actions": [],
+  "rowActions": [],
+  "hasTitlebar": true,
+  "disableInitLoadData": false,
+  "modelClassName": "",
+  "modelBundleName": "",
+  "sortFields": []
+}

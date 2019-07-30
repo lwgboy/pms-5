@@ -2,6 +2,7 @@ package com.bizvisionsoft.serviceimpl;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 import org.bson.Document;
@@ -18,6 +19,8 @@ import com.bizvisionsoft.mongocodex.codec.Codex;
 import com.bizvisionsoft.mongocodex.codec.CodexProvider;
 import com.bizvisionsoft.service.ServicesLoader;
 import com.bizvisionsoft.service.UniversalDataService;
+import com.bizvisionsoft.service.common.Domain;
+import com.bizvisionsoft.service.common.JQ;
 import com.bizvisionsoft.service.provider.BasicDBObjectAdapter;
 import com.bizvisionsoft.service.provider.DateAdapter;
 import com.bizvisionsoft.service.provider.DocumentAdapter;
@@ -35,7 +38,31 @@ public class UniversalDataServiceImpl extends BasicServiceImpl implements Univer
 
 	@Override
 	public UniversalResult list(UniversalCommand command, String domain) {
-		ArrayList<Bson> pipeline = new ArrayList<Bson>();
+		List<Bson> pipeline;
+
+		String qName = command.getQueryJQ();
+		String qPipeline = command.getQueryPipeline();
+		if (qName == null && qPipeline == null) {
+			pipeline = new ArrayList<>();
+		} else {
+			if (qName != null) {
+				JQ jq = Domain.getJQ(domain, qName);
+				List<String> parameters = JQ.listParameter(jq.getJS());
+				parameters.forEach(p -> {
+					Object value = command.getParameter(p, null);
+					jq.set(p, value);
+				});
+				pipeline = jq.array();
+			} else {
+				List<String> parameters = JQ.listParameter(qPipeline);
+				JQ jq = new JQ();
+				parameters.forEach(p -> {
+					Object value = command.getParameter(p);
+					jq.set(p, value);
+				});
+				pipeline = jq.array(qPipeline);
+			}
+		}
 
 		Integer skip = command.getParameter("condition.skip", Integer.class);
 		Integer limit = command.getParameter("condition.limit", Integer.class);
@@ -58,7 +85,11 @@ public class UniversalDataServiceImpl extends BasicServiceImpl implements Univer
 	}
 
 	private MongoCollection<Document> col(UniversalCommand command, String domain) {
-		String colName = command.getTargetCollection();
+		String colName = command.getQueryCollection();
+		if (colName != null)
+			return c(colName, domain);
+
+		colName = command.getTargetCollection();
 		if (colName != null)
 			return c(colName, domain);
 
