@@ -45,6 +45,7 @@ public class RefDef {
 
 	@ReadValue
 	@WriteValue
+	@Label
 	private String field;
 
 	@ReadValue
@@ -62,7 +63,7 @@ public class RefDef {
 	public List<Result> check(Map<String, String> formDFieldMap) {
 		List<Result> results = new ArrayList<Result>();
 		if (!formDFieldMap.containsKey(formDefField)) {// 判断表单字段名是否在表单定义的字段列表中
-			Result result = Result.error(toString() + "无法从表单定义中获取。");
+			Result result = Result.error("表单字段“" + formDefField + "”"  + "的参照定义无法从表单定义中获取。");
 			result.setResultDate(new BasicDBObject("type", "errorRefDefField"));
 			result.code = Result.CODE_CHECK_EXPORTDOCRULE_FORM;
 			results.add(result);
@@ -70,11 +71,4 @@ public class RefDef {
 
 		return results;
 	}
-
-	@Override
-	@Label
-	public String toString() {
-		return "集合：“" + col + "”，字段：“" + field + "”，表单字段：“" + formDefField + "”";
-	}
-
 }
