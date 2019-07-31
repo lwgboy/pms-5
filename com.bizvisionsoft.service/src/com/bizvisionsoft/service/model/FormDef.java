@@ -101,6 +101,12 @@ public class FormDef {
 		List<Result> results = new ArrayList<Result>();
 		List<String> exportDocRuleFields = new ArrayList<String>();
 		Set<String> formDFieldNames = formDFieldMap.keySet();
+		
+		// ºÏ≤ÈRefDef
+		List<RefDef> refDefs = listRefDef();
+		if (refDefs.size() > 0)
+			refDefs.forEach(refDef -> results.addAll(refDef.check(formDFieldMap)));
+		
 		// ºÏ≤ÈExportDocRule
 		List<ExportDocRule> exportDocRules = listExportDocRule();
 		if (exportDocRules.size() > 0) {
@@ -117,11 +123,6 @@ public class FormDef {
 			r.setResultDate(new BasicDBObject("editorId", editorId).append("type", "warningField"));
 			results.add(r);
 		}
-
-		// ºÏ≤ÈRefDef
-		List<RefDef> refDefs = listRefDef();
-		if (refDefs.size() > 0)
-			refDefs.forEach(refDef -> results.addAll(refDef.check(formDFieldMap)));
 
 		return results;
 	}

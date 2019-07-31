@@ -63,7 +63,7 @@ public class RefDef {
 	public List<Result> check(Map<String, String> formDFieldMap) {
 		List<Result> results = new ArrayList<Result>();
 		if (!formDFieldMap.containsKey(formDefField)) {// 判断表单字段名是否在表单定义的字段列表中
-			Result result = Result.error("表单字段“" + formDefField + "”"  + "的参照定义无法从表单定义中获取。");
+			Result result = Result.error("表单编辑器中不存在参照定义的“" + formDefField + "”字段。");
 			result.setResultDate(new BasicDBObject("type", "errorRefDefField"));
 			result.code = Result.CODE_CHECK_REFDEF_FORM;
 			results.add(result);

@@ -415,6 +415,9 @@ public class SystemServiceImpl extends BasicServiceImpl implements SystemService
 		// D1CFT
 		createIndex("d1CFT", new Document("problem_id", 1), "problem_id", domain);
 		createUniqueIndex("d1CFT", new Document("problem_id", 1).append("userId", 1), "userId", domain);
+
+		// refDef
+		createUniqueIndex("refDef", new Document("formDef_id", 1).append("formDefField", 1), "formDefField", domain);
 	}
 
 	private void createUniqueIndex(String collectionName, final Document keys, IndexOptions indexOptions, String domain) {
