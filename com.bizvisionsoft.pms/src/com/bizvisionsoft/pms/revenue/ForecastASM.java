@@ -46,7 +46,7 @@ import com.bizvisionsoft.service.model.IRevenueScope;
 import com.bizvisionsoft.service.model.RevenueForecastItem;
 import com.bizvisionsoft.service.tools.Check;
 import com.bizvisionsoft.service.tools.Formatter;
-import com.bizvisionsoft.service.tools.Generator;
+import com.bizvisionsoft.service.tools.JSTools;
 import com.bizvisionsoft.serviceconsumer.Services;
 import com.mongodb.BasicDBObject;
 
@@ -414,7 +414,7 @@ public class ForecastASM extends GridPart {
 	}
 
 	private double calculate(AccountIncome ai, int index) {
-		return Generator.calculate(ai.getFormula(), subject -> {
+		return JSTools.calculate(ai.getFormula(), subject -> {
 			AccountIncome account = AccountIncome.search(scope.getRootAccountIncome(), i -> i.getId().equals(subject));
 			if (account != null) {
 				return getAmount(account, index);
