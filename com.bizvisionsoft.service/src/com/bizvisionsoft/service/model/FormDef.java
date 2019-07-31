@@ -86,6 +86,10 @@ public class FormDef {
 		return ServicesLoader.get(CommonService.class).countExportDocRule(new BasicDBObject("formDef_id", _id), domain);
 	}
 
+	public List<RefDef> listRefDef() {
+		return ServicesLoader.get(CommonService.class).listRefDef(new Query().bson(), _id, domain);
+	}
+
 	public ExportDocRule newSubItem() {
 		ExportDocRule edr = new ExportDocRule();
 		edr.domain = domain;
@@ -114,7 +118,10 @@ public class FormDef {
 			results.add(r);
 		}
 
-		// TODO ºÏ≤ÈRefDef
+		// ºÏ≤ÈRefDef
+		List<RefDef> refDefs = listRefDef();
+		if (refDefs.size() > 0)
+			refDefs.forEach(refDef -> results.addAll(refDef.check(formDFieldMap)));
 
 		return results;
 	}

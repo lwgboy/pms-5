@@ -843,7 +843,7 @@ public interface CommonService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("≤Œ’’∂®“Â/" + DataSet.LIST)
-	public List<RefDef> getRefDef(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
+	public List<RefDef> listRefDef(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
 			@MethodParam(MethodParam.CONTEXT_INPUT_OBJECT_ID) @PathParam("_id") ObjectId parent_id,
 			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 

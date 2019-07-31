@@ -1013,7 +1013,7 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 	}
 
 	@Override
-	public List<RefDef> getRefDef(BasicDBObject condition, ObjectId parent_id, String domain) {
+	public List<RefDef> listRefDef(BasicDBObject condition, ObjectId parent_id, String domain) {
 		condition.put("filter",
 				Optional.ofNullable((BasicDBObject) condition.get("filter")).orElse(new BasicDBObject()).append("formDef_id", parent_id));
 		return createDataSet(condition, RefDef.class, domain);
