@@ -96,8 +96,9 @@
               "computeQueryCollection": "eps",
               "computeQueryPipeline": "[\r\n{\"$match\":{\"name\":\"\u003cepsName\u003e\"}},\r\n{\"$limit\":1}\r\n]",
               "computeQueryParameters": "productNo",
-              "computePostProcess": "function getResult(){\r\n  if(value\u003d\u003dundefined || value.length\u003d\u003d0){\r\n   return \"\";\r\n  }else{\r\n   return value[0].get(\"id\")+\".\"+data.get(\"productNo\");\r\n  }\r\n};\r\n\r\ngetResult();",
-              "isComputeField": true
+              "computePostProcess": "var Document\u003dJava.type(\"org.bson.Document\");\r\n\r\nfunction getResult(){\r\n  if(value\u003d\u003dundefined || value.length\u003d\u003d0){\r\n   return \"\";\r\n  }else{\r\n   references.clear();//清除参照列表\r\n   references.add(new Document().append(\"_id\",value[0].get(\"_id\")).append(\"col\",\"eps\"));//设置参照\r\n   return value[0].get(\"id\")+\".\"+data.get(\"productNo\");\r\n  }\r\n};\r\n\r\ngetResult();",
+              "isComputeField": true,
+              "saveRef": true
             }
           ]
         },
@@ -177,7 +178,8 @@
               "type": "对象选择框",
               "formFields": [],
               "selectorAssemblyId": "/demo/选项目团队.gridassy",
-              "valueFieldName": "userId"
+              "valueFieldName": "userId",
+              "saveRef": true
             },
             {
               "name": "qc",
@@ -749,6 +751,20 @@
           "text": "附件",
           "type": "多个文件选择框",
           "formFields": []
+        }
+      ]
+    },
+    {
+      "name": "多项选择",
+      "type": "标签页",
+      "formFields": [
+        {
+          "name": "members",
+          "text": "成员",
+          "type": "多个对象选择框",
+          "formFields": [],
+          "selectorAssemblyId": "/demo/选项目团队.gridassy",
+          "saveRef": true
         }
       ]
     }
