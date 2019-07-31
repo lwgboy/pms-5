@@ -12,8 +12,10 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -24,6 +26,7 @@ import javax.imageio.ImageIO;
 
 import org.apache.poi.bizvisionsoft.word.WordUtil;
 import org.apache.poi.ooxml.POIXMLProperties.CoreProperties;
+import org.apache.poi.ooxml.POIXMLProperties.CustomProperties;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.poifs.crypt.HashAlgorithm;
 import org.apache.poi.util.Units;
@@ -82,12 +85,18 @@ public class Form2DocxExporter {
 
 	private int contentWidth;
 
+	private String fileName;
+
+	private Map<String, String> properties;
+
 	public Form2DocxExporter(ExportableForm config, Function<String, Object> getFieldText) {
 		this.config = config;
 		this.getFieldValue = getFieldText;
 	}
 
-	public String export() throws Exception {
+	public String export(String fileName, Map<String, String> properties) throws Exception {
+		this.fileName = fileName;
+		this.properties = properties;
 		// 判断配置中有没有模板
 		if (config.templateFilePath == null) {
 			return exportWithNoneTemplate();
@@ -159,7 +168,7 @@ public class Form2DocxExporter {
 
 			postTreatment();
 
-			out = new FileOutputStream(config.fileName);
+			out = new FileOutputStream(fileName);
 
 			if (isReadonly()) {
 				docx.enforceReadonlyProtection(UUID.randomUUID().toString(), HashAlgorithm.sha512);
@@ -170,7 +179,7 @@ public class Form2DocxExporter {
 			// 构建下载地址并打开
 			// System.out.println(DigestUtils.md5Hex(new ZipInputStream(new
 			// FileInputStream(filePath))));
-			return config.fileName;
+			return fileName;
 		} finally {
 			if (out != null)
 				out.close();
@@ -200,14 +209,33 @@ public class Form2DocxExporter {
 		////////////////////////////////////////////////////////////////////////
 		// 设置文档属性
 		CoreProperties prop = docx.getProperties().getCoreProperties();
+		setCoreProperties("category", prop::setCategory);
+		setCoreProperties("contentStatus", prop::setContentStatus);
+		setCoreProperties("contentType", prop::setContentType);
+		setCoreProperties("description", prop::setDescription);
+		setCoreProperties("identifier", prop::setIdentifier);
+		setCoreProperties("keywords", prop::setKeywords);
+		setCoreProperties("revision", prop::setRevision);
+		setCoreProperties("subject", prop::setSubjectProperty);
+		setCoreProperties("title", prop::setTitle);
+		setCoreProperties("creator", prop::setCreator);
+		setCoreProperties("created", prop::setCreated);
+		setCoreProperties("modified", prop::setModified);
+		
+		CustomProperties cprop = docx.getProperties().getCustomProperties();
+		if (properties != null) {
+			properties.entrySet().forEach(e -> {
+				cprop.addProperty(e.getKey(), e.getValue());
+			});
+		}
 
-		if (config.properties != null) {
-			String text = config.properties.get("creator");
-			if (text != null)
-				prop.setCreator(text);
-			text = config.properties.get("created");
-			if (text != null)
-				prop.setCreated(text);
+	}
+
+	private void setCoreProperties(String key, Consumer<String> setValue) {
+		if (properties != null) {
+			String value = properties.get(key);
+			if (value != null)
+				setValue.accept(value);
 		}
 	}
 
