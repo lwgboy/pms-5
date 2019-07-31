@@ -1,10 +1,16 @@
 package com.bizvisionsoft.service.tools;
 
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.function.Function;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.script.Invocable;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
+import javax.script.ScriptException;
 import javax.script.SimpleBindings;
 
 import org.slf4j.Logger;
@@ -47,6 +53,12 @@ public class JSTools {
 		return null;
 	}
 
+	/**
+	 * 调用src作为JavaScript, binding用于绑定传入的对象，返回脚本的执行值
+	 * @param src
+	 * @param binding
+	 * @return
+	 */
 	public static Object invoke(String src, Map<String, Object> binding) {
 		return invoke(src, null, null, binding);
 	}
@@ -80,4 +92,30 @@ public class JSTools {
 		return engine;
 	}
 
+	public static double calculate(String formula, Function<String, Double> func) {
+		Map<String, Double> vars = new HashMap<>();
+		Matcher m = Pattern.compile("(\\[[^\\]]*\\])").matcher(formula);
+		while (m.find()) {
+			String name = m.group().substring(1, m.group().length() - 1);
+			if (!vars.containsKey(name)) {
+				vars.put(name, func.apply(name));
+			}
+		}
+
+		Iterator<String> iter = vars.keySet().iterator();
+		while (iter.hasNext()) {
+			String key = iter.next();
+			Double value = vars.get(key);
+			formula = formula.replaceAll("\\[" + key + "\\]", "" + value);
+		}
+
+		ScriptEngine nashorn = getEngine();
+		try {
+			Number result = (Number) nashorn.eval(formula);
+			return result.doubleValue();
+		} catch (ScriptException e) {
+			logger.error(e.getMessage(), e);
+		}
+		return 0;
+	}
 }

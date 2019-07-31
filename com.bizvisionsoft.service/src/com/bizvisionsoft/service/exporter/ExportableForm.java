@@ -1,7 +1,6 @@
 package com.bizvisionsoft.service.exporter;
 
 import java.util.List;
-import java.util.Map;
 
 import org.bson.types.ObjectId;
 
@@ -12,8 +11,6 @@ public class ExportableForm implements JsonExternalizable{
 	public ObjectId _id;
 	
 	public List<ExportableFormField> fields;
-
-	public String fileName;
 
 	public Boolean stdReportBreakByTabPage;
 
@@ -74,8 +71,5 @@ public class ExportableForm implements JsonExternalizable{
 	public String templateFilePath;
 	
 	public String stdPageTemplate;
-
-	public Map<String,String> properties;
-
 
 }

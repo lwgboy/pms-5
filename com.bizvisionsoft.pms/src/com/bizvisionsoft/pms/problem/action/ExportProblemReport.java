@@ -48,7 +48,7 @@ public class ExportProblemReport {
 		try {
 			InputStream is = Services.get(ProblemService.class).createReportAndGetDownloadPath(rptParam, problem.get_id(), template,
 					fileName, RWT.getRequest().getServerName(), RWT.getRequest().getServerPort(), br.getDomain());
-			File folder = FileTools.createTempDirectory(RWT.getRequest().getSession().getId().toUpperCase());
+			File folder = br.createSessionTemplateDirectory();
 			String filePath = folder.getPath() + "/" + fileName + ".zip";
 			OutputStream os = null;
 			try {
