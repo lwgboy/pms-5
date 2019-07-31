@@ -44,11 +44,10 @@ public class ExportDocRule {
 	public static final String[] TYPE_FIELD_ALL = new String[] { TYPE_FIELD_MAPPING, TYPE_FIELD_NUMBER, TYPE_FIELD_STRING,
 			TYPE_FIELD_BOOLEAN, TYPE_FIELD_ARRAY, TYPE_FIELD_TABLE };
 
-
 	@ReadValue(ReadValue.TYPE)
 	@Exclude
 	public static final String typeName = "导出文档规则";
-	
+
 	@ImageURL("editorId")
 	@Exclude
 	public static final String icon = "/img/exportdocrule_c.svg";
@@ -148,8 +147,7 @@ public class ExportDocRule {
 			Object type = doc.get("type");
 			Object value = doc.get("value");
 			if (TYPE_FIELD_MAPPING.equals(type) && !formDFieldMap.containsKey(value)) {// 判断“映射”类型字段所选的值是否在表单定义的字段列表中
-				Result result = Result
-						.error("“ " + editorId + "”的字段“" + (String) doc.getOrDefault("fieldName", doc.getString("field")) + "”无法从表单定义中获取。");
+				Result result = Result.error("文档导出规则错误，表单定义不存在字段“" + (String) doc.getOrDefault("fieldName", doc.getString("field")) + "”。");
 				result.setResultDate(new BasicDBObject("editorId", editorId).append("type", "errorField"));
 				result.code = Result.CODE_CHECK_EXPORTDOCRULE_FORM;
 				results.add(result);

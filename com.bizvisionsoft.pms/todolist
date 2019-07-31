@@ -336,7 +336,5 @@ import com.bizvisionsoft.annotations.md.mongocodex.IAutoGenerator;
 2.参照模型（RefDef.class）------------------------OK
 3.参照定义表格，新建、编辑、删除、查询、排序------------------------OK
 4.FormDef和ExportDocRule关联方式修改------------------------OK
-5.参照定义检查---需讨论
-5.1检查参照字段formDefField是否再FormDef的编辑器字段中。------------------------OK
-6.参照定义索引---需讨论
-6.1唯一性索引：field+col+formDefField
+5.参照定义检查---检查参照字段formDefField是否再FormDef的编辑器字段中。------------------------
+6.参照定义索引---唯一性索引：formDefField+formDef_id------------------------OK
