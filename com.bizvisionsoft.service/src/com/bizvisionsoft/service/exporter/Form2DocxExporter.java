@@ -221,7 +221,7 @@ public class Form2DocxExporter {
 		setCoreProperties("creator", prop::setCreator);
 		setCoreProperties("created", prop::setCreated);
 		setCoreProperties("modified", prop::setModified);
-		
+
 		CustomProperties cprop = docx.getProperties().getCustomProperties();
 		if (properties != null) {
 			properties.entrySet().forEach(e -> {
@@ -512,9 +512,6 @@ public class Form2DocxExporter {
 				result.add(new LabelCellWriter(f));
 			result.add(new MultiFileCellWriter(f, (List<?>) value));
 
-		} else if (ExportableFormField.TYPE_MULTI_SELECTION.equals(type)) {
-			result.add(CellWriter.BLANK_CELL);// TODO
-
 		} else if (ExportableFormField.TYPE_PAGE.equals(type)) {
 			result.add(CellWriter.BLANK_CELL);// 不可能的
 
@@ -541,7 +538,7 @@ public class Form2DocxExporter {
 				result.add(new LabelCellWriter(f));
 			result.add(new TextCellWriter(f, (String) value));
 
-		} else if (ExportableFormField.TYPE_TABLE.equals(type)) {
+		} else if (ExportableFormField.TYPE_TABLE.equals(type) || ExportableFormField.TYPE_MULTI_SELECTION.equals(type)) {
 			float width = pageSize[0] - pageMargin[1] - pageMargin[3];
 			width = WordUtil.mm2halfPt(width);
 
