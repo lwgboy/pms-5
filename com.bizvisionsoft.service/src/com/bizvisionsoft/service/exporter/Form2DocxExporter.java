@@ -26,7 +26,6 @@ import javax.imageio.ImageIO;
 
 import org.apache.poi.bizvisionsoft.word.WordUtil;
 import org.apache.poi.ooxml.POIXMLProperties.CoreProperties;
-import org.apache.poi.ooxml.POIXMLProperties.CustomProperties;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.poifs.crypt.HashAlgorithm;
 import org.apache.poi.util.Units;
@@ -87,14 +86,14 @@ public class Form2DocxExporter {
 
 	private String fileName;
 
-	private Map<String, String> properties;
+	private Map<?, ?> properties;
 
 	public Form2DocxExporter(ExportableForm config, Function<String, Object> getFieldText) {
 		this.config = config;
 		this.getFieldValue = getFieldText;
 	}
 
-	public String export(String fileName, Map<String, String> properties) throws Exception {
+	public String export(String fileName, Map<?, ?> properties) throws Exception {
 		this.fileName = fileName;
 		this.properties = properties;
 		// 判断配置中有没有模板
@@ -222,20 +221,20 @@ public class Form2DocxExporter {
 		setCoreProperties("created", prop::setCreated);
 		setCoreProperties("modified", prop::setModified);
 
-		CustomProperties cprop = docx.getProperties().getCustomProperties();
-		if (properties != null) {
-			properties.entrySet().forEach(e -> {
-				cprop.addProperty(e.getKey(), e.getValue());
-			});
-		}
+//		CustomProperties cprop = docx.getProperties().getCustomProperties();
+//		if (properties != null) {
+//			properties.entrySet().forEach(e -> {
+//				cprop.addProperty(""+e.getKey(), ""+e.getValue());
+//			});
+//		}
 
 	}
 
 	private void setCoreProperties(String key, Consumer<String> setValue) {
 		if (properties != null) {
-			String value = properties.get(key);
+			Object value = properties.get(key);
 			if (value != null)
-				setValue.accept(value);
+				setValue.accept(""+value);
 		}
 	}
 

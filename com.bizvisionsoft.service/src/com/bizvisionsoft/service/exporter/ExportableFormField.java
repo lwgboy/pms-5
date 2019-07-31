@@ -178,4 +178,6 @@ public class ExportableFormField implements IExportableFormField {
 
 	public Boolean stdReportFieldStrikeThrough;
 
+	//²¹³äµÄ×Ö¶Î
+	public Boolean staticContent;
 }

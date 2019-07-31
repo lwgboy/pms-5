@@ -18,17 +18,19 @@ import javax.ws.rs.core.Response.Status;
 import org.bson.Document;
 import org.bson.types.ObjectId;
 
+import com.bizvisionsoft.service.ExportCommand;
+import com.bizvisionsoft.service.ReportService;
 import com.bizvisionsoft.service.common.Domain;
 import com.bizvisionsoft.service.common.JQ;
 import com.bizvisionsoft.service.common.Service;
-
-import com.bizvisionsoft.service.ReportService;
 import com.bizvisionsoft.service.dps.ReportCreator;
+import com.bizvisionsoft.service.exporter.Form2DocxExporter;
 import com.bizvisionsoft.service.provider.BasicDBObjectAdapter;
 import com.bizvisionsoft.service.provider.DateAdapter;
 import com.bizvisionsoft.service.provider.DocumentAdapter;
 import com.bizvisionsoft.service.provider.ObjectIdAdapter;
 import com.bizvisionsoft.service.tools.Check;
+import com.bizvisionsoft.service.valueextract.FieldExportValueExtracter;
 import com.google.gson.GsonBuilder;
 import com.mongodb.BasicDBObject;
 
@@ -128,6 +130,17 @@ public class ReportServiceImpl extends BasicServiceImpl implements ReportService
 		return Response.ok().header("Access-Control-Allow-Origin", "*").header("Access-Control-Allow-Credentials", "true")
 				.header("Access-Control-Allow-Methods", "POST, GET, PUT, UPDATE, OPTIONS")
 				.header("Access-Control-Allow-Headers", "Content-Type, Accept, X-Requested-With");
+	}
+
+	@Override
+	public void export(ExportCommand command) {
+		try {
+			FieldExportValueExtracter ext = new FieldExportValueExtracter(command.form, command.data);
+			new Form2DocxExporter(command.form, ext::getExportValue).export(command.fileName, command.properties);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+		}
+
 	}
 
 }

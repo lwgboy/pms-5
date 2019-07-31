@@ -39,4 +39,9 @@ public interface ReportService {
 	@Produces(MediaType.APPLICATION_OCTET_STREAM)
 	public Response commandReport();
 
+	@POST
+	@Path("/export/")
+	@Consumes("application/json; charset=UTF-8")
+	public void export(ExportCommand command);
+
 }
