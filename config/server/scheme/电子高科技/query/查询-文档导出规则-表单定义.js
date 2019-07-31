@@ -5,8 +5,8 @@
 }, {
 	"$lookup" : {
 		"from" : "exportDocRule",
-		"localField" : "exportDocRule_ids",
-		"foreignField" : "_id",
+		"localField" : "_id",
+		"foreignField" : "formDef_id",
 		"as" : "exportDocRule"
 	}
 }, {

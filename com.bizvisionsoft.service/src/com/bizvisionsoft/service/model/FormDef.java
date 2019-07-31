@@ -3,13 +3,13 @@ package com.bizvisionsoft.service.model;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.Set;
 
 import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.annotations.md.mongocodex.Exclude;
 import com.bizvisionsoft.annotations.md.mongocodex.PersistenceCollection;
+import com.bizvisionsoft.annotations.md.service.Behavior;
 import com.bizvisionsoft.annotations.md.service.ImageURL;
 import com.bizvisionsoft.annotations.md.service.Label;
 import com.bizvisionsoft.annotations.md.service.ReadValue;
@@ -18,7 +18,6 @@ import com.bizvisionsoft.annotations.md.service.WriteValue;
 import com.bizvisionsoft.service.CommonService;
 import com.bizvisionsoft.service.ServicesLoader;
 import com.bizvisionsoft.service.datatools.Query;
-import com.bizvisionsoft.service.tools.Check;
 import com.mongodb.BasicDBObject;
 
 @PersistenceCollection("formDef")
@@ -56,24 +55,12 @@ public class FormDef {
 	@ReadValue()
 	private int vid;
 
-	private List<ObjectId> exportDocRule_ids;
-
-	private List<ObjectId> refDef_ids;
-
 	public boolean isActivated() {
 		return activated;
 	}
 
 	public void setActivated(boolean activated) {
 		this.activated = activated;
-	}
-
-	public List<ObjectId> getExportDocRule_ids() {
-		return exportDocRule_ids;
-	}
-
-	public List<ObjectId> getRefDef_ids() {
-		return refDef_ids;
 	}
 
 	public String getName() {
@@ -90,16 +77,13 @@ public class FormDef {
 
 	@Structure("表单定义/list")
 	public List<ExportDocRule> listExportDocRule() {
-		return Optional.ofNullable(exportDocRule_ids)
-				.map(_ids -> ServicesLoader.get(CommonService.class)
-						.listExportDocRule(new Query().filter(new BasicDBObject("_id", new BasicDBObject("$in", _ids))).bson(), domain))
-				.orElse(new ArrayList<ExportDocRule>());
+		return ServicesLoader.get(CommonService.class).listExportDocRule(new Query().filter(new BasicDBObject("formDef_id", _id)).bson(),
+				domain);
 	}
 
 	@Structure("表单定义/count")
 	public long countExportDocRule() {
-		return Optional.ofNullable(exportDocRule_ids).map(_ids -> ServicesLoader.get(CommonService.class)
-				.countExportDocRule(new BasicDBObject("_id", new BasicDBObject("$in", _ids)), domain)).orElse(0l);
+		return ServicesLoader.get(CommonService.class).countExportDocRule(new BasicDBObject("formDef_id", _id), domain);
 	}
 
 	public ExportDocRule newSubItem() {
@@ -114,8 +98,8 @@ public class FormDef {
 		List<String> exportDocRuleFields = new ArrayList<String>();
 		Set<String> formDFieldNames = formDFieldMap.keySet();
 		// 检查ExportDocRule
-		if (Check.isAssigned(exportDocRule_ids)) {
-			List<ExportDocRule> exportDocRules = listExportDocRule();
+		List<ExportDocRule> exportDocRules = listExportDocRule();
+		if (exportDocRules.size() > 0) {
 			exportDocRules.forEach(exportDocRule -> {
 				results.addAll(exportDocRule.check(formDFieldMap, exportDocRuleFields));
 				formDFieldNames.removeAll(exportDocRuleFields);
@@ -131,11 +115,19 @@ public class FormDef {
 		}
 
 		// TODO 检查RefDef
-		if (Check.isAssigned(refDef_ids)) {
-
-		}
 
 		return results;
+	}
+
+	/**
+	 * 控制参照按钮
+	 * 
+	 * @param element
+	 * @return
+	 */
+	@Behavior({ "参照" })
+	private boolean enableRef() {
+		return true;
 	}
 
 }

@@ -29,6 +29,7 @@ import com.bizvisionsoft.service.model.ExportDocRule;
 import com.bizvisionsoft.service.model.FormDef;
 import com.bizvisionsoft.service.model.Message;
 import com.bizvisionsoft.service.model.NewMessage;
+import com.bizvisionsoft.service.model.RefDef;
 import com.bizvisionsoft.service.model.ResourceType;
 import com.bizvisionsoft.service.model.TrackView;
 import com.bizvisionsoft.service.model.VaultFolder;
@@ -835,6 +836,49 @@ public interface CommonService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public ExportDocRule getExportDocRule(@PathParam("_id") ObjectId _id,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+
+	@POST
+	@Path("/{domain}/refDef/ds/{_id}/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("参照定义/" + DataSet.LIST)
+	public List<RefDef> getRefDef(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
+			@MethodParam(MethodParam.CONTEXT_INPUT_OBJECT_ID) @PathParam("_id") ObjectId parent_id,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+
+	@POST
+	@Path("/{domain}/refDef/count/{_id}/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("参照定义/" + DataSet.COUNT)
+	public long countRefDef(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
+			@MethodParam(MethodParam.CONTEXT_INPUT_OBJECT_ID) @PathParam("_id") ObjectId parent_id,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+
+	@DELETE
+	@Path("/{domain}/refDef/_id/{_id}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("参照定义/" + DataSet.DELETE)
+	public long deleteRefDef(@PathParam("_id") @MethodParam(MethodParam._ID) ObjectId _id,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+
+	@PUT
+	@Path("/{domain}/refDef/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("参照定义/" + DataSet.UPDATE)
+	public long updateRefDef(@MethodParam(MethodParam.FILTER_N_UPDATE) BasicDBObject filterAndUpdate,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+
+	@POST
+	@Path("/{domain}/refDef/{_id}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("参照定义/" + DataSet.INSERT)
+	public RefDef insertRefDef(@MethodParam(MethodParam.OBJECT) RefDef refDef,
+			@MethodParam(MethodParam.CONTEXT_INPUT_OBJECT_ID) @PathParam("_id") ObjectId parent_id,
 			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////

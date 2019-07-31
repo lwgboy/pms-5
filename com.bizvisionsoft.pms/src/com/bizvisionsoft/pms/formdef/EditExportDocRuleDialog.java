@@ -607,10 +607,10 @@ public class EditExportDocRuleDialog extends Dialog {
 							String dialogMessage = "";
 							if (ExportDocRule.TYPE_FIELD_ARRAY.equals(type)) {
 								dialogTitle = "编辑数组常量";
-								dialogMessage = "请填写数组类型的常量。格式如下：[\"元素1\",\"元素2\"]";
+								dialogMessage = "请填写数组类型的常量。格式如下：[{\"value\":\"值\",\"value\":\"值\"}]";
 							} else if (ExportDocRule.TYPE_FIELD_TABLE.equals(type)) {
 								dialogTitle = "编辑表格常量";
-								dialogMessage = "请填写表格类型的常量。格式如下：[[\"元素1\",\"元素2\"]]";
+								dialogMessage = "请填写表格类型的常量。格式如下：[{\"元素名1\":\"元素值1\",\"元素名2\":\"元素值2\"}]";
 							}
 
 							String text = Optional.ofNullable(doc.getString("value")).orElse("");

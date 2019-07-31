@@ -1,0 +1,130 @@
+{
+  "id": "/名称字典.gridassy",
+  "name": "参照定义",
+  "layout": [],
+  "type": "grid",
+  "stickerTitle": "参照定义",
+  "folderId": "162dc3e928e",
+  "gridAutoExpandLevel": 2,
+  "gridLineVisiable": true,
+  "gridHeaderVisiable": true,
+  "gridHasHScroll": true,
+  "gridHasVScroll": true,
+  "gridPageControl": true,
+  "gridDataSetService": "com.bizvisionsoft.service.CommonService",
+  "columns": [
+    {
+      "name": "field",
+      "text": "字段名",
+      "alignment": 16384,
+      "width": 320,
+      "resizeable": true,
+      "columns": [],
+      "enableColumnSort": true
+    },
+    {
+      "name": "col",
+      "text": "集合",
+      "alignment": 131072,
+      "width": 64,
+      "resizeable": true,
+      "columns": [],
+      "forceDisplayZero": true
+    },
+    {
+      "name": "formDefField",
+      "text": "表单字段名",
+      "alignment": 16384,
+      "width": 64,
+      "resizeable": true,
+      "columns": []
+    }
+  ],
+  "fields": [
+    {
+      "name": "field",
+      "text": "字段名",
+      "type": "文本输入框（查询）",
+      "formFields": []
+    },
+    {
+      "name": "col",
+      "text": "集合",
+      "type": "文本输入框（查询）",
+      "formFields": []
+    },
+    {
+      "name": "formDefField",
+      "text": "表单字段名",
+      "type": "文本输入框（查询）",
+      "formFields": []
+    }
+  ],
+  "gridAutoColumnWidth": true,
+  "actions": [
+    {
+      "id": "162bd220157",
+      "name": "创建",
+      "image": "/img/add_16_w.svg",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.formdef.action.FormDefACT",
+      "style": "normal",
+      "editorAssemblyId": "/vault/参照定义编辑器.editorassy",
+      "type": "insert",
+      "createActionNewInstanceBundleId": "com.bizvisionsoft.service",
+      "createActionNewInstanceClassName": "com.bizvisionsoft.service.model.RefDef",
+      "verticalSpan": 0
+    }
+  ],
+  "rowActions": [
+    {
+      "id": "162bd541af5",
+      "name": "edit",
+      "text": "编辑",
+      "image": "/img/edit_w.svg",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.formdef.action.FormDefACT",
+      "style": "normal",
+      "editorAssemblyId": "/vault/参照定义编辑器.editorassy",
+      "editorAssemblyEditable": true,
+      "actionBehavier": false,
+      "type": "edit",
+      "verticalSpan": 0
+    },
+    {
+      "id": "162bd239c04",
+      "name": "delete",
+      "text": "删除",
+      "image": "/img/minus_16_w.svg",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.formdef.action.FormDefACT",
+      "style": "warning",
+      "actionBehavier": false,
+      "type": "delete",
+      "verticalSpan": 0
+    }
+  ],
+  "hasTitlebar": true,
+  "displayInputLabelInTitlebar": true,
+  "disableInitLoadData": false,
+  "sortFields": [
+    {
+      "name": "field",
+      "text": "字段名",
+      "type": "排序字段",
+      "formFields": []
+    },
+    {
+      "name": "col",
+      "text": "集合",
+      "type": "排序字段",
+      "formFields": []
+    },
+    {
+      "name": "formDefField",
+      "text": "表单字段名",
+      "type": "排序字段",
+      "formFields": []
+    }
+  ]
+}

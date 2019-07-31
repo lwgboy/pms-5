@@ -107,6 +107,17 @@
       "type": "customized"
     },
     {
+      "id": "8c1a0f45-8a3e-4cff-9625-1c5fefd8e76c",
+      "name": "参照",
+      "text": "参照",
+      "switchContentToAssemblyId": "/vault/参照定义.gridassy",
+      "openContent": true,
+      "style": "",
+      "objectBehavier": true,
+      "actionBehavier": false,
+      "type": "switch"
+    },
+    {
       "id": "d62bd541aff",
       "name": "activate",
       "text": "启",
