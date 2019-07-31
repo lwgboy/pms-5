@@ -19,7 +19,6 @@ import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.service.UserSession;
 import com.bizvisionsoft.service.ProblemService;
 import com.bizvisionsoft.service.model.Problem;
-import com.bizvisionsoft.service.tools.FileTools;
 import com.bizvisionsoft.serviceconsumer.Services;
 
 public class ExportProblemReport {

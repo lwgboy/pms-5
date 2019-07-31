@@ -65,7 +65,7 @@ public class RefDef {
 		if (!formDFieldMap.containsKey(formDefField)) {// 判断表单字段名是否在表单定义的字段列表中
 			Result result = Result.error("表单字段“" + formDefField + "”"  + "的参照定义无法从表单定义中获取。");
 			result.setResultDate(new BasicDBObject("type", "errorRefDefField"));
-			result.code = Result.CODE_CHECK_EXPORTDOCRULE_FORM;
+			result.code = Result.CODE_CHECK_REFDEF_FORM;
 			results.add(result);
 		}
 

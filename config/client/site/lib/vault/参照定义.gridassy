@@ -25,8 +25,8 @@
     {
       "name": "col",
       "text": "集合",
-      "alignment": 131072,
-      "width": 64,
+      "alignment": 16384,
+      "width": 180,
       "resizeable": true,
       "columns": [],
       "forceDisplayZero": true
@@ -35,7 +35,7 @@
       "name": "formDefField",
       "text": "表单字段名",
       "alignment": 16384,
-      "width": 64,
+      "width": 320,
       "resizeable": true,
       "columns": []
     }
@@ -60,7 +60,7 @@
       "formFields": []
     }
   ],
-  "gridAutoColumnWidth": true,
+  "gridAutoColumnWidth": false,
   "actions": [
     {
       "id": "162bd220157",
