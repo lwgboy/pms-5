@@ -47,6 +47,10 @@ public class JSTools {
 		return null;
 	}
 
+	public static Object invoke(String src, Map<String, Object> binding) {
+		return invoke(src, null, null, binding);
+	}
+
 	public static Object invoke(String src, String function, String outputVarName, Map<String, Object> binding, Object... functionInput) {
 		if (Check.isNotAssigned(src)) {
 			logger.error("没有可执行的JS脚本");
@@ -58,9 +62,9 @@ public class JSTools {
 		ScriptEngine se = getEngine();
 		try {
 			Object value = se.eval(src, b);
-			if (function != null && !function.isEmpty()) {
+			if (Check.isAssigned(function)) {
 				value = ((Invocable) se).invokeFunction(function.trim(), functionInput);
-			} else {
+			} else if (Check.isAssigned(outputVarName)) {
 				value = se.get(outputVarName);
 			}
 			return value;

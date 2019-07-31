@@ -12,7 +12,7 @@
   "gridHasVScroll": true,
   "gridRenderBundleId": "",
   "gridRenderClassName": "",
-  "gridDataSetService": "com.bizvisionsoft.service.DocumentService",
+  "gridDataSetService": "",
   "gridDataSetBundleId": "",
   "gridDataSetClassName": "",
   "columns": [
@@ -73,7 +73,7 @@
   "gridAutoColumnWidth": true,
   "actions": [],
   "rowActions": [],
-  "hasTitlebar": true,
+  "hasTitlebar": false,
   "disableInitLoadData": false,
   "disableStandardExport": true,
   "disableCustomized": true,

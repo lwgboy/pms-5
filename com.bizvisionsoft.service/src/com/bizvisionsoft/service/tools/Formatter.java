@@ -16,6 +16,7 @@ import java.util.Locale;
 import java.util.Optional;
 import java.util.Stack;
 import java.util.function.Function;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
@@ -826,6 +827,25 @@ public class Formatter {
 		}
 
 		return target;
+	}
+	
+	public static List<String> listParameter(String js) {
+		List<String> result = new ArrayList<>();
+		String regEx = "\"<.+?>\"";
+		Pattern pattern = Pattern.compile(regEx);
+		Matcher m = pattern.matcher(js);
+		while (m.find()) {
+			String group = m.group();
+			result.add(group.substring(2, group.length() - 2));
+		}
+		regEx = "'<.+?>'";
+		pattern = Pattern.compile(regEx);
+		m = pattern.matcher(js);
+		while (m.find()) {
+			String group = m.group();
+			result.add(group.substring(2, group.length() - 2));
+		}
+		return result;
 	}
 
 }

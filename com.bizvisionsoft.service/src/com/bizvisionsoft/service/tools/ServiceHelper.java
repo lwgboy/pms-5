@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
+import org.bson.Document;
 import org.bson.types.ObjectId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,6 +19,10 @@ public class ServiceHelper {
 
 	public ServiceHelper(String domain) {
 		this.domain = domain;
+	}
+	
+	public Document newDocument() {
+		return new Document();
 	}
 	
 	/**
