@@ -10,7 +10,7 @@ public class ComboFieldValueExtracter extends CommonFieldExtracter {
 
 	@Override
 	public Object getExportValue() {
-		Object value = getExportValue();
+		Object value = super.getExportValue();
 		if (value == null)
 			return "";
 		// 根据静态文本取值

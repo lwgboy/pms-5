@@ -489,7 +489,7 @@ public class Form2DocxExporter {
 				width = width - w.getWidthInMM();
 			}
 			width = (int) WordUtil.mm2halfPt(width);
-			result.add(new ImageCellWriter(f, (String[]) value, width));
+			result.add(new ImageCellWriter(f,  value, width));
 
 		} else if (ExportableFormField.TYPE_LABEL.equals(type)) {
 			if (!hideLabel)

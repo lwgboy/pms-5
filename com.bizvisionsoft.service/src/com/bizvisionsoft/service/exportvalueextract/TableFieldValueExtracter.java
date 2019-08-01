@@ -24,6 +24,7 @@ public class TableFieldValueExtracter extends CommonFieldExtracter {
 		Object value = super.getExportValue();
 		if (value instanceof List<?>) {
 			List<?> data = (List<?>) value;
+			eValue.rows = new ArrayList<>();
 			for (int i = 0; i < data.size(); i++) {
 				ArrayList<String> row = new ArrayList<String>();
 				eValue.rows.add(row);

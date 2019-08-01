@@ -1,13 +1,19 @@
 package com.bizvisionsoft.service.exportvalueextract;
 
+import java.util.Arrays;
 import java.util.Locale;
 
 import org.bson.Document;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.bizvisionsoft.service.OrganizationService;
+import com.bizvisionsoft.service.ServicesLoader;
 import com.bizvisionsoft.service.exporter.ExportableForm;
 import com.bizvisionsoft.service.exporter.ExportableFormField;
+import com.bizvisionsoft.service.exporter.Form2DocxExporter;
+import com.bizvisionsoft.service.model.Organization;
+import com.bizvisionsoft.service.model.RemoteFile;
 
 public class FieldExportValueExtracter {
 
@@ -20,7 +26,11 @@ public class FieldExportValueExtracter {
 
 	private String domain;
 
-	public FieldExportValueExtracter(ExportableForm form, Document data,String domain,Locale locale) {
+	private final String[] SYSTEM_RESERVED_FIELDS = new String[] { Form2DocxExporter.STATIC_FIELD_LOGO_FILENAME,
+			Form2DocxExporter.STATIC_FIELD_LOGO_INPUTSTREAM, "rptDocStdNum", "rptDocName", "rptDocNum",
+			Form2DocxExporter.STATIC_FIELD_COMPANY_NAME };
+
+	public FieldExportValueExtracter(ExportableForm form, Document data, String domain, Locale locale) {
 		this.form = form;
 		this.data = data;
 		this.domain = domain;
@@ -28,6 +38,12 @@ public class FieldExportValueExtracter {
 	}
 
 	public Object getExportValue(String fieldName) {
+		for (int i = 0; i < SYSTEM_RESERVED_FIELDS.length; i++) {
+			if (SYSTEM_RESERVED_FIELDS[i].equals(fieldName)) {
+				return getSystemFieldValue(fieldName);
+			}
+		}
+
 		ExportableFormField f = form.findField(fieldName);
 		if (f == null) {
 			logger.warn("文件导出配置中缺少字段:" + fieldName);
@@ -65,11 +81,11 @@ public class FieldExportValueExtracter {
 		} else if (ExportableFormField.TYPE_SELECTION.equals(f.type)) {
 			ex = new SelectionFieldValueExtracter();
 		} else if (ExportableFormField.TYPE_SPINNER.equals(f.type)) {
-			ex = new CommonFieldExtracter();
+			ex = new SpinnerFieldValueExtracter();
 		} else if (ExportableFormField.TYPE_TABLE.equals(f.type)) {
 			ex = new TableFieldValueExtracter();
 		} else if (ExportableFormField.TYPE_MULTI_SELECTION.equals(f.type)) {
-			ex = new MultiSelectionFieldValueExtracter();
+			ex = new TableFieldValueExtracter();
 		} else if (ExportableFormField.TYPE_TEXT.equals(f.type)) {
 			ex = new CommonFieldExtracter();
 		} else if (ExportableFormField.TYPE_TEXT_HTML.equals(f.type)) {
@@ -83,6 +99,37 @@ public class FieldExportValueExtracter {
 		}
 		ex.setData(data).setFieldConfig(f).setLocale(locale).setDomain(domain);
 		return ex.getExportValue();
+	}
+
+	private Object getSystemFieldValue(String fieldName) {
+		Organization root = ServicesLoader.get(OrganizationService.class).getDomainRoot(domain);
+		RemoteFile rf = root.getLogo();
+
+		if (Form2DocxExporter.STATIC_FIELD_COMPANY_NAME.equals(fieldName)) {
+			return root.getFullName();
+		}
+		if (Form2DocxExporter.STATIC_FIELD_LOGO_INPUTSTREAM.equals(fieldName)) {
+			try {
+				if (rf != null) {
+					return rf.getInputStreamFromServer();
+				}
+			} catch (Exception e) {
+				logger.error("读取公司logo文件失败，请为组织设置logo", e);
+			}
+			return null;
+		}
+		if (Form2DocxExporter.STATIC_FIELD_LOGO_FILENAME.equals(fieldName)) {
+			if (rf != null)
+				return rf.name;
+			return null;
+		}
+
+		if (Arrays.asList(Form2DocxExporter.FIELD_DOCNUM, Form2DocxExporter.FIELD_DOC_STD_NUM, Form2DocxExporter.FIELD_DOC_NAME)
+				.contains(fieldName)) {
+			return data.get(fieldName);
+		}
+
+		return null;
 	}
 
 }

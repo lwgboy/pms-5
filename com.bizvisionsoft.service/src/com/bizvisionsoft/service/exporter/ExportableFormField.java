@@ -202,4 +202,6 @@ public class ExportableFormField implements IExportableFormField {
 	public List<String> columnText;
 	
 	public List<String> columnName;
+
+	public Integer spinnerDigits;
 }

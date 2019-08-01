@@ -10,9 +10,12 @@ public class BannerFieldValueExtracter extends CommonFieldExtracter {
 		Object value = super.getExportValue();
 		if (!Boolean.TRUE.equals(fieldConfig.staticContent)) {
 			if (Check.isAssigned(fieldConfig.format)) {
-				value = Formatter.getString(value, fieldConfig.format, locale);
+				return Formatter.getString(value, fieldConfig.format, locale);
+			}else {
+				return value;
 			}
+		}else {
+			return fieldConfig.text;
 		}
-		return value;
 	}
 }

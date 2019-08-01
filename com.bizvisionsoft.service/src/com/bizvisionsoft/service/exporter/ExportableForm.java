@@ -82,11 +82,13 @@ public class ExportableForm implements JsonExternalizable {
 			return null;
 		for (int i = 0; i < fieldList.size(); i++) {
 			ExportableFormField f = fieldList.get(i);
-			if (f.name.equals(fieldName))
+			if (f.name.equals(fieldName) && !ExportableFormField.TYPE_PAGE.equals(f.type)) {
 				return f;
+			}
 			f = findField(f.formFields, fieldName);
-			if (f != null)
+			if (f != null) {
 				return f;
+			}
 		}
 		return null;
 	}
