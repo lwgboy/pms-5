@@ -63,6 +63,15 @@
   "gridAutoColumnWidth": false,
   "actions": [
     {
+      "id": "87e9996f-2327-4a3d-8979-34bdc814845a",
+      "name": "检查",
+      "text": "检查",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.formdef.action.CheckRefDefACT",
+      "style": "normal",
+      "type": "customized"
+    },
+    {
       "id": "162bd220157",
       "name": "创建",
       "image": "/img/add_16_w.svg",
