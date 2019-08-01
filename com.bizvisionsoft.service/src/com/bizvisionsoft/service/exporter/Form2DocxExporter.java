@@ -61,7 +61,7 @@ public class Form2DocxExporter {
 
 	public static final float DEFAULT_LOGO_HEIGHT = 8.5f;
 
-	public static final String FIELD_DOCNUM = "rptDocNum";
+	public static final String FIELD_DOC_NUM = "rptDocNum";
 
 	public static final String STATIC_FIELD_COMPANY_NAME = "rptComName";
 
@@ -808,7 +808,7 @@ public class Form2DocxExporter {
 		// 第一个格子放置文件编号
 		XWPFTableCell cell = row.getCell(0);
 		XWPFParagraph para = cell.getParagraphArray(0);
-		String value = (String) getFieldValue.apply(FIELD_DOCNUM);
+		String value = (String) getFieldValue.apply(FIELD_DOC_NUM);
 		if (value != null) {
 			XWPFRun run = para.createRun();
 			WordUtil.setXWPFRunStyle(run, "Consolas", 10);

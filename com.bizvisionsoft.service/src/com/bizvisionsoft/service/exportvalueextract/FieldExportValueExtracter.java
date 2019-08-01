@@ -26,9 +26,22 @@ public class FieldExportValueExtracter {
 
 	private String domain;
 
-	private final String[] SYSTEM_RESERVED_FIELDS = new String[] { Form2DocxExporter.STATIC_FIELD_LOGO_FILENAME,
-			Form2DocxExporter.STATIC_FIELD_LOGO_INPUTSTREAM, "rptDocStdNum", "rptDocName", "rptDocNum",
-			Form2DocxExporter.STATIC_FIELD_COMPANY_NAME };
+	/**
+	 * STATIC_FIELD_LOGO_FILENAME,logo的文件名
+	 * 
+	 * STATIC_FIELD_LOGO_INPUTSTREAM,logo的inputStream
+	 * 
+	 * FIELD_DOC_STD_NUM, 文档标准号
+	 * 
+	 * FIELD_DOC_NAME,文件名称
+	 * 
+	 * FIELD_DOC_NUM, 文件编号
+	 * 
+	 * STATIC_FIELD_COMPANY_NAME，公司名称
+	 */
+	public final String[] SYSTEM_RESERVED_FIELDS = new String[] { Form2DocxExporter.STATIC_FIELD_LOGO_FILENAME,
+			Form2DocxExporter.STATIC_FIELD_LOGO_INPUTSTREAM, Form2DocxExporter.FIELD_DOC_STD_NUM, Form2DocxExporter.FIELD_DOC_NAME,
+			Form2DocxExporter.FIELD_DOC_NUM, Form2DocxExporter.STATIC_FIELD_COMPANY_NAME };
 
 	public FieldExportValueExtracter(ExportableForm form, Document data, String domain, Locale locale) {
 		this.form = form;
@@ -124,7 +137,7 @@ public class FieldExportValueExtracter {
 			return null;
 		}
 
-		if (Arrays.asList(Form2DocxExporter.FIELD_DOCNUM, Form2DocxExporter.FIELD_DOC_STD_NUM, Form2DocxExporter.FIELD_DOC_NAME)
+		if (Arrays.asList(Form2DocxExporter.FIELD_DOC_NUM, Form2DocxExporter.FIELD_DOC_STD_NUM, Form2DocxExporter.FIELD_DOC_NAME)
 				.contains(fieldName)) {
 			return data.get(fieldName);
 		}
