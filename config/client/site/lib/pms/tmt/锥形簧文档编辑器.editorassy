@@ -376,35 +376,23 @@
           "type": "行",
           "formFields": [
             {
-              "name": "adhesionTest",
-              "text": "粘接试验",
-              "type": "复选框",
-              "formFields": [],
-              "checkStyle": "传统"
-            },
-            {
               "name": "adhesionTestNo",
+              "text": "粘接试验",
               "type": "单选框",
               "formFields": [],
               "optionText": "P1#P2#P3",
               "radioStyle": "横向分段（默认）",
               "checkStyle": "开关（默认）",
-              "hideLabel": true
-            },
-            {
-              "name": "svs",
-              "text": "静态垂向刚度",
-              "type": "复选框",
-              "formFields": [],
-              "checkStyle": "传统"
+              "hideLabel": false
             },
             {
               "name": "svsNo",
+              "text": "静态垂向刚度",
               "type": "单选框",
               "formFields": [],
               "optionText": "P1#P2#P3",
               "radioStyle": "横向分段（默认）",
-              "hideLabel": true
+              "hideLabel": false
             }
           ]
         },
@@ -750,7 +738,8 @@
           "name": "attachment",
           "text": "附件",
           "type": "多个文件选择框",
-          "formFields": []
+          "formFields": [],
+          "fileNamespace": "docAtt"
         }
       ]
     },
@@ -772,7 +761,7 @@
   "actions": [
     {
       "name": "导出",
-      "text": "默认导出",
+      "text": "导出",
       "style": "info",
       "type": "export"
     }

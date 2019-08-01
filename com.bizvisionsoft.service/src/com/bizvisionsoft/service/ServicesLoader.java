@@ -37,6 +37,7 @@ public class ServicesLoader implements BundleActivator {
 	public void start(BundleContext bc) throws Exception {
 		bundleContext = bc;
 		url = (String) bc.getProperty("com.bizvisionsoft.service.url");
+		
 		String langFolder = (String) bc.getProperty("com.bizvisionsoft.service.Lang");
 		NLS.load(langFolder);
 

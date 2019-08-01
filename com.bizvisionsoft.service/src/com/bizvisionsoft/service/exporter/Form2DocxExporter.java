@@ -7,6 +7,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -26,7 +27,6 @@ import javax.imageio.ImageIO;
 
 import org.apache.poi.bizvisionsoft.word.WordUtil;
 import org.apache.poi.ooxml.POIXMLProperties.CoreProperties;
-import org.apache.poi.ooxml.POIXMLProperties.CustomProperties;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.poifs.crypt.HashAlgorithm;
 import org.apache.poi.util.Units;
@@ -48,14 +48,20 @@ import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTPageSz;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTSectPr;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.STJc;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.STMerge;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import com.bizvisionsoft.service.ExportCommand;
+import com.bizvisionsoft.service.exportvalueextract.FieldExportValueExtracter;
 import com.bizvisionsoft.service.tools.Formatter;
 
 public class Form2DocxExporter {
 
+	public static Logger logger = LoggerFactory.getLogger(Form2DocxExporter.class);
+
 	public static final float DEFAULT_LOGO_HEIGHT = 8.5f;
 
-	public static final String FIELD_DOCNUM = "rptDocNum";
+	public static final String FIELD_DOC_NUM = "rptDocNum";
 
 	public static final String STATIC_FIELD_COMPANY_NAME = "rptComName";
 
@@ -85,105 +91,105 @@ public class Form2DocxExporter {
 
 	private int contentWidth;
 
-	private String fileName;
+	private Map<?, ?> properties;
 
-	private Map<String, String> properties;
+	public static void exportOnServerSide(ExportCommand command, String domain, OutputStream output) {
+		try {
+			FieldExportValueExtracter ext = new FieldExportValueExtracter(command.getForm(), command.getData(), domain,
+					command.getLocale());
+			new Form2DocxExporter(command.getForm(), ext::getExportValue).export(output, command.getProperties());
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+		}
+	}
 
 	public Form2DocxExporter(ExportableForm config, Function<String, Object> getFieldText) {
 		this.config = config;
 		this.getFieldValue = getFieldText;
 	}
 
-	public String export(String fileName, Map<String, String> properties) throws Exception {
-		this.fileName = fileName;
+	public String export(String fileName, Map<?, ?> properties) throws Exception {
 		this.properties = properties;
-		// 判断配置中有没有模板
-		if (config.templateFilePath == null) {
-			return exportWithNoneTemplate();
-		} else {
-			return exportWithTemplate(config.templateFilePath);
+		FileOutputStream out = new FileOutputStream(fileName);
+		try {
+			exportWithNoneTemplate(out);
+		} finally {
+			out.close();
 		}
+		return fileName;
 	}
 
-	private String exportWithTemplate(String templateFilePath) {
-		// TODO Auto-generated method stub
-		return null;
+	public void export(OutputStream out, Map<?, ?> properties) throws Exception {
+		this.properties = properties;
+		exportWithNoneTemplate(out);
 	}
 
-	private String exportWithNoneTemplate() throws Exception {
+	private void exportWithNoneTemplate(OutputStream out) throws Exception {
 		if (config.fields == null || config.fields.isEmpty())
 			throw new Exception("组件配置错误，缺少字段");
 
-		FileOutputStream out = null;
-		try {
-			if (byPageTemplate()) {
-				InputStream is = new FileInputStream(config.stdPageTemplate);
-				docx = new XWPFDocument(is);
+		if (byPageTemplate()) {
+			InputStream is = new FileInputStream(config.stdPageTemplate);
+			docx = new XWPFDocument(is);
 
-				CTBody body = docx.getDocument().getBody();
-				CTSectPr sPr = body.getSectPr();
-				if (sPr != null) {
-					CTPageSz pgSz = sPr.getPgSz();
-					if (pgSz != null) {
-						Integer width = getIntValue(pgSz.getW());
-						Integer height = getIntValue(pgSz.getH());
-						if (width != null && height != null) {
-							pageSize = new int[] { width, height };
-						}
-					}
-					CTPageMar pgMar = sPr.getPgMar();
-					if (pgMar != null) {
-						Integer top = getIntValue(pgMar.getTop());
-						Integer right = getIntValue(pgMar.getRight());
-						Integer bottom = getIntValue(pgMar.getBottom());
-						Integer left = getIntValue(pgMar.getLeft());
-						Integer header = getIntValue(pgMar.getHeader());
-						Integer footer = getIntValue(pgMar.getFooter());
-
-						if (top != null && right != null && bottom != null && left != null && header != null && footer != null) {
-							pageMargin = new int[] { top, right, bottom, left };
-							hMar = header.intValue();
-							fMar = footer.intValue();
-						}
+			CTBody body = docx.getDocument().getBody();
+			CTSectPr sPr = body.getSectPr();
+			if (sPr != null) {
+				CTPageSz pgSz = sPr.getPgSz();
+				if (pgSz != null) {
+					Integer width = getIntValue(pgSz.getW());
+					Integer height = getIntValue(pgSz.getH());
+					if (width != null && height != null) {
+						pageSize = new int[] { width, height };
 					}
 				}
-			} else {
-				docx = new XWPFDocument();
-				pageSize = getPageSizeFromConfig();
-				pageMargin = getPageMarginFromConfig();
-				////////////////////////////////////////////////////////////////////////
-				// 页面尺寸，纸张方向等标准属性
-				// 设置页眉距离页面顶端
-				hMar = getHeaderMarginFromConfig();
-				// 设置页脚距离页面底端
-				fMar = getFooterMarginFromConfig();
+				CTPageMar pgMar = sPr.getPgMar();
+				if (pgMar != null) {
+					Integer top = getIntValue(pgMar.getTop());
+					Integer right = getIntValue(pgMar.getRight());
+					Integer bottom = getIntValue(pgMar.getBottom());
+					Integer left = getIntValue(pgMar.getLeft());
+					Integer header = getIntValue(pgMar.getHeader());
+					Integer footer = getIntValue(pgMar.getFooter());
+
+					if (top != null && right != null && bottom != null && left != null && header != null && footer != null) {
+						pageMargin = new int[] { top, right, bottom, left };
+						hMar = header.intValue();
+						fMar = footer.intValue();
+					}
+				}
 			}
-			contentWidth = pageSize[0] - pageMargin[1] - pageMargin[3];
-			contentWidthInHalfPT = (int) WordUtil.mm2halfPt(contentWidth);
-
-			// 预处理
-			preTreatment();
-
-			writePage();
-
-			postTreatment();
-
-			out = new FileOutputStream(fileName);
-
-			if (isReadonly()) {
-				docx.enforceReadonlyProtection(UUID.randomUUID().toString(), HashAlgorithm.sha512);
-			}
-
-			docx.write(out);
-			docx.close();
-			// 构建下载地址并打开
-			// System.out.println(DigestUtils.md5Hex(new ZipInputStream(new
-			// FileInputStream(filePath))));
-			return fileName;
-		} finally {
-			if (out != null)
-				out.close();
+		} else {
+			docx = new XWPFDocument();
+			pageSize = getPageSizeFromConfig();
+			pageMargin = getPageMarginFromConfig();
+			////////////////////////////////////////////////////////////////////////
+			// 页面尺寸，纸张方向等标准属性
+			// 设置页眉距离页面顶端
+			hMar = getHeaderMarginFromConfig();
+			// 设置页脚距离页面底端
+			fMar = getFooterMarginFromConfig();
 		}
+		contentWidth = pageSize[0] - pageMargin[1] - pageMargin[3];
+		contentWidthInHalfPT = (int) WordUtil.mm2halfPt(contentWidth);
+
+		// 预处理
+		preTreatment();
+
+		writePage();
+
+		postTreatment();
+
+		if (isReadonly()) {
+			docx.enforceReadonlyProtection(UUID.randomUUID().toString(), HashAlgorithm.sha512);
+		}
+
+		docx.write(out);
+		docx.close();
+		// 构建下载地址并打开
+		// System.out.println(DigestUtils.md5Hex(new ZipInputStream(new
+		// FileInputStream(filePath))));
+
 	}
 
 	private Integer getIntValue(BigInteger w) {
@@ -222,20 +228,20 @@ public class Form2DocxExporter {
 		setCoreProperties("created", prop::setCreated);
 		setCoreProperties("modified", prop::setModified);
 
-		CustomProperties cprop = docx.getProperties().getCustomProperties();
-		if (properties != null) {
-			properties.entrySet().forEach(e -> {
-				cprop.addProperty(e.getKey(), e.getValue());
-			});
-		}
+		// CustomProperties cprop = docx.getProperties().getCustomProperties();
+		// if (properties != null) {
+		// properties.entrySet().forEach(e -> {
+		// cprop.addProperty(""+e.getKey(), ""+e.getValue());
+		// });
+		// }
 
 	}
 
 	private void setCoreProperties(String key, Consumer<String> setValue) {
 		if (properties != null) {
-			String value = properties.get(key);
+			Object value = properties.get(key);
 			if (value != null)
-				setValue.accept(value);
+				setValue.accept("" + value);
 		}
 	}
 
@@ -490,7 +496,7 @@ public class Form2DocxExporter {
 				width = width - w.getWidthInMM();
 			}
 			width = (int) WordUtil.mm2halfPt(width);
-			result.add(new ImageCellWriter(f, (String[]) value, width));
+			result.add(new ImageCellWriter(f, value, width));
 
 		} else if (ExportableFormField.TYPE_LABEL.equals(type)) {
 			if (!hideLabel)
@@ -802,7 +808,7 @@ public class Form2DocxExporter {
 		// 第一个格子放置文件编号
 		XWPFTableCell cell = row.getCell(0);
 		XWPFParagraph para = cell.getParagraphArray(0);
-		String value = (String) getFieldValue.apply(FIELD_DOCNUM);
+		String value = (String) getFieldValue.apply(FIELD_DOC_NUM);
 		if (value != null) {
 			XWPFRun run = para.createRun();
 			WordUtil.setXWPFRunStyle(run, "Consolas", 10);

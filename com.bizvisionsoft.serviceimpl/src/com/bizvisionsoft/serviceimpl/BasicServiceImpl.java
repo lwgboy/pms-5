@@ -38,7 +38,7 @@ import com.mongodb.client.model.Aggregates;
 import com.mongodb.client.model.Field;
 import com.mongodb.client.model.UnwindOptions;
 
-public class BasicServiceImpl extends DataServiceImpl{
+public class BasicServiceImpl extends DataServiceImpl {
 
 	public static String CHECKIN_SETTING_NAME = "项目计划提交设置";
 
@@ -46,8 +46,7 @@ public class BasicServiceImpl extends DataServiceImpl{
 
 	public static String CLOSE_SETTING_NAME = "项目关闭设置";
 
-	protected static List<String> PROJECT_SETTING_NAMES = Arrays.asList(CHECKIN_SETTING_NAME, START_SETTING_NAME,
-			CLOSE_SETTING_NAME);
+	protected static List<String> PROJECT_SETTING_NAMES = Arrays.asList(CHECKIN_SETTING_NAME, START_SETTING_NAME, CLOSE_SETTING_NAME);
 
 	public Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -73,8 +72,7 @@ public class BasicServiceImpl extends DataServiceImpl{
 		appendUserInfo(pipeline, useIdField, userInfoField, userInfoField + "_meta", domain);
 	}
 
-	protected void appendUserInfo(List<Bson> pipeline, String useIdField, String userInfoField, String userMetaField,
-			String domain) {
+	protected void appendUserInfo(List<Bson> pipeline, String useIdField, String userInfoField, String userMetaField, String domain) {
 		pipeline.addAll(Domain.getJQ(domain, "追加-用户")//
 				.set("$chargerId", "$" + useIdField)//
 				.set("chargerInfo_meta", userMetaField)//
@@ -86,8 +84,7 @@ public class BasicServiceImpl extends DataServiceImpl{
 				.array());
 	}
 
-	protected void appendUserInfoAndHeadPic(List<Bson> pipeline, String useIdField, String userInfoField,
-			String headPicField) {
+	protected void appendUserInfoAndHeadPic(List<Bson> pipeline, String useIdField, String userInfoField, String headPicField) {
 		String tempField = "_user_" + useIdField;
 
 		pipeline.add(Aggregates.lookup("user", useIdField, "userId", tempField));
@@ -116,8 +113,8 @@ public class BasicServiceImpl extends DataServiceImpl{
 	protected void appendProject(List<Bson> pipeline) {
 		pipeline.add(Aggregates.lookup("project", "project_id", "_id", "project"));
 		pipeline.add(Aggregates.unwind("$project"));
-		pipeline.add(Aggregates.addFields(Arrays.asList(new Field<String>("projectName", "$project.name"),
-				new Field<String>("projectNumber", "$project.id"))));
+		pipeline.add(Aggregates.addFields(
+				Arrays.asList(new Field<String>("projectName", "$project.name"), new Field<String>("projectNumber", "$project.id"))));
 		pipeline.add(Aggregates.project(new BasicDBObject("project", false)));
 	}
 
@@ -148,8 +145,8 @@ public class BasicServiceImpl extends DataServiceImpl{
 		// new Document("$project", new Document("works", true)));
 
 		List<? extends Bson> pipeline = Domain.getJQ(domain, "查询-日历-资源类-每日工时").set("resTypeId", resTypeId).array();
-		return Optional.ofNullable(c("calendar", domain).aggregate(pipeline).first())
-				.map(d -> d.getDouble("basicWorks")).map(w -> w.doubleValue()).orElse(0d);
+		return Optional.ofNullable(c("calendar", domain).aggregate(pipeline).first()).map(d -> d.getDouble("basicWorks"))
+				.map(w -> w.doubleValue()).orElse(0d);
 	}
 
 	public boolean checkDayIsWorkingDay(Calendar cal, ObjectId resTypeId, String domain) {
@@ -205,18 +202,15 @@ public class BasicServiceImpl extends DataServiceImpl{
 		}
 		return false;
 	}
-	
-	protected boolean sendMessage(String subject, String content, String sender, String receiver, String url,
-			String domain) {
+
+	protected boolean sendMessage(String subject, String content, String sender, String receiver, String url, String domain) {
 		sendMessage(Message.newInstance(subject, content, sender, receiver, url), domain);
 		return true;
 	}
 
-	protected boolean sendMessage(String subject, String content, String sender, List<String> receivers, String url,
-			String domain) {
+	protected boolean sendMessage(String subject, String content, String sender, List<String> receivers, String url, String domain) {
 		List<Message> toBeInsert = new ArrayList<>();
-		new HashSet<String>(receivers)
-				.forEach(r -> toBeInsert.add(Message.newInstance(subject, content, sender, r, url)));
+		new HashSet<String>(receivers).forEach(r -> toBeInsert.add(Message.newInstance(subject, content, sender, r, url)));
 		return sendMessages(toBeInsert, domain);
 	}
 
@@ -247,9 +241,8 @@ public class BasicServiceImpl extends DataServiceImpl{
 		links.forEach(doc -> createGrphicRoute(routes, tasks, doc));
 	}
 
-	protected void convertGraphicWithRisks(ArrayList<Document> works, ArrayList<Document> links,
-			ArrayList<Document> riskEffect, final ArrayList<Task> tasks, final ArrayList<Route> routes,
-			final ArrayList<Risk> risks) {
+	protected void convertGraphicWithRisks(ArrayList<Document> works, ArrayList<Document> links, ArrayList<Document> riskEffect,
+			final ArrayList<Task> tasks, final ArrayList<Route> routes, final ArrayList<Risk> risks) {
 		convertGraphic(works, links, tasks, routes);
 		riskEffect.forEach(doc -> createGraphicRiskNode(tasks, risks, doc));
 		riskEffect.forEach(doc -> setGraphicRiskParent(risks, doc));
@@ -311,8 +304,8 @@ public class BasicServiceImpl extends DataServiceImpl{
 				Document rf = (Document) riskEffects.get(i);
 				Integer timeInf = rf.getInteger("timeInf");
 				if (timeInf != null) {
-					Task task = tasks.stream().filter(t -> t.getId().equals(rf.getObjectId("work_id").toHexString()))
-							.findFirst().orElse(null);
+					Task task = tasks.stream().filter(t -> t.getId().equals(rf.getObjectId("work_id").toHexString())).findFirst()
+							.orElse(null);
 					if (task != null) {
 						cons.add(new Consequence(task, timeInf.intValue()));
 					}
@@ -377,8 +370,8 @@ public class BasicServiceImpl extends DataServiceImpl{
 	 */
 	protected List<ObjectId> getAdministratedProjects(String userId, String domain) {
 		List<Bson> pipeline = new ArrayList<Bson>();
-		pipeline.add(new Document("$match", new Document("status",
-				new Document("$in", Arrays.asList(ProjectStatus.Processing, ProjectStatus.Closing)))));
+		pipeline.add(new Document("$match",
+				new Document("status", new Document("$in", Arrays.asList(ProjectStatus.Processing, ProjectStatus.Closing)))));
 
 		// 当前用户具有项目总监权限时显示全部，不显示全部时，加载PMO团队查询
 		if (!checkUserRoles(userId, Role.SYS_ROLE_PD_ID, domain)) {
@@ -398,8 +391,7 @@ public class BasicServiceImpl extends DataServiceImpl{
 	 * @param domain
 	 */
 	protected void appendQueryUserInProjectPMO(List<Bson> pipeline, String userid, String scopeIdName, String domain) {
-		pipeline.addAll(
-				Domain.getJQ(domain, "查询-项目PMO成员").set("scopeIdName", scopeIdName).set("userId", userid).array());
+		pipeline.addAll(Domain.getJQ(domain, "查询-项目PMO成员").set("scopeIdName", scopeIdName).set("userId", userid).array());
 	}
 
 	public Integer schedule(ObjectId _id, String domain) {
@@ -409,14 +401,12 @@ public class BasicServiceImpl extends DataServiceImpl{
 		if (pj.getBoolean("backgroundScheduling", false)) {
 			return -1;
 		}
-		c("project", domain).updateOne(new Document("_id", _id),
-				new Document("$set", new Document("backgroundScheduling", true)));
+		c("project", domain).updateOne(new Document("_id", _id), new Document("$set", new Document("backgroundScheduling", true)));
 
 		/////////////////////////////////////////////////////////////////////////////////////////////////
 		// 前处理：构造图
 		ArrayList<Document> works = c("work", domain).find(new Document("project_id", _id)).into(new ArrayList<>());
-		ArrayList<Document> links = c("worklinks", domain).find(new Document("project_id", _id))
-				.into(new ArrayList<>());
+		ArrayList<Document> links = c("worklinks", domain).find(new Document("project_id", _id)).into(new ArrayList<>());
 		ArrayList<Task> tasks = new ArrayList<Task>();
 		ArrayList<Route> routes = new ArrayList<Route>();
 		convertGraphic(works, links, tasks, routes);
@@ -438,8 +428,8 @@ public class BasicServiceImpl extends DataServiceImpl{
 		Document scheduleEst = null;
 		// 0级预警检查
 		float overTime = gh.getT() - ((end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24));
-		scheduleEst = new Document("date", new Date()).append("overdue", (int) overTime)
-				.append("finish", gh.getFinishDate()).append("duration", (int) gh.getT());
+		scheduleEst = new Document("date", new Date()).append("overdue", (int) overTime).append("finish", gh.getFinishDate())
+				.append("duration", (int) gh.getT());
 
 		if (overTime > 0) {
 			warningLevel = 0;// 0级预警，项目可能超期。
@@ -478,9 +468,8 @@ public class BasicServiceImpl extends DataServiceImpl{
 
 		/////////////////////////////////////////////////////////////////////////////////////////////////
 		// 后处理：保存排程结果，解除锁定
-		c("project", domain).updateOne(new Document("_id", _id),
-				new Document("$set", new Document("overdueIndex", warningLevel).append("scheduleEst", scheduleEst)
-						.append("backgroundScheduling", false)));
+		c("project", domain).updateOne(new Document("_id", _id), new Document("$set",
+				new Document("overdueIndex", warningLevel).append("scheduleEst", scheduleEst).append("backgroundScheduling", false)));
 
 		return warningLevel;
 	}
@@ -657,4 +646,5 @@ public class BasicServiceImpl extends DataServiceImpl{
 			return null;
 		}
 	}
+
 }

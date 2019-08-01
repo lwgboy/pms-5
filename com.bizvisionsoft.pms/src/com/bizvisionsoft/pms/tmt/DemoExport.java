@@ -8,6 +8,7 @@ import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.service.UserSession;
 
+@Deprecated
 public class DemoExport {
 	@Inject
 	private IBruiService br;

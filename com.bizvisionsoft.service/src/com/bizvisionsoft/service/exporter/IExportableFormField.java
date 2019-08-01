@@ -77,4 +77,16 @@ public interface IExportableFormField {
 	public static final String DATE_TYPE_DATETIME = "datetime";
 
 	public static final String DATE_TYPE_YEAR_MONTH = "yearMonth";
+	
+	public static final String FORMAT_YEAR = "yyyy";
+
+	public static final String FORMAT_MONTH = "MM";
+	
+	public static final String FORMAT_YEARMONTH = "yyyy-MM";
+
+	public static final String FORMAT_DATE = "yyyy-MM-dd";
+
+	public static final String FORMAT_TIME = "HH:mm:ss";
+
+	public static final String FORMAT_DATETIME = "yyyy-MM-dd HH:mm:ss";
 }
