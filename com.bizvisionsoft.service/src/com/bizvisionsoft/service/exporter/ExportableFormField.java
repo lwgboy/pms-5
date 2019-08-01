@@ -180,4 +180,18 @@ public class ExportableFormField implements IExportableFormField {
 
 	//²¹³äµÄ×Ö¶Î
 	public Boolean staticContent;
+
+	public String format;
+	
+	public String optionValue;
+
+	public String optionText;
+
+	public String dicCatalog;
+
+	public String dicCatalogField;
+
+	public String optionQueryCollection;
+
+	public String dateType;
 }

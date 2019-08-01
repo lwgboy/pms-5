@@ -1,18 +1,18 @@
 package com.bizvisionsoft.service.exportvalueextract;
 
-import org.bson.Document;
-
-import com.bizvisionsoft.service.exporter.ExportableFormField;
+import com.bizvisionsoft.service.tools.Check;
+import com.bizvisionsoft.service.tools.Formatter;
 
 public class BannerFieldValueExtracter extends CommonFieldExtracter {
 
-	public BannerFieldValueExtracter(Document data, ExportableFormField f) {
-		super(data, f);
-	}
-
 	@Override
 	public Object getExportValue() {
-		// TODO Auto-generated method stub
-		return super.getExportValue();
+		Object value = super.getExportValue();
+		if (!Boolean.TRUE.equals(fieldConfig.staticContent)) {
+			if (Check.isAssigned(fieldConfig.format)) {
+				value = Formatter.getString(value, fieldConfig.format, locale);
+			}
+		}
+		return value;
 	}
 }

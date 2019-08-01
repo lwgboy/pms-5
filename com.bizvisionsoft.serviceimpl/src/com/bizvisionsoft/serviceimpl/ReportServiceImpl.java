@@ -133,10 +133,10 @@ public class ReportServiceImpl extends BasicServiceImpl implements ReportService
 	}
 
 	@Override
-	public void export(ExportCommand command) {
+	public void export(ExportCommand command,String domain) {
 		try {
-			FieldExportValueExtracter ext = new FieldExportValueExtracter(command.form, command.data);
-			new Form2DocxExporter(command.form, ext::getExportValue).export(command.fileName, command.properties);
+			FieldExportValueExtracter ext = new FieldExportValueExtracter(command.getForm(), command.getData(),domain, command.getLocale());
+			new Form2DocxExporter(command.getForm(), ext::getExportValue).export(command.getFileName(), command.getProperties());
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 		}

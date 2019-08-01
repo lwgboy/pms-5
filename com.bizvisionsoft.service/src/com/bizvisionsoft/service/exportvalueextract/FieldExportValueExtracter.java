@@ -1,5 +1,7 @@
 package com.bizvisionsoft.service.exportvalueextract;
 
+import java.util.Locale;
+
 import org.bson.Document;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,9 +16,15 @@ public class FieldExportValueExtracter {
 	private ExportableForm form;
 	private Document data;
 
-	public FieldExportValueExtracter(ExportableForm form, Document data) {
+	private Locale locale;
+
+	private String domain;
+
+	public FieldExportValueExtracter(ExportableForm form, Document data,String domain,Locale locale) {
 		this.form = form;
 		this.data = data;
+		this.domain = domain;
+		this.locale = locale;
 	}
 
 	public Object getExportValue(String fieldName) {
@@ -27,52 +35,53 @@ public class FieldExportValueExtracter {
 		}
 		CommonFieldExtracter ex;
 		if (ExportableFormField.TYPE_BANNER.equals(f.type)) {
-			ex = new BannerFieldValueExtracter(data, f);
+			ex = new BannerFieldValueExtracter();
 		} else if (ExportableFormField.TYPE_CHECK.equals(f.type)) {
-			ex = new CheckFieldValueExtracter(data, f);
+			ex = new CommonFieldExtracter();
 		} else if (ExportableFormField.TYPE_COMBO.equals(f.type)) {
-			ex = new ComboFieldValueExtracter(data, f);
+			ex = new ComboFieldValueExtracter();
 		} else if (ExportableFormField.TYPE_DATETIME.equals(f.type)) {
-			ex = new DateTimeFieldValueExtracter(data, f);
+			ex = new DateTimeFieldValueExtracter();
 		} else if (ExportableFormField.TYPE_DATETIME_RANGE.equals(f.type)) {
-			ex = new DateTimeRangeFieldValueExtracter(data, f);
+			ex = new DateTimeRangeFieldValueExtracter();
 		} else if (ExportableFormField.TYPE_FILE.equals(f.type)) {
-			ex = new FileFieldValueExtracter(data, f);
+			ex = new FileFieldValueExtracter();
 		} else if (ExportableFormField.TYPE_IMAGE_FILE.equals(f.type)) {
-			ex = new ImageFileFieldValueExtracter(data, f);
+			ex = new ImageFileFieldValueExtracter();
 		} else if (ExportableFormField.TYPE_LABEL.equals(f.type)) {
-			ex = new LabelFieldValueExtracter(data, f);
+			ex = new CommonFieldExtracter();
 		} else if (ExportableFormField.TYPE_LABEL_MULTILINE.equals(f.type)) {
-			ex = new LabelMultilineFieldValueExtracter(data, f);
+			ex = new CommonFieldExtracter();
 		} else if (ExportableFormField.TYPE_MULTI_CHECK.equals(f.type)) {
-			ex = new MultiCheckFieldValueExtracter(data, f);
+			ex = new CheckFieldValueExtracter();
 		} else if (ExportableFormField.TYPE_MULTI_FILE.equals(f.type)) {
-			ex = new MultiFileFieldValueExtracter(data, f);
+			ex = new MultiFileFieldValueExtracter();
 		} else if (ExportableFormField.TYPE_PAGE_HTML.equals(f.type)) {
-			ex = new PageHtmlFieldValueExtracter(data, f);
+			ex = new CommonFieldExtracter();
 		} else if (ExportableFormField.TYPE_PAGE_NOTE.equals(f.type)) {
-			ex = new PageNoteFieldValueExtracter(data, f);
+			ex = new CommonFieldExtracter();
 		} else if (ExportableFormField.TYPE_RADIO.equals(f.type)) {
-			ex = new RadioFieldValueExtracter(data, f);
+			ex = new CheckFieldValueExtracter();
 		} else if (ExportableFormField.TYPE_SELECTION.equals(f.type)) {
-			ex = new SelectionFieldValueExtracter(data, f);
+			ex = new SelectionFieldValueExtracter();
 		} else if (ExportableFormField.TYPE_SPINNER.equals(f.type)) {
-			ex = new SpinnerFieldValueExtracter(data, f);
+			ex = new CommonFieldExtracter();
 		} else if (ExportableFormField.TYPE_TABLE.equals(f.type)) {
-			ex = new TableFieldValueExtracter(data, f);
+			ex = new TableFieldValueExtracter();
 		} else if (ExportableFormField.TYPE_MULTI_SELECTION.equals(f.type)) {
-			ex = new MultiSelectionFieldValueExtracter(data, f);
+			ex = new MultiSelectionFieldValueExtracter();
 		} else if (ExportableFormField.TYPE_TEXT.equals(f.type)) {
-			ex = new TextFieldValueExtracter(data, f);
+			ex = new CommonFieldExtracter();
 		} else if (ExportableFormField.TYPE_TEXT_HTML.equals(f.type)) {
-			ex = new HtmlFieldValueExtracter(data, f);
+			ex = new CommonFieldExtracter();
 		} else if (ExportableFormField.TYPE_TEXT_MULTILINE.equals(f.type)) {
-			ex = new TextMultilineFieldValueExtracter(data, f);
+			ex = new CommonFieldExtracter();
 		} else if (ExportableFormField.TYPE_TEXT_RANGE.equals(f.type)) {
-			ex = new TextRangeFieldValueExtracter(data, f);
+			ex = new TextRangeFieldValueExtracter();
 		} else {
-			ex = new CommonFieldExtracter(data, f);
+			ex = new CommonFieldExtracter();
 		}
+		ex.setData(data).setFieldConfig(f).setLocale(locale).setDomain(domain);
 		return ex.getExportValue();
 	}
 
