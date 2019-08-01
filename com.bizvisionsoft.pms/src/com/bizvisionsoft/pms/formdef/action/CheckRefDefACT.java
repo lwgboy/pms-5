@@ -1,5 +1,6 @@
 package com.bizvisionsoft.pms.formdef.action;
 
+import com.bizivisionsoft.widgets.util.Layer;
 import com.bizvisionsoft.annotations.ui.common.Execute;
 import com.bizvisionsoft.annotations.ui.common.Inject;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
@@ -18,9 +19,9 @@ public class CheckRefDefACT {
 			if (formDef.get_id() == null)
 				return;
 
-			FormDefTools.checkRefDef(br, formDef, "参照定义检查", "参照定义存在以下问题，这些问题将造成其无法启用。", //
-					"参照定义存在以下问题，这些问题需要进行确认。");
-			System.out.println();
+			if (FormDefTools.checkRefDef(br, formDef, "参照定义检查", "参照定义存在以下问题，这些问题将造成其无法启用。", //
+					"参照定义存在以下问题，这些问题需要进行确认。"))
+				Layer.message("参照定义检查通过。");
 		}
 	}
 }
