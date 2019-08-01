@@ -775,15 +775,6 @@
       "text": "导出",
       "style": "info",
       "type": "export"
-    },
-    {
-      "id": "7a862c9e-d98b-437e-93b5-362b2f6a02e6",
-      "name": "测试服务端导出",
-      "text": "服务端导出",
-      "bundleId": "com.bizvisionsoft.bruiengine",
-      "className": "com.bizvisionsoft.bruiengine.action.ExportOnServer",
-      "style": "normal",
-      "type": "customized"
     }
   ],
   "smallEditor": false,

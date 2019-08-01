@@ -12,8 +12,6 @@ public class ExportCommand {
 
 	private ExportableForm form;
 
-	private String fileName;
-
 	private Document properties;
 
 	private String language;
@@ -34,21 +32,12 @@ public class ExportCommand {
 		return properties;
 	}
 	
-	public String getFileName() {
-		return fileName;
-	}
-	
 	public Document getData() {
 		return data;
 	}
 	
 	public ExportableForm getForm() {
 		return form;
-	}
-	
-	public ExportCommand setFileName(String fileName) {
-		this.fileName = fileName;
-		return this;
 	}
 	
 	public ExportCommand setForm(ExportableForm form) {

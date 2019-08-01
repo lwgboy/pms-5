@@ -18,14 +18,11 @@ import javax.ws.rs.core.Response.Status;
 import org.bson.Document;
 import org.bson.types.ObjectId;
 
-import com.bizvisionsoft.service.ExportCommand;
 import com.bizvisionsoft.service.ReportService;
 import com.bizvisionsoft.service.common.Domain;
 import com.bizvisionsoft.service.common.JQ;
 import com.bizvisionsoft.service.common.Service;
 import com.bizvisionsoft.service.dps.ReportCreator;
-import com.bizvisionsoft.service.exporter.Form2DocxExporter;
-import com.bizvisionsoft.service.exportvalueextract.FieldExportValueExtracter;
 import com.bizvisionsoft.service.provider.BasicDBObjectAdapter;
 import com.bizvisionsoft.service.provider.DateAdapter;
 import com.bizvisionsoft.service.provider.DocumentAdapter;
@@ -130,17 +127,6 @@ public class ReportServiceImpl extends BasicServiceImpl implements ReportService
 		return Response.ok().header("Access-Control-Allow-Origin", "*").header("Access-Control-Allow-Credentials", "true")
 				.header("Access-Control-Allow-Methods", "POST, GET, PUT, UPDATE, OPTIONS")
 				.header("Access-Control-Allow-Headers", "Content-Type, Accept, X-Requested-With");
-	}
-
-	@Override
-	public void export(ExportCommand command,String domain) {
-		try {
-			FieldExportValueExtracter ext = new FieldExportValueExtracter(command.getForm(), command.getData(),domain, command.getLocale());
-			new Form2DocxExporter(command.getForm(), ext::getExportValue).export(command.getFileName(), command.getProperties());
-		} catch (Exception e) {
-			logger.error(e.getMessage(), e);
-		}
-
 	}
 
 }
