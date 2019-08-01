@@ -194,4 +194,12 @@ public class ExportableFormField implements IExportableFormField {
 	public String optionQueryCollection;
 
 	public String dateType;
+
+	public List<Integer> columnWidth;
+
+	public Boolean headerVisible;
+
+	public List<String> columnText;
+	
+	public List<String> columnName;
 }

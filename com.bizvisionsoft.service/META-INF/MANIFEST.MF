@@ -20,8 +20,7 @@ Require-Bundle: com.eclipsesource.jaxrs.jersey-all,
  org.eclipse.osgi.services,
  org.eclipse.core.runtime,
  org.apache.poi;bundle-version="6.0.0",
- org.jsoup,
- com.bizvisionsoft.support
+ org.jsoup
 Bundle-ActivationPolicy: lazy
 Export-Package: com.bizvisionsoft.service,
  com.bizvisionsoft.service.datatools,
