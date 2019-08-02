@@ -138,7 +138,7 @@ public class DataServiceImpl extends MongoDBService implements DataService {
 	private void generateValue(String domain, String col, Document doc) {
 		c(ValueRule.class, domain).find(new Document("colName", col).append("enable", true)).forEach((ValueRule vr) -> {
 			try {
-				DocumentValueGenerator.runGenerate(vr, doc);
+				DocumentValueGenerator.generate(vr, doc);
 			} catch (Exception e) {
 				logger.error("值生成规则运行出错。" + vr, e);
 			}

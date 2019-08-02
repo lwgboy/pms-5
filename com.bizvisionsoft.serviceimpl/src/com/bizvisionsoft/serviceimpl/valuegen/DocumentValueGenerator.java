@@ -225,7 +225,7 @@ public class DocumentValueGenerator extends SystemServiceImpl implements IValueG
 		return text;
 	}
 
-	public static void runGenerate(ValueRule vr, Document doc) {
+	public static void generate(ValueRule vr, Document doc) {
 		String value = new DocumentValueGenerator(vr).getValue(doc);
 		doc.append(vr.fieldName, value);		
 	}
