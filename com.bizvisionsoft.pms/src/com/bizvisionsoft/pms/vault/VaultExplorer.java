@@ -102,12 +102,20 @@ public abstract class VaultExplorer {
 
 		// TODO 权限控制，基础控制
 		// TODO 操作
-		actions.add(new ActionFactory().text("新建文件夹").normalStyle().get());
-		actions.add(new ActionFactory().text("新建文档").normalStyle().get());
-		actions.add(new ActionFactory().text("查找文件夹").infoStyle().get());
-		actions.add(new ActionFactory().text("查找文档").infoStyle().get());
-		actions.add(new ActionFactory().text("全局查找").infoStyle().get());
-		actions.add(new ActionFactory().text("属性查找").infoStyle().get());
+		
+		//新建文件夹
+		actions.add(new ActionFactory().img("/img/sort_w.svg").normalStyle().get());
+		//新建文档
+		actions.add(new ActionFactory().img("/img/sort_w.svg").normalStyle().get());
+		//查找文件夹
+		actions.add(new ActionFactory().img("/img/sort_w.svg").infoStyle().get());
+		//查找文档
+		actions.add(new ActionFactory().img("/img/sort_w.svg").infoStyle().get());
+		//全局查找
+		actions.add(new ActionFactory().img("/img/sort_w.svg").infoStyle().get());
+		//属性
+		actions.add(new ActionFactory().img("/img/sort_w.svg").infoStyle().get());
+		//排序
 		actions.add(new ActionFactory().img("/img/sort_w.svg").infoStyle().get());
 
 		return actions;

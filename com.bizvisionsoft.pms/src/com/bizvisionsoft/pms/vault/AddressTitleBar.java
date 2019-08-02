@@ -32,6 +32,7 @@ import com.bizvisionsoft.bruiengine.util.BruiColors;
 import com.bizvisionsoft.bruiengine.util.BruiColors.BruiColor;
 import com.bizvisionsoft.bruiengine.util.BruiToolkit;
 import com.bizvisionsoft.service.model.IFolder;
+import com.bizvisionsoft.service.model.VaultFolder;
 import com.bizvisionsoft.service.tools.Check;
 
 public class AddressTitleBar extends Composite implements ISelectionProvider {
@@ -59,12 +60,26 @@ public class AddressTitleBar extends Composite implements ISelectionProvider {
 		setLayout(layout);
 		setBackground(BruiColors.getColor(BruiColor.Grey_50));
 		setHtmlAttribute("class", "brui_toolbar_s");
-		layout.horizontalSpacing = 0;
+		layout.horizontalSpacing = 8;
 		layout.verticalSpacing = 8;
 		layout.marginWidth = 0;
 		layout.marginHeight = 0;
 		layout.marginLeft = 0;
+		
+		//TODO ²âÊÔÎÄ¼þ¼Ð
+		path  = new ArrayList<IFolder>();
+		VaultFolder folder = new VaultFolder();
+		folder.setDesc("TX000-abc");
+		path.add(folder);
 
+		folder = new VaultFolder();
+		folder.setDesc("TX00000001");
+		path.add(folder);
+		
+		folder = new VaultFolder();
+		folder.setDesc("TX00000001-002");
+		path.add(folder);
+		
 		createAddressBar();
 
 		createToolbar();
@@ -226,7 +241,7 @@ public class AddressTitleBar extends Composite implements ISelectionProvider {
 		parent.setLayoutData(new GridData(SWT.RIGHT, SWT.TOP, false, false));
 		RowLayout rl = new RowLayout(SWT.HORIZONTAL);
 		rl.marginHeight = 0;
-		rl.spacing = 8;
+		rl.spacing = 0;
 		rl.marginWidth = 0;
 		rl.wrap = false;
 		rl.fill = true;
