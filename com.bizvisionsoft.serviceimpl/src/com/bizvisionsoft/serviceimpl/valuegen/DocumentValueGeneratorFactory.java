@@ -6,7 +6,7 @@ import org.bson.Document;
 
 import com.bizvisionsoft.mongocodex.tools.IValueGenerateService;
 import com.bizvisionsoft.mongocodex.tools.IValueGenerateServiceFactory;
-import com.bizvisionsoft.service.ValueRule;
+import com.bizvisionsoft.service.model.ValueRule;
 import com.bizvisionsoft.serviceimpl.BasicServiceImpl;
 
 public class DocumentValueGeneratorFactory extends BasicServiceImpl implements IValueGenerateServiceFactory {
@@ -16,7 +16,7 @@ public class DocumentValueGeneratorFactory extends BasicServiceImpl implements I
 		return Optional
 				.ofNullable(c(ValueRule.class, domain)
 						.find(new Document("className", className).append("fieldName", fieldName).append("enable", true)).first())
-				.map(d->new DocumentValueGenerator(d,domain)).orElse(null);
+				.map(d->new DocumentValueGenerator(d)).orElse(null);
 	}
 
 }

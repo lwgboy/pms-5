@@ -7,12 +7,25 @@
   "folderId": "1677a194b59",
   "fields": [
     {
+      "name": "新字段",
+      "text": "本规则用于以下类名或集合名",
+      "type": "横幅",
+      "formFields": [],
+      "staticContent": true
+    },
+    {
       "id": "1677a41110b",
       "name": "className",
       "text": "类",
       "type": "单行文本框",
       "formFields": [],
-      "required": true
+      "required": false
+    },
+    {
+      "name": "colName",
+      "text": "集合名",
+      "type": "单行文本框",
+      "formFields": []
     },
     {
       "id": "1677a4111cf",
@@ -23,14 +36,29 @@
       "required": true
     },
     {
-      "id": "1677a4112b9",
-      "name": "enable",
-      "text": "启用",
-      "type": "复选框",
-      "formFields": [],
-      "checkStyle": "开关（默认）"
+      "name": "新字段",
+      "type": "行",
+      "formFields": [
+        {
+          "id": "1677a4112b9",
+          "name": "enable",
+          "text": "启用",
+          "type": "复选框",
+          "formFields": [],
+          "checkStyle": "开关（默认）"
+        },
+        {
+          "name": "新字段",
+          "text": "如果是程序调用，请勿启用",
+          "type": "横幅",
+          "formFields": [],
+          "staticContent": true,
+          "bannerStyle": "warning"
+        }
+      ]
     }
   ],
+  "actions": [],
   "smallEditor": true,
   "tinyEditor": true,
   "disableInitLoadData": false
