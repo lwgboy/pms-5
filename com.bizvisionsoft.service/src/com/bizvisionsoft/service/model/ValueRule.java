@@ -1,4 +1,4 @@
-package com.bizvisionsoft.service;
+package com.bizvisionsoft.service.model;
 
 import org.bson.types.ObjectId;
 
@@ -22,10 +22,16 @@ public class ValueRule {
 	@ReadValue
 	@WriteValue
 	public String className;
+	
+	@ReadValue
+	@WriteValue
+	public String colName;
 
 	@ReadValue
 	@WriteValue
 	public String fieldName;
+	
+	public String domain;
 
 	@Label
 	public String label() {

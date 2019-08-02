@@ -6,7 +6,7 @@ import org.bson.Document;
 
 import com.bizvisionsoft.mongocodex.tools.IValueGenerateService;
 import com.bizvisionsoft.mongocodex.tools.IValueGenerateServiceFactory;
-import com.bizvisionsoft.service.ValueRule;
+import com.bizvisionsoft.service.model.ValueRule;
 import com.bizvisionsoft.serviceimpl.BasicServiceImpl;
 
 public class DocumentValueGeneratorFactory extends BasicServiceImpl implements IValueGenerateServiceFactory {

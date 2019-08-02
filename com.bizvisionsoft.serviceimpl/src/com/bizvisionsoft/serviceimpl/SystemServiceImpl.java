@@ -17,14 +17,14 @@ import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.service.SystemService;
-import com.bizvisionsoft.service.ValueRule;
-import com.bizvisionsoft.service.ValueRuleSegment;
 import com.bizvisionsoft.service.common.Domain;
 import com.bizvisionsoft.service.common.JQ;
 import com.bizvisionsoft.service.common.Service;
 import com.bizvisionsoft.service.model.Backup;
 import com.bizvisionsoft.service.model.DomainRequest;
 import com.bizvisionsoft.service.model.ServerInfo;
+import com.bizvisionsoft.service.model.ValueRule;
+import com.bizvisionsoft.service.model.ValueRuleSegment;
 import com.bizvisionsoft.service.tools.FileTools;
 import com.bizvisionsoft.service.tools.Formatter;
 import com.bizvisionsoft.serviceimpl.commons.EmailClient;

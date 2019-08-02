@@ -15,10 +15,10 @@ import org.slf4j.LoggerFactory;
 
 import com.bizvisionsoft.annotations.AUtil;
 import com.bizvisionsoft.mongocodex.tools.IValueGenerateService;
-import com.bizvisionsoft.service.ValueRule;
-import com.bizvisionsoft.service.ValueRuleSegment;
 import com.bizvisionsoft.service.common.Domain;
 import com.bizvisionsoft.service.common.JQ;
+import com.bizvisionsoft.service.model.ValueRule;
+import com.bizvisionsoft.service.model.ValueRuleSegment;
 import com.bizvisionsoft.service.tools.Check;
 import com.bizvisionsoft.service.tools.Formatter;
 import com.bizvisionsoft.service.tools.JSTools;

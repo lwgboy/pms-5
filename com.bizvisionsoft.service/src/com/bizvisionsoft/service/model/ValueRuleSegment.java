@@ -1,4 +1,4 @@
-package com.bizvisionsoft.service;
+package com.bizvisionsoft.service.model;
 
 import org.bson.types.ObjectId;
 
@@ -154,6 +154,8 @@ public class ValueRuleSegment {
 	@ReadValue
 	@WriteValue
 	public String snId;
+	
+	public String domain;
 
 	@Label
 	public String label() {
