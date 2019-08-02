@@ -45,6 +45,12 @@
       "required": true,
       "selectorAssemblyId": "/组件选择器（编辑器）.gridassy",
       "valueFieldName": "id"
+    },
+    {
+      "name": "gridId",
+      "type": "对象选择框",
+      "formFields": [],
+      "selectorAssemblyId": "/组件选择器.gridassy"
     }
   ],
   "actions": [
