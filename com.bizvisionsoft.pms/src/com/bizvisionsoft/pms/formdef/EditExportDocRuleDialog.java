@@ -167,9 +167,14 @@ public class EditExportDocRuleDialog extends Dialog {
 				}).get();
 
 		// 创建配置的工具栏
-		Controls.button(toolbar).rwt(Controls.CSS_INFO).setText("检查").listen(SWT.Selection, e -> {
+		Button left = Controls.button(toolbar).rwt(Controls.CSS_INFO).setText("检查").listen(SWT.Selection, e -> {
 			buttonPressed(IDialogConstants.DETAILS_ID);
-		}).loc(SWT.TOP | SWT.BOTTOM, 120).left();
+		}).loc(SWT.TOP | SWT.BOTTOM, 120).left().get();
+
+		Controls.button(toolbar).rwt(Controls.CSS_INFO).setText("重新加载").loc(SWT.TOP | SWT.BOTTOM, 120).right(left, 16)
+				.listen(SWT.Selection, e -> {
+					buttonPressed(IDialogConstants.CLIENT_ID);
+				}).get();
 
 		return panel;
 	}
@@ -277,7 +282,7 @@ public class EditExportDocRuleDialog extends Dialog {
 				ExportableForm buildForm = ExportableFormBuilder.buildForm(selectedAssy);
 				exportDocRule.setExportableForm(buildForm);
 			} catch (IOException e1) {
-				logger.error("编辑器导出规则配置错误。", e);
+				logger.error("编辑器导出规则配置错误。", e1);
 			}
 
 			// 获取选择编辑器的字段清单
@@ -754,11 +759,22 @@ public class EditExportDocRuleDialog extends Dialog {
 			String postProc2 = postProc.getText();
 			if (postProc2 != null)
 				exportDocRule.setPostProc(postProc2);
-		}
-		if (buttonId == IDialogConstants.DETAILS_ID) {
+		} else if (buttonId == IDialogConstants.DETAILS_ID) {
 			checkExportDocRule();
+		} else if (buttonId == IDialogConstants.CLIENT_ID) {
+			reLoadExportableForm();
 		}
 		super.buttonPressed(buttonId);
+	}
+
+	private void reLoadExportableForm() {
+		try {
+			String editorId = exportDocRule.getEditorId();
+			ExportableForm buildForm = ExportableFormBuilder.buildForm(Model.getAssembly(editorId));
+			exportDocRule.setExportableForm(buildForm);
+		} catch (IOException e) {
+			logger.error("编辑器导出规则配置错误。", e);
+		}
 	}
 
 	private boolean checkAndSetFieldMap(List<Document> fieldMap) {
@@ -791,8 +807,9 @@ public class EditExportDocRuleDialog extends Dialog {
 	}
 
 	private void checkExportDocRule() {
-		FormDefTools.checkExportDocRule(br, exportDocRule, "文档导出规则检查", "文档导出规则存在以下问题，这些问题将造成对应的表单定义无法启用。", //
-				"文档导出规则存在以下问题，这些问题需要进行确认。");
+		if (FormDefTools.checkExportDocRule(br, exportDocRule, "文档导出规则检查", "文档导出规则存在以下问题，这些问题将造成对应的表单定义无法启用。", //
+				"文档导出规则存在以下问题，这些问题需要进行确认。"))
+			Layer.message("文档导出规则检查通过。");
 	}
 
 	public ExportDocRule getExportDocRule() {

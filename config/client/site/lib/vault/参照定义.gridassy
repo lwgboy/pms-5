@@ -66,8 +66,10 @@
       "id": "87e9996f-2327-4a3d-8979-34bdc814845a",
       "name": "¼ì²é",
       "text": "¼ì²é",
+      "image": "",
       "bundleId": "com.bizvisionsoft.pms",
       "className": "com.bizvisionsoft.pms.formdef.action.CheckRefDefACT",
+      "forceText": true,
       "style": "normal",
       "type": "customized"
     },
