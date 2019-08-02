@@ -16,7 +16,7 @@ public class DocumentValueGeneratorFactory extends BasicServiceImpl implements I
 		return Optional
 				.ofNullable(c(ValueRule.class, domain)
 						.find(new Document("className", className).append("fieldName", fieldName).append("enable", true)).first())
-				.map(d->new DocumentValueGenerator(d,domain)).orElse(null);
+				.map(d->new DocumentValueGenerator(d)).orElse(null);
 	}
 
 }

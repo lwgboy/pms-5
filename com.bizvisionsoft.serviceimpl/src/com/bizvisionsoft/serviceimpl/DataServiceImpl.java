@@ -17,9 +17,13 @@ import com.bizvisionsoft.service.DataService;
 import com.bizvisionsoft.service.QueryCommand;
 import com.bizvisionsoft.service.common.Domain;
 import com.bizvisionsoft.service.common.JQ;
+import com.bizvisionsoft.service.model.ValueRule;
 import com.bizvisionsoft.service.provider.BsonProvider;
 import com.bizvisionsoft.service.tools.Check;
+import com.bizvisionsoft.serviceimpl.valuegen.DocumentValueGenerator;
 import com.mongodb.BasicDBObject;
+import com.mongodb.MongoNamespace;
+import com.mongodb.client.MongoCollection;
 import com.mongodb.client.gridfs.GridFSBuckets;
 import com.mongodb.client.model.Aggregates;
 import com.mongodb.client.model.Filters;
@@ -53,6 +57,15 @@ public class DataServiceImpl extends MongoDBService implements DataService {
 
 	/////////////////////////////////////////////////////////////////////////////////////
 	// 更新
+	/**
+	 * 更新带插入
+	 * 
+	 * @param filter
+	 * @param update
+	 * @param col
+	 * @param domain
+	 * @return
+	 */
 	final protected Document upsert(Document filter, Document update, String col, String domain) {
 		UpdateOptions option = new UpdateOptions().upsert(true);
 		UpdateResult ur = c(col, domain).updateOne(filter, update, option);
@@ -97,12 +110,41 @@ public class DataServiceImpl extends MongoDBService implements DataService {
 	}
 
 	final protected <T> T insert(T obj, Class<T> clazz, String domain) {
-		return insertOne(c(clazz, domain), obj);
+		return insert(c(clazz, domain), obj);
 	}
 
 	final protected <T> T insert(T obj, String cname, Class<T> clazz, String domain) {
-		return insertOne(c(cname, clazz, domain), obj);
+		return insert(c(cname, clazz, domain), obj);
 	}
+
+	final protected Document insert(Document doc, String colName, String domain) {
+		return insert(c(colName, domain), doc);
+	}
+
+	private <T> T insert(MongoCollection<T> col, T obj) {
+		try {
+			if (obj instanceof Document) {// 如果是Document, 需要手工实现
+				MongoNamespace ns = col.getNamespace();
+				String dbName = ns.getDatabaseName();
+				String colName = ns.getCollectionName();
+				generateValue(dbName, colName, (Document) obj);
+			}
+			return super.insertOne(col, obj);
+		} catch (Exception e) {
+			throw handleMongoException(e, obj.toString());
+		}
+	}
+
+	private void generateValue(String domain, String col, Document doc) {
+		c(ValueRule.class, domain).find(new Document("colName", col).append("enable", true)).forEach((ValueRule vr) -> {
+			try {
+				DocumentValueGenerator.generateDocumentValue(vr, doc);
+			} catch (Exception e) {
+				logger.error("值生成规则运行出错。" + vr, e);
+			}
+		});
+	}
+
 
 	/////////////////////////////////////////////////////////////////////////////////////
 	// 查询

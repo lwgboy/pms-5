@@ -37,8 +37,7 @@ import com.google.gson.GsonBuilder;
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Aggregates;
-import com.mongodb.client.result.DeleteResult;
-import com.mongodb.client.result.UpdateResult;
+import com.mongodb.client.model.UpdateOptions;
 
 public class UniversalDataServiceImpl extends BasicServiceImpl implements UniversalDataService {
 
@@ -145,7 +144,7 @@ public class UniversalDataServiceImpl extends BasicServiceImpl implements Univer
 
 	private UniversalResult insertDocument(Document document, String colName, String className, String bundleName, String domain) {
 		// 去掉null
-		c(colName, domain).insertOne(document);
+		insert(document,colName,domain);
 		return elementResult(className, bundleName, document.toJson(), domain);
 	}
 
@@ -160,7 +159,7 @@ public class UniversalDataServiceImpl extends BasicServiceImpl implements Univer
 			try {
 				T obj = clazz.newInstance();
 				codex.decode(obj, new JsonReader(document.toJson()), DecoderContext.builder().build());
-				c(clazz, domain).insertOne(obj);
+				insert(obj, clazz, domain);
 				return elementResult(className, bundleName, getGson().toJson(obj), domain);
 			} catch (InstantiationException | IllegalAccessException e) {
 				logger.error(e.getMessage(), e);
@@ -179,8 +178,8 @@ public class UniversalDataServiceImpl extends BasicServiceImpl implements Univer
 		String sid = command.getParameter("_id.$oid", String.class);
 		if (sid != null) {
 			ObjectId _id = new ObjectId(sid);
-			DeleteResult r = col(command, domain).deleteOne(new Document("_id", _id));
-			return countResult(r.getDeletedCount());
+			long conut = deleteMany(col(command, domain), new Document("_id", _id));
+			return countResult(conut);
 		}
 		String msg = "缺少唯一关键字";
 		logger.error(msg);
@@ -191,8 +190,9 @@ public class UniversalDataServiceImpl extends BasicServiceImpl implements Univer
 	public UniversalResult update(UniversalCommand command, String domain) {
 		Document filter = command.getParameter("filter_and_update.filter", Document.class);
 		Document update = command.getParameter("filter_and_update.update", Document.class);
-		UpdateResult r = col(command, domain).updateMany(filter, update);
-		long modifiedCount = r.getModifiedCount();
+		UpdateOptions option = new UpdateOptions();
+		option.upsert(false);
+		long modifiedCount = update(col(command, domain), filter, update, option);
 		return countResult(modifiedCount);
 	}
 
