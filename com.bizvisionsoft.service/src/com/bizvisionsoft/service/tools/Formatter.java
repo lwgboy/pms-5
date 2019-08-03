@@ -3,6 +3,8 @@ package com.bizvisionsoft.service.tools;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.text.ParseException;
@@ -197,8 +199,7 @@ public class Formatter {
 		String text;
 		if (value instanceof Date) {
 			String sdf = Check.isNotAssigned(format) ? DATE_FORMAT_DATE : format;
-			return Optional.ofNullable(locale).map(l -> new SimpleDateFormat(sdf, l)).orElse(new SimpleDateFormat(sdf))
-					.format(value);
+			return Optional.ofNullable(locale).map(l -> new SimpleDateFormat(sdf, l)).orElse(new SimpleDateFormat(sdf)).format(value);
 		} else if (value instanceof Integer || value instanceof Long || value instanceof Short) {
 			text = Optional.ofNullable(format)//
 					.map(f -> {
@@ -266,8 +267,7 @@ public class Formatter {
 	 */
 	public static <T> List<List<T>> getSplitedList(List<T> source, int subSize) {
 		List<List<T>> subAryList = new ArrayList<List<T>>();
-		int count = subSize == 0 ? 0
-				: (source.size() % subSize == 0 ? source.size() / subSize : source.size() / subSize + 1);
+		int count = subSize == 0 ? 0 : (source.size() % subSize == 0 ? source.size() / subSize : source.size() / subSize + 1);
 		for (int i = 0; i < count; i++) {
 			int index = i * subSize;
 			List<T> list = new ArrayList<T>();
@@ -295,9 +295,8 @@ public class Formatter {
 	// 'x', 'y', 'z' };
 
 	// 初始化
-	private static int[] alphatable_code = { 45217, 45253, 45761, 46318, 46826, 47010, 47297, 47614, 47614, 48119,
-			49062, 49324, 49896, 50371, 50614, 50622, 50906, 51387, 51446, 52218, 52218, 52218, 52698, 52980, 53689,
-			54481, 55289 };
+	private static int[] alphatable_code = { 45217, 45253, 45761, 46318, 46826, 47010, 47297, 47614, 47614, 48119, 49062, 49324, 49896,
+			50371, 50614, 50622, 50906, 51387, 51446, 52218, 52218, 52218, 52698, 52980, 53689, 54481, 55289 };
 
 	/**
 	 * 根据一个包含汉字的字符串返回一个汉字拼音首字母的字符串
@@ -576,8 +575,9 @@ public class Formatter {
 	}
 
 	public static String getStatusText(String status, String lang) {
-		int idx = Arrays.asList("Created", "Ready", "Reserved", "InProgress", "Suspended", "Completed", "Failed",
-				"Error", "Exited", "Obsolete").indexOf(status);
+		int idx = Arrays
+				.asList("Created", "Ready", "Reserved", "InProgress", "Suspended", "Completed", "Failed", "Error", "Exited", "Obsolete")
+				.indexOf(status);
 		if (idx != -1) {
 			return new String[] { "创建", "就绪", "预约", "执行", "暂停", "完成", "失败", "错误", "退出", "作废" }[idx];
 		} else {
@@ -828,7 +828,7 @@ public class Formatter {
 
 		return target;
 	}
-	
+
 	public static List<String> listParameter(String js) {
 		List<String> result = new ArrayList<>();
 		String regEx = "\"<.+?>\"";
@@ -845,6 +845,26 @@ public class Formatter {
 			String group = m.group();
 			result.add(group.substring(2, group.length() - 2));
 		}
+		return result;
+	}
+
+	public static String getString(InputStream in) throws IOException, UnsupportedEncodingException {
+		return getString(in, "utf-8");
+	}
+
+	public static String getString(InputStream in, String charsetName) throws IOException, UnsupportedEncodingException {
+		ByteArrayOutputStream bos = new ByteArrayOutputStream();
+
+		// 读取缓存
+		byte[] buffer = new byte[2048];
+		int length = 0;
+		while ((length = in.read(buffer)) != -1) {
+			bos.write(buffer, 0, length);// 写入输出流
+		}
+		in.close();// 读取完毕，关闭输入流
+
+		// 根据输出流创建字符串对象
+		String result = new String(bos.toByteArray(), charsetName);
 		return result;
 	}
 

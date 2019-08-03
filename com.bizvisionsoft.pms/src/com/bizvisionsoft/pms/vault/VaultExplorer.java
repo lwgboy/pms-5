@@ -2,6 +2,8 @@ package com.bizvisionsoft.pms.vault;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Stream;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FormAttachment;
@@ -9,6 +11,8 @@ import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.bizvisionsoft.bruicommons.factory.action.ActionFactory;
 import com.bizvisionsoft.bruicommons.model.Action;
@@ -17,8 +21,13 @@ import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.ui.AssemblyContainer;
 import com.bizvisionsoft.bruiengine.util.Controls;
+import com.bizvisionsoft.pms.vault.AddressBar.ActionEvent;
+import com.bizvisionsoft.service.model.IFolder;
+import com.bizvisionsoft.service.model.VaultFolder;
 
 public abstract class VaultExplorer {
+
+	private static final Logger logger = LoggerFactory.getLogger(VaultExplorer.class);
 
 	private IBruiService br;
 
@@ -27,6 +36,8 @@ public abstract class VaultExplorer {
 	protected GridPart folderPane;
 
 	protected GridPart filePane;
+
+	private IFolder[] currentPath;
 
 	public VaultExplorer() {
 	}
@@ -92,33 +103,97 @@ public abstract class VaultExplorer {
 	 * @return
 	 */
 	private Composite createBar(Composite parent) {
-		List<Action> rightActions = getRightActions();
-		AddressTitleBar bar = new AddressTitleBar(parent, rightActions, br, context);
+		List<List<Action>> actions = createToolbarActions();
+		currentPath = createDemoPath();
+		Composite bar = new AddressBar(parent, currentPath, actions);
+		bar.addListener(SWT.SetData, e -> {
+			ActionEvent ae = (ActionEvent) e;
+			String msg = Stream.of(ae.path).map(f -> f.getName() + "/").reduce((s1, s2) -> s1 + s2).orElse("");
+			logger.debug("地址栏目录加载:" + msg);
+		});
+
+		bar.addListener(SWT.Modify, e -> {
+			ActionEvent ae = (ActionEvent) e;
+			String msg = Stream.of(ae.path).map(f -> f.getName() + "/").reduce((s1, s2) -> s1 + s2).orElse("");
+			logger.debug("地址栏目录更改:" + msg);
+			e.doit = true;// 必须设置为true,才能改变地址栏。默认为true, 当某些文件夹禁止访问时，可设置为false;
+		});
+
+		bar.addListener(SWT.Selection, e -> {
+			ActionEvent ae = (ActionEvent) e;
+			String msg = Stream.of(ae.path).map(f -> f.getName() + "/").reduce((s1, s2) -> s1 + s2).orElse("");
+			logger.debug("地址栏工具栏事件: " + ae.action.getText() + ", path" + msg);
+		});
 		return bar;
 	}
 
-	private List<Action> getRightActions() {
-		List<Action> actions = new ArrayList<Action>();
+	private IFolder[] createDemoPath() {
+		ArrayList<IFolder> path = new ArrayList<IFolder>();
+		VaultFolder folder = new VaultFolder();
+		folder.setDesc("TX00000001");
+		path.add(folder);
 
+		folder = new VaultFolder();
+		folder.setDesc("TX00000002");
+		path.add(folder);
+
+		folder = new VaultFolder();
+		folder.setDesc("TX00000003");
+		path.add(folder);
+		folder = new VaultFolder();
+		folder.setDesc("TX00000004");
+		path.add(folder);
+		folder = new VaultFolder();
+		folder.setDesc("TX00000005");
+		path.add(folder);
+		folder = new VaultFolder();
+		folder.setDesc("TX00000006");
+		path.add(folder);
+		folder = new VaultFolder();
+		folder.setDesc("TX00000007");
+		path.add(folder);
+		folder = new VaultFolder();
+		folder.setDesc("TX00000008");
+		path.add(folder);
+		folder = new VaultFolder();
+		folder.setDesc("TX00000009");
+		path.add(folder);
+		folder = new VaultFolder();
+		folder.setDesc("TX00000010");
+		path.add(folder);
+		folder = new VaultFolder();
+		folder.setDesc("TX00000011");
+		path.add(folder);
+		return path.toArray(new IFolder[0]);
+	}
+
+	private List<List<Action>> createToolbarActions() {
+
+		List<List<Action>> result = new ArrayList<>();
 		// TODO 权限控制，基础控制
 		// TODO 操作
-		
-		//新建文件夹
-		actions.add(new ActionFactory().img("/img/sort_w.svg").normalStyle().get());
-		//新建文档
-		actions.add(new ActionFactory().img("/img/sort_w.svg").normalStyle().get());
-		//查找文件夹
-		actions.add(new ActionFactory().img("/img/sort_w.svg").infoStyle().get());
-		//查找文档
-		actions.add(new ActionFactory().img("/img/sort_w.svg").infoStyle().get());
-		//全局查找
-		actions.add(new ActionFactory().img("/img/sort_w.svg").infoStyle().get());
-		//属性
-		actions.add(new ActionFactory().img("/img/sort_w.svg").infoStyle().get());
-		//排序
-		actions.add(new ActionFactory().img("/img/sort_w.svg").infoStyle().get());
 
-		return actions;
+		List<Action> actions = new ArrayList<Action>();
+		actions.add(new ActionFactory().img("/img/line_newFolder.svg").disImg("/img/line_newFolder_disable.svg").text("新建目录")
+				.tooltips("在当前目录下创建子目录").get());
+		actions.add(new ActionFactory().img("/img/line_newDoc.svg").text("新建文档").disImg("/img/line_newDoc_disable.svg")
+				.tooltips("在当前目录下创建文档").get());
+		result.add(actions);
+
+		actions = new ArrayList<Action>();
+		actions.add(new ActionFactory().img("/img/line_searchFolder.svg").text("查找目录").tooltips("在当前目录下查找子目录").get());
+		actions.add(new ActionFactory().img("/img/line_searchDoc.svg").text("查找文档").tooltips("在当前文件夹下查找文档").get());
+		actions.add(new ActionFactory().img("/img/line_search.svg").text("搜索").tooltips("在所有文件夹中查找文档").get());
+		result.add(actions);
+
+		actions = new ArrayList<Action>();
+		actions.add(new ActionFactory().img("/img/line_sort.svg").text("排序").tooltips("对当前目录下的文档排序").get());
+		actions.add(new ActionFactory().img("/img/line_star.svg").text("收藏").tooltips("收藏当前目录").get());
+		actions.add(new ActionFactory().img("/img/line_setting.svg").text("属性").tooltips("设置当前目录的属性").get());
+		result.add(actions);
+		// 全局查找
+
+		return result;
 	}
 
 	/**
