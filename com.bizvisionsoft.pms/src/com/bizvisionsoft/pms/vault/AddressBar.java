@@ -194,7 +194,7 @@ public class AddressBar extends Composite {
 	 * @return
 	 */
 	private boolean hasAuthority(Action action) {
-		// TODO Auto-generated method stub
+		// TODO 权限开发
 		return true;
 	}
 
