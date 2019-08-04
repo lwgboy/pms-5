@@ -264,7 +264,7 @@ public class UserServiceImpl extends BasicServiceImpl implements UserService {
 
 		if (orgIds.size() > 0) {
 			filter.append("org_id", new BasicDBObject("$in", orgIds));
-			return query(null, null, null, filter, User.class, domain);
+			return query(null, null,  filter, null,User.class, domain);
 		} else
 			return new ArrayList<User>();
 	}

@@ -23,20 +23,34 @@ import com.bizvisionsoft.service.tools.Check;
 
 public class AddressBar extends Composite {
 
+	private static final int BAR_HEIGHT = 32;
+
+	private static final int IMG_SIZE = 16;
+	
 	private IFolder[] path;
 
 	private Controls<Composite> addressBar;
 
 	private List<Controls<Button>> controlHolder = new ArrayList<>();
 
+	private Function<Action, Boolean> authority;
+
 	/**
 	 * 
+	 * 在父容器下创建地址栏
+	 * 
 	 * @param parent
+	 *            父容器
 	 * @param path
+	 *            当前的路径
 	 * @param actionGroups
+	 *            按钮组
+	 * @param authority
+	 *            检查权限的代码
 	 */
-	public AddressBar(Composite parent, IFolder[] path, List<List<Action>> actionGroups) {
+	public AddressBar(Composite parent, IFolder[] path, List<List<Action>> actionGroups, Function<Action, Boolean> authority) {
 		super(parent, SWT.NONE);
+		this.authority = authority;
 		Controls.handle(this).rwt(BruiToolkit.CSS_BAR_TITLE).bg(BruiColor.Grey_50).formLayout().get();
 		// 创建左侧按钮
 		Action action = VaultActions.create(VaultActions.uplevel, true, false);
@@ -62,7 +76,8 @@ public class AddressBar extends Composite {
 		}
 
 		// 刷新
-		Action refreshAction = VaultActions.create(VaultActions.refresh, true, false);;
+		Action refreshAction = VaultActions.create(VaultActions.refresh, true, false);
+		;
 		btn = createToolitem(this, refreshAction, false).loc(SWT.TOP | SWT.BOTTOM).right(left)//
 				// 刷新事件 等同于将当前的目录重新选择一次
 				.listen(SWT.Selection, e -> handlerEvent(SWT.Modify, this.path.length - 1, refreshAction));
@@ -89,7 +104,7 @@ public class AddressBar extends Composite {
 
 		if (path != null && path.length > 0) {
 			// 显示路径
-			Composite panel = Controls.comp(parent).formLayout().height(32).get();
+			Composite panel = Controls.comp(parent).formLayout().height(BAR_HEIGHT).get();
 			Control left = null;
 			for (int i = 0; i < path.length; i++) {
 				int folderIndex = i;
@@ -117,7 +132,7 @@ public class AddressBar extends Composite {
 	}
 
 	private void caculatePathItemBounds(Composite parent, Composite panel) {
-		Point panelSize = panel.computeSize(SWT.DEFAULT, 32);
+		Point panelSize = panel.computeSize(SWT.DEFAULT, BAR_HEIGHT);
 		panel.setSize(panelSize);
 		int offset = parent.getSize().x - panelSize.x - 8;
 		if (offset < 0) {
@@ -152,7 +167,7 @@ public class AddressBar extends Composite {
 			if (actionId.equals(a.getId())) {
 				boolean result = func != null && Boolean.TRUE.equals(func.apply(c));
 				String img = result ? a.getImage() : a.getImageDisabled();
-				c.setImageText(img, a.getText(), 16, 32);
+				c.setImageText(img, a.getText(), IMG_SIZE, BAR_HEIGHT);
 				c.get().setEnabled(result);
 				return;
 			}
@@ -168,12 +183,13 @@ public class AddressBar extends Composite {
 	 * @return
 	 */
 	private Controls<Button> createToolitem(Composite bar, Action action, boolean checkAuthority) {
-		if (checkAuthority && !hasAuthority(action)) // 如果检查权限，但权限没有验证通过
+		if (checkAuthority && authority != null && !authority.apply(action))
+			// 如果检查权限，但权限没有验证通过
 			return null;
 
 		String style = Check.option(action.getStyle()).orElse("compact");
 
-		Controls<Button> button = Controls.button(bar).rwt(style).setImageText(action.getImage(), action.getText(), 16, 32)
+		Controls<Button> button = Controls.button(bar).rwt(style).setImageText(action.getImage(), action.getText(), IMG_SIZE, BAR_HEIGHT)
 				.tooltips(action.getTooltips()).setData("action", action);
 		button.listen(SWT.Dispose, e -> controlHolder.remove(button));//
 		controlHolder.add(button);
@@ -182,17 +198,6 @@ public class AddressBar extends Composite {
 
 	private Controls<Label> createToolitemSeperator() {
 		return Controls.label(this, SWT.SEPARATOR | SWT.VERTICAL).loc(SWT.TOP | SWT.BOTTOM);
-	}
-
-	/**
-	 * 判断是否具有该操作的权限
-	 * 
-	 * @param action
-	 * @return
-	 */
-	private boolean hasAuthority(Action action) {
-		// TODO 权限开发
-		return true;
 	}
 
 	/**

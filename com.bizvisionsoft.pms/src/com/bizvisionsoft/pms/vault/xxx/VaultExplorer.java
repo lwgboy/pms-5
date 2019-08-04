@@ -1,4 +1,4 @@
-package com.bizvisionsoft.pms.vault;
+package com.bizvisionsoft.pms.vault.xxx;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +19,7 @@ import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.ui.AssemblyContainer;
 import com.bizvisionsoft.bruiengine.util.Controls;
+import com.bizvisionsoft.pms.vault.AddressBar;
 import com.bizvisionsoft.service.model.IFolder;
 import com.bizvisionsoft.service.model.VaultFolder;
 

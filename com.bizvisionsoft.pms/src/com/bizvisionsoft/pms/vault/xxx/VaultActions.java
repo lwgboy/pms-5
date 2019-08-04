@@ -1,4 +1,4 @@
-package com.bizvisionsoft.pms.vault;
+package com.bizvisionsoft.pms.vault.xxx;
 
 import com.bizvisionsoft.bruicommons.factory.action.ActionFactory;
 import com.bizvisionsoft.bruicommons.model.Action;
