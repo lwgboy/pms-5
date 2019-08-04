@@ -13,14 +13,12 @@ import org.eclipse.swt.widgets.Label;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.bizvisionsoft.bruicommons.factory.action.ActionFactory;
 import com.bizvisionsoft.bruicommons.model.Action;
 import com.bizvisionsoft.bruiengine.assembly.GridPart;
 import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.ui.AssemblyContainer;
 import com.bizvisionsoft.bruiengine.util.Controls;
-import com.bizvisionsoft.pms.vault.AddressBar.ActionEvent;
 import com.bizvisionsoft.service.model.IFolder;
 import com.bizvisionsoft.service.model.VaultFolder;
 
@@ -106,22 +104,22 @@ public abstract class VaultExplorer {
 		currentPath = createDemoPath();
 		Composite bar = new AddressBar(parent, currentPath, actions);
 		bar.addListener(SWT.SetData, e -> {
-			ActionEvent ae = (ActionEvent) e;
+			PathActionEvent ae = (PathActionEvent) e;
 			String msg = Stream.of(ae.path).map(f -> f.getName() + "/").reduce((s1, s2) -> s1 + s2).orElse("");
 			logger.debug("地址栏目录加载:" + msg);
 		});
 
 		bar.addListener(SWT.Modify, e -> {
-			ActionEvent ae = (ActionEvent) e;
+			PathActionEvent ae = (PathActionEvent) e;
 			String msg = Stream.of(ae.path).map(f -> f.getName() + "/").reduce((s1, s2) -> s1 + s2).orElse("");
 			logger.debug("地址栏目录更改:" + msg);
 			e.doit = true;// 必须设置为true,才能改变地址栏。默认为true, 当某些文件夹禁止访问时，可设置为false;
 		});
 
 		bar.addListener(SWT.Selection, e -> {
-			ActionEvent ae = (ActionEvent) e;
+			PathActionEvent ae = (PathActionEvent) e;
 			String msg = Stream.of(ae.path).map(f -> f.getName() + "/").reduce((s1, s2) -> s1 + s2).orElse("");
-			logger.debug("地址栏工具栏事件: " + ae.action.getText() + ", path" + msg);
+			logger.debug("地址栏工具栏事件: " + ae.action + ", 路径：" + msg);
 		});
 		return bar;
 	}
@@ -129,40 +127,71 @@ public abstract class VaultExplorer {
 	private IFolder[] createDemoPath() {
 		ArrayList<IFolder> path = new ArrayList<IFolder>();
 		VaultFolder folder = new VaultFolder();
-		folder.setDesc("TX00000001");
+		folder.setDesc("TX0000中文计算0001");
 		path.add(folder);
 
 		folder = new VaultFolder();
-		folder.setDesc("TX00000002");
+		folder.setDesc("TX0中文计算0000002");
 		path.add(folder);
 
 		folder = new VaultFolder();
-		folder.setDesc("TX00000003");
+		folder.setDesc("TX00中文计算000003");
+		path.add(folder);
+
+		folder = new VaultFolder();
+		folder.setDesc("TX000中文计算00004");
+		path.add(folder);
+
+		folder = new VaultFolder();
+		folder.setDesc("TX00中文计算000005");
+		path.add(folder);
+
+		folder = new VaultFolder();
+		folder.setDesc("TX000中文计算00006");
+		path.add(folder);
+
+		folder = new VaultFolder();
+		folder.setDesc("TX00中文计算000007");
+		path.add(folder);
+
+		folder = new VaultFolder();
+		folder.setDesc("TX0000中文计算0008");
+		path.add(folder);
+
+		folder = new VaultFolder();
+		folder.setDesc("TX000中文计算00009");
 		path.add(folder);
 		folder = new VaultFolder();
-		folder.setDesc("TX00000004");
-		path.add(folder);
-		folder = new VaultFolder();
-		folder.setDesc("TX00000005");
-		path.add(folder);
-		folder = new VaultFolder();
-		folder.setDesc("TX00000006");
-		path.add(folder);
-		folder = new VaultFolder();
-		folder.setDesc("TX00000007");
-		path.add(folder);
-		folder = new VaultFolder();
-		folder.setDesc("TX00000008");
-		path.add(folder);
-		folder = new VaultFolder();
-		folder.setDesc("TX00000009");
-		path.add(folder);
-		folder = new VaultFolder();
-		folder.setDesc("TX00000010");
+		folder.setDesc("TX00中文计算000010");
 		path.add(folder);
 		folder = new VaultFolder();
 		folder.setDesc("TX00000011");
 		path.add(folder);
+		folder = new VaultFolder();
+		folder.setDesc("TX00000012");
+		path.add(folder);
+		folder = new VaultFolder();
+		folder.setDesc("TX00000013");
+		path.add(folder);
+		folder = new VaultFolder();
+		folder.setDesc("TX0000中文计算0014");
+		path.add(folder);
+		folder = new VaultFolder();
+		folder.setDesc("TX00000015");
+		path.add(folder);
+		folder = new VaultFolder();
+		folder.setDesc("TX00000016");
+		path.add(folder);
+		folder = new VaultFolder();
+		folder.setDesc("TX0000中文计算0017");
+		path.add(folder);
+		folder = new VaultFolder();
+		folder.setDesc("TX00000018");
+		path.add(folder);
+		folder = new VaultFolder();
+		folder.setDesc("TX000中文计算00019");
+		path.add(folder);
+
 		return path.toArray(new IFolder[0]);
 	}
 
@@ -173,22 +202,20 @@ public abstract class VaultExplorer {
 		// TODO 操作
 
 		List<Action> actions = new ArrayList<Action>();
-		actions.add(new ActionFactory().img("/img/line_newFolder.svg").disImg("/img/line_newFolder_disable.svg").text("新建目录")
-				.tooltips("在当前目录下创建子目录").get());
-		actions.add(new ActionFactory().img("/img/line_newDoc.svg").text("新建文档").disImg("/img/line_newDoc_disable.svg")
-				.tooltips("在当前目录下创建文档").get());
+		actions.add(VaultActions.create(VaultActions.createSubFolder, true, true));
+		actions.add(VaultActions.create(VaultActions.createDocument, true, true));
 		result.add(actions);
 
 		actions = new ArrayList<Action>();
-		actions.add(new ActionFactory().img("/img/line_searchFolder.svg").text("查找目录").tooltips("在当前目录下查找子目录").get());
-		actions.add(new ActionFactory().img("/img/line_searchDoc.svg").text("查找文档").tooltips("在当前文件夹下查找文档").get());
-		actions.add(new ActionFactory().img("/img/line_search.svg").text("搜索").tooltips("在所有文件夹中查找文档").get());
+		actions.add(VaultActions.create(VaultActions.findSubFolder, true, true));
+		actions.add(VaultActions.create(VaultActions.findDocuments, true, true));
+		actions.add(VaultActions.create(VaultActions.search, true, false));
 		result.add(actions);
 
 		actions = new ArrayList<Action>();
-		actions.add(new ActionFactory().img("/img/line_sort.svg").text("排序").tooltips("对当前目录下的文档排序").get());
-		actions.add(new ActionFactory().img("/img/line_star.svg").text("收藏").tooltips("收藏当前目录").get());
-		actions.add(new ActionFactory().img("/img/line_setting.svg").text("属性").tooltips("设置当前目录的属性").get());
+		actions.add(VaultActions.create(VaultActions.sortDocuments, true, false));
+		actions.add(VaultActions.create(VaultActions.addFavour, true, false));
+		actions.add(VaultActions.create(VaultActions.setFolderProperties, true, false));
 		result.add(actions);
 		// 全局查找
 
