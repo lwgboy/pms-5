@@ -1365,6 +1365,10 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 		return ProblemChartRender.renderCountcreateCountClassifyProblemsChart(condition,domain);
 	}
 	@Override
+	public Document createCountOrganizationDeptsChart(Document condition,String domain) {
+		return ProblemChartRender.renderCountcreateCountOrganizationDeptsChart(condition,domain);
+	}
+	@Override
 	public Document createCountClassifyProblemXianXinChart(Document condition,String domain) {
 		return ProblemChartRender.renderCountcreateCountClassifyProblemXianXinChart(condition,domain);
 	}
@@ -1814,26 +1818,23 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 		long lon=count("Practice", domain, filter, prefixPipelines);
 		return lon;
 	}
-	
-	int i=0;
+
 	private double [] getDatas(List<?> list, List<String> xAxis, int direction) {
-		i=0;
 		Map<String, Double> map = new HashMap<String, Double>();
 		list.forEach(o ->map.put(((Document) o).getString("_id"), 
 				Double.parseDouble(((Document) o).getInteger("value").toString())));
 		Calendar cal = Calendar.getInstance();
 		double [] cValue = new double[12];
-		xAxis.forEach(date -> {
+	
+		for (int i = 0; i < xAxis.size(); i++) {
 			try {
-				cal.setTime(new SimpleDateFormat("yyyy-MM").parse(date));
+				cal.setTime(new SimpleDateFormat("yyyy-MM").parse(xAxis.get(i)));
 				cal.add(Calendar.MONTH, -1);
-				double pValue = Optional.ofNullable(map.get(date)).orElse(0d);
+				double pValue = Optional.ofNullable(map.get(xAxis.get(i))).orElse(0d);
 				cValue[i]=pValue;
-				i++;
 			} catch (ParseException e) {
-				
 			}
-		});
+		}
 		return cValue;
 	}
 	
@@ -1907,7 +1908,36 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 		return xAxisData;
 	}
 
-	
+	@Override
+	public List<Document> OrganizationDeptsListExpDetails(BasicDBObject condition, String domain) {
+		List<Bson> pipe = new ArrayList<>();
+    	pipe.add(new Document("$unwind", new Document("path", "$problem").append("preserveNullAndEmptyArrays", true)));
+		appendConditionToPipeline(pipe, condition);
+		ArrayList<Document> doc=c("organization", domain).aggregate(Domain.getJQ(domain, "查询-问题根分类-客诉责任归属分类-资源").set("anddate", "2019").array()).into(new ArrayList<>());
+		List<Document> Lists=new ArrayList<>();
+		List<String> xAxis = getXAxisOrganizationChart();
+		for (int i = 0; i < doc.size(); i++) {
+			Document data = doc.get(i);
+			String name = data.getString("_id");
+			double[] Doubles = getDatas((List<?>) data.get("source"), xAxis, -1);
+			Lists.add(new Document().append("name", name)
+					.append("January", Doubles[0]).append("February", Doubles[1]).append("March", Doubles[2]).append("April", Doubles[3])
+					.append("May", Doubles[4]).append("June", Doubles[5]).append("July", Doubles[6]).append("August", Doubles[7])
+					.append("September", Doubles[8]).append("October", Doubles[9]).append("November", Doubles[10]).append("December", Doubles[11])
+					.append("Total", Doubles[0]+Doubles[1]+Doubles[2]+Doubles[3]+Doubles[4]+Doubles[5]+Doubles[6]
+							+Doubles[7]+Doubles[8]+Doubles[9]+Doubles[10]+Doubles[11]));
+		}
+		return Lists;
+	}
+
+	@Override
+	public long OrganizationDeptsCountExpDetails(BasicDBObject filter, String domain) {
+		List<Bson> prefixPipelines = new ArrayList<>();
+		prefixPipelines.add(
+				new Document("$unwind", new Document("path", "$problem").append("preserveNullAndEmptyArrays", true)));
+		long lon=count("Practice", domain, filter, prefixPipelines);
+		return lon;
+	}
 	
 	
 	

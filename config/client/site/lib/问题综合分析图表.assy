@@ -58,7 +58,7 @@
           "verticalSpan": 1,
           "horizontalSpan": 2,
           "widthHint": -1,
-          "heightHint": -1
+          "heightHint": 320
         },
         {
           "id": "/问题损失按原因分类饼图.chartassy",
@@ -69,7 +69,7 @@
           "verticalSpan": 1,
           "horizontalSpan": 1,
           "widthHint": -1,
-          "heightHint": -1
+          "heightHint": 320
         }
       ]
     }
