@@ -145,7 +145,6 @@ public class DataServiceImpl extends MongoDBService implements DataService {
 		});
 	}
 
-
 	/////////////////////////////////////////////////////////////////////////////////////
 	// 查询
 	final protected <T> T get(ObjectId _id, Class<T> clazz, String domain) {
@@ -162,6 +161,24 @@ public class DataServiceImpl extends MongoDBService implements DataService {
 
 	final protected long count(BasicDBObject filter, String colName, String domain) {
 		return count(c(colName, domain), filter);
+	}
+
+	final protected long countDocument(Consumer<List<Bson>> input, BasicDBObject filter, Consumer<List<Bson>> output, String colName,
+			String domain) {
+		List<Bson> pipeline = new ArrayList<>();
+
+		if (input != null)
+			input.accept(pipeline);
+
+		if (filter != null)
+			pipeline.add(Aggregates.match(filter));
+
+		if (output != null)
+			output.accept(pipeline);
+		
+		pipeline.add(Aggregates.count("_count"));
+		Document doc = c(colName, domain).aggregate(pipeline).first();
+		return Optional.ofNullable(doc).map(d -> (Number) d.get("_count")).map(n -> n.longValue()).orElse(0l);
 	}
 
 	final protected <T> List<T> list(Class<T> clazz, String domain, BasicDBObject condition, Bson... appendPipelines) {
@@ -253,6 +270,24 @@ public class DataServiceImpl extends MongoDBService implements DataService {
 		return query(null, skip, limit, filter, sort, null, clazz, domain);
 	}
 
+	/**
+	 * 
+	 * @param input
+	 *            第1步. 添加到查询管道以前的管道
+	 * @param skip
+	 *            第5步.
+	 * @param limit
+	 *            第6步
+	 * @param filter
+	 *            第2步. filter-变成match
+	 * @param sort
+	 *            第3步.sort
+	 * @param output
+	 *            第7步 添加到查询管道最后的管道，一般用于sort,skip,limit没有传参数时手工添加
+	 * @param clazz
+	 * @param domain
+	 * @return
+	 */
 	final protected <T> List<T> query(Consumer<List<Bson>> input, Integer skip, Integer limit, BasicDBObject filter, BasicDBObject sort,
 			Consumer<List<Bson>> output, Class<T> clazz, String domain) {
 

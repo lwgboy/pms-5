@@ -3,6 +3,8 @@ package com.bizvisionsoft.serviceimpl;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
+import java.util.function.Consumer;
 
 import org.bson.Document;
 import org.bson.conversions.Bson;
@@ -14,8 +16,10 @@ import com.bizvisionsoft.service.model.Docu;
 import com.bizvisionsoft.service.model.DocuSetting;
 import com.bizvisionsoft.service.model.DocuTemplate;
 import com.bizvisionsoft.service.model.Folder;
+import com.bizvisionsoft.service.model.FolderDescriptor;
 import com.bizvisionsoft.service.model.FolderInTemplate;
 import com.bizvisionsoft.service.model.VaultFolder;
+import com.bizvisionsoft.service.tools.Formatter;
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.model.Aggregates;
 import com.mongodb.client.model.Field;
@@ -251,7 +255,7 @@ public class DocumentServiceImpl extends BasicServiceImpl implements DocumentSer
 	public long deleteDocumentSetting(ObjectId _id, String domain) {
 		return delete(_id, DocuSetting.class, domain);
 	}
-	
+
 	@Override
 	public List<VaultFolder> listContainer(BasicDBObject condition, String domain) {
 		if (condition != null)
@@ -270,10 +274,10 @@ public class DocumentServiceImpl extends BasicServiceImpl implements DocumentSer
 	public List<Document> listContainerDocument(BasicDBObject condition, String domain) {
 		List<Document> result = new ArrayList<Document>();
 		if (condition != null) {
-			//TODO createDataSet需要支持直接传入集合名称的方法
-//			createDataSet(condition, Docu.class, domain)
-//					.forEach((Docu docu) -> result.add(BsonTools.encodeDocument(docu)));
-			
+			// TODO createDataSet需要支持直接传入集合名称的方法
+			// createDataSet(condition, Docu.class, domain)
+			// .forEach((Docu docu) -> result.add(BsonTools.encodeDocument(docu)));
+
 			Integer skip = (Integer) condition.get("skip");
 			Integer limit = (Integer) condition.get("limit");
 			BasicDBObject filter = (BasicDBObject) condition.get("filter");
@@ -305,6 +309,46 @@ public class DocumentServiceImpl extends BasicServiceImpl implements DocumentSer
 		if (filter != null)
 			return count(filter, Docu.class, domain);
 		return 0;
+	}
+
+	@Override
+	public List<VaultFolder> listFolder(BasicDBObject condition, ObjectId parent_id, String userId, String domain) {
+		Integer skip = Optional.ofNullable((Integer) condition.get("skip")).orElse(null);
+		Integer limit = Optional.ofNullable((Integer) condition.get("limit")).orElse(null);
+
+		parent_id = parent_id.equals(Formatter.ZeroObjectId()) ? null : parent_id;
+
+		BasicDBObject filter = Optional.ofNullable((BasicDBObject) condition.get("filter")).orElse(new BasicDBObject())//
+				.append("parent_id", parent_id);
+		BasicDBObject sort = Optional.ofNullable((BasicDBObject) condition.get("sort")).orElse(new BasicDBObject("_id", -1));
+		Consumer<List<Bson>> input = p -> appendAuthQueryPipeline(p, userId);
+		Consumer<List<Bson>> output = p -> appendFolderAdditionInfoQueryPipeline(p, userId);
+		return query(input, skip, limit, filter, sort, output, VaultFolder.class, domain);
+	}
+
+	private void appendFolderAdditionInfoQueryPipeline(List<Bson> p, String userId) {
+		// TODO 补充目录的其他属性查询管道
+	}
+
+	private void appendAuthQueryPipeline(List<Bson> pipeling, String userId) {
+		// TODO 【权限】 需要补充权限查询的管道
+
+	}
+
+	@Override
+	public long countFolder(BasicDBObject filter, ObjectId parent_id, String userId, String domain) {
+		parent_id = parent_id.equals(Formatter.ZeroObjectId()) ? null : parent_id;
+
+		filter = Optional.ofNullable(filter).orElse(new BasicDBObject()).append("parent_id", parent_id);
+		// TODO 【权限】
+		Consumer<List<Bson>> input = p -> appendAuthQueryPipeline(p, userId);
+		return countDocument(input, filter, null, "folder", domain);
+	}
+
+	@Override
+	public List<FolderDescriptor> getPath(ObjectId _id) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
-import org.bson.types.ObjectId;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -12,13 +11,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.bizvisionsoft.bruicommons.model.Action;
+import com.bizvisionsoft.bruicommons.model.Assembly;
 import com.bizvisionsoft.bruiengine.assembly.GridPart;
 import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.ui.AssemblyContainer;
 import com.bizvisionsoft.bruiengine.util.Controls;
 import com.bizvisionsoft.service.model.IFolder;
-import com.bizvisionsoft.service.model.VaultFolder;
 
 public abstract class VaultExplorer {
 
@@ -32,9 +31,9 @@ public abstract class VaultExplorer {
 
 	protected GridPart filePane;
 
-	private IFolder[] currentPath;
-
 	private AddressBar addressBar;
+
+	private IFolder currentFolder;
 
 	public VaultExplorer() {
 	}
@@ -50,8 +49,8 @@ public abstract class VaultExplorer {
 	}
 
 	protected void init() {
-		ObjectId[] root = getRootFolder();
-		context.setInput(root);
+		currentFolder = getCurrentFolder();
+		context.setInput(currentFolder);
 	}
 
 	public void createUI(Composite parent) {
@@ -69,7 +68,7 @@ public abstract class VaultExplorer {
 	 * 
 	 * @return
 	 */
-	public abstract ObjectId[] getRootFolder();
+	public abstract IFolder getCurrentFolder();
 
 	/**
 	 * 创建顶部工具栏
@@ -79,7 +78,10 @@ public abstract class VaultExplorer {
 	 */
 	private Composite createAddressBar(Composite parent) {
 		List<List<Action>> actions = createToolbarActions();
-		addressBar = new AddressBar(parent, currentPath, actions, this::checkAuthority);
+		
+		IFolder[] path = getPath(currentFolder);
+		
+		addressBar = new AddressBar(parent, path, actions, this::checkAuthority);
 		addressBar.addListener(SWT.SetData, e -> {
 			PathActionEvent ae = (PathActionEvent) e;
 			String msg = Stream.of(ae.path).map(f -> f.getName() + "/").reduce((s1, s2) -> s1 + s2).orElse("");
@@ -100,6 +102,8 @@ public abstract class VaultExplorer {
 		});
 		return addressBar;
 	}
+
+	protected abstract IFolder[] getPath(IFolder folder) ;
 
 	private List<List<Action>> createToolbarActions() {
 		List<List<Action>> result = new ArrayList<>();
@@ -152,13 +156,15 @@ public abstract class VaultExplorer {
 	private Composite createNaviPane(Composite parent) {
 		// 创建文件夹组件
 		AssemblyContainer left = new AssemblyContainer(parent, context)//
-				.setAssembly(br.getAssembly("vault/目录导航.gridassy"))//
+				.setAssembly(getNavigatorAssembly())//
 				.setServices(br)//
-				.setInput(getRootFolder())// 设置输入为当前的根目录，这个输入可以在DS中被调用
+				.setInput(currentFolder)//
 				.create();
 
 		return left.getContainer();
 	}
+
+	protected abstract Assembly getNavigatorAssembly() ;
 
 	/**
 	 * // TODO 检查权限

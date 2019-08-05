@@ -27,6 +27,7 @@ import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
 
 import org.bson.Document;
+import org.bson.types.ObjectId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -866,6 +867,13 @@ public class Formatter {
 		// 根据输出流创建字符串对象
 		String result = new String(bos.toByteArray(), charsetName);
 		return result;
+	}
+
+	/**
+	 * @return 返回一个为0的ObjectId, 可用于PathParam传递，替代null。服务端接受后可处理null
+	 */
+	public static ObjectId ZeroObjectId() {
+		return ObjectId.createFromLegacyFormat(0, 0, 0);
 	}
 
 }

@@ -21,6 +21,7 @@ import com.bizvisionsoft.service.model.Docu;
 import com.bizvisionsoft.service.model.DocuSetting;
 import com.bizvisionsoft.service.model.DocuTemplate;
 import com.bizvisionsoft.service.model.Folder;
+import com.bizvisionsoft.service.model.FolderDescriptor;
 import com.bizvisionsoft.service.model.FolderInTemplate;
 import com.mongodb.BasicDBObject;
 
@@ -291,4 +292,31 @@ public interface DocumentService {
 	@DataSet("资料库文件列表/" + DataSet.COUNT)
 	public long countContainerDocument(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
 			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+	
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//TODO 注意清除上述垃圾代码
+	@POST
+	@Path("/{domain}/fld/parent_id/{parent_id}/{userId}/ds")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("目录导航/list")
+	public List<VaultFolder> listFolder(@MethodParam(MethodParam.CONDITION) BasicDBObject condition, // 查询条件
+			@MethodParam(MethodParam.CONTEXT_INPUT_OBJECT_ID) @PathParam("parent_id") ObjectId parent_id,
+			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userId") String userId,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain ) ;
+	@POST
+	@Path("/{domain}/fld/parent_id/{parent_id}/{userId}/count")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("目录导航/count")
+	public long countFolder(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
+			@MethodParam(MethodParam.CONTEXT_INPUT_OBJECT_ID) @PathParam("parent_id") ObjectId parent_id,
+			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userId") String userId,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+
+	@GET
+	@Path("/{domain}/fld/_id/{_id}/path")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public List<FolderDescriptor> getPath(ObjectId folder_id);
 }

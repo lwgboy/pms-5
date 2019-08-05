@@ -1,6 +1,6 @@
 {
   "id": "/项目档案库文件夹.gridassy",
-  "name": "资料库文件夹",
+  "name": "目录导航",
   "layout": [],
   "type": "grid",
   "folderId": "163dac10775",
@@ -8,14 +8,14 @@
   "gridMarkupEnabled": true,
   "gridHasVScroll": true,
   "gridPageControl": true,
-  "gridDataSetService": "",
-  "gridDataSetBundleId": "com.bizvisionsoft.pms",
-  "gridDataSetClassName": "com.bizvisionsoft.pms.vault.VaultDS",
+  "gridDataSetService": "com.bizvisionsoft.service.DocumentService",
+  "gridDataSetBundleId": "",
+  "gridDataSetClassName": "",
   "gridPageCount": 20,
   "columns": [
     {
       "id": "163dad257be",
-      "name": "folderName",
+      "name": "desc",
       "text": "",
       "alignment": 16384,
       "width": 80,

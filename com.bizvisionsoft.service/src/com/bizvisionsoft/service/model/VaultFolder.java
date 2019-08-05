@@ -10,22 +10,20 @@ import com.bizvisionsoft.annotations.md.mongocodex.Exclude;
 import com.bizvisionsoft.annotations.md.mongocodex.Persistence;
 import com.bizvisionsoft.annotations.md.mongocodex.PersistenceCollection;
 import com.bizvisionsoft.annotations.md.mongocodex.SetValue;
-import com.bizvisionsoft.annotations.md.service.DataSet;
 import com.bizvisionsoft.annotations.md.service.ImageURL;
 import com.bizvisionsoft.annotations.md.service.Label;
 import com.bizvisionsoft.annotations.md.service.ReadValue;
-import com.bizvisionsoft.annotations.md.service.Structure;
 import com.bizvisionsoft.annotations.md.service.WriteValue;
 import com.bizvisionsoft.service.CommonService;
-import com.bizvisionsoft.service.DocumentService;
 import com.bizvisionsoft.service.OrganizationService;
 import com.bizvisionsoft.service.ServicesLoader;
 import com.bizvisionsoft.service.datatools.Query;
+import com.bizvisionsoft.service.tools.Formatter;
 import com.mongodb.BasicDBObject;
 
 @PersistenceCollection("folder")
 public class VaultFolder implements IFolder {
-
+	
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// 基本的一些字段
 
@@ -148,57 +146,44 @@ public class VaultFolder implements IFolder {
 		}
 	}
 
-	@ReadValue("type")
-	@WriteValue("type")
+	@ReadValue("资料库设置/type")
 	private String getType() {
 		if ("pm".equals(containertype))
 			return "PM资料库";
 		if ("wc".equals(containertype))
 			return "Windchill容器";
-		if ("dcpdm".equals(containertype))
-			return "DCPDM";
-
-		return "其他";
+		return "";
 	}
 
-	@ImageURL({ "资料库文件夹/folderName", "项目资料库文件夹/folderName" })
+	@ImageURL("desc")
 	private String getHTMLName() {
-		String iconUrl;
-		if (parent_id == null) {
-			iconUrl = "/img/cabinet_c.svg";
-		} else if (isflderroot) {
-			iconUrl = "/img/folder_project.svg";
-		} else {
-			iconUrl = "/img/folder_closed.svg";
+		//如果是容器，返回容器图标
+		if(iscontainer) {
+			return "/img/cabinet_c.svg";
+		}else if(isflderroot){
+			return "/img/folder_project.svg";
+		}else if(opened) {
+			return "/img/folder_opened.svg";
+		}else {
+			return "/img/folder_closed.svg";
 		}
-		return iconUrl;
 	}
 
-	@ReadValue("文件夹选择列表/folderName")
-	private String getHTMLName2() {
-		String iconUrl;
-		if (parent_id == null) {
-			iconUrl = "rwt-resources/extres/img/cabinet_c.svg";
-		} else if (opened) {
-			iconUrl = "rwt-resources/extres/img/folder_opened.svg";
-		} else {
-			iconUrl = "rwt-resources/extres/img/folder_closed.svg";
-		}
-		String html = "<div class='brui_ly_hline'>" + "<img src=" + iconUrl + " style='margin-right:8px;' width='20px' height='20px'/>"
-				+ "<div style='flex:auto;'>" + desc + "</div>" + "</div>";
-		return html;
-	}
+//	@ReadValue("文件夹选择列表/folderName")
+//	private String getHTMLName2() {
+//		String iconUrl;
+//		if (parent_id == null) {
+//			iconUrl = "rwt-resources/extres/img/cabinet_c.svg";
+//		} else if (opened) {
+//			iconUrl = "rwt-resources/extres/img/folder_opened.svg";
+//		} else {
+//			iconUrl = "rwt-resources/extres/img/folder_closed.svg";
+//		}
+//		String html = "<div class='brui_ly_hline'>" + "<img src=" + iconUrl + " style='margin-right:8px;' width='20px' height='20px'/>"
+//				+ "<div style='flex:auto;'>" + desc + "</div>" + "</div>";
+//		return html;
+//	}
 
-	@Structure("项目资料库文件夹/" + DataSet.LIST)
-	private List<VaultFolder> listChildren() {
-		return ServicesLoader.get(DocumentService.class).listContainer(new Query().filter(new BasicDBObject("parent_id", _id)).bson(),
-				domain);
-	}
-
-	@Structure("项目资料库文件夹/" + DataSet.COUNT)
-	private long countChildren() {
-		return ServicesLoader.get(DocumentService.class).countContainer(new BasicDBObject("parent_id", _id), domain);
-	}
 
 	@Override
 	@Label
@@ -214,13 +199,9 @@ public class VaultFolder implements IFolder {
 		return _id;
 	}
 
-	public void set_id(ObjectId _id) {
+	public VaultFolder set_id(ObjectId _id) {
 		this._id = _id;
-	}
-
-	@ReadValue({ "资料库文件夹/folderName", "项目资料库文件夹/folderName" })
-	public String getDesc() {
-		return desc;
+		return this;
 	}
 
 	public VaultFolder setDesc(String desc) {
@@ -247,16 +228,18 @@ public class VaultFolder implements IFolder {
 		return isflderroot;
 	}
 
-	public void setflderroot(boolean isflderroot) {
+	public VaultFolder setflderroot(boolean isflderroot) {
 		this.isflderroot = isflderroot;
+		return this;
 	}
 
 	public ObjectId getRoot_id() {
 		return root_id;
 	}
 
-	public void setRoot_id(ObjectId root_id) {
+	public VaultFolder setRoot_id(ObjectId root_id) {
 		this.root_id = root_id;
+		return this;
 	}
 
 	@Override
@@ -270,8 +253,9 @@ public class VaultFolder implements IFolder {
 		return iscontainer;
 	}
 
-	public void setIsContainer(boolean iscontainer) {
+	public VaultFolder setIsContainer(boolean iscontainer) {
 		this.iscontainer = iscontainer;
+		return this;
 	}
 
 	public static VaultFolder getInstance(Project project, boolean isflderroot, String domain) {

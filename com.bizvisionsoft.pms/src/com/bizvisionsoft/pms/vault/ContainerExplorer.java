@@ -1,13 +1,20 @@
 package com.bizvisionsoft.pms.vault;
 
-import org.bson.types.ObjectId;
+import java.util.List;
+
 import org.eclipse.swt.widgets.Composite;
 
 import com.bizvisionsoft.annotations.ui.common.CreateUI;
 import com.bizvisionsoft.annotations.ui.common.Init;
 import com.bizvisionsoft.annotations.ui.common.Inject;
+import com.bizvisionsoft.bruicommons.model.Assembly;
 import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
+import com.bizvisionsoft.service.DocumentService;
+import com.bizvisionsoft.service.model.FolderDescriptor;
+import com.bizvisionsoft.service.model.IFolder;
+import com.bizvisionsoft.service.model.VaultFolder;
+import com.bizvisionsoft.serviceconsumer.Services;
 
 public class ContainerExplorer extends VaultExplorer {
 
@@ -33,8 +40,23 @@ public class ContainerExplorer extends VaultExplorer {
 	}
 
 	@Override
-	public ObjectId[] getRootFolder() {
-		return new ObjectId[] {new ObjectId("5c679e4a1bd81d4bb0206064"),new ObjectId("5c679e4a1bd81d4bb0206065"),new ObjectId("5c679e4a1bd81d4bb0206066")};
+	public IFolder getCurrentFolder() {
+		return IFolder.Null;
+	}
+
+	@Override
+	protected IFolder[] getPath(IFolder folder) {
+		if (IFolder.Null.equals(folder)) {
+			return null;
+		} else {
+			List<FolderDescriptor> result = Services.get(DocumentService.class).getPath(folder.get_id());
+			return result.toArray(new IFolder[0]);
+		}
+	}
+
+	@Override
+	protected Assembly getNavigatorAssembly() {
+		return br.getAssembly("vault/Ä¿Â¼µ¼º½.gridassy");
 	}
 
 }
