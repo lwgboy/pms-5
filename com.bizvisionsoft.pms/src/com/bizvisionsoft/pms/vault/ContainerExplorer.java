@@ -11,7 +11,6 @@ import com.bizvisionsoft.bruicommons.model.Assembly;
 import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.service.DocumentService;
-import com.bizvisionsoft.service.model.FolderDescriptor;
 import com.bizvisionsoft.service.model.IFolder;
 import com.bizvisionsoft.service.model.VaultFolder;
 import com.bizvisionsoft.serviceconsumer.Services;
@@ -49,7 +48,7 @@ public class ContainerExplorer extends VaultExplorer {
 		if (IFolder.Null.equals(folder)) {
 			return null;
 		} else {
-			List<FolderDescriptor> result = Services.get(DocumentService.class).getPath(folder.get_id());
+			List<VaultFolder> result = Services.get(DocumentService.class).getPath(folder.get_id());
 			return result.toArray(new IFolder[0]);
 		}
 	}

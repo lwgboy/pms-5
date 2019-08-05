@@ -16,13 +16,12 @@ import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.annotations.md.service.DataSet;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
-import com.bizvisionsoft.service.model.VaultFolder;
 import com.bizvisionsoft.service.model.Docu;
 import com.bizvisionsoft.service.model.DocuSetting;
 import com.bizvisionsoft.service.model.DocuTemplate;
 import com.bizvisionsoft.service.model.Folder;
-import com.bizvisionsoft.service.model.FolderDescriptor;
 import com.bizvisionsoft.service.model.FolderInTemplate;
+import com.bizvisionsoft.service.model.VaultFolder;
 import com.mongodb.BasicDBObject;
 
 import io.swagger.annotations.Api;
@@ -318,5 +317,5 @@ public interface DocumentService {
 	@Path("/{domain}/fld/_id/{_id}/path")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public List<FolderDescriptor> getPath(ObjectId folder_id);
+	public List<VaultFolder> getPath(ObjectId folder_id);
 }

@@ -16,7 +16,6 @@ import com.bizvisionsoft.service.model.Docu;
 import com.bizvisionsoft.service.model.DocuSetting;
 import com.bizvisionsoft.service.model.DocuTemplate;
 import com.bizvisionsoft.service.model.Folder;
-import com.bizvisionsoft.service.model.FolderDescriptor;
 import com.bizvisionsoft.service.model.FolderInTemplate;
 import com.bizvisionsoft.service.model.VaultFolder;
 import com.bizvisionsoft.service.tools.Formatter;
@@ -346,7 +345,7 @@ public class DocumentServiceImpl extends BasicServiceImpl implements DocumentSer
 	}
 
 	@Override
-	public List<FolderDescriptor> getPath(ObjectId _id) {
+	public List<VaultFolder> getPath(ObjectId _id) {
 		// TODO Auto-generated method stub
 		return null;
 	}
