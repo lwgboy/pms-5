@@ -1,0 +1,128 @@
+{
+  "id": "/8D问题看板.assy",
+  "name": "8D问题看板",
+  "layout": [
+    {
+      "id": "167e9fd9e6f",
+      "name": "默认",
+      "columnCount": 1,
+      "horizontalSpacing": 0,
+      "verticalSpacing": 0,
+      "makeColumnsEqualWidth": true,
+      "marginHeight": 0,
+      "marginTop": 16,
+      "marginWidth": 8,
+      "css": "brui_bg_deep_relief",
+      "itemCss": "",
+      "layoutType": "lane",
+      "assemblys": [
+        {
+          "id": "/tops/acoustics/D0问题初始记录.boardassy",
+          "horizontalAlignment": 4,
+          "verticalAlignment": 16777216,
+          "grabExcessHorizontalSpace": true,
+          "verticalSpan": 1,
+          "horizontalSpan": 1,
+          "widthHint": -1,
+          "heightHint": -1
+        },
+        {
+          "id": "/D1多功能小组.boardassy",
+          "horizontalAlignment": 4,
+          "verticalAlignment": 16777216,
+          "grabExcessHorizontalSpace": true,
+          "verticalSpan": 1,
+          "horizontalSpan": 1,
+          "widthHint": -1,
+          "heightHint": -1
+        },
+        {
+          "id": "/D2问题描述.boardassy",
+          "horizontalAlignment": 4,
+          "verticalAlignment": 16777216,
+          "grabExcessHorizontalSpace": true,
+          "verticalSpan": 1,
+          "horizontalSpan": 1,
+          "widthHint": -1,
+          "heightHint": -1
+        },
+        {
+          "id": "/D3临时控制行动.boardassy",
+          "horizontalAlignment": 4,
+          "verticalAlignment": 16777216,
+          "grabExcessHorizontalSpace": true,
+          "verticalSpan": 1,
+          "horizontalSpan": 1,
+          "widthHint": -1,
+          "heightHint": -1
+        },
+        {
+          "id": "/D4根本原因分析.boardassy",
+          "horizontalAlignment": 4,
+          "verticalAlignment": 16777216,
+          "grabExcessHorizontalSpace": true,
+          "verticalSpan": 1,
+          "horizontalSpan": 1,
+          "widthHint": -1,
+          "heightHint": -1
+        },
+        {
+          "id": "/D5永久措施.boardassy",
+          "horizontalAlignment": 4,
+          "verticalAlignment": 16777216,
+          "grabExcessHorizontalSpace": true,
+          "verticalSpan": 1,
+          "horizontalSpan": 1,
+          "widthHint": -1,
+          "heightHint": -1
+        },
+        {
+          "id": "/D6执行和确认.boardassy",
+          "horizontalAlignment": 4,
+          "verticalAlignment": 16777216,
+          "grabExcessHorizontalSpace": true,
+          "verticalSpan": 1,
+          "horizontalSpan": 1,
+          "widthHint": -1,
+          "heightHint": -1
+        },
+        {
+          "id": "/D7系统预防.boardassy",
+          "horizontalAlignment": 4,
+          "verticalAlignment": 16777216,
+          "grabExcessHorizontalSpace": true,
+          "verticalSpan": 1,
+          "horizontalSpan": 1,
+          "widthHint": -1,
+          "heightHint": -1
+        },
+        {
+          "id": "/D8关闭结案.boardassy",
+          "horizontalAlignment": 4,
+          "verticalAlignment": 16777216,
+          "grabExcessHorizontalSpace": true,
+          "verticalSpan": 1,
+          "horizontalSpan": 1,
+          "widthHint": -1,
+          "heightHint": -1
+        }
+      ],
+      "laneWidth": 320
+    }
+  ],
+  "folderId": "168987781d7",
+  "actions": [],
+  "rowActions": [],
+  "candidates": [
+    "/D0紧急反应行动.boardassy",
+    "/D1多功能小组.boardassy",
+    "/D2问题描述.boardassy",
+    "/D3临时控制行动.boardassy",
+    "/D4根本原因分析.boardassy",
+    "/D5永久措施.boardassy",
+    "/D6执行和确认.boardassy",
+    "/D7系统预防.boardassy",
+    "/D8关闭结案.boardassy",
+    "/D0问题初始记录.boardassy"
+  ]
+}

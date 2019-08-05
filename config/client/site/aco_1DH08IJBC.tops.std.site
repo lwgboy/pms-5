@@ -263,7 +263,7 @@
               {
                 "id": "1683ba1f2d2",
                 "name": "问题初始记录",
-                "switchContentToAssemblyId": "/D0问题初始记录信息面板.infopadassy",
+                "switchContentToAssemblyId": "/tops/acoustics/D0问题初始记录信息面板.infopadassy",
                 "type": "switch"
               },
               {
@@ -476,7 +476,7 @@
       "contentArea": {
         "assemblyLinks": [
           {
-            "id": "/8D问题看板.assy",
+            "id": "/tops/acoustics/8D问题看板.assy",
             "text": "8D问题看板"
           }
         ]
@@ -598,7 +598,7 @@
               {
                 "id": "167fcea4338",
                 "name": "问题数据库",
-                "switchContentToAssemblyId": "/问题清单（问题数据库）.gridassy",
+                "switchContentToAssemblyId": "/tops/acoustics/问题清单（问题数据库）.gridassy",
                 "type": "switch",
                 "parameters": "",
                 "passParametersToAssembly": ""
