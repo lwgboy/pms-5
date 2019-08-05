@@ -57,7 +57,7 @@ public class ProjectExplorer extends VaultExplorer {
 
 
 	@Override
-	public IFolder getCurrentFolder() {
+	public IFolder getInitialFolder() {
 		return VaultFolder.Null;
 		// TODO Auto-generated method stub
 	}

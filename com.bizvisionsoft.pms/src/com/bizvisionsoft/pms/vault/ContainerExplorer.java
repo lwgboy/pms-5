@@ -39,7 +39,7 @@ public class ContainerExplorer extends VaultExplorer {
 	}
 
 	@Override
-	public IFolder getCurrentFolder() {
+	public IFolder getInitialFolder() {
 		return IFolder.Null;
 	}
 

@@ -35,46 +35,50 @@
       "children": [
         {
           "id": "f646abf731d",
-          "name": "打开",
+          "name": "openFolder",
           "text": "打开",
           "image": "/img/open_w.svg",
           "bundleId": "com.bizvisionsoft.pms",
           "className": "com.bizvisionsoft.pms.vault.VaultACT",
           "style": "normal",
+          "actionBehavier": true,
           "type": "customized",
           "verticalSpan": 0
         },
         {
           "id": "f682af3c239",
-          "name": "移动",
+          "name": "moveFolder",
           "text": "移动",
           "image": "/img/menu_w.svg",
           "bundleId": "com.bizvisionsoft.pms",
-          "className": "",
+          "className": "com.bizvisionsoft.pms.vault.VaultACT",
           "style": "normal",
+          "actionBehavier": true,
           "type": "customized"
         },
         {
           "id": "f6502da06cd",
-          "name": "删除",
+          "name": "deleteFolder",
           "text": "删除",
           "image": "/img/delete_w.svg",
           "bundleId": "com.bizvisionsoft.pms",
-          "className": "",
+          "className": "com.bizvisionsoft.pms.vault.VaultACT",
           "forceText": true,
           "style": "normal",
+          "actionBehavier": true,
           "type": "customized",
           "verticalSpan": 0
         },
         {
           "id": "f6502da91f9",
-          "name": "重命名",
+          "name": "renameFolder",
           "text": "重命名",
           "image": "/img/reset_w.svg",
           "bundleId": "com.bizvisionsoft.pms",
-          "className": "",
+          "className": "com.bizvisionsoft.pms.vault.VaultACT",
           "forceText": true,
           "style": "normal",
+          "actionBehavier": true,
           "type": "customized",
           "verticalSpan": 0
         }

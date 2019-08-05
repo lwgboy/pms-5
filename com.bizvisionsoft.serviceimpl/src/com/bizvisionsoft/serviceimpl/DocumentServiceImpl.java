@@ -319,7 +319,7 @@ public class DocumentServiceImpl extends BasicServiceImpl implements DocumentSer
 
 		BasicDBObject filter = Optional.ofNullable((BasicDBObject) condition.get("filter")).orElse(new BasicDBObject())//
 				.append("parent_id", parent_id);
-		BasicDBObject sort = Optional.ofNullable((BasicDBObject) condition.get("sort")).orElse(new BasicDBObject("_id", -1));
+		BasicDBObject sort = Optional.ofNullable((BasicDBObject) condition.get("sort")).orElse(new BasicDBObject("_id", 1));
 		Consumer<List<Bson>> input = p -> appendAuthQueryPipeline(p, userId);
 		Consumer<List<Bson>> output = p -> appendFolderAdditionInfoQueryPipeline(p, userId);
 		return query(input, skip, limit, filter, sort, output, VaultFolder.class, domain);

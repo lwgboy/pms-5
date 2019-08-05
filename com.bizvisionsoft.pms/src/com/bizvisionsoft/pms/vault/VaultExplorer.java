@@ -18,6 +18,7 @@ import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.ui.AssemblyContainer;
 import com.bizvisionsoft.bruiengine.util.Controls;
 import com.bizvisionsoft.service.model.IFolder;
+import com.bizvisionsoft.service.tools.Check;
 
 public abstract class VaultExplorer {
 
@@ -33,7 +34,7 @@ public abstract class VaultExplorer {
 
 	private AddressBar addressBar;
 
-	private IFolder currentFolder;
+	private BruiAssemblyContext contextNavi;
 
 	public VaultExplorer() {
 	}
@@ -49,8 +50,7 @@ public abstract class VaultExplorer {
 	}
 
 	protected void init() {
-		currentFolder = getCurrentFolder();
-		context.setInput(currentFolder);
+		context.setInput(getInitialFolder());
 	}
 
 	public void createUI(Composite parent) {
@@ -68,7 +68,7 @@ public abstract class VaultExplorer {
 	 * 
 	 * @return
 	 */
-	public abstract IFolder getCurrentFolder();
+	public abstract IFolder getInitialFolder();
 
 	/**
 	 * 创建顶部工具栏
@@ -79,9 +79,9 @@ public abstract class VaultExplorer {
 	private Composite createAddressBar(Composite parent) {
 		List<List<Action>> actions = createToolbarActions();
 
-		IFolder[] path = getPath(currentFolder);
+		IFolder[] path = getPath(context.getInput(IFolder.class, true));
 
-		addressBar = new AddressBar(parent, path, actions, this::checkAuthority);
+		addressBar = new AddressBar(parent, path, actions, this::checkActionAuthorityOfCurrentFolder);
 		addressBar.addListener(SWT.SetData, e -> {
 			PathActionEvent ae = (PathActionEvent) e;
 			String msg = Stream.of(ae.path).map(f -> f.getName() + "/").reduce((s1, s2) -> s1 + s2).orElse("");
@@ -90,9 +90,7 @@ public abstract class VaultExplorer {
 
 		addressBar.addListener(SWT.Modify, e -> {
 			PathActionEvent ae = (PathActionEvent) e;
-			String msg = Stream.of(ae.path).map(f -> f.getName() + "/").reduce((s1, s2) -> s1 + s2).orElse("");
-			logger.debug("地址栏目录更改:" + msg);
-			e.doit = true;// 必须设置为true,才能改变地址栏。默认为true, 当某些文件夹禁止访问时，可设置为false;
+			e.doit = doPathModified(ae.path);// 必须设置为true,才能改变地址栏。默认为true, 当某些文件夹禁止访问时，可设置为false;
 		});
 
 		addressBar.addListener(SWT.Selection, e -> {
@@ -159,22 +157,90 @@ public abstract class VaultExplorer {
 		// 对组件样式修改
 		assy.setGridPageControlStyle("SHORT");
 		// 加载组件
-		return new AssemblyContainer(parent, context)//
+		AssemblyContainer ac = new AssemblyContainer(parent, context)//
 				.setAssembly(assy)//
 				.setServices(br)//
-				.setInput(currentFolder)//
-				.create().getContainer();
+				.setInput(context.getInput(IFolder.class, true))//
+				.create();
+		contextNavi = ac.getContext();
+		return ac.getContainer();
 	}
 
 	protected abstract Assembly getNavigatorAssembly();
 
 	/**
-	 * // TODO 检查权限
 	 * 
 	 * @param a
 	 * @return
 	 */
-	private boolean checkAuthority(Action a) {
+	private boolean checkActionAuthorityOfCurrentFolder(Action a) {
+		return checkFolderAuthority(context.getInput(IFolder.class, false), a.getName());
+	}
+
+	private boolean checkFolderAuthority(IFolder input, String actionName) {
+		// TODO 检查权限
+		// TODO Auto-generated method stub
 		return true;
+	}
+
+	private boolean doPathModified(IFolder[] path) {
+		IFolder folder;
+		if (Check.isNotAssigned(path)) {
+			folder = getInitialFolder();
+		} else {
+			folder = path[path.length - 1];
+		}
+		context.setInput(folder);
+		contextNavi.setInput(folder);
+		GridPart navi = (GridPart) contextNavi.getContent();
+		navi.doRefresh();
+
+		// TODO 检查权限？是否可以浏览本目录
+		return true;
+	}
+
+	private void doSetCurrentFolder(IFolder folder) {
+		context.setInput(folder);
+		contextNavi.setInput(folder);
+		IFolder[] path = getPath(folder);
+		addressBar.setPath(path);
+		GridPart navi = (GridPart) contextNavi.getContent();
+		navi.doRefresh();
+		// TODO 其他上下文的input设置
+
+	}
+
+	private void doDeleteFolder(IFolder folder) {
+		// TODO Auto-generated method stub
+		logger.debug("doDeleteFolder:" + folder);
+
+	}
+
+	private void doMoveFolder(IFolder folder) {
+		// TODO Auto-generated method stub
+		logger.debug("doMoveFolder:" + folder);
+
+	}
+
+	private void doRenameFolder(IFolder folder) {
+		logger.debug("doRenameFolder:" + folder);
+	}
+
+	public void handleAction(IFolder folder, Action action) {
+		boolean authorized = checkFolderAuthority(folder, action.getName());
+		if (!authorized)
+			return;
+		
+		String name = action.getName();
+		if (VaultActions.openFolder.name().equals(name)) {
+			doSetCurrentFolder(folder);
+		} else if (VaultActions.deleteFolder.name().equals(name)) {
+			doDeleteFolder(folder);
+		} else if (VaultActions.moveFolder.name().equals(name)) {
+			doMoveFolder(folder);
+		} else if (VaultActions.renameFolder.name().equals(name)) {
+			doRenameFolder(folder);
+		}
+
 	}
 }

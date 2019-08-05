@@ -85,7 +85,8 @@ public class AddressBar extends Composite {
 		Label end = createToolitemSeperator().right(btn.get()).get();
 
 		// ´´½¨µØÖ·À¸
-		addressBar = Controls.contentPanel(this).bg(BruiColor.White).loc(SWT.TOP | SWT.BOTTOM).left(lead).right(end);
+		addressBar = Controls.contentPanel(this).bg(BruiColor.White).loc(SWT.TOP | SWT.BOTTOM).left(lead).right(end).listen(SWT.Resize, e -> caculatePathItemBounds());
+
 		setPath(path);
 	}
 
@@ -117,8 +118,7 @@ public class AddressBar extends Composite {
 				left = Controls.label(panel, SWT.SEPARATOR | SWT.VERTICAL).loc(SWT.TOP | SWT.BOTTOM).left(left).get();
 			}
 
-			caculatePathItemBounds(parent, panel);
-			parent.addListener(SWT.Resize, e -> caculatePathItemBounds(parent, panel));
+			caculatePathItemBounds();
 		}
 
 		this.path = path;
@@ -131,7 +131,12 @@ public class AddressBar extends Composite {
 		parent.layout();
 	}
 
-	private void caculatePathItemBounds(Composite parent, Composite panel) {
+	private void caculatePathItemBounds() {
+		Composite parent = addressBar.get();
+		Control[] children = parent.getChildren();
+		if(children==null || children.length==0) return;
+		Control panel = children[0];
+		if(panel.isDisposed()) return;
 		Point panelSize = panel.computeSize(SWT.DEFAULT, BAR_HEIGHT);
 		panel.setSize(panelSize);
 		Point parentSize = parent.getSize();
