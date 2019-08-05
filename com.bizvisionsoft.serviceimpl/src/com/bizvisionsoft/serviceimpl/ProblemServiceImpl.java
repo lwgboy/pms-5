@@ -849,6 +849,11 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 			return updateThen(t, lang, "d8Exp", domain, null);
 		}
 	}
+	
+	@Override
+	public void updateD8Exps(List<Document> t, String domain) {
+		// TODO ÅúÁ¿±à¼­±à¼­
+	}
 
 	@Override
 	public List<Document> listD8(BasicDBObject condition, ObjectId problem_id, String lang, String render,
@@ -884,6 +889,11 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 		if ("card".equals(render))
 			return new ProblemCardRenderer(lang, domain).renderD8Exp(t);
 		return t;
+	}
+	
+	@Override
+	public void insertD8Experiences(List<Document> t, String domain) {
+		c("d8Exp", domain).insertMany(t);
 	}
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -122,6 +122,7 @@ public class EditProblem {
 		List<CauseConsequence> causeConsequences = makeCauseConsequence(t, problem_id);
 		Document d4Root = makeD4Root(t, problem_id);
 		List<Document> d7Similars = makeD7Similar(t, problem_id);
+		List<Document> d8Exps = makeD8Exp(t, problem_id);
 
 		// TODO 缺少判断是否为空
 		// TODO 缺少更新
@@ -134,6 +135,7 @@ public class EditProblem {
 			Check.isAssigned(causeConsequences, l -> service.insertCauseConsequences(l, domain));
 			Check.isAssigned(d4Root, l -> service.insertD4RootCauseDesc((Document) l, lang, domain));
 			Check.isAssigned(d7Similars, l -> service.insertD7Similars(l, domain));
+			Check.isAssigned(d8Exps, l -> service.insertD8Experiences(l, domain));
 		} else {
 			service.updateProblems(new FilterAndUpdate().filter(new BasicDBObject("_id", problem_id))
 					.set(BsonTools.getBasicDBObject(problem, "_id")).bson(), domain);
@@ -148,6 +150,7 @@ public class EditProblem {
 									.set(BsonTools.getBasicDBObject((Document) l, "_id")).bson(),
 							lang, domain));
 			Check.isAssigned(d7Similars, l -> service.updateD7Similars(l, domain));
+			Check.isAssigned(d8Exps, l -> service.updateD8Exps(l, domain));
 		}
 	}
 
@@ -159,6 +162,18 @@ public class EditProblem {
 			((List<Document>) d7Similars).forEach(d7Similar -> {
 				d7Similar.append("problem_id", problem_id);
 				result.add(d7Similar);
+			});
+		return result;
+	}
+	
+	@SuppressWarnings("unchecked")
+	private List<Document> makeD8Exp(Document doc, ObjectId problem_id) {
+		List<Document> result = new ArrayList<Document>();
+		Object d8Exps = doc.get("exp");
+		if (d8Exps != null)
+			((List<Document>) d8Exps).forEach(d8Exp -> {
+				d8Exp.append("problem_id", problem_id);
+				result.add(d8Exp);
 			});
 		return result;
 	}
