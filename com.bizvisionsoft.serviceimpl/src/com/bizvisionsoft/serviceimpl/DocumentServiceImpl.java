@@ -345,9 +345,8 @@ public class DocumentServiceImpl extends BasicServiceImpl implements DocumentSer
 	}
 
 	@Override
-	public List<VaultFolder> getPath(ObjectId _id) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<VaultFolder> getPath(ObjectId _id, String domain) {
+		return queryJQ(VaultFolder.class, "folder", "²éÑ¯-Ä¿Â¼-Â·¾¶", new Document("_id", _id), domain);
 	}
 
 }

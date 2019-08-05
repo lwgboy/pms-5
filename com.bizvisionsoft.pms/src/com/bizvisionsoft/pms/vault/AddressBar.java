@@ -26,7 +26,7 @@ public class AddressBar extends Composite {
 	private static final int BAR_HEIGHT = 32;
 
 	private static final int IMG_SIZE = 16;
-	
+
 	private IFolder[] path;
 
 	private Controls<Composite> addressBar;
@@ -127,17 +127,22 @@ public class AddressBar extends Composite {
 		handlerEvent(SWT.SetData, path.length - 1, null);
 
 		// 设置向上一级目录的按钮状态
-		updateToolitemStatus(VaultActions.uplevel.name(), b -> path.length > 1);
-
+		updateToolitemStatus(VaultActions.uplevel.name(), b -> path.length > 0);
+		parent.layout();
 	}
 
 	private void caculatePathItemBounds(Composite parent, Composite panel) {
 		Point panelSize = panel.computeSize(SWT.DEFAULT, BAR_HEIGHT);
 		panel.setSize(panelSize);
-		int offset = parent.getSize().x - panelSize.x - 8;
-		if (offset < 0) {
-			panel.setLocation(offset, 0);
+		Point parentSize = parent.getSize();
+		int offset = 0;
+		if (parentSize.x != 0) {
+			int _offset = parentSize.x - panelSize.x - 8;
+			if (_offset < 0) {
+				offset = _offset;
+			}
 		}
+		panel.setLocation(offset, 0);
 	}
 
 	private void handlerEvent(int listenerType, int lvl, Action action) {

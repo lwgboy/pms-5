@@ -167,16 +167,15 @@ public interface DocumentService {
 	@Path("/{domain}/docu/{_id}/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public long countProjectDocument(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
-			@PathParam("_id") ObjectId project_id, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+	public long countProjectDocument(@MethodParam(MethodParam.FILTER) BasicDBObject filter, @PathParam("_id") ObjectId project_id,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
 	@Path("/{domain}/docu/wp_id/{wp_id}/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("输出文档/" + DataSet.LIST)
-	public List<Docu> listWorkPackageDocument(
-			@PathParam("wp_id") @MethodParam(MethodParam.CONTEXT_INPUT_OBJECT_ID) ObjectId _id,
+	public List<Docu> listWorkPackageDocument(@PathParam("wp_id") @MethodParam(MethodParam.CONTEXT_INPUT_OBJECT_ID) ObjectId _id,
 			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
@@ -232,16 +231,14 @@ public interface DocumentService {
 	@Path("/{domain}/docuSetting/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public DocuSetting createDocumentSetting(DocuSetting doc,
-			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+	public DocuSetting createDocumentSetting(DocuSetting doc, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
 	@Path("/{domain}/docuSetting/wp_id/{wp_id}/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("输出文档设置/" + DataSet.LIST)
-	public List<DocuSetting> listDocumentSetting(
-			@PathParam("wp_id") @MethodParam(MethodParam.CONTEXT_INPUT_OBJECT_ID) ObjectId _id,
+	public List<DocuSetting> listDocumentSetting(@PathParam("wp_id") @MethodParam(MethodParam.CONTEXT_INPUT_OBJECT_ID) ObjectId _id,
 			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@PUT
@@ -291,9 +288,9 @@ public interface DocumentService {
 	@DataSet("资料库文件列表/" + DataSet.COUNT)
 	public long countContainerDocument(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
 			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
-	
+
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	//TODO 注意清除上述垃圾代码
+	// TODO 注意清除上述垃圾代码
 	@POST
 	@Path("/{domain}/fld/parent_id/{parent_id}/{userId}/ds")
 	@Consumes("application/json; charset=UTF-8")
@@ -302,7 +299,8 @@ public interface DocumentService {
 	public List<VaultFolder> listFolder(@MethodParam(MethodParam.CONDITION) BasicDBObject condition, // 查询条件
 			@MethodParam(MethodParam.CONTEXT_INPUT_OBJECT_ID) @PathParam("parent_id") ObjectId parent_id,
 			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userId") String userId,
-			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain ) ;
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+
 	@POST
 	@Path("/{domain}/fld/parent_id/{parent_id}/{userId}/count")
 	@Consumes("application/json; charset=UTF-8")
@@ -317,5 +315,5 @@ public interface DocumentService {
 	@Path("/{domain}/fld/_id/{_id}/path")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public List<VaultFolder> getPath(ObjectId folder_id);
+	public List<VaultFolder> getPath(@PathParam("_id") ObjectId folder_id, @PathParam("domain") String domain);
 }

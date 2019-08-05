@@ -78,9 +78,9 @@ public abstract class VaultExplorer {
 	 */
 	private Composite createAddressBar(Composite parent) {
 		List<List<Action>> actions = createToolbarActions();
-		
+
 		IFolder[] path = getPath(currentFolder);
-		
+
 		addressBar = new AddressBar(parent, path, actions, this::checkAuthority);
 		addressBar.addListener(SWT.SetData, e -> {
 			PathActionEvent ae = (PathActionEvent) e;
@@ -103,7 +103,7 @@ public abstract class VaultExplorer {
 		return addressBar;
 	}
 
-	protected abstract IFolder[] getPath(IFolder folder) ;
+	protected abstract IFolder[] getPath(IFolder folder);
 
 	private List<List<Action>> createToolbarActions() {
 		List<List<Action>> result = new ArrayList<>();
@@ -155,16 +155,18 @@ public abstract class VaultExplorer {
 	 */
 	private Composite createNaviPane(Composite parent) {
 		// 创建文件夹组件
-		AssemblyContainer left = new AssemblyContainer(parent, context)//
-				.setAssembly(getNavigatorAssembly())//
+		Assembly assy = getNavigatorAssembly();
+		// 对组件样式修改
+		assy.setGridPageControlStyle("SHORT");
+		// 加载组件
+		return new AssemblyContainer(parent, context)//
+				.setAssembly(assy)//
 				.setServices(br)//
 				.setInput(currentFolder)//
-				.create();
-
-		return left.getContainer();
+				.create().getContainer();
 	}
 
-	protected abstract Assembly getNavigatorAssembly() ;
+	protected abstract Assembly getNavigatorAssembly();
 
 	/**
 	 * // TODO 检查权限

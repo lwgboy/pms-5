@@ -175,7 +175,7 @@ public class DataServiceImpl extends MongoDBService implements DataService {
 
 		if (output != null)
 			output.accept(pipeline);
-		
+
 		pipeline.add(Aggregates.count("_count"));
 		Document doc = c(colName, domain).aggregate(pipeline).first();
 		return Optional.ofNullable(doc).map(d -> (Number) d.get("_count")).map(n -> n.longValue()).orElse(0l);
@@ -470,6 +470,14 @@ public class DataServiceImpl extends MongoDBService implements DataService {
 		if (parameter != null)
 			parameter.entrySet().forEach(e -> jq.set(e.getKey(), e.getValue()));
 		return c(collection, domain).aggregate(jq.array()).into(new ArrayList<>());
+	}
+
+	protected <T> List<T> queryJQ(Class<T> clas, String collection, String jqName, Document parameter, String domain) {
+		JQ jq = Domain.get(domain).jq(jqName);
+		if (parameter != null)
+			parameter.entrySet().forEach(e -> jq.set(e.getKey(), e.getValue()));
+		ArrayList<T> result = c(collection, domain).aggregate(jq.array(), clas).into(new ArrayList<>());
+		return result;
 	}
 
 }
