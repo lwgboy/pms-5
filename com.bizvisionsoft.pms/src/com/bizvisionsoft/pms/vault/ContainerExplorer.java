@@ -1,5 +1,6 @@
 package com.bizvisionsoft.pms.vault;
 
+import org.bson.types.ObjectId;
 import org.eclipse.swt.widgets.Composite;
 
 import com.bizvisionsoft.annotations.ui.common.CreateUI;
@@ -20,14 +21,20 @@ public class ContainerExplorer extends VaultExplorer {
 	}
 
 	@Init
-	private void init() {
+	protected void init() {
 		setContext(context);
 		setBruiService(br);
+		super.init();
 	}
 
 	@CreateUI
 	public void createUI(Composite parent) {
 		super.createUI(parent);
+	}
+
+	@Override
+	public ObjectId[] getRootFolder() {
+		return new ObjectId[] {new ObjectId("5c679e4a1bd81d4bb0206064"),new ObjectId("5c679e4a1bd81d4bb0206065"),new ObjectId("5c679e4a1bd81d4bb0206066")};
 	}
 
 }

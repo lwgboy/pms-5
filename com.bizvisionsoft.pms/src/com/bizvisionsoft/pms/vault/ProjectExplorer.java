@@ -30,7 +30,7 @@ public class ProjectExplorer extends VaultExplorer {
 	}
 
 	@Init
-	private void init() {
+	protected void init() {
 		setContext(context);
 		setBruiService(br);
 		input = context.getRootInput();
@@ -41,6 +41,7 @@ public class ProjectExplorer extends VaultExplorer {
 		}
 
 		service = Services.get(DocumentService.class);
+		super.init();
 	}
 
 	@CreateUI
@@ -48,5 +49,10 @@ public class ProjectExplorer extends VaultExplorer {
 		super.createUI(parent);
 	}
 
+	@Override
+	public ObjectId[] getRootFolder() {
+		return new ObjectId[] { new ObjectId("5c679e4a1bd81d4bb0206064"), new ObjectId("5c679e4a1bd81d4bb0206065"),
+				new ObjectId("5c679e4a1bd81d4bb0206066") };
+	}
 
 }

@@ -1,0 +1,90 @@
+{
+  "id": "/项目档案库文件夹.gridassy",
+  "name": "资料库文件夹",
+  "layout": [],
+  "type": "grid",
+  "folderId": "163dac10775",
+  "gridAutoExpandLevel": 2,
+  "gridMarkupEnabled": true,
+  "gridHasVScroll": true,
+  "gridPageControl": true,
+  "gridDataSetService": "",
+  "gridDataSetBundleId": "com.bizvisionsoft.pms",
+  "gridDataSetClassName": "com.bizvisionsoft.pms.vault.VaultDS",
+  "gridPageCount": 20,
+  "columns": [
+    {
+      "id": "163dad257be",
+      "name": "folderName",
+      "text": "",
+      "alignment": 16384,
+      "width": 80,
+      "resizeable": true,
+      "columns": []
+    }
+  ],
+  "fields": [],
+  "gridAutoColumnWidth": true,
+  "actions": [],
+  "rowActions": [
+    {
+      "id": "f6504ff9e32",
+      "name": "菜单",
+      "image": "/img/menu.svg",
+      "style": "",
+      "children": [
+        {
+          "id": "f646abf731d",
+          "name": "打开",
+          "text": "打开",
+          "image": "/img/open_w.svg",
+          "bundleId": "com.bizvisionsoft.pms",
+          "className": "",
+          "style": "normal",
+          "type": "customized",
+          "verticalSpan": 0
+        },
+        {
+          "id": "f682af3c239",
+          "name": "移动",
+          "text": "移动",
+          "image": "/img/menu_w.svg",
+          "bundleId": "com.bizvisionsoft.pms",
+          "className": "",
+          "style": "normal",
+          "type": "customized"
+        },
+        {
+          "id": "f6502da06cd",
+          "name": "删除",
+          "text": "删除",
+          "image": "/img/delete_w.svg",
+          "bundleId": "com.bizvisionsoft.pms",
+          "className": "",
+          "forceText": true,
+          "style": "normal",
+          "type": "customized",
+          "verticalSpan": 0
+        },
+        {
+          "id": "f6502da91f9",
+          "name": "重命名",
+          "text": "重命名",
+          "image": "/img/reset_w.svg",
+          "bundleId": "com.bizvisionsoft.pms",
+          "className": "",
+          "forceText": true,
+          "style": "normal",
+          "type": "customized",
+          "verticalSpan": 0
+        }
+      ],
+      "type": "customized",
+      "verticalSpan": 0
+    }
+  ],
+  "disableInitLoadData": false,
+  "modelClassName": "",
+  "modelBundleName": "",
+  "sortFields": []
+}
