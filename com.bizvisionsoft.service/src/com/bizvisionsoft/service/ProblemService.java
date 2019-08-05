@@ -435,6 +435,12 @@ public interface ProblemService {
 	@Produces("application/json; charset=UTF-8")
 	public Document insertD8Experience(Document t, @PathParam("lang") String lang, @PathParam("render") String render,
 			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+	
+	@POST
+	@Path("/{domain}/d8/exp")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public void insertD8Experiences(List<Document> t, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
 	@Path("/{domain}/cc/ds/")
@@ -637,6 +643,13 @@ public interface ProblemService {
 	@Produces("application/json; charset=UTF-8")
 	public Document updateD8Exp(Document t, @PathParam("lang") String lang, @PathParam("render") String render,
 			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+	
+
+	@PUT
+	@Path("/{domain}/d8/exp")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public void updateD8Exps(List<Document> t, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	//

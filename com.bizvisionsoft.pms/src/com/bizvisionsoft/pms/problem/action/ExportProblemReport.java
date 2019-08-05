@@ -19,7 +19,6 @@ import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.service.UserSession;
 import com.bizvisionsoft.service.ProblemService;
 import com.bizvisionsoft.service.model.Problem;
-import com.bizvisionsoft.service.tools.FileTools;
 import com.bizvisionsoft.serviceconsumer.Services;
 
 public class ExportProblemReport {
@@ -48,7 +47,7 @@ public class ExportProblemReport {
 		try {
 			InputStream is = Services.get(ProblemService.class).createReportAndGetDownloadPath(rptParam, problem.get_id(), template,
 					fileName, RWT.getRequest().getServerName(), RWT.getRequest().getServerPort(), br.getDomain());
-			File folder = FileTools.createTempDirectory(RWT.getRequest().getSession().getId().toUpperCase());
+			File folder = br.createSessionTemplateDirectory();
 			String filePath = folder.getPath() + "/" + fileName + ".zip";
 			OutputStream os = null;
 			try {

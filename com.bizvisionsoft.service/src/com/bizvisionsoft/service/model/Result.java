@@ -67,6 +67,8 @@ public class Result {
 
 	public static final int CODE_CHECK_EXPORTDOCRULE_EXPORTABLE = 0x8003;
 
+	public static final int CODE_CHECK_REFDEF_FORM = 0x8004;
+
 	public int code;
 
 	public String message;

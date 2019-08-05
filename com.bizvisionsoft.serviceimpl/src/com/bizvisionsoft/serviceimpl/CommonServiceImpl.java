@@ -33,7 +33,6 @@ import com.bizvisionsoft.service.model.ResourcePlan;
 import com.bizvisionsoft.service.model.ResourceType;
 import com.bizvisionsoft.service.model.TrackView;
 import com.bizvisionsoft.service.model.VaultFolder;
-import com.bizvisionsoft.service.tools.Check;
 import com.bizvisionsoft.serviceimpl.exception.ServiceException;
 import com.bizvisionsoft.serviceimpl.renderer.MessageRenderer;
 import com.mongodb.BasicDBObject;
@@ -857,9 +856,9 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 	@Override
 	public List<Document> listNameOfFormDef(BasicDBObject condition, String domain) {
 		ArrayList<Document> into = new ArrayList<Document>();
-		c("formDef", domain).distinct("name",
-				Optional.ofNullable((BasicDBObject) condition.get("filter")).orElse(new BasicDBObject()).append("activated", true),
-				String.class).forEach((String s) -> {
+		c("formDef", domain)
+				.distinct("name", Optional.ofNullable((BasicDBObject) condition.get("filter")).orElse(new BasicDBObject()), String.class)
+				.forEach((String s) -> {
 					into.add(new Document("name", s));
 				});
 
@@ -888,13 +887,9 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 		if (count(new BasicDBObject("formDef_id", doc.get("_id")), Docu.class, domain) > 0)
 			throw new ServiceException("表单定义在使用中,不允许无法删除。");
 
-		List<?> exportDocRule_ids = (List<?>) doc.get("exportDocRule_ids");
-		if (Check.isAssigned(exportDocRule_ids))
-			c(ExportDocRule.class, domain).deleteMany(new BasicDBObject("_id", new BasicDBObject("$in", exportDocRule_ids)));
+		c(ExportDocRule.class, domain).deleteMany(new BasicDBObject("formDef_id", _id));
 
-		List<?> refDef_ids = (List<?>) doc.get("refDef_ids");
-		if (Check.isAssigned(refDef_ids))
-			c(RefDef.class, domain).deleteMany(new BasicDBObject("_id", new BasicDBObject("$in", refDef_ids)));
+		c(RefDef.class, domain).deleteMany(new BasicDBObject("formDef_id", _id));
 
 		return delete(_id, FormDef.class, domain);
 	}
@@ -923,14 +918,12 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 		if (formDefDoc == null)
 			throw new ServiceException("表单定义已被删除，无法升版。");
 
-		// TODO
-
 		Document vidDoc = c("formDef", domain)
 				.aggregate(Arrays.asList(Aggregates.match(new BasicDBObject("name", formDefDoc.get("name"))), Aggregates.group(
 						new BasicDBObject("_id", "$name"), Arrays.asList(new BsonField("value", new BasicDBObject("$max", "$vid"))))))
 				.first();
 
-		int version = Optional.ofNullable((Number) vidDoc.get("value")).map(i -> i.intValue()+1).orElse(0);
+		int version = Optional.ofNullable((Number) vidDoc.get("value")).map(i -> i.intValue() + 1).orElse(0);
 
 		// 设置新表单定义的_id和版本号
 		ObjectId formDef_id = new ObjectId();
@@ -940,32 +933,19 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 
 		// 复制文档导出规则
 		List<Document> exportDocRuleDoc = new ArrayList<Document>();
-		List<ObjectId> exportDocRule_idNs = new ArrayList<ObjectId>();
-		List<?> exportDocRule_ids = (List<?>) formDefDoc.get("exportDocRule_ids");
-		if (Check.isAssigned(exportDocRule_ids)) {
-			c("exportDocRule", domain).find(new BasicDBObject("_id", new BasicDBObject("$in", exportDocRule_ids)))
-					.forEach((Document doc) -> {
-						ObjectId n_id = new ObjectId();
-						exportDocRule_idNs.add(n_id);
-						doc.put("_id", n_id);
-						exportDocRuleDoc.add(doc);
-					});
-			formDefDoc.put("exportDocRule_ids", exportDocRule_idNs);
-		}
+		c("exportDocRule", domain).find(new BasicDBObject("formDef_id", _id)).forEach((Document doc) -> {
+			doc.remove("_id");
+			doc.put("formDef_id", formDef_id);
+			exportDocRuleDoc.add(doc);
+		});
 
 		// 复制参照定义
 		List<Document> refDefDoc = new ArrayList<Document>();
-		List<ObjectId> refDef_idNs = new ArrayList<ObjectId>();
-		List<?> refDef_ids = (List<?>) formDefDoc.get("refDef_ids");
-		if (Check.isAssigned(refDef_ids)) {
-			c("refDef", domain).find(new BasicDBObject("_id", new BasicDBObject("$in", refDef_ids))).forEach((Document doc) -> {
-				ObjectId n_id = new ObjectId();
-				refDef_idNs.add(n_id);
-				doc.put("_id", n_id);
-				refDefDoc.add(doc);
-			});
-			formDefDoc.put("refDef_ids", refDef_idNs);
-		}
+		c("refDef", domain).find(new BasicDBObject("formDef_id", _id)).forEach((Document doc) -> {
+			doc.remove("_id");
+			doc.put("formDef_id", formDef_id);
+			refDefDoc.add(doc);
+		});
 
 		if (exportDocRuleDoc.size() > 0)
 			c("exportDocRule", domain).insertMany(exportDocRuleDoc);
@@ -986,7 +966,7 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 		BasicDBObject sort = (BasicDBObject) condition.get("sort");
 
 		return query(c -> {
-			c.add(Aggregates.lookup("formDef", "_id", "exportDocRule_ids", "formDef"));
+			c.add(Aggregates.lookup("formDef", "formDef_id", "_id", "formDef"));
 			c.add(Aggregates.unwind("$formDef"));
 		}, skip, limit, filter, sort, null, ExportDocRule.class, domain);
 	}
@@ -998,12 +978,7 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 
 	@Override
 	public ExportDocRule insertExportDocRule(ExportDocRule exportDocRule, String domain) {
-		ObjectId parent_id = exportDocRule.getFormDef().get_id();
-		ExportDocRule insert = insert(exportDocRule, ExportDocRule.class, domain);
-		// TODO更新FormDef
-		c(FormDef.class, domain).updateOne(new BasicDBObject("_id", parent_id),
-				new BasicDBObject("$addToSet", new BasicDBObject("exportDocRule_ids", insert.get_id())));
-		return insert;
+		return insert(exportDocRule, ExportDocRule.class, domain);
 	}
 
 	@Override
@@ -1013,10 +988,7 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 
 	@Override
 	public long deleteExportDocRule(ObjectId _id, String domain) {
-		Document doc = c("formDef", domain).find(new BasicDBObject("exportDocRule_ids", _id)).first();
-		// 检查表单定义是否启用,启用的表单定义不允许被删除
-		if (doc.getBoolean("activated", true))
-			throw new ServiceException("表单定义已启用,不允许删除。");
+		// TODO 检查表单定义是否启用,启用的表单定义不允许被删除
 
 		// TODO 删除时检查是否被使用
 
@@ -1038,6 +1010,34 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 	public long countFormDefSelector(VaultFolder folder, String domain) {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+
+	@Override
+	public List<RefDef> listRefDef(BasicDBObject condition, ObjectId parent_id, String domain) {
+		condition.put("filter",
+				Optional.ofNullable((BasicDBObject) condition.get("filter")).orElse(new BasicDBObject()).append("formDef_id", parent_id));
+		return createDataSet(condition, RefDef.class, domain);
+	}
+
+	@Override
+	public long countRefDef(BasicDBObject filter, ObjectId parent_id, String domain) {
+		return count(Optional.ofNullable(filter).orElse(new BasicDBObject()).append("formDef_id", parent_id), RefDef.class, domain);
+	}
+
+	@Override
+	public long deleteRefDef(ObjectId _id, String domain) {
+		return delete(_id, RefDef.class, domain);
+	}
+
+	@Override
+	public long updateRefDef(BasicDBObject filterAndUpdate, String domain) {
+		return update(filterAndUpdate, RefDef.class, domain);
+	}
+
+	@Override
+	public RefDef insertRefDef(RefDef refDef, ObjectId parent_id, String domain) {
+		refDef.setFormDef_id(parent_id);
+		return insert(refDef, RefDef.class, domain);
 	}
 
 }

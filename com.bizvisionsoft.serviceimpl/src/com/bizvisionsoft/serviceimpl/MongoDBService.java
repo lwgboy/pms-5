@@ -79,7 +79,7 @@ public class MongoDBService {
 				new FindOneAndUpdateOptions().upsert(true).returnDocument(ReturnDocument.AFTER));
 	}
 
-	final protected long update(MongoCollection<?> col, BasicDBObject filter, BasicDBObject update, UpdateOptions option) {
+	final protected long update(MongoCollection<?> col, Bson filter, Bson update, UpdateOptions option) {
 		try {
 			UpdateResult updateMany = col.updateMany(filter, update, option);
 			long cnt = updateMany.getModifiedCount();

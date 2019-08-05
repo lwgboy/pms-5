@@ -21,6 +21,14 @@
       "columns": []
     },
     {
+      "name": "colName",
+      "text": "集合名",
+      "alignment": 16384,
+      "width": 80,
+      "resizeable": true,
+      "columns": []
+    },
+    {
       "id": "1677a1af990",
       "name": "fieldName",
       "text": "字段",
@@ -39,7 +47,32 @@
       "columns": []
     }
   ],
-  "fields": [],
+  "fields": [
+    {
+      "name": "className",
+      "text": "类",
+      "type": "文本输入框（查询）",
+      "formFields": []
+    },
+    {
+      "name": "colName",
+      "text": "集合名",
+      "type": "文本输入框（查询）",
+      "formFields": []
+    },
+    {
+      "name": "fieldName",
+      "text": "字段",
+      "type": "文本输入框（查询）",
+      "formFields": []
+    },
+    {
+      "name": "enable",
+      "text": "启用",
+      "type": "文本输入框（查询）",
+      "formFields": []
+    }
+  ],
   "gridAutoColumnWidth": true,
   "actions": [
     {
@@ -52,7 +85,7 @@
       "editorAssemblyId": "/值生成规则编辑器.editorassy",
       "type": "insert",
       "createActionNewInstanceBundleId": "com.bizvisionsoft.service",
-      "createActionNewInstanceClassName": "com.bizvisionsoft.service.ValueRule",
+      "createActionNewInstanceClassName": "com.bizvisionsoft.service.model.ValueRule",
       "verticalSpan": 0
     }
   ],
@@ -87,5 +120,30 @@
   ],
   "hasTitlebar": true,
   "disableInitLoadData": false,
-  "sortFields": []
+  "sortFields": [
+    {
+      "name": "className",
+      "text": "类",
+      "type": "排序字段",
+      "formFields": []
+    },
+    {
+      "name": "colName",
+      "text": "集合名",
+      "type": "排序字段",
+      "formFields": []
+    },
+    {
+      "name": "fieldName",
+      "text": "字段",
+      "type": "排序字段",
+      "formFields": []
+    },
+    {
+      "name": "enable",
+      "text": "启用",
+      "type": "排序字段",
+      "formFields": []
+    }
+  ]
 }

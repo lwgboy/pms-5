@@ -14,6 +14,8 @@ public class Activator implements BundleActivator {
 	public void start(BundleContext context) throws Exception {
 		ModelLoader.addModelEventListener(this::handleModelEvent);
 		// String id = ModelLoader.getLatestVersionEditorIdOfType("/pms/tmt/锥形簧文档编辑器");
+		// TODO 根据加载的编辑器最后修改时间，停用formDef
+		// ModelLoader.streamAssembly(Assembly.TYPE_EDITOR);
 	}
 
 	@Override

@@ -32,20 +32,61 @@
       "columns": []
     },
     {
+      "name": "状态",
+      "text": "状态",
+      "alignment": 16384,
+      "width": 80,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "name": "阶段",
+      "text": "阶段",
+      "alignment": 16384,
+      "width": 80,
+      "resizeable": true,
+      "columns": []
+    },
+    {
       "id": "163dad3c8f4",
       "name": "category",
-      "text": "类别",
+      "description": "documet\r\nepm\r\npart\r\nform",
+      "text": "资料类型",
       "alignment": 16384,
       "width": 120,
       "resizeable": true,
       "columns": []
     },
     {
-      "id": "163dad3839a",
-      "name": "description",
-      "text": "描述",
+      "name": "文档类型",
+      "description": "FormDef.name",
+      "text": "文档类型",
       "alignment": 16384,
-      "width": 240,
+      "width": 80,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "name": "vid",
+      "text": "版本号",
+      "alignment": 16384,
+      "width": 80,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "name": "密级",
+      "text": "密级",
+      "alignment": 16384,
+      "width": 80,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "name": "所有者",
+      "text": "所有者",
+      "alignment": 16384,
+      "width": 80,
       "resizeable": true,
       "columns": []
     },

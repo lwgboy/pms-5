@@ -1,5 +1,6 @@
 package com.bizvisionsoft.pms.formdef;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -27,6 +28,20 @@ public class FormDefTools {
 		Map<String, String> formDFieldMap = ModelLoader.getEditorAssemblyFieldNameMap(formDAssy);
 
 		List<Result> result = exportDocRule.check(formDFieldMap);
+
+		return showResult(br, result, title, infoMessage, confirmMessage);
+	}
+
+	public static boolean checkRefDef(IBruiService br, FormDef formDef, String title, String infoMessage, String confirmMessage) {
+		Assembly formDAssy = Model.getAssembly(formDef.getEditorId());
+		if (formDAssy == null) {
+			Layer.error("无法获取表单定义所选编辑器");
+			return false;
+		}
+		Map<String, String> formDFieldMap = ModelLoader.getEditorAssemblyFieldNameMap(formDAssy);
+
+		List<Result> result = new ArrayList<Result>();
+		formDef.listRefDef().forEach(refDef -> result.addAll(refDef.check(formDFieldMap)));
 
 		return showResult(br, result, title, infoMessage, confirmMessage);
 	}

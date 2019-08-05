@@ -13,6 +13,7 @@ import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.annotations.md.mongocodex.Persistence;
 import com.bizvisionsoft.mongocodex.codec.JsonExternalizable;
+import com.bizvisionsoft.service.ServicesLoader;
 
 public class RemoteFile implements JsonExternalizable {
 
@@ -30,9 +31,9 @@ public class RemoteFile implements JsonExternalizable {
 
 	public String domain;
 
-	public String getServerSideURL(String baseURL) {
+	public String getServerSideURL() {
 		try {
-			return baseURL + "/fs/" + domain + "/" + namepace + "/" + _id + "/" + URLEncoder.encode(name, "utf-8");
+			return ServicesLoader.url + "/fs/" + domain + "/" + namepace + "/" + _id + "/" + URLEncoder.encode(name, "utf-8");
 		} catch (UnsupportedEncodingException e) {
 			return null;
 		}
@@ -41,6 +42,13 @@ public class RemoteFile implements JsonExternalizable {
 	public InputStream getInputStreamFromClient(String request) throws MalformedURLException, IOException {
 		String url = getClientSideURL("rwt");
 		url = request + url.substring(1);
+		URLConnection connection = new URL(url).openConnection();
+		connection.setDoOutput(true);
+		return connection.getInputStream();
+	}
+	
+	public InputStream getInputStreamFromServer() throws MalformedURLException, IOException {
+		String url = getServerSideURL();
 		URLConnection connection = new URL(url).openConnection();
 		connection.setDoOutput(true);
 		return connection.getInputStream();

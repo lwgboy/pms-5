@@ -15,10 +15,10 @@ import org.slf4j.LoggerFactory;
 
 import com.bizvisionsoft.annotations.AUtil;
 import com.bizvisionsoft.mongocodex.tools.IValueGenerateService;
-import com.bizvisionsoft.service.ValueRule;
-import com.bizvisionsoft.service.ValueRuleSegment;
 import com.bizvisionsoft.service.common.Domain;
 import com.bizvisionsoft.service.common.JQ;
+import com.bizvisionsoft.service.model.ValueRule;
+import com.bizvisionsoft.service.model.ValueRuleSegment;
 import com.bizvisionsoft.service.tools.Check;
 import com.bizvisionsoft.service.tools.Formatter;
 import com.bizvisionsoft.service.tools.JSTools;
@@ -32,21 +32,23 @@ public class DocumentValueGenerator extends SystemServiceImpl implements IValueG
 
 	private List<ValueRuleSegment> segments;
 
-	public DocumentValueGenerator(ValueRule rule, String domain) {
-		segments = listValueRuleSegment(new BasicDBObject(), rule._id, domain);
+	private String domain;
+
+	public DocumentValueGenerator(ValueRule rule) {
+		this.domain = rule.domain;
+		segments = listValueRuleSegment(new BasicDBObject(), rule._id, rule.domain);
 	}
 
 	@Override
-	public String getValue(Object input, String domain) {
+	public String getValue(Object input) {
 		Map<ValueRuleSegment, String> stage = new HashMap<ValueRuleSegment, String>();
 		return segments.stream().sorted((s1, s2) -> s1.executeSequance - s2.executeSequance)// 按执行顺序排序
-				.map(s -> this.getSegmentValue(input, s, stage, domain))// 计算值
+				.map(s -> this.getSegmentValue(input, s, stage))// 计算值
 				.sorted((s1, s2) -> s1.getKey().index - s2.getKey().index)// 按段号排序
 				.reduce("", (s, e) -> e.getKey().disableOutput ? s : (s + e.getValue()), (s1, s2) -> s1);
 	}
 
-	private Entry<ValueRuleSegment, String> getSegmentValue(Object input, ValueRuleSegment seg, Map<ValueRuleSegment, String> stage,
-			String domain) {
+	private Entry<ValueRuleSegment, String> getSegmentValue(Object input, ValueRuleSegment seg, Map<ValueRuleSegment, String> stage) {
 		Object value = null;
 		// 类型1.常量字符串
 		if ("常量".equals(seg.type)) {
@@ -221,6 +223,11 @@ public class DocumentValueGenerator extends SystemServiceImpl implements IValueG
 		}
 
 		return text;
+	}
+
+	public static void generate(ValueRule vr, Document doc) {
+		String value = new DocumentValueGenerator(vr).getValue(doc);
+		doc.append(vr.fieldName, value);		
 	}
 
 }

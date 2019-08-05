@@ -21,6 +21,8 @@ import com.bizvisionsoft.service.model.Backup;
 import com.bizvisionsoft.service.model.Domain;
 import com.bizvisionsoft.service.model.DomainRequest;
 import com.bizvisionsoft.service.model.ServerInfo;
+import com.bizvisionsoft.service.model.ValueRule;
+import com.bizvisionsoft.service.model.ValueRuleSegment;
 import com.mongodb.BasicDBObject;
 
 import io.swagger.annotations.Api;
