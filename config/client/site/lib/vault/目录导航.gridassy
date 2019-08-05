@@ -39,7 +39,7 @@
           "text": "´ò¿ª",
           "image": "/img/open_w.svg",
           "bundleId": "com.bizvisionsoft.pms",
-          "className": "",
+          "className": "com.bizvisionsoft.pms.vault.VaultACT",
           "style": "normal",
           "type": "customized",
           "verticalSpan": 0
