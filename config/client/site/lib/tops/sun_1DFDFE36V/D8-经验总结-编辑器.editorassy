@@ -1,0 +1,152 @@
+{
+  "id": "/D8-经验总结-编辑器.editorassy",
+  "name": "D8-经验总结-编辑器",
+  "title": "经验和教训总结",
+  "layout": [],
+  "type": "editor",
+  "folderId": "1689872b96f",
+  "fields": [
+    {
+      "id": "1681e10758f",
+      "name": "摘要",
+      "type": "标签页",
+      "formFields": [
+        {
+          "id": "1689269a913",
+          "name": "新字段1",
+          "type": "行",
+          "formFields": [
+            {
+              "id": "1681d71ad53",
+              "name": "name",
+              "text": "标题",
+              "type": "单行文本框",
+              "formFields": [],
+              "required": true,
+              "optionText": "",
+              "radioStyle": "横向分段（默认）"
+            },
+            {
+              "id": "1681e048027",
+              "name": "catalog",
+              "text": "类别",
+              "type": "单选框",
+              "formFields": [],
+              "required": true,
+              "optionText": "管理#技术#方法#文化#沟通#团队#领导",
+              "radioStyle": "横向分段（默认）"
+            }
+          ]
+        },
+        {
+          "id": "1681e0a7edc",
+          "name": "scenario",
+          "text": "关键词",
+          "type": "单行文本框",
+          "formFields": [],
+          "required": false
+        },
+        {
+          "id": "1681d6dc938",
+          "name": "新字段6",
+          "type": "行",
+          "formFields": [
+            {
+              "id": "1681d6c4e8d",
+              "name": "charger",
+              "text": "总结人",
+              "type": "对象选择框",
+              "formFields": [],
+              "required": true,
+              "selectorAssemblyId": "/用户选择列表.gridassy",
+              "valueFieldName": "userId"
+            },
+            {
+              "id": "1681d6cb219",
+              "name": "date",
+              "text": "日期",
+              "type": "日期时间选择",
+              "formFields": [],
+              "dateType": "date"
+            }
+          ]
+        },
+        {
+          "id": "1681e3c6840",
+          "name": "abstract",
+          "text": "摘要",
+          "type": "多行文本框",
+          "formFields": [],
+          "required": false,
+          "grabVertical": true
+        },
+        {
+          "id": "168927129e9",
+          "name": "新字段5",
+          "type": "行",
+          "formFields": [
+            {
+              "id": "1681e0ce714",
+              "name": "video",
+              "text": "视频演示",
+              "type": "多个文件选择框",
+              "formFields": [],
+              "fileNamespace": "media",
+              "fileFilerExts": ".mp4",
+              "height": 96,
+              "grabVertical": false,
+              "verticalAlignLabel": false
+            },
+            {
+              "id": "1681e0c185f",
+              "name": "material",
+              "text": "学习资料",
+              "type": "多个文件选择框",
+              "formFields": [],
+              "fileNamespace": "prmAtt",
+              "height": 96,
+              "grabVertical": false,
+              "verticalAlignLabel": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "1681e392c98",
+      "name": "method",
+      "text": "方法",
+      "type": "标签页（HTML编辑）",
+      "formFields": []
+    },
+    {
+      "id": "1681e36e3c2",
+      "name": "总结",
+      "text": "总结",
+      "type": "标签页",
+      "formFields": [
+        {
+          "id": "168926af40c",
+          "name": "advantage",
+          "text": "优点",
+          "type": "多行文本框",
+          "formFields": [],
+          "grabVertical": true,
+          "verticalAlignLabel": true
+        },
+        {
+          "id": "1681e36e51c",
+          "name": "weakness",
+          "text": "缺点",
+          "type": "多行文本框",
+          "formFields": [],
+          "grabVertical": true,
+          "verticalAlignLabel": true
+        }
+      ]
+    }
+  ],
+  "actions": [],
+  "smallEditor": false,
+  "tinyEditor": false
+}

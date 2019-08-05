@@ -1,0 +1,113 @@
+{
+  "id": "/行动预案编辑器（创建）.editorassy",
+  "name": "行动预案编辑器（创建）",
+  "title": "行动预案",
+  "layout": [],
+  "type": "editor",
+  "folderId": "1689878baeb",
+  "fields": [
+    {
+      "id": "16850175512",
+      "name": "范围",
+      "type": "标签页",
+      "formFields": [
+        {
+          "id": "167f324cf33",
+          "name": "name",
+          "text": "预案名称",
+          "type": "单行文本框",
+          "formFields": [],
+          "required": true
+        },
+        {
+          "id": "168501f4782",
+          "name": "新字段7",
+          "type": "行",
+          "formFields": [
+            {
+              "id": "168501cc30f",
+              "name": "usage",
+              "text": "采用等级",
+              "type": "单选框",
+              "formFields": [],
+              "required": true,
+              "optionText": "建议采用#优先采用#强制采用",
+              "radioStyle": "横向分段（默认）"
+            },
+            {
+              "id": "168501f813e",
+              "name": "applicable",
+              "text": "是否可用",
+              "type": "复选框",
+              "formFields": [],
+              "required": false,
+              "checkStyle": "开关（默认）"
+            }
+          ]
+        },
+        {
+          "id": "1685008ade0",
+          "name": "stage",
+          "text": "预案类型",
+          "type": "多项勾选框",
+          "formFields": [],
+          "required": true,
+          "optionValue": "",
+          "optionText": "紧急反应行动#临时控制行动#永久纠正措施#系统性预防措施#挽回损失和善后措施",
+          "radioStyle": "横向分段（默认）"
+        },
+        {
+          "id": "167f324d275",
+          "name": "description",
+          "text": "预案描述",
+          "type": "单行文本框",
+          "formFields": [],
+          "required": false
+        },
+        {
+          "id": "16850170b2b",
+          "name": "classifyProblems",
+          "text": "适用问题范围",
+          "type": "多个对象选择框",
+          "formFields": [],
+          "required": false,
+          "selectorAssemblyId": "/问题分类.gridassy",
+          "grabVertical": true
+        }
+      ]
+    },
+    {
+      "id": "168501a331d",
+      "name": "行动",
+      "type": "标签页",
+      "formFields": [
+        {
+          "id": "167f3a210f2",
+          "name": "objective",
+          "text": "预期目标结果",
+          "type": "单行文本框",
+          "formFields": [],
+          "required": true
+        },
+        {
+          "id": "167f324d136",
+          "name": "action",
+          "text": "行动内容",
+          "type": "单行文本框",
+          "formFields": [],
+          "required": true
+        },
+        {
+          "id": "167f3258769",
+          "name": "detail",
+          "text": "详细计划",
+          "type": "多行文本框",
+          "formFields": [],
+          "required": true,
+          "grabVertical": true
+        }
+      ]
+    }
+  ],
+  "actions": []
+}

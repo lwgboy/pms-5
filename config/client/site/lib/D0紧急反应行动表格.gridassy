@@ -41,6 +41,14 @@
       "columns": []
     },
     {
+      "name": "attachments",
+      "text": "附件",
+      "alignment": 16384,
+      "width": 240,
+      "resizeable": true,
+      "columns": []
+    },
+    {
       "id": "16828c48225",
       "name": "charger_meta.name",
       "text": "负责人",
