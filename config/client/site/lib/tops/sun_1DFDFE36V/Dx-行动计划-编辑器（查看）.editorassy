@@ -1,0 +1,149 @@
+{
+  "id": "/Dx-行动计划-编辑器（查看）.editorassy",
+  "name": "Dx-行动计划-编辑器（查看）",
+  "title": "行动",
+  "layout": [],
+  "type": "editor",
+  "folderId": "1689872b96f",
+  "fields": [
+    {
+      "id": "1688f96d446",
+      "name": "新字段10",
+      "type": "行",
+      "formFields": [
+        {
+          "id": "167ee57b5c3",
+          "name": "action",
+          "text": "行动描述",
+          "type": "单行文本框",
+          "formFields": [],
+          "readOnly": false,
+          "required": false
+        },
+        {
+          "id": "167f3a15f22",
+          "name": "objective",
+          "text": "预期结果",
+          "type": "单行文本框",
+          "formFields": [],
+          "readOnly": false,
+          "required": false
+        }
+      ]
+    },
+    {
+      "id": "167f3db3e0d",
+      "name": "新字段22",
+      "type": "行",
+      "formFields": [
+        {
+          "id": "168730a578a",
+          "name": "index",
+          "text": "行动序号",
+          "type": "数字输入框",
+          "formFields": [],
+          "spinnerMax": 99,
+          "spinnerMin": 0,
+          "spinnerInc": 1,
+          "spinnerPageInc": 10
+        },
+        {
+          "id": "167f2a0d85f",
+          "name": "charger",
+          "text": "行动负责",
+          "type": "对象选择框",
+          "formFields": [],
+          "required": true,
+          "selectorAssemblyId": "/用户选择列表.gridassy",
+          "valueFieldName": "userId"
+        },
+        {
+          "id": "167f2a01f57",
+          "name": "planStart",
+          "text": "计划开始",
+          "type": "日期时间选择",
+          "formFields": [],
+          "required": true,
+          "dateType": "datetime"
+        },
+        {
+          "id": "167ee4f0821",
+          "name": "planFinish",
+          "text": "计划完成",
+          "type": "日期时间选择",
+          "formFields": [],
+          "required": true,
+          "dateType": "datetime"
+        }
+      ]
+    },
+    {
+      "id": "167f2b37774",
+      "name": "detail",
+      "text": "详细计划",
+      "type": "多行文本框",
+      "formFields": [],
+      "grabVertical": true
+    },
+    {
+      "id": "16a968ab17d",
+      "name": "attachments",
+      "text": "附件",
+      "type": "多个文件选择框",
+      "formFields": [],
+      "fileNamespace": "prmAtt"
+    },
+    {
+      "id": "1688f8f7205",
+      "name": "新字段6",
+      "type": "行",
+      "formFields": [
+        {
+          "id": "1688f8d7056",
+          "name": "verification.title",
+          "text": "验证结论",
+          "type": "单选框",
+          "formFields": [],
+          "optionText": "已验证#未通过验证",
+          "radioStyle": "横向分段（默认）"
+        },
+        {
+          "id": "1688f8f77ca",
+          "name": "verification.user_meta.name",
+          "text": "验证人",
+          "type": "单行文本框",
+          "formFields": []
+        },
+        {
+          "id": "1688f8faed7",
+          "name": "verification.date",
+          "text": "验证日期",
+          "type": "日期时间选择",
+          "formFields": [],
+          "dateType": "datetime"
+        },
+        {
+          "id": "1688f8e5d69",
+          "name": "verification.comment",
+          "text": "说明",
+          "type": "单行文本框",
+          "formFields": []
+        }
+      ]
+    },
+    {
+      "id": "1688f8e5f50",
+      "name": "verification.attachment",
+      "text": "验证资料\u003cbr\u003e检验报告\u003cbr\u003e测试结果\u003cbr\u003e其他附件",
+      "type": "多个文件选择框",
+      "formFields": [],
+      "fileNamespace": "prmAtt",
+      "height": 96
+    }
+  ],
+  "actions": [],
+  "smallEditor": false,
+  "tinyEditor": false,
+  "addToParentContext": true,
+  "labelWidth": 64
+}

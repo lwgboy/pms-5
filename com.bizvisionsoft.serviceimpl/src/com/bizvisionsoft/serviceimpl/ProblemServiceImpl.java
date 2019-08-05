@@ -1484,8 +1484,6 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 
 	@Override
 	public List<Catalog> listProblemAnlysisRoot(ObjectId problem_id, String domain) {
-		List<Catalog> l = c("problem", domain).aggregate(Domain.getJQ(domain, "查询-问题-根分类").set("problem_id", problem_id).array())
-				.map(CatalogMapper::classifyProblem).into(new ArrayList<>());
 		return c("problem", domain).aggregate(Domain.getJQ(domain, "查询-问题-根分类").set("problem_id", problem_id).array())
 				.map(CatalogMapper::classifyProblem).into(new ArrayList<>());
 	}
@@ -1729,5 +1727,20 @@ public class ProblemServiceImpl extends BasicServiceImpl implements ProblemServi
 		ArrayList<Document> result = c("d1CFT", domain).aggregate(pipeline)
 				.map(d -> new ProblemCardRenderer(lang, domain).renderTODO(d)).into(new ArrayList<>());
 		return result;
+	}
+	
+	@Override
+	public Document getD4Verify(ObjectId problem_id, String domain) {
+		// TODO Auto-generated method stub
+		return Optional.ofNullable(c("d4Verify", domain).find(new Document("_id", problem_id)).first())
+				.orElse(new Document("_id", problem_id));
+	}
+	
+	@Override
+	public Document updateD4Verify(Document t, String lang, String render, String domain) {
+		update(t, "d4Verify", domain);
+		if ("card".equals(render))
+			return new ProblemCardRenderer(lang, domain).renderD4Verify(t, lang);   /////
+		return t;
 	}
 }
