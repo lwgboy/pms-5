@@ -341,7 +341,8 @@ public class DocumentServiceImpl extends BasicServiceImpl implements DocumentSer
 		filter = Optional.ofNullable(filter).orElse(new BasicDBObject()).append("parent_id", parent_id);
 		// TODO ¡¾È¨ÏÞ¡¿
 		Consumer<List<Bson>> input = p -> appendAuthQueryPipeline(p, userId);
-		return countDocument(input, filter, null, "folder", domain);
+		long count = countDocument(input, filter, null, "folder", domain);
+		return count;
 	}
 
 	@Override
