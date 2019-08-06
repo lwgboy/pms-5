@@ -230,7 +230,7 @@ public abstract class VaultExplorer {
 		boolean authorized = checkFolderAuthority(folder, action.getName());
 		if (!authorized)
 			return;
-		
+
 		String name = action.getName();
 		if (VaultActions.openFolder.name().equals(name)) {
 			doSetCurrentFolder(folder);
@@ -242,5 +242,9 @@ public abstract class VaultExplorer {
 			doRenameFolder(folder);
 		}
 
+	}
+
+	public boolean enableAction(IFolder folder, String actionName) {
+		return checkFolderAuthority(folder, actionName);
 	}
 }

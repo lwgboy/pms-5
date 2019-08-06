@@ -2,6 +2,7 @@ package com.bizvisionsoft.pms.vault;
 
 import org.eclipse.swt.widgets.Event;
 
+import com.bizvisionsoft.annotations.md.service.Behavior;
 import com.bizvisionsoft.annotations.ui.common.Execute;
 import com.bizvisionsoft.annotations.ui.common.Inject;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
@@ -20,12 +21,35 @@ public class VaultACT {
 	@Inject
 	private IBruiContext context;
 
-
 	@Execute
-	public void execute(@MethodParam(Execute.EVENT) Event e, @MethodParam(Execute.ACTION) Action action, @MethodParam(Execute.CONTEXT_SELECTION_1ST)  IFolder folder) {
+	public void execute(@MethodParam(Execute.EVENT) Event e, @MethodParam(Execute.ACTION) Action action,
+			@MethodParam(Execute.CONTEXT_SELECTION_1ST) IFolder folder) {
 		VaultExplorer explorer = (VaultExplorer) context.getParentContext().getContent();
-		explorer.handleAction(folder,action);
+		explorer.handleAction(folder, action);
 	}
 
+	// TODO 需要在AUtil调用Behavior时，将action传入到方法中。这样这些方法就可以进行合并
+	@Behavior("openFolder")
+	private boolean enableOpenFolder(@MethodParam(Execute.CONTEXT_SELECTION_1ST) IFolder folder) {
+		VaultExplorer explorer = (VaultExplorer) context.getParentContext().getContent();
+		return explorer.enableAction(folder, "openFolder");
+	}
 
+	@Behavior("moveFolder")
+	private boolean enableMoveFolder(@MethodParam(Execute.CONTEXT_SELECTION_1ST) IFolder folder) {
+		VaultExplorer explorer = (VaultExplorer) context.getParentContext().getContent();
+		return explorer.enableAction(folder, "moveFolder");
+	}
+
+	@Behavior("deleteFolder")
+	private boolean enableDeleteFolder(@MethodParam(Execute.CONTEXT_SELECTION_1ST) IFolder folder) {
+		VaultExplorer explorer = (VaultExplorer) context.getParentContext().getContent();
+		return explorer.enableAction(folder, "deleteFolder");
+	}
+
+	@Behavior("renameFolder")
+	private boolean enableRenameFolder(@MethodParam(Execute.CONTEXT_SELECTION_1ST) IFolder folder) {
+		VaultExplorer explorer = (VaultExplorer) context.getParentContext().getContent();
+		return explorer.enableAction(folder, "renameFolder");
+	}
 }
