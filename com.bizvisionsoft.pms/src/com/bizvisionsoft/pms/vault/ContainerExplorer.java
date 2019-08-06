@@ -46,7 +46,7 @@ public class ContainerExplorer extends VaultExplorer {
 	@Override
 	protected IFolder[] getPath(IFolder folder) {
 		if (IFolder.Null.equals(folder)) {
-			return null;
+			return new IFolder[0];
 		} else {
 			List<VaultFolder> result = Services.get(DocumentService.class).getPath(folder.get_id(),br.getDomain());
 			return result.toArray(new IFolder[0]);
