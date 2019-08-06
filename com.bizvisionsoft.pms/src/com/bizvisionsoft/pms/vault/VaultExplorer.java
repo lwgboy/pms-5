@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
+import org.eclipse.jface.viewers.DoubleClickEvent;
+import org.eclipse.jface.viewers.IDoubleClickListener;
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -27,8 +31,6 @@ public abstract class VaultExplorer {
 	private IBruiService br;
 
 	private BruiAssemblyContext context;
-
-	protected GridPart folderPane;
 
 	protected GridPart filePane;
 
@@ -163,6 +165,19 @@ public abstract class VaultExplorer {
 				.setInput(context.getInput(IFolder.class, true))//
 				.create();
 		contextNavi = ac.getContext();
+
+		((GridPart) contextNavi.getContent()).getViewer().addDoubleClickListener(new IDoubleClickListener() {
+			@Override
+			public void doubleClick(DoubleClickEvent event) {
+				StructuredSelection selection = (StructuredSelection) event.getSelection();
+				IFolder input = (IFolder) selection.getFirstElement();
+				if (checkFolderAuthority(input, VaultActions.openFolder.label())) {
+					doSetCurrentFolder(input);
+				}
+				logger.debug("doubleClick:" + input);
+			}
+		});
+
 		return ac.getContainer();
 	}
 
