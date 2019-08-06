@@ -7,6 +7,7 @@ import java.util.stream.Stream;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,6 +17,8 @@ import com.bizvisionsoft.bruiengine.assembly.GridPart;
 import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.ui.AssemblyContainer;
+import com.bizvisionsoft.bruiengine.util.BruiColors.BruiColor;
+import com.bizvisionsoft.bruiengine.util.BruiToolkit;
 import com.bizvisionsoft.bruiengine.util.Controls;
 import com.bizvisionsoft.service.model.IFolder;
 import com.bizvisionsoft.service.tools.Check;
@@ -58,7 +61,7 @@ public abstract class VaultExplorer {
 		// 创建顶部工具栏
 		Composite bar = Controls.handle(createAddressBar(parent)).loc(SWT.LEFT | SWT.TOP | SWT.RIGHT).height(32).get();
 
-		Composite navigator = Controls.handle(createNaviPane(parent)).loc(SWT.LEFT | SWT.BOTTOM, .25f).top(bar).formLayout().get();
+		Composite navigator = Controls.handle(createNaviPane(parent)).loc(SWT.LEFT | SWT.BOTTOM, .25f).top(bar).get();
 
 		Controls.handle(createFilePane(parent)).loc(SWT.RIGHT | SWT.BOTTOM).left(navigator, 1).top(bar).formLayout().get();
 	}
@@ -112,7 +115,7 @@ public abstract class VaultExplorer {
 		result.add(actions);
 
 		actions = new ArrayList<Action>();
-		actions.add(VaultActions.create(VaultActions.findSubFolder, true, true));
+//		actions.add(VaultActions.create(VaultActions.findSubFolder, true, true));
 		actions.add(VaultActions.create(VaultActions.findDocuments, true, true));
 		actions.add(VaultActions.create(VaultActions.search, true, false));
 		result.add(actions);
@@ -145,13 +148,28 @@ public abstract class VaultExplorer {
 		return right.getContainer();
 	}
 
+	private Composite createNaviPane(Composite parent) {
+		Composite naviPane = Controls.comp(parent).formLayout().get();
+		Control bar = Controls.handle(createNaviToolbarPane(naviPane)).loc(SWT.TOP | SWT.LEFT | SWT.RIGHT, 35).get();
+		Controls.handle(createFolderPane(naviPane)).loc(SWT.LEFT | SWT.RIGHT | SWT.BOTTOM).top(bar);
+		return naviPane;
+	}
+
+	private Control createNaviToolbarPane(Composite parent) {
+		Composite bar = Controls.comp(parent).rwt(BruiToolkit.CSS_BAR_TITLE).bg(BruiColor.Grey_50).formLayout().get();
+		Controls.text(bar).margin(2).mLoc().get().setMessage("查找目录");
+		Controls.button(bar).rwt("compact").setImageText(VaultActions.search.getImg(), null, 16, 32).margin(2)
+		.mLoc(SWT.TOP | SWT.BOTTOM | SWT.RIGHT).width(32).above(null).get();
+		return bar;
+	}
+
 	/**
 	 * 创建文件夹pane
 	 * 
 	 * @param parent
 	 * @return
 	 */
-	private Composite createNaviPane(Composite parent) {
+	private Composite createFolderPane(Composite parent) {
 		// 创建文件夹组件
 		Assembly assy = getNavigatorAssembly();
 		// 对组件样式修改
@@ -230,7 +248,7 @@ public abstract class VaultExplorer {
 		boolean authorized = checkFolderAuthority(folder, action.getName());
 		if (!authorized)
 			return;
-		
+
 		String name = action.getName();
 		if (VaultActions.openFolder.name().equals(name)) {
 			doSetCurrentFolder(folder);
