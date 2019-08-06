@@ -19,6 +19,7 @@ import com.bizvisionsoft.service.model.Folder;
 import com.bizvisionsoft.service.model.FolderInTemplate;
 import com.bizvisionsoft.service.model.VaultFolder;
 import com.bizvisionsoft.service.tools.Formatter;
+import com.bizvisionsoft.serviceimpl.exception.ServiceException;
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.model.Aggregates;
 import com.mongodb.client.model.Field;
@@ -348,6 +349,39 @@ public class DocumentServiceImpl extends BasicServiceImpl implements DocumentSer
 	@Override
 	public List<VaultFolder> getPath(ObjectId _id, String domain) {
 		return queryJQ(VaultFolder.class, "folder", "查询-目录-路径", new Document("_id", _id), domain);
+	}
+
+	@Override
+	public long deleteVaultFolder(ObjectId _id, String domain) {
+		// 检查文件夹是否能被删除
+		// 检查是否存在下级文件夹
+		if (count(new BasicDBObject("parent_id", _id), VaultFolder.class, domain) > 0)
+			throw new ServiceException("存在下级文件夹，不允许删除。");
+
+		// 检查是否存在文档
+		if (count(new BasicDBObject("folder_id", _id), Docu.class, domain) > 0)
+			throw new ServiceException("文件夹中存在文档，请全部移除后再进行删除。");
+
+		// 删除文件夹
+		return delete(_id, VaultFolder.class, domain);
+	}
+
+	@Override
+	public long moveVaultFolder(ObjectId _id, ObjectId newParent_id, String domain) {
+		return c(VaultFolder.class, domain)
+				.updateMany(new BasicDBObject("_id", _id), new BasicDBObject("$set", new BasicDBObject("parent_id", newParent_id)))
+				.getModifiedCount();
+	}
+
+	@Override
+	public String renameVaultFolder(ObjectId _id, String newName, String domain) {
+		// TODO 检查同名文件夹，自动重命名
+
+		c(VaultFolder.class, domain)
+				.updateMany(new BasicDBObject("_id", _id), new BasicDBObject("$set", new BasicDBObject("desc", newName)))
+				.getModifiedCount();
+
+		return newName;
 	}
 
 }

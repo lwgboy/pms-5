@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
+import org.eclipse.jface.dialogs.InputDialog;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
-import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FormLayout;
@@ -15,17 +15,21 @@ import org.eclipse.swt.widgets.Control;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.bizivisionsoft.widgets.util.Layer;
 import com.bizvisionsoft.bruicommons.model.Action;
 import com.bizvisionsoft.bruicommons.model.Assembly;
 import com.bizvisionsoft.bruiengine.assembly.GridPart;
 import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.ui.AssemblyContainer;
+import com.bizvisionsoft.bruiengine.ui.Selector;
 import com.bizvisionsoft.bruiengine.util.BruiColors.BruiColor;
 import com.bizvisionsoft.bruiengine.util.BruiToolkit;
 import com.bizvisionsoft.bruiengine.util.Controls;
+import com.bizvisionsoft.service.DocumentService;
 import com.bizvisionsoft.service.model.IFolder;
 import com.bizvisionsoft.service.tools.Check;
+import com.bizvisionsoft.serviceconsumer.Services;
 
 public abstract class VaultExplorer {
 
@@ -101,9 +105,15 @@ public abstract class VaultExplorer {
 		addressBar.addListener(SWT.Selection, e -> {
 			PathActionEvent ae = (PathActionEvent) e;
 			String msg = Stream.of(ae.path).map(f -> f.getName() + "/").reduce((s1, s2) -> s1 + s2).orElse("");
+			handlerEvent(ae.path, ae.path.length - 1, ae.action);
 			logger.debug("地址栏工具栏事件: " + ae.action + ", 路径：" + msg);
 		});
 		return addressBar;
+	}
+
+	private void handlerEvent(IFolder[] path, int lvl, Action action) {
+		if (VaultActions.createSubFolder.name().equals(action.getName()))
+			logger.debug("地址栏工具栏事件: " + action + ", 级别：" + lvl);
 	}
 
 	protected abstract IFolder[] getPath(IFolder folder);
@@ -117,7 +127,7 @@ public abstract class VaultExplorer {
 		result.add(actions);
 
 		actions = new ArrayList<Action>();
-//		actions.add(VaultActions.create(VaultActions.findSubFolder, true, true));
+		// actions.add(VaultActions.create(VaultActions.findSubFolder, true, true));
 		actions.add(VaultActions.create(VaultActions.findDocuments, true, true));
 		actions.add(VaultActions.create(VaultActions.search, true, false));
 		result.add(actions);
@@ -161,7 +171,9 @@ public abstract class VaultExplorer {
 		Composite bar = Controls.comp(parent).rwt(BruiToolkit.CSS_BAR_TITLE).bg(BruiColor.Grey_50).formLayout().get();
 		Controls.text(bar).margin(2).mLoc().get().setMessage("查找目录");
 		Controls.button(bar).rwt("compact").setImageText(VaultActions.search.getImg(), null, 16, 32).margin(2)
-		.mLoc(SWT.TOP | SWT.BOTTOM | SWT.RIGHT).width(32).above(null).get();
+				.mLoc(SWT.TOP | SWT.BOTTOM | SWT.RIGHT).width(32).above(null)// .listen(SWT.MouseDown, e -> handlerEvent(SWT.Modify,
+																				// this.path.length - 2, action))
+				.get();
 		return bar;
 	}
 
@@ -244,19 +256,47 @@ public abstract class VaultExplorer {
 	}
 
 	private void doDeleteFolder(IFolder folder) {
-		// TODO Auto-generated method stub
-		logger.debug("doDeleteFolder:" + folder);
-
+		try {
+			// TODO 测试了异常情况，没测试正常删除。（等新建文件夹操作完成后，进行测试）
+			Services.get(DocumentService.class).deleteVaultFolder(folder.get_id(), br.getDomain());
+			Layer.message("文件夹已删除");
+			GridPart navi = (GridPart) contextNavi.getContent();
+			navi.remove(folder);
+			logger.debug("doDeleteFolder:" + folder);
+		} catch (Exception e) {
+			Layer.error(e);
+		}
 	}
 
 	private void doMoveFolder(IFolder folder) {
-		// TODO Auto-generated method stub
-		logger.debug("doMoveFolder:" + folder);
+		// TODO 弹出选择文件夹
+		Selector.open("", context, null, l -> {
+			try {
+				// TODO 未测试
+				Services.get(DocumentService.class).moveVaultFolder(folder.get_id(), ((IFolder) l.get(0)).get_id(), br.getDomain());
+				Layer.message("文件夹已删除");
+				GridPart navi = (GridPart) contextNavi.getContent();
+				navi.remove(folder);
+				logger.debug("doMoveFolder:" + folder);
+			} catch (Exception e) {
+				Layer.error(e);
+			}
+		});
 
 	}
 
 	private void doRenameFolder(IFolder folder) {
-		logger.debug("doRenameFolder:" + folder);
+		InputDialog id = new InputDialog(br.getCurrentShell(), "文件夹更名", "新的名称", null, t -> {
+			return t.trim().isEmpty() ? "请输入名称" : null;
+		});
+		if (InputDialog.OK == id.open()) {
+			String name = id.getValue();
+			name = Services.get(DocumentService.class).renameVaultFolder(folder.get_id(), name, br.getDomain());
+			folder.setName(name);
+			GridPart navi = (GridPart) contextNavi.getContent();
+			navi.refresh(folder);
+			logger.debug("doRenameFolder:" + folder);
+		}
 	}
 
 	public void handleAction(IFolder folder, Action action) {
@@ -278,6 +318,11 @@ public abstract class VaultExplorer {
 	}
 
 	public boolean enableAction(IFolder folder, String actionName) {
+		IFolder[] path = addressBar.getCurrentPath();
+		if (!VaultActions.openFolder.name().equals(actionName) && (path == null || path.length == 0)) {
+			return false;
+		}
+
 		return checkFolderAuthority(folder, actionName);
 	}
 }

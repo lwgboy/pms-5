@@ -316,4 +316,24 @@ public interface DocumentService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public List<VaultFolder> getPath(@PathParam("_id") ObjectId folder_id, @PathParam("domain") String domain);
+
+	@DELETE
+	@Path("/{domain}/vaultfolder/_id/{_id}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public long deleteVaultFolder(@PathParam("_id") ObjectId _id, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+
+	@PUT
+	@Path("/{domain}/vaultfolder/_id/{_id}/{newParent_id}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public long moveVaultFolder(@PathParam("_id") ObjectId _id, @PathParam("newParent_id") ObjectId newParent_id,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+
+	@PUT
+	@Path("/{domain}/vaultfolder/rename/_id/{_id}/{newName}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public String renameVaultFolder(@PathParam("_id") ObjectId _id, @PathParam("newName") String newName,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 }

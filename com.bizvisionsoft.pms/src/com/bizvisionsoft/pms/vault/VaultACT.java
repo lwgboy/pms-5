@@ -32,24 +32,24 @@ public class VaultACT {
 	@Behavior("openFolder")
 	private boolean enableOpenFolder(@MethodParam(Execute.CONTEXT_SELECTION_1ST) IFolder folder) {
 		VaultExplorer explorer = (VaultExplorer) context.getParentContext().getContent();
-		return explorer.enableAction(folder, VaultActions.openFolder.label());
+		return explorer.enableAction(folder, VaultActions.openFolder.name());
 	}
 
 	@Behavior("moveFolder")
 	private boolean enableMoveFolder(@MethodParam(Execute.CONTEXT_SELECTION_1ST) IFolder folder) {
 		VaultExplorer explorer = (VaultExplorer) context.getParentContext().getContent();
-		return explorer.enableAction(folder, VaultActions.moveFolder.label());
+		return explorer.enableAction(folder, VaultActions.moveFolder.name());
 	}
 
 	@Behavior("deleteFolder")
 	private boolean enableDeleteFolder(@MethodParam(Execute.CONTEXT_SELECTION_1ST) IFolder folder) {
 		VaultExplorer explorer = (VaultExplorer) context.getParentContext().getContent();
-		return explorer.enableAction(folder, VaultActions.deleteFolder.label());
+		return explorer.enableAction(folder, VaultActions.deleteFolder.name());
 	}
 
 	@Behavior("renameFolder")
 	private boolean enableRenameFolder(@MethodParam(Execute.CONTEXT_SELECTION_1ST) IFolder folder) {
 		VaultExplorer explorer = (VaultExplorer) context.getParentContext().getContent();
-		return explorer.enableAction(folder, VaultActions.renameFolder.label());
+		return explorer.enableAction(folder, VaultActions.renameFolder.name());
 	}
 }
