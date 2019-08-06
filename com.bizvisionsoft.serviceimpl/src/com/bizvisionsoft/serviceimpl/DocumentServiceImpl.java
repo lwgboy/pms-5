@@ -374,14 +374,16 @@ public class DocumentServiceImpl extends BasicServiceImpl implements DocumentSer
 	}
 
 	@Override
-	public String renameVaultFolder(ObjectId _id, String newName, String domain) {
-		// TODO 检查同名文件夹，自动重命名
-
-		c(VaultFolder.class, domain)
+	public long renameVaultFolder(ObjectId _id, String newName, String domain) {
+		return c(VaultFolder.class, domain)
 				.updateMany(new BasicDBObject("_id", _id), new BasicDBObject("$set", new BasicDBObject("desc", newName)))
 				.getModifiedCount();
 
-		return newName;
+	}
+
+	@Override
+	public VaultFolder insertFolder(VaultFolder vf, String domain) {
+		return insert(vf, VaultFolder.class, domain);
 	}
 
 }

@@ -18,12 +18,11 @@ import com.bizvisionsoft.service.CommonService;
 import com.bizvisionsoft.service.OrganizationService;
 import com.bizvisionsoft.service.ServicesLoader;
 import com.bizvisionsoft.service.datatools.Query;
-import com.bizvisionsoft.service.tools.Formatter;
 import com.mongodb.BasicDBObject;
 
 @PersistenceCollection("folder")
 public class VaultFolder implements IFolder {
-	
+
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// 基本的一些字段
 
@@ -157,33 +156,33 @@ public class VaultFolder implements IFolder {
 
 	@ImageURL("desc")
 	private String getHTMLName() {
-		//如果是容器，返回容器图标
-		if(iscontainer) {
+		// 如果是容器，返回容器图标
+		if (iscontainer) {
 			return "/img/cabinet_c.svg";
-		}else if(isflderroot){
+		} else if (isflderroot) {
 			return "/img/folder_project.svg";
-		}else if(opened) {
+		} else if (opened) {
 			return "/img/folder_opened.svg";
-		}else {
+		} else {
 			return "/img/folder_closed.svg";
 		}
 	}
 
-//	@ReadValue("文件夹选择列表/folderName")
-//	private String getHTMLName2() {
-//		String iconUrl;
-//		if (parent_id == null) {
-//			iconUrl = "rwt-resources/extres/img/cabinet_c.svg";
-//		} else if (opened) {
-//			iconUrl = "rwt-resources/extres/img/folder_opened.svg";
-//		} else {
-//			iconUrl = "rwt-resources/extres/img/folder_closed.svg";
-//		}
-//		String html = "<div class='brui_ly_hline'>" + "<img src=" + iconUrl + " style='margin-right:8px;' width='20px' height='20px'/>"
-//				+ "<div style='flex:auto;'>" + desc + "</div>" + "</div>";
-//		return html;
-//	}
-
+	// @ReadValue("文件夹选择列表/folderName")
+	// private String getHTMLName2() {
+	// String iconUrl;
+	// if (parent_id == null) {
+	// iconUrl = "rwt-resources/extres/img/cabinet_c.svg";
+	// } else if (opened) {
+	// iconUrl = "rwt-resources/extres/img/folder_opened.svg";
+	// } else {
+	// iconUrl = "rwt-resources/extres/img/folder_closed.svg";
+	// }
+	// String html = "<div class='brui_ly_hline'>" + "<img src=" + iconUrl + "
+	// style='margin-right:8px;' width='20px' height='20px'/>"
+	// + "<div style='flex:auto;'>" + desc + "</div>" + "</div>";
+	// return html;
+	// }
 
 	@Override
 	@Label
@@ -212,6 +211,10 @@ public class VaultFolder implements IFolder {
 	public VaultFolder setProject_id(ObjectId project_id) {
 		this.project_id = project_id;
 		return this;
+	}
+
+	public ObjectId getProject_id() {
+		return project_id;
 	}
 
 	public VaultFolder setParent_id(ObjectId parent_id) {
@@ -282,6 +285,15 @@ public class VaultFolder implements IFolder {
 	@Override
 	public String getName() {
 		return desc;
+	}
+
+	public VaultFolder getSubFolderInstance(String domain) {
+		VaultFolder vf = getInstance(domain);
+		vf.setParent_id(_id);
+		vf.setRoot_id(root_id);
+		vf.setProject_id(project_id);
+		vf.iscontainer = false;
+		return vf;
 	}
 
 }

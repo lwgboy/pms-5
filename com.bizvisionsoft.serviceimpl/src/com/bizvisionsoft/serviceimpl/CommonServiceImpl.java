@@ -1001,13 +1001,15 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 	}
 
 	@Override
-	public List<FormDef> listFormDefSelector(VaultFolder folder, String domain) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Document> listFormDefSelector(BasicDBObject condition, ObjectId folder_id, String domain) {
+		// TODO 使用JQ查询获取
+		VaultFolder folder = getVaultFolder(folder_id, domain);
+		VaultFolder container = (VaultFolder) folder.getContainer();
+		return container.getFormDef();
 	}
 
 	@Override
-	public long countFormDefSelector(VaultFolder folder, String domain) {
+	public long countFormDefSelector(BasicDBObject filter, ObjectId folder_id, String domain) {
 		// TODO Auto-generated method stub
 		return 0;
 	}

@@ -334,6 +334,12 @@ public interface DocumentService {
 	@Path("/{domain}/vaultfolder/rename/_id/{_id}/{newName}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public String renameVaultFolder(@PathParam("_id") ObjectId _id, @PathParam("newName") String newName,
+	public long renameVaultFolder(@PathParam("_id") ObjectId _id, @PathParam("newName") String newName,
 			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+
+	@POST
+	@Path("/{domain}/vaultfolder/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public VaultFolder insertFolder(VaultFolder vf, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 }

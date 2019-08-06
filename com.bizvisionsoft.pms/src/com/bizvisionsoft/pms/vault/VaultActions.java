@@ -15,7 +15,7 @@ public enum VaultActions {
 
 	createDocument("新建文档", "在当前目录下创建文档", "/img/line_newDoc.svg", "/img/line_newDoc_disable.svg"), //
 
-	findSubFolder("查找目录", "在当前目录下查找子目录", "/img/line_searchFolder.svg"), //
+	findFolder("搜索目录", "在资料库中搜索目录", "/img/line_searchFolder.svg"), //
 
 	findDocuments("查找文档", "在当前目录下查找文档", "/img/line_searchDoc.svg"), //
 
@@ -29,16 +29,16 @@ public enum VaultActions {
 
 	refresh("刷新", "刷新当前目录的子目录和文档", "/img/line_refresh.svg"), //
 
-	uplevel("上一级", "返回上一级目录", "/img/line_up.svg","/img/line_up_disable.svg"), 
-	
-	openFolder("打开","打开目录","/img/open_w.svg"),//
-	
-	renameFolder("重命名","重命名目录","/img/reset_w.svg"),//
+	uplevel("上一级", "返回上一级目录", "/img/line_up.svg", "/img/line_up_disable.svg"),
 
-	deleteFolder("删除","删除目录","/img/delete_w.svg"),//
-	
-	moveFolder("移动","移动目录","/img/menu_w.svg"),//
-	
+	openFolder("打开", "打开目录", "/img/open_w.svg"), //
+
+	renameFolder("重命名", "重命名目录", "/img/reset_w.svg"), //
+
+	deleteFolder("删除", "删除目录", "/img/delete_w.svg"), //
+
+	moveFolder("移动", "移动目录", "/img/menu_w.svg"),//
+
 	;
 
 	private String label;

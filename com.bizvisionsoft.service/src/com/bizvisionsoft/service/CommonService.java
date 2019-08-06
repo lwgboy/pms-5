@@ -747,19 +747,21 @@ public interface CommonService {
 			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/{domain}/formDef/selector/ds")
+	@Path("/{domain}/formDef/selector/{folder_id}/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "表单定义选择表格/" + DataSet.LIST })
-	public List<FormDef> listFormDefSelector(@MethodParam(MethodParam.CONTEXT_INPUT_OBJECT) VaultFolder folder,
+	public List<Document> listFormDefSelector(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
+			@MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) @PathParam("folder_id") ObjectId folder_id,
 			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/{domain}/formDef/selector/count")
+	@Path("/{domain}/formDef/selector/{folder_id}/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet({ "表单定义选择表格/" + DataSet.COUNT })
-	public long countFormDefSelector(@MethodParam(MethodParam.CONTEXT_INPUT_OBJECT) VaultFolder folder,
+	public long countFormDefSelector(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
+			@MethodParam(MethodParam.ROOT_CONTEXT_INPUT_OBJECT_ID) @PathParam("folder_id") ObjectId folder_id,
 			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@DELETE

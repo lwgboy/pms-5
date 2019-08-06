@@ -21,27 +21,12 @@
       "resizeable": true,
       "columns": [],
       "enableColumnSort": true
-    },
-    {
-      "name": "editorId",
-      "text": "表单名称",
-      "alignment": 16384,
-      "width": 80,
-      "resizeable": true,
-      "columns": [],
-      "enableColumnSort": true
     }
   ],
   "fields": [
     {
       "name": "name",
       "text": "名称",
-      "type": "文本输入框（查询）",
-      "formFields": []
-    },
-    {
-      "name": "editorId",
-      "text": "表单名称",
       "type": "文本输入框（查询）",
       "formFields": []
     }

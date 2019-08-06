@@ -2,8 +2,10 @@ package com.bizvisionsoft.pms.vault;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
+import org.bson.Document;
 import org.eclipse.jface.dialogs.InputDialog;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
@@ -12,24 +14,36 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Text;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.bizivisionsoft.widgets.util.Layer;
+import com.bizvisionsoft.annotations.AUtil;
+import com.bizvisionsoft.annotations.UniversalCommand;
+import com.bizvisionsoft.annotations.UniversalResult;
+import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.bruicommons.model.Action;
 import com.bizvisionsoft.bruicommons.model.Assembly;
+import com.bizvisionsoft.bruiengine.BruiQueryEngine;
 import com.bizvisionsoft.bruiengine.assembly.GridPart;
 import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
+import com.bizvisionsoft.bruiengine.service.IBruiContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.ui.AssemblyContainer;
+import com.bizvisionsoft.bruiengine.ui.Editor;
 import com.bizvisionsoft.bruiengine.ui.Selector;
 import com.bizvisionsoft.bruiengine.util.BruiColors.BruiColor;
 import com.bizvisionsoft.bruiengine.util.BruiToolkit;
 import com.bizvisionsoft.bruiengine.util.Controls;
 import com.bizvisionsoft.service.DocumentService;
+import com.bizvisionsoft.service.UniversalDataService;
+import com.bizvisionsoft.service.model.Docu;
 import com.bizvisionsoft.service.model.IFolder;
+import com.bizvisionsoft.service.model.VaultFolder;
 import com.bizvisionsoft.service.tools.Check;
 import com.bizvisionsoft.serviceconsumer.Services;
+import com.mongodb.BasicDBObject;
 
 public abstract class VaultExplorer {
 
@@ -105,15 +119,123 @@ public abstract class VaultExplorer {
 		addressBar.addListener(SWT.Selection, e -> {
 			PathActionEvent ae = (PathActionEvent) e;
 			String msg = Stream.of(ae.path).map(f -> f.getName() + "/").reduce((s1, s2) -> s1 + s2).orElse("");
-			handlerEvent(ae.path, ae.path.length - 1, ae.action);
+			handlerEvent(ae.path, ae.action);
 			logger.debug("地址栏工具栏事件: " + ae.action + ", 路径：" + msg);
 		});
 		return addressBar;
 	}
 
-	private void handlerEvent(IFolder[] path, int lvl, Action action) {
-		if (VaultActions.createSubFolder.name().equals(action.getName()))
-			logger.debug("地址栏工具栏事件: " + action + ", 级别：" + lvl);
+	private void handlerEvent(IFolder[] path, Action action) {
+		IFolder folder = getOpenFolder(path);
+		if (VaultActions.createSubFolder.name().equals(action.getName())) {
+			if (folder == null)
+				Layer.error("请选择要创建目录的目录。");
+			else if (canCreateSubFolder(folder))
+				doCreateSubFolder(folder);
+			else
+				Layer.error("当前目录禁止创建目录。");
+		} else if (VaultActions.createDocument.name().equals(action.getName())) {
+			if (canCreateDocument(folder))
+				doCreateDocument(folder);
+			else
+				Layer.error("当前目录禁止创建文档。");
+		} else if (VaultActions.findDocuments.name().equals(action.getName())) {
+			// TODO 增加限定，当前文件夹
+			if (folder != null)
+				openFileQueryEditor(new BasicDBObject("parent_id", folder.get_id()));
+			else
+				openFileQueryEditor(null);
+		} else if (VaultActions.search.name().equals(action.getName())) {
+			openFileQueryEditor(null);
+		} else if (VaultActions.sortDocuments.name().equals(action.getName())) {
+			filePane.openSortEditor();
+		} else if (VaultActions.addFavour.name().equals(action.getName())) {
+
+		} else if (VaultActions.setFolderProperties.name().equals(action.getName())) {
+
+		}
+		logger.debug("地址栏工具栏事件: " + action);
+	}
+
+	private void openFileQueryEditor(BasicDBObject defQuery) {
+		Assembly config = (Assembly) filePane.getConfig().clone();
+		config.getActions().clear();
+		IBruiContext context = filePane.getContext();
+		IBruiService bruiService = filePane.getBruiService();
+		Assembly c = (Assembly) AUtil.simpleCopy(config, new Assembly());
+		c.setType(Assembly.TYPE_EDITOR);
+		String title = Stream.of(c.getStickerTitle(), c.getTitle(), c.getName()).filter(Check::isAssigned).findFirst().map(t -> " - " + t)
+				.orElse("");
+		c.setTitle("查询" + title);
+
+		c.setSmallEditor(true);
+		c.setTinyEditor(true);
+
+		String bundleId = config.getQueryBuilderBundle();
+		String classId = config.getQueryBuilderClass();
+		Object input;
+		if (Check.isAssigned(bundleId, classId)) {
+			input = BruiQueryEngine.create(bundleId, classId, bruiService, context).getTarget();
+		} else {
+			input = new Document();
+		}
+
+		Editor.create(c, context, input, true).ok((r, t) -> {
+			if (defQuery != null)
+				r.putAll(defQuery.toMap());
+			filePane.doQuery(r);
+		});
+
+	}
+
+	private boolean canCreateDocument(IFolder folder) {
+		return folder != null && checkFolderAuthority(folder, VaultActions.createDocument.name());
+	}
+
+	private void doCreateDocument(IFolder folder) {
+		Selector.open("/vault/表单定义选择器.selectorassy", context, (VaultFolder) folder.getContainer(), l -> {
+			// TODO
+			Document doc = (Document) l.get(0);
+			String name = doc.getString("name");
+
+			Editor.open(name, context, new Document(), (r, t) -> {
+				UniversalCommand command = new UniversalCommand().setTargetClassName(Docu.class.getName())
+						.addParameter(MethodParam.OBJECT, t).setTargetCollection("docu");
+				UniversalResult ur = Services.get(UniversalDataService.class).insert(command, br.getDomain());
+				filePane.insert(ur.getValue());
+			});
+		});
+	}
+
+	private boolean canCreateSubFolder(IFolder folder) {
+		return folder != null && checkFolderAuthority(folder, VaultActions.createSubFolder.name());
+	}
+
+	private void doCreateSubFolder(IFolder folder) {
+		InputDialog id = new InputDialog(br.getCurrentShell(), "创建目录", "目录名称", null, t -> {
+			return t.trim().isEmpty() ? "请输入名称" : null;
+		});
+		if (InputDialog.OK == id.open()) {
+			String domain = br.getDomain();
+			if (folder instanceof VaultFolder) {
+				VaultFolder vaultFolder = (VaultFolder) folder;
+				VaultFolder vf = vaultFolder.getSubFolderInstance(domain);
+				vf.setDesc(id.getValue());
+				vf = Services.get(DocumentService.class).insertFolder(vf, domain);
+				Layer.message("目录创建成功。");
+				GridPart navi = (GridPart) contextNavi.getContent();
+				navi.insert(vf);
+			}
+		}
+	}
+
+	private IFolder getOpenFolder(IFolder[] path) {
+		if (Check.isAssigned(path)) {
+			IFolder folder = path[path.length - 1];
+			logger.debug("地址栏工具栏事件：当前目录" + folder);
+			return folder;
+		}
+		return null;
 	}
 
 	protected abstract IFolder[] getPath(IFolder folder);
@@ -127,7 +249,7 @@ public abstract class VaultExplorer {
 		result.add(actions);
 
 		actions = new ArrayList<Action>();
-		// actions.add(VaultActions.create(VaultActions.findSubFolder, true, true));
+		actions.add(VaultActions.create(VaultActions.findFolder, true, true));
 		actions.add(VaultActions.create(VaultActions.findDocuments, true, true));
 		actions.add(VaultActions.create(VaultActions.search, true, false));
 		result.add(actions);
@@ -169,12 +291,23 @@ public abstract class VaultExplorer {
 
 	private Control createNaviToolbarPane(Composite parent) {
 		Composite bar = Controls.comp(parent).rwt(BruiToolkit.CSS_BAR_TITLE).bg(BruiColor.Grey_50).formLayout().get();
-		Controls.text(bar).margin(2).mLoc().get().setMessage("查找目录");
+		Text text = Controls.text(bar).margin(2).mLoc().get();
+		text.addListener(SWT.KeyDown, e -> {
+			if (e.keyCode == 13) {
+				queryFolder(text.getText());
+			}
+		});
+		text.setMessage("查找目录");
 		Controls.button(bar).rwt("compact").setImageText(VaultActions.search.getImg(), null, 16, 32).margin(2)
-				.mLoc(SWT.TOP | SWT.BOTTOM | SWT.RIGHT).width(32).above(null)// .listen(SWT.MouseDown, e -> handlerEvent(SWT.Modify,
-																				// this.path.length - 2, action))
-				.get();
+				.mLoc(SWT.TOP | SWT.BOTTOM | SWT.RIGHT).width(32).above(null).listen(SWT.MouseDown, e -> queryFolder(text.getText())).get();
 		return bar;
+	}
+
+	private void queryFolder(String text) {
+		GridPart navi = (GridPart) contextNavi.getContent();
+		BasicDBObject query = new BasicDBObject("desc", Pattern.compile(text, Pattern.CASE_INSENSITIVE));
+		navi.doQuery(query);
+		logger.debug("查找目录：" + text);
 	}
 
 	/**
@@ -224,7 +357,6 @@ public abstract class VaultExplorer {
 
 	private boolean checkFolderAuthority(IFolder input, String actionName) {
 		// TODO 检查权限
-		// TODO Auto-generated method stub
 		return true;
 	}
 
@@ -259,7 +391,7 @@ public abstract class VaultExplorer {
 		try {
 			// TODO 测试了异常情况，没测试正常删除。（等新建文件夹操作完成后，进行测试）
 			Services.get(DocumentService.class).deleteVaultFolder(folder.get_id(), br.getDomain());
-			Layer.message("文件夹已删除");
+			Layer.message("文件夹已删除。");
 			GridPart navi = (GridPart) contextNavi.getContent();
 			navi.remove(folder);
 			logger.debug("doDeleteFolder:" + folder);
@@ -274,7 +406,7 @@ public abstract class VaultExplorer {
 			try {
 				// TODO 未测试
 				Services.get(DocumentService.class).moveVaultFolder(folder.get_id(), ((IFolder) l.get(0)).get_id(), br.getDomain());
-				Layer.message("文件夹已删除");
+				Layer.message("文件夹已移动。");
 				GridPart navi = (GridPart) contextNavi.getContent();
 				navi.remove(folder);
 				logger.debug("doMoveFolder:" + folder);
@@ -291,11 +423,16 @@ public abstract class VaultExplorer {
 		});
 		if (InputDialog.OK == id.open()) {
 			String name = id.getValue();
-			name = Services.get(DocumentService.class).renameVaultFolder(folder.get_id(), name, br.getDomain());
-			folder.setName(name);
-			GridPart navi = (GridPart) contextNavi.getContent();
-			navi.refresh(folder);
-			logger.debug("doRenameFolder:" + folder);
+			try {
+				Services.get(DocumentService.class).renameVaultFolder(folder.get_id(), name, br.getDomain());
+				Layer.message("文件夹已重命名。");
+				folder.setName(name);
+				GridPart navi = (GridPart) contextNavi.getContent();
+				navi.refresh(folder);
+				logger.debug("doRenameFolder:" + folder);
+			} catch (Exception e) {
+				Layer.error("存在同名的文件夹。");
+			}
 		}
 	}
 
@@ -317,12 +454,24 @@ public abstract class VaultExplorer {
 
 	}
 
-	public boolean enableAction(IFolder folder, String actionName) {
+	public boolean enableOpenFolder(IFolder folder) {
 		IFolder[] path = addressBar.getCurrentPath();
-		if (!VaultActions.openFolder.name().equals(actionName) && (path == null || path.length == 0)) {
+		if (path == null || path.length == 0) {
 			return false;
 		}
 
-		return checkFolderAuthority(folder, actionName);
+		return checkFolderAuthority(folder, VaultActions.openFolder.name());
+	}
+
+	public boolean enableMoveFolder(IFolder folder) {
+		return checkFolderAuthority(folder, VaultActions.moveFolder.name());
+	}
+
+	public boolean enableDeleteFolder(IFolder folder) {
+		return checkFolderAuthority(folder, VaultActions.deleteFolder.name());
+	}
+
+	public boolean enableRenameFolder(IFolder folder) {
+		return checkFolderAuthority(folder, VaultActions.renameFolder.name());
 	}
 }

@@ -32,24 +32,24 @@ public class VaultACT {
 	@Behavior("openFolder")
 	private boolean enableOpenFolder(@MethodParam(Execute.CONTEXT_SELECTION_1ST) IFolder folder) {
 		VaultExplorer explorer = (VaultExplorer) context.getParentContext().getContent();
-		return explorer.enableAction(folder, VaultActions.openFolder.name());
+		return explorer.enableOpenFolder(folder);
 	}
 
 	@Behavior("moveFolder")
 	private boolean enableMoveFolder(@MethodParam(Execute.CONTEXT_SELECTION_1ST) IFolder folder) {
 		VaultExplorer explorer = (VaultExplorer) context.getParentContext().getContent();
-		return explorer.enableAction(folder, VaultActions.moveFolder.name());
+		return explorer.enableMoveFolder(folder);
 	}
 
 	@Behavior("deleteFolder")
 	private boolean enableDeleteFolder(@MethodParam(Execute.CONTEXT_SELECTION_1ST) IFolder folder) {
 		VaultExplorer explorer = (VaultExplorer) context.getParentContext().getContent();
-		return explorer.enableAction(folder, VaultActions.deleteFolder.name());
+		return explorer.enableDeleteFolder(folder);
 	}
 
 	@Behavior("renameFolder")
 	private boolean enableRenameFolder(@MethodParam(Execute.CONTEXT_SELECTION_1ST) IFolder folder) {
 		VaultExplorer explorer = (VaultExplorer) context.getParentContext().getContent();
-		return explorer.enableAction(folder, VaultActions.renameFolder.name());
+		return explorer.enableRenameFolder(folder);
 	}
 }

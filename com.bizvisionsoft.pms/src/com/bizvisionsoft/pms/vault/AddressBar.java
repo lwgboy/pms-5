@@ -79,7 +79,6 @@ public class AddressBar extends Composite {
 
 		// 刷新
 		Action refreshAction = VaultActions.create(VaultActions.refresh, true, false);
-		;
 		btn = createToolitem(this, refreshAction, false).loc(SWT.TOP | SWT.BOTTOM).right(left)//
 				// 刷新事件 等同于将当前的目录重新选择一次
 				.listen(SWT.Selection, e -> handlerEvent(SWT.Modify, this.path.length - 1, refreshAction));
