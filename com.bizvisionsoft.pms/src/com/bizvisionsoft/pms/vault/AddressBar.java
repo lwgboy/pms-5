@@ -90,9 +90,6 @@ public class AddressBar extends Composite {
 		addressBar = Controls.contentPanel(this).bg(BruiColor.White).loc(SWT.TOP | SWT.BOTTOM).left(lead).right(end).listen(SWT.Resize,
 				e -> caculatePathItemBounds());
 
-		if (path == null)
-			path = new IFolder[0];
-
 		setPath(path);
 	}
 
