@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
+import org.eclipse.core.runtime.Assert;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Button;
@@ -50,6 +51,7 @@ public class AddressBar extends Composite {
 	 */
 	public AddressBar(Composite parent, IFolder[] path, List<List<Action>> actionGroups, Function<Action, Boolean> authority) {
 		super(parent, SWT.NONE);
+		Assert.isNotNull(path,"传入路径不可为null");
 		this.authority = authority;
 		Controls.handle(this).rwt(BruiToolkit.CSS_BAR_TITLE).bg(BruiColor.Grey_50).formLayout().get();
 		// 创建左侧按钮
