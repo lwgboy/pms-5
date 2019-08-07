@@ -274,23 +274,6 @@ public interface DocumentService {
 	public long countContainer(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
 			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
-	@POST
-	@Path("/{domain}/container/docu/ds")
-	@Consumes("application/json; charset=UTF-8")
-	@Produces("application/json; charset=UTF-8")
-	@DataSet("资料库文件列表/" + DataSet.LIST)
-	public List<DocuDescriptor> listContainerDocument(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
-			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
-
-	@POST
-	@Path("/{domain}/container/docu/count")
-	@Consumes("application/json; charset=UTF-8")
-	@Produces("application/json; charset=UTF-8")
-	@DataSet("资料库文件列表/" + DataSet.COUNT)
-	public long countContainerDocument(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
-			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
-
-	@POST
 	@Path("/{domain}/docuDetail/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
@@ -328,6 +311,25 @@ public interface DocumentService {
 			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userId") String userId,
 			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
+	@POST
+	@Path("/{domain}/docu/{userId}/ds")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("文件列表/" + DataSet.LIST)
+	public List<DocuDescriptor> listDocument(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
+			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userId") String userId,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+
+	@POST
+	@Path("/{domain}/docu/{userId}/count")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("文件列表/" + DataSet.COUNT)
+	public long countDocument(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
+			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userId") String userId,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+
+	
 	@GET
 	@Path("/{domain}/fld/_id/{_id}/path")
 	@Consumes("application/json; charset=UTF-8")
@@ -377,4 +379,5 @@ public interface DocumentService {
 	public long countFolderPath(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
 			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userId") String userId,
 			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+	
 }

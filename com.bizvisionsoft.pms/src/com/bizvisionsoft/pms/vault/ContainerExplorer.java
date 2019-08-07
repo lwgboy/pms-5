@@ -62,7 +62,7 @@ public class ContainerExplorer extends VaultExplorer {
 
 	@Override
 	protected Assembly getFileTableAssembly() {
-		return br.getAssembly("vault/资料库文件列表.gridassy");
+		return br.getAssembly("vault/文件列表.gridassy");
 	}
 
 	@Override
