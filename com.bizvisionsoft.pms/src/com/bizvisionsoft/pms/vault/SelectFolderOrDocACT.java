@@ -17,6 +17,6 @@ public class SelectFolderOrDocACT {
 	@Execute
 	public void execute() {
 		//测试打开文件夹选择器
-		FolderDocSelector.selectFolder(context);
+		FolderDocSelector.selectDocument(context);
 	}
 }

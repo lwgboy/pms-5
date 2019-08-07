@@ -112,7 +112,7 @@ public class AddressBar extends Composite {
 			for (int i = 0; i < path.length; i++) {
 				int folderIndex = i;
 
-				Action action = new ActionFactory().text(path[i].getName()).get();
+				Action action = new ActionFactory().text(path[i].getName()+"/").get();
 				left = createToolitem(panel, action, false).loc(SWT.TOP | SWT.BOTTOM).left(left)//
 						.listen(SWT.Selection, e -> handlerEvent(SWT.Modify, folderIndex, action))// 改变当前目录
 						.get();
