@@ -81,6 +81,7 @@ public class DocuDesc implements JsonExternalizable {
 	private String security;
 
 	private String owner;
+	
 	@ReadValue
 	@WriteValue
 	private String plmtype;

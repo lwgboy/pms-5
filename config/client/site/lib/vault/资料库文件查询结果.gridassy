@@ -152,28 +152,7 @@
   ],
   "gridAutoColumnWidth": true,
   "actions": [],
-  "rowActions": [
-    {
-      "id": "163dad5d3ab",
-      "name": "±à¼­",
-      "text": "±à¼­",
-      "image": "/img/edit_w.svg",
-      "bundleId": "com.bizvisionsoft.pms",
-      "className": "com.bizvisionsoft.pms.filecabinet.OpenDocuACT",
-      "style": "normal",
-      "editorAssemblyEditable": true,
-      "type": "customized",
-      "verticalSpan": 0
-    },
-    {
-      "id": "163ded3b0d5",
-      "name": "É¾³ý",
-      "image": "/img/delete_w.svg",
-      "style": "warning",
-      "type": "delete",
-      "verticalSpan": 0
-    }
-  ],
+  "rowActions": [],
   "disableInitLoadData": true,
   "sortFields": []
 }
