@@ -103,64 +103,82 @@
   ],
   "fields": [
     {
-      "name": "desc",
-      "text": "名称",
-      "type": "文本输入框（查询）",
-      "formFields": []
-    },
-    {
-      "name": "documentnumber",
-      "text": "文档编号",
-      "type": "文本输入框（查询）",
-      "formFields": []
-    },
-    {
-      "name": "vid",
-      "text": "版本号",
-      "type": "文本输入框（查询）",
-      "formFields": []
-    },
-    {
-      "name": "status",
-      "text": "状态",
-      "type": "文本输入框（查询）",
-      "formFields": []
-    },
-    {
-      "name": "phase",
-      "text": "阶段",
-      "type": "文本输入框（查询）",
-      "formFields": []
-    },
-    {
-      "name": "security",
-      "text": "密级",
-      "type": "文本输入框（查询）",
-      "formFields": []
-    },
-    {
-      "name": "owner",
-      "text": "所有者",
-      "type": "文本输入框（查询）",
-      "formFields": []
+      "name": "新字段",
+      "type": "行",
+      "formFields": [
+        {
+          "name": "desc",
+          "text": "名称",
+          "type": "文本输入框（查询）",
+          "formFields": []
+        },
+        {
+          "name": "documentnumber",
+          "text": "文档编号",
+          "type": "文本输入框（查询）",
+          "formFields": []
+        }
+      ]
     },
     {
       "name": "plmtype",
       "text": "资料类型",
-      "type": "文本输入框（查询）",
+      "type": "下拉选择框（查询）",
       "formFields": []
     },
     {
-      "name": "createByInfo",
-      "text": "创建者",
-      "type": "文本输入框（查询）",
-      "formFields": []
+      "name": "新字段",
+      "type": "行",
+      "formFields": [
+        {
+          "name": "status",
+          "text": "状态",
+          "type": "下拉选择框（查询）",
+          "formFields": []
+        },
+        {
+          "name": "phase",
+          "text": "阶段",
+          "type": "下拉选择框（查询）",
+          "formFields": []
+        }
+      ]
     },
     {
-      "name": "createOn",
-      "text": "创建时间",
-      "type": "文本输入框（查询）",
-      "formFields": []
+      "name": "新字段",
+      "type": "行",
+      "formFields": [
+        {
+          "name": "security",
+          "text": "密级",
+          "type": "文本输入框（查询）",
+          "formFields": []
+        },
+        {
+          "name": "owner",
+          "text": "所有者",
+          "type": "文本输入框（查询）",
+          "formFields": []
+        }
+      ]
+    },
+    {
+      "name": "新字段",
+      "type": "行",
+      "formFields": [
+        {
+          "name": "createByInfo",
+          "text": "创建者",
+          "type": "文本输入框（查询）",
+          "formFields": []
+        },
+        {
+          "name": "createOn",
+          "text": "创建时间",
+          "type": "日期时间范围（查询）",
+          "formFields": []
+        }
+      ]
     }
   ],
   "gridAutoColumnWidth": true,
