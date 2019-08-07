@@ -312,7 +312,7 @@ public interface DocumentService {
 			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/{domain}/docu/{userId}/ds")
+	@Path("/{domain}/doc/{userId}/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("文件列表/" + DataSet.LIST)
@@ -321,7 +321,7 @@ public interface DocumentService {
 			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/{domain}/docu/{userId}/count")
+	@Path("/{domain}/doc/{userId}/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("文件列表/" + DataSet.COUNT)

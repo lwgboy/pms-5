@@ -4,10 +4,12 @@ import java.util.Date;
 
 import org.bson.types.ObjectId;
 
+import com.bizvisionsoft.annotations.md.mongocodex.PersistenceCollection;
 import com.bizvisionsoft.annotations.md.service.ReadValue;
 import com.bizvisionsoft.annotations.md.service.WriteValue;
 import com.bizvisionsoft.mongocodex.codec.JsonExternalizable;
 
+@PersistenceCollection("docu")
 public class DocuDescriptor implements JsonExternalizable {
 
 	public String domain;

@@ -19,6 +19,7 @@ import com.bizvisionsoft.service.model.DocuTemplate;
 import com.bizvisionsoft.service.model.Folder;
 import com.bizvisionsoft.service.model.FolderInTemplate;
 import com.bizvisionsoft.service.model.VaultFolder;
+import com.bizvisionsoft.service.tools.Check;
 import com.bizvisionsoft.service.tools.Formatter;
 import com.bizvisionsoft.serviceimpl.exception.ServiceException;
 import com.mongodb.BasicDBObject;
@@ -271,7 +272,6 @@ public class DocumentServiceImpl extends BasicServiceImpl implements DocumentSer
 		return 0;
 	}
 
-
 	@Override
 	public List<VaultFolder> listFolder(BasicDBObject condition, ObjectId parent_id, String userId, String domain) {
 		Integer skip = Optional.ofNullable((Integer) condition.get("skip")).orElse(null);
@@ -311,28 +311,33 @@ public class DocumentServiceImpl extends BasicServiceImpl implements DocumentSer
 		long count = countDocument(input, filter, null, "folder", domain);
 		return count;
 	}
-	
-	
+
 	@Override
 	public List<DocuDescriptor> listDocument(BasicDBObject condition, String userId, String domain) {
+		BasicDBObject filter = (BasicDBObject) condition.get("filter");
+		if (Check.isNotAssigned(filter))
+			return new ArrayList<>();
+		
 		Integer skip = Optional.ofNullable((Integer) condition.get("skip")).orElse(null);
 		Integer limit = Optional.ofNullable((Integer) condition.get("limit")).orElse(null);
-		BasicDBObject filter = Optional.ofNullable((BasicDBObject) condition.get("filter")).orElse(new BasicDBObject());
 		BasicDBObject sort = Optional.ofNullable((BasicDBObject) condition.get("sort")).orElse(new BasicDBObject("_id", 1));
 		Consumer<List<Bson>> input = p -> appendDocumentAuthQueryPipeline(p, userId);
 		Consumer<List<Bson>> output = p -> {
-			//TODO 这个地方把DocuDesc要显示的字段值 查出来的JQ管道
+			// TODO 这个地方把DocuDesc要显示的字段值 查出来的JQ管道
 		};
 		return query(input, skip, limit, filter, sort, output, DocuDescriptor.class, domain);
 	}
 
 	@Override
 	public long countDocument(BasicDBObject filter, String userId, String domain) {
-		// TODO Auto-generated method stub
-		return 0;
+		filter = Optional.ofNullable(filter).orElse(new BasicDBObject());
+		if (filter.isEmpty())
+			return 0;
+		// TODO 【权限】
+		Consumer<List<Bson>> input = p -> appendFolderAuthQueryPipeline(p, userId);
+		long count = countDocument(input, filter, null, "docu", domain);
+		return count;
 	}
-	
-	
 
 	@Override
 	public List<VaultFolder> listFolderPath(BasicDBObject condition, String userId, String domain) {
@@ -386,7 +391,6 @@ public class DocumentServiceImpl extends BasicServiceImpl implements DocumentSer
 		return insert(vf, VaultFolder.class, domain);
 	}
 
-
 	@Override
 	public List<DocuDescriptor> listDocuDetail(BasicDBObject condition, String domain) {
 		// TODO Auto-generated method stub
@@ -398,8 +402,5 @@ public class DocumentServiceImpl extends BasicServiceImpl implements DocumentSer
 		// TODO Auto-generated method stub
 		return 0;
 	}
-
-
-
 
 }
