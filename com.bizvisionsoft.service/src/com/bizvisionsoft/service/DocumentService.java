@@ -335,27 +335,27 @@ public interface DocumentService {
 	public List<VaultFolder> getPath(@PathParam("_id") ObjectId folder_id, @PathParam("domain") String domain);
 
 	@DELETE
-	@Path("/{domain}/vaultfolder/_id/{_id}")
+	@Path("/{domain}/fld/_id/{_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public long deleteVaultFolder(@PathParam("_id") ObjectId _id, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@PUT
-	@Path("/{domain}/vaultfolder/_id/{_id}/{newParent_id}")
+	@Path("/{domain}/fld/_id/{_id}/parent_id/{parent_id}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public long moveVaultFolder(@PathParam("_id") ObjectId _id, @PathParam("newParent_id") ObjectId newParent_id,
+	public long moveVaultFolder(@PathParam("_id") ObjectId _id, @PathParam("parent_id") ObjectId newParent_id,
 			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@PUT
-	@Path("/{domain}/vaultfolder/rename/_id/{_id}/{newName}")
+	@Path("/{domain}/fld/_id/{_id}/name/{name}")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	public long renameVaultFolder(@PathParam("_id") ObjectId _id, @PathParam("newName") String newName,
+	public long renameVaultFolder(@PathParam("_id") ObjectId _id, @PathParam("name") String newName,
 			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/{domain}/vaultfolder/")
+	@Path("/{domain}/fld/")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	public VaultFolder insertFolder(VaultFolder vf, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
