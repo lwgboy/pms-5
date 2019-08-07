@@ -119,7 +119,7 @@ public abstract class VaultExplorer {
 	}
 
 	protected int getStyle() {
-		return ADDRESS_BAR | NAVIGATOR | FILETABLE;
+		return ADDRESS_BAR | NAVIGATOR | FILETABLE ;
 	}
 
 	private Composite createSearchFilePane(Composite parent) {
@@ -130,10 +130,10 @@ public abstract class VaultExplorer {
 
 	protected Composite createSearchFolderPane(Composite parent) {
 		// 创建文件夹查询结果组件
-		AssemblyContainer left = new AssemblyContainer(parent, context).setAssembly(br.getAssembly("vault/目录查询结果.gridassy")).setServices(br)
+		AssemblyContainer rigth = new AssemblyContainer(parent, context).setAssembly(br.getAssembly("vault/目录查询结果.gridassy")).setServices(br)
 				.create();
-		searchFolderPane = (GridPart) left.getContext().getContent();
-		return left.getContainer();
+		searchFolderPane = (GridPart) rigth.getContext().getContent();
+		return rigth.getContainer();
 	}
 
 	/**

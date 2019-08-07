@@ -50,7 +50,7 @@ public class ContainerExplorer extends VaultExplorer {
 		if (IFolder.Null.equals(folder)) {
 			return new IFolder[0];
 		} else {
-			List<VaultFolder> result = Services.get(DocumentService.class).getPath(folder.get_id(),br.getDomain());
+			List<VaultFolder> result = Services.get(DocumentService.class).getPath(folder.get_id(), br.getDomain());
 			return result.toArray(new IFolder[0]);
 		}
 	}
@@ -81,6 +81,11 @@ public class ContainerExplorer extends VaultExplorer {
 		actions.add(VaultActions.create(VaultActions.setFolderProperties, true, false));
 		result.add(actions);
 		return result;
+	}
+
+	@Override
+	protected int getStyle() {
+		return super.getStyle() | SEARCH_FOLDER | SEARCH_FILE;
 	}
 
 }
