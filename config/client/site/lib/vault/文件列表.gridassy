@@ -41,7 +41,7 @@
       "columns": []
     },
     {
-      "name": "status",
+      "name": "statusText",
       "text": "状态",
       "alignment": 16384,
       "width": 80,
@@ -57,7 +57,7 @@
       "columns": []
     },
     {
-      "name": "security",
+      "name": "securityText",
       "text": "密级",
       "alignment": 16384,
       "width": 80,
@@ -74,8 +74,8 @@
     },
     {
       "id": "163dad3c8f4",
-      "name": "plmtype",
-      "description": "documet\r\nepm\r\npart\r\nform",
+      "name": "plmTypeText",
+      "description": "",
       "text": "资料类型",
       "alignment": 16384,
       "width": 120,
