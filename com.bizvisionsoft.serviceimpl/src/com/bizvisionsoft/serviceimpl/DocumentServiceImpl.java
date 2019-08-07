@@ -274,16 +274,30 @@ public class DocumentServiceImpl extends BasicServiceImpl implements DocumentSer
 
 	@Override
 	public List<VaultFolder> listFolder(BasicDBObject condition, ObjectId parent_id, String userId, String domain) {
-		Integer skip = Optional.ofNullable((Integer) condition.get("skip")).orElse(null);
-		Integer limit = Optional.ofNullable((Integer) condition.get("limit")).orElse(null);
-
+		Integer skip = Optional.ofNullable(condition).map(c -> c.getInt("skip")).orElse(null);
+		Integer limit = Optional.ofNullable(condition).map(c -> c.getInt("limit")).orElse(null);
 		parent_id = parent_id.equals(Formatter.ZeroObjectId()) ? null : parent_id;
-
-		BasicDBObject filter = Optional.ofNullable((BasicDBObject) condition.get("filter")).orElse(new BasicDBObject())//
+		BasicDBObject filter = Optional.ofNullable(condition).map(c -> (BasicDBObject) condition.get("filter")).orElse(new BasicDBObject())//
 				.append("parent_id", parent_id);
+
 		BasicDBObject sort = Optional.ofNullable((BasicDBObject) condition.get("sort")).orElse(new BasicDBObject("_id", 1));
 		Consumer<List<Bson>> input = p -> appendFolderAuthQueryPipeline(p, userId);
 		Consumer<List<Bson>> output = p -> appendFolderAdditionInfoQueryPipeline(p, userId);
+		return query(input, skip, limit, filter, sort, output, VaultFolder.class, domain);
+	}
+
+	@Override
+	public List<VaultFolder> listFolderWithPath(BasicDBObject condition, String userId, String domain) {
+		Integer skip = Optional.ofNullable(condition).map(c -> (Integer) c.get("skip")).orElse(null);
+		Integer limit = Optional.ofNullable(condition).map(c -> (Integer) c.get("limit")).orElse(null);
+		BasicDBObject filter = Optional.ofNullable(condition).map(c -> (BasicDBObject) condition.get("filter")).orElse(null);
+		if(Check.isNotAssigned(filter)) return new ArrayList<>();
+		
+		BasicDBObject sort = Optional.ofNullable(condition).map(c -> (BasicDBObject) c.get("sort")).orElse(new BasicDBObject("_id", 1));
+		Consumer<List<Bson>> input = p -> appendFolderAuthQueryPipeline(p, userId);
+		Consumer<List<Bson>> output = p -> {
+			// TODO 添加显示路径的
+		};
 		return query(input, skip, limit, filter, sort, output, VaultFolder.class, domain);
 	}
 
@@ -304,12 +318,17 @@ public class DocumentServiceImpl extends BasicServiceImpl implements DocumentSer
 	@Override
 	public long countFolder(BasicDBObject filter, ObjectId parent_id, String userId, String domain) {
 		parent_id = parent_id.equals(Formatter.ZeroObjectId()) ? null : parent_id;
-
 		filter = Optional.ofNullable(filter).orElse(new BasicDBObject()).append("parent_id", parent_id);
-		// TODO 【权限】
 		Consumer<List<Bson>> input = p -> appendFolderAuthQueryPipeline(p, userId);
-		long count = countDocument(input, filter, null, "folder", domain);
-		return count;
+		return countDocument(input, filter, null, "folder", domain);
+	}
+
+	@Override
+	public long countFolder(BasicDBObject filter, String userId, String domain) {
+		if (Check.isNotAssigned(filter))
+			return 0;
+		Consumer<List<Bson>> input = p -> appendFolderAuthQueryPipeline(p, userId);
+		return countDocument(input, filter, null, "folder", domain);
 	}
 
 	@Override
@@ -317,10 +336,10 @@ public class DocumentServiceImpl extends BasicServiceImpl implements DocumentSer
 		BasicDBObject filter = (BasicDBObject) condition.get("filter");
 		if (Check.isNotAssigned(filter))
 			return new ArrayList<>();
-		
-		Integer skip = Optional.ofNullable((Integer) condition.get("skip")).orElse(null);
-		Integer limit = Optional.ofNullable((Integer) condition.get("limit")).orElse(null);
-		BasicDBObject sort = Optional.ofNullable((BasicDBObject) condition.get("sort")).orElse(new BasicDBObject("_id", 1));
+
+		Integer skip = Optional.ofNullable(condition).map(c -> c.getInt("skip")).orElse(null);
+		Integer limit = Optional.ofNullable(condition).map(c -> c.getInt("limit")).orElse(null);
+		BasicDBObject sort = Optional.ofNullable(condition).map(c -> (BasicDBObject) c.get("sort")).orElse(new BasicDBObject("_id", 1));
 		Consumer<List<Bson>> input = p -> appendDocumentAuthQueryPipeline(p, userId);
 		Consumer<List<Bson>> output = p -> {
 			// TODO 这个地方把DocuDesc要显示的字段值 查出来的JQ管道
@@ -330,25 +349,11 @@ public class DocumentServiceImpl extends BasicServiceImpl implements DocumentSer
 
 	@Override
 	public long countDocument(BasicDBObject filter, String userId, String domain) {
-		filter = Optional.ofNullable(filter).orElse(new BasicDBObject());
-		if (filter.isEmpty())
+		if (Check.isNotAssigned(filter))
 			return 0;
-		// TODO 【权限】
 		Consumer<List<Bson>> input = p -> appendFolderAuthQueryPipeline(p, userId);
 		long count = countDocument(input, filter, null, "docu", domain);
 		return count;
-	}
-
-	@Override
-	public List<VaultFolder> listFolderPath(BasicDBObject condition, String userId, String domain) {
-		// TODO Auto-generated method stub
-		return new ArrayList<VaultFolder>();
-	}
-
-	@Override
-	public long countFolderPath(BasicDBObject filter, String userId, String domain) {
-		// TODO Auto-generated method stub
-		return 0;
 	}
 
 	@Override

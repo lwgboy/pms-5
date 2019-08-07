@@ -367,7 +367,7 @@ public interface DocumentService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("目录查询结果/list")
-	public List<VaultFolder> listFolderPath(@MethodParam(MethodParam.CONDITION) BasicDBObject condition, // 查询条件
+	public List<VaultFolder> listFolderWithPath(@MethodParam(MethodParam.CONDITION) BasicDBObject condition, // 查询条件
 			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userId") String userId,
 			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
@@ -376,7 +376,7 @@ public interface DocumentService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("目录查询结果/count")
-	public long countFolderPath(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
+	public long countFolder(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
 			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userId") String userId,
 			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 	

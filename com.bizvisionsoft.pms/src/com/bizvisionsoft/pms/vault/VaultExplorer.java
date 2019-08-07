@@ -56,19 +56,19 @@ public abstract class VaultExplorer {
 
 	private BruiAssemblyContext contextNavi;
 
+	private AddressBar addressBar;
+
 	protected GridPart fileGrid;
 
-	protected GridPart searchFolderPane;
+	protected GridPart folderSearchResultGrid;
 
-	protected GridPart searchFilePane;
-
-	private AddressBar addressBar;
+	protected GridPart fileSearchResultGrid;
 
 	private Composite navigator;
 
 	private Composite fileSearchResultPane;
 
-	private Composite folderSearchResultTable;
+	private Composite folderSearchResultPane;
 
 	private Composite filePane;
 
@@ -117,7 +117,7 @@ public abstract class VaultExplorer {
 		}
 		
 		if ((SEARCH_FOLDER & getStyle()) != 0)
-			folderSearchResultTable = Controls.handle(createSearchFolderPane(parent)).loc(SWT.RIGHT | SWT.BOTTOM).top(addressBar)
+			folderSearchResultPane = Controls.handle(createSearchFolderPane(parent)).loc(SWT.RIGHT | SWT.BOTTOM).top(addressBar)
 					.left(navigator, 1).formLayout().get();
 
 		if ((SEARCH_FILE & getStyle()) != 0)
@@ -137,8 +137,8 @@ public abstract class VaultExplorer {
 		BruiAssemblyContext containerContext;
 		context.add(containerContext = UserSession.newAssemblyContext().setParent(context));
 		containerContext.setEngine(brui).setInput(context.getInput());
-		searchFilePane = ((GridPart) brui.getTarget());
-		searchFilePane.setDisableQueryPanel(true);
+		fileSearchResultGrid = ((GridPart) brui.getTarget());
+		fileSearchResultGrid.setDisableQueryPanel(true);
 		Composite container = new Composite(parent, SWT.NONE);
 		brui.init(new IServiceWithId[] { br, containerContext }).createUI(container);
 		return container;
@@ -152,8 +152,8 @@ public abstract class VaultExplorer {
 		BruiAssemblyContext containerContext;
 		context.add(containerContext = UserSession.newAssemblyContext().setParent(context));
 		containerContext.setEngine(brui).setInput(context.getInput());
-		searchFolderPane = ((GridPart) brui.getTarget());
-		searchFolderPane.setDisableQueryPanel(true);
+		folderSearchResultGrid = ((GridPart) brui.getTarget());
+		folderSearchResultGrid.setDisableQueryPanel(true);
 		Composite container = new Composite(parent, SWT.NONE);
 		brui.init(new IServiceWithId[] { br, containerContext }).createUI(container);
 		return container;
@@ -218,7 +218,7 @@ public abstract class VaultExplorer {
 				openFileQueryEditor(fileGrid, null);
 			filePane.moveAbove(null);
 		} else if (VaultActions.search.name().equals(action.getName())) {
-			openFileQueryEditor(searchFilePane, null);
+			openFileQueryEditor(fileSearchResultGrid, null);
 			fileSearchResultPane.moveAbove(null);
 		} else if (VaultActions.findFolder.name().equals(action.getName())) {
 			InputDialog id = new InputDialog(br.getCurrentShell(), "搜索目录", "在资料库中搜索目录", null, t -> {
@@ -227,8 +227,8 @@ public abstract class VaultExplorer {
 			if (InputDialog.OK == id.open()) {
 				String name = id.getValue().trim();
 				BasicDBObject query = new BasicDBObject("desc", Pattern.compile(name, Pattern.CASE_INSENSITIVE));
-				searchFolderPane.doQuery(query);
-				folderSearchResultTable.moveAbove(null);
+				folderSearchResultGrid.doQuery(query);
+				folderSearchResultPane.moveAbove(null);
 			}
 		} else if (VaultActions.sortDocuments.name().equals(action.getName())) {
 			fileGrid.openSortEditor();
