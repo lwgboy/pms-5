@@ -2,6 +2,7 @@
   "id": "/字典编辑器.editorassy",
   "name": "表单定义编辑器",
   "title": "表单定义",
+  "description": "cess",
   "layout": [],
   "type": "editor",
   "folderId": "162dc3e928e",
@@ -64,5 +65,8 @@
     }
   ],
   "smallEditor": true,
-  "disableInitLoadData": false
+  "tinyEditor": true,
+  "addToParentContext": false,
+  "disableInitLoadData": false,
+  "fullscreen": false
 }
