@@ -9,6 +9,7 @@ import org.eclipse.swt.widgets.Composite;
 import com.bizvisionsoft.annotations.ui.common.CreateUI;
 import com.bizvisionsoft.annotations.ui.common.Init;
 import com.bizvisionsoft.annotations.ui.common.Inject;
+import com.bizvisionsoft.bruicommons.model.Action;
 import com.bizvisionsoft.bruicommons.model.Assembly;
 import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
@@ -70,6 +71,12 @@ public class ProjectExplorer extends VaultExplorer {
 
 	@Override
 	protected Assembly getNavigatorAssembly() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected List<List<Action>> createToolbarActions() {
 		// TODO Auto-generated method stub
 		return null;
 	}

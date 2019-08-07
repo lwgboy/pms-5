@@ -45,6 +45,7 @@
   "gridAutoColumnWidth": true,
   "actions": [],
   "rowActions": [],
+  "borderLeft": false,
   "hasTitlebar": true,
   "disableInitLoadData": false,
   "disableStandardExport": true,

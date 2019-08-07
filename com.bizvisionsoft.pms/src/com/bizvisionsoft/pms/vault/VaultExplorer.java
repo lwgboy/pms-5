@@ -1,6 +1,5 @@
 package com.bizvisionsoft.pms.vault;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
@@ -33,8 +32,6 @@ import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.ui.AssemblyContainer;
 import com.bizvisionsoft.bruiengine.ui.Editor;
 import com.bizvisionsoft.bruiengine.ui.Selector;
-import com.bizvisionsoft.bruiengine.util.BruiColors.BruiColor;
-import com.bizvisionsoft.bruiengine.util.BruiToolkit;
 import com.bizvisionsoft.bruiengine.util.Controls;
 import com.bizvisionsoft.service.DocumentService;
 import com.bizvisionsoft.service.UniversalDataService;
@@ -53,11 +50,25 @@ public abstract class VaultExplorer {
 
 	private BruiAssemblyContext context;
 
+	private BruiAssemblyContext contextNavi;
+
 	protected GridPart filePane;
 
 	private AddressBar addressBar;
 
-	private BruiAssemblyContext contextNavi;
+	private Composite navigator;
+
+	private Composite fileSearchResultTable;
+
+	private Composite folderSearchResultTable;
+
+	private Composite fileTable;
+
+	protected static final int ADDRESS_BAR = 1 << 2;
+	protected static final int NAVIGATOR = 1 << 3;
+	protected static final int FILETABLE = 1 << 4;
+	protected static final int SEARCH_FOLDER = 1 << 5;
+	protected static final int SEARCH_FILE = 1 << 6;
 
 	public VaultExplorer() {
 	}
@@ -78,22 +89,35 @@ public abstract class VaultExplorer {
 
 	public void createUI(Composite parent) {
 		parent.setLayout(new FormLayout());
-		// 创建顶部工具栏
-		Composite bar = Controls.handle(createAddressBar(parent)).loc(SWT.LEFT | SWT.TOP | SWT.RIGHT).height(32).get();
 
-		Composite navigator = Controls.handle(createNaviPane(parent)).loc(SWT.LEFT | SWT.BOTTOM, .25f).top(bar).get();
+		if ((ADDRESS_BAR & getStyle()) != 0)
+			addressBar = Controls.handle(createAddressBar(parent)).loc(SWT.LEFT | SWT.TOP | SWT.RIGHT).height(32).get();
 
-		Composite filePane = Controls.handle(createFilePane(parent)).loc(SWT.RIGHT | SWT.BOTTOM).left(navigator, 1).top(bar).formLayout()
-				.get();
-		
-		Composite searchFolderPane = Controls.handle(createSearchFolderPane(parent)).loc(SWT.RIGHT | SWT.BOTTOM).left(navigator, 1).top(bar)
-				.below(filePane).get();
+		if ((NAVIGATOR & getStyle()) != 0) {
+			Controls<Composite> controls = Controls.handle(createNaviPane(parent)).loc(SWT.LEFT | SWT.BOTTOM).top(addressBar);
+			if (((FILETABLE | SEARCH_FOLDER | SEARCH_FILE) & getStyle()) != 0) {
+				controls.right(0.25f);
+			} else {
+				controls.right();
+			}
+			navigator = controls.get();
+		}
 
-		Composite searchFilePane = Controls.handle(createSearchFilePane(parent)).loc(SWT.RIGHT | SWT.BOTTOM).left(navigator, 1).top(bar)
-				.below(searchFolderPane).formLayout().get();
-		
-		Object content = context.getChildContextByName("资料库文件列表").getContent();
+		if ((FILETABLE & getStyle()) != 0)
+			fileTable = Controls.handle(createFilePane(parent)).loc(SWT.RIGHT | SWT.BOTTOM).top(addressBar).left(navigator, 1).formLayout()
+					.get();
+		if ((SEARCH_FOLDER & getStyle()) != 0)
+			folderSearchResultTable = Controls.handle(createSearchFolderPane(parent)).loc(SWT.RIGHT | SWT.BOTTOM).top(addressBar)
+					.left(navigator, 1).formLayout().get();
 
+		if ((SEARCH_FILE & getStyle()) != 0)
+			fileSearchResultTable = Controls.handle(createSearchFilePane(parent)).loc(SWT.RIGHT | SWT.BOTTOM).top(addressBar).left(navigator, 1)
+					.formLayout().get();
+
+	}
+
+	protected int getStyle() {
+		return ADDRESS_BAR | NAVIGATOR | FILETABLE;
 	}
 
 	private Composite createSearchFilePane(Composite parent) {
@@ -121,12 +145,12 @@ public abstract class VaultExplorer {
 	 * @param parent
 	 * @return
 	 */
-	protected Composite createAddressBar(Composite parent) {
+	private AddressBar createAddressBar(Composite parent) {
 		List<List<Action>> actions = createToolbarActions();
 
 		IFolder[] path = getPath(context.getInput(IFolder.class, true));
 
-		addressBar = new AddressBar(parent, path, actions, this::checkActionAuthorityOfCurrentFolder);
+		AddressBar addressBar = new AddressBar(parent, path, actions, this::checkActionAuthorityOfCurrentFolder);
 		addressBar.addListener(SWT.SetData, e -> {
 			PathActionEvent ae = (PathActionEvent) e;
 			String msg = Stream.of(ae.path).map(f -> f.getName() + "/").reduce((s1, s2) -> s1 + s2).orElse("");
@@ -261,27 +285,7 @@ public abstract class VaultExplorer {
 
 	protected abstract IFolder[] getPath(IFolder folder);
 
-	private List<List<Action>> createToolbarActions() {
-		List<List<Action>> result = new ArrayList<>();
-
-		List<Action> actions = new ArrayList<Action>();
-		actions.add(VaultActions.create(VaultActions.createSubFolder, true, true));
-		actions.add(VaultActions.create(VaultActions.createDocument, true, true));
-		result.add(actions);
-
-		actions = new ArrayList<Action>();
-		actions.add(VaultActions.create(VaultActions.findFolder, true, true));
-		actions.add(VaultActions.create(VaultActions.findDocuments, true, true));
-		actions.add(VaultActions.create(VaultActions.search, true, false));
-		result.add(actions);
-
-		actions = new ArrayList<Action>();
-		actions.add(VaultActions.create(VaultActions.sortDocuments, true, false));
-		actions.add(VaultActions.create(VaultActions.addFavour, true, false));
-		actions.add(VaultActions.create(VaultActions.setFolderProperties, true, false));
-		result.add(actions);
-		return result;
-	}
+	protected abstract List<List<Action>> createToolbarActions();
 
 	/**
 	 * 创建文件pane
@@ -289,7 +293,7 @@ public abstract class VaultExplorer {
 	 * @param parent
 	 * @return
 	 */
-	protected Composite createFilePane(Composite parent) {
+	private Composite createFilePane(Composite parent) {
 		// 创建文件组件
 		AssemblyContainer right = new AssemblyContainer(parent, context).setAssembly(br.getAssembly("vault/资料库文件列表.gridassy"))
 				.setServices(br).create();
@@ -303,7 +307,7 @@ public abstract class VaultExplorer {
 		return right.getContainer();
 	}
 
-	protected Composite createNaviPane(Composite parent) {
+	private Composite createNaviPane(Composite parent) {
 		Composite naviPane = Controls.comp(parent).formLayout().get();
 		Control bar = Controls.handle(createNaviToolbarPane(naviPane)).loc(SWT.TOP | SWT.LEFT | SWT.RIGHT, 35).get();
 		Controls.handle(createFolderPane(naviPane)).loc(SWT.LEFT | SWT.RIGHT | SWT.BOTTOM).top(bar);
@@ -311,17 +315,16 @@ public abstract class VaultExplorer {
 	}
 
 	private Control createNaviToolbarPane(Composite parent) {
-		Composite bar = Controls.comp(parent).rwt(BruiToolkit.CSS_BAR_TITLE).bg(BruiColor.Grey_50).formLayout().get();
-		Text text = Controls.text(bar).margin(2).mLoc().get();
+		Composite bar = Controls.comp(parent).formLayout().get();
+		Text text = Controls.text(bar, SWT.NONE).loc().get();
 		text.addListener(SWT.KeyDown, e -> {
 			if (e.keyCode == 13) {
 				doQuerySubFolder(text.getText().trim());
 			}
 		});
 		text.setMessage("查找目录");
-		Controls.button(bar).rwt("compact").setImageText(VaultActions.search.getImg(), null, 16, 32).margin(2)
-				.mLoc(SWT.TOP | SWT.BOTTOM | SWT.RIGHT).width(32).above(null)
-				.listen(SWT.MouseDown, e -> doQuerySubFolder(text.getText().trim())).get();
+		Controls.button(bar).rwt("compact").setImageText(VaultActions.search.getImg(), null, 16, 32).mLoc(SWT.TOP | SWT.BOTTOM | SWT.RIGHT)
+				.width(32).above(null).listen(SWT.MouseDown, e -> doQuerySubFolder(text.getText())).get();
 		return bar;
 	}
 

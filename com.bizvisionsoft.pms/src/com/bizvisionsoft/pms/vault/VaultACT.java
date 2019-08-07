@@ -13,8 +13,6 @@ import com.bizvisionsoft.service.model.IFolder;
 
 public class VaultACT {
 
-	// TODO 考虑到权限需要调用服务，使用操作控制Action行为
-
 	@Inject
 	private IBruiService br;
 
