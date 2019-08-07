@@ -230,7 +230,6 @@ public abstract class VaultExplorer {
 				doCreateDocument(folder);
 			else
 				Layer.error("当前目录禁止创建文档。");
-
 		} else if (VaultActions.findDocuments.name().equals(action.getName())) {
 				if (folder != null)
 					openFileQueryEditor(filePane, new BasicDBObject("parent_id", folder.get_id()));

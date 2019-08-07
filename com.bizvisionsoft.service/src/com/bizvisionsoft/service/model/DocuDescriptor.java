@@ -1,6 +1,5 @@
 package com.bizvisionsoft.service.model;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -13,8 +12,6 @@ import com.bizvisionsoft.annotations.md.service.Label;
 import com.bizvisionsoft.annotations.md.service.ReadValue;
 import com.bizvisionsoft.annotations.md.service.WriteValue;
 import com.bizvisionsoft.mongocodex.codec.JsonExternalizable;
-import com.bizvisionsoft.service.ServicesLoader;
-import com.bizvisionsoft.service.UserService;
 
 @PersistenceCollection("docu")
 public class DocuDescriptor implements JsonExternalizable {
@@ -44,7 +41,7 @@ public class DocuDescriptor implements JsonExternalizable {
 	private String desc;
 
 	@ReadValue(ReadValue.TYPE)
-	@Exclude	
+	@Exclude
 	public static final String typeName = "ÎÄµµ";
 
 	public DocuDescriptor setDesc(String desc) {
@@ -62,23 +59,11 @@ public class DocuDescriptor implements JsonExternalizable {
 
 	@ReadValue
 	@WriteValue
-	private List<RemoteFile> docuFiles;
-
-	@ReadValue
-	@WriteValue
 	private List<String> documenttype;
 
 	@ReadValue
 	@WriteValue
-	private List<ObjectId> workPackage_id;
-
-	@ReadValue
-	@WriteValue
 	private OperationInfo creationInfo;
-
-	@ReadValue
-	@WriteValue
-	private String editorName;
 
 	private String status;
 
@@ -89,7 +74,10 @@ public class DocuDescriptor implements JsonExternalizable {
 	@WriteValue
 	private String security;
 
+	@ReadValue
+	@WriteValue
 	private String owner;
+
 	@ReadValue
 	@WriteValue
 	private String plmtype;
@@ -115,11 +103,6 @@ public class DocuDescriptor implements JsonExternalizable {
 
 	}
 
-	@ReadValue("owner")
-	private User getOwner() {
-		return Optional.ofNullable(owner).map(id -> ServicesLoader.get(UserService.class).get(id, domain)).orElse(null);
-	}
-
 	@ReadValue("createOn")
 	private Date readCreateOn() {
 		return Optional.ofNullable(creationInfo).map(c -> c.date).orElse(null);
@@ -143,38 +126,5 @@ public class DocuDescriptor implements JsonExternalizable {
 
 	public ObjectId get_id() {
 		return _id;
-	}
-
-	public DocuDescriptor setFolder_id(ObjectId folder_id) {
-		this.folder_id = folder_id;
-		return this;
-	}
-
-	public DocuDescriptor setCreationInfo(OperationInfo creationInfo) {
-		this.creationInfo = creationInfo;
-		return this;
-	}
-
-	public DocuDescriptor addWorkPackageId(ObjectId workPackage_id) {
-		if (this.workPackage_id == null) {
-			this.workPackage_id = new ArrayList<ObjectId>();
-		}
-		this.workPackage_id.add(workPackage_id);
-		return this;
-	}
-
-	public DocuDescriptor setDocumentType(List<String> documenttype) {
-		this.documenttype = documenttype;
-		return this;
-	}
-
-	public DocuDescriptor setDocuFiles(List<RemoteFile> docuFiles) {
-		this.docuFiles = docuFiles;
-		return this;
-	}
-
-	public DocuDescriptor setEditorName(String editorName) {
-		this.editorName = editorName;
-		return this;
 	}
 }
