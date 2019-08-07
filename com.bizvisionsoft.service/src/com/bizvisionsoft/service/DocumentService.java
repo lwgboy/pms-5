@@ -16,7 +16,7 @@ import org.bson.types.ObjectId;
 import com.bizvisionsoft.annotations.md.service.DataSet;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.service.model.Docu;
-import com.bizvisionsoft.service.model.DocuDetail;
+import com.bizvisionsoft.service.model.DocuDescriptor;
 import com.bizvisionsoft.service.model.DocuSetting;
 import com.bizvisionsoft.service.model.DocuTemplate;
 import com.bizvisionsoft.service.model.Folder;
@@ -278,7 +278,7 @@ public interface DocumentService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("资料库文件列表/" + DataSet.LIST)
-	public List<DocuDetail> listContainerDocument(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
+	public List<DocuDescriptor> listContainerDocument(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
 			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
@@ -294,7 +294,7 @@ public interface DocumentService {
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("资料库文件查询结果/" + DataSet.LIST)
-	public List<DocuDetail> listDocuDetail(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
+	public List<DocuDescriptor> listDocuDetail(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
 			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
