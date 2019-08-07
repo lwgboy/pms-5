@@ -1,6 +1,5 @@
 package com.bizvisionsoft.service.model;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -17,7 +16,7 @@ import com.bizvisionsoft.service.ServicesLoader;
 import com.bizvisionsoft.service.UserService;
 
 @PersistenceCollection("docu")
-public class DocuDetail implements JsonExternalizable {
+public class DocuDesc implements JsonExternalizable {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// 基本的一些字段
@@ -50,10 +49,6 @@ public class DocuDetail implements JsonExternalizable {
 	@Exclude
 	public static final String typeName = "文档";
 
-	public DocuDetail setDesc(String desc) {
-		this.desc = desc;
-		return this;
-	}
 
 	@ReadValue
 	@WriteValue
@@ -63,17 +58,10 @@ public class DocuDetail implements JsonExternalizable {
 	@WriteValue
 	private String summary;
 
-	@ReadValue
-	@WriteValue
-	private List<RemoteFile> docuFiles;
 
 	@ReadValue
 	@WriteValue
 	private List<String> documenttype;
-
-	@ReadValue
-	@WriteValue
-	private List<ObjectId> workPackage_id;
 
 	@ReadValue
 	@WriteValue
@@ -99,10 +87,6 @@ public class DocuDetail implements JsonExternalizable {
 
 	public String getStatus() {
 		return status;
-	}
-
-	public void setStatus(String status) {
-		this.status = status;
 	}
 
 	@ReadValue("status")
@@ -148,36 +132,4 @@ public class DocuDetail implements JsonExternalizable {
 		return _id;
 	}
 
-	public DocuDetail setFolder_id(ObjectId folder_id) {
-		this.folder_id = folder_id;
-		return this;
-	}
-
-	public DocuDetail setCreationInfo(OperationInfo creationInfo) {
-		this.creationInfo = creationInfo;
-		return this;
-	}
-
-	public DocuDetail addWorkPackageId(ObjectId workPackage_id) {
-		if (this.workPackage_id == null) {
-			this.workPackage_id = new ArrayList<ObjectId>();
-		}
-		this.workPackage_id.add(workPackage_id);
-		return this;
-	}
-
-	public DocuDetail setDocumentType(List<String> documenttype) {
-		this.documenttype = documenttype;
-		return this;
-	}
-
-	public DocuDetail setDocuFiles(List<RemoteFile> docuFiles) {
-		this.docuFiles = docuFiles;
-		return this;
-	}
-
-	public DocuDetail setEditorName(String editorName) {
-		this.editorName = editorName;
-		return this;
-	}
 }

@@ -13,7 +13,7 @@ import org.bson.types.ObjectId;
 import com.bizvisionsoft.service.DocumentService;
 import com.bizvisionsoft.service.common.Domain;
 import com.bizvisionsoft.service.model.Docu;
-import com.bizvisionsoft.service.model.DocuDetail;
+import com.bizvisionsoft.service.model.DocuDesc;
 import com.bizvisionsoft.service.model.DocuSetting;
 import com.bizvisionsoft.service.model.DocuTemplate;
 import com.bizvisionsoft.service.model.Folder;
@@ -272,13 +272,13 @@ public class DocumentServiceImpl extends BasicServiceImpl implements DocumentSer
 	}
 
 	@Override
-	public List<DocuDetail> listContainerDocument(BasicDBObject condition, String domain) {
-		return createDataSet(condition, DocuDetail.class, domain);
+	public List<DocuDesc> listContainerDocument(BasicDBObject condition, String domain) {
+		return createDataSet(condition, DocuDesc.class, domain);
 	}
 
 	@Override
 	public long countContainerDocument(BasicDBObject filter, String domain) {
-		return count(filter, DocuDetail.class, domain);
+		return count(filter, DocuDesc.class, domain);
 	}
 
 	@Override
@@ -369,13 +369,13 @@ public class DocumentServiceImpl extends BasicServiceImpl implements DocumentSer
 	}
 
 	@Override
-	public List<DocuDetail> listDocuDetail(BasicDBObject condition, String domain) {
-		return createDataSet(condition, DocuDetail.class, domain);
+	public List<DocuDesc> listDocuDetail(BasicDBObject condition, String domain) {
+		return createDataSet(condition, DocuDesc.class, domain);
 	}
 
 	@Override
 	public long countDocuDetail(BasicDBObject filter, String domain) {
-		return count(filter, DocuDetail.class, domain);
+		return count(filter, DocuDesc.class, domain);
 	}
 
 }
