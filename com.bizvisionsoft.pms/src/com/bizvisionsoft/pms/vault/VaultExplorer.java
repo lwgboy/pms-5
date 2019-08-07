@@ -86,7 +86,7 @@ public abstract class VaultExplorer {
 		Composite filePane = Controls.handle(createFilePane(parent)).loc(SWT.RIGHT | SWT.BOTTOM).left(navigator, 1).top(bar).formLayout()
 				.get();
 
-		Controls.handle(createSearchPane(parent)).loc(SWT.RIGHT | SWT.BOTTOM).left(navigator, 1).top(bar).formLayout().get();
+//		Controls.handle(createSearchPane(parent)).loc(SWT.RIGHT | SWT.BOTTOM).left(navigator, 1).top(bar).formLayout().get();
 	}
 
 	private Composite createSearchPane(Composite parent) {
@@ -462,7 +462,6 @@ public abstract class VaultExplorer {
 	}
 
 	public boolean enableOpenFolder(IFolder folder) {
-
 		return checkFolderAuthority(folder, VaultActions.openFolder.name());
 	}
 
