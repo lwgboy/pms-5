@@ -26,7 +26,7 @@ public class DocuDescriptor implements JsonExternalizable {
 	@ReadValue
 	@WriteValue
 	private String vid;
-	
+
 	@ReadValue
 	@WriteValue
 	private String desc;
@@ -34,19 +34,19 @@ public class DocuDescriptor implements JsonExternalizable {
 	@ReadValue
 	@WriteValue
 	private ObjectId folder_id;
-	
+
 	@ReadValue
 	@WriteValue
 	private String phase;
-	
+
 	@ReadValue
 	@WriteValue
 	private String security;
-	
+
 	@ReadValue
 	@WriteValue
 	private String owner;
-	
+
 	@ReadValue
 	@WriteValue
 	private String plmTypeDesc;
@@ -54,11 +54,11 @@ public class DocuDescriptor implements JsonExternalizable {
 	@ReadValue
 	@WriteValue
 	private String createBy;
-	
+
 	@ReadValue
 	@WriteValue
 	private Date createOn;
-	
+
 	@ReadValue
 	@WriteValue
 	private String path;
