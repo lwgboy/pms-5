@@ -81,6 +81,7 @@
       "type": "delete"
     }
   ],
+  "borderRight": false,
   "hasTitlebar": true,
   "sortFields": []
 }

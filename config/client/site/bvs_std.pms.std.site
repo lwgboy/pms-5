@@ -330,6 +330,15 @@
             "type": "customized",
             "role": "业务管理员",
             "verticalSpan": 0
+          },
+          {
+            "id": "54ef5595-9700-4de5-9c3d-090dea1dace4",
+            "name": "目录和文件选择测试",
+            "text": "目录和文件选择测试",
+            "bundleId": "com.bizvisionsoft.pms",
+            "className": "com.bizvisionsoft.pms.vault.SelectFolderOrDocACT",
+            "type": "customized",
+            "debug": true
           }
         ]
       },
