@@ -218,19 +218,19 @@ public abstract class VaultExplorer {
 	}
 
 	private void handlerEvent(IFolder[] path, Action action) {
-		IFolder folder = getOpenFolder(path);
+		IFolder folder = context.getInput(IFolder.class, true);
 		if (VaultActions.createSubFolder.name().equals(action.getName())) {
-			if (folder == null)
-				Layer.error("请选择要创建目录的目录。");
-			else if (canCreateSubFolder(folder))
+			if (canCreateSubFolder(folder))
 				doCreateSubFolder(folder);
 			else
 				Layer.error("当前目录禁止创建目录。");
+			
 		} else if (VaultActions.createDocument.name().equals(action.getName())) {
 			if (canCreateDocument(folder))
 				doCreateDocument(folder);
 			else
 				Layer.error("当前目录禁止创建文档。");
+
 		} else if (VaultActions.findDocuments.name().equals(action.getName())) {
 			
 			if ((FILETABLE & getStyle()) != 0) {
@@ -269,11 +269,14 @@ public abstract class VaultExplorer {
 			
 		} else if (VaultActions.sortDocuments.name().equals(action.getName())) {
 			filePane.openSortEditor();
+		
 		} else if (VaultActions.addFavour.name().equals(action.getName())) {
 
+		
 		} else if (VaultActions.setFolderProperties.name().equals(action.getName())) {
 
 		}
+		
 		logger.debug("地址栏工具栏事件: " + action);
 	}
 
@@ -309,7 +312,11 @@ public abstract class VaultExplorer {
 	}
 
 	private boolean canCreateDocument(IFolder folder) {
-		return folder != null && checkFolderAuthority(folder, VaultActions.createDocument.name());
+		if (folder == null)
+			return false;
+		if (folder.equals(IFolder.Null))
+			return false;
+		return checkFolderAuthority(folder, VaultActions.createDocument.name());
 	}
 
 	private void doCreateDocument(IFolder folder) {
@@ -328,7 +335,11 @@ public abstract class VaultExplorer {
 	}
 
 	private boolean canCreateSubFolder(IFolder folder) {
-		return folder != null && checkFolderAuthority(folder, VaultActions.createSubFolder.name());
+		if (folder == null)
+			return false;
+		if (folder.equals(IFolder.Null))
+			return false;
+		return checkFolderAuthority(folder, VaultActions.createSubFolder.name());
 	}
 
 	private void doCreateSubFolder(IFolder folder) {
@@ -347,15 +358,6 @@ public abstract class VaultExplorer {
 				navi.insert(vf);
 			}
 		}
-	}
-
-	private IFolder getOpenFolder(IFolder[] path) {
-		if (Check.isAssigned(path)) {
-			IFolder folder = path[path.length - 1];
-			logger.debug("地址栏工具栏事件：当前目录" + folder);
-			return folder;
-		}
-		return null;
 	}
 
 	protected abstract IFolder[] getPath(IFolder folder);

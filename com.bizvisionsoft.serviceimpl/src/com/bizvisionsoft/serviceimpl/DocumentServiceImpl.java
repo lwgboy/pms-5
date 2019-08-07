@@ -13,7 +13,7 @@ import org.bson.types.ObjectId;
 import com.bizvisionsoft.service.DocumentService;
 import com.bizvisionsoft.service.common.Domain;
 import com.bizvisionsoft.service.model.Docu;
-import com.bizvisionsoft.service.model.DocuDesc;
+import com.bizvisionsoft.service.model.DocuDescriptor;
 import com.bizvisionsoft.service.model.DocuSetting;
 import com.bizvisionsoft.service.model.DocuTemplate;
 import com.bizvisionsoft.service.model.Folder;
@@ -271,15 +271,6 @@ public class DocumentServiceImpl extends BasicServiceImpl implements DocumentSer
 		return 0;
 	}
 
-	@Override
-	public List<DocuDesc> listContainerDocument(BasicDBObject condition, String domain) {
-		return createDataSet(condition, DocuDesc.class, domain);
-	}
-
-	@Override
-	public long countContainerDocument(BasicDBObject filter, String domain) {
-		return count(filter, DocuDesc.class, domain);
-	}
 
 	@Override
 	public List<VaultFolder> listFolder(BasicDBObject condition, ObjectId parent_id, String userId, String domain) {
@@ -369,13 +360,28 @@ public class DocumentServiceImpl extends BasicServiceImpl implements DocumentSer
 	}
 
 	@Override
-	public List<DocuDesc> listDocuDetail(BasicDBObject condition, String domain) {
-		return createDataSet(condition, DocuDesc.class, domain);
+	public List<DocuDescriptor> listContainerDocument(BasicDBObject condition, String domain) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public long countContainerDocument(BasicDBObject filter, String domain) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public List<DocuDescriptor> listDocuDetail(BasicDBObject condition, String domain) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
 	public long countDocuDetail(BasicDBObject filter, String domain) {
-		return count(filter, DocuDesc.class, domain);
+		// TODO Auto-generated method stub
+		return 0;
 	}
+
 
 }
