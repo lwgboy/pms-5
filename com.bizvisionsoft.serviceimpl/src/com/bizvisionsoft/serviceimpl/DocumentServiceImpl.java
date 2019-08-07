@@ -356,15 +356,15 @@ public class DocumentServiceImpl extends BasicServiceImpl implements DocumentSer
 	}
 
 	private void appendDocuDescriptor(List<Bson> pipeline, String domain) {
-		pipeline.addAll(Domain.get(domain).jq("追加-文档属性-版本和创建信息").array());
+		pipeline.addAll(Domain.get(domain).jq("追加-文档-版本和创建信息").array());
 	}
 
 	private void appendDocuDescriptorPath(List<Bson> pipeline, String domain) {
-		pipeline.addAll(Domain.get(domain).jq("追加-文档属性-路径").array());
+		pipeline.addAll(Domain.get(domain).jq("追加-文档-路径").array());
 	}
 
 	private void appendDocuDescriptorOwner(List<Bson> pipeline, String domain) {
-		pipeline.addAll(Domain.get(domain).jq("追加-文档属性-所有者").array());
+		pipeline.addAll(Domain.get(domain).jq("追加-文档-所有者").array());
 	}
 
 	@Override
