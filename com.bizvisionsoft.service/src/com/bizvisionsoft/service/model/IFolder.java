@@ -18,4 +18,6 @@ public interface IFolder {
 	
 	IFolder getContainer();
 	
+	boolean isContainer();
+	
 }

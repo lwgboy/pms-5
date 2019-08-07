@@ -1,0 +1,76 @@
+{
+  "id": "/项目档案库文件夹.gridassy",
+  "name": "目录查询结果",
+  "layout": [],
+  "type": "grid",
+  "folderId": "163dac10775",
+  "gridAutoExpandLevel": 2,
+  "gridMarkupEnabled": true,
+  "gridLineVisiable": true,
+  "gridHeaderVisiable": true,
+  "gridHasVScroll": true,
+  "gridPageControl": true,
+  "gridDataSetService": "com.bizvisionsoft.service.DocumentService",
+  "gridDataSetBundleId": "",
+  "gridDataSetClassName": "",
+  "gridPageCount": 20,
+  "columns": [
+    {
+      "id": "163dad257be",
+      "name": "desc",
+      "text": "名称",
+      "alignment": 16384,
+      "width": 80,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "name": "path",
+      "text": "路径",
+      "alignment": 16384,
+      "width": 320,
+      "resizeable": true,
+      "columns": []
+    }
+  ],
+  "fields": [
+    {
+      "name": "desc",
+      "text": "名称",
+      "type": "文本输入框（查询）",
+      "formFields": [],
+      "textQueryType": "字符串",
+      "hideLabel": false
+    }
+  ],
+  "gridAutoColumnWidth": true,
+  "actions": [],
+  "rowActions": [
+    {
+      "id": "f646abf731d",
+      "name": "openFolder",
+      "text": "打开",
+      "image": "/img/open_w.svg",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.vault.VaultACT",
+      "style": "normal",
+      "actionBehavier": true,
+      "type": "customized",
+      "verticalSpan": 0
+    }
+  ],
+  "disableInitLoadData": true,
+  "modelClassName": "",
+  "modelBundleName": "",
+  "disableStandardExport": false,
+  "disableCustomized": false,
+  "disableStdSort": false,
+  "sortFields": [
+    {
+      "name": "desc",
+      "text": "",
+      "type": "排序字段",
+      "formFields": []
+    }
+  ]
+}

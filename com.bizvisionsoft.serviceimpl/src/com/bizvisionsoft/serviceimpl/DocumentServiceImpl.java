@@ -13,6 +13,7 @@ import org.bson.types.ObjectId;
 import com.bizvisionsoft.service.DocumentService;
 import com.bizvisionsoft.service.common.Domain;
 import com.bizvisionsoft.service.model.Docu;
+import com.bizvisionsoft.service.model.DocuDetail;
 import com.bizvisionsoft.service.model.DocuSetting;
 import com.bizvisionsoft.service.model.DocuTemplate;
 import com.bizvisionsoft.service.model.Folder;
@@ -271,44 +272,13 @@ public class DocumentServiceImpl extends BasicServiceImpl implements DocumentSer
 	}
 
 	@Override
-	public List<Document> listContainerDocument(BasicDBObject condition, String domain) {
-		List<Document> result = new ArrayList<Document>();
-		if (condition != null) {
-			// TODO createDataSet需要支持直接传入集合名称的方法
-			// createDataSet(condition, Docu.class, domain)
-			// .forEach((Docu docu) -> result.add(BsonTools.encodeDocument(docu)));
-
-			Integer skip = (Integer) condition.get("skip");
-			Integer limit = (Integer) condition.get("limit");
-			BasicDBObject filter = (BasicDBObject) condition.get("filter");
-			BasicDBObject sort = (BasicDBObject) condition.get("sort");
-
-			ArrayList<Bson> pipeline = new ArrayList<Bson>();
-
-			if (filter != null)
-				pipeline.add(Aggregates.match(filter));
-
-			if (sort != null)
-				pipeline.add(Aggregates.sort(sort));
-
-			if (skip != null)
-				pipeline.add(Aggregates.skip(skip));
-
-			if (limit != null)
-				pipeline.add(Aggregates.limit(limit));
-
-			debugPipeline(pipeline);
-
-			return c("docu").aggregate(pipeline).into(new ArrayList<>());
-		}
-		return result;
+	public List<DocuDetail> listContainerDocument(BasicDBObject condition, String domain) {
+		return createDataSet(condition, DocuDetail.class, domain);
 	}
 
 	@Override
 	public long countContainerDocument(BasicDBObject filter, String domain) {
-		if (filter != null)
-			return count(filter, Docu.class, domain);
-		return 0;
+		return count(filter, DocuDetail.class, domain);
 	}
 
 	@Override
@@ -344,6 +314,18 @@ public class DocumentServiceImpl extends BasicServiceImpl implements DocumentSer
 		Consumer<List<Bson>> input = p -> appendAuthQueryPipeline(p, userId);
 		long count = countDocument(input, filter, null, "folder", domain);
 		return count;
+	}
+
+	@Override
+	public List<VaultFolder> listFolderPath(BasicDBObject condition, String userId, String domain) {
+		// TODO Auto-generated method stub
+		return new ArrayList<VaultFolder>();
+	}
+
+	@Override
+	public long countFolderPath(BasicDBObject filter, String userId, String domain) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 	@Override
@@ -384,6 +366,16 @@ public class DocumentServiceImpl extends BasicServiceImpl implements DocumentSer
 	@Override
 	public VaultFolder insertFolder(VaultFolder vf, String domain) {
 		return insert(vf, VaultFolder.class, domain);
+	}
+
+	@Override
+	public List<DocuDetail> listDocuDetail(BasicDBObject condition, String domain) {
+		return createDataSet(condition, DocuDetail.class, domain);
+	}
+
+	@Override
+	public long countDocuDetail(BasicDBObject filter, String domain) {
+		return count(filter, DocuDetail.class, domain);
 	}
 
 }

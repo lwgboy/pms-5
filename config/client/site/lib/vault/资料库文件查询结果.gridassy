@@ -1,6 +1,6 @@
 {
   "id": "/项目档案库文件列表.gridassy",
-  "name": "资料库文件列表",
+  "name": "资料库文件查询结果",
   "layout": [],
   "type": "grid",
   "folderId": "163dac10775",
@@ -92,6 +92,14 @@
       "columns": []
     },
     {
+      "name": "path",
+      "text": "路径",
+      "alignment": 16384,
+      "width": 320,
+      "resizeable": true,
+      "columns": []
+    },
+    {
       "id": "163dad4e4a0",
       "name": "createByInfo",
       "text": "创建者",
@@ -167,6 +175,5 @@
     }
   ],
   "disableInitLoadData": true,
-  "disableStdQuery": false,
   "sortFields": []
 }

@@ -86,12 +86,24 @@ public abstract class VaultExplorer {
 		Composite filePane = Controls.handle(createFilePane(parent)).loc(SWT.RIGHT | SWT.BOTTOM).left(navigator, 1).top(bar).formLayout()
 				.get();
 
-		// Controls.handle(createSearchPane(parent)).loc(SWT.RIGHT |
-		// SWT.BOTTOM).left(navigator, 1).top(bar).formLayout().get();
+		Composite searchFolderPane = Controls.handle(createSearchFolderPane(parent)).loc(SWT.RIGHT | SWT.BOTTOM).left(navigator, 1).top(bar)
+				.below(filePane).get();
+
+		Composite searchFilePane = Controls.handle(createSearchFilePane(parent)).loc(SWT.RIGHT | SWT.BOTTOM).left(navigator, 1).top(bar)
+				.below(searchFolderPane).formLayout().get();
+
 	}
 
-	private Composite createSearchPane(Composite parent) {
-		return null;
+	private Composite createSearchFilePane(Composite parent) {
+		// 创建文件查询结果组件
+		return new AssemblyContainer(parent, context).setAssembly(br.getAssembly("vault/资料库文件查询结果.gridassy")).setServices(br).create()
+				.getContainer();
+	}
+
+	protected Composite createSearchFolderPane(Composite parent) {
+		// 创建文件夹查询结果组件
+		return new AssemblyContainer(parent, context).setAssembly(br.getAssembly("vault/目录查询结果.gridassy")).setServices(br).create()
+				.getContainer();
 	}
 
 	/**
@@ -107,7 +119,7 @@ public abstract class VaultExplorer {
 	 * @param parent
 	 * @return
 	 */
-	private Composite createAddressBar(Composite parent) {
+	protected Composite createAddressBar(Composite parent) {
 		List<List<Action>> actions = createToolbarActions();
 
 		IFolder[] path = getPath(context.getInput(IFolder.class, true));
@@ -148,13 +160,12 @@ public abstract class VaultExplorer {
 			else
 				Layer.error("当前目录禁止创建文档。");
 		} else if (VaultActions.findDocuments.name().equals(action.getName())) {
-			// TODO 增加限定，当前文件夹
 			if (folder != null)
-				openFileQueryEditor(new BasicDBObject("parent_id", folder.get_id()));
+				openFileQueryEditor(filePane, new BasicDBObject("parent_id", folder.get_id()));
 			else
-				openFileQueryEditor(null);
+				openFileQueryEditor(filePane, null);
 		} else if (VaultActions.search.name().equals(action.getName())) {
-			openFileQueryEditor(null);
+			openFileQueryEditor(filePane, null);
 		} else if (VaultActions.sortDocuments.name().equals(action.getName())) {
 			filePane.openSortEditor();
 		} else if (VaultActions.addFavour.name().equals(action.getName())) {
@@ -165,11 +176,11 @@ public abstract class VaultExplorer {
 		logger.debug("地址栏工具栏事件: " + action);
 	}
 
-	private void openFileQueryEditor(BasicDBObject defQuery) {
-		Assembly config = (Assembly) filePane.getConfig().clone();
+	private void openFileQueryEditor(GridPart gp, BasicDBObject defQuery) {
+		Assembly config = (Assembly) gp.getConfig().clone();
 		config.getActions().clear();
-		IBruiContext context = filePane.getContext();
-		IBruiService bruiService = filePane.getBruiService();
+		IBruiContext context = gp.getContext();
+		IBruiService bruiService = gp.getBruiService();
 		Assembly c = (Assembly) AUtil.simpleCopy(config, new Assembly());
 		c.setType(Assembly.TYPE_EDITOR);
 		String title = Stream.of(c.getStickerTitle(), c.getTitle(), c.getName()).filter(Check::isAssigned).findFirst().map(t -> " - " + t)
@@ -276,7 +287,7 @@ public abstract class VaultExplorer {
 	 * @param parent
 	 * @return
 	 */
-	private Composite createFilePane(Composite parent) {
+	protected Composite createFilePane(Composite parent) {
 		// 创建文件组件
 		AssemblyContainer right = new AssemblyContainer(parent, context).setAssembly(br.getAssembly("vault/资料库文件列表.gridassy"))
 				.setServices(br).create();
@@ -290,7 +301,7 @@ public abstract class VaultExplorer {
 		return right.getContainer();
 	}
 
-	private Composite createNaviPane(Composite parent) {
+	protected Composite createNaviPane(Composite parent) {
 		Composite naviPane = Controls.comp(parent).formLayout().get();
 		Control bar = Controls.handle(createNaviToolbarPane(naviPane)).loc(SWT.TOP | SWT.LEFT | SWT.RIGHT, 35).get();
 		Controls.handle(createFolderPane(naviPane)).loc(SWT.LEFT | SWT.RIGHT | SWT.BOTTOM).top(bar);
@@ -307,8 +318,8 @@ public abstract class VaultExplorer {
 		});
 		text.setMessage("查找目录");
 		Controls.button(bar).rwt("compact").setImageText(VaultActions.search.getImg(), null, 16, 32).margin(2)
-				.mLoc(SWT.TOP | SWT.BOTTOM | SWT.RIGHT).width(32).above(null).listen(SWT.MouseDown, e -> doQuerySubFolder(text.getText().trim()))
-				.get();
+				.mLoc(SWT.TOP | SWT.BOTTOM | SWT.RIGHT).width(32).above(null)
+				.listen(SWT.MouseDown, e -> doQuerySubFolder(text.getText().trim())).get();
 		return bar;
 	}
 
@@ -468,25 +479,21 @@ public abstract class VaultExplorer {
 	}
 
 	public boolean enableMoveFolder(IFolder folder) {
-		IFolder[] path = addressBar.getCurrentPath();
-		if (path.length == 0) {
+		if (folder.isContainer()) {
 			return false;
 		}
-
 		return checkFolderAuthority(folder, VaultActions.moveFolder.name());
 	}
 
 	public boolean enableDeleteFolder(IFolder folder) {
-		IFolder[] path = addressBar.getCurrentPath();
-		if (path.length == 0) {
+		if (folder.isContainer()) {
 			return false;
 		}
 		return checkFolderAuthority(folder, VaultActions.deleteFolder.name());
 	}
 
 	public boolean enableRenameFolder(IFolder folder) {
-		IFolder[] path = addressBar.getCurrentPath();
-		if (path.length == 0) {
+		if (folder.isContainer()) {
 			return false;
 		}
 		return checkFolderAuthority(folder, VaultActions.renameFolder.name());
