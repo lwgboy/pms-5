@@ -3,6 +3,7 @@
   "name": "文件查询结果",
   "layout": [],
   "type": "grid",
+  "stickerTitle": "",
   "folderId": "163dac10775",
   "gridLineVisiable": true,
   "gridHeaderVisiable": true,
@@ -20,6 +21,7 @@
       "text": "名称",
       "alignment": 16384,
       "width": 240,
+      "minimumWidth": 240,
       "resizeable": true,
       "columns": []
     },
@@ -29,6 +31,7 @@
       "text": "文档编号",
       "alignment": 16384,
       "width": 120,
+      "minimumWidth": 120,
       "resizeable": true,
       "columns": []
     },
@@ -36,15 +39,17 @@
       "name": "vid",
       "text": "版本号",
       "alignment": 16384,
-      "width": 80,
+      "width": 100,
+      "minimumWidth": 100,
       "resizeable": true,
       "columns": []
     },
     {
-      "name": "status",
+      "name": "statusText",
       "text": "状态",
       "alignment": 16384,
-      "width": 80,
+      "width": 100,
+      "minimumWidth": 100,
       "resizeable": true,
       "columns": []
     },
@@ -53,14 +58,16 @@
       "text": "阶段",
       "alignment": 16384,
       "width": 80,
+      "minimumWidth": 80,
       "resizeable": true,
       "columns": []
     },
     {
-      "name": "security",
+      "name": "securityText",
       "text": "密级",
       "alignment": 16384,
       "width": 80,
+      "minimumWidth": 80,
       "resizeable": true,
       "columns": []
     },
@@ -68,17 +75,46 @@
       "name": "owner",
       "text": "所有者",
       "alignment": 16384,
-      "width": 80,
+      "width": 120,
+      "minimumWidth": 120,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "name": "projectdesc",
+      "text": "项目名称",
+      "alignment": 16384,
+      "width": 240,
+      "minimumWidth": 240,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "name": "projectworkorder",
+      "text": "工作令号",
+      "alignment": 16384,
+      "width": 240,
+      "minimumWidth": 240,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "name": "projectnumber",
+      "text": "项目编号",
+      "alignment": 16384,
+      "width": 120,
+      "minimumWidth": 120,
       "resizeable": true,
       "columns": []
     },
     {
       "id": "163dad3c8f4",
-      "name": "plmtype",
-      "description": "documet\r\nepm\r\npart\r\nform",
+      "name": "plmTypeText",
+      "description": "",
       "text": "资料类型",
       "alignment": 16384,
       "width": 120,
+      "minimumWidth": 120,
       "resizeable": true,
       "columns": []
     },
@@ -87,15 +123,18 @@
       "text": "路径",
       "alignment": 16384,
       "width": 320,
+      "minimumWidth": 320,
+      "moveable": false,
       "resizeable": true,
       "columns": []
     },
     {
       "id": "163dad4e4a0",
-      "name": "createByInfo",
+      "name": "createBy",
       "text": "创建者",
       "alignment": 16384,
       "width": 80,
+      "minimumWidth": 80,
       "resizeable": true,
       "columns": []
     },
@@ -105,14 +144,134 @@
       "text": "创建时间",
       "alignment": 16384,
       "width": 96,
+      "minimumWidth": 96,
       "resizeable": true,
-      "columns": []
+      "columns": [],
+      "format": "yyyy-MM-dd"
     }
   ],
-  "fields": [],
+  "fields": [
+    {
+      "name": "新字段",
+      "type": "行",
+      "formFields": [
+        {
+          "name": "desc",
+          "text": "名称",
+          "type": "文本输入框（查询）",
+          "formFields": []
+        },
+        {
+          "name": "documentnumber",
+          "text": "文档编号",
+          "type": "文本输入框（查询）",
+          "formFields": []
+        }
+      ]
+    },
+    {
+      "name": "新字段",
+      "type": "行",
+      "formFields": [
+        {
+          "name": "projectdesc",
+          "text": "项目名称",
+          "type": "文本输入框（查询）",
+          "formFields": []
+        },
+        {
+          "name": "projectnumber",
+          "text": "项目编号",
+          "type": "文本输入框（查询）",
+          "formFields": []
+        }
+      ]
+    },
+    {
+      "name": "新字段",
+      "type": "行",
+      "formFields": [
+        {
+          "name": "projectworkorder",
+          "text": "工作令号",
+          "type": "文本输入框（查询）",
+          "formFields": []
+        },
+        {
+          "name": "plmtype",
+          "text": "资料类型",
+          "type": "下拉选择框（查询）",
+          "formFields": [],
+          "optionValue": "pmdocument#pmcaddocument#pmpart#pmproduct#pmmaterial#pmsupplyment#pmjigtools#pmpackage#pmform",
+          "optionText": "文档#图纸#零部件#成品#原材料#客供件#工装夹具#包装材料#表单"
+        }
+      ]
+    },
+    {
+      "name": "新字段",
+      "type": "行",
+      "formFields": [
+        {
+          "name": "status",
+          "text": "状态",
+          "type": "下拉选择框（查询）",
+          "formFields": [],
+          "optionValue": "working#approving#released#deposed",
+          "optionText": "工作中#审核中#已发布#已废弃"
+        },
+        {
+          "name": "phase",
+          "text": "阶段",
+          "type": "下拉选择框（查询）",
+          "formFields": [],
+          "optionValue": "S#D",
+          "optionText": "S#D"
+        }
+      ]
+    },
+    {
+      "name": "新字段",
+      "type": "行",
+      "formFields": [
+        {
+          "name": "security",
+          "text": "密级",
+          "type": "下拉选择框（查询）",
+          "formFields": [],
+          "optionValue": "a#b#c#d#e",
+          "optionText": "I#II#III#IV#V"
+        },
+        {
+          "name": "owner",
+          "text": "所有者",
+          "type": "文本输入框（查询）",
+          "formFields": []
+        }
+      ]
+    },
+    {
+      "name": "新字段",
+      "type": "行",
+      "formFields": [
+        {
+          "name": "createByInfo",
+          "text": "创建者",
+          "type": "文本输入框（查询）",
+          "formFields": []
+        },
+        {
+          "name": "createOn",
+          "text": "创建时间",
+          "type": "日期时间范围（查询）",
+          "formFields": []
+        }
+      ]
+    }
+  ],
   "gridAutoColumnWidth": true,
   "actions": [],
   "rowActions": [],
+  "hasTitlebar": false,
   "disableInitLoadData": true,
   "sortFields": []
 }

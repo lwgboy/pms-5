@@ -3,6 +3,7 @@
   "name": "目录查询结果",
   "layout": [],
   "type": "grid",
+  "stickerTitle": "",
   "folderId": "163dac10775",
   "gridAutoExpandLevel": 2,
   "gridMarkupEnabled": true,
@@ -59,12 +60,14 @@
       "verticalSpan": 0
     }
   ],
+  "hasTitlebar": false,
   "disableInitLoadData": true,
   "modelClassName": "",
   "modelBundleName": "",
-  "disableStandardExport": false,
-  "disableCustomized": false,
-  "disableStdSort": false,
+  "disableStandardExport": true,
+  "disableCustomized": true,
+  "disableStdQuery": true,
+  "disableStdSort": true,
   "sortFields": [
     {
       "name": "desc",

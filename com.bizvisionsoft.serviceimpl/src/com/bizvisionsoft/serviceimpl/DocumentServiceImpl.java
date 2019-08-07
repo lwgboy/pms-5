@@ -297,9 +297,13 @@ public class DocumentServiceImpl extends BasicServiceImpl implements DocumentSer
 		BasicDBObject sort = Optional.ofNullable(condition).map(c -> (BasicDBObject) c.get("sort")).orElse(new BasicDBObject("_id", 1));
 		Consumer<List<Bson>> input = p -> appendFolderAuthQueryPipeline(p, userId);
 		Consumer<List<Bson>> output = p -> {
-			// TODO 添加显示路径的
+			appendFolderPath(p, domain);
 		};
 		return query(input, skip, limit, filter, sort, output, VaultFolder.class, domain);
+	}
+
+	private void appendFolderPath(List<Bson> pipeline, String domain) {
+		pipeline.addAll(Domain.get(domain).jq("追加-目录-路径").array());
 	}
 
 	private void appendFolderAdditionInfoQueryPipeline(List<Bson> p, String userId) {

@@ -48,6 +48,10 @@ public class VaultFolder implements IFolder {
 
 	@ReadValue
 	@WriteValue
+	private String path;
+
+	@ReadValue
+	@WriteValue
 	private boolean isflderroot;
 
 	@ReadValue

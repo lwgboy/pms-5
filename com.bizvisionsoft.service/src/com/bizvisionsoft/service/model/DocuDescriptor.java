@@ -1,6 +1,7 @@
 package com.bizvisionsoft.service.model;
 
 import java.util.Date;
+import java.util.List;
 
 import org.bson.types.ObjectId;
 
@@ -66,6 +67,18 @@ public class DocuDescriptor implements JsonExternalizable {
 	@ReadValue
 	@WriteValue
 	private String status;
+	
+	@ReadValue
+	@WriteValue
+	private String projectdesc;
+	
+	@ReadValue
+	@WriteValue
+	private List<String> projectworkorder;
+	
+	@ReadValue
+	@WriteValue
+	private String projectnumber;
 
 	@ReadValue("statusText")
 	private String getStatusText() {
