@@ -18,6 +18,7 @@ import com.bizvisionsoft.bruiengine.service.BruiService;
 import com.bizvisionsoft.bruiengine.service.IBruiContext;
 import com.bizvisionsoft.bruiengine.service.UserSession;
 import com.bizvisionsoft.bruiengine.ui.Part;
+import com.bizvisionsoft.bruiengine.util.BruiColors.BruiColor;
 import com.bizvisionsoft.bruiengine.util.Controls;
 import com.bizvisionsoft.service.DocumentService;
 import com.bizvisionsoft.service.model.IFolder;
@@ -35,8 +36,22 @@ public class FolderDocSelector extends Part {
 		selector.open();
 	}
 
+	public static void selectDocument(IBruiContext context, IFolder initialFolder, int selectionStyle) {
+		Shell parentShell = Display.getCurrent().getActiveShell();
+		FolderDocSelector selector = new FolderDocSelector(parentShell);
+		selector.setParentContext(context).setTitle("选择文档").setSizeMode(false, false).setExplorerStyle(VaultExplorer.ADDRESS_BAR
+				| VaultExplorer.NAVIGATOR | VaultExplorer.FILETABLE | VaultExplorer.SEARCH_FILE | VaultExplorer.SEARCH_FOLDER)
+				.setSelectionStyle(selectionStyle);
+		selector.init(initialFolder);
+		selector.open();
+	}
+
 	public static void selectFolder(IBruiContext context) {
 		selectFolder(context, IFolder.Null, SWT.SINGLE);
+	}
+
+	public static void selectDocument(IBruiContext context) {
+		selectDocument(context, IFolder.Null, SWT.SINGLE);
 	}
 
 	private boolean isTiny;
@@ -115,10 +130,16 @@ public class FolderDocSelector extends Part {
 					return result.toArray(new IFolder[0]);
 				}
 			}
-			
+
 			@Override
 			protected Assembly getFileTableAssembly() {
-				return service.getAssembly("vault/资料库文件列表.gridassy");
+				Assembly assy = (Assembly) service.getAssembly("vault/文件列表.gridassy").clone();
+				assy.getActions().clear();
+				assy.getRowActions().clear();
+				if ((VaultExplorer.FILETABLE & explorerStyle) != 0) {// 仅当选择文件的时候，在文件上才有勾选框
+					assy.setCheckOn(true);
+				}
+				return assy;
 			}
 
 
@@ -127,7 +148,9 @@ public class FolderDocSelector extends Part {
 				Assembly assy = (Assembly) service.getAssembly("vault/目录导航.gridassy").clone();
 				assy.getActions().clear();
 				assy.getRowActions().clear();
-				assy.setCheckOn(true);
+				if ((VaultExplorer.FILETABLE & explorerStyle) == 0) {// 仅当选择目录的时候，在目录上才有勾选框
+					assy.setCheckOn(true);
+				}
 				return assy;
 			}
 
@@ -143,7 +166,26 @@ public class FolderDocSelector extends Part {
 
 			@Override
 			protected List<List<Action>> createToolbarActions() {
-				return new ArrayList<>();
+				ArrayList<List<Action>> result = new ArrayList<>();
+				if ((VaultExplorer.SEARCH_FOLDER & explorerStyle) != 0) {
+					List<Action> row = new ArrayList<>();
+					result.add(row);
+					row.add(VaultActions.create(VaultActions.findFolder, true, false));
+				}
+
+				if ((VaultExplorer.SEARCH_FILE & explorerStyle) != 0) {
+					List<Action> row;
+					if (result.isEmpty()) {
+						row = new ArrayList<>();
+						result.add(row);
+					} else {
+						row = result.get(0);
+					}
+					row.add(VaultActions.create(VaultActions.findDocuments, true, false));
+					row.add(VaultActions.create(VaultActions.search, true, false));
+				}
+
+				return result;
 			}
 		};
 		explorer.setBruiService(service).setContext(context);
@@ -153,26 +195,26 @@ public class FolderDocSelector extends Part {
 	@Override
 	protected void createContents(Composite parent) {
 		parent.setLayout(new FormLayout());
-		Composite content = Controls.comp(parent).loc(SWT.TOP | SWT.LEFT | SWT.RIGHT).bottom(100, -36).get();
+		Composite content = Controls.comp(parent).loc(SWT.TOP | SWT.LEFT | SWT.RIGHT).bottom(100, -36).bg(BruiColor.Grey_200).get();
 		// 创建内容区
-		explorer.createUI(content);	
+		explorer.createUI(content);
 		// 创建按扭区
 		Composite bar = Controls.comp(parent).loc(SWT.LEFT | SWT.RIGHT | SWT.BOTTOM).top(content).formLayout().get();
 		createButtons(bar);
 	}
 
 	private void createButtons(Composite parent) {
-		//TODO此处布局按
+		// TODO此处布局按
 		Controls.button(parent).rwt(Controls.CSS_SERIOUS).setText("确定").loc(SWT.LEFT).listen(SWT.Selection, e -> close());
 
-		//取消按钮
+		// 取消按钮
 		if ((SWT.SINGLE & selectionStyle) != 0) {
-			
+
 		}
 
-		//全选，取消全选
+		// 全选，取消全选
 		if ((SWT.MULTI & selectionStyle) != 0) {
-			
+
 		}
 	}
 

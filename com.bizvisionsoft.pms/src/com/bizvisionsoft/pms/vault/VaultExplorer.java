@@ -18,7 +18,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.bizivisionsoft.widgets.util.Layer;
-import com.bizvisionsoft.annotations.AUtil;
 import com.bizvisionsoft.annotations.UniversalCommand;
 import com.bizvisionsoft.annotations.UniversalResult;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
@@ -247,14 +246,13 @@ public abstract class VaultExplorer {
 		config.getActions().clear();
 		IBruiContext context = grid.getContext();
 		IBruiService bruiService = grid.getBruiService();
-		Assembly c = (Assembly) AUtil.simpleCopy(config, new Assembly());
-		c.setType(Assembly.TYPE_EDITOR);
-		String title = Stream.of(c.getStickerTitle(), c.getTitle(), c.getName()).filter(Check::isAssigned).findFirst().map(t -> " - " + t)
+		config.setType(Assembly.TYPE_EDITOR);
+		String title = Stream.of(config.getStickerTitle(), config.getTitle(), config.getName()).filter(Check::isAssigned).findFirst().map(t -> " - " + t)
 				.orElse("");
-		c.setTitle("²éÑ¯" + title);
+		config.setTitle("²éÑ¯" + title);
 
-		c.setSmallEditor(true);
-		c.setTinyEditor(true);
+		config.setSmallEditor(true);
+		config.setTinyEditor(true);
 
 		String bundleId = config.getQueryBuilderBundle();
 		String classId = config.getQueryBuilderClass();
@@ -265,7 +263,7 @@ public abstract class VaultExplorer {
 			input = new Document();
 		}
 
-		Editor.create(c, context, input, true).ok((r, t) -> {
+		Editor.create(config, context, input, true).ok((r, t) -> {
 			if (defaultFilter != null)
 				r.putAll(defaultFilter.toMap());
 			grid.doQuery(r);
