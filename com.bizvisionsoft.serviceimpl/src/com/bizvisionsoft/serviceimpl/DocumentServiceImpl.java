@@ -354,8 +354,18 @@ public class DocumentServiceImpl extends BasicServiceImpl implements DocumentSer
 
 	@Override
 	public List<DocuDescriptor> listDocumentWithPath(BasicDBObject condition, String userId, String domain) {
-		// TODO 这个地方增加path的显示
-		return null;
+		BasicDBObject filter = (BasicDBObject) condition.get("filter");
+		if (Check.isNotAssigned(filter))
+			return new ArrayList<>();
+
+		Integer skip = Optional.ofNullable(condition).map(c -> c.getInt("skip")).orElse(null);
+		Integer limit = Optional.ofNullable(condition).map(c -> c.getInt("limit")).orElse(null);
+		BasicDBObject sort = Optional.ofNullable(condition).map(c -> (BasicDBObject) c.get("sort")).orElse(new BasicDBObject("_id", 1));
+		Consumer<List<Bson>> input = p -> appendDocumentAuthQueryPipeline(p, userId);
+		Consumer<List<Bson>> output = p -> {
+			appendDocuDescriptor(p, domain);
+		};
+		return query(input, skip, limit, filter, sort, output, DocuDescriptor.class, domain);
 	}
 
 	@Override

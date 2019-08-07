@@ -18,10 +18,6 @@
 		"as" : "<output array field>"
 	}
 }, {
-	"$match" : {
-
-	}
-}, {
 	"$graphLookup" : {
 		"from" : "folder",
 		"startWith" : "$folder_id",

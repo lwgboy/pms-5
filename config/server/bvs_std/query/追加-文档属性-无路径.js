@@ -18,26 +18,8 @@
 		"as" : "<output array field>"
 	}
 }, {
-	"$graphLookup" : {
-		"from" : "folder",
-		"startWith" : "$folder_id",
-		"connectFromField" : "parent_id",
-		"connectToField" : "_id",
-		"as" : "path",
-		"depthField" : "level"
-	}
-}, {
 	"$addFields" : {
 		"owner" : "$user.name",
-		"path" : {
-			"$reduce" : {
-				"input" : "$path.desc",
-				"initialValue" : "",
-				"in" : {
-					"$concat" : [ "$$value", "/", "$$this" ]
-				}
-			}
-		},
 		"vid" : {
 			"$concat" : [ "$major_vid", ".", {
 				"$toString" : "$svid"
