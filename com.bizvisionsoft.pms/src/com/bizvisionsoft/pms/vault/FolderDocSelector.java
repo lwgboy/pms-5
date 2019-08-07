@@ -30,9 +30,8 @@ public class FolderDocSelector extends Part {
 		Shell parentShell = Display.getCurrent().getActiveShell();
 		FolderDocSelector selector = new FolderDocSelector(parentShell);
 		selector.setParentContext(context).setTitle("选择目录").setSizeMode(false, true)
-				.setExplorerStyle(VaultExplorer.ADDRESS_BAR | VaultExplorer.NAVIGATOR);
+				.setExplorerStyle(VaultExplorer.ADDRESS_BAR | VaultExplorer.NAVIGATOR).setSelectionStyle(selectionStyle);
 		selector.init(initialFolder);
-		selector.setSelectionStyle(selectionStyle);
 		selector.open();
 	}
 
@@ -160,10 +159,12 @@ public class FolderDocSelector extends Part {
 		//TODO此处布局按
 		Controls.button(parent).rwt(Controls.CSS_SERIOUS).setText("确定").loc(SWT.LEFT).listen(SWT.Selection, e -> close());
 
+		//取消按钮
 		if ((SWT.SINGLE & selectionStyle) != 0) {
 			
 		}
 
+		//全选，取消全选
 		if ((SWT.MULTI & selectionStyle) != 0) {
 			
 		}

@@ -70,6 +70,8 @@ public abstract class VaultExplorer {
 	protected static final int SEARCH_FOLDER = 1 << 5;
 	protected static final int SEARCH_FILE = 1 << 6;
 
+	private GridPart searchFolderPane;
+
 	public VaultExplorer() {
 	}
 
@@ -111,8 +113,8 @@ public abstract class VaultExplorer {
 					.left(navigator, 1).formLayout().get();
 
 		if ((SEARCH_FILE & getStyle()) != 0)
-			fileSearchResultTable = Controls.handle(createSearchFilePane(parent)).loc(SWT.RIGHT | SWT.BOTTOM).top(addressBar).left(navigator, 1)
-					.formLayout().get();
+			fileSearchResultTable = Controls.handle(createSearchFilePane(parent)).loc(SWT.RIGHT | SWT.BOTTOM).top(addressBar)
+					.left(navigator, 1).formLayout().get();
 
 	}
 
@@ -128,8 +130,10 @@ public abstract class VaultExplorer {
 
 	protected Composite createSearchFolderPane(Composite parent) {
 		// 创建文件夹查询结果组件
-		return new AssemblyContainer(parent, context).setAssembly(br.getAssembly("vault/目录查询结果.gridassy")).setServices(br).create()
-				.getContainer();
+		AssemblyContainer left = new AssemblyContainer(parent, context).setAssembly(br.getAssembly("vault/目录查询结果.gridassy")).setServices(br)
+				.create();
+		searchFolderPane = (GridPart) left.getContext().getContent();
+		return left.getContainer();
 	}
 
 	/**
@@ -192,6 +196,9 @@ public abstract class VaultExplorer {
 				openFileQueryEditor(filePane, null);
 		} else if (VaultActions.search.name().equals(action.getName())) {
 			openFileQueryEditor(filePane, null);
+		} else if (VaultActions.findFolder.name().equals(action.getName())) {
+			openFileQueryEditor(searchFolderPane, null);
+			Controls.handle(folderSearchResultTable).above(fileTable);
 		} else if (VaultActions.sortDocuments.name().equals(action.getName())) {
 			filePane.openSortEditor();
 		} else if (VaultActions.addFavour.name().equals(action.getName())) {
