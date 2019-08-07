@@ -41,15 +41,6 @@
       "columns": []
     },
     {
-      "name": "documenttype",
-      "description": "FormDef.name",
-      "text": "文档类型",
-      "alignment": 16384,
-      "width": 80,
-      "resizeable": true,
-      "columns": []
-    },
-    {
       "name": "status",
       "text": "状态",
       "alignment": 16384,
@@ -93,7 +84,7 @@
     },
     {
       "id": "163dad4e4a0",
-      "name": "createByInfo",
+      "name": "createBy",
       "text": "创建者",
       "alignment": 16384,
       "width": 80,
@@ -112,34 +103,64 @@
   ],
   "fields": [
     {
-      "id": "163deecef3b",
-      "name": "id",
-      "text": "文件编号",
+      "name": "desc",
+      "text": "名称",
       "type": "文本输入框（查询）",
       "formFields": []
     },
     {
-      "id": "163deec9298",
-      "name": "name",
-      "text": "文件名称",
+      "name": "documentnumber",
+      "text": "文档编号",
       "type": "文本输入框（查询）",
       "formFields": []
     },
     {
-      "id": "163deed19da",
-      "name": "category",
-      "text": "文档类型",
-      "type": "多个对象选择框（查询）",
-      "formFields": [],
-      "selectorAssemblyId": "/文档类型选择.gridassy"
+      "name": "vid",
+      "text": "版本号",
+      "type": "文本输入框（查询）",
+      "formFields": []
     },
     {
-      "id": "163deed5af9",
-      "name": "tag",
-      "text": "标签",
-      "type": "多个对象选择框（查询）",
-      "formFields": [],
-      "selectorAssemblyId": "/Tag选择.gridassy"
+      "name": "status",
+      "text": "状态",
+      "type": "文本输入框（查询）",
+      "formFields": []
+    },
+    {
+      "name": "phase",
+      "text": "阶段",
+      "type": "文本输入框（查询）",
+      "formFields": []
+    },
+    {
+      "name": "security",
+      "text": "密级",
+      "type": "文本输入框（查询）",
+      "formFields": []
+    },
+    {
+      "name": "owner",
+      "text": "所有者",
+      "type": "文本输入框（查询）",
+      "formFields": []
+    },
+    {
+      "name": "plmtype",
+      "text": "资料类型",
+      "type": "文本输入框（查询）",
+      "formFields": []
+    },
+    {
+      "name": "createByInfo",
+      "text": "创建者",
+      "type": "文本输入框（查询）",
+      "formFields": []
+    },
+    {
+      "name": "createOn",
+      "text": "创建时间",
+      "type": "文本输入框（查询）",
+      "formFields": []
     }
   ],
   "gridAutoColumnWidth": true,

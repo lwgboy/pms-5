@@ -134,22 +134,14 @@ public abstract class VaultExplorer {
 
 	private Composite createSearchFilePane(Composite parent) {
 		// 创建文件查询结果组件
-		// return new AssemblyContainer(parent,
-		// context).setAssembly(br.getAssembly("vault/资料库文件查询结果.gridassy")).setServices(br).create()
-		// .getContainer();
-
-		BruiAssemblyContext containerContext;
 		Assembly gridConfig = Model.getAssembly("vault/资料库文件查询结果.gridassy");
 		BruiAssemblyEngine brui = BruiAssemblyEngine.newInstance(gridConfig);
+		BruiAssemblyContext containerContext;
 		context.add(containerContext = UserSession.newAssemblyContext().setParent(context));
-		containerContext.setInput(context.getInput());
-		containerContext.setEngine(brui);
-
+		containerContext.setEngine(brui).setInput(context.getInput());
 		searchFilePane = ((GridPart) brui.getTarget());
 		searchFilePane.setDisableQueryPanel(true);
-
-		Composite container = new Composite(parent, SWT.BORDER);
-		container.setBackground(container.getDisplay().getSystemColor(SWT.COLOR_WHITE));
+		Composite container = new Composite(parent, SWT.NONE);
 		brui.init(new IServiceWithId[] { br, containerContext }).createUI(container);
 		return container;
 
@@ -157,23 +149,14 @@ public abstract class VaultExplorer {
 
 	protected Composite createSearchFolderPane(Composite parent) {
 		// 创建文件夹查询结果组件
-		// AssemblyContainer rigth = new AssemblyContainer(parent,
-		// context).setAssembly(br.getAssembly("vault/目录查询结果.gridassy"))
-		// .setServices(br).create();
-		// searchFolderPane = (GridPart) rigth.getContext().getContent();
-		// return rigth.getContainer();
-		BruiAssemblyContext containerContext;
 		Assembly gridConfig = Model.getAssembly("vault/目录查询结果.gridassy");
 		BruiAssemblyEngine brui = BruiAssemblyEngine.newInstance(gridConfig);
+		BruiAssemblyContext containerContext;
 		context.add(containerContext = UserSession.newAssemblyContext().setParent(context));
-		containerContext.setInput(context.getInput());
-		containerContext.setEngine(brui);
-
+		containerContext.setEngine(brui).setInput(context.getInput());
 		searchFolderPane = ((GridPart) brui.getTarget());
 		searchFolderPane.setDisableQueryPanel(true);
-
-		Composite container = new Composite(parent, SWT.BORDER);
-		container.setBackground(container.getDisplay().getSystemColor(SWT.COLOR_WHITE));
+		Composite container = new Composite(parent, SWT.NONE);
 		brui.init(new IServiceWithId[] { br, containerContext }).createUI(container);
 		return container;
 	}
@@ -224,43 +207,42 @@ public abstract class VaultExplorer {
 				doCreateSubFolder(folder);
 			else
 				Layer.error("当前目录禁止创建目录。");
-			
+
 		} else if (VaultActions.createDocument.name().equals(action.getName())) {
 			if (canCreateDocument(folder))
 				doCreateDocument(folder);
 			else
 				Layer.error("当前目录禁止创建文档。");
 		} else if (VaultActions.findDocuments.name().equals(action.getName())) {
-				if (folder != null)
-					openFileQueryEditor(filePane, new BasicDBObject("parent_id", folder.get_id()));
-				else
-					openFileQueryEditor(filePane, null);
-				Controls.handle(fileTable).above(showTable);
-				showTable = fileTable;
+			if (folder != null)
+				openFileQueryEditor(filePane, new BasicDBObject("parent_id", folder.get_id()));
+			else
+				openFileQueryEditor(filePane, null);
+			Controls.handle(fileTable).above(showTable);
+			showTable = fileTable;
 		} else if (VaultActions.search.name().equals(action.getName())) {
-				openFileQueryEditor(searchFilePane, null);
-				Controls.handle(fileSearchResultTable).above(showTable);
-				showTable = fileSearchResultTable;
+			openFileQueryEditor(searchFilePane, null);
+			Controls.handle(fileSearchResultTable).above(showTable);
+			showTable = fileSearchResultTable;
 		} else if (VaultActions.findFolder.name().equals(action.getName())) {
-				InputDialog id = new InputDialog(br.getCurrentShell(), "搜索目录", "在资料库中搜索目录", null, t -> {
-					return t.trim().isEmpty() ? "请输入目录名称" : null;
-				});
-				if (InputDialog.OK == id.open()) {
-					String name = id.getValue().trim();
-					BasicDBObject query = new BasicDBObject("desc", Pattern.compile(name, Pattern.CASE_INSENSITIVE));
-					searchFolderPane.doQuery(query);
-					Controls.handle(folderSearchResultTable).above(showTable);
-					showTable = folderSearchResultTable;
-				}
+			InputDialog id = new InputDialog(br.getCurrentShell(), "搜索目录", "在资料库中搜索目录", null, t -> {
+				return t.trim().isEmpty() ? "请输入目录名称" : null;
+			});
+			if (InputDialog.OK == id.open()) {
+				String name = id.getValue().trim();
+				BasicDBObject query = new BasicDBObject("desc", Pattern.compile(name, Pattern.CASE_INSENSITIVE));
+				searchFolderPane.doQuery(query);
+				Controls.handle(folderSearchResultTable).above(showTable);
+				showTable = folderSearchResultTable;
+			}
 		} else if (VaultActions.sortDocuments.name().equals(action.getName())) {
 			filePane.openSortEditor();
 		} else if (VaultActions.addFavour.name().equals(action.getName())) {
 
-		
 		} else if (VaultActions.setFolderProperties.name().equals(action.getName())) {
 
 		}
-		
+
 		logger.debug("地址栏工具栏事件: " + action);
 	}
 
@@ -356,30 +338,14 @@ public abstract class VaultExplorer {
 	 */
 	private Composite createFilePane(Composite parent) {
 		// 创建文件组件
-		// AssemblyContainer right = new AssemblyContainer(parent,
-		// context).setAssembly(br.getAssembly("vault/资料库文件列表.gridassy"))
-		// .setServices(br).create();
-		//
-		// filePane = (GridPart) right.getContext().getContent();
-		// // // 增加文件夹选择时的侦听，选择后修改文件组件查询
-		// // folderPane.getViewer()
-		// // .addPostSelectionChangedListener(e -> selectFolderQueryFile((IFolder)
-		// // e.getStructuredSelection().getFirstElement()));
-		// // selectFolderQueryFile(null);
-		// return right.getContainer();
-
-		BruiAssemblyContext containerContext;
-		Assembly gridConfig = Model.getAssembly("vault/资料库文件列表.gridassy");
+		Assembly gridConfig = getFileTableAssembly();
 		BruiAssemblyEngine brui = BruiAssemblyEngine.newInstance(gridConfig);
+		BruiAssemblyContext containerContext;
 		context.add(containerContext = UserSession.newAssemblyContext().setParent(context));
-		containerContext.setInput(context.getInput());
-		containerContext.setEngine(brui);
-
+		containerContext.setEngine(brui).setInput(context.getInput());
 		filePane = ((GridPart) brui.getTarget());
 		filePane.setDisableQueryPanel(true);
-
-		Composite container = new Composite(parent, SWT.BORDER);
-		container.setBackground(container.getDisplay().getSystemColor(SWT.COLOR_WHITE));
+		Composite container = new Composite(parent, SWT.NONE);
 		brui.init(new IServiceWithId[] { br, containerContext }).createUI(container);
 		return container;
 	}
@@ -447,6 +413,8 @@ public abstract class VaultExplorer {
 	}
 
 	protected abstract Assembly getNavigatorAssembly();
+
+	protected abstract Assembly getFileTableAssembly();
 
 	/**
 	 * 
