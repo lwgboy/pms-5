@@ -115,7 +115,7 @@ public abstract class VaultExplorer {
 			filePane = Controls.handle(createFilePane(parent)).loc(SWT.RIGHT | SWT.BOTTOM).top(addressBar).left(navigator, 1).formLayout()
 					.get();
 		}
-		
+
 		if ((SEARCH_FOLDER & getStyle()) != 0)
 			folderSearchResultPane = Controls.handle(createSearchFolderPane(parent)).loc(SWT.RIGHT | SWT.BOTTOM).top(addressBar)
 					.left(navigator, 1).formLayout().get();
@@ -252,7 +252,7 @@ public abstract class VaultExplorer {
 		String title = Stream.of(c.getStickerTitle(), c.getTitle(), c.getName()).filter(Check::isAssigned).findFirst().map(t -> " - " + t)
 				.orElse("");
 		c.setTitle("查询" + title);
-		
+
 		c.setSmallEditor(true);
 		c.setTinyEditor(true);
 
@@ -437,18 +437,21 @@ public abstract class VaultExplorer {
 	}
 
 	private boolean doPathModified(IFolder[] path) {
+		// TODO 检查权限？是否可以浏览本目录
 		IFolder folder;
 		if (Check.isNotAssigned(path)) {
 			folder = getInitialFolder();
 		} else {
 			folder = path[path.length - 1];
 		}
+		
 		context.setInput(folder);
 		contextNavi.setInput(folder);
+		
 		GridPart navi = (GridPart) contextNavi.getContent();
 		navi.doRefresh();
-
-		// TODO 检查权限？是否可以浏览本目录
+		doRefreshFileGird();
+		
 		return true;
 	}
 
@@ -456,10 +459,11 @@ public abstract class VaultExplorer {
 		context.setInput(folder);
 		contextNavi.setInput(folder);
 		IFolder[] path = getPath(folder);
+		
 		addressBar.setPath(path);
+
 		GridPart navi = (GridPart) contextNavi.getContent();
 		navi.doRefresh();
-		// 文件上下文的input设置
 		doRefreshFileGird();
 	}
 
