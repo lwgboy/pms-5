@@ -1,5 +1,6 @@
 package com.bizvisionsoft.pms.vault;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.swt.widgets.Composite;
@@ -7,6 +8,7 @@ import org.eclipse.swt.widgets.Composite;
 import com.bizvisionsoft.annotations.ui.common.CreateUI;
 import com.bizvisionsoft.annotations.ui.common.Init;
 import com.bizvisionsoft.annotations.ui.common.Inject;
+import com.bizvisionsoft.bruicommons.model.Action;
 import com.bizvisionsoft.bruicommons.model.Assembly;
 import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
@@ -56,6 +58,29 @@ public class ContainerExplorer extends VaultExplorer {
 	@Override
 	protected Assembly getNavigatorAssembly() {
 		return br.getAssembly("vault/Ä¿Â¼µ¼º½.gridassy");
+	}
+
+	@Override
+	protected List<List<Action>> createToolbarActions() {
+		List<List<Action>> result = new ArrayList<>();
+
+		List<Action> actions = new ArrayList<Action>();
+		actions.add(VaultActions.create(VaultActions.createSubFolder, true, true));
+		actions.add(VaultActions.create(VaultActions.createDocument, true, true));
+		result.add(actions);
+
+		actions = new ArrayList<Action>();
+		actions.add(VaultActions.create(VaultActions.findFolder, true, true));
+		actions.add(VaultActions.create(VaultActions.findDocuments, true, true));
+		actions.add(VaultActions.create(VaultActions.search, true, false));
+		result.add(actions);
+
+		actions = new ArrayList<Action>();
+		actions.add(VaultActions.create(VaultActions.sortDocuments, true, false));
+		actions.add(VaultActions.create(VaultActions.addFavour, true, false));
+		actions.add(VaultActions.create(VaultActions.setFolderProperties, true, false));
+		result.add(actions);
+		return result;
 	}
 
 }
