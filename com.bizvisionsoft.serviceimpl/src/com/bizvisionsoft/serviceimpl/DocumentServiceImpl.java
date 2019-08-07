@@ -271,15 +271,6 @@ public class DocumentServiceImpl extends BasicServiceImpl implements DocumentSer
 		return 0;
 	}
 
-	@Override
-	public List<DocuDescriptor> listContainerDocument(BasicDBObject condition, String domain) {
-		return createDataSet(condition, DocuDescriptor.class, domain);
-	}
-
-	@Override
-	public long countContainerDocument(BasicDBObject filter, String domain) {
-		return count(filter, DocuDescriptor.class, domain);
-	}
 
 	@Override
 	public List<VaultFolder> listFolder(BasicDBObject condition, ObjectId parent_id, String userId, String domain) {
@@ -369,13 +360,28 @@ public class DocumentServiceImpl extends BasicServiceImpl implements DocumentSer
 	}
 
 	@Override
+	public List<DocuDescriptor> listContainerDocument(BasicDBObject condition, String domain) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public long countContainerDocument(BasicDBObject filter, String domain) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
 	public List<DocuDescriptor> listDocuDetail(BasicDBObject condition, String domain) {
-		return createDataSet(condition, DocuDescriptor.class, domain);
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
 	public long countDocuDetail(BasicDBObject filter, String domain) {
-		return count(filter, DocuDescriptor.class, domain);
+		// TODO Auto-generated method stub
+		return 0;
 	}
+
 
 }
