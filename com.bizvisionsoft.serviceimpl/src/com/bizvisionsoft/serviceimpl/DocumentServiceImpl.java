@@ -341,7 +341,10 @@ public class DocumentServiceImpl extends BasicServiceImpl implements DocumentSer
 		Integer skip = Optional.ofNullable(condition).map(c -> c.getInt("skip")).orElse(null);
 		Integer limit = Optional.ofNullable(condition).map(c -> c.getInt("limit")).orElse(null);
 		BasicDBObject sort = Optional.ofNullable(condition).map(c -> (BasicDBObject) c.get("sort")).orElse(new BasicDBObject("_id", 1));
-		Consumer<List<Bson>> input = p -> appendDocumentAuthQueryPipeline(p, userId);
+		Consumer<List<Bson>> input = p -> {
+			appendDocumentAuthQueryPipeline(p, userId);
+			appendDocuDescriptorOwner(p, domain);
+		};
 		Consumer<List<Bson>> output = p -> {
 			appendDocuDescriptor(p, domain);
 		};
@@ -349,7 +352,15 @@ public class DocumentServiceImpl extends BasicServiceImpl implements DocumentSer
 	}
 
 	private void appendDocuDescriptor(List<Bson> pipeline, String domain) {
-		pipeline.addAll(Domain.get(domain).jq("追加-文档属性").array());
+		pipeline.addAll(Domain.get(domain).jq("追加-文档属性-版本和创建信息").array());
+	}
+
+	private void appendDocuDescriptorPath(List<Bson> pipeline, String domain) {
+		pipeline.addAll(Domain.get(domain).jq("追加-文档属性-路径").array());
+	}
+
+	private void appendDocuDescriptorOwner(List<Bson> pipeline, String domain) {
+		pipeline.addAll(Domain.get(domain).jq("追加-文档属性-所有者").array());
 	}
 
 	@Override
@@ -361,9 +372,13 @@ public class DocumentServiceImpl extends BasicServiceImpl implements DocumentSer
 		Integer skip = Optional.ofNullable(condition).map(c -> c.getInt("skip")).orElse(null);
 		Integer limit = Optional.ofNullable(condition).map(c -> c.getInt("limit")).orElse(null);
 		BasicDBObject sort = Optional.ofNullable(condition).map(c -> (BasicDBObject) c.get("sort")).orElse(new BasicDBObject("_id", 1));
-		Consumer<List<Bson>> input = p -> appendDocumentAuthQueryPipeline(p, userId);
+		Consumer<List<Bson>> input = p -> {
+			appendDocumentAuthQueryPipeline(p, userId);
+			appendDocuDescriptorOwner(p, domain);
+		};
 		Consumer<List<Bson>> output = p -> {
 			appendDocuDescriptor(p, domain);
+			appendDocuDescriptorPath(p, domain);
 		};
 		return query(input, skip, limit, filter, sort, output, DocuDescriptor.class, domain);
 	}
