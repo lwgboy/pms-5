@@ -62,4 +62,12 @@ public class DocuDescriptor implements JsonExternalizable {
 	@ReadValue
 	@WriteValue
 	private String path;
+
+	@ReadValue
+	@WriteValue
+	private String status;
+
+	@ReadValue
+	@WriteValue
+	private String statusText;
 }

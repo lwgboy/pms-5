@@ -291,8 +291,9 @@ public class DocumentServiceImpl extends BasicServiceImpl implements DocumentSer
 		Integer skip = Optional.ofNullable(condition).map(c -> (Integer) c.get("skip")).orElse(null);
 		Integer limit = Optional.ofNullable(condition).map(c -> (Integer) c.get("limit")).orElse(null);
 		BasicDBObject filter = Optional.ofNullable(condition).map(c -> (BasicDBObject) condition.get("filter")).orElse(null);
-		if(Check.isNotAssigned(filter)) return new ArrayList<>();
-		
+		if (Check.isNotAssigned(filter))
+			return new ArrayList<>();
+
 		BasicDBObject sort = Optional.ofNullable(condition).map(c -> (BasicDBObject) c.get("sort")).orElse(new BasicDBObject("_id", 1));
 		Consumer<List<Bson>> input = p -> appendFolderAuthQueryPipeline(p, userId);
 		Consumer<List<Bson>> output = p -> {
@@ -342,18 +343,15 @@ public class DocumentServiceImpl extends BasicServiceImpl implements DocumentSer
 		BasicDBObject sort = Optional.ofNullable(condition).map(c -> (BasicDBObject) c.get("sort")).orElse(new BasicDBObject("_id", 1));
 		Consumer<List<Bson>> input = p -> appendDocumentAuthQueryPipeline(p, userId);
 		Consumer<List<Bson>> output = p -> {
-			// TODO 这个地方把DocuDesc要显示的字段值 查出来的JQ管道
-//			vid
-//			owner
-//			plmTypeDesc
-//			createBy
-//			createOn
-//			path
-			
+			appendDocuDescriptor(p, domain);
 		};
 		return query(input, skip, limit, filter, sort, output, DocuDescriptor.class, domain);
 	}
-	
+
+	private void appendDocuDescriptor(List<Bson> pipeline, String domain) {
+		pipeline.addAll(Domain.get(domain).jq("追加-文档属性").array());
+	}
+
 	@Override
 	public List<DocuDescriptor> listDocumentWithPath(BasicDBObject condition, String userId, String domain) {
 		// TODO 这个地方增加path的显示
@@ -408,6 +406,5 @@ public class DocumentServiceImpl extends BasicServiceImpl implements DocumentSer
 	public VaultFolder insertFolder(VaultFolder vf, String domain) {
 		return insert(vf, VaultFolder.class, domain);
 	}
-
 
 }
