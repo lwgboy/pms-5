@@ -274,21 +274,6 @@ public interface DocumentService {
 	public long countContainer(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
 			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
-	@Path("/{domain}/docuDetail/ds")
-	@Consumes("application/json; charset=UTF-8")
-	@Produces("application/json; charset=UTF-8")
-	@DataSet("资料库文件查询结果/" + DataSet.LIST)
-	public List<DocuDescriptor> listDocuDetail(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
-			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
-
-	@POST
-	@Path("/{domain}/docuDetail/count")
-	@Consumes("application/json; charset=UTF-8")
-	@Produces("application/json; charset=UTF-8")
-	@DataSet("资料库文件查询结果/" + DataSet.COUNT)
-	public long countDocuDetail(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
-			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
-
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// TODO 注意清除上述垃圾代码
 	@POST
@@ -324,7 +309,7 @@ public interface DocumentService {
 	@Path("/{domain}/doc/{userId}/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet("文件列表/" + DataSet.COUNT)
+	@DataSet({"文件列表/" + DataSet.COUNT,"文件查询结果/" + DataSet.COUNT})
 	public long countDocument(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
 			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userId") String userId,
 			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
@@ -379,5 +364,14 @@ public interface DocumentService {
 	public long countFolder(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
 			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userId") String userId,
 			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+	
+	@Path("/{domain}/docdesc/{userId}/ds")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("文件查询结果/" + DataSet.LIST)
+	public List<DocuDescriptor> listDocumentWithPath(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
+			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userId") String userId,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+
 	
 }

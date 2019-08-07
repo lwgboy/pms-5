@@ -353,6 +353,12 @@ public class DocumentServiceImpl extends BasicServiceImpl implements DocumentSer
 		};
 		return query(input, skip, limit, filter, sort, output, DocuDescriptor.class, domain);
 	}
+	
+	@Override
+	public List<DocuDescriptor> listDocumentWithPath(BasicDBObject condition, String userId, String domain) {
+		// TODO 这个地方增加path的显示
+		return null;
+	}
 
 	@Override
 	public long countDocument(BasicDBObject filter, String userId, String domain) {
@@ -403,16 +409,5 @@ public class DocumentServiceImpl extends BasicServiceImpl implements DocumentSer
 		return insert(vf, VaultFolder.class, domain);
 	}
 
-	@Override
-	public List<DocuDescriptor> listDocuDetail(BasicDBObject condition, String domain) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public long countDocuDetail(BasicDBObject filter, String domain) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
 
 }
