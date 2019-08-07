@@ -324,6 +324,13 @@ public class DocumentServiceImpl extends BasicServiceImpl implements DocumentSer
 		Consumer<List<Bson>> input = p -> appendDocumentAuthQueryPipeline(p, userId);
 		Consumer<List<Bson>> output = p -> {
 			// TODO 这个地方把DocuDesc要显示的字段值 查出来的JQ管道
+//			vid
+//			owner
+//			plmTypeDesc
+//			createBy
+//			createOn
+//			path
+			
 		};
 		return query(input, skip, limit, filter, sort, output, DocuDescriptor.class, domain);
 	}
