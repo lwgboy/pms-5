@@ -132,7 +132,7 @@ public abstract class VaultExplorer {
 
 	private Composite createSearchFilePane(Composite parent) {
 		// 创建文件查询结果组件
-		Assembly gridConfig = Model.getAssembly("vault/资料库文件查询结果.gridassy");
+		Assembly gridConfig = Model.getAssembly("vault/文件查询结果.gridassy");
 		BruiAssemblyEngine brui = BruiAssemblyEngine.newInstance(gridConfig);
 		BruiAssemblyContext containerContext;
 		context.add(containerContext = UserSession.newAssemblyContext().setParent(context));
@@ -213,12 +213,12 @@ public abstract class VaultExplorer {
 				Layer.error("当前目录禁止创建文档。");
 		} else if (VaultActions.findDocuments.name().equals(action.getName())) {
 			if (folder != null)
-				openFileQueryEditor(fileGrid, new BasicDBObject("parent_id", folder.get_id()));
+				doFileQuery(fileGrid, new BasicDBObject("parent_id", folder.get_id()));
 			else
-				openFileQueryEditor(fileGrid, null);
+				doFileQuery(fileGrid, null);
 			filePane.moveAbove(null);
 		} else if (VaultActions.search.name().equals(action.getName())) {
-			openFileQueryEditor(fileSearchResultGrid, null);
+			doFileQuery(fileSearchResultGrid, null);
 			fileSearchResultPane.moveAbove(null);
 		} else if (VaultActions.findFolder.name().equals(action.getName())) {
 			InputDialog id = new InputDialog(br.getCurrentShell(), "搜索目录", "在资料库中搜索目录", null, t -> {
@@ -242,11 +242,11 @@ public abstract class VaultExplorer {
 		logger.debug("地址栏工具栏事件: " + action);
 	}
 
-	private void openFileQueryEditor(GridPart gp, BasicDBObject defQuery) {
-		Assembly config = (Assembly) gp.getConfig().clone();
+	private void doFileQuery(GridPart grid, BasicDBObject defaultFilter) {
+		Assembly config = (Assembly) grid.getConfig().clone();
 		config.getActions().clear();
-		IBruiContext context = gp.getContext();
-		IBruiService bruiService = gp.getBruiService();
+		IBruiContext context = grid.getContext();
+		IBruiService bruiService = grid.getBruiService();
 		Assembly c = (Assembly) AUtil.simpleCopy(config, new Assembly());
 		c.setType(Assembly.TYPE_EDITOR);
 		String title = Stream.of(c.getStickerTitle(), c.getTitle(), c.getName()).filter(Check::isAssigned).findFirst().map(t -> " - " + t)
@@ -266,9 +266,9 @@ public abstract class VaultExplorer {
 		}
 
 		Editor.create(c, context, input, true).ok((r, t) -> {
-			if (defQuery != null)
-				r.putAll(defQuery.toMap());
-			gp.doQuery(r);
+			if (defaultFilter != null)
+				r.putAll(defaultFilter.toMap());
+			grid.doQuery(r);
 		});
 
 	}
