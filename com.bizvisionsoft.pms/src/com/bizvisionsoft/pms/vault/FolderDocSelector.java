@@ -3,10 +3,12 @@ package com.bizvisionsoft.pms.vault;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.FormLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
@@ -51,7 +53,7 @@ public class FolderDocSelector extends Part {
 	}
 
 	public static void selectDocument(IBruiContext context) {
-		selectDocument(context, IFolder.Null, SWT.SINGLE);
+		selectDocument(context, IFolder.Null, SWT.MULTI);
 	}
 
 	private boolean isTiny;
@@ -63,6 +65,8 @@ public class FolderDocSelector extends Part {
 	private int explorerStyle;
 	private BruiAssemblyContext context;
 	private int selectionStyle;
+
+	private Object result;
 
 	public FolderDocSelector(Shell parentShell) {
 		super(parentShell);
@@ -142,7 +146,6 @@ public class FolderDocSelector extends Part {
 				return assy;
 			}
 
-
 			@Override
 			protected Assembly getNavigatorAssembly() {
 				Assembly assy = (Assembly) service.getAssembly("vault/目录导航.gridassy").clone();
@@ -195,27 +198,64 @@ public class FolderDocSelector extends Part {
 	@Override
 	protected void createContents(Composite parent) {
 		parent.setLayout(new FormLayout());
-		Composite content = Controls.comp(parent).loc(SWT.TOP | SWT.LEFT | SWT.RIGHT).bottom(100, -36).bg(BruiColor.Grey_200).get();
+		Composite content = Controls.comp(parent).loc(SWT.TOP | SWT.LEFT | SWT.RIGHT).bottom(100, -42).bg(BruiColor.Grey_200).get();
 		// 创建内容区
 		explorer.createUI(content);
 		// 创建按扭区
-		Composite bar = Controls.comp(parent).loc(SWT.LEFT | SWT.RIGHT | SWT.BOTTOM).top(content).formLayout().get();
+		
+		Controls.label(parent,SWT.SEPARATOR|SWT.HORIZONTAL).loc(SWT.LEFT|SWT.RIGHT).top(content);
+		Composite bar = Controls.comp(parent).loc(SWT.LEFT | SWT.RIGHT | SWT.BOTTOM).top(content, 1).get();
 		createButtons(bar);
 	}
 
 	private void createButtons(Composite parent) {
+		FormLayout layout = new FormLayout();
+		layout.marginHeight = 4;
+		layout.marginWidth = 4;
+		layout.spacing = 4;
+		parent.setLayout(layout);
 		// TODO此处布局按
-		Controls.button(parent).rwt(Controls.CSS_SERIOUS).setText("确定").loc(SWT.LEFT).listen(SWT.Selection, e -> close());
+		Controls<Button> btn = Controls.button(parent).rwt(Controls.CSS_NORMAL).setText("确定").loc(SWT.RIGHT | SWT.TOP | SWT.BOTTOM)
+				.width(120).listen(SWT.Selection, e -> okPressed());
 
 		// 取消按钮
-		if ((SWT.SINGLE & selectionStyle) != 0) {
-
+		if (((SWT.SINGLE | SWT.MULTI) & selectionStyle) != 0) {
+			Controls.button(parent).rwt(Controls.CSS_WARNING).setText("取消").loc(SWT.TOP | SWT.BOTTOM).right(btn.get()).width(120).listen(SWT.Selection,
+					e -> cancelPressed());
 		}
 
 		// 全选，取消全选
 		if ((SWT.MULTI & selectionStyle) != 0) {
-
+			btn = Controls.button(parent).rwt(Controls.CSS_INFO).setText("全部选择").loc(SWT.LEFT | SWT.TOP | SWT.BOTTOM).width(120).listen(SWT.Selection,
+					e -> selectAllPressed());
+			Controls.button(parent).rwt(Controls.CSS_INFO).setText("取消选择").loc(SWT.TOP | SWT.BOTTOM).left(btn.get()).width(120)	.listen(SWT.Selection,
+					e -> unSelectAllPressed());
 		}
+	}
+
+	private void unSelectAllPressed() {
+		// TODO Auto-generated method stub
+
+	}
+
+	private void selectAllPressed() {
+		// TODO Auto-generated method stub
+
+	}
+
+	private void cancelPressed() {
+		setReturnCode(Window.CANCEL);
+		close();
+	}
+
+	private void okPressed() {
+		// TODO Auto-generated method stub
+		setReturnCode(Window.OK);
+		close();
+	}
+
+	public Object getResult() {
+		return result;
 	}
 
 }
