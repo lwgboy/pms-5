@@ -24,11 +24,14 @@ import com.bizvisionsoft.annotations.UniversalResult;
 import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.bruicommons.model.Action;
 import com.bizvisionsoft.bruicommons.model.Assembly;
+import com.bizvisionsoft.bruiengine.BruiAssemblyEngine;
 import com.bizvisionsoft.bruiengine.BruiQueryEngine;
 import com.bizvisionsoft.bruiengine.assembly.GridPart;
 import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
 import com.bizvisionsoft.bruiengine.service.IBruiContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
+import com.bizvisionsoft.bruiengine.service.IServiceWithId;
+import com.bizvisionsoft.bruiengine.service.UserSession;
 import com.bizvisionsoft.bruiengine.ui.AssemblyContainer;
 import com.bizvisionsoft.bruiengine.ui.Editor;
 import com.bizvisionsoft.bruiengine.ui.Selector;
@@ -108,6 +111,7 @@ public abstract class VaultExplorer {
 		if ((FILETABLE & getStyle()) != 0)
 			fileTable = Controls.handle(createFilePane(parent)).loc(SWT.RIGHT | SWT.BOTTOM).top(addressBar).left(navigator, 1).formLayout()
 					.get();
+		
 		if ((SEARCH_FOLDER & getStyle()) != 0)
 			folderSearchResultTable = Controls.handle(createSearchFolderPane(parent)).loc(SWT.RIGHT | SWT.BOTTOM).top(addressBar)
 					.left(navigator, 1).formLayout().get();
@@ -307,16 +311,15 @@ public abstract class VaultExplorer {
 	 */
 	private Composite createFilePane(Composite parent) {
 		// 创建文件组件
-		AssemblyContainer right = new AssemblyContainer(parent, context).setAssembly(br.getAssembly("vault/资料库文件列表.gridassy"))
-				.setServices(br).create();
-
-		filePane = (GridPart) right.getContext().getContent();
-		// // 增加文件夹选择时的侦听，选择后修改文件组件查询
-		// folderPane.getViewer()
-		// .addPostSelectionChangedListener(e -> selectFolderQueryFile((IFolder)
-		// e.getStructuredSelection().getFirstElement()));
-		// selectFolderQueryFile(null);
-		return right.getContainer();
+		Assembly gridConfig = (Assembly) br.getAssembly("vault/资料库文件列表.gridassy").clone();
+		BruiAssemblyEngine brui = BruiAssemblyEngine.newInstance(gridConfig);
+		BruiAssemblyContext containerContext;
+		context.add(containerContext = UserSession.newAssemblyContext().setParent(context));
+		containerContext.setEngine(brui).setInput(context.getInput());
+		((GridPart) brui.getTarget()).setDisableQueryPanel(true);
+		Composite container = new Composite(parent, SWT.NONE);
+		brui.init(new IServiceWithId[] { br, containerContext }).createUI(container);
+		return container;
 	}
 
 	private Composite createNaviPane(Composite parent) {
