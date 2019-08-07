@@ -232,28 +232,17 @@ public abstract class VaultExplorer {
 				Layer.error("当前目录禁止创建文档。");
 
 		} else if (VaultActions.findDocuments.name().equals(action.getName())) {
-			
-			if ((FILETABLE & getStyle()) != 0) {
 				if (folder != null)
 					openFileQueryEditor(filePane, new BasicDBObject("parent_id", folder.get_id()));
 				else
 					openFileQueryEditor(filePane, null);
 				Controls.handle(fileTable).above(showTable);
 				showTable = fileTable;
-			}
-			
 		} else if (VaultActions.search.name().equals(action.getName())) {
-			
-			if ((SEARCH_FILE & getStyle()) != 0) {
 				openFileQueryEditor(searchFilePane, null);
 				Controls.handle(fileSearchResultTable).above(showTable);
 				showTable = fileSearchResultTable;
-			} else
-				Layer.error("禁止在资料库中搜索文档。");
-			
 		} else if (VaultActions.findFolder.name().equals(action.getName())) {
-			
-			if ((SEARCH_FOLDER & getStyle()) != 0) {
 				InputDialog id = new InputDialog(br.getCurrentShell(), "搜索目录", "在资料库中搜索目录", null, t -> {
 					return t.trim().isEmpty() ? "请输入目录名称" : null;
 				});
@@ -264,12 +253,8 @@ public abstract class VaultExplorer {
 					Controls.handle(folderSearchResultTable).above(showTable);
 					showTable = folderSearchResultTable;
 				}
-			} else
-				Layer.error("禁止在资料库中搜索文件夹。");
-			
 		} else if (VaultActions.sortDocuments.name().equals(action.getName())) {
 			filePane.openSortEditor();
-		
 		} else if (VaultActions.addFavour.name().equals(action.getName())) {
 
 		
