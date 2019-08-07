@@ -282,7 +282,7 @@ public class DocumentServiceImpl extends BasicServiceImpl implements DocumentSer
 		BasicDBObject filter = Optional.ofNullable((BasicDBObject) condition.get("filter")).orElse(new BasicDBObject())//
 				.append("parent_id", parent_id);
 		BasicDBObject sort = Optional.ofNullable((BasicDBObject) condition.get("sort")).orElse(new BasicDBObject("_id", 1));
-		Consumer<List<Bson>> input = p -> appendAuthQueryPipeline(p, userId);
+		Consumer<List<Bson>> input = p -> appendFolderAuthQueryPipeline(p, userId);
 		Consumer<List<Bson>> output = p -> appendFolderAdditionInfoQueryPipeline(p, userId);
 		return query(input, skip, limit, filter, sort, output, VaultFolder.class, domain);
 	}
@@ -291,7 +291,12 @@ public class DocumentServiceImpl extends BasicServiceImpl implements DocumentSer
 		// TODO 补充目录的其他属性查询管道
 	}
 
-	private void appendAuthQueryPipeline(List<Bson> pipeling, String userId) {
+	private void appendFolderAuthQueryPipeline(List<Bson> pipeling, String userId) {
+		// TODO 【权限】 需要补充权限查询的管道
+
+	}
+
+	private void appendDocumentAuthQueryPipeline(List<Bson> pipeling, String userId) {
 		// TODO 【权限】 需要补充权限查询的管道
 
 	}
@@ -302,10 +307,32 @@ public class DocumentServiceImpl extends BasicServiceImpl implements DocumentSer
 
 		filter = Optional.ofNullable(filter).orElse(new BasicDBObject()).append("parent_id", parent_id);
 		// TODO 【权限】
-		Consumer<List<Bson>> input = p -> appendAuthQueryPipeline(p, userId);
+		Consumer<List<Bson>> input = p -> appendFolderAuthQueryPipeline(p, userId);
 		long count = countDocument(input, filter, null, "folder", domain);
 		return count;
 	}
+	
+	
+	@Override
+	public List<DocuDescriptor> listDocument(BasicDBObject condition, String userId, String domain) {
+		Integer skip = Optional.ofNullable((Integer) condition.get("skip")).orElse(null);
+		Integer limit = Optional.ofNullable((Integer) condition.get("limit")).orElse(null);
+		BasicDBObject filter = Optional.ofNullable((BasicDBObject) condition.get("filter")).orElse(new BasicDBObject());
+		BasicDBObject sort = Optional.ofNullable((BasicDBObject) condition.get("sort")).orElse(new BasicDBObject("_id", 1));
+		Consumer<List<Bson>> input = p -> appendDocumentAuthQueryPipeline(p, userId);
+		Consumer<List<Bson>> output = p -> {
+			//TODO 这个地方把DocuDesc要显示的字段值 查出来的JQ管道
+		};
+		return query(input, skip, limit, filter, sort, output, DocuDescriptor.class, domain);
+	}
+
+	@Override
+	public long countDocument(BasicDBObject filter, String userId, String domain) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+	
+	
 
 	@Override
 	public List<VaultFolder> listFolderPath(BasicDBObject condition, String userId, String domain) {
@@ -359,17 +386,6 @@ public class DocumentServiceImpl extends BasicServiceImpl implements DocumentSer
 		return insert(vf, VaultFolder.class, domain);
 	}
 
-	@Override
-	public List<DocuDescriptor> listContainerDocument(BasicDBObject condition, String domain) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public long countContainerDocument(BasicDBObject filter, String domain) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
 
 	@Override
 	public List<DocuDescriptor> listDocuDetail(BasicDBObject condition, String domain) {
@@ -382,6 +398,8 @@ public class DocumentServiceImpl extends BasicServiceImpl implements DocumentSer
 		// TODO Auto-generated method stub
 		return 0;
 	}
+
+
 
 
 }
