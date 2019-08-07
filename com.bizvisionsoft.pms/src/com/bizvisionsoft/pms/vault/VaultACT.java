@@ -28,7 +28,6 @@ public class VaultACT {
 		explorer.handleAction(folder, action);
 	}
 
-	// TODO 需要在AUtil调用Behavior时，将action传入到方法中。这样这些方法就可以进行合并
 	@Behavior("openFolder")
 	private boolean enableOpenFolder(@MethodParam(Execute.CONTEXT_SELECTION_1ST) IFolder folder) {
 		VaultExplorer explorer = (VaultExplorer) context.getParentContext().getContent();

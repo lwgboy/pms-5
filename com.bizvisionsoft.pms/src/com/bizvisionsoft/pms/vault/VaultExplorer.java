@@ -83,7 +83,14 @@ public abstract class VaultExplorer {
 
 		Composite navigator = Controls.handle(createNaviPane(parent)).loc(SWT.LEFT | SWT.BOTTOM, .25f).top(bar).get();
 
-		Controls.handle(createFilePane(parent)).loc(SWT.RIGHT | SWT.BOTTOM).left(navigator, 1).top(bar).formLayout().get();
+		Composite filePane = Controls.handle(createFilePane(parent)).loc(SWT.RIGHT | SWT.BOTTOM).left(navigator, 1).top(bar).formLayout()
+				.get();
+
+		Controls.handle(createSearchPane(parent)).loc(SWT.RIGHT | SWT.BOTTOM).left(navigator, 1).top(bar).formLayout().get();
+	}
+
+	private Composite createSearchPane(Composite parent) {
+		return null;
 	}
 
 	/**
@@ -455,23 +462,32 @@ public abstract class VaultExplorer {
 	}
 
 	public boolean enableOpenFolder(IFolder folder) {
-		IFolder[] path = addressBar.getCurrentPath();
-		if (path == null || path.length == 0) {
-			return false;
-		}
 
 		return checkFolderAuthority(folder, VaultActions.openFolder.name());
 	}
 
 	public boolean enableMoveFolder(IFolder folder) {
+		IFolder[] path = addressBar.getCurrentPath();
+		if (path.length == 0) {
+			return false;
+		}
+
 		return checkFolderAuthority(folder, VaultActions.moveFolder.name());
 	}
 
 	public boolean enableDeleteFolder(IFolder folder) {
+		IFolder[] path = addressBar.getCurrentPath();
+		if (path.length == 0) {
+			return false;
+		}
 		return checkFolderAuthority(folder, VaultActions.deleteFolder.name());
 	}
 
 	public boolean enableRenameFolder(IFolder folder) {
+		IFolder[] path = addressBar.getCurrentPath();
+		if (path.length == 0) {
+			return false;
+		}
 		return checkFolderAuthority(folder, VaultActions.renameFolder.name());
 	}
 }
