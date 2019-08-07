@@ -81,5 +81,11 @@ public class ProjectExplorer extends VaultExplorer {
 		return null;
 	}
 
+	@Override
+	protected Assembly getFileTableAssembly() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 
 }

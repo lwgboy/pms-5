@@ -115,6 +115,12 @@ public class FolderDocSelector extends Part {
 					return result.toArray(new IFolder[0]);
 				}
 			}
+			
+			@Override
+			protected Assembly getFileTableAssembly() {
+				return service.getAssembly("vault/资料库文件列表.gridassy");
+			}
+
 
 			@Override
 			protected Assembly getNavigatorAssembly() {

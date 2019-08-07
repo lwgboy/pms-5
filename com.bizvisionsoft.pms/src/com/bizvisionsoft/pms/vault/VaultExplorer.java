@@ -311,7 +311,7 @@ public abstract class VaultExplorer {
 	 */
 	private Composite createFilePane(Composite parent) {
 		// 创建文件组件
-		Assembly gridConfig = (Assembly) br.getAssembly("vault/资料库文件列表.gridassy").clone();
+		Assembly gridConfig = getFileTableAssembly();
 		BruiAssemblyEngine brui = BruiAssemblyEngine.newInstance(gridConfig);
 		BruiAssemblyContext containerContext;
 		context.add(containerContext = UserSession.newAssemblyContext().setParent(context));
@@ -321,6 +321,7 @@ public abstract class VaultExplorer {
 		brui.init(new IServiceWithId[] { br, containerContext }).createUI(container);
 		return container;
 	}
+
 
 	private Composite createNaviPane(Composite parent) {
 		Composite naviPane = Controls.comp(parent).formLayout().get();
@@ -386,6 +387,7 @@ public abstract class VaultExplorer {
 
 	protected abstract Assembly getNavigatorAssembly();
 
+	protected abstract Assembly getFileTableAssembly() ;
 	/**
 	 * 
 	 * @param a
