@@ -86,7 +86,8 @@ public abstract class VaultExplorer {
 		Composite filePane = Controls.handle(createFilePane(parent)).loc(SWT.RIGHT | SWT.BOTTOM).left(navigator, 1).top(bar).formLayout()
 				.get();
 
-//		Controls.handle(createSearchPane(parent)).loc(SWT.RIGHT | SWT.BOTTOM).left(navigator, 1).top(bar).formLayout().get();
+		// Controls.handle(createSearchPane(parent)).loc(SWT.RIGHT |
+		// SWT.BOTTOM).left(navigator, 1).top(bar).formLayout().get();
 	}
 
 	private Composite createSearchPane(Composite parent) {
@@ -301,16 +302,17 @@ public abstract class VaultExplorer {
 		Text text = Controls.text(bar).margin(2).mLoc().get();
 		text.addListener(SWT.KeyDown, e -> {
 			if (e.keyCode == 13) {
-				queryFolder(text.getText());
+				doQuerySubFolder(text.getText().trim());
 			}
 		});
 		text.setMessage("查找目录");
 		Controls.button(bar).rwt("compact").setImageText(VaultActions.search.getImg(), null, 16, 32).margin(2)
-				.mLoc(SWT.TOP | SWT.BOTTOM | SWT.RIGHT).width(32).above(null).listen(SWT.MouseDown, e -> queryFolder(text.getText())).get();
+				.mLoc(SWT.TOP | SWT.BOTTOM | SWT.RIGHT).width(32).above(null).listen(SWT.MouseDown, e -> doQuerySubFolder(text.getText().trim()))
+				.get();
 		return bar;
 	}
 
-	private void queryFolder(String text) {
+	private void doQuerySubFolder(String text) {
 		GridPart navi = (GridPart) contextNavi.getContent();
 		BasicDBObject query = new BasicDBObject("desc", Pattern.compile(text, Pattern.CASE_INSENSITIVE));
 		navi.doQuery(query);
@@ -425,11 +427,11 @@ public abstract class VaultExplorer {
 	}
 
 	private void doRenameFolder(IFolder folder) {
-		InputDialog id = new InputDialog(br.getCurrentShell(), "文件夹更名", "新的名称", null, t -> {
+		InputDialog id = new InputDialog(br.getCurrentShell(), "文件夹更名", "新的名称", folder.getName(), t -> {
 			return t.trim().isEmpty() ? "请输入名称" : null;
 		});
 		if (InputDialog.OK == id.open()) {
-			String name = id.getValue();
+			String name = id.getValue().trim();
 			try {
 				Services.get(DocumentService.class).renameVaultFolder(folder.get_id(), name, br.getDomain());
 				Layer.message("文件夹已重命名。");
