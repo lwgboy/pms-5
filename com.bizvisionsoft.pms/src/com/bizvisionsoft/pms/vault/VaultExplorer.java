@@ -85,12 +85,14 @@ public abstract class VaultExplorer {
 
 		Composite filePane = Controls.handle(createFilePane(parent)).loc(SWT.RIGHT | SWT.BOTTOM).left(navigator, 1).top(bar).formLayout()
 				.get();
-
+		
 		Composite searchFolderPane = Controls.handle(createSearchFolderPane(parent)).loc(SWT.RIGHT | SWT.BOTTOM).left(navigator, 1).top(bar)
 				.below(filePane).get();
 
 		Composite searchFilePane = Controls.handle(createSearchFilePane(parent)).loc(SWT.RIGHT | SWT.BOTTOM).left(navigator, 1).top(bar)
 				.below(searchFolderPane).formLayout().get();
+		
+		Object content = context.getChildContextByName("资料库文件列表").getContent();
 
 	}
 
