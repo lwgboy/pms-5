@@ -41,15 +41,6 @@
       "columns": []
     },
     {
-      "name": "documenttype",
-      "description": "FormDef.name",
-      "text": "文档类型",
-      "alignment": 16384,
-      "width": 80,
-      "resizeable": true,
-      "columns": []
-    },
-    {
       "name": "status",
       "text": "状态",
       "alignment": 16384,
@@ -118,38 +109,7 @@
       "columns": []
     }
   ],
-  "fields": [
-    {
-      "id": "163deecef3b",
-      "name": "id",
-      "text": "文件编号",
-      "type": "文本输入框（查询）",
-      "formFields": []
-    },
-    {
-      "id": "163deec9298",
-      "name": "name",
-      "text": "文件名称",
-      "type": "文本输入框（查询）",
-      "formFields": []
-    },
-    {
-      "id": "163deed19da",
-      "name": "category",
-      "text": "文档类型",
-      "type": "多个对象选择框（查询）",
-      "formFields": [],
-      "selectorAssemblyId": "/文档类型选择.gridassy"
-    },
-    {
-      "id": "163deed5af9",
-      "name": "tag",
-      "text": "标签",
-      "type": "多个对象选择框（查询）",
-      "formFields": [],
-      "selectorAssemblyId": "/Tag选择.gridassy"
-    }
-  ],
+  "fields": [],
   "gridAutoColumnWidth": true,
   "actions": [],
   "rowActions": [],
