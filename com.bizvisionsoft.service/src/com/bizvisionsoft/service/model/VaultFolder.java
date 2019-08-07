@@ -252,6 +252,7 @@ public class VaultFolder implements IFolder {
 		return root_id != null ? ServicesLoader.get(CommonService.class).getVaultFolder(root_id, domain) : null;
 	}
 
+	@Override
 	public boolean isContainer() {
 		return iscontainer;
 	}

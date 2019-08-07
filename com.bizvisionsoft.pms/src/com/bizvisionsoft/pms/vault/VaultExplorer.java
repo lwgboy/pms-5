@@ -104,15 +104,15 @@ public abstract class VaultExplorer {
 		}
 
 		if ((FILETABLE & getStyle()) != 0)
-			fileTable = Controls.handle(createFilePane(parent)).loc(SWT.RIGHT | SWT.BOTTOM).top(addressBar).left(navigator,1).formLayout()
+			fileTable = Controls.handle(createFilePane(parent)).loc(SWT.RIGHT | SWT.BOTTOM).top(addressBar).left(navigator, 1).formLayout()
 					.get();
 
 		if ((SEARCH_FOLDER & getStyle()) != 0)
-			folderSearchResultTable = Controls.handle(createSearchPane(parent)).loc(SWT.RIGHT | SWT.BOTTOM).top(addressBar).left(navigator,1)
-					.formLayout().get();
+			folderSearchResultTable = Controls.handle(createSearchFolderPane(parent)).loc(SWT.RIGHT | SWT.BOTTOM).top(addressBar)
+					.left(navigator, 1).formLayout().get();
 
 		if ((SEARCH_FILE & getStyle()) != 0)
-			fileSearchResultTable = Controls.handle(createSearchPane(parent)).loc(SWT.RIGHT | SWT.BOTTOM).top(addressBar).left(navigator,1)
+			fileSearchResultTable = Controls.handle(createSearchFilePane(parent)).loc(SWT.RIGHT | SWT.BOTTOM).top(addressBar).left(navigator, 1)
 					.formLayout().get();
 
 	}
@@ -121,12 +121,16 @@ public abstract class VaultExplorer {
 		return ADDRESS_BAR | NAVIGATOR | FILETABLE;
 	}
 
-	public static void main(String[] args) {
-		System.out.println(((SEARCH_FILE | FILETABLE) & (ADDRESS_BAR | NAVIGATOR | FILETABLE)) != 0);
+	private Composite createSearchFilePane(Composite parent) {
+		// 创建文件查询结果组件
+		return new AssemblyContainer(parent, context).setAssembly(br.getAssembly("vault/资料库文件查询结果.gridassy")).setServices(br).create()
+				.getContainer();
 	}
 
-	private Composite createSearchPane(Composite parent) {
-		return null;
+	protected Composite createSearchFolderPane(Composite parent) {
+		// 创建文件夹查询结果组件
+		return new AssemblyContainer(parent, context).setAssembly(br.getAssembly("vault/目录查询结果.gridassy")).setServices(br).create()
+				.getContainer();
 	}
 
 	/**
@@ -183,13 +187,12 @@ public abstract class VaultExplorer {
 			else
 				Layer.error("当前目录禁止创建文档。");
 		} else if (VaultActions.findDocuments.name().equals(action.getName())) {
-			// TODO 增加限定，当前文件夹
 			if (folder != null)
-				openFileQueryEditor(new BasicDBObject("parent_id", folder.get_id()));
+				openFileQueryEditor(filePane, new BasicDBObject("parent_id", folder.get_id()));
 			else
-				openFileQueryEditor(null);
+				openFileQueryEditor(filePane, null);
 		} else if (VaultActions.search.name().equals(action.getName())) {
-			openFileQueryEditor(null);
+			openFileQueryEditor(filePane, null);
 		} else if (VaultActions.sortDocuments.name().equals(action.getName())) {
 			filePane.openSortEditor();
 		} else if (VaultActions.addFavour.name().equals(action.getName())) {
@@ -200,11 +203,11 @@ public abstract class VaultExplorer {
 		logger.debug("地址栏工具栏事件: " + action);
 	}
 
-	private void openFileQueryEditor(BasicDBObject defQuery) {
-		Assembly config = (Assembly) filePane.getConfig().clone();
+	private void openFileQueryEditor(GridPart gp, BasicDBObject defQuery) {
+		Assembly config = (Assembly) gp.getConfig().clone();
 		config.getActions().clear();
-		IBruiContext context = filePane.getContext();
-		IBruiService bruiService = filePane.getBruiService();
+		IBruiContext context = gp.getContext();
+		IBruiService bruiService = gp.getBruiService();
 		Assembly c = (Assembly) AUtil.simpleCopy(config, new Assembly());
 		c.setType(Assembly.TYPE_EDITOR);
 		String title = Stream.of(c.getStickerTitle(), c.getTitle(), c.getName()).filter(Check::isAssigned).findFirst().map(t -> " - " + t)
@@ -283,7 +286,7 @@ public abstract class VaultExplorer {
 
 	protected abstract IFolder[] getPath(IFolder folder);
 
-	protected abstract List<List<Action>> createToolbarActions() ;
+	protected abstract List<List<Action>> createToolbarActions();
 
 	/**
 	 * 创建文件pane
@@ -314,19 +317,19 @@ public abstract class VaultExplorer {
 
 	private Control createNaviToolbarPane(Composite parent) {
 		Composite bar = Controls.comp(parent).formLayout().get();
-		Text text = Controls.text(bar,SWT.NONE).loc().get();
+		Text text = Controls.text(bar, SWT.NONE).loc().get();
 		text.addListener(SWT.KeyDown, e -> {
 			if (e.keyCode == 13) {
-				queryFolder(text.getText());
+				doQuerySubFolder(text.getText().trim());
 			}
 		});
 		text.setMessage("查找目录");
-		Controls.button(bar).rwt("compact").setImageText(VaultActions.search.getImg(), null, 16, 32)
-				.mLoc(SWT.TOP | SWT.BOTTOM | SWT.RIGHT).width(32).above(null).listen(SWT.MouseDown, e -> queryFolder(text.getText())).get();
+		Controls.button(bar).rwt("compact").setImageText(VaultActions.search.getImg(), null, 16, 32).mLoc(SWT.TOP | SWT.BOTTOM | SWT.RIGHT)
+				.width(32).above(null).listen(SWT.MouseDown, e -> doQuerySubFolder(text.getText())).get();
 		return bar;
 	}
 
-	private void queryFolder(String text) {
+	private void doQuerySubFolder(String text) {
 		GridPart navi = (GridPart) contextNavi.getContent();
 		BasicDBObject query = new BasicDBObject("desc", Pattern.compile(text, Pattern.CASE_INSENSITIVE));
 		navi.doQuery(query);
@@ -441,11 +444,11 @@ public abstract class VaultExplorer {
 	}
 
 	private void doRenameFolder(IFolder folder) {
-		InputDialog id = new InputDialog(br.getCurrentShell(), "文件夹更名", "新的名称", null, t -> {
+		InputDialog id = new InputDialog(br.getCurrentShell(), "文件夹更名", "新的名称", folder.getName(), t -> {
 			return t.trim().isEmpty() ? "请输入名称" : null;
 		});
 		if (InputDialog.OK == id.open()) {
-			String name = id.getValue();
+			String name = id.getValue().trim();
 			try {
 				Services.get(DocumentService.class).renameVaultFolder(folder.get_id(), name, br.getDomain());
 				Layer.message("文件夹已重命名。");
@@ -478,30 +481,25 @@ public abstract class VaultExplorer {
 	}
 
 	public boolean enableOpenFolder(IFolder folder) {
-
 		return checkFolderAuthority(folder, VaultActions.openFolder.name());
 	}
 
 	public boolean enableMoveFolder(IFolder folder) {
-		IFolder[] path = addressBar.getCurrentPath();
-		if (path.length == 0) {
+		if (folder.isContainer()) {
 			return false;
 		}
-
 		return checkFolderAuthority(folder, VaultActions.moveFolder.name());
 	}
 
 	public boolean enableDeleteFolder(IFolder folder) {
-		IFolder[] path = addressBar.getCurrentPath();
-		if (path.length == 0) {
+		if (folder.isContainer()) {
 			return false;
 		}
 		return checkFolderAuthority(folder, VaultActions.deleteFolder.name());
 	}
 
 	public boolean enableRenameFolder(IFolder folder) {
-		IFolder[] path = addressBar.getCurrentPath();
-		if (path.length == 0) {
+		if (folder.isContainer()) {
 			return false;
 		}
 		return checkFolderAuthority(folder, VaultActions.renameFolder.name());

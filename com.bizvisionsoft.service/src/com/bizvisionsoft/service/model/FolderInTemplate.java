@@ -138,4 +138,9 @@ public class FolderInTemplate implements IFolder {
 	public IFolder getContainer() {
 		return null;
 	}
+
+	@Override
+	public boolean isContainer() {
+		return false;
+	}
 }
