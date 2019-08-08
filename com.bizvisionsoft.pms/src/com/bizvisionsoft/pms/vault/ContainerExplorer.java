@@ -75,7 +75,7 @@ public class ContainerExplorer extends VaultExplorer {
 		result.add(actions);
 
 		actions = new ArrayList<Action>();
-		actions.add(VaultActions.create(VaultActions.findFolder, true, true));
+		actions.add(VaultActions.create(VaultActions.searchFolder, true, true));
 		actions.add(VaultActions.create(VaultActions.findDocuments, true, true));
 		actions.add(VaultActions.create(VaultActions.search, true, false));
 		result.add(actions);

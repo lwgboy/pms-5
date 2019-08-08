@@ -173,7 +173,7 @@ public class FolderDocSelector extends Part {
 				if ((VaultExplorer.SEARCH_FOLDER & explorerStyle) != 0) {
 					List<Action> row = new ArrayList<>();
 					result.add(row);
-					row.add(VaultActions.create(VaultActions.findFolder, true, false));
+					row.add(VaultActions.create(VaultActions.searchFolder, true, false));
 				}
 
 				if ((VaultExplorer.SEARCH_FILE & explorerStyle) != 0) {

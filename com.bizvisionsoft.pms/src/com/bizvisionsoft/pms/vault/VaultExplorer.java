@@ -242,11 +242,10 @@ public abstract class VaultExplorer {
 				doGridPartQuery(fileGrid, filePane, VaultActions.findDocuments, new BasicDBObject("folder_id", folder.get_id()));
 			else
 				doGridPartQuery(fileGrid, filePane, VaultActions.findDocuments, null);
-
 		} else if (VaultActions.search.name().equals(action.getName())) {
 			doGridPartQuery(fileSearchResultGrid, fileSearchResultPane, VaultActions.search, null);
-		} else if (VaultActions.findFolder.name().equals(action.getName())) {
-			doGridPartQuery(folderSearchResultGrid, folderSearchResultPane, VaultActions.findFolder, null);
+		} else if (VaultActions.searchFolder.name().equals(action.getName())) {
+			doGridPartQuery(folderSearchResultGrid, folderSearchResultPane, VaultActions.searchFolder, null);
 		} else if (VaultActions.sortDocuments.name().equals(action.getName())) {
 			currentDisplayPart.openSortEditor();
 		} else if (VaultActions.addFavour.name().equals(action.getName())) {

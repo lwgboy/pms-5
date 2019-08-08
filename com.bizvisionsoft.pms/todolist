@@ -252,7 +252,8 @@ import com.bizvisionsoft.annotations.md.mongocodex.IAutoGenerator;
 资料库设置删除判断
 13.FormDef的删除，注意需要级联删除文档导出规则，注意创建索引
 19. 字典的index字段索引【注意】
-
+folder.project_id[索引]
+project中去掉container, folder_id等冗余字段
 
 ====================================================================================================================================================================================================================================================================
 参照定义
@@ -315,3 +316,11 @@ import com.bizvisionsoft.annotations.md.mongocodex.IAutoGenerator;
 ====================================================================================================================================================================================================================================================================
 ActionMenu中action操作行为控制控制，暂时从GridPartActionColumnLabelProvider中Copy，未考虑合理性。
 CommonServiceImpl的listFormDefSelector方法使用JQ进行查询.
+
+
+VaultExplorer调整
+1. 搜索文件，搜索文件夹的修改！！！
+      要受到传入的initialFolder的控制。不能越界搜索。initialFolder为IFolder.Null时，是全库搜索，否则是在initialFolder本级下级搜索
+2.    
+
+

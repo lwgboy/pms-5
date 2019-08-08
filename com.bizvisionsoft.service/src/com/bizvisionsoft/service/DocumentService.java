@@ -309,12 +309,11 @@ public interface DocumentService {
 	@Path("/{domain}/doc/{userId}/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet({"文件列表/" + DataSet.COUNT,"文件查询结果/" + DataSet.COUNT})
+	@DataSet({ "文件列表/" + DataSet.COUNT, "文件查询结果/" + DataSet.COUNT })
 	public long countDocument(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
 			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userId") String userId,
 			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
-	
 	@GET
 	@Path("/{domain}/fld/_id/{_id}/path")
 	@Consumes("application/json; charset=UTF-8")
@@ -374,5 +373,12 @@ public interface DocumentService {
 			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userId") String userId,
 			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
-	
+	@GET
+	@Path("/{domain}/fld/project_id/{project_id}/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public VaultFolder getProjectRootFolder(@PathParam("project_id") ObjectId project_id,
+			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userId") String userId,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+
 }
