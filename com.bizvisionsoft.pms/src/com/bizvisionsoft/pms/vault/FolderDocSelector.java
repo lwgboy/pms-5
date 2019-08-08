@@ -165,12 +165,7 @@ public class FolderDocSelector extends Part {
 			protected Assembly getSearchFolderAssembly() {
 				Assembly assy = (Assembly) service.getAssembly("vault/目录查询结果.gridassy").clone();
 				assy.getActions().clear();
-//				if ((VaultExplorer.FILETABLE & explorerStyle) != 0) {
-					assy.getRowActions().clear();
-//				}
-				if ((VaultExplorer.FILETABLE & explorerStyle) == 0) {// 仅当目录目录的时候，在查询目录上才有勾选框
-					assy.setCheckOn(true);
-				}
+				assy.setCheckOn(true);
 				return assy;
 			}
 
@@ -179,9 +174,7 @@ public class FolderDocSelector extends Part {
 				Assembly assy = (Assembly) service.getAssembly("vault/文档查询结果.gridassy").clone();
 				assy.getActions().clear();
 				assy.getRowActions().clear();
-				if ((VaultExplorer.FILETABLE & explorerStyle) != 0) {// 仅当选择文档的时候，在查询文档上才有勾选框
-					assy.setCheckOn(true);
-				}
+				assy.setCheckOn(true);
 				return assy;
 			}
 
