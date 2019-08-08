@@ -331,7 +331,8 @@ public abstract class VaultExplorer {
 	}
 
 	private void doCreateDocument(IFolder folder) {
-		Selector.open("/vault/表单定义选择器.selectorassy", context, (VaultFolder) folder.getContainer(), l -> {
+		VaultFolder container = (VaultFolder) folder.getContainer();
+		Selector.open("/vault/表单定义选择器.selectorassy", context, container, l -> {
 			// TODO
 			Document doc = (Document) l.get(0);
 			String name = doc.getString("name");
