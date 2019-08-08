@@ -19,4 +19,4 @@
 	"$replaceRoot" : {
 		"newRoot" : "$paths"
 	}
-} ]
+},{"$sort":{"level":-1}} ]

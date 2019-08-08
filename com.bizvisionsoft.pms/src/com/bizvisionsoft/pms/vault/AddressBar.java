@@ -25,7 +25,7 @@ import com.bizvisionsoft.service.tools.Check;
 
 public class AddressBar extends Composite {
 
-	private static final String SEARCH_MSG = "输入目录名称模糊搜索";
+	private static final String SEARCH_MSG = "输入目录名回车后模糊搜索";
 
 	private static final int BAR_HEIGHT = 32;
 
@@ -91,7 +91,7 @@ public class AddressBar extends Composite {
 		Label end = createToolitemSeperator().right(btn.get()).get();
 
 		// 创建地址栏
-		addressBar = Controls.contentPanel(this).bg(BruiColor.White).loc(SWT.TOP | SWT.BOTTOM).left(lead).right(end)
+		addressBar = Controls.contentPanel(this).bg(BruiColor.White).loc(SWT.TOP | SWT.BOTTOM).left(lead).right(end).tooltips("搜索目录")
 				.listen(SWT.Resize, e -> caculatePathItemBounds()).listen(SWT.MouseUp, e -> activeSearchBar());
 
 		searchText = Controls.text(this, SWT.NONE ).loc(SWT.TOP | SWT.BOTTOM).left(lead).right(end)
