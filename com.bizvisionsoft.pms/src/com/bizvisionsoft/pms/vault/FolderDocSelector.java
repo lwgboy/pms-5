@@ -71,7 +71,6 @@ public class FolderDocSelector extends Part {
 	private int selectionStyle;
 
 	private Object result;
-	private BruiAssemblyEngine engine;
 
 	public FolderDocSelector(Shell parentShell) {
 		super(parentShell);
@@ -219,9 +218,7 @@ public class FolderDocSelector extends Part {
 				return result;
 			}
 		};
-		engine = new BruiAssemblyEngine(explorer);
-		context.setEngine(engine);
-		explorer.setBruiService(service).setContext(context);
+		explorer.setBruiService(service).setContext((BruiAssemblyContext) context.setEngine(new BruiAssemblyEngine(explorer)));
 		explorer.init();
 	}
 

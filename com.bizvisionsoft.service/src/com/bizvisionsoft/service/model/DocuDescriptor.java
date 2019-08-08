@@ -84,9 +84,9 @@ public class DocuDescriptor implements JsonExternalizable {
 	private String getStatusText() {
 		if (DocuStatus.STATUS_APPROVING_ID.equals(status))
 			return DocuStatus.STATUS_APPROVING_TEXT;
-		else if (DocuStatus.STATUS_DEPOSED_ID.endsWith(status))
+		else if (DocuStatus.STATUS_DEPOSED_ID.equals(status))
 			return DocuStatus.STATUS_DEPOSED_TEXT;
-		else if (DocuStatus.STATUS_RELEASED_ID.endsWith(status))
+		else if (DocuStatus.STATUS_RELEASED_ID.equals(status))
 			return DocuStatus.STATUS_RELEASED_TEXT;
 
 		return DocuStatus.STATUS_WORKING_TEXT;
