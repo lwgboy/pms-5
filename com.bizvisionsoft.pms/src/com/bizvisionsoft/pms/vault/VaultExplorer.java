@@ -78,7 +78,7 @@ public abstract class VaultExplorer {
 
 	private GridPart currentDisplayPart;
 
-	protected IFolder initialFolder;
+	private IFolder initialFolder;
 
 	protected IFolder[] initialFolderPath;
 
