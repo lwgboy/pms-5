@@ -31,7 +31,6 @@ import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
 import com.bizvisionsoft.bruiengine.service.IBruiContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.service.IServiceWithId;
-import com.bizvisionsoft.bruiengine.service.Model;
 import com.bizvisionsoft.bruiengine.service.UserSession;
 import com.bizvisionsoft.bruiengine.ui.AssemblyContainer;
 import com.bizvisionsoft.bruiengine.ui.Editor;
@@ -152,8 +151,8 @@ public abstract class VaultExplorer {
 	}
 
 	private Composite createSearchFilePane(Composite parent) {
-		// 创建文件查询结果组件
-		Assembly gridConfig = Model.getAssembly("vault/文件查询结果.gridassy");
+		// 创建文档查询结果组件
+		Assembly gridConfig = getSearchFileAssembly();
 		BruiAssemblyEngine brui = BruiAssemblyEngine.newInstance(gridConfig);
 		BruiAssemblyContext containerContext;
 		context.add(containerContext = UserSession.newAssemblyContext().setParent(context));
@@ -177,9 +176,9 @@ public abstract class VaultExplorer {
 
 	}
 
-	protected Composite createSearchFolderPane(Composite parent) {
+	private Composite createSearchFolderPane(Composite parent) {
 		// 创建目录查询结果组件
-		Assembly gridConfig = Model.getAssembly("vault/目录查询结果.gridassy");
+		Assembly gridConfig = getSearchFolderAssembly();
 		BruiAssemblyEngine brui = BruiAssemblyEngine.newInstance(gridConfig);
 		BruiAssemblyContext containerContext;
 		context.add(containerContext = UserSession.newAssemblyContext().setParent(context));
@@ -319,7 +318,7 @@ public abstract class VaultExplorer {
 	}
 
 	private void doCreateDocument(IFolder folder) {
-		Selector.open("/vault/表单定义选择器.selectorassy", context, (VaultFolder) folder.getContainer(), l -> {
+		Selector.open("/vault/表单定义选择器.selectorassy", context, folder, l -> {
 			// TODO
 			Document doc = (Document) l.get(0);
 			String name = doc.getString("name");
@@ -362,6 +361,14 @@ public abstract class VaultExplorer {
 	protected abstract IFolder[] getPath(IFolder folder);
 
 	protected abstract List<List<Action>> createToolbarActions();
+
+	protected abstract Assembly getNavigatorAssembly();
+
+	protected abstract Assembly getFileTableAssembly();
+
+	protected abstract Assembly getSearchFolderAssembly();
+
+	protected abstract Assembly getSearchFileAssembly();
 
 	/**
 	 * 创建文档pane
@@ -455,10 +462,6 @@ public abstract class VaultExplorer {
 		return ac.getContainer();
 	}
 
-	protected abstract Assembly getNavigatorAssembly();
-
-	protected abstract Assembly getFileTableAssembly();
-
 	/**
 	 * 
 	 * @param a
@@ -526,30 +529,37 @@ public abstract class VaultExplorer {
 	}
 
 	private void doMoveFolder(IFolder folder) {
-		FolderDocSelector.selectFolder(context, initialFolder, SWT.SINGLE, o -> {
-			if (o instanceof IFolder) {
-				IFolder selectFolder = (IFolder) o;
-				// TODO
-				if (!checkFolderAuthority(folder, VaultActions.deleteFolder.name())) {
-					Layer.error("没有目录\"" + folder + "\"的删除目录权限。");
-					return;
-				}
+		// TODO 测试用
+		FolderDocSelector.selectDocument(context, initialFolder, SWT.SINGLE, o -> {
 
-				if (!checkFolderAuthority(selectFolder, VaultActions.createSubFolder.name())) {
-					Layer.error("没有目录\"" + o + "\"的创建目录权限。");
-					return;
-				}
-				try {
-					Services.get(DocumentService.class).moveVaultFolder(folder.get_id(), selectFolder.get_id(), br.getDomain());
-					Layer.message("目录已移动。");
-					GridPart navi = (GridPart) contextNavi.getContent();
-					navi.remove(folder);
-					logger.debug("doMoveFolder:" + folder);
-				} catch (Exception e) {
-					Layer.error(e);
-				}
-			}
 		});
+
+		// FolderDocSelector.selectFolder(context, initialFolder, SWT.SINGLE, o -> {
+		// if (o instanceof IFolder) {
+		// IFolder selectFolder = (IFolder) o;
+		// // TODO
+		// if (!checkFolderAuthority(folder, VaultActions.deleteFolder.name())) {
+		// Layer.error("没有目录\"" + folder + "\"的删除目录权限。");
+		// return;
+		// }
+		//
+		// if (!checkFolderAuthority(selectFolder, VaultActions.createSubFolder.name()))
+		// {
+		// Layer.error("没有目录\"" + o + "\"的创建目录权限。");
+		// return;
+		// }
+		// try {
+		// Services.get(DocumentService.class).moveVaultFolder(folder.get_id(),
+		// selectFolder.get_id(), br.getDomain());
+		// Layer.message("目录已移动。");
+		// GridPart navi = (GridPart) contextNavi.getContent();
+		// navi.remove(folder);
+		// logger.debug("doMoveFolder:" + folder);
+		// } catch (Exception e) {
+		// Layer.error(e);
+		// }
+		// }
+		// });
 
 	}
 

@@ -141,10 +141,10 @@ public class FolderDocSelector extends Part {
 
 			@Override
 			protected Assembly getFileTableAssembly() {
-				Assembly assy = (Assembly) service.getAssembly("vault/文件列表.gridassy").clone();
+				Assembly assy = (Assembly) service.getAssembly("vault/文档列表.gridassy").clone();
 				assy.getActions().clear();
 				assy.getRowActions().clear();
-				if ((VaultExplorer.FILETABLE & explorerStyle) != 0) {// 仅当选择文件的时候，在文件上才有勾选框
+				if ((VaultExplorer.FILETABLE & explorerStyle) != 0) {// 仅当选择文档的时候，在文档上才有勾选框
 					assy.setCheckOn(true);
 				}
 				return assy;
@@ -156,6 +156,30 @@ public class FolderDocSelector extends Part {
 				assy.getActions().clear();
 				assy.getRowActions().clear();
 				if ((VaultExplorer.FILETABLE & explorerStyle) == 0) {// 仅当选择目录的时候，在目录上才有勾选框
+					assy.setCheckOn(true);
+				}
+				return assy;
+			}
+
+			@Override
+			protected Assembly getSearchFolderAssembly() {
+				Assembly assy = (Assembly) service.getAssembly("vault/目录查询结果.gridassy").clone();
+				assy.getActions().clear();
+//				if ((VaultExplorer.FILETABLE & explorerStyle) != 0) {
+					assy.getRowActions().clear();
+//				}
+				if ((VaultExplorer.FILETABLE & explorerStyle) == 0) {// 仅当目录目录的时候，在查询目录上才有勾选框
+					assy.setCheckOn(true);
+				}
+				return assy;
+			}
+
+			@Override
+			protected Assembly getSearchFileAssembly() {
+				Assembly assy = (Assembly) service.getAssembly("vault/文档查询结果.gridassy").clone();
+				assy.getActions().clear();
+				assy.getRowActions().clear();
+				if ((VaultExplorer.FILETABLE & explorerStyle) != 0) {// 仅当选择文档的时候，在查询文档上才有勾选框
 					assy.setCheckOn(true);
 				}
 				return assy;

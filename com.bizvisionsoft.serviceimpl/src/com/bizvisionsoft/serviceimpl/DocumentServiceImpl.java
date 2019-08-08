@@ -25,8 +25,6 @@ import com.bizvisionsoft.serviceimpl.exception.ServiceException;
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.model.Aggregates;
 import com.mongodb.client.model.Field;
-import com.mongodb.client.model.FindOneAndUpdateOptions;
-import com.mongodb.client.model.ReturnDocument;
 
 public class DocumentServiceImpl extends BasicServiceImpl implements DocumentService {
 
@@ -315,7 +313,7 @@ public class DocumentServiceImpl extends BasicServiceImpl implements DocumentSer
 		if (Check.isNotAssigned(filter))
 			return new ArrayList<>();
 
-		filter = appendInitialFolderQueryWithFolder(filter, initialFolder_id, domain);
+		filter = getFolderFilterWithInitialFolder(filter, initialFolder_id, domain);
 
 		BasicDBObject sort = Optional.ofNullable(condition).map(c -> (BasicDBObject) c.get("sort")).orElse(new BasicDBObject("_id", 1));
 		Consumer<List<Bson>> input = p -> appendFolderAuthQueryPipeline(p, userId);
@@ -355,7 +353,7 @@ public class DocumentServiceImpl extends BasicServiceImpl implements DocumentSer
 	public long countFolderWithPath(BasicDBObject filter, ObjectId initialFolder_id, String userId, String domain) {
 		if (Check.isNotAssigned(filter))
 			return 0;
-		filter = appendInitialFolderQueryWithFolder(filter, initialFolder_id, domain);
+		filter = getFolderFilterWithInitialFolder(filter, initialFolder_id, domain);
 		Consumer<List<Bson>> input = p -> appendFolderAuthQueryPipeline(p, userId);
 		return countDocument(input, filter, null, "folder", domain);
 	}
@@ -396,8 +394,8 @@ public class DocumentServiceImpl extends BasicServiceImpl implements DocumentSer
 		BasicDBObject filter = (BasicDBObject) condition.get("filter");
 		if (Check.isNotAssigned(filter))
 			return new ArrayList<>();
-		filter = appendInitialFolderQueryWithDocument(filter, initialFolder_id, domain);
-
+		filter = getDocumentFilterWithInitialFolder(filter, initialFolder_id, domain);
+		// getFDocumentFilterWithInitialFolder
 		Integer skip = Optional.ofNullable(condition).map(c -> c.getInt("skip")).orElse(null);
 		Integer limit = Optional.ofNullable(condition).map(c -> c.getInt("limit")).orElse(null);
 		BasicDBObject sort = Optional.ofNullable(condition).map(c -> (BasicDBObject) c.get("sort")).orElse(new BasicDBObject("_id", 1));
@@ -416,13 +414,13 @@ public class DocumentServiceImpl extends BasicServiceImpl implements DocumentSer
 	public long countDocumentWithPath(BasicDBObject filter, ObjectId initialFolder_id, String userId, String domain) {
 		if (Check.isNotAssigned(filter))
 			return 0;
-		filter = appendInitialFolderQueryWithDocument(filter, initialFolder_id, domain);
+		filter = getDocumentFilterWithInitialFolder(filter, initialFolder_id, domain);
 		Consumer<List<Bson>> input = p -> appendFolderAuthQueryPipeline(p, userId);
 		long count = countDocument(input, filter, null, "docu", domain);
 		return count;
 	}
 
-	private BasicDBObject appendInitialFolderQueryWithDocument(BasicDBObject filter, ObjectId initialFolder_id, String domain) {
+	private BasicDBObject getDocumentFilterWithInitialFolder(BasicDBObject filter, ObjectId initialFolder_id, String domain) {
 		filter = Optional.ofNullable(filter).orElse(new BasicDBObject());
 
 		if (!initialFolder_id.equals(Formatter.ZeroObjectId()) // 判断initialFolder_id是否为空时，为空时表示全资料库查询。不添加查询范围。
@@ -447,7 +445,7 @@ public class DocumentServiceImpl extends BasicServiceImpl implements DocumentSer
 
 	}
 
-	private BasicDBObject appendInitialFolderQueryWithFolder(BasicDBObject filter, ObjectId initialFolder_id, String domain) {
+	private BasicDBObject getFolderFilterWithInitialFolder(BasicDBObject filter, ObjectId initialFolder_id, String domain) {
 		filter = Optional.ofNullable(filter).orElse(new BasicDBObject());
 
 		if (!initialFolder_id.equals(Formatter.ZeroObjectId()) // 判断initialFolder_id是否为空时，为空时表示全资料库查询。不添加查询范围。
@@ -492,18 +490,46 @@ public class DocumentServiceImpl extends BasicServiceImpl implements DocumentSer
 				.projection(new BasicDBObject("root_id", 1).append("project_id", 1).append("projectworkorder", 1).append("projectdesc", 1)
 						.append("projectnumber", 1))
 				.first();
-		c("folder", domain).find(new BasicDBObject("_id", _id))
+		Document folder = c("folder", domain).find(new BasicDBObject("_id", _id))
 				.projection(new BasicDBObject("iscontainer", 1).append("isflderroot", 1).append("project_id", 1)).first();
 
 		List<ObjectId> desentItems = getDesentItems(Arrays.asList(_id), "folder", "parent_id", domain);
-		
-		//TODO 判断是否
 
-		// return c(VaultFolder.class, domain)
-		// .updateMany(new BasicDBObject("_id", _id), new BasicDBObject("$set", new
-		// BasicDBObject("parent_id", newParent_id)))
-		// .getModifiedCount();
-		return 0l;
+		// 判断是否移动到该文件夹下级
+		if (desentItems.contains(newParent_id))
+			throw new ServiceException("不能将目录移动到该目录的子目录中。");
+
+
+		if (folder.getBoolean("iscontainer", false))
+			throw new ServiceException("不能移动容器。");
+
+		// 修改子文件夹的root_id
+		c("folder", domain).updateMany(new BasicDBObject("_id", new BasicDBObject("$in", desentItems)),
+				new BasicDBObject("$set", new BasicDBObject("root_id", folderParentInfo.get("root_id"))));
+
+		BasicDBObject updateChild = new BasicDBObject().append("project_id", folderParentInfo.getOrDefault("project_id", null))
+				.append("projectworkorder", folderParentInfo.getOrDefault("projectworkorder", null))
+				.append("projectdesc", folderParentInfo.getOrDefault("projectdesc", null))
+				.append("projectnumber", folderParentInfo.getOrDefault("projectnumber", null));
+		// 需要判断叶子文件夹是不是项目根文件夹，如果不是，则不能修改项目属性。
+
+		doUpdateChildFolderProjectInfo(Arrays.asList(_id), updateChild, domain);
+
+		return c("folder", domain)
+				.updateMany(new BasicDBObject("_id", _id), new BasicDBObject("$set", new BasicDBObject("parent_id", newParent_id)))
+				.getModifiedCount();
+	}
+
+	private void doUpdateChildFolderProjectInfo(List<ObjectId> _ids, BasicDBObject updateChild, String domain) {
+		List<ObjectId> childId = c("folder", domain).distinct("_id",
+				new BasicDBObject("parent_id", new BasicDBObject("$in", _ids)).append("isflderroot", new BasicDBObject("$ne", true)),
+				ObjectId.class).into(new ArrayList<>());
+
+		if (childId.size() > 0) {
+			c("folder", domain).updateMany(new BasicDBObject("_id", new BasicDBObject("$in", childId)),
+					new BasicDBObject("$set", updateChild));
+			doUpdateChildFolderProjectInfo(childId, updateChild, domain);
+		}
 	}
 
 	@Override

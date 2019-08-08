@@ -23,7 +23,6 @@
       "text": "名称",
       "alignment": 16384,
       "width": 320,
-      "minimumWidth": 320,
       "resizeable": true,
       "columns": []
     },
@@ -32,7 +31,6 @@
       "text": "路径",
       "alignment": 16384,
       "width": 320,
-      "minimumWidth": 320,
       "resizeable": true,
       "columns": []
     },
@@ -41,7 +39,6 @@
       "text": "项目名称",
       "alignment": 16384,
       "width": 240,
-      "minimumWidth": 240,
       "resizeable": true,
       "columns": []
     },
@@ -49,8 +46,7 @@
       "name": "projectnumber",
       "text": "项目编号",
       "alignment": 16384,
-      "width": 120,
-      "minimumWidth": 120,
+      "width": 100,
       "resizeable": true,
       "columns": []
     },
@@ -58,8 +54,7 @@
       "name": "projectworkorder",
       "text": "工作令号",
       "alignment": 16384,
-      "width": 240,
-      "minimumWidth": 240,
+      "width": 120,
       "resizeable": true,
       "columns": []
     }
@@ -92,7 +87,7 @@
       "formFields": []
     }
   ],
-  "gridAutoColumnWidth": true,
+  "gridAutoColumnWidth": false,
   "actions": [],
   "rowActions": [
     {
