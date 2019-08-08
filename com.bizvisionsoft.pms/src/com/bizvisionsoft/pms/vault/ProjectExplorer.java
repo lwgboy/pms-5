@@ -99,8 +99,8 @@ public class ProjectExplorer extends VaultExplorer {
 
 		actions = new ArrayList<Action>();
 		actions.add(VaultActions.create(VaultActions.sortDocuments, true, false));
-		actions.add(VaultActions.create(VaultActions.addFavour, true, false));
-		actions.add(VaultActions.create(VaultActions.setFolderProperties, true, false));
+//		actions.add(VaultActions.create(VaultActions.addFavour, true, false));
+//		actions.add(VaultActions.create(VaultActions.setFolderProperties, true, false));
 		result.add(actions);
 		return result;
 	}

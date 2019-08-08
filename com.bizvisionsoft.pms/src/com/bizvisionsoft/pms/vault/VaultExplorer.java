@@ -527,7 +527,6 @@ public abstract class VaultExplorer {
 
 	private void doDeleteFolder(IFolder folder) {
 		try {
-			// TODO 测试了异常情况，没测试正常删除。（等新建目录操作完成后，进行测试）
 			Services.get(DocumentService.class).deleteVaultFolder(folder.get_id(), br.getDomain());
 			Layer.message("目录已删除。");
 			GridPart navi = (GridPart) contextNavi.getContent();
@@ -594,6 +593,8 @@ public abstract class VaultExplorer {
 		String name = action.getName();
 		if (VaultActions.openFolder.name().equals(name)) {
 			doSetCurrentFolder(folder);
+			filePane.moveAbove(null);
+			currentDisplayPart = fileGrid;
 		} else if (VaultActions.deleteFolder.name().equals(name)) {
 			doDeleteFolder(folder);
 		} else if (VaultActions.moveFolder.name().equals(name)) {
