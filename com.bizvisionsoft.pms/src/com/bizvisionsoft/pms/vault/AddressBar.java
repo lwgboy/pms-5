@@ -198,7 +198,7 @@ public class AddressBar extends Composite {
 		System.arraycopy(path, 0, newPath, 0, lvl + 1);
 
 		PathActionEvent event = new PathActionEvent(listenerType, action, newPath);
-//		event.doit = listenerType == PathActionEvent.Modify;
+		event.doit = listenerType == PathActionEvent.Up;
 		event.text = basicEvent.text;
 		event.item = basicEvent.item;
 		event.widget = basicEvent.widget;
@@ -207,8 +207,8 @@ public class AddressBar extends Composite {
 		event.display = basicEvent.display;
 		Stream.of(getListeners(listenerType)).forEach(l -> l.handleEvent(event));
 
-//		if (event.doit) // 可以改变目录
-//			setPath(newPath);
+		if (event.doit) // 可以改变目录
+			setPath(newPath);
 	}
 
 	/**

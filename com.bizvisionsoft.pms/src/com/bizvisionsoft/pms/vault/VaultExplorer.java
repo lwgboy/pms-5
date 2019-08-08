@@ -236,7 +236,7 @@ public abstract class VaultExplorer {
 		// });
 		addressBar.addListener(PathActionEvent.Up, e -> {
 			PathActionEvent ae = (PathActionEvent) e;
-			doPathModified(ae.path);// 必须设置为true,才能改变地址栏。默认为true,
+			ae.doit = doPathModified(ae.path);// 必须设置为true,才能改变地址栏。默认为true,
 		});
 
 		addressBar.addListener(PathActionEvent.Selection, e -> {
@@ -278,6 +278,9 @@ public abstract class VaultExplorer {
 		// 对组件样式修改
 		assy.setGridPageControlStyle("SHORT");
 		assy.getRowActions().clear();
+		assy.setGridPageCount(15);
+		assy.setScrollLoadData(true);
+		assy.setGridPageControl(false);
 
 		BruiAssemblyEngine brui = BruiAssemblyEngine.newInstance(assy);
 		BruiAssemblyContext contextFolder = UserSession.newAssemblyContext();
