@@ -14,7 +14,6 @@ import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -75,13 +74,17 @@ public abstract class VaultExplorer {
 
 	private Composite filePane;
 
+	private GridPart currentDisplayPart;
+
+	private IFolder initialFolder;
+
+	private IFolder[] initialFolderPath;
+
 	protected static final int ADDRESS_BAR = 1 << 2;
 	protected static final int NAVIGATOR = 1 << 3;
 	protected static final int FILETABLE = 1 << 4;
 	protected static final int SEARCH_FOLDER = 1 << 5;
 	protected static final int SEARCH_FILE = 1 << 6;
-
-	private Label searchFolderTitle;
 
 	public VaultExplorer() {
 	}
@@ -97,7 +100,9 @@ public abstract class VaultExplorer {
 	}
 
 	protected void init() {
-		context.setInput(getInitialFolder());
+		initialFolder = getInitialFolder();
+		initialFolderPath = getPath(initialFolder);
+		context.setInput(initialFolder);
 	}
 
 	public void createUI(Composite parent) {
@@ -129,6 +134,17 @@ public abstract class VaultExplorer {
 			fileSearchResultPane = Controls.handle(createSearchFilePane(parent)).loc(SWT.RIGHT | SWT.BOTTOM).top(addressBar)
 					.left(navigator, 1).formLayout().get();
 
+		if (((FILETABLE | SEARCH_FOLDER | SEARCH_FILE) & getStyle()) != 0) {
+			if ((FILETABLE & getStyle()) != 0) {
+				currentDisplayPart = fileGrid;
+			} else if ((SEARCH_FOLDER & getStyle()) != 0) {
+				currentDisplayPart = folderSearchResultGrid;
+			} else if ((SEARCH_FILE & getStyle()) != 0) {
+				currentDisplayPart = fileSearchResultGrid;
+			}
+		} else {
+			currentDisplayPart = (GridPart) contextNavi.getContent();
+		}
 	}
 
 	protected int getStyle() {
@@ -141,30 +157,43 @@ public abstract class VaultExplorer {
 		BruiAssemblyEngine brui = BruiAssemblyEngine.newInstance(gridConfig);
 		BruiAssemblyContext containerContext;
 		context.add(containerContext = UserSession.newAssemblyContext().setParent(context));
-		containerContext.setEngine(brui).setInput(context.getInput());
+		containerContext.setEngine(brui).setInput(initialFolder);
 		fileSearchResultGrid = ((GridPart) brui.getTarget());
 		fileSearchResultGrid.setDisableQueryPanel(true);
 		Composite container = new Composite(parent, SWT.NONE);
-		brui.init(new IServiceWithId[] { br, containerContext }).createUI(container);
+
+		container.setBackground(BruiColors.getColor(BruiColor.White));
+		container.setLayout(new FormLayout());
+		Button button = Controls.button(container).rwt("info").setText("返回").mLoc(SWT.TOP | SWT.RIGHT).listen(SWT.Selection, e -> {
+			filePane.moveAbove(null);
+			currentDisplayPart = fileGrid;
+		}).get();
+		Controls.label(container, SWT.HORIZONTAL).top(0, 8).right(button, 4).left(0, 8).setText("在资料库中搜索文档的结果：").get();
+		Composite pane = Controls.label(container, SWT.SEPARATOR | SWT.HORIZONTAL).top(button).left().right().height(1)
+				.add(0, () -> Controls.comp(container)).left().right().bottom().get();
+
+		brui.init(new IServiceWithId[] { br, containerContext }).createUI(pane);
 		return container;
 
 	}
 
 	protected Composite createSearchFolderPane(Composite parent) {
-		// 创建文件夹查询结果组件
+		// 创建目录查询结果组件
 		Assembly gridConfig = Model.getAssembly("vault/目录查询结果.gridassy");
 		BruiAssemblyEngine brui = BruiAssemblyEngine.newInstance(gridConfig);
 		BruiAssemblyContext containerContext;
 		context.add(containerContext = UserSession.newAssemblyContext().setParent(context));
-		containerContext.setEngine(brui).setInput(context.getInput());
+		containerContext.setEngine(brui).setInput(initialFolder);
 		folderSearchResultGrid = ((GridPart) brui.getTarget());
 		folderSearchResultGrid.setDisableQueryPanel(true);
 		Composite container = new Composite(parent, SWT.NONE);
 		container.setBackground(BruiColors.getColor(BruiColor.White));
 		container.setLayout(new FormLayout());
-		Button button = Controls.button(container).rwt("info").setText("返回").mLoc(SWT.TOP | SWT.RIGHT)
-				.listen(SWT.Selection, e -> filePane.moveAbove(null)).get();
-		searchFolderTitle = Controls.label(container, SWT.HORIZONTAL).top(0, 8).right(button, 4).left().get();
+		Button button = Controls.button(container).rwt("info").setText("返回").mLoc(SWT.TOP | SWT.RIGHT).listen(SWT.Selection, e -> {
+			filePane.moveAbove(null);
+			currentDisplayPart = fileGrid;
+		}).get();
+		Controls.label(container, SWT.HORIZONTAL).top(0, 8).right(button, 4).left(0, 8).setText("在资料库中搜索目录的结果：").get();
 		Composite pane = Controls.label(container, SWT.SEPARATOR | SWT.HORIZONTAL).top(button).left().right().height(1)
 				.add(0, () -> Controls.comp(container)).left().right().bottom().get();
 
@@ -199,7 +228,7 @@ public abstract class VaultExplorer {
 
 		addressBar.addListener(SWT.Modify, e -> {
 			PathActionEvent ae = (PathActionEvent) e;
-			e.doit = doPathModified(ae.path);// 必须设置为true,才能改变地址栏。默认为true, 当某些文件夹禁止访问时，可设置为false;
+			e.doit = doPathModified(ae.path);// 必须设置为true,才能改变地址栏。默认为true, 当某些目录禁止访问时，可设置为false;
 		});
 
 		addressBar.addListener(SWT.Selection, e -> {
@@ -226,28 +255,15 @@ public abstract class VaultExplorer {
 				Layer.error("当前目录禁止创建文档。");
 		} else if (VaultActions.findDocuments.name().equals(action.getName())) {
 			if (folder != null)
-				doFileQuery(fileGrid, new BasicDBObject("folder_id", folder.get_id()));
+				doGridPartQuery(fileGrid, filePane, VaultActions.findDocuments, new BasicDBObject("folder_id", folder.get_id()));
 			else
-				doFileQuery(fileGrid, null);
-			filePane.moveAbove(null);
+				doGridPartQuery(fileGrid, filePane, VaultActions.findDocuments, null);
 		} else if (VaultActions.search.name().equals(action.getName())) {
-			doFileQuery(fileSearchResultGrid, null);
-			fileSearchResultPane.moveAbove(null);
+			doGridPartQuery(fileSearchResultGrid, fileSearchResultPane, VaultActions.search, null);
 		} else if (VaultActions.searchFolder.name().equals(action.getName())) {
-			InputDialog id = new InputDialog(br.getCurrentShell(), "搜索目录", "在资料库中搜索目录", null, t -> {
-				return t.trim().isEmpty() ? "请输入目录名称" : null;
-			});
-			if (InputDialog.OK == id.open()) {
-				String name = id.getValue().trim();
-				BasicDBObject query = new BasicDBObject("desc", Pattern.compile(name, Pattern.CASE_INSENSITIVE));
-				folderSearchResultGrid.doQuery(query);
-				searchFolderTitle.setText("搜索\"" + name + "\"的结果：");
-				searchFolderTitle.redraw();
-				folderSearchResultPane.moveAbove(null);
-			}
+			doGridPartQuery(folderSearchResultGrid, folderSearchResultPane, VaultActions.searchFolder, null);
 		} else if (VaultActions.sortDocuments.name().equals(action.getName())) {
-			fileGrid.openSortEditor();
-
+			currentDisplayPart.openSortEditor();
 		} else if (VaultActions.addFavour.name().equals(action.getName())) {
 
 		} else if (VaultActions.setFolderProperties.name().equals(action.getName())) {
@@ -257,15 +273,13 @@ public abstract class VaultExplorer {
 		logger.debug("地址栏工具栏事件: " + action);
 	}
 
-	private void doFileQuery(GridPart grid, BasicDBObject defaultFilter) {
+	private void doGridPartQuery(GridPart grid, Composite pane, VaultActions va, BasicDBObject defaultFilter) {
 		Assembly config = (Assembly) grid.getConfig().clone();
 		config.getActions().clear();
 		IBruiContext context = grid.getContext();
 		IBruiService bruiService = grid.getBruiService();
 		config.setType(Assembly.TYPE_EDITOR);
-		String title = Stream.of(config.getStickerTitle(), config.getTitle(), config.getName()).filter(Check::isAssigned).findFirst()
-				.map(t -> " - " + t).orElse("");
-		config.setTitle("查询" + title);
+		config.setTitle(va.desc());
 
 		config.setSmallEditor(true);
 		config.setTinyEditor(true);
@@ -280,10 +294,18 @@ public abstract class VaultExplorer {
 		}
 
 		Editor.create(config, context, input, true).ok((r, t) -> {
+			if (r.isEmpty()) {
+				Layer.error("请输入" + va.label() + "的要求。");
+				return;
+			}
+
 			if (defaultFilter != null)
 				r.putAll(defaultFilter.toMap());
 
 			grid.doQuery(r);
+
+			pane.moveAbove(null);
+			currentDisplayPart = grid;
 		});
 
 	}
@@ -342,13 +364,13 @@ public abstract class VaultExplorer {
 	protected abstract List<List<Action>> createToolbarActions();
 
 	/**
-	 * 创建文件pane
+	 * 创建文档pane
 	 * 
 	 * @param parent
 	 * @return
 	 */
 	private Composite createFilePane(Composite parent) {
-		// 创建文件组件
+		// 创建文档组件
 		Assembly gridConfig = getFileTableAssembly();
 		BruiAssemblyEngine brui = BruiAssemblyEngine.newInstance(gridConfig);
 		BruiAssemblyContext containerContext;
@@ -359,7 +381,7 @@ public abstract class VaultExplorer {
 		Composite container = new Composite(parent, SWT.NONE);
 		brui.init(new IServiceWithId[] { br, containerContext }).createUI(container);
 
-		// 查询当前目录的文件
+		// 查询当前目录的文档
 		doRefreshFileGird();
 
 		return container;
@@ -400,13 +422,13 @@ public abstract class VaultExplorer {
 	}
 
 	/**
-	 * 创建文件夹pane
+	 * 创建目录pane
 	 * 
 	 * @param parent
 	 * @return
 	 */
 	private Composite createFolderPane(Composite parent) {
-		// 创建文件夹组件
+		// 创建目录组件
 		Assembly assy = getNavigatorAssembly();
 		// 对组件样式修改
 		assy.setGridPageControlStyle("SHORT");
@@ -452,10 +474,14 @@ public abstract class VaultExplorer {
 	}
 
 	private boolean doPathModified(IFolder[] path) {
+		// 判断是否选择InitialFolder以外的目录。
+		if (initialFolderPath.length > path.length)
+			return false;
+
 		// TODO 检查权限？是否可以浏览本目录
 		IFolder folder;
 		if (Check.isNotAssigned(path)) {
-			folder = getInitialFolder();
+			folder = initialFolder;
 		} else {
 			folder = path[path.length - 1];
 		}
@@ -468,6 +494,10 @@ public abstract class VaultExplorer {
 		doRefreshFileGird();
 
 		return true;
+	}
+
+	public GridPart getCurrentDisplayPart() {
+		return currentDisplayPart;
 	}
 
 	private void doSetCurrentFolder(IFolder folder) {
@@ -484,9 +514,9 @@ public abstract class VaultExplorer {
 
 	private void doDeleteFolder(IFolder folder) {
 		try {
-			// TODO 测试了异常情况，没测试正常删除。（等新建文件夹操作完成后，进行测试）
+			// TODO 测试了异常情况，没测试正常删除。（等新建目录操作完成后，进行测试）
 			Services.get(DocumentService.class).deleteVaultFolder(folder.get_id(), br.getDomain());
-			Layer.message("文件夹已删除。");
+			Layer.message("目录已删除。");
 			GridPart navi = (GridPart) contextNavi.getContent();
 			navi.remove(folder);
 			logger.debug("doDeleteFolder:" + folder);
@@ -496,44 +526,54 @@ public abstract class VaultExplorer {
 	}
 
 	private void doMoveFolder(IFolder folder) {
-		// TODO 弹出选择文件夹
-		FolderDocSelector.selectDocument(context, getInitialFolder(), SWT.SINGLE);
+		FolderDocSelector.selectFolder(context, initialFolder, SWT.SINGLE, o -> {
+			if (o instanceof IFolder) {
+				IFolder selectFolder = (IFolder) o;
+				IFolder[] path = getPath(folder);
+				//TODO 
+				if (!checkFolderAuthority(path[path.length - 1], VaultActions.deleteFolder.name()))
+					Layer.error("没有目录\"" + o + "\"的创建目录权限。");
 
-//		Selector.open("", context, null, l -> {
-//			try {
-//				// TODO 未测试
-//				Services.get(DocumentService.class).moveVaultFolder(folder.get_id(), ((IFolder) l.get(0)).get_id(), br.getDomain());
-//				Layer.message("文件夹已移动。");
-//				GridPart navi = (GridPart) contextNavi.getContent();
-//				navi.remove(folder);
-//				logger.debug("doMoveFolder:" + folder);
-//			} catch (Exception e) {
-//				Layer.error(e);
-//			}
-//		});
+				if (!checkFolderAuthority(selectFolder, VaultActions.createSubFolder.name()))
+					Layer.error("没有目录\"" + o + "\"的创建目录权限。");
+
+			}
+		});
+
+		// Services.get(DocumentService.class).moveVaultFolder(folder.get_id(),
+		// ((IFolder) l.get(0)).get_id(), br.getDomain());
+		// Layer.message("目录已移动。");
+		// GridPart navi = (GridPart) contextNavi.getContent();
+		// navi.remove(folder);
+		// logger.debug("doMoveFolder:" + folder);
+		// } catch (Exception e) {
+		// Layer.error(e);
+		// }
+		// });
 
 	}
 
 	private void doRenameFolder(IFolder folder) {
-		InputDialog id = new InputDialog(br.getCurrentShell(), "文件夹更名", "新的名称", folder.getName(), t -> {
+		InputDialog id = new InputDialog(br.getCurrentShell(), "目录更名", "新的名称", folder.getName(), t -> {
 			return t.trim().isEmpty() ? "请输入名称" : null;
 		});
 		if (InputDialog.OK == id.open()) {
 			String name = id.getValue().trim();
 			try {
 				Services.get(DocumentService.class).renameVaultFolder(folder.get_id(), name, br.getDomain());
-				Layer.message("文件夹已重命名。");
+				Layer.message("目录已重命名。");
 				folder.setName(name);
 				GridPart navi = (GridPart) contextNavi.getContent();
 				navi.refresh(folder);
 				logger.debug("doRenameFolder:" + folder);
 			} catch (Exception e) {
-				Layer.error("存在同名的文件夹。");
+				Layer.error("存在同名的目录。");
 			}
 		}
 	}
 
 	public void handleAction(IFolder folder, Action action) {
+		// TODO deleteFolder应该是判断上级目录的删除权限。
 		boolean authorized = checkFolderAuthority(folder, action.getName());
 		if (!authorized)
 			return;

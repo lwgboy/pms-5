@@ -7,7 +7,6 @@ import com.bizvisionsoft.bruiengine.service.IBruiService;
 
 public class SelectFolderOrDocACT {
 
-
 	@Inject
 	private IBruiService br;
 
@@ -16,7 +15,9 @@ public class SelectFolderOrDocACT {
 
 	@Execute
 	public void execute() {
-		//测试打开文件夹选择器
-		FolderDocSelector.selectDocument(context);
+		// 测试打开文件夹选择器
+		FolderDocSelector.selectDocument(context, o -> {
+
+		});
 	}
 }

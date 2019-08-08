@@ -2,6 +2,7 @@ package com.bizvisionsoft.pms.vault;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
@@ -13,8 +14,10 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 
+import com.bizivisionsoft.widgets.util.Layer;
 import com.bizvisionsoft.bruicommons.model.Action;
 import com.bizvisionsoft.bruicommons.model.Assembly;
+import com.bizvisionsoft.bruiengine.assembly.GridPart;
 import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
 import com.bizvisionsoft.bruiengine.service.BruiService;
 import com.bizvisionsoft.bruiengine.service.IBruiContext;
@@ -29,31 +32,31 @@ import com.bizvisionsoft.serviceconsumer.Services;
 
 public class FolderDocSelector extends Part {
 
-	public static void selectFolder(IBruiContext context, IFolder initialFolder, int selectionStyle) {
+	public static void selectFolder(IBruiContext context, IFolder initialFolder, int selectionStyle, Consumer<Object> doit) {
 		Shell parentShell = Display.getCurrent().getActiveShell();
 		FolderDocSelector selector = new FolderDocSelector(parentShell);
 		selector.setParentContext(context).setTitle("选择目录").setSizeMode(false, true)
 				.setExplorerStyle(VaultExplorer.ADDRESS_BAR | VaultExplorer.NAVIGATOR).setSelectionStyle(selectionStyle);
 		selector.init(initialFolder);
-		selector.open();
+		selector.open(doit);
 	}
 
-	public static void selectDocument(IBruiContext context, IFolder initialFolder, int selectionStyle) {
+	public static void selectDocument(IBruiContext context, IFolder initialFolder, int selectionStyle, Consumer<Object> doit) {
 		Shell parentShell = Display.getCurrent().getActiveShell();
 		FolderDocSelector selector = new FolderDocSelector(parentShell);
 		selector.setParentContext(context).setTitle("选择文档").setSizeMode(false, false).setExplorerStyle(VaultExplorer.ADDRESS_BAR
 				| VaultExplorer.NAVIGATOR | VaultExplorer.FILETABLE | VaultExplorer.SEARCH_FILE | VaultExplorer.SEARCH_FOLDER)
 				.setSelectionStyle(selectionStyle);
 		selector.init(initialFolder);
-		selector.open();
+		selector.open(doit);
 	}
 
-	public static void selectFolder(IBruiContext context) {
-		selectFolder(context, IFolder.Null, SWT.SINGLE);
+	public static void selectFolder(IBruiContext context, Consumer<Object> doit) {
+		selectFolder(context, IFolder.Null, SWT.SINGLE, doit);
 	}
 
-	public static void selectDocument(IBruiContext context) {
-		selectDocument(context, IFolder.Null, SWT.MULTI);
+	public static void selectDocument(IBruiContext context, Consumer<Object> doit) {
+		selectDocument(context, IFolder.Null, SWT.MULTI, doit);
 	}
 
 	private boolean isTiny;
@@ -202,8 +205,8 @@ public class FolderDocSelector extends Part {
 		// 创建内容区
 		explorer.createUI(content);
 		// 创建按扭区
-		
-		Controls.label(parent,SWT.SEPARATOR|SWT.HORIZONTAL).loc(SWT.LEFT|SWT.RIGHT).top(content);
+
+		Controls.label(parent, SWT.SEPARATOR | SWT.HORIZONTAL).loc(SWT.LEFT | SWT.RIGHT).top(content);
 		Composite bar = Controls.comp(parent).loc(SWT.LEFT | SWT.RIGHT | SWT.BOTTOM).top(content, 1).get();
 		createButtons(bar);
 	}
@@ -220,27 +223,27 @@ public class FolderDocSelector extends Part {
 
 		// 取消按钮
 		if (((SWT.SINGLE | SWT.MULTI) & selectionStyle) != 0) {
-			Controls.button(parent).rwt(Controls.CSS_WARNING).setText("取消").loc(SWT.TOP | SWT.BOTTOM).right(btn.get()).width(120).listen(SWT.Selection,
-					e -> cancelPressed());
+			Controls.button(parent).rwt(Controls.CSS_WARNING).setText("取消").loc(SWT.TOP | SWT.BOTTOM).right(btn.get()).width(120)
+					.listen(SWT.Selection, e -> cancelPressed());
 		}
 
 		// 全选，取消全选
 		if ((SWT.MULTI & selectionStyle) != 0) {
-			btn = Controls.button(parent).rwt(Controls.CSS_INFO).setText("全部选择").loc(SWT.LEFT | SWT.TOP | SWT.BOTTOM).width(120).listen(SWT.Selection,
-					e -> selectAllPressed());
-			Controls.button(parent).rwt(Controls.CSS_INFO).setText("取消选择").loc(SWT.TOP | SWT.BOTTOM).left(btn.get()).width(120)	.listen(SWT.Selection,
-					e -> unSelectAllPressed());
+			btn = Controls.button(parent).rwt(Controls.CSS_INFO).setText("全部选择").loc(SWT.LEFT | SWT.TOP | SWT.BOTTOM).width(120)
+					.listen(SWT.Selection, e -> selectAllPressed());
+			Controls.button(parent).rwt(Controls.CSS_INFO).setText("取消选择").loc(SWT.TOP | SWT.BOTTOM).left(btn.get()).width(120)
+					.listen(SWT.Selection, e -> unSelectAllPressed());
 		}
 	}
 
 	private void unSelectAllPressed() {
-		// TODO Auto-generated method stub
-
+		GridPart gridPart = explorer.getCurrentDisplayPart();
+		gridPart.setCheckAll(false);
 	}
 
 	private void selectAllPressed() {
-		// TODO Auto-generated method stub
-
+		GridPart gridPart = explorer.getCurrentDisplayPart();
+		gridPart.setCheckAll(true);
 	}
 
 	private void cancelPressed() {
@@ -249,13 +252,34 @@ public class FolderDocSelector extends Part {
 	}
 
 	private void okPressed() {
-		// TODO Auto-generated method stub
+		List<Object> checkedItems = explorer.getCurrentDisplayPart().getCheckedItems();
+		if (checkedItems.size() == 0) {
+			if ((VaultExplorer.FILETABLE & explorerStyle) == 0)
+				Layer.error("请选择目录。");
+			else
+				Layer.error("请选择文档。");
+
+			return;
+		}
+
+		if ((SWT.SINGLE & selectionStyle) != 0 && result instanceof List) {
+			result = checkedItems.get(0);
+		} else {
+			result = checkedItems;
+		}
 		setReturnCode(Window.OK);
 		close();
 	}
 
 	public Object getResult() {
 		return result;
+	}
+
+	private FolderDocSelector open(Consumer<Object> doit) {
+		if (Window.OK == open()) {
+			doit.accept(getResult());
+		}
+		return this;
 	}
 
 }

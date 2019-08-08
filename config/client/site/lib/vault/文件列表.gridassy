@@ -253,5 +253,84 @@
   ],
   "disableInitLoadData": true,
   "disableStdQuery": false,
-  "sortFields": []
+  "sortFields": [
+    {
+      "name": "desc",
+      "text": "Ãû³Æ",
+      "type": "ÅÅÐò×Ö¶Î",
+      "formFields": []
+    },
+    {
+      "name": "documentnumber",
+      "text": "ÎÄµµ±àºÅ",
+      "type": "ÅÅÐò×Ö¶Î",
+      "formFields": []
+    },
+    {
+      "name": "vid",
+      "text": "°æ±¾ºÅ",
+      "type": "ÅÅÐò×Ö¶Î",
+      "formFields": []
+    },
+    {
+      "name": "statusText",
+      "text": "×´Ì¬",
+      "type": "ÅÅÐò×Ö¶Î",
+      "formFields": []
+    },
+    {
+      "name": "phase",
+      "text": "½×¶Î",
+      "type": "ÅÅÐò×Ö¶Î",
+      "formFields": []
+    },
+    {
+      "name": "securityText",
+      "text": "ÃÜ¼¶",
+      "type": "ÅÅÐò×Ö¶Î",
+      "formFields": []
+    },
+    {
+      "name": "owner",
+      "text": "ËùÓÐÕß",
+      "type": "ÅÅÐò×Ö¶Î",
+      "formFields": []
+    },
+    {
+      "name": "projectdesc",
+      "text": "ÏîÄ¿Ãû³Æ",
+      "type": "ÅÅÐò×Ö¶Î",
+      "formFields": []
+    },
+    {
+      "name": "projectworkorder",
+      "text": "¹¤×÷ÁîºÅ",
+      "type": "ÅÅÐò×Ö¶Î",
+      "formFields": []
+    },
+    {
+      "name": "projectnumber",
+      "text": "ÏîÄ¿±àºÅ",
+      "type": "ÅÅÐò×Ö¶Î",
+      "formFields": []
+    },
+    {
+      "name": "plmTypeText",
+      "text": "×ÊÁÏÀàÐÍ",
+      "type": "ÅÅÐò×Ö¶Î",
+      "formFields": []
+    },
+    {
+      "name": "createBy",
+      "text": "´´½¨Õß",
+      "type": "ÅÅÐò×Ö¶Î",
+      "formFields": []
+    },
+    {
+      "name": "createOn",
+      "text": "´´½¨Ê±¼ä",
+      "type": "ÅÅÐò×Ö¶Î",
+      "formFields": []
+    }
+  ]
 }
