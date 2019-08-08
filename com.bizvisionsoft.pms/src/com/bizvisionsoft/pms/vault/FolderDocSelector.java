@@ -22,7 +22,6 @@ import com.bizvisionsoft.bruiengine.assembly.GridPart;
 import com.bizvisionsoft.bruiengine.service.BruiAssemblyContext;
 import com.bizvisionsoft.bruiengine.service.BruiService;
 import com.bizvisionsoft.bruiengine.service.IBruiContext;
-import com.bizvisionsoft.bruiengine.service.IServiceWithId;
 import com.bizvisionsoft.bruiengine.service.UserSession;
 import com.bizvisionsoft.bruiengine.ui.Part;
 import com.bizvisionsoft.bruiengine.util.BruiColors.BruiColor;
@@ -77,6 +76,7 @@ public class FolderDocSelector extends Part {
 	public FolderDocSelector(Shell parentShell) {
 		super(parentShell);
 		setShellStyle(SWT.TITLE | SWT.RESIZE | SWT.ON_TOP | SWT.MAX | SWT.APPLICATION_MODAL);
+		setBlockOnOpen(true);
 	}
 
 	public FolderDocSelector setParentContext(IBruiContext parentContext) {
@@ -143,10 +143,10 @@ public class FolderDocSelector extends Part {
 
 			@Override
 			protected Assembly getFileTableAssembly() {
-				Assembly assy = (Assembly) service.getAssembly("vault/文件列表.gridassy").clone();
+				Assembly assy = (Assembly) service.getAssembly("vault/文档列表.gridassy").clone();
 				assy.getActions().clear();
 				assy.getRowActions().clear();
-				if ((VaultExplorer.FILETABLE & explorerStyle) != 0) {// 仅当选择文件的时候，在文件上才有勾选框
+				if ((VaultExplorer.FILETABLE & explorerStyle) != 0) {// 仅当选择文档的时候，在文档上才有勾选框
 					assy.setCheckOn(true);
 				}
 				return assy;
@@ -158,6 +158,28 @@ public class FolderDocSelector extends Part {
 				assy.getActions().clear();
 				assy.getRowActions().clear();
 				if ((VaultExplorer.FILETABLE & explorerStyle) == 0) {// 仅当选择目录的时候，在目录上才有勾选框
+					assy.setCheckOn(true);
+				}
+				return assy;
+			}
+
+			@Override
+			protected Assembly getSearchFolderAssembly() {
+				Assembly assy = (Assembly) service.getAssembly("vault/目录查询结果.gridassy").clone();
+				assy.getActions().clear();
+				if ((VaultExplorer.FILETABLE & explorerStyle) == 0) {// 仅当选择目录的时候，才有勾选框并且要清除选择按钮
+					assy.getRowActions().clear();
+					assy.setCheckOn(true);
+				}
+				return assy;
+			}
+
+			@Override
+			protected Assembly getSearchFileAssembly() {
+				Assembly assy = (Assembly) service.getAssembly("vault/文档查询结果.gridassy").clone();
+				assy.getActions().clear();
+				assy.getRowActions().clear();
+				if ((VaultExplorer.FILETABLE & explorerStyle) != 0) {// 仅当选择文档的时候，才有勾选框
 					assy.setCheckOn(true);
 				}
 				return assy;
@@ -267,7 +289,7 @@ public class FolderDocSelector extends Part {
 			return;
 		}
 
-		if ((SWT.SINGLE & selectionStyle) != 0 && result instanceof List) {
+		if ((SWT.SINGLE & selectionStyle) != 0) {
 			result = checkedItems.get(0);
 		} else {
 			result = checkedItems;

@@ -300,7 +300,7 @@ public interface DocumentService {
 	@Path("/{domain}/doc/{userId}/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet("文件列表/" + DataSet.LIST)
+	@DataSet("文档列表/" + DataSet.LIST)
 	public List<DocuDescriptor> listDocument(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
 			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userId") String userId,
 			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
@@ -309,7 +309,7 @@ public interface DocumentService {
 	@Path("/{domain}/doc/{userId}/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet("文件列表/" + DataSet.COUNT)
+	@DataSet("文档列表/" + DataSet.COUNT)
 	public long countDocument(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
 			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userId") String userId,
 			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
@@ -370,7 +370,7 @@ public interface DocumentService {
 	@Path("/{domain}/docdesc/{userId}/{initialFolder_id}/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet("文件查询结果/" + DataSet.LIST)
+	@DataSet("文档查询结果/" + DataSet.LIST)
 	public List<DocuDescriptor> listDocumentWithPath(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
 			@MethodParam(MethodParam.CONTEXT_INPUT_OBJECT_ID) @PathParam("initialFolder_id") ObjectId initialFolder_id,
 			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userId") String userId,
@@ -380,7 +380,7 @@ public interface DocumentService {
 	@Path("/{domain}/docdesc/{userId}/{initialFolder_id}/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet("文件查询结果/" + DataSet.COUNT)
+	@DataSet("文档查询结果/" + DataSet.COUNT)
 	public long countDocumentWithPath(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
 			@MethodParam(MethodParam.CONTEXT_INPUT_OBJECT_ID) @PathParam("initialFolder_id") ObjectId initialFolder_id,
 			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userId") String userId,

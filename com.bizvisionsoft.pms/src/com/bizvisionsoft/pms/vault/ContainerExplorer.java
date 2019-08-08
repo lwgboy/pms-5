@@ -62,7 +62,17 @@ public class ContainerExplorer extends VaultExplorer {
 
 	@Override
 	protected Assembly getFileTableAssembly() {
-		return br.getAssembly("vault/文件列表.gridassy");
+		return br.getAssembly("vault/文档列表.gridassy");
+	}
+
+	@Override
+	protected Assembly getSearchFolderAssembly() {
+		return br.getAssembly("vault/目录查询结果.gridassy");
+	}
+
+	@Override
+	protected Assembly getSearchFileAssembly() {
+		return br.getAssembly("vault/文档查询结果.gridassy");
 	}
 
 	@Override
@@ -92,6 +102,5 @@ public class ContainerExplorer extends VaultExplorer {
 	protected int getStyle() {
 		return super.getStyle() | SEARCH_FOLDER | SEARCH_FILE;
 	}
-
 
 }

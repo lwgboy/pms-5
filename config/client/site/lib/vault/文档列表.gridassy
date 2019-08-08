@@ -1,9 +1,8 @@
 {
   "id": "/项目档案库文件列表.gridassy",
-  "name": "文件查询结果",
+  "name": "文档列表",
   "layout": [],
   "type": "grid",
-  "stickerTitle": "",
   "folderId": "163dac10775",
   "gridLineVisiable": true,
   "gridHeaderVisiable": true,
@@ -21,7 +20,6 @@
       "text": "名称",
       "alignment": 16384,
       "width": 240,
-      "minimumWidth": 240,
       "resizeable": true,
       "columns": []
     },
@@ -31,7 +29,6 @@
       "text": "文档编号",
       "alignment": 16384,
       "width": 120,
-      "minimumWidth": 120,
       "resizeable": true,
       "columns": []
     },
@@ -39,8 +36,7 @@
       "name": "vid",
       "text": "版本号",
       "alignment": 16384,
-      "width": 100,
-      "minimumWidth": 100,
+      "width": 60,
       "resizeable": true,
       "columns": []
     },
@@ -48,8 +44,7 @@
       "name": "statusText",
       "text": "状态",
       "alignment": 16384,
-      "width": 100,
-      "minimumWidth": 100,
+      "width": 60,
       "resizeable": true,
       "columns": []
     },
@@ -57,8 +52,7 @@
       "name": "phase",
       "text": "阶段",
       "alignment": 16384,
-      "width": 80,
-      "minimumWidth": 80,
+      "width": 50,
       "resizeable": true,
       "columns": []
     },
@@ -66,8 +60,7 @@
       "name": "securityText",
       "text": "密级",
       "alignment": 16384,
-      "width": 80,
-      "minimumWidth": 80,
+      "width": 50,
       "resizeable": true,
       "columns": []
     },
@@ -75,8 +68,7 @@
       "name": "owner",
       "text": "所有者",
       "alignment": 16384,
-      "width": 120,
-      "minimumWidth": 120,
+      "width": 80,
       "resizeable": true,
       "columns": []
     },
@@ -85,16 +77,6 @@
       "text": "项目名称",
       "alignment": 16384,
       "width": 240,
-      "minimumWidth": 240,
-      "resizeable": true,
-      "columns": []
-    },
-    {
-      "name": "projectworkorder",
-      "text": "工作令号",
-      "alignment": 16384,
-      "width": 240,
-      "minimumWidth": 240,
       "resizeable": true,
       "columns": []
     },
@@ -102,8 +84,15 @@
       "name": "projectnumber",
       "text": "项目编号",
       "alignment": 16384,
+      "width": 100,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "name": "projectworkorder",
+      "text": "工作令号",
+      "alignment": 16384,
       "width": 120,
-      "minimumWidth": 120,
       "resizeable": true,
       "columns": []
     },
@@ -113,18 +102,7 @@
       "description": "",
       "text": "资料类型",
       "alignment": 16384,
-      "width": 120,
-      "minimumWidth": 120,
-      "resizeable": true,
-      "columns": []
-    },
-    {
-      "name": "path",
-      "text": "路径",
-      "alignment": 16384,
-      "width": 320,
-      "minimumWidth": 320,
-      "moveable": false,
+      "width": 80,
       "resizeable": true,
       "columns": []
     },
@@ -134,7 +112,6 @@
       "text": "创建者",
       "alignment": 16384,
       "width": 80,
-      "minimumWidth": 80,
       "resizeable": true,
       "columns": []
     },
@@ -144,7 +121,6 @@
       "text": "创建时间",
       "alignment": 16384,
       "width": 96,
-      "minimumWidth": 96,
       "resizeable": true,
       "columns": [],
       "format": "yyyy-MM-dd"
@@ -170,42 +146,12 @@
       ]
     },
     {
-      "name": "新字段",
-      "type": "行",
-      "formFields": [
-        {
-          "name": "projectdesc",
-          "text": "项目名称",
-          "type": "文本输入框（查询）",
-          "formFields": []
-        },
-        {
-          "name": "projectnumber",
-          "text": "项目编号",
-          "type": "文本输入框（查询）",
-          "formFields": []
-        }
-      ]
-    },
-    {
-      "name": "新字段",
-      "type": "行",
-      "formFields": [
-        {
-          "name": "projectworkorder",
-          "text": "工作令号",
-          "type": "文本输入框（查询）",
-          "formFields": []
-        },
-        {
-          "name": "plmtype",
-          "text": "资料类型",
-          "type": "下拉选择框（查询）",
-          "formFields": [],
-          "optionValue": "pmdocument#pmcaddocument#pmpart#pmproduct#pmmaterial#pmsupplyment#pmjigtools#pmpackage#pmform",
-          "optionText": "文档#图纸#零部件#成品#原材料#客供件#工装夹具#包装材料#表单"
-        }
-      ]
+      "name": "plmtype",
+      "text": "资料类型",
+      "type": "下拉选择框（查询）",
+      "formFields": [],
+      "optionValue": "pmdocument#pmcaddocument#pmpart#pmproduct#pmmaterial#pmsupplyment#pmjigtools#pmpackage#pmform",
+      "optionText": "文档#图纸#零部件#成品#原材料#客供件#工装夹具#包装材料#表单"
     },
     {
       "name": "新字段",
@@ -268,11 +214,32 @@
       ]
     }
   ],
-  "gridAutoColumnWidth": true,
+  "gridAutoColumnWidth": false,
   "actions": [],
-  "rowActions": [],
-  "hasTitlebar": false,
+  "rowActions": [
+    {
+      "id": "163dad5d3ab",
+      "name": "编辑",
+      "text": "编辑",
+      "image": "/img/edit_w.svg",
+      "bundleId": "com.bizvisionsoft.pms",
+      "className": "com.bizvisionsoft.pms.filecabinet.OpenDocuACT",
+      "style": "normal",
+      "editorAssemblyEditable": true,
+      "type": "customized",
+      "verticalSpan": 0
+    },
+    {
+      "id": "163ded3b0d5",
+      "name": "删除",
+      "image": "/img/delete_w.svg",
+      "style": "warning",
+      "type": "delete",
+      "verticalSpan": 0
+    }
+  ],
   "disableInitLoadData": true,
+  "disableStdQuery": false,
   "sortFields": [
     {
       "name": "desc",
