@@ -309,7 +309,7 @@ public interface DocumentService {
 	@Path("/{domain}/doc/{userId}/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
-	@DataSet({ "文件列表/" + DataSet.COUNT, "文件查询结果/" + DataSet.COUNT })
+	@DataSet("文件列表/" + DataSet.COUNT)
 	public long countDocument(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
 			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userId") String userId,
 			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
@@ -347,29 +347,42 @@ public interface DocumentService {
 	public VaultFolder insertFolder(VaultFolder vf, @MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/{domain}/fld/{userId}/ds")
+	@Path("/{domain}/fld/{userId}/{initialFolder_id}/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("目录查询结果/list")
 	public List<VaultFolder> listFolderWithPath(@MethodParam(MethodParam.CONDITION) BasicDBObject condition, // 查询条件
+			@MethodParam(MethodParam.CONTEXT_INPUT_OBJECT_ID) @PathParam("initialFolder_id") ObjectId initialFolder_id,
 			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userId") String userId,
 			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/{domain}/fld/{userId}/count")
+	@Path("/{domain}/fld/{userId}/{initialFolder_id}/count")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("目录查询结果/count")
-	public long countFolder(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
+	public long countFolderWithPath(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
+			@MethodParam(MethodParam.CONTEXT_INPUT_OBJECT_ID) @PathParam("initialFolder_id") ObjectId initialFolder_id,
 			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userId") String userId,
 			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
-	@Path("/{domain}/docdesc/{userId}/ds")
+	@Path("/{domain}/docdesc/{userId}/{initialFolder_id}/ds")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
 	@DataSet("文件查询结果/" + DataSet.LIST)
 	public List<DocuDescriptor> listDocumentWithPath(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
+			@MethodParam(MethodParam.CONTEXT_INPUT_OBJECT_ID) @PathParam("initialFolder_id") ObjectId initialFolder_id,
+			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userId") String userId,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+
+	@POST
+	@Path("/{domain}/docdesc/{userId}/{initialFolder_id}/count")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet("文件查询结果/" + DataSet.COUNT)
+	public long countDocumentWithPath(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
+			@MethodParam(MethodParam.CONTEXT_INPUT_OBJECT_ID) @PathParam("initialFolder_id") ObjectId initialFolder_id,
 			@MethodParam(MethodParam.CURRENT_USER_ID) @PathParam("userId") String userId,
 			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 

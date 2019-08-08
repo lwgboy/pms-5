@@ -141,7 +141,7 @@ public abstract class VaultExplorer {
 		BruiAssemblyEngine brui = BruiAssemblyEngine.newInstance(gridConfig);
 		BruiAssemblyContext containerContext;
 		context.add(containerContext = UserSession.newAssemblyContext().setParent(context));
-		containerContext.setEngine(brui).setInput(context.getInput());
+		containerContext.setEngine(brui).setInput(getInitialFolder());
 		fileSearchResultGrid = ((GridPart) brui.getTarget());
 		fileSearchResultGrid.setDisableQueryPanel(true);
 		Composite container = new Composite(parent, SWT.NONE);
@@ -167,7 +167,7 @@ public abstract class VaultExplorer {
 		BruiAssemblyEngine brui = BruiAssemblyEngine.newInstance(gridConfig);
 		BruiAssemblyContext containerContext;
 		context.add(containerContext = UserSession.newAssemblyContext().setParent(context));
-		containerContext.setEngine(brui).setInput(context.getInput());
+		containerContext.setEngine(brui).setInput(getInitialFolder());
 		folderSearchResultGrid = ((GridPart) brui.getTarget());
 		folderSearchResultGrid.setDisableQueryPanel(true);
 		Composite container = new Composite(parent, SWT.NONE);

@@ -160,6 +160,15 @@ public class DocumentServiceImpl extends BasicServiceImpl implements DocumentSer
 	}
 
 	@Override
+	public long countDocument(BasicDBObject filter, String userId, String domain) {
+		if (Check.isNotAssigned(filter))
+			return 0;
+		Consumer<List<Bson>> input = p -> appendFolderAuthQueryPipeline(p, userId);
+		long count = countDocument(input, filter, null, "docu", domain);
+		return count;
+	}
+
+	@Override
 	public List<Docu> listProjectDocument(BasicDBObject condition, ObjectId project_id, String domain) {
 		if (condition != null) {
 			Integer skip = (Integer) condition.get("skip");
@@ -285,24 +294,27 @@ public class DocumentServiceImpl extends BasicServiceImpl implements DocumentSer
 		Consumer<List<Bson>> output = p -> appendFolderAdditionInfoQueryPipeline(p, userId);
 		return query(input, skip, limit, filter, sort, output, VaultFolder.class, domain);
 	}
-	
 
 	@Override
 	public VaultFolder getProjectRootFolder(ObjectId project_id, String userId, String domain) {
 		Consumer<List<Bson>> input = p -> appendFolderAuthQueryPipeline(p, userId);
-		List<VaultFolder> result = query(input, null, 1, new BasicDBObject("project_id",project_id).append("isflderroot", true), null, null, VaultFolder.class, domain);
-		if(Check.isAssigned(result)) return result.get(0);
+		List<VaultFolder> result = query(input, null, 1, new BasicDBObject("project_id", project_id).append("isflderroot", true), null,
+				null, VaultFolder.class, domain);
+		if (Check.isAssigned(result))
+			return result.get(0);
 		return null;
 	}
 
 	@Override
-	public List<VaultFolder> listFolderWithPath(BasicDBObject condition, String userId, String domain) {
+	public List<VaultFolder> listFolderWithPath(BasicDBObject condition, ObjectId initialFolder_id, String userId, String domain) {
 		Integer skip = Optional.ofNullable(condition).map(c -> (Integer) c.get("skip")).orElse(null);
 		Integer limit = Optional.ofNullable(condition).map(c -> (Integer) c.get("limit")).orElse(null);
 		BasicDBObject filter = Optional.ofNullable(condition).map(c -> (BasicDBObject) condition.get("filter")).orElse(null);
 		if (Check.isNotAssigned(filter))
 			return new ArrayList<>();
 
+		filter = appendInitialFolderQueryWithFolder(filter, initialFolder_id, domain);
+		
 		BasicDBObject sort = Optional.ofNullable(condition).map(c -> (BasicDBObject) c.get("sort")).orElse(new BasicDBObject("_id", 1));
 		Consumer<List<Bson>> input = p -> appendFolderAuthQueryPipeline(p, userId);
 		Consumer<List<Bson>> output = p -> {
@@ -338,9 +350,10 @@ public class DocumentServiceImpl extends BasicServiceImpl implements DocumentSer
 	}
 
 	@Override
-	public long countFolder(BasicDBObject filter, String userId, String domain) {
+	public long countFolderWithPath(BasicDBObject filter, ObjectId initialFolder_id, String userId, String domain) {
 		if (Check.isNotAssigned(filter))
 			return 0;
+		filter = appendInitialFolderQueryWithFolder(filter, initialFolder_id, domain);
 		Consumer<List<Bson>> input = p -> appendFolderAuthQueryPipeline(p, userId);
 		return countDocument(input, filter, null, "folder", domain);
 	}
@@ -377,10 +390,11 @@ public class DocumentServiceImpl extends BasicServiceImpl implements DocumentSer
 	}
 
 	@Override
-	public List<DocuDescriptor> listDocumentWithPath(BasicDBObject condition, String userId, String domain) {
+	public List<DocuDescriptor> listDocumentWithPath(BasicDBObject condition, ObjectId initialFolder_id, String userId, String domain) {
 		BasicDBObject filter = (BasicDBObject) condition.get("filter");
 		if (Check.isNotAssigned(filter))
 			return new ArrayList<>();
+		filter = appendInitialFolderQueryWithDocument(filter, initialFolder_id, domain);
 
 		Integer skip = Optional.ofNullable(condition).map(c -> c.getInt("skip")).orElse(null);
 		Integer limit = Optional.ofNullable(condition).map(c -> c.getInt("limit")).orElse(null);
@@ -397,12 +411,57 @@ public class DocumentServiceImpl extends BasicServiceImpl implements DocumentSer
 	}
 
 	@Override
-	public long countDocument(BasicDBObject filter, String userId, String domain) {
+	public long countDocumentWithPath(BasicDBObject filter, ObjectId initialFolder_id, String userId, String domain) {
 		if (Check.isNotAssigned(filter))
 			return 0;
+		filter = appendInitialFolderQueryWithDocument(filter, initialFolder_id, domain);
 		Consumer<List<Bson>> input = p -> appendFolderAuthQueryPipeline(p, userId);
 		long count = countDocument(input, filter, null, "docu", domain);
 		return count;
+	}
+
+	private BasicDBObject appendInitialFolderQueryWithDocument(BasicDBObject filter, ObjectId initialFolder_id, String domain) {
+		filter = Optional.ofNullable(filter).orElse(new BasicDBObject());
+
+		if (!initialFolder_id.equals(Formatter.ZeroObjectId()) // 判断initialFolder_id是否为空时，为空时表示全资料库查询。不添加查询范围。
+				&& !Optional.ofNullable(filter.get("folder_id")).isPresent()) {// 判断判断当前查询是否限定了文件夹查询范围，如果限定，不添加查询范围。
+			Document doc = c("folder", domain).find(new BasicDBObject("_id", initialFolder_id))
+					.projection(new BasicDBObject("iscontainer", 1).append("isflderroot", 1).append("project_id", 1)).first();// 根据initialFolder_id获取文件夹的iscontainer、isflderroot和project_id属性
+
+			if (doc.getBoolean("isflderroot", false)) {// 判断该文件夹是否为项目文件夹
+				filter.append("project_id", doc.get("project_id"));// 在查询条件中添加项目id的查询条件。
+			} else {
+				List<ObjectId> desentItems;
+				if (doc.getBoolean("iscontainer", false)) {// 判断该文件夹是否为容器
+					desentItems = c("folder", domain).distinct("_id", new BasicDBObject("root_id", initialFolder_id), ObjectId.class)
+							.into(new ArrayList<ObjectId>());// 获取initialFolder容器下的文件夹_id，包含该容器
+				} else {
+					desentItems = getDesentItems(Arrays.asList(initialFolder_id), "folder", "parent_id", domain);// 获取initialFolder下的子文件夹_id，包含本级
+				}
+				filter.append("folder_id", new BasicDBObject("$in", desentItems));// 在查询条件中添加文件夹范围的查询条件。
+			}
+		}
+		return filter;
+
+	}
+
+	private BasicDBObject appendInitialFolderQueryWithFolder(BasicDBObject filter, ObjectId initialFolder_id, String domain) {
+		filter = Optional.ofNullable(filter).orElse(new BasicDBObject());
+
+		if (!initialFolder_id.equals(Formatter.ZeroObjectId()) // 判断initialFolder_id是否为空时，为空时表示全资料库查询。不添加查询范围。
+				&& !Optional.ofNullable(filter.get("folder_id")).isPresent()) {// 判断判断当前查询是否限定了文件夹查询范围，如果限定，不添加查询范围。
+			Document doc = c("folder", domain).find(new BasicDBObject("_id", initialFolder_id))
+					.projection(new BasicDBObject("iscontainer", 1).append("isflderroot", 1).append("project_id", 1)).first();// 根据initialFolder_id获取文件夹的iscontainer、isflderroot和project_id属性
+			if (doc.getBoolean("iscontainer", false)) {// 判断该文件夹是否为容器
+				filter.append("root_id", initialFolder_id);// 在查询条件中添加容器查询条件。
+			} else if (doc.getBoolean("isflderroot", false)) {// 判断该文件夹是否为项目文件夹
+				filter.append("project_id", doc.get("project_id"));// 在查询条件中添加项目id的查询条件。
+			} else {
+				List<ObjectId> desentItems = getDesentItems(Arrays.asList(initialFolder_id), "folder", "parent_id", domain);// 获取initialFolder下的子文件夹_id，包含本级
+				filter.append("_id", new BasicDBObject("$in", desentItems));// 在查询条件中添加文件夹范围的查询条件。
+			}
+		}
+		return filter;
 	}
 
 	@Override
@@ -444,6 +503,5 @@ public class DocumentServiceImpl extends BasicServiceImpl implements DocumentSer
 	public VaultFolder insertFolder(VaultFolder vf, String domain) {
 		return insert(vf, VaultFolder.class, domain);
 	}
-
 
 }
