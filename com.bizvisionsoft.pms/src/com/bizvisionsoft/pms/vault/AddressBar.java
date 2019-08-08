@@ -32,9 +32,11 @@ public class AddressBar extends Composite {
 
 	private Controls<Composite> addressBar;
 
-	private List<Controls<Button>> controlHolder = new ArrayList<>();
+	private List<Controls<? extends Control>> controlHolder = new ArrayList<>();
 
 	private Function<Action, Boolean> authority;
+
+	private Controls<Composite> searchBar;
 
 	/**
 	 * 
@@ -51,7 +53,7 @@ public class AddressBar extends Composite {
 	 */
 	public AddressBar(Composite parent, IFolder[] path, List<List<Action>> actionGroups, Function<Action, Boolean> authority) {
 		super(parent, SWT.NONE);
-		Assert.isNotNull(path,"传入路径不可为null");
+		Assert.isNotNull(path, "传入路径不可为null");
 		this.authority = authority;
 		Controls.handle(this).rwt(BruiToolkit.CSS_BAR_TITLE).bg(BruiColor.Grey_50).formLayout().get();
 		// 创建左侧按钮
@@ -86,10 +88,21 @@ public class AddressBar extends Composite {
 		Label end = createToolitemSeperator().right(btn.get()).get();
 
 		// 创建地址栏
-		addressBar = Controls.contentPanel(this).bg(BruiColor.White).loc(SWT.TOP | SWT.BOTTOM).left(lead).right(end).listen(SWT.Resize,
-				e -> caculatePathItemBounds());
-
+		addressBar = Controls.contentPanel(this).bg(BruiColor.White).loc(SWT.TOP | SWT.BOTTOM).left(lead).right(end)
+				.listen(SWT.Resize, e -> caculatePathItemBounds()).listen(SWT.MouseUp, e -> activeSearchBar());
 		setPath(path);
+
+		searchBar = Controls.contentPanel(this).bg(BruiColor.White).loc(SWT.TOP | SWT.BOTTOM).left(lead).right(end).below(null);
+		
+		
+	}
+
+	private void activeSearchBar() {
+		searchBar.above(null);
+	}
+
+	private void disactiveSearchBar() {
+		searchBar.below(null);
 	}
 
 	/**
@@ -112,12 +125,13 @@ public class AddressBar extends Composite {
 			for (int i = 0; i < path.length; i++) {
 				int folderIndex = i;
 
-				Action action = new ActionFactory().text(path[i].getName()+"/").get();
+				Action action = new ActionFactory().text("/ " + path[i].getName()).get();
 				left = createToolitem(panel, action, false).loc(SWT.TOP | SWT.BOTTOM).left(left)//
-						.listen(SWT.Selection, e -> handlerEvent(SWT.Modify, folderIndex, action))// 改变当前目录
+						.listen(SWT.MouseUp, e -> handlerEvent(SWT.Modify, folderIndex, action))// 改变当前目录
 						.get();
 
-				left = Controls.label(panel, SWT.SEPARATOR | SWT.VERTICAL).loc(SWT.TOP | SWT.BOTTOM).left(left).get();
+				// left = Controls.label(panel, SWT.SEPARATOR | SWT.VERTICAL).loc(SWT.TOP |
+				// SWT.BOTTOM).left(left).get();
 			}
 
 			caculatePathItemBounds();
@@ -131,6 +145,7 @@ public class AddressBar extends Composite {
 		// 设置向上一级目录的按钮状态
 		updateToolitemStatus(VaultActions.uplevel.name(), b -> path.length > 0);
 		parent.layout();
+		disactiveSearchBar();
 	}
 
 	private void caculatePathItemBounds() {
@@ -174,9 +189,9 @@ public class AddressBar extends Composite {
 	 * @param actionId
 	 * @param func
 	 */
-	public void updateToolitemStatus(String actionId, Function<Controls<Button>, Boolean> func) {
+	public void updateToolitemStatus(String actionId, Function<Controls<? extends Control>, Boolean> func) {
 		for (int i = 0; i < controlHolder.size(); i++) {
-			Controls<Button> c = controlHolder.get(i);
+			Controls<? extends Control> c = controlHolder.get(i);
 			Action a = (Action) c.get().getData("action");
 			if (actionId.equals(a.getId())) {
 				boolean result = func != null && Boolean.TRUE.equals(func.apply(c));
