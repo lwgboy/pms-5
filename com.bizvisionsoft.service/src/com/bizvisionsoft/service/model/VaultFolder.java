@@ -37,6 +37,18 @@ public class VaultFolder implements IFolder {
 
 	@ReadValue
 	@WriteValue
+	private String projectnumber;
+
+	@ReadValue
+	@WriteValue
+	private String projectdesc;
+
+	@ReadValue
+	@WriteValue
+	private String projectworkorder;
+
+	@ReadValue
+	@WriteValue
 	private ObjectId parent_id;
 
 	@Exclude
@@ -52,7 +64,7 @@ public class VaultFolder implements IFolder {
 
 	@ReadValue
 	@WriteValue
-	private boolean isflderroot;
+	private Boolean isflderroot;
 
 	@ReadValue
 	@WriteValue
@@ -68,11 +80,11 @@ public class VaultFolder implements IFolder {
 
 	@ReadValue
 	@WriteValue
-	private boolean iscontainer;
+	private Boolean iscontainer;
 
 	@ReadValue
 	@WriteValue
-	private boolean defaultquery;
+	private Boolean defaultquery;
 
 	@ReadValue
 	@WriteValue
@@ -161,9 +173,9 @@ public class VaultFolder implements IFolder {
 	@ImageURL("desc")
 	private String getHTMLName() {
 		// 如果是容器，返回容器图标
-		if (iscontainer) {
+		if (isContainer()) {
 			return "/img/cabinet_c.svg";
-		} else if (isflderroot) {
+		} else if (isflderroot()) {
 			return "/img/folder_project.svg";
 		} else if (opened) {
 			return "/img/folder_opened.svg";
@@ -232,7 +244,7 @@ public class VaultFolder implements IFolder {
 	}
 
 	public boolean isflderroot() {
-		return isflderroot;
+		return Boolean.TRUE.equals(isflderroot);
 	}
 
 	public VaultFolder setflderroot(boolean isflderroot) {
@@ -258,12 +270,35 @@ public class VaultFolder implements IFolder {
 
 	@Override
 	public boolean isContainer() {
-		return iscontainer;
+		return Boolean.TRUE.equals(iscontainer);
 	}
 
-	public VaultFolder setIsContainer(boolean iscontainer) {
+	public VaultFolder setIsContainer(Boolean iscontainer) {
 		this.iscontainer = iscontainer;
 		return this;
+	}
+
+	@Override
+	public IFolder setName(String name) {
+		this.desc = name;
+		return this;
+	}
+
+	@Override
+	public String getName() {
+		return desc;
+	}
+
+	public void setProjectdesc(String projectdesc) {
+		this.projectdesc = projectdesc;
+	}
+
+	public void setProjectnumber(String projectnumber) {
+		this.projectnumber = projectnumber;
+	}
+
+	public void setProjectworkorder(String projectworkorder) {
+		this.projectworkorder = projectworkorder;
 	}
 
 	public static VaultFolder getInstance(Project project, boolean isflderroot, String domain) {
@@ -281,23 +316,14 @@ public class VaultFolder implements IFolder {
 		return folder;
 	}
 
-	@Override
-	public IFolder setName(String name) {
-		this.desc = name;
-		return this;
-	}
-
-	@Override
-	public String getName() {
-		return desc;
-	}
-
 	public VaultFolder getSubFolderInstance(String domain) {
 		VaultFolder vf = getInstance(domain);
 		vf.setParent_id(_id);
 		vf.setRoot_id(root_id);
 		vf.setProject_id(project_id);
-		vf.iscontainer = false;
+		vf.setProjectworkorder(projectworkorder);
+		vf.setProjectdesc(projectdesc);
+		vf.setProjectnumber(projectnumber);
 		return vf;
 	}
 
