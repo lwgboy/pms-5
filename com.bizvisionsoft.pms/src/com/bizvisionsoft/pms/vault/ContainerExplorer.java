@@ -57,22 +57,22 @@ public class ContainerExplorer extends VaultExplorer {
 
 	@Override
 	protected Assembly getNavigatorAssembly() {
-		return br.getAssembly("vault/目录导航.gridassy");
+		return (Assembly) br.getAssembly("vault/目录导航.gridassy").clone();
 	}
 
 	@Override
 	protected Assembly getFileTableAssembly() {
-		return br.getAssembly("vault/文档列表.gridassy");
+		return (Assembly) br.getAssembly("vault/文档列表.gridassy").clone();
 	}
 
 	@Override
 	protected Assembly getSearchFolderAssembly() {
-		return br.getAssembly("vault/目录查询结果.gridassy");
+		return (Assembly) br.getAssembly("vault/目录查询结果.gridassy").clone();
 	}
 
 	@Override
 	protected Assembly getSearchFileAssembly() {
-		return br.getAssembly("vault/文档查询结果.gridassy");
+		return (Assembly) br.getAssembly("vault/文档查询结果.gridassy").clone();
 	}
 
 	@Override

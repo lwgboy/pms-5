@@ -9,11 +9,15 @@ import org.eclipse.jface.dialogs.InputDialog;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.StructuredSelection;
+import org.eclipse.rap.rwt.RWT;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,7 +36,6 @@ import com.bizvisionsoft.bruiengine.service.IBruiContext;
 import com.bizvisionsoft.bruiengine.service.IBruiService;
 import com.bizvisionsoft.bruiengine.service.IServiceWithId;
 import com.bizvisionsoft.bruiengine.service.UserSession;
-import com.bizvisionsoft.bruiengine.ui.AssemblyContainer;
 import com.bizvisionsoft.bruiengine.ui.Editor;
 import com.bizvisionsoft.bruiengine.ui.Selector;
 import com.bizvisionsoft.bruiengine.util.BruiColors;
@@ -225,9 +228,15 @@ public abstract class VaultExplorer {
 			logger.debug("地址栏目录加载:" + msg);
 		});
 
-		addressBar.addListener(PathActionEvent.Modify, e -> {
+		addressBar.addListener(PathActionEvent.Modify, this::showFolderSeletor);
+		// PathActionEvent ae = (PathActionEvent) e;
+		// showFolderSeletor(ae.path,ae);
+		// e.doit = doPathModified(ae.path);// 必须设置为true,才能改变地址栏。默认为true,
+		// 当某些目录禁止访问时，可设置为false;
+		// });
+		addressBar.addListener(PathActionEvent.Up, e -> {
 			PathActionEvent ae = (PathActionEvent) e;
-			e.doit = doPathModified(ae.path);// 必须设置为true,才能改变地址栏。默认为true, 当某些目录禁止访问时，可设置为false;
+			doPathModified(ae.path);// 必须设置为true,才能改变地址栏。默认为true,
 		});
 
 		addressBar.addListener(PathActionEvent.Selection, e -> {
@@ -247,6 +256,48 @@ public abstract class VaultExplorer {
 		});
 
 		return addressBar;
+	}
+
+	private void showFolderSeletor(Event event) {
+		PathActionEvent ae = (PathActionEvent) event;
+		// ae.doit = doPathModified(ae.path);// 必须设置为true,才能改变地址栏。默认为true,
+		IFolder parentFolder;
+		if (Check.isNotAssigned(ae.path)) {
+			parentFolder = initialFolder;
+		} else {
+			parentFolder = ae.path[ae.path.length - 1];
+		}
+
+		Shell selector = new Shell(br.getCurrentShell(), SWT.NO_TRIM | SWT.BORDER);
+		selector.setData(RWT.CUSTOM_VARIANT, "menu");
+		selector.setSize(320, 480);
+		selector.setLayout(new FillLayout());
+
+		// 创建目录组件
+		Assembly assy = getNavigatorAssembly();
+		// 对组件样式修改
+		assy.setGridPageControlStyle("SHORT");
+		assy.getRowActions().clear();
+
+		BruiAssemblyEngine brui = BruiAssemblyEngine.newInstance(assy);
+		BruiAssemblyContext contextFolder = UserSession.newAssemblyContext();
+		contextFolder.setEngine(brui).setInput(parentFolder);
+		GridPart folderGrid = (GridPart) brui.getTarget();
+		folderGrid.setDisableQueryPanel(true);
+		brui.init(new IServiceWithId[] { br, contextFolder }).createUI(selector);
+
+		folderGrid.getViewer().addSelectionChangedListener(e -> {
+			StructuredSelection selection = (StructuredSelection) e.getSelection();
+			IFolder input = (IFolder) selection.getFirstElement();
+			doSetCurrentFolder(input);
+			selector.close();
+		});
+		
+		Control item = (Control) ae.widget;
+		selector.setLocation(item.toDisplay(0, item.getBounds().height + 1));
+		selector.open();
+		selector.addListener(SWT.Deactivate, e -> selector.close());
+		selector.addDisposeListener(e -> contextFolder.dispose());
 	}
 
 	private void handlerEvent(IFolder[] path, Action action) {
@@ -449,15 +500,19 @@ public abstract class VaultExplorer {
 		Assembly assy = getNavigatorAssembly();
 		// 对组件样式修改
 		assy.setGridPageControlStyle("SHORT");
-		// 加载组件
-		AssemblyContainer ac = new AssemblyContainer(parent, context)//
-				.setAssembly(assy)//
-				.setServices(br)//
-				.setInput(context.getInput(IFolder.class, true))//
-				.create();
-		contextNavi = ac.getContext();
+		return createFolderAssembly(parent, assy);
+	}
 
-		((GridPart) contextNavi.getContent()).getViewer().addDoubleClickListener(new IDoubleClickListener() {
+	private Composite createFolderAssembly(Composite parent, Assembly assy) {
+		BruiAssemblyEngine brui = BruiAssemblyEngine.newInstance(assy);
+		context.add(contextNavi = UserSession.newAssemblyContext().setParent(context));
+		contextNavi.setEngine(brui).setInput(context.getInput());
+		GridPart folderGrid = (GridPart) brui.getTarget();
+		folderGrid.setDisableQueryPanel(true);
+		Composite container = new Composite(parent, SWT.NONE);
+		brui.init(new IServiceWithId[] { br, contextNavi }).createUI(container);
+
+		folderGrid.getViewer().addDoubleClickListener(new IDoubleClickListener() {
 			@Override
 			public void doubleClick(DoubleClickEvent event) {
 				StructuredSelection selection = (StructuredSelection) event.getSelection();
@@ -469,7 +524,7 @@ public abstract class VaultExplorer {
 			}
 		});
 
-		return ac.getContainer();
+		return container;
 	}
 
 	/**

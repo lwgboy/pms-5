@@ -12,6 +12,7 @@ import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
@@ -62,7 +63,7 @@ public class AddressBar extends Composite {
 		// 创建左侧按钮
 		Action action = VaultActions.create(VaultActions.uplevel, true, false);
 		Controls<Button> btn = createToolitem(this, action, false).loc(SWT.TOP | SWT.BOTTOM).left(0, 4)// 向上级文件夹
-				.listen(SWT.Selection, e -> handlerEvent(PathActionEvent.Modify, this.path.length - 2, action));// 改变当前目录
+				.listen(SWT.Selection, e -> handlerEvent(PathActionEvent.Up, this.path.length - 2, action, e));// 改变当前目录
 		Label lead = createToolitemSeperator().left(btn.get()).get();
 
 		// 创建右侧按钮组
@@ -75,7 +76,7 @@ public class AddressBar extends Composite {
 				if (btn != null)
 					// 按钮点击事件
 					left = btn.loc(SWT.TOP | SWT.BOTTOM).right(left)
-							.listen(SWT.Selection, e -> handlerEvent(PathActionEvent.Selection, this.path.length - 1, a)).get();
+							.listen(SWT.Selection, e -> handlerEvent(PathActionEvent.Selection, this.path.length - 1, a, e)).get();
 			}
 
 			if (left != null)
@@ -86,29 +87,29 @@ public class AddressBar extends Composite {
 		Action refreshAction = VaultActions.create(VaultActions.refresh, true, false);
 		btn = createToolitem(this, refreshAction, false).loc(SWT.TOP | SWT.BOTTOM).right(left)//
 				// 刷新事件 等同于将当前的目录重新选择一次
-				.listen(SWT.Selection, e -> handlerEvent(PathActionEvent.Modify, this.path.length - 1, refreshAction));
+				.listen(SWT.Selection, e -> handlerEvent(PathActionEvent.Modify, this.path.length - 1, refreshAction, e));
 
 		Label end = createToolitemSeperator().right(btn.get()).get();
 
 		// 创建地址栏
-		addressBar = Controls.contentPanel(this).bg(BruiColor.White).loc(SWT.TOP | SWT.BOTTOM).left(lead).right(end).tooltips("搜索目录")
+		addressBar = Controls.contentPanel(this).bg(BruiColor.White).loc(SWT.TOP | SWT.BOTTOM).left(lead).right(end).tooltips("点击空白区搜索目录")
 				.listen(SWT.Resize, e -> caculatePathItemBounds()).listen(SWT.MouseUp, e -> activeSearchBar());
 
-		searchText = Controls.text(this, SWT.NONE ).loc(SWT.TOP | SWT.BOTTOM).left(lead).right(end)
-				.listen(SWT.KeyDown, e -> {
-					if (e.keyCode == 13)
-						doSearchFolder();
-				}).listen(SWT.FocusOut, e -> disactiveSearchBar()).get();
+		searchText = Controls.text(this, SWT.NONE).loc(SWT.TOP | SWT.BOTTOM).left(lead).right(end).listen(SWT.KeyDown, e -> {
+			if (e.keyCode == 13)
+				doSearchFolder(e);
+		}).listen(SWT.FocusOut, e -> disactiveSearchBar()).get();
 
 		setPath(path);
 	}
 
-	private void doSearchFolder() {
+	private void doSearchFolder(Event e) {
 		String text = searchText.getText().trim();
 		if (text.isEmpty() || SEARCH_MSG.equals(text))
 			return;
 		searchText.selectAll();
-		handlerEvent(PathActionEvent.Search, this.path.length - 1, null, text);
+		e.text = text;
+		handlerEvent(PathActionEvent.Search, this.path.length - 1, null, e);
 	}
 
 	private void activeSearchBar() {
@@ -142,13 +143,14 @@ public class AddressBar extends Composite {
 			for (int i = 0; i < path.length; i++) {
 				int folderIndex = i;
 
-				Action action = new ActionFactory().text("/ " + path[i].getName()).get();
+				Action action = new ActionFactory().text(path[i].getName()).get();
 				left = createToolitem(panel, action, false).loc(SWT.TOP | SWT.BOTTOM).left(left)//
-						.listen(SWT.MouseUp, e -> handlerEvent(PathActionEvent.Modify, folderIndex, action))// 改变当前目录
+						.listen(SWT.MouseUp, e -> showFolderMenu(folderIndex - 1, action, e))// 改变当前目录
 						.get();
 
-				// left = Controls.label(panel, SWT.SEPARATOR | SWT.VERTICAL).loc(SWT.TOP |
-				// SWT.BOTTOM).left(left).get();
+				left = Controls.button(panel, SWT.PUSH | SWT.RIGHT).rwt("compact").setText("\u25BA").loc(SWT.TOP | SWT.BOTTOM).left(left)
+						.listen(SWT.MouseUp, e -> showFolderMenu(folderIndex, action, e))// 改变下级目录
+						.get();
 			}
 
 			caculatePathItemBounds();
@@ -157,12 +159,16 @@ public class AddressBar extends Composite {
 		this.path = path;
 
 		// 触发文件夹改变的事件
-		handlerEvent(PathActionEvent.SetData, path.length - 1, null);
+		handlerEvent(PathActionEvent.SetData, path.length - 1, null, new Event());
 
 		// 设置向上一级目录的按钮状态
 		updateToolitemStatus(VaultActions.uplevel.name(), b -> path.length > 0);
 		parent.layout();
 		disactiveSearchBar();
+	}
+
+	private void showFolderMenu(int folderIndex, Action action, Event e) {
+		handlerEvent(PathActionEvent.Modify, folderIndex, action, e);
 	}
 
 	private void caculatePathItemBounds() {
@@ -186,23 +192,23 @@ public class AddressBar extends Composite {
 		panel.setLocation(offset, 0);
 	}
 
-	private void handlerEvent(int listenerType, int lvl, Action action) {
-		handlerEvent(listenerType, lvl, action, null);
-	}
-
-	private void handlerEvent(int listenerType, int lvl, Action action, String text) {
+	private void handlerEvent(int listenerType, int lvl, Action action, Event basicEvent) {
 		// 根据index得到path
 		IFolder[] newPath = new IFolder[lvl + 1];
 		System.arraycopy(path, 0, newPath, 0, lvl + 1);
 
 		PathActionEvent event = new PathActionEvent(listenerType, action, newPath);
-		event.doit = listenerType == PathActionEvent.Modify;
-		event.text = text;
-
+//		event.doit = listenerType == PathActionEvent.Modify;
+		event.text = basicEvent.text;
+		event.item = basicEvent.item;
+		event.widget = basicEvent.widget;
+		event.x = basicEvent.x;
+		event.y = basicEvent.y;
+		event.display = basicEvent.display;
 		Stream.of(getListeners(listenerType)).forEach(l -> l.handleEvent(event));
 
-		if (event.doit) // 可以改变目录
-			setPath(newPath);
+//		if (event.doit) // 可以改变目录
+//			setPath(newPath);
 	}
 
 	/**

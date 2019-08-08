@@ -27,6 +27,11 @@ public class PathActionEvent extends Event {
 	 */
 	public static final int Search = 10003;
 
+	/**
+	 * 向上一级
+	 */
+	public static final int Up = 10004;
+
 	
 	public PathActionEvent(int eventCode, Action action, IFolder[] path) {
 		type = eventCode;
