@@ -74,6 +74,7 @@ public class FolderDocSelector extends Part {
 	public FolderDocSelector(Shell parentShell) {
 		super(parentShell);
 		setShellStyle(SWT.TITLE | SWT.RESIZE | SWT.ON_TOP | SWT.MAX | SWT.APPLICATION_MODAL);
+		setBlockOnOpen(true);
 	}
 
 	public FolderDocSelector setParentContext(IBruiContext parentContext) {
@@ -262,7 +263,7 @@ public class FolderDocSelector extends Part {
 			return;
 		}
 
-		if ((SWT.SINGLE & selectionStyle) != 0 && result instanceof List) {
+		if ((SWT.SINGLE & selectionStyle) != 0) {
 			result = checkedItems.get(0);
 		} else {
 			result = checkedItems;

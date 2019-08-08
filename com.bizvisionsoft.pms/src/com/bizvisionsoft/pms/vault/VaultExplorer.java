@@ -529,27 +529,27 @@ public abstract class VaultExplorer {
 		FolderDocSelector.selectFolder(context, initialFolder, SWT.SINGLE, o -> {
 			if (o instanceof IFolder) {
 				IFolder selectFolder = (IFolder) o;
-				IFolder[] path = getPath(folder);
-				//TODO 
-				if (!checkFolderAuthority(path[path.length - 1], VaultActions.deleteFolder.name()))
-					Layer.error("没有目录\"" + o + "\"的创建目录权限。");
+				// TODO
+				if (!checkFolderAuthority(folder, VaultActions.deleteFolder.name())) {
+					Layer.error("没有目录\"" + folder + "\"的删除目录权限。");
+					return;
+				}
 
-				if (!checkFolderAuthority(selectFolder, VaultActions.createSubFolder.name()))
+				if (!checkFolderAuthority(selectFolder, VaultActions.createSubFolder.name())) {
 					Layer.error("没有目录\"" + o + "\"的创建目录权限。");
-
+					return;
+				}
+				try {
+					Services.get(DocumentService.class).moveVaultFolder(folder.get_id(), selectFolder.get_id(), br.getDomain());
+					Layer.message("目录已移动。");
+					GridPart navi = (GridPart) contextNavi.getContent();
+					navi.remove(folder);
+					logger.debug("doMoveFolder:" + folder);
+				} catch (Exception e) {
+					Layer.error(e);
+				}
 			}
 		});
-
-		// Services.get(DocumentService.class).moveVaultFolder(folder.get_id(),
-		// ((IFolder) l.get(0)).get_id(), br.getDomain());
-		// Layer.message("目录已移动。");
-		// GridPart navi = (GridPart) contextNavi.getContent();
-		// navi.remove(folder);
-		// logger.debug("doMoveFolder:" + folder);
-		// } catch (Exception e) {
-		// Layer.error(e);
-		// }
-		// });
 
 	}
 

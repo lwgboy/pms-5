@@ -25,6 +25,8 @@ import com.bizvisionsoft.serviceimpl.exception.ServiceException;
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.model.Aggregates;
 import com.mongodb.client.model.Field;
+import com.mongodb.client.model.FindOneAndUpdateOptions;
+import com.mongodb.client.model.ReturnDocument;
 
 public class DocumentServiceImpl extends BasicServiceImpl implements DocumentService {
 
@@ -314,7 +316,7 @@ public class DocumentServiceImpl extends BasicServiceImpl implements DocumentSer
 			return new ArrayList<>();
 
 		filter = appendInitialFolderQueryWithFolder(filter, initialFolder_id, domain);
-		
+
 		BasicDBObject sort = Optional.ofNullable(condition).map(c -> (BasicDBObject) c.get("sort")).orElse(new BasicDBObject("_id", 1));
 		Consumer<List<Bson>> input = p -> appendFolderAuthQueryPipeline(p, userId);
 		Consumer<List<Bson>> output = p -> {
@@ -486,9 +488,22 @@ public class DocumentServiceImpl extends BasicServiceImpl implements DocumentSer
 
 	@Override
 	public long moveVaultFolder(ObjectId _id, ObjectId newParent_id, String domain) {
-		return c(VaultFolder.class, domain)
-				.updateMany(new BasicDBObject("_id", _id), new BasicDBObject("$set", new BasicDBObject("parent_id", newParent_id)))
-				.getModifiedCount();
+		Document folderParentInfo = c("folder", domain).find(new BasicDBObject("_id", newParent_id))
+				.projection(new BasicDBObject("root_id", 1).append("project_id", 1).append("projectworkorder", 1).append("projectdesc", 1)
+						.append("projectnumber", 1))
+				.first();
+		c("folder", domain).find(new BasicDBObject("_id", _id))
+				.projection(new BasicDBObject("iscontainer", 1).append("isflderroot", 1).append("project_id", 1)).first();
+
+		List<ObjectId> desentItems = getDesentItems(Arrays.asList(_id), "folder", "parent_id", domain);
+		
+		//TODO ≈–∂œ «∑Ò
+
+		// return c(VaultFolder.class, domain)
+		// .updateMany(new BasicDBObject("_id", _id), new BasicDBObject("$set", new
+		// BasicDBObject("parent_id", newParent_id)))
+		// .getModifiedCount();
+		return 0l;
 	}
 
 	@Override

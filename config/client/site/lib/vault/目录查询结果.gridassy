@@ -9,6 +9,7 @@
   "gridMarkupEnabled": true,
   "gridLineVisiable": true,
   "gridHeaderVisiable": true,
+  "gridHasHScroll": true,
   "gridHasVScroll": true,
   "gridPageControl": true,
   "gridDataSetService": "com.bizvisionsoft.service.DocumentService",
@@ -21,23 +22,23 @@
       "name": "desc",
       "text": "名称",
       "alignment": 16384,
-      "width": 80,
-      "minimumWidth": 80,
+      "width": 320,
+      "minimumWidth": 320,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "name": "path",
+      "text": "路径",
+      "alignment": 16384,
+      "width": 320,
+      "minimumWidth": 320,
       "resizeable": true,
       "columns": []
     },
     {
       "name": "projectdesc",
       "text": "项目名称",
-      "alignment": 16384,
-      "width": 240,
-      "minimumWidth": 240,
-      "resizeable": true,
-      "columns": []
-    },
-    {
-      "name": "projectworkorder",
-      "text": "工作令号",
       "alignment": 16384,
       "width": 240,
       "minimumWidth": 240,
@@ -54,11 +55,11 @@
       "columns": []
     },
     {
-      "name": "path",
-      "text": "路径",
+      "name": "projectworkorder",
+      "text": "工作令号",
       "alignment": 16384,
-      "width": 320,
-      "minimumWidth": 320,
+      "width": 240,
+      "minimumWidth": 240,
       "resizeable": true,
       "columns": []
     }
