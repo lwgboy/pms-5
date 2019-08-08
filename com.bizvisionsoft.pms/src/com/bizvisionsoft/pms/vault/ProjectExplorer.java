@@ -1,6 +1,7 @@
 package com.bizvisionsoft.pms.vault;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.bson.types.ObjectId;
@@ -58,6 +59,18 @@ public class ProjectExplorer extends VaultExplorer {
 			return new IFolder[0];
 		} else {
 			List<VaultFolder> result = Services.get(DocumentService.class).getPath(folder.get_id(), domain);
+			if (initialFolderPath != null && result.size() > 0) {
+				List<VaultFolder> remove = new ArrayList<VaultFolder>();
+				result.forEach(f -> {
+					for (IFolder iFolder : initialFolderPath) {
+						if (iFolder.get_id().equals(f.get_id()))
+							remove.add(f);
+					}
+				});
+				if (remove.size() > 0)
+					result.removeAll(remove);
+				result.removeAll(Arrays.asList(initialFolderPath));
+			}
 			return result.toArray(new IFolder[0]);
 		}
 	}
@@ -99,8 +112,9 @@ public class ProjectExplorer extends VaultExplorer {
 
 		actions = new ArrayList<Action>();
 		actions.add(VaultActions.create(VaultActions.sortDocuments, true, false));
-//		actions.add(VaultActions.create(VaultActions.addFavour, true, false));
-//		actions.add(VaultActions.create(VaultActions.setFolderProperties, true, false));
+		// actions.add(VaultActions.create(VaultActions.addFavour, true, false));
+		// actions.add(VaultActions.create(VaultActions.setFolderProperties, true,
+		// false));
 		result.add(actions);
 		return result;
 	}

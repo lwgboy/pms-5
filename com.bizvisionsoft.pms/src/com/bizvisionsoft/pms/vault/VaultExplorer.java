@@ -75,9 +75,9 @@ public abstract class VaultExplorer {
 
 	private GridPart currentDisplayPart;
 
-	private IFolder initialFolder;
+	protected IFolder initialFolder;
 
-	private IFolder[] initialFolderPath;
+	protected IFolder[] initialFolderPath;
 
 	protected static final int ADDRESS_BAR = 1 << 2;
 	protected static final int NAVIGATOR = 1 << 3;
@@ -487,10 +487,6 @@ public abstract class VaultExplorer {
 	}
 
 	private boolean doPathModified(IFolder[] path) {
-		// 判断是否选择InitialFolder以外的目录。
-		if (initialFolderPath.length > path.length)
-			return false;
-
 		// TODO 检查权限？是否可以浏览本目录
 		IFolder folder;
 		if (Check.isNotAssigned(path)) {
