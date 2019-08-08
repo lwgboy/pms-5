@@ -219,23 +219,35 @@ public abstract class VaultExplorer {
 		IFolder[] path = getPath(context.getInput(IFolder.class, true));
 
 		AddressBar addressBar = new AddressBar(parent, path, actions, this::checkActionAuthorityOfCurrentFolder);
-		addressBar.addListener(SWT.SetData, e -> {
+		addressBar.addListener(PathActionEvent.SetData, e -> {
 			PathActionEvent ae = (PathActionEvent) e;
 			String msg = Stream.of(ae.path).map(f -> f.getName() + "/").reduce((s1, s2) -> s1 + s2).orElse("");
 			logger.debug("地址栏目录加载:" + msg);
 		});
 
-		addressBar.addListener(SWT.Modify, e -> {
+		addressBar.addListener(PathActionEvent.Modify, e -> {
 			PathActionEvent ae = (PathActionEvent) e;
 			e.doit = doPathModified(ae.path);// 必须设置为true,才能改变地址栏。默认为true, 当某些目录禁止访问时，可设置为false;
 		});
 
-		addressBar.addListener(SWT.Selection, e -> {
+		addressBar.addListener(PathActionEvent.Selection, e -> {
 			PathActionEvent ae = (PathActionEvent) e;
 			String msg = Stream.of(ae.path).map(f -> f.getName() + "/").reduce((s1, s2) -> s1 + s2).orElse("");
 			handlerEvent(ae.path, ae.action);
 			logger.debug("地址栏工具栏事件: " + ae.action + ", 路径：" + msg);
 		});
+		
+
+		addressBar.addListener(PathActionEvent.Search, e -> {
+			PathActionEvent ae = (PathActionEvent) e;
+			String searchText = ae.text;
+			BasicDBObject query = new BasicDBObject("desc", Pattern.compile(searchText, Pattern.CASE_INSENSITIVE));
+			folderSearchResultGrid.doQuery(query);
+			folderSearchResultPane.moveAbove(null);
+			currentDisplayPart = folderSearchResultGrid;
+		});
+
+		
 		return addressBar;
 	}
 
