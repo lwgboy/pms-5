@@ -233,7 +233,7 @@ public abstract class VaultExplorer {
 		} else if (VaultActions.search.name().equals(action.getName())) {
 			doFileQuery(fileSearchResultGrid, null);
 			fileSearchResultPane.moveAbove(null);
-		} else if (VaultActions.findFolder.name().equals(action.getName())) {
+		} else if (VaultActions.searchFolder.name().equals(action.getName())) {
 			InputDialog id = new InputDialog(br.getCurrentShell(), "搜索目录", "在资料库中搜索目录", null, t -> {
 				return t.trim().isEmpty() ? "请输入目录名称" : null;
 			});

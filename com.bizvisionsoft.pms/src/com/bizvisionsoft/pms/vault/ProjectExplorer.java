@@ -1,6 +1,6 @@
 package com.bizvisionsoft.pms.vault;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.bson.types.ObjectId;
@@ -27,27 +27,17 @@ public class ProjectExplorer extends VaultExplorer {
 	@Inject
 	private BruiAssemblyContext context;
 
-	private Object input;
+	private ObjectId project_id;
 
-	private ObjectId host_id;
-
-	private DocumentService service;
-
-	public ProjectExplorer() {
-	}
+	private String domain;
 
 	@Init
 	protected void init() {
 		setContext(context);
 		setBruiService(br);
-		input = context.getRootInput();
-		if (input instanceof Project) {
-			this.host_id = ((Project) input).getFolder_id();
-		} else {
-			throw new RuntimeException("文件夹组件只支持Project类型的根上下文");
-		}
-
-		service = Services.get(DocumentService.class);
+		domain = br.getDomain();
+		Project input = context.getRootInput(Project.class, false);
+		project_id = ((Project) input).get_id();
 		super.init();
 	}
 
@@ -56,36 +46,58 @@ public class ProjectExplorer extends VaultExplorer {
 		super.createUI(parent);
 	}
 
-
 	@Override
 	public IFolder getInitialFolder() {
-		return VaultFolder.Null;
-		// TODO Auto-generated method stub
+		VaultFolder folder = Services.get(DocumentService.class).getProjectRootFolder(project_id, br.getCurrentUserId(), domain);
+		return folder;
 	}
 
 	@Override
 	protected IFolder[] getPath(IFolder folder) {
-		// TODO Auto-generated method stub
-		return null;
+		if (IFolder.Null.equals(folder)) {
+			return new IFolder[0];
+		} else {
+			List<VaultFolder> result = Services.get(DocumentService.class).getPath(folder.get_id(), domain);
+			return result.toArray(new IFolder[0]);
+		}
 	}
 
 	@Override
 	protected Assembly getNavigatorAssembly() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	protected List<List<Action>> createToolbarActions() {
-		// TODO Auto-generated method stub
-		return null;
+		return br.getAssembly("vault/目录导航.gridassy");
 	}
 
 	@Override
 	protected Assembly getFileTableAssembly() {
-		// TODO Auto-generated method stub
-		return null;
+		return br.getAssembly("vault/文件列表.gridassy");
 	}
 
+	@Override
+	protected List<List<Action>> createToolbarActions() {
+		List<List<Action>> result = new ArrayList<>();
+
+		List<Action> actions = new ArrayList<Action>();
+		actions.add(VaultActions.create(VaultActions.createSubFolder, true, true));
+		actions.add(VaultActions.create(VaultActions.createDocument, true, true));
+		result.add(actions);
+
+		actions = new ArrayList<Action>();
+		actions.add(VaultActions.create(VaultActions.searchFolder, true, true));
+		actions.add(VaultActions.create(VaultActions.findDocuments, true, true));
+		actions.add(VaultActions.create(VaultActions.search, true, false));
+		result.add(actions);
+
+		actions = new ArrayList<Action>();
+		actions.add(VaultActions.create(VaultActions.sortDocuments, true, false));
+		actions.add(VaultActions.create(VaultActions.addFavour, true, false));
+		actions.add(VaultActions.create(VaultActions.setFolderProperties, true, false));
+		result.add(actions);
+		return result;
+	}
+
+	@Override
+	protected int getStyle() {
+		return super.getStyle() | SEARCH_FOLDER | SEARCH_FILE;
+	}
 
 }

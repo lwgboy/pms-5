@@ -15,13 +15,13 @@ public enum VaultActions {
 
 	createDocument("新建文档", "在当前目录下创建文档", "/img/line_newDoc.svg", "/img/line_newDoc_disable.svg"), //
 
-	findFolder("搜索目录", "在资料库中搜索目录", "/img/line_searchFolder.svg"), //
-
 	findDocuments("查找文档", "在当前目录下查找文档", "/img/line_searchDoc.svg"), //
 
-	search("搜索", "在资料库中搜索文档", "/img/line_search.svg"), //
+	searchFolder("搜索目录", "搜索目录", "/img/line_searchFolder.svg"), //
 
-	sortDocuments("排序", "对当前目录下的文档进行排序", "/img/line_sort.svg"), //
+	search("搜索文档", "搜索文档", "/img/line_search.svg"), //
+
+	sortDocuments("排序", "对文档进行排序", "/img/line_sort.svg"), //
 
 	addFavour("收藏", "将当前目录添加到收藏夹", "/img/line_star.svg"), //
 

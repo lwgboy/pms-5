@@ -285,6 +285,15 @@ public class DocumentServiceImpl extends BasicServiceImpl implements DocumentSer
 		Consumer<List<Bson>> output = p -> appendFolderAdditionInfoQueryPipeline(p, userId);
 		return query(input, skip, limit, filter, sort, output, VaultFolder.class, domain);
 	}
+	
+
+	@Override
+	public VaultFolder getProjectRootFolder(ObjectId project_id, String userId, String domain) {
+		Consumer<List<Bson>> input = p -> appendFolderAuthQueryPipeline(p, userId);
+		List<VaultFolder> result = query(input, null, 1, new BasicDBObject("project_id",project_id).append("isflderroot", true), null, null, VaultFolder.class, domain);
+		if(Check.isAssigned(result)) return result.get(0);
+		return null;
+	}
 
 	@Override
 	public List<VaultFolder> listFolderWithPath(BasicDBObject condition, String userId, String domain) {
@@ -435,5 +444,6 @@ public class DocumentServiceImpl extends BasicServiceImpl implements DocumentSer
 	public VaultFolder insertFolder(VaultFolder vf, String domain) {
 		return insert(vf, VaultFolder.class, domain);
 	}
+
 
 }
