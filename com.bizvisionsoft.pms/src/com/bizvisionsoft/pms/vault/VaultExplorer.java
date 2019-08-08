@@ -236,7 +236,6 @@ public abstract class VaultExplorer {
 			handlerEvent(ae.path, ae.action);
 			logger.debug("地址栏工具栏事件: " + ae.action + ", 路径：" + msg);
 		});
-		
 
 		addressBar.addListener(PathActionEvent.Search, e -> {
 			PathActionEvent ae = (PathActionEvent) e;
@@ -247,7 +246,6 @@ public abstract class VaultExplorer {
 			currentDisplayPart = folderSearchResultGrid;
 		});
 
-		
 		return addressBar;
 	}
 
@@ -541,37 +539,30 @@ public abstract class VaultExplorer {
 	}
 
 	private void doMoveFolder(IFolder folder) {
-		// TODO 测试用
-		FolderDocSelector.selectDocument(context, initialFolder, SWT.SINGLE, o -> {
+		FolderDocSelector.selectFolder(context, initialFolder, SWT.SINGLE, o -> {
+			if (o instanceof IFolder) {
+				IFolder selectFolder = (IFolder) o;
+				// TODO
+				if (!checkFolderAuthority(folder, VaultActions.deleteFolder.name())) {
+					Layer.error("没有目录\"" + folder + "\"的删除目录权限。");
+					return;
+				}
 
+				if (!checkFolderAuthority(selectFolder, VaultActions.createSubFolder.name())) {
+					Layer.error("没有目录\"" + o + "\"的创建目录权限。");
+					return;
+				}
+				try {
+					Services.get(DocumentService.class).moveVaultFolder(folder.get_id(), selectFolder.get_id(), br.getDomain());
+					Layer.message("目录已移动。");
+					GridPart navi = (GridPart) contextNavi.getContent();
+					navi.remove(folder);
+					logger.debug("doMoveFolder:" + folder);
+				} catch (Exception e) {
+					Layer.error(e);
+				}
+			}
 		});
-
-		// FolderDocSelector.selectFolder(context, initialFolder, SWT.SINGLE, o -> {
-		// if (o instanceof IFolder) {
-		// IFolder selectFolder = (IFolder) o;
-		// // TODO
-		// if (!checkFolderAuthority(folder, VaultActions.deleteFolder.name())) {
-		// Layer.error("没有目录\"" + folder + "\"的删除目录权限。");
-		// return;
-		// }
-		//
-		// if (!checkFolderAuthority(selectFolder, VaultActions.createSubFolder.name()))
-		// {
-		// Layer.error("没有目录\"" + o + "\"的创建目录权限。");
-		// return;
-		// }
-		// try {
-		// Services.get(DocumentService.class).moveVaultFolder(folder.get_id(),
-		// selectFolder.get_id(), br.getDomain());
-		// Layer.message("目录已移动。");
-		// GridPart navi = (GridPart) contextNavi.getContent();
-		// navi.remove(folder);
-		// logger.debug("doMoveFolder:" + folder);
-		// } catch (Exception e) {
-		// Layer.error(e);
-		// }
-		// }
-		// });
 
 	}
 
