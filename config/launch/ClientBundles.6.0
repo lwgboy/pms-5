@@ -1,0 +1,12 @@
+com.bizvisionsoft.pms
+pms的客户端程序，包括客户端DataSet, Action,自定义组件，等等，一般配合site文件使用
+
+com.bizvisionsoft.bruicommons
+com.bizvisionsoft.bruiengine
+com.bizvisionsoft.annotations
+com.bizvisionsoft.mongocodex
+com.bizvisionsoft.serviceconsumer
+
+com.bizvisionsoft.widgets
+com.bizvisionsoft.service
+
