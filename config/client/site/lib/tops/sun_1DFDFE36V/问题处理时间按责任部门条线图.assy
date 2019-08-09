@@ -1,128 +1,107 @@
 {
-  "id": "/8D问题看板.assy",
-  "name": "8D问题看板",
+  "id": "/问题综合分析图表.assy",
+  "name": "问题综合分析图表",
   "layout": [
     {
-      "id": "167e9fd9e6f",
+      "id": "16866683a12",
       "name": "默认",
-      "columnCount": 1,
-      "horizontalSpacing": 0,
-      "verticalSpacing": 0,
+      "columnCount": 3,
+      "horizontalSpacing": 16,
+      "verticalSpacing": 16,
       "makeColumnsEqualWidth": true,
-      "marginHeight": 0,
-      "marginTop": 16,
-      "marginWidth": 8,
+      "extendVerticalSpace": false,
+      "marginHeight": 16,
+      "marginWidth": 16,
       "css": "brui_bg_deep_relief",
-      "itemCss": "",
-      "layoutType": "lane",
+      "itemCss": "brui_card",
+      "layoutType": "grid",
       "assemblys": [
         {
-          "id": "D0问题初始记录.boardassy",
+          "id": "/tops/sun_1DFDFE36V/客户投诉清单.chartassy",
           "horizontalAlignment": 4,
-          "verticalAlignment": 16777216,
+          "verticalAlignment": 4,
           "grabExcessHorizontalSpace": true,
           "verticalSpan": 1,
           "horizontalSpan": 1,
           "widthHint": -1,
-          "heightHint": -1
+          "heightHint": 300
         },
         {
-          "id": "/D1多功能小组.boardassy",
+          "id": "客户投诉不良分类.chartassy",
           "horizontalAlignment": 4,
-          "verticalAlignment": 16777216,
+          "verticalAlignment": 4,
           "grabExcessHorizontalSpace": true,
           "verticalSpan": 1,
           "horizontalSpan": 1,
           "widthHint": -1,
-          "heightHint": -1
+          "heightHint": 300
         },
         {
-          "id": "/D2问题描述.boardassy",
+          "id": "/tops/sun_1DFDFE36V/客户投诉不良分类合计.chartassy",
           "horizontalAlignment": 4,
-          "verticalAlignment": 16777216,
+          "verticalAlignment": 4,
           "grabExcessHorizontalSpace": true,
           "verticalSpan": 1,
           "horizontalSpan": 1,
           "widthHint": -1,
-          "heightHint": -1
+          "heightHint": 300
         },
         {
-          "id": "/D3临时控制行动.boardassy",
+          "id": "/tops/sun_1DFDFE36V/客户投诉不良分类线形图.chartassy",
           "horizontalAlignment": 4,
-          "verticalAlignment": 16777216,
+          "verticalAlignment": 4,
           "grabExcessHorizontalSpace": true,
           "verticalSpan": 1,
           "horizontalSpan": 1,
           "widthHint": -1,
-          "heightHint": -1
+          "heightHint": 300
         },
         {
-          "id": "/D4根本原因分析.boardassy",
+          "id": "/tops/sun_1DFDFE36V/客诉责任归属分类.chartassy",
           "horizontalAlignment": 4,
-          "verticalAlignment": 16777216,
+          "verticalAlignment": 4,
           "grabExcessHorizontalSpace": true,
           "verticalSpan": 1,
           "horizontalSpan": 1,
           "widthHint": -1,
-          "heightHint": -1
+          "heightHint": 300
         },
         {
-          "id": "/D5永久措施.boardassy",
+          "id": "/tops/sun_1DFDFE36V/客户投诉不良分类.gridassy",
           "horizontalAlignment": 4,
           "verticalAlignment": 16777216,
           "grabExcessHorizontalSpace": true,
           "verticalSpan": 1,
           "horizontalSpan": 1,
           "widthHint": -1,
-          "heightHint": -1
+          "heightHint": 300
         },
         {
-          "id": "/D6执行和确认.boardassy",
+          "id": "/tops/sun_1DFDFE36V/客户投诉不良分类-详情.gridassy",
           "horizontalAlignment": 4,
           "verticalAlignment": 16777216,
           "grabExcessHorizontalSpace": true,
           "verticalSpan": 1,
           "horizontalSpan": 1,
           "widthHint": -1,
-          "heightHint": -1
+          "heightHint": 300
         },
         {
-          "id": "/D7系统预防.boardassy",
+          "id": "/tops/sun_1DFDFE36V/客诉责任归属分类.gridassy",
           "horizontalAlignment": 4,
           "verticalAlignment": 16777216,
           "grabExcessHorizontalSpace": true,
           "verticalSpan": 1,
           "horizontalSpan": 1,
           "widthHint": -1,
-          "heightHint": -1
-        },
-        {
-          "id": "/D8关闭结案.boardassy",
-          "horizontalAlignment": 4,
-          "verticalAlignment": 16777216,
-          "grabExcessHorizontalSpace": true,
-          "verticalSpan": 1,
-          "horizontalSpan": 1,
-          "widthHint": -1,
-          "heightHint": -1
+          "heightHint": 300
         }
-      ],
-      "laneWidth": 320
+      ]
     }
   ],
-  "folderId": "168987781d7",
+  "folderId": "168987ad286",
+  "gridDataSetService": "",
   "actions": [],
   "rowActions": [],
-  "candidates": [
-    "/D0紧急反应行动.boardassy",
-    "/D1多功能小组.boardassy",
-    "/D2问题描述.boardassy",
-    "/D3临时控制行动.boardassy",
-    "/D4根本原因分析.boardassy",
-    "/D5永久措施.boardassy",
-    "/D6执行和确认.boardassy",
-    "/D7系统预防.boardassy",
-    "/D8关闭结案.boardassy",
-    "/D0问题初始记录.boardassy"
-  ]
+  "candidates": []
 }

@@ -6,6 +6,7 @@ import org.eclipse.nebula.jface.gridviewer.GridTreeViewer;
 import org.eclipse.rap.rwt.RWT;
 import org.eclipse.swt.widgets.Event;
 
+import com.bizivisionsoft.widgets.util.Layer;
 import com.bizvisionsoft.annotations.AUtil;
 import com.bizvisionsoft.annotations.md.service.Behavior;
 import com.bizvisionsoft.annotations.ui.common.Execute;
@@ -39,23 +40,33 @@ public class D2Action {
 			@MethodParam(Execute.CONTEXT) BruiAssemblyContext context, @MethodParam(Execute.EVENT) Event e,
 			@MethodParam(Execute.ACTION) Action a,
 			@MethodParam(Execute.ROOT_CONTEXT_INPUT_OBJECT) Problem problem) {
-		if ("editpd".equals(e.text)) {
-			ObjectId _id = element.getObjectId("_id");
-			GridTreeViewer viewer = (GridTreeViewer) context.getContent("viewer");
-			editProblemDesc(_id, element, viewer, context);
-		} else if ("deletephoto".equals(a.getName()) || "deletephoto".equals(e.text)) {
-			ObjectId _id = element.getObjectId("_id");
-			deleteProblemPhoto(_id, element, context);
-		}else if("createPhoto".equals(a.getName())||"createPhoto".equals(e.text)) {
-			createProblemPhoto(problem, context);
+		if(Services.get(ProblemService.class).selectProblemsCard(problem.get_id()
+				,br.getCurrentUserId(),problem.domain)&&problem.getStatus().equals("解决中")) {
+			Layer.error("您没有访问权限!");
+		}else {
+			if ("editpd".equals(e.text)) {
+				ObjectId _id = element.getObjectId("_id");
+				GridTreeViewer viewer = (GridTreeViewer) context.getContent("viewer");
+				editProblemDesc(_id, element, viewer, context);
+			} else if ("deletephoto".equals(a.getName()) || "deletephoto".equals(e.text)) {
+				ObjectId _id = element.getObjectId("_id");
+				deleteProblemPhoto(_id, element, context);
+			}else if("createPhoto".equals(a.getName())||"createPhoto".equals(e.text)) {
+				createProblemPhoto(problem, context);
+			}
 		}
 	}
 
 	private void createProblemPhoto( Problem problem,IBruiContext context) {
-		Editor.create("D2-问题照片-编辑器.editorassy", context, new Document("problem_id", problem.get_id()), true).ok((r, t) -> {
-			Services.get(ProblemService.class).insertD2ProblemPhoto(t, RWT.getLocale().getLanguage(),render, br.getDomain());
-			((IQueryEnable)context.getContent()).doRefresh();
-		});		
+		if(Services.get(ProblemService.class).selectProblemsCard(problem.get_id()
+				,br.getCurrentUserId(),problem.domain)&&problem.getStatus().equals("解决中")) {
+			Layer.error("您没有访问权限!");
+		}else {
+			Editor.create("D2-问题照片-编辑器.editorassy", context, new Document("problem_id", problem.get_id()), true).ok((r, t) -> {
+				Services.get(ProblemService.class).insertD2ProblemPhoto(t, RWT.getLocale().getLanguage(),render, br.getDomain());
+				((IQueryEnable)context.getContent()).doRefresh();
+			});
+		}
 	}
 
 	private void deleteProblemPhoto(ObjectId _id, Document doc, BruiAssemblyContext context) {

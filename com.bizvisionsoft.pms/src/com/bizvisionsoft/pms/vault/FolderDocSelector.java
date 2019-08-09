@@ -232,7 +232,7 @@ public class FolderDocSelector extends Part {
 				return result;
 			}
 		};
-		explorer.setBruiService(service).setContext((BruiAssemblyContext) context.setEngine(new BruiAssemblyEngine(explorer)));
+//		explorer.setBruiService(service).setContext((BruiAssemblyContext) context.setEngine(new BruiAssemblyEngine(explorer)));
 		explorer.init();
 	}
 
