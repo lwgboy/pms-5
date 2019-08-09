@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.eclipse.jface.dialogs.InputDialog;
 import org.eclipse.jface.viewers.StructuredSelection;
-import org.eclipse.nebula.widgets.grid.GridItem;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
@@ -133,8 +132,6 @@ public abstract class CabinetASM {
 
 	private void updateFolderIcon(Event e) {
 		IFolder folder = (IFolder) e.item.getData();
-		GridItem item = (GridItem) e.item;
-		folder.setOpened(item.isExpanded());
 		folderPane.update(folder);
 	}
 

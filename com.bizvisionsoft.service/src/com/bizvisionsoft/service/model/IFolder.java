@@ -6,18 +6,20 @@ import com.bizvisionsoft.service.tools.Formatter;
 
 public interface IFolder {
 
-	public  final static IFolder Null = new VaultFolder().set_id(Formatter.ZeroObjectId());
+	public final static IFolder Null = new VaultFolder().set_id(Formatter.ZeroObjectId());
 	
-	ObjectId get_id();
+	public static IFolder newInstance(ObjectId _id) {
+		return new VaultFolder().set_id(_id);
+	}
 
-	IFolder setOpened(boolean expanded);
+	ObjectId get_id();
 
 	IFolder setName(String name);
 
 	String getName();
-	
+
 	IFolder getContainer();
-	
+
 	boolean isContainer();
-	
+
 }
