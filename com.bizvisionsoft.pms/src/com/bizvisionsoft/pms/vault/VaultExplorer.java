@@ -383,9 +383,9 @@ public abstract class VaultExplorer {
 
 	private void doCreateDocument(IFolder folder) {
 		Selector.open("/vault/表单定义选择器.selectorassy", context, folder, l -> {
-			// TODO
 			Document doc = (Document) l.get(0);
 			String name = doc.getString("name");
+			// TODO 根据名称找到最新启用的表单定义，从表单定义上获取editorId和gridId
 
 			Editor.open(name, context, new Document(), (r, t) -> {
 				UniversalCommand command = new UniversalCommand().setTargetClassName(Docu.class.getName())

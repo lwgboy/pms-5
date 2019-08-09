@@ -23,6 +23,14 @@
       "enableColumnSort": true
     },
     {
+      "name": "gridId",
+      "text": "表格",
+      "alignment": 16384,
+      "width": 240,
+      "resizeable": true,
+      "columns": []
+    },
+    {
       "id": "162bd1ccbe0",
       "name": "name",
       "text": "文档类型名称",

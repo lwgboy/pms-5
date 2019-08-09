@@ -50,6 +50,10 @@ public class FormDef {
 
 	@ReadValue
 	@WriteValue
+	private String gridId;
+
+	@ReadValue
+	@WriteValue
 	private boolean activated;
 
 	@ReadValue()
