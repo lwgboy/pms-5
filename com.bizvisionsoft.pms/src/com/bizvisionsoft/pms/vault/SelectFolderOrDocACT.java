@@ -22,9 +22,9 @@ public class SelectFolderOrDocACT {
 		// ²âÊÔ´ò¿ªÎÄ¼þ¼ÐÑ¡ÔñÆ÷
 		IFolder initialFolder = IFolder.newInstance(new ObjectId("5886f6859da5e3b0884fafb3"));
 
-		FolderDocSelector.select(context, initialFolder, SWT.MULTI,
-				VaultExplorer.ADDRESS_BAR | VaultExplorer.FILETABLE | VaultExplorer.SEARCH_FILE | VaultExplorer.SEARCH_FOLDER, "Ñ¡ÔñÄ³Ä³ÎÄµµ²âÊÔ",
-				true, false, o -> {
+		FolderDocSelector.select(context, initialFolder, SWT.SINGLE,
+				VaultExplorer.ADDRESS_BAR | VaultExplorer.FILETABLE |VaultExplorer.NAVIGATOR| VaultExplorer.SEARCH_FILE | VaultExplorer.SEARCH_FOLDER, "Ñ¡ÔñÄ³Ä³ÎÄ¼þ¼Ð²âÊÔ",
+				false, false, o -> {
 					System.out.println(o);
 				});
 	}
