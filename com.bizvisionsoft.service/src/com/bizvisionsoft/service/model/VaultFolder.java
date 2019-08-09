@@ -1,6 +1,7 @@
 package com.bizvisionsoft.service.model;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.bson.Document;
@@ -18,6 +19,7 @@ import com.bizvisionsoft.service.CommonService;
 import com.bizvisionsoft.service.OrganizationService;
 import com.bizvisionsoft.service.ServicesLoader;
 import com.bizvisionsoft.service.datatools.Query;
+import com.bizvisionsoft.service.tools.Check;
 import com.mongodb.BasicDBObject;
 
 @PersistenceCollection("folder")
@@ -60,7 +62,8 @@ public class VaultFolder implements IFolder {
 
 	@ReadValue
 	@WriteValue
-	private String path;
+	@SetValue
+	private List<VaultFolderDescriptor> paths;
 
 	@ReadValue
 	@WriteValue
@@ -287,6 +290,21 @@ public class VaultFolder implements IFolder {
 	@Override
 	public String getName() {
 		return desc;
+	}
+
+	@ReadValue("path")
+	private String getPath() {
+		String text = "";
+		if (Check.isAssigned(paths)) {
+			Collections.sort(paths);
+			for (int i = 0; i < paths.size(); i++) {
+				if (i != 0) {
+					text += "\\";
+				}
+				text += paths.get(i).getName();
+			}
+		}
+		return text;
 	}
 
 	public void setProjectdesc(String projectdesc) {
