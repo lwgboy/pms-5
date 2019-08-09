@@ -10,6 +10,7 @@ import org.eclipse.nebula.jface.gridviewer.GridTreeViewer;
 import org.eclipse.rap.rwt.RWT;
 import org.eclipse.swt.widgets.Event;
 
+import com.bizivisionsoft.widgets.util.Layer;
 import com.bizvisionsoft.annotations.AUtil;
 import com.bizvisionsoft.annotations.md.service.Behavior;
 import com.bizvisionsoft.annotations.ui.common.Execute;
@@ -66,24 +67,29 @@ public class GenericAction {
 	public void execute(@MethodParam(Execute.ROOT_CONTEXT_INPUT_OBJECT) Problem problem,
 			@MethodParam(Execute.CONTEXT_SELECTION_1ST) Document element, @MethodParam(Execute.EVENT) Event e,
 			@MethodParam(Execute.ACTION) Action a) {
-		if (ProblemService.ACTION_EDIT.equals(a.getName()) || ProblemService.ACTION_EDIT.equals(e.text)) {
-			doEdit(element);
-		} else if (ProblemService.ACTION_READ.equals(a.getName()) || ProblemService.ACTION_READ.equals(e.text)) {
-			doRead(element);
-		} else if (ProblemService.ACTION_DELETE.equals(a.getName()) || ProblemService.ACTION_DELETE.equals(e.text)) {
-			doDelete(element);
-		} else if (ProblemService.ACTION_VERIFY.equals(a.getName()) || ProblemService.ACTION_VERIFY.equals(e.text)) {
-			doVerify(element);
-		} else if (ProblemService.ACTION_FINISH.equals(a.getName()) || ProblemService.ACTION_FINISH.equals(e.text)) {
-			doFinish(element);
-		} else if (ProblemService.ACTION_CREATE.equals(a.getName()) || ProblemService.ACTION_CREATE.equals(e.text)) {
-			doCreate(problem);
-		} else if (ProblemService.ACTION_EDIT_SIMILAR.equals(a.getName())
-				|| ProblemService.ACTION_EDIT_SIMILAR.equals(e.text)) {
-			editSimilar(element, render);
-		} else if (ProblemService.ACTION_DELETE_SIMILAR.equals(a.getName())
-				|| ProblemService.ACTION_DELETE_SIMILAR.equals(e.text)) {
-			deleteSimilar(element);
+		if(Services.get(ProblemService.class).selectProblemsCard(problem.get_id()
+				,br.getCurrentUserId(),problem.domain)&&problem.getStatus().equals("解决中")) {
+			Layer.error("您没有访问权限!");
+		}else {
+			if (ProblemService.ACTION_EDIT.equals(a.getName()) || ProblemService.ACTION_EDIT.equals(e.text)) {
+				doEdit(element);
+			} else if (ProblemService.ACTION_READ.equals(a.getName()) || ProblemService.ACTION_READ.equals(e.text)) {
+				doRead(element);
+			} else if (ProblemService.ACTION_DELETE.equals(a.getName()) || ProblemService.ACTION_DELETE.equals(e.text)) {
+				doDelete(element);
+			} else if (ProblemService.ACTION_VERIFY.equals(a.getName()) || ProblemService.ACTION_VERIFY.equals(e.text)) {
+				doVerify(element);
+			} else if (ProblemService.ACTION_FINISH.equals(a.getName()) || ProblemService.ACTION_FINISH.equals(e.text)) {
+				doFinish(element);
+			} else if (ProblemService.ACTION_CREATE.equals(a.getName()) || ProblemService.ACTION_CREATE.equals(e.text)) {
+				doCreate(problem);
+			} else if (ProblemService.ACTION_EDIT_SIMILAR.equals(a.getName())
+					|| ProblemService.ACTION_EDIT_SIMILAR.equals(e.text)) {
+				editSimilar(element, render);
+			} else if (ProblemService.ACTION_DELETE_SIMILAR.equals(a.getName())
+					|| ProblemService.ACTION_DELETE_SIMILAR.equals(e.text)) {
+				deleteSimilar(element);
+			}
 		}
 	}
 

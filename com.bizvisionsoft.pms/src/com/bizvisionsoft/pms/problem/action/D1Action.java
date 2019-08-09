@@ -5,6 +5,7 @@ import org.bson.types.ObjectId;
 import org.eclipse.rap.rwt.RWT;
 import org.eclipse.swt.widgets.Event;
 
+import com.bizivisionsoft.widgets.util.Layer;
 import com.bizvisionsoft.annotations.md.service.Behavior;
 import com.bizvisionsoft.annotations.ui.common.Execute;
 import com.bizvisionsoft.annotations.ui.common.Inject;
@@ -36,11 +37,17 @@ public class D1Action {
 			@MethodParam(Execute.CONTEXT) BruiAssemblyContext context, @MethodParam(Execute.EVENT) Event e,
 			@MethodParam(Execute.ACTION) Action a,
 			@MethodParam(Execute.ROOT_CONTEXT_INPUT_OBJECT) Problem problem) {
-		if ("delete".equals(a.getName()) || "delete".equals(e.text)) {
-			ObjectId _id = element.getObjectId("_id");
-			removeD1CFT(_id, element, context);
-		}else if("create".equals(a.getName()) ||"create".equals(e.text)) {
-			createD1CFT(problem,context);
+		
+		if(Services.get(ProblemService.class).selectProblemsCard(problem.get_id()
+				,br.getCurrentUserId(),problem.domain)&&problem.getStatus().equals("解决中")) {
+			Layer.error("您没有访问权限!");
+		}else {
+			if ("delete".equals(a.getName()) || "delete".equals(e.text)) {
+				ObjectId _id = element.getObjectId("_id");
+				removeD1CFT(_id, element, context);
+			}else if("create".equals(a.getName()) ||"create".equals(e.text)) {
+				createD1CFT(problem,context);
+			}
 		}
 
 	}

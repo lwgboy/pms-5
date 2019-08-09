@@ -464,12 +464,6 @@ public abstract class VaultExplorer {
 		return container;
 	}
 
-	private void doRefreshFileGird() {
-		IFolder folder = context.getInput(IFolder.class, true);
-		BasicDBObject filter = new BasicDBObject().append("folder_id", folder.get_id());
-		fileGrid.doQuery(filter);
-	}
-
 	private Composite createNaviPane(Composite parent) {
 		Composite naviPane = Controls.comp(parent).formLayout().get();
 		Control bar = Controls.handle(createNaviToolbarPane(naviPane)).loc(SWT.TOP | SWT.LEFT | SWT.RIGHT, 35).get();
@@ -560,29 +554,49 @@ public abstract class VaultExplorer {
 		}
 
 		context.setInput(folder);
-		contextNavi.setInput(folder);
 
-		GridPart navi = (GridPart) contextNavi.getContent();
-		navi.doRefresh();
+		doRefreshNaviGrid(folder);
+
 		doRefreshFileGird();
 
 		return true;
 	}
 
-	public GridPart getCurrentDisplayPart() {
-		return currentDisplayPart;
+	private void doRefreshNaviGrid(IFolder folder) {
+		if (contextNavi != null) {
+			contextNavi.setInput(folder);
+			GridPart navi = (GridPart) contextNavi.getContent();
+			navi.doRefresh();
+		}
 	}
+	
+
+	private void doRefreshFileGird() {
+		if (fileGrid != null) {
+			IFolder folder = context.getInput(IFolder.class, true);
+			BasicDBObject filter = new BasicDBObject().append("folder_id", folder.get_id());
+			fileGrid.doQuery(filter);
+		}
+	}
+
 
 	private void doSetCurrentFolder(IFolder folder) {
 		context.setInput(folder);
-		contextNavi.setInput(folder);
-		IFolder[] path = getPath(folder);
 
-		addressBar.setPath(path);
+		doRefreshAddressBar(folder);
 
-		GridPart navi = (GridPart) contextNavi.getContent();
-		navi.doRefresh();
+		doRefreshNaviGrid(folder);
+
 		doRefreshFileGird();
+	}
+
+	private void doRefreshAddressBar(IFolder folder) {
+		IFolder[] path = getPath(folder);
+		addressBar.setPath(path);
+	}
+
+	public GridPart getCurrentDisplayPart() {
+		return currentDisplayPart;
 	}
 
 	private void doDeleteFolder(IFolder folder) {
