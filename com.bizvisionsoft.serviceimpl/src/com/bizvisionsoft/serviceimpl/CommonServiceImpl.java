@@ -1044,8 +1044,8 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 
 	@Override
 	public FormDef getFormDefWithFormType(String formType, String domain) {
-		// TODO Auto-generated method stub
-		return null;
+		return c(FormDef.class, domain).find(new BasicDBObject("name", formType).append("activated", true))
+				.sort(new BasicDBObject("vid", -1)).first();
 	}
 
 }

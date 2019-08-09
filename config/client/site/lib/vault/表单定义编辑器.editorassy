@@ -49,7 +49,7 @@
     },
     {
       "name": "gridId",
-      "text": "表格Id",
+      "text": "查询Id",
       "type": "对象选择框",
       "formFields": [],
       "selectorAssemblyId": "/组件选择器（视图类）.gridassy",
