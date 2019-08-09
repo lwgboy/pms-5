@@ -394,8 +394,8 @@ public class DocumentServiceImpl extends BasicServiceImpl implements DocumentSer
 		BasicDBObject filter = (BasicDBObject) condition.get("filter");
 		if (Check.isNotAssigned(filter))
 			return new ArrayList<>();
+		
 		filter = getDocumentFilterWithInitialFolder(filter, initialFolder_id, domain);
-		// getFDocumentFilterWithInitialFolder
 		Integer skip = Optional.ofNullable(condition).map(c -> c.getInt("skip")).orElse(null);
 		Integer limit = Optional.ofNullable(condition).map(c -> c.getInt("limit")).orElse(null);
 		BasicDBObject sort = Optional.ofNullable(condition).map(c -> (BasicDBObject) c.get("sort")).orElse(new BasicDBObject("_id", 1));

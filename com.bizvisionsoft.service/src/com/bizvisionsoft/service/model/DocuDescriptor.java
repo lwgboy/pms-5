@@ -1,14 +1,17 @@
 package com.bizvisionsoft.service.model;
 
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
 import org.bson.types.ObjectId;
 
 import com.bizvisionsoft.annotations.md.mongocodex.PersistenceCollection;
+import com.bizvisionsoft.annotations.md.mongocodex.SetValue;
 import com.bizvisionsoft.annotations.md.service.ReadValue;
 import com.bizvisionsoft.annotations.md.service.WriteValue;
 import com.bizvisionsoft.mongocodex.codec.JsonExternalizable;
+import com.bizvisionsoft.service.tools.Check;
 
 @PersistenceCollection("docu")
 public class DocuDescriptor implements JsonExternalizable {
@@ -60,22 +63,38 @@ public class DocuDescriptor implements JsonExternalizable {
 	@WriteValue
 	private Date createOn;
 
+	@ReadValue("path")
+	private String getPath() {
+		String text = "";
+		if (Check.isAssigned(paths)) {
+			Collections.sort(paths);
+			for (int i = 0; i < paths.size(); i++) {
+				if (i != 0) {
+					text += "\\";
+				}
+				text += paths.get(i).getName();
+			}
+		}
+		return text;
+	}
+
 	@ReadValue
 	@WriteValue
-	private String path;
+	@SetValue
+	private List<VaultFolderDescriptor> paths;
 
 	@ReadValue
 	@WriteValue
 	private String status;
-	
+
 	@ReadValue
 	@WriteValue
 	private String projectdesc;
-	
+
 	@ReadValue
 	@WriteValue
 	private List<String> projectworkorder;
-	
+
 	@ReadValue
 	@WriteValue
 	private String projectnumber;
@@ -129,4 +148,5 @@ public class DocuDescriptor implements JsonExternalizable {
 		}
 		return "";
 	}
+
 }
