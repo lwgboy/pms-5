@@ -393,7 +393,7 @@ public abstract class VaultExplorer {
 				Layer.error("文档类型\"" + name + "\"没有启用的表单定义。");
 				return;
 			}
-			Editor.open(formDef.getEditorId(), context, new Document(), (r, t) -> {
+			Editor.open(formDef.getEditorId(), context, ((VaultFolder) folder).getDocuInstance(), (r, t) -> {
 				UniversalCommand command = new UniversalCommand().setTargetClassName(Docu.class.getName())
 						.addParameter(MethodParam.OBJECT, t).setTargetCollection("docu");
 				UniversalResult ur = Services.get(UniversalDataService.class).insert(command, br.getDomain());
@@ -569,7 +569,6 @@ public abstract class VaultExplorer {
 			navi.doRefresh();
 		}
 	}
-	
 
 	private void doRefreshFileGird() {
 		if (fileGrid != null) {
@@ -578,7 +577,6 @@ public abstract class VaultExplorer {
 			fileGrid.doQuery(filter);
 		}
 	}
-
 
 	private void doSetCurrentFolder(IFolder folder) {
 		context.setInput(folder);

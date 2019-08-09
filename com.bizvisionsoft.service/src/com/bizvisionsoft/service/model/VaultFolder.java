@@ -345,4 +345,13 @@ public class VaultFolder implements IFolder {
 		return vf;
 	}
 
+	public Document getDocuInstance() {
+		Document doc = new Document();
+		doc.put("folder_id", _id);
+		doc.put("project_id", project_id);
+		doc.put("projectworkorder", projectworkorder);
+		doc.put("projectnumber", projectnumber);
+		return doc;
+	}
+
 }
