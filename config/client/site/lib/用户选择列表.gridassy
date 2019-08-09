@@ -90,6 +90,7 @@
   "rowActions": [],
   "queryBuilderBundle": "com.bizvisionsoft.pms",
   "queryBuilderClass": "com.bizvisionsoft.bruiengine.app.user.UserQueryBuilder",
-  "disableInitLoadData": false,
+  "disableInitLoadData": true,
+  "disableStdQuery": true,
   "sortFields": []
 }
