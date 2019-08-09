@@ -45,7 +45,7 @@ public class VaultFolder implements IFolder {
 
 	@ReadValue
 	@WriteValue
-	private String projectworkorder;
+	private List<String> projectworkorder;
 
 	@ReadValue
 	@WriteValue
@@ -297,7 +297,7 @@ public class VaultFolder implements IFolder {
 		this.projectnumber = projectnumber;
 	}
 
-	public void setProjectworkorder(String projectworkorder) {
+	public void setProjectworkorder(List<String> projectworkorder) {
 		this.projectworkorder = projectworkorder;
 	}
 
