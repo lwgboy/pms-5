@@ -1,0 +1,133 @@
+################################################################################################################################################
+## 基本的服务端bundle
+com.bizvisionsoft.annotations
+com.bizvisionsoft.dpsconnector			连接DPS
+com.bizvisionsoft.mongocodex
+com.bizvisionsoft.quartz				QuartZ任务调度封装扩展		
+com.bizvisionsoft.server.jetty			Jetty扩展
+com.bizvisionsoft.server.rs
+com.bizvisionsoft.service.common
+com.bizvisionsoft.service
+com.bizvisionsoft.serviceconsumer
+com.bizvisionsoft.serviceimpl			服务实现
+com.bizvisionsoft.support				通用第三方包整体打包
+
+################################################################################################################################################
+## 用于日志处理
+ch.qos.logback.classic
+ch.qos.logback.core
+slf4j.api
+
+################################################################################################################################################
+## 提供OSGi的支持
+org.eclipse.osgi.services
+org.eclipse.osgi.util
+org.eclipse.osgi
+
+################################################################################################################################################
+## 使用Jetty作为http服务器以及相关的Bundle
+org.eclipse.jetty.continuation
+org.eclipse.jetty.http
+org.eclipse.jetty.io
+org.eclipse.jetty.security
+org.eclipse.jetty.server
+org.eclipse.jetty.servlet
+org.eclipse.jetty.util
+org.eclipse.equinox.http.jetty
+org.eclipse.equinox.http.registry
+org.eclipse.equinox.http.servlet
+javax.servlet-api
+javax.servlet
+
+################################################################################################################################################
+## 支持JaxRS服务
+com.eclipsesource.jaxrs.consumer
+com.eclipsesource.jaxrs.jersey-all
+com.eclipsesource.jaxrs.provider.multipart
+com.eclipsesource.jaxrs.provider.security
+com.eclipsesource.jaxrs.provider.swagger
+com.eclipsesource.jaxrs.publisher
+com.eclipsesource.jaxrs.swagger-all
+
+################################################################################################################################################
+## equinox的一套
+org.eclipse.core.contenttype
+org.eclipse.core.jobs
+org.eclipse.core.runtime
+org.eclipse.equinox.app
+org.eclipse.equinox.cm
+org.eclipse.equinox.common
+org.eclipse.equinox.preferences
+org.eclipse.equinox.registry
+
+################################################################################################################################################
+## apache commons 一套
+org.apache.commons.codec
+org.apache.commons.commons-collections4
+org.apache.commons.commons-compress
+org.apache.commons.email
+org.apache.commons.io
+org.apache.commons.lang3*3.8.1
+org.apache.commons.logging
+org.apache.commons.math3
+
+################################################################################################################################################
+## 用于显示OSGi控制台
+org.apache.felix.gogo.command
+org.apache.felix.gogo.runtime
+org.apache.felix.gogo.shell
+org.apache.felix.scr
+org.eclipse.equinox.console
+
+
+################################################################################################################################################
+## BPM Hibernater的OSGi封装 以及其依赖
+org.jbpm.osgi
+org.hibernate.ogm.osgi
+org.jboss.spec.javax.annotation.jboss-annotations-api_1.2_spec
+org.jboss.spec.javax.el.jboss-el-api_3.0_spec
+org.jboss.spec.javax.jms.jboss-jms-api_2.0_spec
+org.jboss.spec.javax.resource.jboss-connector-api_1.7_spec
+org.jboss.spec.javax.security.jacc.jboss-jacc-api_1.5_spec
+org.jboss.spec.javax.transaction.jboss-transaction-api_1.2_spec
+org.kie.dmn.api
+org.kie.dmn.backend
+org.kie.dmn.core
+org.kie.dmn.feel
+org.kie.dmn.model
+org.kie.scanner.osgi
+org.kie.soup.commons
+org.kie.soup.kie-soup-maven-support
+org.kie.soup.kie-soup-project-datamodel-api
+org.kie.soup.kie-soup-project-datamodel-commons
+org.quartz-scheduler.quartz
+
+################################################################################################################################################
+## 其他
+com.hankcs.hanlp										中文分词
+org.apache.poi											poi
+org.mongodb.mongo-java-driver							驱动
+com.google.gson
+com.google.guava
+com.google.protobuf
+javassist
+javax.annotation-api
+javax.el-api
+javax.enterprise.cdi-api
+javax.interceptor-api
+javax.persistence-api
+javax.validation.api
+javax.xml
+jaxb-api
+org.mvel2
+org.objectweb.asm.analysis
+org.objectweb.asm.tree
+org.objectweb.asm
+com.fasterxml.jackson.core.jackson-annotations
+com.fasterxml.jackson.core.jackson-core
+com.fasterxml.jackson.core.jackson-databind
+com.sun.xml.bind.jaxb-core
+com.sun.xml.bind.jaxb-xjc
+com.thoughtworks.xstream
+org.eclipse.aether.api
+org.jsoup
