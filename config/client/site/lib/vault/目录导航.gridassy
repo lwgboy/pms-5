@@ -29,7 +29,7 @@
   "rowActions": [
     {
       "id": "f6504ff9e32",
-      "name": "²Ëµ¥",
+      "name": "menu",
       "image": "/img/menu.svg",
       "style": "",
       "children": [
@@ -83,6 +83,8 @@
           "verticalSpan": 0
         }
       ],
+      "objectBehavier": true,
+      "actionBehavier": false,
       "type": "customized",
       "verticalSpan": 0
     }

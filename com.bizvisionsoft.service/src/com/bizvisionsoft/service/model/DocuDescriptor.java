@@ -12,6 +12,7 @@ import com.bizvisionsoft.annotations.md.service.ReadValue;
 import com.bizvisionsoft.annotations.md.service.WriteValue;
 import com.bizvisionsoft.mongocodex.codec.JsonExternalizable;
 import com.bizvisionsoft.service.tools.Check;
+import com.bizvisionsoft.service.tools.DocuToolkit;
 
 @PersistenceCollection("docu")
 public class DocuDescriptor implements JsonExternalizable {
@@ -101,36 +102,36 @@ public class DocuDescriptor implements JsonExternalizable {
 
 	@ReadValue("statusText")
 	private String getStatusText() {
-		if (DocuStatus.STATUS_APPROVING_ID.equals(status))
-			return DocuStatus.STATUS_APPROVING_TEXT;
-		else if (DocuStatus.STATUS_DEPOSED_ID.equals(status))
-			return DocuStatus.STATUS_DEPOSED_TEXT;
-		else if (DocuStatus.STATUS_RELEASED_ID.equals(status))
-			return DocuStatus.STATUS_RELEASED_TEXT;
+		if (DocuToolkit.STATUS_APPROVING_ID.equals(status))
+			return DocuToolkit.STATUS_APPROVING_TEXT;
+		else if (DocuToolkit.STATUS_DEPOSED_ID.equals(status))
+			return DocuToolkit.STATUS_DEPOSED_TEXT;
+		else if (DocuToolkit.STATUS_RELEASED_ID.equals(status))
+			return DocuToolkit.STATUS_RELEASED_TEXT;
 
-		return DocuStatus.STATUS_WORKING_TEXT;
+		return DocuToolkit.STATUS_WORKING_TEXT;
 	}
 
 	@ReadValue("plmTypeText")
 	private String getPlmTypeText() {
-		if (DocuType.TYPE_PRODUCT.equals(plmtype)) {
-			return DocuType.TYPE_PRODUCT_TEXT;
-		} else if (DocuType.TYPE_PART.equals(plmtype)) {
-			return DocuType.TYPE_PART_TEXT;
-		} else if (DocuType.TYPE_MATERIAL.equals(plmtype)) {
-			return DocuType.TYPE_MATERIAL_TEXT;
-		} else if (DocuType.TYPE_SUPPLYMENT.equals(plmtype)) {
-			return DocuType.TYPE_SUPPLYMENT_TEXT;
-		} else if (DocuType.TYPE_PACKAGE.equals(plmtype)) {
-			return DocuType.TYPE_PACKAGE_TEXT;
-		} else if (DocuType.TYPE_JIGTOOL.equals(plmtype)) {
-			return DocuType.TYPE_JIGTOOL_TEXT;
-		} else if (DocuType.TYPE_CAD.equals(plmtype)) {
-			return DocuType.TYPE_CAD_TEXT;
-		} else if (DocuType.TYPE_FORM.equals(plmtype)) {
-			return DocuType.TYPE_FORM_TEXT;
+		if (DocuToolkit.TYPE_PRODUCT.equals(plmtype)) {
+			return DocuToolkit.TYPE_PRODUCT_TEXT;
+		} else if (DocuToolkit.TYPE_PART.equals(plmtype)) {
+			return DocuToolkit.TYPE_PART_TEXT;
+		} else if (DocuToolkit.TYPE_MATERIAL.equals(plmtype)) {
+			return DocuToolkit.TYPE_MATERIAL_TEXT;
+		} else if (DocuToolkit.TYPE_SUPPLYMENT.equals(plmtype)) {
+			return DocuToolkit.TYPE_SUPPLYMENT_TEXT;
+		} else if (DocuToolkit.TYPE_PACKAGE.equals(plmtype)) {
+			return DocuToolkit.TYPE_PACKAGE_TEXT;
+		} else if (DocuToolkit.TYPE_JIGTOOL.equals(plmtype)) {
+			return DocuToolkit.TYPE_JIGTOOL_TEXT;
+		} else if (DocuToolkit.TYPE_CAD.equals(plmtype)) {
+			return DocuToolkit.TYPE_CAD_TEXT;
+		} else if (DocuToolkit.TYPE_FORM.equals(plmtype)) {
+			return DocuToolkit.TYPE_FORM_TEXT;
 		}
-		return DocuType.TYPE_DOCUMENT_TEXT;
+		return DocuToolkit.TYPE_DOCUMENT_TEXT;
 	}
 
 	@ReadValue("securityText")

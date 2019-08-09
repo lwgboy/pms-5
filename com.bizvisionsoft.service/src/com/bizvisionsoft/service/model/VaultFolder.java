@@ -11,10 +11,13 @@ import com.bizvisionsoft.annotations.md.mongocodex.Exclude;
 import com.bizvisionsoft.annotations.md.mongocodex.Persistence;
 import com.bizvisionsoft.annotations.md.mongocodex.PersistenceCollection;
 import com.bizvisionsoft.annotations.md.mongocodex.SetValue;
+import com.bizvisionsoft.annotations.md.service.Behavior;
 import com.bizvisionsoft.annotations.md.service.ImageURL;
 import com.bizvisionsoft.annotations.md.service.Label;
 import com.bizvisionsoft.annotations.md.service.ReadValue;
 import com.bizvisionsoft.annotations.md.service.WriteValue;
+import com.bizvisionsoft.annotations.ui.common.Execute;
+import com.bizvisionsoft.annotations.ui.common.MethodParam;
 import com.bizvisionsoft.service.CommonService;
 import com.bizvisionsoft.service.OrganizationService;
 import com.bizvisionsoft.service.ServicesLoader;
@@ -347,11 +350,31 @@ public class VaultFolder implements IFolder {
 
 	public Document getDocuInstance() {
 		Document doc = new Document();
+		// 初始化所属文件夹
 		doc.put("folder_id", _id);
+		// 初始化项目属性
 		doc.put("project_id", project_id);
 		doc.put("projectworkorder", projectworkorder);
 		doc.put("projectnumber", projectnumber);
+		// TODO 初始化版本
+		// doc.put("major_vid", );
+		// doc.put("svid", );
+
+		// TODO 初始化类型
+		// doc.put("plmtype", );
+
+		// 初始化编号，交由值生成规则完成
+
+		// TODO 初始化所有者和创建人、创建时间
+		// doc.put("owner", );
+		// doc.put("_caccount", new Document("userid",).append("username",));
+		// doc.put("_cdate", );
 		return doc;
+	}
+
+	@Behavior("menu")
+	private boolean enableExplorerMenu() {
+		return !isContainer();
 	}
 
 }
