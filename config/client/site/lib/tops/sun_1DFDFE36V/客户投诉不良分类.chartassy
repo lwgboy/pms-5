@@ -1,0 +1,10 @@
+{
+  "id": "/问题数量按问题分类条形图.chartassy",
+  "name": "客户投诉不良分类",
+  "description": "问题数量，按问题分类，按月统计，条形图",
+  "layout": [],
+  "type": "chart",
+  "folderId": "168987ad286",
+  "gridDataSetService": "com.bizvisionsoft.service.ProblemService",
+  "actions": []
+}

@@ -513,6 +513,14 @@
             "image": "/img/chart_linebar_w.svg",
             "switchContentToAssemblyId": "/问题综合分析图表.assy",
             "type": "switch"
+          },
+          {
+            "id": "75bc7a1f-5c45-4ced-b800-7d79ed450b45",
+            "name": "问题综合分析图表2",
+            "text": "",
+            "image": "/img/chart_linebar_w.svg",
+            "switchContentToAssemblyId": "/tops/sun_1DFDFE36V/问题处理时间按责任部门条线图.assy",
+            "type": "switch"
           }
         ],
         "sidebarItems": [

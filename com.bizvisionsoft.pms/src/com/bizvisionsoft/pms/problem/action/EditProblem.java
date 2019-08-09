@@ -68,19 +68,23 @@ public class EditProblem {
 	}
 
 	private void edit(IBruiContext context, Problem problem, boolean editable) {
-		String editor = "问题编辑器（编辑）.editorassy";
-		if(null != editorName) {
-			editor = editorName;
+		String editor ="";
+		if(Services.get(ProblemService.class).selectProblemsCard(problem.get_id()
+				,br.getCurrentUserId(),problem.domain)&&problem.getStatus().equals("解决中")) {
+			Layer.error("您没有访问权限!");
+		}else {
+			editor = "问题编辑器（编辑）.editorassy";
+			Editor.create(editor, context, problem, false).setEditable(editable).ok((r, t) -> {
+				r.remove("_id");
+				BasicDBObject fu = new FilterAndUpdate().filter(new BasicDBObject("_id", problem.get_id())).set(r).bson();
+				long l = Services.get(ProblemService.class).updateProblems(fu, br.getDomain());
+				if (l > 0) {
+					AUtil.simpleCopy(t, problem);// 改写problem
+					Check.instanceThen(context.getContent(), IQueryEnable.class, q -> q.doRefresh());
+				}
+			});
 		}
-		Editor.create(editor, context, problem, false).setEditable(editable).ok((r, t) -> {
-			r.remove("_id");
-			BasicDBObject fu = new FilterAndUpdate().filter(new BasicDBObject("_id", problem.get_id())).set(r).bson();
-			long l = Services.get(ProblemService.class).updateProblems(fu, br.getDomain());
-			if (l > 0) {
-				AUtil.simpleCopy(t, problem);// 改写problem
-				Check.instanceThen(context.getContent(), IQueryEnable.class, q -> q.doRefresh());
-			}
-		});
+		
 	}
 
 	private void edits(IBruiContext context, Problem problem) {

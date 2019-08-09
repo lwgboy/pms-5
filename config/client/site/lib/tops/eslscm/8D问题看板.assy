@@ -17,7 +17,7 @@
       "layoutType": "lane",
       "assemblys": [
         {
-          "id": "/tops/eslscm/D0问题初始记录.boardassy",
+          "id": "D0问题初始记录.boardassy",
           "horizontalAlignment": 4,
           "verticalAlignment": 16777216,
           "grabExcessHorizontalSpace": true,

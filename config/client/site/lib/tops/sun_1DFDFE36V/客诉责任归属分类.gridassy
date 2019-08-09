@@ -1,0 +1,137 @@
+{
+  "id": "/问题经验库表格.gridassy",
+  "name": "客诉责任归属分类详情",
+  "layout": [],
+  "type": "grid",
+  "stickerTitle": "客诉责任归属分类详情",
+  "folderId": "168987437fd",
+  "gridLineVisiable": true,
+  "gridHeaderVisiable": true,
+  "gridHasHScroll": true,
+  "gridHasVScroll": true,
+  "gridDataSetService": "com.bizvisionsoft.service.ProblemService",
+  "columns": [
+    {
+      "name": "name",
+      "text": "类型",
+      "alignment": 16384,
+      "width": 80,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "id": "1682d6d9e8d",
+      "name": "January",
+      "text": "一月",
+      "alignment": 16384,
+      "width": 80,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "name": "February",
+      "text": "二月",
+      "alignment": 16384,
+      "width": 80,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "name": "March",
+      "text": "三月",
+      "alignment": 16384,
+      "width": 80,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "name": "April",
+      "text": "四月",
+      "alignment": 16384,
+      "width": 80,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "name": "May",
+      "text": "五月",
+      "alignment": 16384,
+      "width": 80,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "name": "June",
+      "text": "六月",
+      "alignment": 16384,
+      "width": 80,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "name": "July",
+      "text": "七月",
+      "alignment": 16384,
+      "width": 80,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "name": "August",
+      "text": "八月",
+      "alignment": 16384,
+      "width": 80,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "name": "September",
+      "text": "九月",
+      "alignment": 16384,
+      "width": 80,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "name": "October",
+      "text": "十月",
+      "alignment": 16384,
+      "width": 80,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "name": "November",
+      "text": "十一月",
+      "alignment": 16384,
+      "width": 80,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "name": "December",
+      "text": "十二月",
+      "alignment": 16384,
+      "width": 80,
+      "resizeable": true,
+      "columns": []
+    },
+    {
+      "name": "Total",
+      "text": "Total",
+      "alignment": 16384,
+      "width": 80,
+      "resizeable": true,
+      "columns": []
+    }
+  ],
+  "fields": [],
+  "checkOn": false,
+  "actions": [],
+  "rowActions": [],
+  "hasTitlebar": true,
+  "disableInitLoadData": false,
+  "disableStdQuery": false,
+  "parameters": "{\"render\":\"gridrow\"}",
+  "sortFields": []
+}

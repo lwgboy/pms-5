@@ -17,64 +17,90 @@
       "layoutType": "grid",
       "assemblys": [
         {
-          "id": "/问题损失按问题分类条形图.chartassy",
+          "id": "/tops/sun_1DFDFE36V/客户投诉清单.chartassy",
           "horizontalAlignment": 4,
           "verticalAlignment": 4,
           "grabExcessHorizontalSpace": true,
-          "grabExcessVerticalSpace": false,
           "verticalSpan": 1,
           "horizontalSpan": 1,
           "widthHint": -1,
-          "heightHint": 320
+          "heightHint": 300
         },
         {
-          "id": "/问题数量按问题分类条形图.chartassy",
+          "id": "客户投诉不良分类.chartassy",
           "horizontalAlignment": 4,
           "verticalAlignment": 4,
           "grabExcessHorizontalSpace": true,
-          "grabExcessVerticalSpace": false,
           "verticalSpan": 1,
           "horizontalSpan": 1,
           "widthHint": -1,
-          "heightHint": 320
+          "heightHint": 300
         },
         {
-          "id": "/问题损失按部门分类饼图.chartassy",
+          "id": "/tops/sun_1DFDFE36V/客户投诉不良分类合计.chartassy",
           "horizontalAlignment": 4,
           "verticalAlignment": 4,
           "grabExcessHorizontalSpace": true,
-          "grabExcessVerticalSpace": false,
           "verticalSpan": 1,
           "horizontalSpan": 1,
           "widthHint": -1,
-          "heightHint": 320
+          "heightHint": 300
         },
         {
-          "id": "/问题原因因果关系.chartassy",
+          "id": "/tops/sun_1DFDFE36V/客户投诉不良分类线形图.chartassy",
           "horizontalAlignment": 4,
           "verticalAlignment": 4,
           "grabExcessHorizontalSpace": true,
-          "grabExcessVerticalSpace": true,
-          "verticalSpan": 1,
-          "horizontalSpan": 2,
-          "widthHint": -1,
-          "heightHint": 320
-        },
-        {
-          "id": "/问题损失按原因分类饼图.chartassy",
-          "horizontalAlignment": 4,
-          "verticalAlignment": 4,
-          "grabExcessHorizontalSpace": true,
-          "grabExcessVerticalSpace": true,
           "verticalSpan": 1,
           "horizontalSpan": 1,
           "widthHint": -1,
-          "heightHint": 320
+          "heightHint": 300
+        },
+        {
+          "id": "/tops/sun_1DFDFE36V/客诉责任归属分类.chartassy",
+          "horizontalAlignment": 4,
+          "verticalAlignment": 4,
+          "grabExcessHorizontalSpace": true,
+          "verticalSpan": 1,
+          "horizontalSpan": 1,
+          "widthHint": -1,
+          "heightHint": 300
+        },
+        {
+          "id": "/tops/sun_1DFDFE36V/客户投诉不良分类.gridassy",
+          "horizontalAlignment": 4,
+          "verticalAlignment": 16777216,
+          "grabExcessHorizontalSpace": true,
+          "verticalSpan": 1,
+          "horizontalSpan": 1,
+          "widthHint": -1,
+          "heightHint": 300
+        },
+        {
+          "id": "/tops/sun_1DFDFE36V/客户投诉不良分类-详情.gridassy",
+          "horizontalAlignment": 4,
+          "verticalAlignment": 16777216,
+          "grabExcessHorizontalSpace": true,
+          "verticalSpan": 1,
+          "horizontalSpan": 1,
+          "widthHint": -1,
+          "heightHint": 300
+        },
+        {
+          "id": "/tops/sun_1DFDFE36V/客诉责任归属分类.gridassy",
+          "horizontalAlignment": 4,
+          "verticalAlignment": 16777216,
+          "grabExcessHorizontalSpace": true,
+          "verticalSpan": 1,
+          "horizontalSpan": 1,
+          "widthHint": -1,
+          "heightHint": 300
         }
       ]
     }
   ],
   "folderId": "168987ad286",
+  "gridDataSetService": "",
   "actions": [],
   "rowActions": [],
   "candidates": []

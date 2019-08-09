@@ -1290,6 +1290,54 @@ public interface ProblemService {
 			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 	@POST
+	@Path("/{domain}/count/classifyproblem/barDate")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "部门及时按期交付/list" })
+	public Document createCountClassifyByProblemChartDate(
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+	
+	@POST
+	@Path("/{domain}/Organization/chart/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({"客户投诉清单/list" })
+	public Document createCountOrganizationChart(@MethodParam(MethodParam.CONDITION) Document condition,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+
+	@POST
+	@Path("/{domain}/ClassifyProblem/chart/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({"客户投诉不良分类/list" })
+	public Document createCountClassifyProblemChart(@MethodParam(MethodParam.CONDITION) Document condition,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+	@POST
+	@Path("/{domain}/ClassifyProblems/chart/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({"客户投诉不良分类合计/list" })
+	public Document createCountClassifyProblemsChart(@MethodParam(MethodParam.CONDITION) Document condition,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+	@POST
+	@Path("/{domain}/ClassifyProblemXianXin/chart/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({"客户投诉不良分类线形图/list" })
+	public Document createCountClassifyProblemXianXinChart(@MethodParam(MethodParam.CONDITION) Document condition,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+	
+
+	@POST
+	@Path("/{domain}/OrganizationDepts/chart/")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({"客诉责任归属分类/list" })
+	public Document createCountOrganizationDeptsChart(@MethodParam(MethodParam.CONDITION) Document condition,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+	
+	
+	@POST
 	@Path("/{domain}/cost/classifyCause/pie")
 	@Consumes("application/json; charset=UTF-8")
 	@Produces("application/json; charset=UTF-8")
@@ -1374,6 +1422,70 @@ public interface ProblemService {
 	public InputStream createReportAndGetDownloadPath(Document rptParam, @PathParam("_id") ObjectId _id,
 			@PathParam("template") String template, @PathParam("fileName") String fileName,
 			@PathParam("serverName") String serverName, @PathParam("serverPath") int serverPath,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+	
+
+	@POST
+	@Path("/{domain}/item/updateClickCount")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public void updateClickCount(@MethodParam(MethodParam.OBJECT) Problem p,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+	
+	@POST
+	@Path("/{domain}/{userId}/item/Card/selectProblemsCard")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public boolean selectProblemsCard(ObjectId _id,@MethodParam("userId") @PathParam("userId") String userId,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+	 
+	@POST
+	@Path("/{domain}/classifyProblem/exp/ds")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "客户投诉不良分类表格/list" })
+	public List<Document> classifyProblemListExp(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+
+	@POST
+	@Path("/{domain}/classifyProblem/exp/count")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "客户投诉不良分类表格/count" })
+	public long classifyProblemCountExp(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+	
+	@POST
+	@Path("/{domain}/classifyProblemDetails/exp/ds")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "客户投诉不良分类表格详情/list" })
+	public List<Document> classifyProblemListExpDetails(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+
+	@POST
+	@Path("/{domain}/classifyProblemDetails/exp/count")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "客户投诉不良分类表格详情/count" })
+	public long classifyProblemCountExpDetails(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+
+	
+	@POST
+	@Path("/{domain}/OrganizationDeptsDetails/exp/ds")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "客诉责任归属分类详情/list" })
+	public List<Document> OrganizationDeptsListExpDetails(@MethodParam(MethodParam.CONDITION) BasicDBObject condition,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+
+	@POST
+	@Path("/{domain}/OrganizationDeptsDetails/exp/count")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	@DataSet({ "客诉责任归属分类详情/count" })
+	public long OrganizationDeptsCountExpDetails(@MethodParam(MethodParam.FILTER) BasicDBObject filter,
 			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
 }

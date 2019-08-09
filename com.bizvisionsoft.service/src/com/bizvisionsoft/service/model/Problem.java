@@ -67,6 +67,9 @@ public class Problem {
 	@WriteValue
 	private String custId;
 
+	private Integer clickCount;
+	
+
 	@ReadValue
 	@WriteValue
 	private String custInfo;
@@ -196,6 +199,16 @@ public class Problem {
 		return name;
 	}
 
+	@ReadValue("clickCount")
+	public Integer getClickCount() {
+		return clickCount;
+	}
+
+	@WriteValue("clickCount")
+	public void setClickCount(Integer clickCount) {
+		this.clickCount = clickCount;
+	}
+	
 	@ReadValue
 	@WriteValue
 	private SeverityInd severityInd;
