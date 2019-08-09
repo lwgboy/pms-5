@@ -297,7 +297,7 @@ public abstract class VaultExplorer {
 			doSetCurrentFolder(input);
 			selector.close();
 		});
-		
+
 		Control item = (Control) ae.widget;
 		selector.setLocation(item.toDisplay(0, item.getBounds().height + 1));
 		selector.open();
@@ -384,13 +384,16 @@ public abstract class VaultExplorer {
 	}
 
 	private void doCreateDocument(IFolder folder) {
-		Selector.open("/vault/表单定义选择器.selectorassy", context, folder, l -> {
+		Selector.create("/vault/表单定义选择器.selectorassy", context, folder).setTitle("选择文档类型").open(l -> {
 			Document doc = (Document) l.get(0);
 			String name = doc.getString("name");
-			// TODO 根据名称找到最新启用的表单定义，从表单定义上获取editorId
+			// 根据表单类型找到最新启用的表单定义，从表单定义上获取editorId
 			FormDef formDef = Services.get(CommonService.class).getFormDefWithFormType(name, br.getDomain());
-
-			Editor.open(name, context, new Document(), (r, t) -> {
+			if (formDef == null) {
+				Layer.error("文档类型\"" + name + "\"没有启用的表单定义。");
+				return;
+			}
+			Editor.open(formDef.getEditorId(), context, new Document(), (r, t) -> {
 				UniversalCommand command = new UniversalCommand().setTargetClassName(Docu.class.getName())
 						.addParameter(MethodParam.OBJECT, t).setTargetCollection("docu");
 				UniversalResult ur = Services.get(UniversalDataService.class).insert(command, br.getDomain());
