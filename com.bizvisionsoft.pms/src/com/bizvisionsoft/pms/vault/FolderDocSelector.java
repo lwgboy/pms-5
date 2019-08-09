@@ -34,32 +34,39 @@ import com.bizvisionsoft.serviceconsumer.Services;
 
 public class FolderDocSelector extends Part {
 
-	public static void selectFolder(IBruiContext context, IFolder initialFolder, int selectionStyle, Consumer<Object> doit) {
-		Shell parentShell = Display.getCurrent().getActiveShell();
-		FolderDocSelector selector = new FolderDocSelector(parentShell);
-		selector.setParentContext(context).setTitle("选择目录").setSizeMode(false, true)
-				.setExplorerStyle(VaultExplorer.ADDRESS_BAR | VaultExplorer.NAVIGATOR).setSelectionStyle(selectionStyle);
-		selector.init(initialFolder);
-		selector.open(doit);
-	}
-
-	public static void selectDocument(IBruiContext context, IFolder initialFolder, int selectionStyle, Consumer<Object> doit) {
-		Shell parentShell = Display.getCurrent().getActiveShell();
-		FolderDocSelector selector = new FolderDocSelector(parentShell);
-		selector.setParentContext(context).setTitle("选择文档").setSizeMode(false, false).setExplorerStyle(VaultExplorer.ADDRESS_BAR
-				| VaultExplorer.NAVIGATOR | VaultExplorer.FILETABLE | VaultExplorer.SEARCH_FILE | VaultExplorer.SEARCH_FOLDER)
-				.setSelectionStyle(selectionStyle);
-		selector.init(initialFolder);
-		selector.open(doit);
-	}
-	
-
 	public static void selectFolder(IBruiContext context, Consumer<Object> doit) {
 		selectFolder(context, IFolder.Null, SWT.SINGLE, doit);
 	}
 
 	public static void selectDocument(IBruiContext context, Consumer<Object> doit) {
 		selectDocument(context, IFolder.Null, SWT.MULTI, doit);
+	}
+
+	public static void selectFolder(IBruiContext context, IFolder initialFolder, int selectionStyle, Consumer<Object> doit) {
+		int explorerStyle = VaultExplorer.ADDRESS_BAR | VaultExplorer.NAVIGATOR;
+		String title = "选择目录";
+		boolean shortX = true;
+		boolean shortY = false;
+		select(context, initialFolder, selectionStyle, explorerStyle, title, shortX, shortY, doit);
+	}
+
+	public static void selectDocument(IBruiContext context, IFolder initialFolder, int selectionStyle, Consumer<Object> doit) {
+		int explorerStyle = VaultExplorer.ADDRESS_BAR | VaultExplorer.NAVIGATOR | VaultExplorer.FILETABLE | VaultExplorer.SEARCH_FILE
+				| VaultExplorer.SEARCH_FOLDER;
+		String title = "选择文档";
+		boolean shortX = false;
+		boolean shortY = false;
+		select(context, initialFolder, selectionStyle, explorerStyle, title, shortX, shortY, doit);
+	}
+
+	public static void select(IBruiContext context, IFolder initialFolder, int selectionStyle, int explorerStyle, String title,
+			boolean shortX, boolean shortY, Consumer<Object> doit) {
+		Shell parentShell = Display.getCurrent().getActiveShell();
+		FolderDocSelector selector = new FolderDocSelector(parentShell);
+		selector.setParentContext(context).setTitle(title).setSizeMode(shortY, shortX).setExplorerStyle(explorerStyle)
+				.setSelectionStyle(selectionStyle);
+		selector.init(initialFolder);
+		selector.open(doit);
 	}
 
 	private boolean isTiny;
@@ -232,7 +239,7 @@ public class FolderDocSelector extends Part {
 				return result;
 			}
 		};
-//		explorer.setBruiService(service).setContext((BruiAssemblyContext) context.setEngine(new BruiAssemblyEngine(explorer)));
+		explorer.setBruiService(service).setContext((BruiAssemblyContext) context.setEngine(new BruiAssemblyEngine(explorer)));
 		explorer.init();
 	}
 

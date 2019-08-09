@@ -163,7 +163,7 @@ public abstract class VaultExplorer {
 		context.add(containerContext = UserSession.newAssemblyContext().setParent(context));
 		containerContext.setEngine(brui).setInput(initialFolder);
 		fileSearchResultGrid = ((GridPart) brui.getTarget());
-//		fileSearchResultGrid.setDisableQueryPanel(true);
+		fileSearchResultGrid.setDisableQueryPanel(true);
 		Composite container = new Composite(parent, SWT.NONE);
 
 		container.setBackground(BruiColors.getColor(BruiColor.White));
@@ -189,7 +189,7 @@ public abstract class VaultExplorer {
 		context.add(containerContext = UserSession.newAssemblyContext().setParent(context));
 		containerContext.setEngine(brui).setInput(initialFolder);
 		folderSearchResultGrid = ((GridPart) brui.getTarget());
-//		folderSearchResultGrid.setDisableQueryPanel(true);
+		folderSearchResultGrid.setDisableQueryPanel(true);
 		Composite container = new Composite(parent, SWT.NONE);
 		container.setBackground(BruiColors.getColor(BruiColor.White));
 		container.setLayout(new FormLayout());
@@ -278,7 +278,7 @@ public abstract class VaultExplorer {
 		// 创建目录组件
 		Assembly assy = getNavigatorAssembly();
 		// 对组件样式修改
-//		assy.setGridPageControlStyle("SHORT");
+		assy.setGridPageControlStyle("SHORT");
 		assy.getRowActions().clear();
 		assy.setGridPageCount(15);
 		assy.setScrollLoadData(true);
@@ -288,7 +288,7 @@ public abstract class VaultExplorer {
 		BruiAssemblyContext contextFolder = UserSession.newAssemblyContext();
 		contextFolder.setEngine(brui).setInput(parentFolder);
 		GridPart folderGrid = (GridPart) brui.getTarget();
-//		folderGrid.setDisableQueryPanel(true);
+		folderGrid.setDisableQueryPanel(true);
 		brui.init(new IServiceWithId[] { br, contextFolder }).createUI(selector);
 
 		folderGrid.getViewer().addSelectionChangedListener(e -> {
@@ -297,7 +297,7 @@ public abstract class VaultExplorer {
 			doSetCurrentFolder(input);
 			selector.close();
 		});
-		
+
 		Control item = (Control) ae.widget;
 		selector.setLocation(item.toDisplay(0, item.getBounds().height + 1));
 		selector.open();
@@ -451,7 +451,7 @@ public abstract class VaultExplorer {
 		context.add(containerContext = UserSession.newAssemblyContext().setParent(context));
 		containerContext.setEngine(brui).setInput(context.getInput());
 		fileGrid = (GridPart) brui.getTarget();
-//		fileGrid.setDisableQueryPanel(true);
+		fileGrid.setDisableQueryPanel(true);
 		Composite container = new Composite(parent, SWT.NONE);
 		brui.init(new IServiceWithId[] { br, containerContext }).createUI(container);
 
@@ -459,12 +459,6 @@ public abstract class VaultExplorer {
 		doRefreshFileGird();
 
 		return container;
-	}
-
-	private void doRefreshFileGird() {
-		IFolder folder = context.getInput(IFolder.class, true);
-		BasicDBObject filter = new BasicDBObject().append("folder_id", folder.get_id());
-		fileGrid.doQuery(filter);
 	}
 
 	private Composite createNaviPane(Composite parent) {
@@ -505,7 +499,7 @@ public abstract class VaultExplorer {
 		// 创建目录组件
 		Assembly assy = getNavigatorAssembly();
 		// 对组件样式修改
-//		assy.setGridPageControlStyle("SHORT");
+		assy.setGridPageControlStyle("SHORT");
 		return createFolderAssembly(parent, assy);
 	}
 
@@ -514,7 +508,7 @@ public abstract class VaultExplorer {
 		context.add(contextNavi = UserSession.newAssemblyContext().setParent(context));
 		contextNavi.setEngine(brui).setInput(context.getInput());
 		GridPart folderGrid = (GridPart) brui.getTarget();
-//		folderGrid.setDisableQueryPanel(true);
+		folderGrid.setDisableQueryPanel(true);
 		Composite container = new Composite(parent, SWT.NONE);
 		brui.init(new IServiceWithId[] { br, contextNavi }).createUI(container);
 
@@ -557,29 +551,49 @@ public abstract class VaultExplorer {
 		}
 
 		context.setInput(folder);
-		contextNavi.setInput(folder);
 
-		GridPart navi = (GridPart) contextNavi.getContent();
-		navi.doRefresh();
+		doRefreshNaviGrid(folder);
+
 		doRefreshFileGird();
 
 		return true;
 	}
 
-	public GridPart getCurrentDisplayPart() {
-		return currentDisplayPart;
+	private void doRefreshNaviGrid(IFolder folder) {
+		if (contextNavi != null) {
+			contextNavi.setInput(folder);
+			GridPart navi = (GridPart) contextNavi.getContent();
+			navi.doRefresh();
+		}
 	}
+	
+
+	private void doRefreshFileGird() {
+		if (fileGrid != null) {
+			IFolder folder = context.getInput(IFolder.class, true);
+			BasicDBObject filter = new BasicDBObject().append("folder_id", folder.get_id());
+			fileGrid.doQuery(filter);
+		}
+	}
+
 
 	private void doSetCurrentFolder(IFolder folder) {
 		context.setInput(folder);
-		contextNavi.setInput(folder);
-		IFolder[] path = getPath(folder);
 
-		addressBar.setPath(path);
+		doRefreshAddressBar(folder);
 
-		GridPart navi = (GridPart) contextNavi.getContent();
-		navi.doRefresh();
+		doRefreshNaviGrid(folder);
+
 		doRefreshFileGird();
+	}
+
+	private void doRefreshAddressBar(IFolder folder) {
+		IFolder[] path = getPath(folder);
+		addressBar.setPath(path);
+	}
+
+	public GridPart getCurrentDisplayPart() {
+		return currentDisplayPart;
 	}
 
 	private void doDeleteFolder(IFolder folder) {
