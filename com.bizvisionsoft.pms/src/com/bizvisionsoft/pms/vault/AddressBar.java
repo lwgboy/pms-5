@@ -136,10 +136,13 @@ public class AddressBar extends Composite {
 		Composite parent = addressBar.get();
 		Stream.of(parent.getChildren()).forEach(c -> c.dispose());
 
+		Composite panel = Controls.comp(parent).formLayout().height(BAR_HEIGHT).get();
+		Control left = Controls.button(panel, SWT.PUSH | SWT.RIGHT | SWT.LEFT).rwt("compact").setText("\u25BA")
+				.loc(SWT.TOP | SWT.BOTTOM).listen(SWT.MouseUp, e -> showFolderMenu(-1, null, e))// 改变下级目录
+				.get();
+		
 		if (path != null && path.length > 0) {
 			// 显示路径
-			Composite panel = Controls.comp(parent).formLayout().height(BAR_HEIGHT).get();
-			Control left = null;
 			for (int i = 0; i < path.length; i++) {
 				int folderIndex = i;
 
@@ -152,10 +155,9 @@ public class AddressBar extends Composite {
 						.listen(SWT.MouseUp, e -> showFolderMenu(folderIndex, action, e))// 改变下级目录
 						.get();
 			}
-
-			caculatePathItemBounds();
 		}
 
+		caculatePathItemBounds();
 		this.path = path;
 
 		// 触发文件夹改变的事件
