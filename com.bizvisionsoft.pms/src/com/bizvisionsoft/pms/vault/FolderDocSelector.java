@@ -51,6 +51,7 @@ public class FolderDocSelector extends Part {
 		selector.init(initialFolder);
 		selector.open(doit);
 	}
+	
 
 	public static void selectFolder(IBruiContext context, Consumer<Object> doit) {
 		selectFolder(context, IFolder.Null, SWT.SINGLE, doit);
