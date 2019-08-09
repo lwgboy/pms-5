@@ -1042,4 +1042,10 @@ public class CommonServiceImpl extends BasicServiceImpl implements CommonService
 		return insert(refDef, RefDef.class, domain);
 	}
 
+	@Override
+	public FormDef getFormDefWithFormType(String formType, String domain) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

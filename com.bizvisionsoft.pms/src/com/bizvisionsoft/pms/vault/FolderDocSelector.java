@@ -1,6 +1,7 @@
 package com.bizvisionsoft.pms.vault;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -137,6 +138,18 @@ public class FolderDocSelector extends Part {
 					return new IFolder[0];
 				} else {
 					List<VaultFolder> result = Services.get(DocumentService.class).getPath(folder.get_id(), domain);
+					if (initialFolderPath != null && result.size() > 0) {
+						List<VaultFolder> remove = new ArrayList<VaultFolder>();
+						result.forEach(f -> {
+							for (IFolder iFolder : initialFolderPath) {
+								if (iFolder.get_id().equals(f.get_id()))
+									remove.add(f);
+							}
+						});
+						if (remove.size() > 0)
+							result.removeAll(remove);
+						result.removeAll(Arrays.asList(initialFolderPath));
+					}
 					return result.toArray(new IFolder[0]);
 				}
 			}
