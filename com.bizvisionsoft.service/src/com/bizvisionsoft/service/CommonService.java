@@ -883,6 +883,13 @@ public interface CommonService {
 			@MethodParam(MethodParam.CONTEXT_INPUT_OBJECT_ID) @PathParam("_id") ObjectId parent_id,
 			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
 
+	@GET
+	@Path("/{domain}/formDef/formType/{formType}")
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
+	public FormDef getFormDefWithFormType(@PathParam("formType") String formType,
+			@MethodParam(MethodParam.DOMAIN) @PathParam("domain") String domain);
+
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 }

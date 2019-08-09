@@ -41,9 +41,11 @@ import com.bizvisionsoft.bruiengine.ui.Selector;
 import com.bizvisionsoft.bruiengine.util.BruiColors;
 import com.bizvisionsoft.bruiengine.util.BruiColors.BruiColor;
 import com.bizvisionsoft.bruiengine.util.Controls;
+import com.bizvisionsoft.service.CommonService;
 import com.bizvisionsoft.service.DocumentService;
 import com.bizvisionsoft.service.UniversalDataService;
 import com.bizvisionsoft.service.model.Docu;
+import com.bizvisionsoft.service.model.FormDef;
 import com.bizvisionsoft.service.model.IFolder;
 import com.bizvisionsoft.service.model.VaultFolder;
 import com.bizvisionsoft.service.tools.Check;
@@ -385,7 +387,8 @@ public abstract class VaultExplorer {
 		Selector.open("/vault/表单定义选择器.selectorassy", context, folder, l -> {
 			Document doc = (Document) l.get(0);
 			String name = doc.getString("name");
-			// TODO 根据名称找到最新启用的表单定义，从表单定义上获取editorId和gridId
+			// TODO 根据名称找到最新启用的表单定义，从表单定义上获取editorId
+			FormDef formDef = Services.get(CommonService.class).getFormDefWithFormType(name, br.getDomain());
 
 			Editor.open(name, context, new Document(), (r, t) -> {
 				UniversalCommand command = new UniversalCommand().setTargetClassName(Docu.class.getName())
