@@ -1,0 +1,106 @@
+################################################################################################################################################
+## 基本的客户端bundle
+
+com.bizvisionsoft.pms						pms的客户端程序，包括客户端DataSet, Action,自定义组件，等等，一般配合site文件使用
+com.bizvisionsoft.bruiengine				BrUI渲染引擎
+com.bizvisionsoft.widgets					自定义控件，JS程序，与Web页面交互
+com.bizvisionsoft.bruicommons				对模型的处理，例如加载Assembly,Site等
+com.bizvisionsoft.mongocodex				对BSON的编码和解码提供支持
+com.bizvisionsoft.annotations				注解，为BrUIEngine和MongoCodex使用
+com.bizvisionsoft.serviceconsumer			调用服务
+com.bizvisionsoft.service					服务接口定义
+
+################################################################################################################################################
+## 用于日志处理
+ch.qos.logback.classic
+ch.qos.logback.core
+slf4j.api
+
+################################################################################################################################################
+## rap客户端组件，例如文件上传，表格，标准控件等
+org.eclipse.rap.draw2d.compatibility
+org.eclipse.rap.draw2d
+org.eclipse.rap.filedialog*5.2.0.201903031912
+org.eclipse.rap.fileupload*5.2.0.201903031912
+org.eclipse.rap.jface*3.8.0.201903031912
+org.eclipse.rap.nebula.jface.gridviewer
+org.eclipse.rap.nebula.widgets.grid*3.4.0.201903031912
+org.eclipse.rap.rwt*3.8.0.201903031912
+org.eclipse.rap.rwt.osgi
+
+
+################################################################################################################################################
+## 提供OSGi的支持
+org.eclipse.osgi.services
+org.eclipse.osgi.util
+org.eclipse.osgi
+
+################################################################################################################################################
+## 使用Jetty作为http服务器以及相关的Bundle
+org.eclipse.jetty.continuation
+org.eclipse.jetty.http
+org.eclipse.jetty.io
+org.eclipse.jetty.security
+org.eclipse.jetty.server
+org.eclipse.jetty.servlet
+org.eclipse.jetty.util
+org.eclipse.equinox.http.jetty
+org.eclipse.equinox.http.registry
+org.eclipse.equinox.http.servlet
+javax.servlet-api
+javax.servlet
+
+################################################################################################################################################
+## 支持调用JaxRS服务
+com.eclipsesource.jaxrs.consumer
+com.eclipsesource.jaxrs.jersey-all
+com.eclipsesource.jaxrs.provider.multipart
+com.eclipsesource.jaxrs.provider.security
+com.eclipsesource.jaxrs.provider.sse
+com.eclipsesource.jaxrs.provider.swagger
+com.eclipsesource.jaxrs.publisher
+com.eclipsesource.jaxrs.swagger-all
+
+################################################################################################################################################
+## equinox的一套
+org.eclipse.core.commands
+org.eclipse.core.contenttype
+org.eclipse.core.jobs
+org.eclipse.core.runtime
+org.eclipse.equinox.app
+org.eclipse.equinox.cm
+org.eclipse.equinox.common
+org.eclipse.equinox.preferences
+org.eclipse.equinox.registry
+
+################################################################################################################################################
+## apache commons 一套
+org.apache.commons.codec
+org.apache.commons.commons-collections4
+org.apache.commons.commons-compress
+org.apache.commons.fileupload
+org.apache.commons.io
+org.apache.commons.lang3*3.8.1
+org.apache.commons.math3
+
+################################################################################################################################################
+## 用于显示OSGi控制台
+org.apache.felix.gogo.command
+org.apache.felix.gogo.runtime
+org.apache.felix.gogo.shell
+org.apache.felix.scr
+org.eclipse.equinox.console
+
+################################################################################################################################################
+## 工具和其他
+javassist
+javax.xml
+org.objectweb.asm
+org.mongodb.mongo-java-driver		驱动程序
+net.sf.mpxj							生成MSProject支持的mpx文件
+org.apache.poi						poi的封装
+org.htmlparser						html转换
+org.jsoup							html转换（预备删除）
+com.google.gson						google的gson编码解码
+com.google.guava					google的java扩展库
+com.ibm.icu.base					全球化支持
