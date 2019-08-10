@@ -1,0 +1,173 @@
+{
+  "id": "/编辑工作包-采购.editorassy",
+  "name": "锥形簧零部件清单",
+  "title": "锥形簧零部件清单",
+  "layout": [],
+  "type": "editor",
+  "folderId": "1638c40accd",
+  "fields": [
+    {
+      "name": "项目基本信息",
+      "type": "标签页",
+      "formFields": [
+        {
+          "name": "项目基本信息",
+          "description": "",
+          "text": "项目基本信息",
+          "type": "横幅",
+          "formFields": [],
+          "staticContent": true,
+          "bannerStyle": "normal",
+          "stdReportLabelForegound": "ffffff",
+          "stdReportFieldForegound": "ffffff",
+          "stdReportLabelBackgound": "000000",
+          "stdReportFieldBackgound": "e94040"
+        },
+        {
+          "name": "新字段",
+          "type": "行",
+          "formFields": [
+            {
+              "name": "productName",
+              "text": "产品名称",
+              "type": "单行文本框",
+              "formFields": [],
+              "readOnly": false,
+              "stdReportLabelForegound": "ffffff",
+              "stdReportLabelFontFamily": "楷体",
+              "stdReportLabelBackgound": "000000",
+              "stdReportLabelWidth": 48
+            },
+            {
+              "name": "productNo",
+              "description": "例子：下拉选项 查询的项目名称为产品名称的记录",
+              "text": "物资编码",
+              "type": "下拉选择框",
+              "formFields": [],
+              "readOnly": false,
+              "optionQueryCollection": "project",
+              "optionQueryPipeline": "[\r\n{\"$match\":{\"name\":\"\u003cproductName\u003e\"}},\r\n{\"$project\" : {\"value\" : \"$id\"}}\r\n]",
+              "optionQueryParameters": "productName",
+              "stdReportFieldFontFamily": "Consolas",
+              "stdReportFieldFontSize": 16
+            },
+            {
+              "name": "productType",
+              "text": "产品类别",
+              "type": "单行文本框",
+              "formFields": [],
+              "readOnly": false,
+              "optionText": "A类#B类#C类",
+              "radioStyle": "横向分段（默认）",
+              "computeQueryParameters": "",
+              "isComputeField": false,
+              "stdReportFieldBold": true
+            }
+          ]
+        },
+        {
+          "name": "新字段",
+          "type": "行",
+          "formFields": [
+            {
+              "name": "projectName",
+              "description": "",
+              "text": "项目名称",
+              "type": "单行文本框",
+              "formFields": [],
+              "readOnly": false,
+              "stdReportFieldCellMargin": "8 4 4 12"
+            },
+            {
+              "name": "pm",
+              "text": "项目负责人",
+              "type": "单行文本框",
+              "formFields": [],
+              "readOnly": false,
+              "stdReportFieldCellMargin": ""
+            },
+            {
+              "name": "workOrder",
+              "text": "工作令号",
+              "type": "单行文本框",
+              "formFields": [],
+              "readOnly": false,
+              "computePreProcess": "function getResult(){\r\n  print(value);\r\n  queryParam.put(\"epsName\",\"通讯产品\");//设置参数供查询使用\r\n  return \"ABS-\"+data.get(\"productNo\");\r\n};\r\ngetResult();",
+              "computeQueryCollection": "eps",
+              "computeQueryPipeline": "[\r\n{\"$match\":{\"name\":\"\u003cepsName\u003e\"}},\r\n{\"$limit\":1}\r\n]",
+              "computeQueryParameters": "productNo",
+              "computePostProcess": "var Document\u003dJava.type(\"org.bson.Document\");\r\n\r\nfunction getResult(){\r\n  if(value\u003d\u003dundefined || value.length\u003d\u003d0){\r\n   return \"\";\r\n  }else{\r\n   references.clear();//清除参照列表\r\n   references.add(new Document().append(\"_id\",value[0].get(\"_id\")).append(\"col\",\"eps\"));//设置参照\r\n   return value[0].get(\"id\")+\".\"+data.get(\"productNo\");\r\n  }\r\n};\r\n\r\ngetResult();",
+              "isComputeField": true,
+              "saveRef": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "产品信息",
+      "type": "标签页",
+      "formFields": [
+        {
+          "name": "零部件信息",
+          "text": "零部件信息",
+          "type": "横幅",
+          "formFields": [],
+          "staticContent": true,
+          "bannerStyle": "normal"
+        },
+        {
+          "name": "part",
+          "text": "零部件信息",
+          "type": "表格",
+          "formFields": [],
+          "selectorAssemblyId": "/pms/tmt/零部件信息.gridassy",
+          "hideLabel": true,
+          "enableCreateItem": true,
+          "computePreProcess": "function getResult(){\r\n  var Document\u003dJava.type(\"org.bson.Document\");\r\n  var ArrayList \u003d Java.type(\"java.util.ArrayList\");\r\n\r\n  var items \u003d new ArrayList();\r\n  var i1 \u003d new Document();\r\n  i1.put(\"number\",\"0001\");\r\n  i1.put(\"name\",\"测试记录1\");\r\n  i1.put(\"drawingNo\",\"DRW-0001\");\r\n  i1.put(\"qty\",12);\r\n  items.add(i1);\r\n  var i2 \u003d  new Document();\r\n  i2.put(\"number\",\"0002\");\r\n  i2.put(\"name\",\"测试记录2\");\r\n  i2.put(\"drawingNo\",\"DRW-0002\");\r\n  i2.put(\"qty\",9);\r\n  items.add(i2);\r\n return items;\r\n};\r\ngetResult();",
+          "isComputeField": true,
+          "stdReportLabelHide": true
+        }
+      ]
+    }
+  ],
+  "actions": [
+    {
+      "name": "导出",
+      "text": "导出",
+      "style": "info",
+      "type": "export"
+    }
+  ],
+  "smallEditor": false,
+  "tinyEditor": false,
+  "addToParentContext": true,
+  "disableInitLoadData": false,
+  "fullscreen": false,
+  "stdReportEditable": true,
+  "stdReportPaperType": "A4",
+  "stdReportPaperOrientation": "纵向",
+  "stdReportPageMargin": "30 20 20 20",
+  "stdReportExportTabPageTitle": false,
+  "stdReportBreakByTabPage": false,
+  "stdReportHeaderMargin": 14,
+  "stdReportFootMargin": 8,
+  "stdReportTableTopBorderType": "DOUBLE",
+  "stdReportTableLeftBorderType": "DOUBLE",
+  "stdReportTableBottomBorderType": "DOUBLE",
+  "stdReportTableRightBorderType": "DOUBLE",
+  "stdReportTableInsideHBorderType": "SINGLE",
+  "stdReportTableInsideVBorderType": "SINGLE",
+  "stdReportTableTopBorderColor": "000000",
+  "stdReportTableRightBorderColor": "000000",
+  "stdReportTableBottomBorderColor": "000000",
+  "stdReportTableLeftBorderColor": "000000",
+  "stdReportTableInsideHBorderColor": "0d0d0d",
+  "stdReportTableInsideVBorderColor": "0d0d0d",
+  "stdReportTableTopBorderSize": 4,
+  "stdReportTableRightBorderSize": 4,
+  "stdReportTableBottomBorderSize": 4,
+  "stdReportTableLeftBorderSize": 4,
+  "stdReportTableInsideHBorderSize": 1,
+  "stdReportTableInsideVBorderSize": 1
+}
