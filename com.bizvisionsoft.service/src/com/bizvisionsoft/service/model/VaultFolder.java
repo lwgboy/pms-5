@@ -348,6 +348,7 @@ public class VaultFolder implements IFolder {
 		return vf;
 	}
 
+	
 	public Document getDocuInstance(User user) {
 		Document doc = new Document();
 		// 初始化所属文件夹
