@@ -2,6 +2,7 @@ package com.bizvisionsoft.service.model;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 import org.bson.Document;
@@ -11,6 +12,7 @@ import com.bizvisionsoft.annotations.md.mongocodex.Exclude;
 import com.bizvisionsoft.annotations.md.mongocodex.Persistence;
 import com.bizvisionsoft.annotations.md.mongocodex.PersistenceCollection;
 import com.bizvisionsoft.annotations.md.mongocodex.SetValue;
+import com.bizvisionsoft.annotations.md.service.Behavior;
 import com.bizvisionsoft.annotations.md.service.ImageURL;
 import com.bizvisionsoft.annotations.md.service.Label;
 import com.bizvisionsoft.annotations.md.service.ReadValue;
@@ -20,6 +22,7 @@ import com.bizvisionsoft.service.OrganizationService;
 import com.bizvisionsoft.service.ServicesLoader;
 import com.bizvisionsoft.service.datatools.Query;
 import com.bizvisionsoft.service.tools.Check;
+import com.bizvisionsoft.service.tools.DocuToolkit;
 import com.mongodb.BasicDBObject;
 
 @PersistenceCollection("folder")
@@ -343,6 +346,34 @@ public class VaultFolder implements IFolder {
 		vf.setProjectdesc(projectdesc);
 		vf.setProjectnumber(projectnumber);
 		return vf;
+	}
+
+	public Document getDocuInstance(User user) {
+		Document doc = new Document();
+		// 初始化所属文件夹
+		doc.put("folder_id", _id);
+		// 初始化项目属性
+		doc.put("project_id", project_id);
+		doc.put("projectworkorder", projectworkorder);
+		doc.put("projectnumber", projectnumber);
+		// TODO 初始化版本
+		DocuToolkit.initVersionNumber(doc);
+
+		// TODO 初始化类型
+		doc.put("plmtype", DocuToolkit.TYPE_FORM);
+
+		// 初始化编号，交由值生成规则完成
+
+		// TODO 初始化所有者和创建人、创建时间
+		doc.put("owner", user.getUserId());
+		doc.put("_caccount", new Document("userid", user.getUserId()).append("username", user.getName()));
+		doc.put("_cdate", new Date());
+		return doc;
+	}
+
+	@Behavior("menu")
+	private boolean enableExplorerMenu() {
+		return !isContainer();
 	}
 
 }
