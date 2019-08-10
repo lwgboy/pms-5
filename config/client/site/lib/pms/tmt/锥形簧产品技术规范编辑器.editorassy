@@ -420,7 +420,7 @@
   "addToParentContext": true,
   "disableInitLoadData": false,
   "fullscreen": false,
-  "stdReportEditable": true,
+  "stdReportEditable": false,
   "stdReportPaperType": "A4",
   "stdReportPaperOrientation": "×ÝÏò",
   "stdReportPageMargin": "30 20 20 20",
