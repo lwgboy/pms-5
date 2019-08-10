@@ -1,6 +1,7 @@
 {
   "id": "/工作流定义编辑器.editorassy",
   "name": "工作流定义编辑器",
+  "title": "工作流定义",
   "layout": [],
   "type": "editor",
   "folderId": "16a38adcbc2",

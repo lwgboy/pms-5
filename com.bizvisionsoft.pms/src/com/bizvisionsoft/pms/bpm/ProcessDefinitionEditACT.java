@@ -65,7 +65,7 @@ public class ProcessDefinitionEditACT {
 
 	private void editProcessDefinition(ProcessDefinition pd) {
 		IStructuredDataPart grid = (IStructuredDataPart) context.getContent();
-		Editor.create("工作流定义编辑器.editorassy", context, pd, false).setEditable(true).setTitle("编辑任务定义"+pd.toString()).ok((r,o)->{
+		Editor.create("工作流定义编辑器.editorassy", context, pd, false).setEditable(true).setTitle("编辑工作流定义: "+pd.toString()).ok((r,o)->{
 			grid.doModify(pd, o, r);
 		});
 	}
